@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="Groval.h" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix4.cpp" />
@@ -161,6 +163,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Draw.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Vector2.h" />
