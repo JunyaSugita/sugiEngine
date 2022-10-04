@@ -143,6 +143,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix4.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="WinApp.cpp" />
@@ -164,8 +165,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXCommon.h" />
+    <ClInclude Include="Groval.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="WinApp.h" />

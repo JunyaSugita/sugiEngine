@@ -18,7 +18,8 @@ using namespace DirectX;
 
 #include "WinApp.h"
 #include "DXCommon.h"
-#include"Input.h"
+#include "Input.h"
+#include "Sprite.h"
 
 //定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDataMaterial {
@@ -43,6 +44,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	DXCommon* dxCom = new DXCommon;
 	Input* input = new Input;
 	Matrix4* matrix4 = new Matrix4;
+	Sprite* sprite = new Sprite;
 
 #pragma region windowsAPI初期化処理
 
@@ -410,15 +412,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		WorldTransform a;
 		//並行投影行列
 		XMMATRIX ortho = XMMatrixOrthographicOffCenterLH(
-			0.0f, winApp->WINDOW_WIDTH,
-			winApp->WINDOW_HEIGHT, 0.0f,
+			0.0f, WIN_WIDTH,
+			WIN_HEIGHT, 0.0f,
 			0.0f,1.0f
 		);
 
 		//透視投影変換行列の計算
 		XMMATRIX perspective = XMMatrixPerspectiveFovLH(
 			XMConvertToRadians(45.0f),			//上下画角45度
-			(float)winApp->WINDOW_WIDTH / winApp->WINDOW_HEIGHT,//アスペクト比
+			(float)WIN_WIDTH / WIN_HEIGHT,//アスペクト比
 			0.1f,1000.0f						//前端,奥端
 		);
 		//matrix4に変換
@@ -606,8 +608,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 4.描画コマンド
 		// ビューポート設定コマンド
 		D3D12_VIEWPORT viewport{};
-		viewport.Width = winApp->WINDOW_WIDTH;
-		viewport.Height = winApp->WINDOW_HEIGHT;
+		viewport.Width = WIN_WIDTH;
+		viewport.Height = WIN_HEIGHT;
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
 		viewport.MinDepth = 0.0f;
@@ -618,9 +620,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// シザー矩形
 		D3D12_RECT scissorRect{};
 		scissorRect.left = 0; // 切り抜き座標左
-		scissorRect.right = scissorRect.left + winApp->WINDOW_WIDTH; // 切り抜き座標右
+		scissorRect.right = scissorRect.left + WIN_WIDTH; // 切り抜き座標右
 		scissorRect.top = 0; // 切り抜き座標上
-		scissorRect.bottom = scissorRect.top + winApp->WINDOW_HEIGHT; // 切り抜き座標下
+		scissorRect.bottom = scissorRect.top + WIN_HEIGHT; // 切り抜き座標下
 		// シザー矩形設定コマンドを、コマンドリストに積む
 		dxCom->commandList->RSSetScissorRects(1, &scissorRect);
 
@@ -696,6 +698,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete dxCom;
 	delete input;
 	delete matrix4;
+	delete sprite;
 
 #pragma endregion
 
