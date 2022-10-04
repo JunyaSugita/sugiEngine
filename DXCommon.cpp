@@ -116,6 +116,8 @@ void DXCommon::Initialize(WinApp* winApp)
 		device->CreateRenderTargetView(backBuffers[i], &rtvDesc, rtvHandle);
 	}
 
+
+
 	// ƒtƒFƒ“ƒX‚Ì¶¬
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 }
