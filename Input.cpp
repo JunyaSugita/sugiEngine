@@ -1,7 +1,8 @@
 #include "Input.h"
 
-void Input::Initialize(HRESULT result, WNDCLASSEX w, HWND hwnd)
+void Input::Initialize(WNDCLASSEX w, HWND hwnd)
 {
+	HRESULT result;
 	//DirectInputÇÃèâä˙âª
 	result = DirectInput8Create(w.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));

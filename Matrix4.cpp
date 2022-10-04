@@ -27,7 +27,7 @@ Matrix4::Matrix4(float m00, float m01, float m02, float m03, float m10, float m1
 	m[3][3] = m33;
 }
 
-void Matrix4::Inisialize()
+void Matrix4::Initialize()
 {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
