@@ -18,8 +18,11 @@ Matrix4* matrix4 = new Matrix4;
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include "WinApp.h"
+WinApp* winApp = new WinApp;
 #include"Input.h"
 Input* input = new Input;
+
 
 //定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDataMaterial {
@@ -41,44 +44,12 @@ struct Vertex {
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region windowsAPI初期化処理
+
+	winApp->CreateWindowScreen();
 	//コンソールへ文字入力
 	OutputDebugStringA("Hello DirectX\n");
 	OutputDebugStringA("This is sugiEngine\n");
 
-	//ウインドウサイズの設定
-	const int window_width = 1280;
-	const int window_height = 720;
-
-	//ウィンドウクラスの設定
-	WNDCLASSEX w{};
-	w.cbSize = sizeof(WNDCLASSEX);
-	w.lpfnWndProc = (WNDPROC)WindowProc; // ウィンドウプロシージャを設定
-	w.lpszClassName = L"DirectXGame"; // ウィンドウクラス名
-	w.hInstance = GetModuleHandle(nullptr); // ウィンドウハンドル
-	w.hCursor = LoadCursor(NULL, IDC_ARROW); // カーソル指定
-	// ウィンドウクラスをOSに登録する
-	RegisterClassEx(&w);
-	// ウィンドウサイズ{ X座標 Y座標 横幅 縦幅 }
-	RECT wrc = { 0, 0, window_width, window_height };
-	// 自動でサイズを補正する
-	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
-
-	// ウィンドウオブジェクトの生成
-	HWND hwnd = CreateWindow(w.lpszClassName, // クラス名
-		L"DirectXGame", // タイトルバーの文字
-		WS_OVERLAPPEDWINDOW, // 標準的なウィンドウスタイル
-		CW_USEDEFAULT, // 表示X座標(OSに任せる)
-		CW_USEDEFAULT, // 表示Y座標(OSに任せる)
-		wrc.right - wrc.left, // ウィンドウ横幅
-		wrc.bottom - wrc.top, // ウィンドウ縦幅
-		nullptr, // 親ウィンドウハンドル
-		nullptr, // メニューハンドル
-		w.hInstance, // 呼び出しアプリケーションハンドル
-		nullptr); // オプション
-	// ウィンドウを表示状態にする
-	ShowWindow(hwnd, SW_SHOW);
-
-	MSG msg{}; // メッセージ
 #pragma endregion
 
 #pragma region DirectX初期化処理
@@ -180,7 +151,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	// スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
-		commandQueue, hwnd, &swapChainDesc, nullptr, nullptr,
+		commandQueue, winApp->hwnd, &swapChainDesc, nullptr, nullptr,
 		(IDXGISwapChain1**)&swapChain);
 	assert(SUCCEEDED(result));
 
@@ -218,7 +189,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 
 	//キーボード入力の初期化
-	input->Initialize(result, w, hwnd);
+	input->Initialize(result, winApp->w, winApp->hwnd);
 
 #pragma endregion
 
@@ -570,15 +541,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		WorldTransform a;
 		//並行投影行列
 		XMMATRIX ortho = XMMatrixOrthographicOffCenterLH(
-			0.0f, window_width,
-			window_height, 0.0f,
+			0.0f, winApp->WINDOW_WIDTH,
+			winApp->WINDOW_HEIGHT, 0.0f,
 			0.0f,1.0f
 		);
 
 		//透視投影変換行列の計算
 		XMMATRIX perspective = XMMatrixPerspectiveFovLH(
 			XMConvertToRadians(45.0f),			//上下画角45度
-			(float)window_width / window_height,//アスペクト比
+			(float)winApp->WINDOW_WIDTH / winApp->WINDOW_HEIGHT,//アスペクト比
 			0.1f,1000.0f						//前端,奥端
 		);
 		//matrix4に変換
@@ -733,13 +704,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region ゲームループ
 	// ゲームループ
 	while (true) {
-		// メッセージがある?
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-			TranslateMessage(&msg); // キー入力メッセージの処理
-			DispatchMessage(&msg); // プロシージャにメッセージを送る
-		}
-		// ✖ボタンで終了メッセージが来たらゲームループを抜ける
-		if (msg.message == WM_QUIT) {
+		if (winApp->ProcMessage()) {
 			break;
 		}
 		// DirectX毎フレーム処理 ここから///////////////////////////////////////////////////////////////////////////
@@ -772,8 +737,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 4.描画コマンド
 		// ビューポート設定コマンド
 		D3D12_VIEWPORT viewport{};
-		viewport.Width = window_width;
-		viewport.Height = window_height;
+		viewport.Width = winApp->WINDOW_WIDTH;
+		viewport.Height = winApp->WINDOW_HEIGHT;
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
 		viewport.MinDepth = 0.0f;
@@ -784,9 +749,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// シザー矩形
 		D3D12_RECT scissorRect{};
 		scissorRect.left = 0; // 切り抜き座標左
-		scissorRect.right = scissorRect.left + window_width; // 切り抜き座標右
+		scissorRect.right = scissorRect.left + winApp->WINDOW_WIDTH; // 切り抜き座標右
 		scissorRect.top = 0; // 切り抜き座標上
-		scissorRect.bottom = scissorRect.top + window_height; // 切り抜き座標下
+		scissorRect.bottom = scissorRect.top + winApp->WINDOW_HEIGHT; // 切り抜き座標下
 		// シザー矩形設定コマンドを、コマンドリストに積む
 		commandList->RSSetScissorRects(1, &scissorRect);
 
@@ -853,12 +818,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 #pragma region WindowsAPI後始末
-	// ウィンドウクラスを登録解除
-	UnregisterClass(w.lpszClassName, w.hInstance);
+	winApp->DeleteWindow();
 
 #pragma endregion
 
 #pragma region delete処理 
+	delete winApp;
 	delete input;
 	delete matrix4;
 
