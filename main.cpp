@@ -37,21 +37,6 @@ struct Vertex {
 	XMFLOAT2 uv;	//uv座標
 };
 
-LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-	//メッセージに大路手ゲーム固有の処理を行う
-	switch (msg)
-	{
-		//ウィンドウが破壊された
-	case WM_DESTROY:
-		//OSに対してアプリの終了を伝える
-		PostQuitMessage(0);
-		return 0;
-	}
-
-	//標準のメッセージ処理を行う
-	return DefWindowProc(hwnd, msg, wparam, lparam);
-}
-
 //windowsのエントリーポイント
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
