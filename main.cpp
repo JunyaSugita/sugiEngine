@@ -11,20 +11,14 @@ using namespace DirectX;
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Matrix4.h"
-Matrix4* matrix4 = new Matrix4;
 #include "WorldTransform.h"
-
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
 #include "WinApp.h"
-WinApp* winApp = new WinApp;
 #include "DXCommon.h"
-DXCommon* dxCom = new DXCommon;
 #include"Input.h"
-Input* input = new Input;
-
 
 //定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDataMaterial {
@@ -44,6 +38,11 @@ struct Vertex {
 
 //windowsのエントリーポイント
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+
+	WinApp* winApp = new WinApp;
+	DXCommon* dxCom = new DXCommon;
+	Input* input = new Input;
+	Matrix4* matrix4 = new Matrix4;
 
 #pragma region windowsAPI初期化処理
 
