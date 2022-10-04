@@ -16,7 +16,7 @@ public:
 		float m20, float m21, float m22, float m23,
 		float m30, float m31, float m32, float m33);
 
-	void Inisialize();
+	void Initialize();
 	
 	Matrix4 Convert(XMMATRIX xmmatrix);
 

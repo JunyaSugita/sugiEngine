@@ -8,7 +8,7 @@
 
 class Input{
 public:
-	void Initialize(HRESULT result, WNDCLASSEX w,HWND hwnd);
+	void Initialize(WNDCLASSEX w,HWND hwnd);
 	void Update();
 
 	bool PushKey(int keyNum);
