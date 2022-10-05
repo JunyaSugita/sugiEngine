@@ -33,6 +33,7 @@ struct ConstBufferDataTransform {
 //頂点データ構造体
 struct Vertex {
 	XMFLOAT3 pos;	//xyz
+	XMFLOAT3 normal;//法線ベクトル
 	XMFLOAT2 uv;	//uv座標
 };
 
@@ -66,56 +67,56 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 頂点データ
 	Vertex vertices[] = {
 	//前
-	{ { -5.0f, -5.0f, -5.0f},{0.0f,1.0f}}, // 左下0
-	{ { -5.0f,  5.0f, -5.0f},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f, -5.0f, -5.0f},{1.0f,1.0f}}, // 右下2
-	{ {  5.0f,  5.0f, -5.0f},{1.0f,0.0f}}, // 右上3
+	{ { -5.0f, -5.0f, -5.0f},{}, {0.0f,1.0f}}, // 左下0
+	{ { -5.0f,  5.0f, -5.0f},{},{0.0f,0.0f}}, // 左上1
+	{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+	{ {  5.0f,  5.0f, -5.0f},{},{1.0f,0.0f}}, // 右上3
 	//後
-	{ { -5.0f, -5.0f,  5.0f},{0.0f,1.0f}}, // 左下0
-	{ { -5.0f,  5.0f,  5.0f},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f, -5.0f,  5.0f},{1.0f,1.0f}}, // 右下2
-	{ {  5.0f,  5.0f,  5.0f},{1.0f,0.0f}}, // 右上3
+	{ { -5.0f, -5.0f,  5.0f},{},{0.0f,1.0f}}, // 左下0
+	{ {  5.0f, -5.0f,  5.0f},{},{1.0f,1.0f}}, // 右下2
+	{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+	{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
 	//左
-	{ { -5.0f, -5.0f, -5.0f},{0.0f,1.0f}}, // 左下0
-	{ { -5.0f, -5.0f,  5.0f},{0.0f,0.0f}}, // 左上1
-	{ { -5.0f,  5.0f, -5.0f},{1.0f,1.0f}}, // 右下2
-	{ { -5.0f,  5.0f,  5.0f},{1.0f,0.0f}}, // 右上3
+	{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
+	{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+	{ { -5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+	{ { -5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
 	//右
-	{ {  5.0f, -5.0f, -5.0f},{0.0f,1.0f}}, // 左下0
-	{ {  5.0f, -5.0f,  5.0f},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f,  5.0f, -5.0f},{1.0f,1.0f}}, // 右下2
-	{ {  5.0f,  5.0f,  5.0f},{1.0f,0.0f}}, // 右上3
+	{ {  5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
+	{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+	{ {  5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+	{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
 	//上
-	{ { -5.0f,  5.0f, -5.0f},{0.0f,1.0f}}, // 左下0
-	{ { -5.0f,  5.0f,  5.0f},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f,  5.0f, -5.0f},{1.0f,1.0f}}, // 右下2
-	{ {  5.0f,  5.0f,  5.0f},{1.0f,0.0f}}, // 右上3
+	{ { -5.0f,  5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
+	{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+	{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+	{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
 	//下
-	{ { -5.0f, -5.0f, -5.0f},{0.0f,1.0f}}, // 左下0
-	{ { -5.0f, -5.0f,  5.0f},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f, -5.0f, -5.0f},{1.0f,1.0f}}, // 右下2
-	{ {  5.0f, -5.0f,  5.0f},{1.0f,0.0f}}, // 右上3
+	{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
+	{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+	{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+	{ {  5.0f, -5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
 	};
 	//インデックスデータ
 	uint16_t indices[] = {
 		//前
 		0,1,2,
-		1,2,3,
+		3,2,1,
 		//後
 		4,5,6,
-		5,6,7,
+		7,6,5,
 		//左
 		8,9,10,
-		9,10,11,
+		11,10,9,
 		//右
 		12,13,14,
-		13,14,15,
+		15,14,13,
 		//上
 		16,17,18,
-		17,18,19,
+		19,18,17,
 		//下
 		20,21,22,
-		21,22,23
+		23,22,21
 	};
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
@@ -182,6 +183,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
+
+	//三角形1つごとに計算していく
+	for (int i = 0; i < _countof(indices) / 3; i++) {
+		//三角形のインデックスを取り出して一時的な変数を入れる
+		unsigned short index0 = indices[i * 3 + 0];
+		unsigned short index1 = indices[i * 3 + 1];
+		unsigned short index2 = indices[i * 3 + 2];
+		//三角形を編成する頂点座標をベクトルに代入
+		XMVECTOR p0 = XMLoadFloat3(&vertices[index0].pos);
+		XMVECTOR p1 = XMLoadFloat3(&vertices[index1].pos);
+		XMVECTOR p2 = XMLoadFloat3(&vertices[index2].pos);
+		//p0->p1ベクトル、p0->p2ベクトルを計算(ベクトルを減算)
+		XMVECTOR v1 = XMVectorSubtract(p1, p0);
+		XMVECTOR v2 = XMVectorSubtract(p2, p0);
+		//外積は両方から垂直なベクトル
+		XMVECTOR normal = XMVector3Cross(v1, v2);
+		//正規化(長さを1にする)
+		normal = XMVector3Normalize(normal);
+		//求めた法線を頂点データに代入
+		XMStoreFloat3(&vertices[index0].normal, normal);
+		XMStoreFloat3(&vertices[index1].normal, normal);
+		XMStoreFloat3(&vertices[index2].normal, normal);
+	}
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
 	Vertex* vertMap = nullptr;
@@ -256,6 +280,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
+		//x,y,z座標
 		{
 			"POSITION",									//セマンティック名
 			0,											//同じセマンティック名を複数ある時に使うインデックス(基本は0)
@@ -265,7 +290,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,	//入力データ種別(標準はD3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA)
 			0											//一度に描画するインスタンス数(0で良い)
 		},
-		//座標以外に色、テクスチャUVなどを渡す場合はさらに続ける
+		//法線ベクトル
+		{
+			"NORMAL",
+			0,
+			DXGI_FORMAT_R32G32B32_FLOAT,
+			0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+			0
+		},
+		//uv座標
 		{
 			"TEXCOORD",
 			0,
@@ -290,7 +325,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 
 	// ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // カリングしない
+	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK; // 背面をカリング
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
@@ -464,7 +499,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	assert(SUCCEEDED(result));
 
 	//値を書き込むと自動的に転送される
-	constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);	//RGBAで半透明の赤
+	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//RGBAで半透明の赤
 
 	ID3D12Resource* constBuffTransform = nullptr;
 	ConstBufferDataTransform* constMapTransform = nullptr;
