@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <vector>
 
+#include "GrovalSetting.h"
 #include "WinApp.h"
 
 class DXCommon

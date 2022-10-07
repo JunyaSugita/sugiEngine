@@ -18,9 +18,9 @@ public:
 
 	void Initialize();
 	
-	Matrix4 Convert(XMMATRIX xmmatrix);
-
 	// 代入演算子オーバーロード
 	Matrix4& operator*=(const Matrix4& m2);
 	Matrix4 operator*(const Matrix4& m2)const;
 };
+
+Matrix4 ConvertToMatrix4(XMMATRIX xmmatrix);

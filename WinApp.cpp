@@ -29,7 +29,7 @@ void WinApp::CreateWindowScreen()
 	RegisterClassEx(&w);
 
 	// ウィンドウサイズ{ X座標 Y座標 横幅 縦幅 }
-	wrc = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
+	wrc = { 0, 0, WIN_WIDTH, WIN_HEIGHT };
 	// 自動でサイズを補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 

@@ -16,18 +16,15 @@ using namespace DirectX;
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include "GrovalSetting.h"
 #include "WinApp.h"
 #include "DXCommon.h"
 #include"Input.h"
+#include "Object3d.h"
 
 //定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDataMaterial {
 	XMFLOAT4 color;	//色(RGBA)
-};
-
-//定数バッファ用データ構造体(3D変換行列)
-struct ConstBufferDataTransform {
-	Matrix4 mat;
 };
 
 //頂点データ構造体
@@ -44,6 +41,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	DXCommon* dxCom = new DXCommon;
 	Input* input = new Input;
 	Matrix4* matrix4 = new Matrix4;
+	Object3d box;
+	Object3d box2;
 
 #pragma region windowsAPI初期化処理
 
@@ -440,8 +439,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	D3D12_RESOURCE_DESC depthResourceDesc{};
 	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	depthResourceDesc.Width = winApp->WINDOW_WIDTH;
-	depthResourceDesc.Height = winApp->WINDOW_HEIGHT;
+	depthResourceDesc.Width = WIN_WIDTH;
+	depthResourceDesc.Height = WIN_HEIGHT;
 	depthResourceDesc.DepthOrArraySize = 1;
 	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
 	depthResourceDesc.SampleDesc.Count = 1;
@@ -501,100 +500,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//値を書き込むと自動的に転送される
 	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//RGBAで半透明の赤
 
-	ID3D12Resource* constBuffTransform = nullptr;
-	ConstBufferDataTransform* constMapTransform = nullptr;
-	Matrix4 matProjecsion;
-	Matrix4 matView;
-	WorldTransform worldTransform;
-	{
-		//ヒープ設定
-		D3D12_HEAP_PROPERTIES cbHeapProp{};
-		cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPUへの転送用
-		//リソース設定
-		D3D12_RESOURCE_DESC cbResourceDesc{};
-		cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-		cbResourceDesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;	//256バイトアライメント
-		cbResourceDesc.Height = 1;
-		cbResourceDesc.DepthOrArraySize = 1;
-		cbResourceDesc.MipLevels = 1;
-		cbResourceDesc.SampleDesc.Count = 1;
-		cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-		//定数バッファの生成
-		result = dxCom->device->CreateCommittedResource(
-			&cbHeapProp,		//ヒープ設定
-			D3D12_HEAP_FLAG_NONE,
-			&cbResourceDesc,	//リソース設定
-			D3D12_RESOURCE_STATE_GENERIC_READ,
-			nullptr,
-			IID_PPV_ARGS(&constBuffTransform)
-		);
-		assert(SUCCEEDED(result));
-
-		//定数バッファのマッピング
-		result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);	//マッピング
-		assert(SUCCEEDED(result));
-
-		//単位行列を代入
-		WorldTransform a;
-		//並行投影行列
-		XMMATRIX ortho = XMMatrixOrthographicOffCenterLH(
-			0.0f, winApp->WINDOW_WIDTH,
-			winApp->WINDOW_HEIGHT, 0.0f,
-			0.0f,1.0f
-		);
-
-		//透視投影変換行列の計算
-		XMMATRIX perspective = XMMatrixPerspectiveFovLH(
-			XMConvertToRadians(45.0f),			//上下画角45度
-			(float)winApp->WINDOW_WIDTH / winApp->WINDOW_HEIGHT,//アスペクト比
-			0.1f,1000.0f						//前端,奥端
-		);
-		//matrix4に変換
-		matProjecsion = matrix4->Convert(perspective);
-
-		//ビュー変換行列
-		XMMATRIX xmmatView;
-		XMFLOAT3 eye(0, 0, -100);	//視点座標
-		XMFLOAT3 target(0, 0, 0);	//注視点座標
-		XMFLOAT3 up(0, 1, 0);		//上方向ベクトル
-		xmmatView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-		//matrix4に変換
-		matView = matrix4->Convert(xmmatView);
-
-		//ワールド変換行列
-		worldTransform;
-		worldTransform.scale = { 1.0f,1.0f,1.0f };
-		worldTransform.rotation = { 0.0f,1.0f,1.0f };
-		worldTransform.trans = { 0.0f,0.0f,0.0f };
-		worldTransform.SetWorldMat();
-
-		constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
-	}
-	////画像イメージデータ作成
-	////横方向ピクセル
-	//const size_t textureWidht = 256;
-	////縦方向ピクセル
-	//const size_t textureHeight = 256;
-	////要素数
-	//const size_t imageDataCount = textureWidht * textureHeight;
-	//XMFLOAT4* imageData = new XMFLOAT4[imageDataCount];
-
-	////全ピクセルの色を初期化
-	//for (size_t i = 0; i < imageDataCount; i++) {
-	//	if (i % 2 == 0) {
-	//		imageData[i].x = 1.0f;	//R
-	//		imageData[i].y = 0.0f;	//G
-	//		imageData[i].z = 0.0f;	//B
-	//		imageData[i].w = 1.0f;	//A
-	//	}
-	//	else {
-	//		imageData[i].x = 1.0f;	//R
-	//		imageData[i].y = 0.0f;	//G
-	//		imageData[i].z = 0.0f;	//B
-	//		imageData[i].w = 0.0f;	//A
-	//	}
-	//}
+	box.Initialize(dxCom);
+	box2.Initialize(dxCom);
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
@@ -604,6 +512,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		WIC_FLAGS_NONE,
 		&metadata,
 		scratchImg
+	);
+
+	TexMetadata metadata2{};
+	ScratchImage scratchImg2{};
+	//WICテクスチャのロード2
+	result = LoadFromWICFile(
+		L"Resources/puricone_inori.png",
+		WIC_FLAGS_NONE,
+		&metadata2,
+		scratchImg2
 	);
 
 	ScratchImage mipChain{};
@@ -623,6 +541,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//読み込んだディフューズテクスチャをSRGBとして扱う
 	metadata.format = MakeSRGB(metadata.format);
 
+	ScratchImage mipChain2{};
+	//ミップマップ生成2
+	result = GenerateMipMaps(
+		scratchImg2.GetImages(),
+		scratchImg2.GetImageCount(),
+		scratchImg2.GetMetadata(),
+		TEX_FILTER_DEFAULT,
+		0,
+		mipChain2
+	);
+	if (SUCCEEDED(result)) {
+		scratchImg2 = std::move(mipChain2);
+		metadata2 = scratchImg2.GetMetadata();
+	}
+	//読み込んだディフューズテクスチャをSRGBとして扱う2
+	metadata2.format = MakeSRGB(metadata2.format);
+
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
 	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
@@ -638,6 +573,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
+	//リソース設定2
+	D3D12_RESOURCE_DESC textureResourceDesc2{};
+	textureResourceDesc2.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	textureResourceDesc2.Format = metadata2.format;
+	textureResourceDesc2.Width = metadata2.width;
+	textureResourceDesc2.Height = (UINT)metadata2.height;
+	textureResourceDesc2.DepthOrArraySize = (UINT)metadata2.arraySize;
+	textureResourceDesc2.MipLevels = (UINT)metadata2.mipLevels;
+	textureResourceDesc2.SampleDesc.Count = 1;
+
 	//テクスチャバッファの生成
 	ID3D12Resource* texBuff = nullptr;
 	result = dxCom->device->CreateCommittedResource(
@@ -647,6 +592,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&texBuff)
+	);
+	//テクスチャバッファ2の生成
+	ID3D12Resource* texBuff2 = nullptr;
+	result = dxCom->device->CreateCommittedResource(
+		&textureHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&textureResourceDesc2,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&texBuff2)
 	);
 
 	//全ミップマップについて
@@ -660,6 +615,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			img->pixels,
 			(UINT)img->rowPitch,
 			(UINT)img->slicePitch
+		);
+		assert(SUCCEEDED(result));
+	}
+	//全ミップマップについて2
+	for (size_t i = 0; i < metadata2.mipLevels; i++) {
+		//ミップマップレベルを指定してイメージを取得
+		const Image* img2 = scratchImg2.GetImage(i, 0, 0);
+		// テクスチャバッファにデータ転送
+		result = texBuff2->WriteToSubresource(
+			(UINT)i,
+			nullptr,
+			img2->pixels,
+			(UINT)img2->rowPitch,
+			(UINT)img2->slicePitch
 		);
 		assert(SUCCEEDED(result));
 	}
@@ -694,7 +663,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//ハンドルの指す位置にシェーダーリソースビュー作成
 	dxCom->device->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
 
+	UINT incrementSize = dxCom->device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	srvHandle.ptr += incrementSize;
 
+	///シェーダーリソースビュー設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};//設定構造体
+	srvDesc2.Format = textureResourceDesc2.Format;
+	srvDesc2.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	//2Dテクスチャ
+	srvDesc2.Texture2D.MipLevels = textureResourceDesc2.MipLevels;
+
+	//ハンドルの指す位置にシェーダーリソースビュー作成
+	dxCom->device->CreateShaderResourceView(texBuff2, &srvDesc2, srvHandle);
 
 
 #pragma endregion
@@ -742,8 +722,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 4.描画コマンド 
 		// ビューポート設定コマンド
 		D3D12_VIEWPORT viewport{};
-		viewport.Width = winApp->WINDOW_WIDTH;
-		viewport.Height = winApp->WINDOW_HEIGHT;
+		viewport.Width = WIN_WIDTH;
+		viewport.Height = WIN_HEIGHT;
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
 		viewport.MinDepth = 0.0f;
@@ -754,9 +734,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// シザー矩形
 		D3D12_RECT scissorRect{};
 		scissorRect.left = 0; // 切り抜き座標左
-		scissorRect.right = scissorRect.left + winApp->WINDOW_WIDTH; // 切り抜き座標右
+		scissorRect.right = scissorRect.left + WIN_WIDTH; // 切り抜き座標右
 		scissorRect.top = 0; // 切り抜き座標上
-		scissorRect.bottom = scissorRect.top + winApp->WINDOW_HEIGHT; // 切り抜き座標下
+		scissorRect.bottom = scissorRect.top + WIN_HEIGHT; // 切り抜き座標下
 		// シザー矩形設定コマンドを、コマンドリストに積む
 		dxCom->commandList->RSSetScissorRects(1, &scissorRect);
 
@@ -774,12 +754,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		dxCom->commandList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 		//SRVヒープの設定コマンド
 		dxCom->commandList->SetDescriptorHeaps(1, &srvHeap);
+
 		//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 		D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+
+		//2枚目
+		srvGpuHandle.ptr += incrementSize;
+		
 		//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 		dxCom->commandList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
-		//定数バッファビュー(CBV)の設定コマンド
-		dxCom->commandList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 
 		//インデックスバッファビューのセットコマンド
 		dxCom->commandList->IASetIndexBuffer(&ibView);
@@ -797,14 +780,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (input->PushKey(DIK_RIGHT)) {
 			angleY--;
 		}
-		worldTransform.rotation = { (float)angleX,(float)angleY,0.0f};
-		worldTransform.SetWorldMat();
-		constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
+
+		box.Trans(10.0f,0.0f,0.0f);
+		box.Update();
+
+		box2.Update();
+
+		box.Draw(_countof(indices));
+		box2.Draw(_countof(indices));
+
 #pragma endregion
-
-		// 描画コマンド
-		dxCom->commandList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0); // 全ての頂点を使って描画
-
 		// 5.リソースバリアを戻す
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
