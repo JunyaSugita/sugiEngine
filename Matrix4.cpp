@@ -41,16 +41,6 @@ void Matrix4::Initialize()
 	}
 }
 
-Matrix4 Matrix4::Convert(XMMATRIX xmmatrix)
-{
-	return Matrix4(
-		xmmatrix.r[0].m128_f32[0], xmmatrix.r[0].m128_f32[1], xmmatrix.r[0].m128_f32[2], xmmatrix.r[0].m128_f32[3],
-		xmmatrix.r[1].m128_f32[0], xmmatrix.r[1].m128_f32[1], xmmatrix.r[1].m128_f32[2], xmmatrix.r[1].m128_f32[3],
-		xmmatrix.r[2].m128_f32[0], xmmatrix.r[2].m128_f32[1], xmmatrix.r[2].m128_f32[2], xmmatrix.r[2].m128_f32[3],
-		xmmatrix.r[3].m128_f32[0], xmmatrix.r[3].m128_f32[1], xmmatrix.r[3].m128_f32[2], xmmatrix.r[3].m128_f32[3]
-	);
-}
-
 Matrix4& Matrix4::operator*=(const Matrix4& m2)
 {
 	Matrix4 ans;
@@ -79,4 +69,14 @@ Matrix4 Matrix4::operator*(const Matrix4& m2)const
 	}
 
 	return ans;
+}
+
+Matrix4 ConvertToMatrix4(XMMATRIX xmmatrix)
+{
+	return Matrix4(
+		xmmatrix.r[0].m128_f32[0], xmmatrix.r[0].m128_f32[1], xmmatrix.r[0].m128_f32[2], xmmatrix.r[0].m128_f32[3],
+		xmmatrix.r[1].m128_f32[0], xmmatrix.r[1].m128_f32[1], xmmatrix.r[1].m128_f32[2], xmmatrix.r[1].m128_f32[3],
+		xmmatrix.r[2].m128_f32[0], xmmatrix.r[2].m128_f32[1], xmmatrix.r[2].m128_f32[2], xmmatrix.r[2].m128_f32[3],
+		xmmatrix.r[3].m128_f32[0], xmmatrix.r[3].m128_f32[1], xmmatrix.r[3].m128_f32[2], xmmatrix.r[3].m128_f32[3]
+	);
 }

@@ -75,8 +75,8 @@ void DXCommon::Initialize(WinApp* winApp)
 	assert(SUCCEEDED(result));
 
 	// スワップチェーンの設定
-	swapChainDesc.Width = winApp->WINDOW_WIDTH;
-	swapChainDesc.Height = winApp->WINDOW_HEIGHT;
+	swapChainDesc.Width = WIN_WIDTH;
+	swapChainDesc.Height = WIN_HEIGHT;
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 色情報の書式
 	swapChainDesc.SampleDesc.Count = 1; // マルチサンプルしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER; // バックバッファ用

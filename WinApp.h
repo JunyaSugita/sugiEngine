@@ -1,12 +1,10 @@
 #pragma once
-#include "Windows.h"
+#include <Windows.h>
+
+#include"GrovalSetting.h"
 
 class WinApp
 {
-public:
-	static const int WINDOW_WIDTH = 1280;	//横サイズ
-	static const int WINDOW_HEIGHT = 720;	//縦サイズ
-
 public:
 	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 	void CreateWindowScreen();
