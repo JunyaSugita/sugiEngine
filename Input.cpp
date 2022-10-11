@@ -25,9 +25,7 @@ void Input::Update()
 	//キーボード情報の取得開始
 	keyboard->Acquire();
 	//前フレームのキー情報をoldKeyに移す
-	for (int i = 0; i < 256; i++) {
-		oldKey[i] = key[i];
-	}
+	memcpy(oldKey, key, sizeof(key));
 	//全キーの入力状態を取得する
 	keyboard->GetDeviceState(sizeof(key), key);
 }

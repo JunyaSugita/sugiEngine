@@ -5,7 +5,6 @@
 #include <assert.h>
 #include <vector>
 #include <wrl.h>
-using namespace Microsoft::WRL;
 
 #include "GrovalSetting.h"
 #include "WinApp.h"
@@ -14,6 +13,9 @@ class DXCommon
 {
 public:
 	void Initialize(WinApp* winApp);
+public:
+	//エイリアステンプレート
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
 	ComPtr<ID3D12Device> device;
 	ComPtr<IDXGIFactory7> dxgiFactory;

@@ -6,7 +6,7 @@ void DXCommon::Initialize(WinApp* winApp)
 
 #ifdef _DEBUG
 	//デバッグレイヤーをオンに
-	ID3D12Debug* debugController;
+	ComPtr<ID3D12Debug> debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
 		debugController->EnableDebugLayer();
 	}
@@ -83,11 +83,16 @@ void DXCommon::Initialize(WinApp* winApp)
 	swapChainDesc.BufferCount = 2; // バッファ数を2つに設定
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // フリップ後は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	//ComPtrの用意
+	ComPtr<IDXGISwapChain1> swapChain1;
+
 	// スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
 		commandQueue.Get(), winApp->hwnd, &swapChainDesc, nullptr, nullptr,
-		(IDXGISwapChain1**)swapChain.GetAddressOf());
+		&swapChain1);
 	assert(SUCCEEDED(result));
+	//生成したSwapChain1を4に変換
+	swapChain1.As(&swapChain);
 
 	// デスクリプタヒープの設定
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; // レンダーターゲットビュー

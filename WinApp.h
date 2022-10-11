@@ -14,6 +14,6 @@ public:
 	WNDCLASSEX w{};
 	RECT wrc;
 	HWND hwnd;
-	MSG msg{}; // ƒƒbƒZ[ƒW
+	MSG msg{};
 };
 
