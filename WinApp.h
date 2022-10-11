@@ -10,10 +10,14 @@ public:
 	bool ProcMessage();
 	void DeleteWindow();
 
-public:
-	WNDCLASSEX w{};
-	RECT wrc;
-	HWND hwnd;
-	MSG msg{}; // ƒƒbƒZ[ƒW
+	HWND GetHWND() const { return hwnd_; }
+	HINSTANCE GetHInstance() const { return w_.hInstance; }
+
+private:
+	WNDCLASSEX w_{};	
+	HWND hwnd_;
+	RECT wrc_;
+	MSG msg_{};
+
 };
 

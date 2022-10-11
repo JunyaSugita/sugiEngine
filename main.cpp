@@ -4,6 +4,7 @@
 #include <cassert>
 #include <vector>
 #include <string>
+#include <memory>
 #include <DirectXMath.h>
 using namespace DirectX;
 #include <d3dcompiler.h>
@@ -22,6 +23,9 @@ using namespace DirectX;
 #include"Input.h"
 #include "Object3d.h"
 
+//エイリアステンプレート
+template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
 //定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDataMaterial {
 	XMFLOAT4 color;	//色(RGBA)
@@ -37,10 +41,10 @@ struct Vertex {
 //windowsのエントリーポイント
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
-	WinApp* winApp = new WinApp;
-	DXCommon* dxCom = new DXCommon;
-	Input* input = new Input;
-	Matrix4* matrix4 = new Matrix4;
+	std::unique_ptr<WinApp> winApp = std::make_unique<WinApp>();
+	std::unique_ptr<DXCommon> dxCom = std::make_unique<DXCommon>();
+	std::unique_ptr<Input> input = std::make_unique<Input>();
+	std::unique_ptr <Matrix4> matrix4 = std::make_unique <Matrix4>();
 	Object3d box;
 	Object3d box2;
 
@@ -55,9 +59,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region DirectX初期化処理
 	// DirectX初期化処理 ここから
-	dxCom->Initialize(winApp);
+	dxCom->Initialize(winApp.get());
 	//キーボード入力の初期化
-	input->Initialize(winApp->w, winApp->hwnd);
+	input->Initialize(winApp.get());
 
 #pragma endregion
 
@@ -65,36 +69,36 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	HRESULT result;
 	// 頂点データ
 	Vertex vertices[] = {
-	//前
-	{ { -5.0f, -5.0f, -5.0f},{}, {0.0f,1.0f}}, // 左下0
-	{ { -5.0f,  5.0f, -5.0f},{},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-	{ {  5.0f,  5.0f, -5.0f},{},{1.0f,0.0f}}, // 右上3
-	//後
-	{ { -5.0f, -5.0f,  5.0f},{},{0.0f,1.0f}}, // 左下0
-	{ {  5.0f, -5.0f,  5.0f},{},{1.0f,1.0f}}, // 右下2
-	{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-	//左
-	{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-	{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-	{ { -5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-	{ { -5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-	//右
-	{ {  5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-	{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-	{ {  5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-	//上
-	{ { -5.0f,  5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-	{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-	{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-	//下
-	{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-	{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-	{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-	{ {  5.0f, -5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
+		//前
+		{ { -5.0f, -5.0f, -5.0f},{}, {0.0f,1.0f}}, // 左下0
+		{ { -5.0f,  5.0f, -5.0f},{},{0.0f,0.0f}}, // 左上1
+		{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+		{ {  5.0f,  5.0f, -5.0f},{},{1.0f,0.0f}}, // 右上3
+		//後
+		{ { -5.0f, -5.0f,  5.0f},{},{0.0f,1.0f}}, // 左下0
+		{ {  5.0f, -5.0f,  5.0f},{},{1.0f,1.0f}}, // 右下2
+		{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+		{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
+		//左
+		{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
+		{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+		{ { -5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+		{ { -5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
+		//右
+		{ {  5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
+		{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+		{ {  5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+		{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
+		//上
+		{ { -5.0f,  5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
+		{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+		{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+		{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
+		//下
+		{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
+		{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
+		{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
+		{ {  5.0f, -5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
 	};
 	//インデックスデータ
 	uint16_t indices[] = {
@@ -134,8 +138,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// 頂点バッファの生成
-	ID3D12Resource* vertBuff = nullptr;
-	result = dxCom->device->CreateCommittedResource(
+	ComPtr<ID3D12Resource> vertBuff;
+	result = dxCom->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -157,8 +161,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//インデックスバッファの生成
-	ID3D12Resource* indexBuff = nullptr;
-	result = dxCom->device->CreateCommittedResource(
+	ComPtr<ID3D12Resource> indexBuff;
+	result = dxCom->GetDevice()->CreateCommittedResource(
 		&heapProp,	//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,	//リソース設定
@@ -226,12 +230,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 頂点1つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
-	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
-	ID3DBlob* psBlob = nullptr; // ピクセルシェーダオブジェクト
-	ID3DBlob* errorBlob = nullptr; // エラーオブジェクト
+	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob; // ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"BasicVS.hlsl", // シェーダファイル名
+		L"Resources/Shaders/BasicVS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -255,7 +259,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"BasicPS.hlsl", // シェーダファイル名
+		L"Resources/Shaders/BasicPS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -393,7 +397,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;			//ピクセルシェーダからのみ使用可能
 
 	// ルートシグネチャ
-	ID3D12RootSignature* rootSignature;
+	ComPtr<ID3D12RootSignature> rootSignature;
 	// ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -402,16 +406,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rootSignatureDesc.pStaticSamplers = &samplerDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;
 	// ルートシグネチャのシリアライズ
-	ID3DBlob* rootSigBlob = nullptr;
+	ComPtr<ID3DBlob> rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
-	result = dxCom->device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+	result = dxCom->GetDevice()->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
-	rootSigBlob->Release();
+
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = rootSignature;
+	pipelineDesc.pRootSignature = rootSignature.Get();
 
 	//デプスステンシルステートの設定
 	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
@@ -420,8 +424,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 
 	// パイプランステートの生成
-	ID3D12PipelineState* pipelineState = nullptr;
-	result = dxCom->device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
+	ComPtr<ID3D12PipelineState> pipelineState;
+	result = dxCom->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
 	//ヒープ設定
@@ -454,8 +458,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	depthClearValue.DepthStencil.Depth = 1.0f;		//深度値1.0f(最大値)でクリア
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 	//リソース生成
-	ID3D12Resource* depthBuff = nullptr;
-	result = dxCom->device->CreateCommittedResource(
+	ComPtr<ID3D12Resource> depthBuff;
+	result = dxCom->GetDevice()->CreateCommittedResource(
 		&depthHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&depthResourceDesc,
@@ -467,22 +471,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;//深度ビュー1つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;//デプスステンシルビュー
-	ID3D12DescriptorHeap* dsvHeap = nullptr;
-	result = dxCom->device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
+	ComPtr<ID3D12DescriptorHeap> dsvHeap;
+	result = dxCom->GetDevice()->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
 	//深度ビュー作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	dxCom->device->CreateDepthStencilView(
-		depthBuff,
+	dxCom->GetDevice()->CreateDepthStencilView(
+		depthBuff.Get(),
 		&dsvDesc,
 		dsvHeap->GetCPUDescriptorHandleForHeapStart()
 	);
 
-	ID3D12Resource* constBuffMaterial = nullptr;
+	ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
 	//定数バッファの生成
-	result = dxCom->device->CreateCommittedResource(
+	result = dxCom->GetDevice()->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -501,8 +505,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//RGBAで半透明の赤
 
 
-	box.Initialize(dxCom);
-	box2.Initialize(dxCom);
+	box.Initialize(dxCom.get());
+	box2.Initialize(dxCom.get());
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
@@ -584,8 +588,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	textureResourceDesc2.SampleDesc.Count = 1;
 
 	//テクスチャバッファの生成
-	ID3D12Resource* texBuff = nullptr;
-	result = dxCom->device->CreateCommittedResource(
+	ComPtr<ID3D12Resource> texBuff;
+	result = dxCom->GetDevice()->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
@@ -594,8 +598,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		IID_PPV_ARGS(&texBuff)
 	);
 	//テクスチャバッファ2の生成
-	ID3D12Resource* texBuff2 = nullptr;
-	result = dxCom->device->CreateCommittedResource(
+	ComPtr<ID3D12Resource> texBuff2 = nullptr;
+	result = dxCom->GetDevice()->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc2,
@@ -646,8 +650,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	srvHeapDesc.NumDescriptors = kMaxSRVCount;
 
 	//設定を元にSRV用デスクリプタヒープを生成
-	ID3D12DescriptorHeap* srvHeap = nullptr;
-	result = dxCom->device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	ID3D12DescriptorHeap* srvHeap;
+	result = dxCom->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 
 	//SRVヒープの先頭ハンドルを取得
@@ -661,9 +665,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
-	dxCom->device->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
+	dxCom->GetDevice()->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
 
-	UINT incrementSize = dxCom->device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	UINT incrementSize = dxCom->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	srvHandle.ptr += incrementSize;
 
 	///シェーダーリソースビュー設定
@@ -674,7 +678,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	srvDesc2.Texture2D.MipLevels = textureResourceDesc2.MipLevels;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
-	dxCom->device->CreateShaderResourceView(texBuff2, &srvDesc2, srvHandle);
+	dxCom->GetDevice()->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
 
 
 #pragma endregion
@@ -695,29 +699,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		input->Update();
 
 		// バックバッファの番号を取得(2つなので0番か1番)
-		UINT bbIndex = dxCom->swapChain->GetCurrentBackBufferIndex();
+		UINT bbIndex = dxCom->GetSwapChain()->GetCurrentBackBufferIndex();
 		// 1.リソースバリアで書き込み可能に変更
 		D3D12_RESOURCE_BARRIER barrierDesc{};
-		barrierDesc.Transition.pResource = dxCom->backBuffers[bbIndex].Get(); // バックバッファを指定
+		barrierDesc.Transition.pResource = dxCom->GetBackBuffers(bbIndex); // バックバッファを指定
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
-		dxCom->commandList->ResourceBarrier(1, &barrierDesc);
+		dxCom->GetCommandList()->ResourceBarrier(1, &barrierDesc);
 		// 2.描画先の変更
 		// レンダーターゲットビューのハンドルを取得
-		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = dxCom->rtvHeap->GetCPUDescriptorHandleForHeapStart();
-		rtvHandle.ptr += bbIndex * dxCom->device->GetDescriptorHandleIncrementSize(dxCom->rtvHeapDesc.Type);
+		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = dxCom->GetRtvHeap()->GetCPUDescriptorHandleForHeapStart();
+		rtvHandle.ptr += bbIndex * dxCom->GetDevice()->GetDescriptorHandleIncrementSize(dxCom->GetRtvHeapDesc().Type);
 		D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
-		dxCom->commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+		dxCom->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 		// 3.画面クリア R G B A
 		if (input->PushKey(DIK_SPACE)) {
 			FLOAT clearColor[] = { 0.5f,0.1f, 0.25f,0.0f }; // 赤っぽい色
-			dxCom->commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-			dxCom->commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+			dxCom->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+			dxCom->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 		}
 		else {
 			FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
-			dxCom->commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-			dxCom->commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+			dxCom->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+			dxCom->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 		}
 		// 4.描画コマンド 
 		// ビューポート設定コマンド
@@ -729,7 +733,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		viewport.MinDepth = 0.0f;
 		viewport.MaxDepth = 1.0f;
 		// ビューポート設定コマンドを、コマンドリストに積む
-		dxCom->commandList->RSSetViewports(1, &viewport);
+		dxCom->GetCommandList()->RSSetViewports(1, &viewport);
 
 		// シザー矩形
 		D3D12_RECT scissorRect{};
@@ -738,34 +742,34 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		scissorRect.top = 0; // 切り抜き座標上
 		scissorRect.bottom = scissorRect.top + WIN_HEIGHT; // 切り抜き座標下
 		// シザー矩形設定コマンドを、コマンドリストに積む
-		dxCom->commandList->RSSetScissorRects(1, &scissorRect);
+		dxCom->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		dxCom->commandList->SetPipelineState(pipelineState);
-		dxCom->commandList->SetGraphicsRootSignature(rootSignature);
+		dxCom->GetCommandList()->SetPipelineState(pipelineState.Get());
+		dxCom->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
 
 		// プリミティブ形状の設定コマンド
-		dxCom->commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		dxCom->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// 頂点バッファビューの設定コマンド
-		dxCom->commandList->IASetVertexBuffers(0, 1, &vbView);
+		dxCom->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 
 		//定数バッファビュー(CBV)の設定コマンド
-		dxCom->commandList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+		dxCom->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 		//SRVヒープの設定コマンド
-		dxCom->commandList->SetDescriptorHeaps(1, &srvHeap);
+		dxCom->GetCommandList()->SetDescriptorHeaps(1, &srvHeap);
 
 		//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 		D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
 		//2枚目
-		srvGpuHandle.ptr += incrementSize;
-		
+		//srvGpuHandle.ptr += incrementSize;
+
 		//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-		dxCom->commandList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+		dxCom->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 		//インデックスバッファビューのセットコマンド
-		dxCom->commandList->IASetIndexBuffer(&ibView);
+		dxCom->GetCommandList()->IASetIndexBuffer(&ibView);
 
 #pragma region ゲームシーン
 		if (input->PushKey(DIK_UP)) {
@@ -781,7 +785,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			angleY--;
 		}
 
-		box.Trans(10.0f,0.0f,0.0f);
+		box.Trans(10.0f, 0.0f, 0.0f);
 		box.Update();
 
 		box2.Update();
@@ -793,31 +797,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 5.リソースバリアを戻す
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
-		dxCom->commandList->ResourceBarrier(1, &barrierDesc);
+		dxCom->GetCommandList()->ResourceBarrier(1, &barrierDesc);
 
 		// 命令のクローズ
-		result = dxCom->commandList->Close();
+		result = dxCom->GetCommandList()->Close();
 		assert(SUCCEEDED(result));
 		// コマンドリストの実行
-		ID3D12CommandList* commandLists[] = { dxCom->commandList.Get()};
-		dxCom->commandQueue->ExecuteCommandLists(1, commandLists);
+		ComPtr<ID3D12CommandList> commandLists[] = { dxCom->GetCommandList() };
+		dxCom->GetCommandQueue()->ExecuteCommandLists(1, commandLists->GetAddressOf());
 		// 画面に表示するバッファをフリップ(裏表の入替え)
-		result = dxCom->swapChain->Present(1, 0);
+		result = dxCom->GetSwapChain()->Present(1, 0);
 		assert(SUCCEEDED(result));
 
 		// コマンドの実行完了を待つ
-		dxCom->commandQueue->Signal(dxCom->fence.Get(), ++dxCom->fenceVal);
-		if (dxCom->fence->GetCompletedValue() != dxCom->fenceVal) {
+		dxCom->GetCommandQueue()->Signal(dxCom->GetFence(), dxCom->AddGetFanceVal());
+		if (dxCom->GetFence()->GetCompletedValue() != dxCom->GetFanceVal()) {
 			HANDLE event = CreateEvent(nullptr, false, false, nullptr);
-			dxCom->fence->SetEventOnCompletion(dxCom->fenceVal, event);
+			dxCom->GetFence()->SetEventOnCompletion(dxCom->GetFanceVal(), event);
 			WaitForSingleObject(event, INFINITE);
 			CloseHandle(event);
 		}
 		// キューをクリア
-		result = dxCom->commandAllocator->Reset();
+		result = dxCom->GetCommandAllocator()->Reset();
 		assert(SUCCEEDED(result));
 		// 再びコマンドリストを貯める準備
-		result = dxCom->commandList->Reset(dxCom->commandAllocator.Get(), nullptr);
+		result = dxCom->GetCommandList()->Reset(dxCom->GetCommandAllocator(), nullptr);
 		assert(SUCCEEDED(result));
 
 		// DirectX毎フレーム処理 ここまで///////////////////////////////////////////////////////////////////////////
@@ -831,10 +835,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 #pragma region delete処理 
-	delete winApp;
-	delete dxCom;
-	delete input;
-	delete matrix4;
 
 #pragma endregion
 

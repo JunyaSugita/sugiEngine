@@ -19,7 +19,7 @@ void Object3d::Initialize(DXCommon* dxCom)
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = dxCom->device->CreateCommittedResource(
+	result = dxCom->GetDevice()->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -93,7 +93,7 @@ void Object3d::Trans(float x, float y, float z)
 void Object3d::Draw(uint16_t _countofIndices)
 {
 	//定数バッファビュー(CBV)の設定コマンド
-	dxCom->commandList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+	dxCom->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 
-	dxCom->commandList->DrawIndexedInstanced(_countofIndices, 1, 0, 0, 0); // 全ての頂点を使って描画
+	dxCom->GetCommandList()->DrawIndexedInstanced(_countofIndices, 1, 0, 0, 0); // 全ての頂点を使って描画
 }

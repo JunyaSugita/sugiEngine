@@ -3,6 +3,7 @@
 #include "WorldTransform.h"
 #include "DXCommon.h"
 #include "GrovalSetting.h"
+#include <wrl.h>
 
 //定数バッファ用データ構造体(3D変換行列)
 struct ConstBufferDataTransform {
@@ -21,8 +22,11 @@ public:
 
 	void Draw(uint16_t _countofIndices);
 
+public:
+	//エイリアステンプレート
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 private:
-	ID3D12Resource* constBuffTransform = nullptr;
+	ComPtr<ID3D12Resource> constBuffTransform = nullptr;
 	ConstBufferDataTransform* constMapTransform = nullptr;
 	Matrix4 matProjecsion;
 	Matrix4 matView;
