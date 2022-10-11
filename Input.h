@@ -7,9 +7,11 @@
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
+#include "WinApp.h"
+
 class Input {
 public:
-	void Initialize(WNDCLASSEX w, HWND hwnd);
+	void Initialize(WinApp* winApp);
 	void Update();
 
 	bool PushKey(int keyNum);
@@ -18,10 +20,11 @@ public:
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-public:
-	ComPtr<IDirectInput8> directInput;
-	ComPtr<IDirectInputDevice8> keyboard;
-	BYTE key[256] = {};
-	BYTE oldKey[256] = {};
+private:
+	ComPtr<IDirectInput8> directInput_;
+	ComPtr<IDirectInputDevice8> keyboard_;
+	BYTE key_[256] = {};
+	BYTE oldKey_[256] = {};
+	WinApp* winApp_ = nullptr;
 };
 
