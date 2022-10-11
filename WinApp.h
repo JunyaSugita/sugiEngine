@@ -1,6 +1,5 @@
 #pragma once
 #include <Windows.h>
-
 #include"GrovalSetting.h"
 
 class WinApp
@@ -15,6 +14,6 @@ public:
 	WNDCLASSEX w{};
 	RECT wrc;
 	HWND hwnd;
-	MSG msg{}; // メッセージ
+	MSG msg{}; // ﾆ陳�ﾆ鍛ﾆ短ﾂーﾆ淡
 };
 

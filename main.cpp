@@ -698,7 +698,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		UINT bbIndex = dxCom->swapChain->GetCurrentBackBufferIndex();
 		// 1.リソースバリアで書き込み可能に変更
 		D3D12_RESOURCE_BARRIER barrierDesc{};
-		barrierDesc.Transition.pResource = dxCom->backBuffers[bbIndex]; // バックバッファを指定
+		barrierDesc.Transition.pResource = dxCom->backBuffers[bbIndex].Get(); // バックバッファを指定
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
 		dxCom->commandList->ResourceBarrier(1, &barrierDesc);
@@ -799,14 +799,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		result = dxCom->commandList->Close();
 		assert(SUCCEEDED(result));
 		// コマンドリストの実行
-		ID3D12CommandList* commandLists[] = { dxCom->commandList };
+		ID3D12CommandList* commandLists[] = { dxCom->commandList.Get()};
 		dxCom->commandQueue->ExecuteCommandLists(1, commandLists);
 		// 画面に表示するバッファをフリップ(裏表の入替え)
 		result = dxCom->swapChain->Present(1, 0);
 		assert(SUCCEEDED(result));
 
 		// コマンドの実行完了を待つ
-		dxCom->commandQueue->Signal(dxCom->fence, ++dxCom->fenceVal);
+		dxCom->commandQueue->Signal(dxCom->fence.Get(), ++dxCom->fenceVal);
 		if (dxCom->fence->GetCompletedValue() != dxCom->fenceVal) {
 			HANDLE event = CreateEvent(nullptr, false, false, nullptr);
 			dxCom->fence->SetEventOnCompletion(dxCom->fenceVal, event);
@@ -817,7 +817,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		result = dxCom->commandAllocator->Reset();
 		assert(SUCCEEDED(result));
 		// 再びコマンドリストを貯める準備
-		result = dxCom->commandList->Reset(dxCom->commandAllocator, nullptr);
+		result = dxCom->commandList->Reset(dxCom->commandAllocator.Get(), nullptr);
 		assert(SUCCEEDED(result));
 
 		// DirectX毎フレーム処理 ここまで///////////////////////////////////////////////////////////////////////////
