@@ -7,6 +7,7 @@
 #include <wrl.h>
 using namespace Microsoft::WRL;
 
+#include "GrovalSetting.h"
 #include "WinApp.h"
 
 class DXCommon
