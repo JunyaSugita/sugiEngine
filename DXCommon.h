@@ -5,6 +5,8 @@
 #include <assert.h>
 #include <vector>
 #include <wrl.h>
+#include <chrono>
+#include <thread>
 
 #include "GrovalSetting.h"
 #include "WinApp.h"
@@ -13,6 +15,10 @@ class DXCommon
 {
 public:
 	void Initialize(WinApp* winApp);
+
+	void PreDraw();
+
+	void PostDraw();
 
 	ID3D12Device* GetDevice() {
 		return device_.Get();
@@ -49,6 +55,10 @@ public:
 		return fenceVal_;
 	}
 
+	void InitializeFixFPS();
+
+	void UpdateFixFPS();
+
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -76,5 +86,8 @@ private:
 	// フェンスの生成
 	ComPtr<ID3D12Fence> fence_;
 	UINT64 fenceVal_ = 0;
+
+	//記録時間
+	std::chrono::steady_clock::time_point reference_;
 };
 

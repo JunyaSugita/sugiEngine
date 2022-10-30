@@ -1,4 +1,5 @@
 ﻿#include "WinApp.h"
+#pragma comment(lib,"winmm.lib")
 
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -47,6 +48,9 @@ void WinApp::CreateWindowScreen()
 		nullptr); // オプション
 	// ウィンドウを表示状態にする
 	ShowWindow(hwnd_, SW_SHOW);
+
+	//システムタイマーの分解度をあげる
+	timeBeginPeriod(1);
 }
 
 bool WinApp::ProcMessage()

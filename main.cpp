@@ -817,6 +817,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			WaitForSingleObject(event, INFINITE);
 			CloseHandle(event);
 		}
+
+		//FPS固定
+		dxCom->UpdateFixFPS();
+
 		// キューをクリア
 		result = dxCom->GetCommandAllocator()->Reset();
 		assert(SUCCEEDED(result));
