@@ -123,18 +123,130 @@ void DXCommon::Initialize(WinApp* winApp)
 		device_->CreateRenderTargetView(backBuffers_[i].Get(), &rtvDesc, rtvHandle);
 	}
 
+	D3D12_RESOURCE_DESC depthResourceDesc{};
+	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthResourceDesc.Width = WIN_WIDTH;
+	depthResourceDesc.Height = WIN_HEIGHT;
+	depthResourceDesc.DepthOrArraySize = 1;
+	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+	depthResourceDesc.SampleDesc.Count = 1;
+	depthResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	//深度値用ヒーププロパティ
+	D3D12_HEAP_PROPERTIES depthHeapProp{};
+	depthHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
+	//深度値のクリア設定
+	D3D12_CLEAR_VALUE depthClearValue{};
+	depthClearValue.DepthStencil.Depth = 1.0f;		//深度値1.0f(最大値)でクリア
+	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
+	//リソース生成
+	result = GetDevice()->CreateCommittedResource(
+		&depthHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&depthResourceDesc,
+		D3D12_RESOURCE_STATE_DEPTH_WRITE,	//深度値書き込みに使用
+		&depthClearValue,
+		IID_PPV_ARGS(&depthBuff)
+	);
+	//深度ビュー用デスクリプタヒープ生成
+	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
+	dsvHeapDesc.NumDescriptors = 1;//深度ビュー1つ
+	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;//デプスステンシルビュー
+	result = GetDevice()->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
+
+	//深度ビュー作成
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	GetDevice()->CreateDepthStencilView(
+		depthBuff.Get(),
+		&dsvDesc,
+		dsvHeap->GetCPUDescriptorHandleForHeapStart()
+	);
+
 	// フェンスの生成
 	result = device_->CreateFence(fenceVal_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 }
 
 void DXCommon::PreDraw()
 {
+	// バックバッファの番号を取得(2つなので0番か1番)
+	UINT bbIndex = GetSwapChain()->GetCurrentBackBufferIndex();
+	// 1.リソースバリアで書き込み可能に変更
+	barrierDesc.Transition.pResource = GetBackBuffers(bbIndex); // バックバッファを指定
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
+	GetCommandList()->ResourceBarrier(1, &barrierDesc);
+	// 2.描画先の変更
+	// レンダーターゲットビューのハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = GetRtvHeap()->GetCPUDescriptorHandleForHeapStart();
+	rtvHandle.ptr += bbIndex * GetDevice()->GetDescriptorHandleIncrementSize(GetRtvHeapDesc().Type);
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
+	GetCommandList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+	// 3.画面クリア R G B A
+	FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
+	GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	// 4.描画コマンド 
+	// ビューポート設定コマンド
+	D3D12_VIEWPORT viewport{};
+	viewport.Width = WIN_WIDTH;
+	viewport.Height = WIN_HEIGHT;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	// ビューポート設定コマンドを、コマンドリストに積む
+	GetCommandList()->RSSetViewports(1, &viewport);
+
+	// シザー矩形
+	D3D12_RECT scissorRect{};
+	scissorRect.left = 0; // 切り抜き座標左
+	scissorRect.right = scissorRect.left + WIN_WIDTH; // 切り抜き座標右
+	scissorRect.top = 0; // 切り抜き座標上
+	scissorRect.bottom = scissorRect.top + WIN_HEIGHT; // 切り抜き座標下
+	// シザー矩形設定コマンドを、コマンドリストに積む
+	GetCommandList()->RSSetScissorRects(1, &scissorRect);
 
 }
 
 void DXCommon::PostDraw()
 {
+	HRESULT result;
 
+	// 5.リソースバリアを戻す
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
+	GetCommandList()->ResourceBarrier(1, &barrierDesc);
+
+	// 命令のクローズ
+	result = GetCommandList()->Close();
+	assert(SUCCEEDED(result));
+	// コマンドリストの実行
+	ComPtr<ID3D12CommandList> commandLists[] = { GetCommandList() };
+	GetCommandQueue()->ExecuteCommandLists(1, commandLists->GetAddressOf());
+	// 画面に表示するバッファをフリップ(裏表の入替え)
+	result = GetSwapChain()->Present(1, 0);
+	assert(SUCCEEDED(result));
+
+	// コマンドの実行完了を待つ
+	GetCommandQueue()->Signal(GetFence(), AddGetFanceVal());
+	if (GetFence()->GetCompletedValue() != GetFanceVal()) {
+		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+		GetFence()->SetEventOnCompletion(GetFanceVal(), event);
+		WaitForSingleObject(event, INFINITE);
+		CloseHandle(event);
+	}
+
+	//FPS固定
+	UpdateFixFPS();
+
+	// キューをクリア
+	result = GetCommandAllocator()->Reset();
+	assert(SUCCEEDED(result));
+	// 再びコマンドリストを貯める準備
+	result = GetCommandList()->Reset(GetCommandAllocator(), nullptr);
+	assert(SUCCEEDED(result));
 }
 
 void DXCommon::InitializeFixFPS()

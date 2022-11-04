@@ -70,6 +70,7 @@ private:
 	ComPtr<ID3D12GraphicsCommandList> commandList_;
 	ComPtr<ID3D12CommandQueue> commandQueue_;
 	ComPtr<ID3D12DescriptorHeap> rtvHeap_;
+
 	// アダプターの列挙用
 	std::vector<ComPtr<IDXGIAdapter4>> adapters_;
 	// ここに特定の名前を持つアダプターオブジェクトが入る
@@ -86,6 +87,13 @@ private:
 	// フェンスの生成
 	ComPtr<ID3D12Fence> fence_;
 	UINT64 fenceVal_ = 0;
+
+	//リソース生成
+	ComPtr<ID3D12Resource> depthBuff;
+
+	ComPtr<ID3D12DescriptorHeap> dsvHeap;
+	//リソースバリア
+	D3D12_RESOURCE_BARRIER barrierDesc{};
 
 	//記録時間
 	std::chrono::steady_clock::time_point reference_;
