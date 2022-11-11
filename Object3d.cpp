@@ -1,6 +1,8 @@
 #include "Object3d.h"
 #include <d3dcompiler.h>
 
+using namespace Microsoft::WRL;
+
 /// <summary>
 /// 静的メンバ変数の実態
 /// </summary>
@@ -9,7 +11,22 @@ XMMATRIX Object3d::ortho;
 XMMATRIX Object3d::perspective;
 Matrix4 Object3d::matProjecsion;
 Matrix4 Object3d::matView;
-WorldTransform Object3d::worldTransform;
+
+ID3D12GraphicsCommandList* Object3d::cmdList = nullptr;
+ComPtr<ID3D12PipelineState> Object3d::pipelineState;
+ComPtr<ID3D12RootSignature> Object3d::rootSignature;
+D3D12_VERTEX_BUFFER_VIEW Object3d::vbView{};
+D3D12_INDEX_BUFFER_VIEW Object3d::ibView{};
+
+ID3D12DescriptorHeap* Object3d::srvHeap;
+UINT Object3d::incrementSize;
+ComPtr<ID3D12Resource> Object3d::constBuffMaterial;
+uint16_t Object3d::CountIndex;
+
+ComPtr<ID3D12Resource> Object3d::indexBuff;
+ComPtr<ID3D12Resource> Object3d::texBuff = nullptr;
+ComPtr<ID3D12Resource> Object3d::texBuff2 = nullptr;
+ComPtr<ID3D12Resource> Object3d::vertBuff;
 
 void Object3d::StaticInitialize(ID3D12Device* device)
 {
@@ -27,11 +44,11 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	srvHeapDesc.NumDescriptors = kMaxSRVCount;
 
 	//設定を元にSRV用デスクリプタヒープを生成
-	ID3D12DescriptorHeap* srvHeap;
+	
 	result = Object3d::device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 
-	UINT incrementSize = Object3d::device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	incrementSize = Object3d::device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 #pragma endregion
 
@@ -230,8 +247,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;			//ピクセルシェーダからのみ使用可能
 
-	// ルートシグネチャ
-	ComPtr<ID3D12RootSignature> rootSignature;
+
 	// ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -258,7 +274,6 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 
 	// パイプランステートの生成
-	ComPtr<ID3D12PipelineState> pipelineState;
 	result = Object3d::device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
@@ -346,7 +361,6 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	textureResourceDesc2.SampleDesc.Count = 1;
 
 	//テクスチャバッファの生成
-	ComPtr<ID3D12Resource> texBuff;
 	result = Object3d::device->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -356,7 +370,6 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 		IID_PPV_ARGS(&texBuff)
 	);
 	//テクスチャバッファ2の生成
-	ComPtr<ID3D12Resource> texBuff2 = nullptr;
 	result = Object3d::device->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -416,10 +429,10 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	Object3d::device->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成2
-	Object3d::device->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
+	//Object3d::device->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
 
 	//テクスチャ切り替え
-	srvHandle.ptr += incrementSize;
+	//srvHandle.ptr += incrementSize;
 
 #pragma endregion
 	
@@ -479,6 +492,8 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 		23,22,21
 	};
 
+	CountIndex = _countof(indices);
+
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 
@@ -496,8 +511,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// 頂点バッファの生成
-	ComPtr<ID3D12Resource> vertBuff;
-	result = dxCom->GetDevice()->CreateCommittedResource(
+	result = Object3d::device->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -519,8 +533,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//インデックスバッファの生成
-	ComPtr<ID3D12Resource> indexBuff;
-	result = dxCom->GetDevice()->CreateCommittedResource(
+	result = Object3d::device->CreateCommittedResource(
 		&heapProp,	//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,	//リソース設定
@@ -540,7 +553,6 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	indexBuff->Unmap(0, nullptr);
 
 	//インデックスバッファビューの作成
-	D3D12_INDEX_BUFFER_VIEW ibView{};
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
@@ -579,13 +591,88 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	// 繋がりを解除
 	vertBuff->Unmap(0, nullptr);
 
+	// GPU仮想アドレス
+	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
+	// 頂点バッファのサイズ
+	vbView.SizeInBytes = sizeVB;
+	// 頂点1つ分のデータサイズ
+	vbView.StrideInBytes = sizeof(vertices[0]);
+
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPUへの転送用
+	//リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff;	//256バイトアライメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	
+	//定数バッファの生成
+	result = Object3d::device->CreateCommittedResource(
+		&cbHeapProp,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,	//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffMaterial)
+	);
+	assert(SUCCEEDED(result));
+
+	//定数バッファのマッピング
+	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);	//マッピング
+	assert(SUCCEEDED(result));
+
+
+	//値を書き込むと自動的に転送される
+	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//RGBAで半透明の赤
+
 
 #pragma endregion
 }
 
-void Object3d::Initialize(DXCommon* dxCom)
+void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
-	this->dxCom = dxCom;
+	Object3d::cmdList = cmdList;
+
+	// パイプラインステートとルートシグネチャの設定コマンド
+	Object3d::cmdList->SetPipelineState(pipelineState.Get());
+	Object3d::cmdList->SetGraphicsRootSignature(rootSignature.Get());
+
+	// プリミティブ形状の設定コマンド
+	Object3d::cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+
+
+
+	//定数バッファビュー(CBV)の設定コマンド
+	Object3d::cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+
+	//SRVヒープの設定コマンド
+	cmdList->SetDescriptorHeaps(1, &srvHeap);
+
+	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+
+	//2枚目
+	//srvGpuHandle.ptr += incrementSize;
+
+	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+	Object3d::cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+}
+
+void Object3d::PostDraw()
+{
+	// コマンドリストを解除
+	Object3d::cmdList = nullptr;
+}
+
+void Object3d::Initialize()
+{
 	HRESULT result;
 
 	//ヒープ設定
@@ -602,7 +689,7 @@ void Object3d::Initialize(DXCommon* dxCom)
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = dxCom->GetDevice()->CreateCommittedResource(
+	result = device->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -646,10 +733,16 @@ void Object3d::Trans(float x, float y, float z)
 	worldTransform.trans = { Vector3(x,y,z) };
 }
 
-void Object3d::Draw(uint16_t _countofIndices)
+void Object3d::Draw()
 {
-	//定数バッファビュー(CBV)の設定コマンド
-	dxCom->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+	// 頂点バッファビューの設定コマンド
+	cmdList->IASetVertexBuffers(0, 1, &vbView);
 
-	dxCom->GetCommandList()->DrawIndexedInstanced(_countofIndices, 1, 0, 0, 0); // 全ての頂点を使って描画
+	//インデックスバッファビューのセットコマンド
+	cmdList->IASetIndexBuffer(&ibView);
+
+	//定数バッファビュー(CBV)の設定コマンド
+	cmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+
+	cmdList->DrawIndexedInstanced(CountIndex, 1, 0, 0, 0); // 全ての頂点を使って描画
 }
