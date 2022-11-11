@@ -6,9 +6,10 @@ void DXCommon::Initialize(WinApp* winApp)
 
 #ifdef _DEBUG
 	//デバッグレイヤーをオンに
-	ComPtr<ID3D12Debug> debugController;
+	ComPtr<ID3D12Debug1> debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
 		debugController->EnableDebugLayer();
+		debugController->SetEnableGPUBasedValidation(true);
 	}
 #endif
 	//FPS固定初期化
