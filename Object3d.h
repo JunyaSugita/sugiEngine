@@ -74,7 +74,7 @@ public:
 	void Rotate(float x, float y, float z);
 	void Trans(float x, float y, float z);
 
-	void Draw();
+	void Draw(UINT texNum);
 
 private:
 	ComPtr<ID3D12Resource> constBuffTransform = nullptr;

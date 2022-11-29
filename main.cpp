@@ -22,6 +22,7 @@ using namespace DirectX;
 #include "DXCommon.h"
 #include"Input.h"
 #include "Object3d.h"
+#include "Sprite.h"
 
 //エイリアステンプレート
 template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -33,8 +34,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<DXCommon> dxCom = std::make_unique<DXCommon>();
 	std::unique_ptr<Input> input = std::make_unique<Input>();
 	std::unique_ptr <Matrix4> matrix4 = std::make_unique <Matrix4>();
+
 	Object3d box;
 	Object3d box2;
+
+	Sprite sprite;
+	Sprite sprite2;
 
 #pragma region windowsAPI初期化処理
 
@@ -51,15 +56,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//キーボード入力の初期化
 	input->Initialize(winApp.get());
 
+
 #pragma endregion
 
 #pragma region 描画初期化処理
 	HRESULT result;
-	
+
 	Object3d::StaticInitialize(dxCom->GetDevice());
 
 	box.Initialize();
 	box2.Initialize();
+
+	Sprite::StaticInitialize(dxCom->GetDevice());
+
+	sprite.Initialize();
+	sprite2.Initialize();
 
 #pragma endregion
 
@@ -79,17 +90,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region ゲームシーン
 
-		box.Trans(10.0f, 0.0f, 0.0f);
+		box.Trans(20.0f, -5.0f, 30.0f);
 		box.Update();
 
+		box2.Trans(-20.0f, 5.0f, -10.0f);
 		box2.Update();
 
 		Object3d::PreDraw(dxCom->GetCommandList());
 
-		box.Draw();
-		box2.Draw();
+		box.Draw(0);
+		box2.Draw(1);
 
 		Object3d::PostDraw();
+
+		Sprite::PreDraw(dxCom->GetCommandList());
+
+		sprite.Draw();
+		sprite2.Draw();
+
+		Sprite::PostDraw();
+
 #pragma endregion
 		dxCom->PostDraw();
 
