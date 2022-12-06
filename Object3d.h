@@ -5,16 +5,6 @@
 #include "GrovalSetting.h"
 #include <wrl.h>
 
-//定数バッファ用データ構造体(3D変換行列)
-struct ConstBufferDataTransform {
-	Matrix4 mat;
-};
-
-//定数バッファ用データ構造体(マテリアル)
-struct ConstBufferDataMaterial {
-	XMFLOAT4 color;	//色(RGBA)
-};
-
 //頂点データ構造体
 struct Vertex {
 	XMFLOAT3 pos;	//xyz

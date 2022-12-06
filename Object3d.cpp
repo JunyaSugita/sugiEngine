@@ -434,8 +434,6 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	//ハンドルの指す位置にシェーダーリソースビュー作成2
 	Object3d::device->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
 
-	
-
 #pragma endregion
 	
 #pragma region モデル生成
