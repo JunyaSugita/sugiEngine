@@ -105,17 +105,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Sprite::PreDraw(dxCom->GetCommandList());
 
-		sprite.Pos(100,100);
-		sprite.Color(1, 0, 0, 1);
-		sprite.Size(100.0f,100.0f);
-		sprite.Draw(0);
-		sprite2.Pos(300,300);
-		sprite2.Color(1, 0, 0, 1);
-		sprite2.Size(200.0f,200.0f);
-		sprite2.SetAnchorPoint(0.5f,0.5f);
-		sprite2.Rotate(45);
-		sprite2.FlipX(true);
-		sprite2.Draw(1);
+		//sprite.Pos(100,100);
+		//sprite.Color(1, 0, 0, 1);
+		//sprite.Size(100.0f,100.0f);
+		//sprite.Draw(0);
+		//sprite2.Pos(300,300);
+		//sprite2.Color(1, 0, 0, 1);
+		//sprite2.Size(200.0f,200.0f);
+		//sprite2.SetAnchorPoint(0.5f,0.5f);
+		//sprite2.Rotate(45);
+		//sprite2.FlipX(true);
+		//sprite2.Draw(1);
 
 		Sprite::PostDraw();
 
