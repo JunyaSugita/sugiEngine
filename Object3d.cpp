@@ -48,8 +48,6 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	result = Object3d::device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 
-	incrementSize = Object3d::device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
 #pragma endregion
 
 #pragma region カメラ
@@ -418,6 +416,14 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	//2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 
+	//ハンドルの指す位置にシェーダーリソースビュー作成
+	Object3d::device->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
+
+	//テクスチャ切り替え
+	incrementSize = Object3d::device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	srvHandle.ptr += incrementSize;
+
+
 	///シェーダーリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};//設定構造体
 	srvDesc2.Format = textureResourceDesc2.Format;
@@ -425,14 +431,8 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	//2Dテクスチャ
 	srvDesc2.Texture2D.MipLevels = textureResourceDesc2.MipLevels;
 
-	//ハンドルの指す位置にシェーダーリソースビュー作成
-	Object3d::device->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
-
 	//ハンドルの指す位置にシェーダーリソースビュー作成2
-	//Object3d::device->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
-
-	//テクスチャ切り替え
-	//srvHandle.ptr += incrementSize;
+	Object3d::device->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
 
 #pragma endregion
 	
@@ -654,15 +654,6 @@ void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 
 	//SRVヒープの設定コマンド
 	cmdList->SetDescriptorHeaps(1, &srvHeap);
-
-	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
-
-	//2枚目
-	//srvGpuHandle.ptr += incrementSize;
-
-	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	Object3d::cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
 
 void Object3d::PostDraw()
@@ -733,8 +724,17 @@ void Object3d::Trans(float x, float y, float z)
 	worldTransform.trans = { Vector3(x,y,z) };
 }
 
-void Object3d::Draw()
+void Object3d::Draw(UINT texNum)
 {
+	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+
+	//2枚目
+	srvGpuHandle.ptr += incrementSize * texNum;
+
+	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+	Object3d::cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+
 	// 頂点バッファビューの設定コマンド
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 
