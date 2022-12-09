@@ -4,6 +4,12 @@
 #include "DXCommon.h"
 #include "GrovalSetting.h"
 #include <wrl.h>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
+
+using namespace std;
 
 //頂点データ構造体
 struct Vertex {
@@ -55,6 +61,9 @@ private:
 	static ComPtr<ID3D12Resource> texBuff2;
 	// 頂点バッファの生成
 	static ComPtr<ID3D12Resource> vertBuff;
+
+	static vector<Vertex> vertices;
+	static vector<unsigned short> indices;
 
 public:
 	void Initialize();

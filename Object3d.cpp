@@ -1,7 +1,12 @@
 #include "Object3d.h"
 #include <d3dcompiler.h>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 using namespace Microsoft::WRL;
+using namespace std;
 
 /// <summary>
 /// 静的メンバ変数の実態
@@ -27,6 +32,9 @@ ComPtr<ID3D12Resource> Object3d::indexBuff;
 ComPtr<ID3D12Resource> Object3d::texBuff = nullptr;
 ComPtr<ID3D12Resource> Object3d::texBuff2 = nullptr;
 ComPtr<ID3D12Resource> Object3d::vertBuff;
+
+vector<Vertex> Object3d::vertices;
+vector<unsigned short> Object3d::indices;
 
 void Object3d::StaticInitialize(ID3D12Device* device)
 {
@@ -437,65 +445,57 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 #pragma endregion
 	
 #pragma region モデル生成
-	// 頂点データ
-	Vertex vertices[] = {
-		//前
-		{ { -5.0f, -5.0f, -5.0f},{}, {0.0f,1.0f}}, // 左下0
-		{ { -5.0f,  5.0f, -5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ {  5.0f,  5.0f, -5.0f},{},{1.0f,0.0f}}, // 右上3
-		//後
-		{ { -5.0f, -5.0f,  5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ {  5.0f, -5.0f,  5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-		//左
-		{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ { -5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ { -5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-		//右
-		{ {  5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ {  5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-		//上
-		{ { -5.0f,  5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-		//下
-		{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f, -5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-	};
-	//インデックスデータ
-	uint16_t indices[] = {
-		//前
-		0,1,2,
-		3,2,1,
-		//後
-		4,5,6,
-		7,6,5,
-		//左
-		8,9,10,
-		11,10,9,
-		//右
-		12,13,14,
-		15,14,13,
-		//上
-		16,17,18,
-		19,18,17,
-		//下
-		20,21,22,
-		23,22,21
-	};
+	//ファイルストリーム
+	ifstream file;
+	//objファイルを開く
+	file.open("Resources/triangle/triangle.obj");
+	//assert
+	assert(!file.fail());
 
-	CountIndex = _countof(indices);
+	vector<XMFLOAT3> positions;
+	vector<XMFLOAT3> normals;
+	vector<XMFLOAT3> texcoords;
 
-	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
+	//1行ずつ読み込む
+	string line;
+	while (getline(file, line)) {
+		//1行分の文字列をストリームに変換して解析しやすくする
+		istringstream line_stream(line);
+
+		//半角スペース区切りで行の先端文字列を取得
+		string key;
+		getline(line_stream, key, ' ');
+
+		if (key == "v") {
+			//xyz座標読み込み
+			XMFLOAT3 position{};
+			line_stream >> position.x;
+			line_stream >> position.y;
+			line_stream >> position.z;
+			//座標データに追加
+			positions.emplace_back(position);
+			//頂点データに追加
+			Vertex vertex{};
+			vertex.pos = position;
+			vertices.emplace_back(vertex);
+		}
+		if (key == "f") {
+			//半角スペース区切りで次の行の続きを読み込む
+			string index_string;
+			while (getline(line_stream, index_string, ' ')) {
+				//頂点インデックス1個分の文字列をストリームに変換して解析しやすくする
+				std::istringstream index_stream(index_string);
+				unsigned short indexPosition;
+				index_stream >> indexPosition;
+				//頂点インデックスに追加
+				indices.emplace_back(indexPosition - 1);
+			}
+		}
+
+	}
+	file.close();
+
+	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * vertices.size());
 
 	// 頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapProp{}; // ヒープ設定
@@ -520,8 +520,16 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 		IID_PPV_ARGS(&vertBuff));
 	assert(SUCCEEDED(result));
 
-	//インデックスデータ全体のサイズ
-	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
+	//頂点バッファへデータを転送
+	Vertex* vertMap = nullptr;
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	copy(vertices.begin(), vertices.end(), vertMap);
+	//マッピングを解除
+	vertBuff->Unmap(0, nullptr);
+	//頂点バッファビューの作成
+	vbView.SizeInBytes = sizeVB;
+
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
 
 	//リソース設定
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -542,54 +550,19 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 		IID_PPV_ARGS(&indexBuff)
 	);
 
-	//インデックスバッファのマッピング
+	//インデックスバッファの生成
 	uint16_t* indexMap = nullptr;
+
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	//全インデックスに対して
-	for (int i = 0; i < _countof(indices); i++) {
-		indexMap[i] = indices[i];//インデックスをコピー
-	}
-	//マッピングを解除
-	indexBuff->Unmap(0, nullptr);
+	assert(SUCCEEDED(result));
+	copy(indices.begin(), indices.end(), indexMap);
+	// 繋がりを解除
+	vertBuff->Unmap(0, nullptr);
 
 	//インデックスバッファビューの作成
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
-
-	//三角形1つごとに計算していく
-	for (int i = 0; i < _countof(indices) / 3; i++) {
-		//三角形のインデックスを取り出して一時的な変数を入れる
-		unsigned short index0 = indices[i * 3 + 0];
-		unsigned short index1 = indices[i * 3 + 1];
-		unsigned short index2 = indices[i * 3 + 2];
-		//三角形を編成する頂点座標をベクトルに代入
-		XMVECTOR p0 = XMLoadFloat3(&vertices[index0].pos);
-		XMVECTOR p1 = XMLoadFloat3(&vertices[index1].pos);
-		XMVECTOR p2 = XMLoadFloat3(&vertices[index2].pos);
-		//p0->p1ベクトル、p0->p2ベクトルを計算(ベクトルを減算)
-		XMVECTOR v1 = XMVectorSubtract(p1, p0);
-		XMVECTOR v2 = XMVectorSubtract(p2, p0);
-		//外積は両方から垂直なベクトル
-		XMVECTOR normal = XMVector3Cross(v1, v2);
-		//正規化(長さを1にする)
-		normal = XMVector3Normalize(normal);
-		//求めた法線を頂点データに代入
-		XMStoreFloat3(&vertices[index0].normal, normal);
-		XMStoreFloat3(&vertices[index1].normal, normal);
-		XMStoreFloat3(&vertices[index2].normal, normal);
-	}
-
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	Vertex* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
-		vertMap[i] = vertices[i]; // 座標をコピー
-	}
-	// 繋がりを解除
-	vertBuff->Unmap(0, nullptr);
 
 	// GPU仮想アドレス
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
@@ -744,5 +717,5 @@ void Object3d::Draw(UINT texNum)
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 
-	cmdList->DrawIndexedInstanced(CountIndex, 1, 0, 0, 0); // 全ての頂点を使って描画
+	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0); // 全ての頂点を使って描画
 }

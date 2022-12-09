@@ -91,9 +91,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region ゲームシーン
 
 		box.Trans(20.0f, -5.0f, 30.0f);
+		box.Scale(10.0f, 10.0f, 10.0f);
 		box.Update();
 
 		box2.Trans(-20.0f, 5.0f, -10.0f);
+		box2.Scale(10.0f, 10.0f, 10.0f);
 		box2.Update();
 
 		Object3d::PreDraw(dxCom->GetCommandList());
