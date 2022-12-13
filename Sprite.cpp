@@ -8,7 +8,6 @@ ComPtr<ID3D12Device> Sprite::device = nullptr;
 ComPtr<ID3D12PipelineState> Sprite::pipelineState = nullptr;
 ComPtr<ID3D12RootSignature> Sprite::rootSignature;
 D3D12_VERTEX_BUFFER_VIEW Sprite::vbView{};
-XMFLOAT3 Sprite::vertices[3];
 ComPtr<ID3D12GraphicsCommandList> Sprite::cmdList;
 ComPtr<ID3D12Resource> Sprite::constBuffMaterial = nullptr;
 
@@ -29,7 +28,7 @@ void Sprite::StaticInitialize(ID3D12Device* device)
 	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"SpriteVS.hlsl", // シェーダファイル名
+		L"Resources/Shaders/SpriteVS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -51,7 +50,7 @@ void Sprite::StaticInitialize(ID3D12Device* device)
 	}
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"SpritePS.hlsl", // シェーダファイル名
+		L"Resources/Shaders/SpritePS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -244,7 +243,7 @@ void Sprite::LoadTexture() {
 	ScratchImage scratchImg{};
 	//WICテクスチャのロード
 	result = LoadFromWICFile(
-		L"Resources/puricone_amesu.png",
+		L"Resources/cat.png",
 		WIC_FLAGS_NONE,
 		&metadata,
 		scratchImg
@@ -254,7 +253,7 @@ void Sprite::LoadTexture() {
 	ScratchImage scratchImg2{};
 	//WICテクスチャのロード2
 	result = LoadFromWICFile(
-		L"Resources/puricone_inori.png",
+		L"Resources/dog.png",
 		WIC_FLAGS_NONE,
 		&metadata2,
 		scratchImg2
@@ -320,7 +319,7 @@ void Sprite::LoadTexture() {
 	textureResourceDesc2.SampleDesc.Count = 1;
 
 	//テクスチャバッファの生成
-	result = Sprite::device->CreateCommittedResource(
+	result = device->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
@@ -329,7 +328,7 @@ void Sprite::LoadTexture() {
 		IID_PPV_ARGS(&texBuff)
 	);
 	//テクスチャバッファ2の生成
-	result = Sprite::device->CreateCommittedResource(
+	result = device->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc2,
@@ -384,7 +383,6 @@ void Sprite::LoadTexture() {
 	incrementSize = Sprite::device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	srvHandle.ptr += incrementSize;
 
-
 	///シェーダーリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};//設定構造体
 	srvDesc2.Format = textureResourceDesc2.Format;
@@ -401,12 +399,10 @@ void Sprite::Initialize()
 {
 	HRESULT result;
 
-	VertexSp vertices[] = {
-		{{  0.0f,100.0f,0.0f},{0.0f,1.0f}},	//左下
-		{{  0.0f,  0.0f,0.0f},{0.0f,0.0f}},	//左上
-		{{100.0f,100.0f,0.0f},{1.0f,1.0f}},	//右下
-		{{100.0f,  0.0f,0.0f},{1.0f,0.0f}},	//右上
-	};
+	vertices[0] = { {  0.0f,100.0f,0.0f},{0.0f,1.0f} };	//左下
+	vertices[1] = { {  0.0f,  0.0f,0.0f},{0.0f,0.0f} };	//左上
+	vertices[2] = { {100.0f,100.0f,0.0f},{1.0f,1.0f} };	//右下
+	vertices[3] = { {100.0f,  0.0f,0.0f},{1.0f,0.0f} };	//右上
 
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 
@@ -449,92 +445,6 @@ void Sprite::Initialize()
 	// 頂点1つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
-	////横方向のピクセル数
-	//const size_t textureWidth = 256;
-	////縦方向のピクセル数
-	//const size_t textureHeight = 256;
-	////配列の要素数
-	//const size_t imageDataCount = textureWidth * textureHeight;
-	////画像イメージ配列
-	//XMFLOAT4* imageData = new XMFLOAT4[imageDataCount];
-
-	//for (size_t i = 0; i < imageDataCount; i++) {
-	//	imageData[i].x = 1.0f;
-	//	imageData[i].y = 0.0f;
-	//	imageData[i].z = 0.0f;
-	//	imageData[i].w = 1.0f;
-	//}
-
-	//TexMetadata metadata{};
-	//ScratchImage scratchImg{};
-	////WICテクスチャのロード
-	//result = LoadFromWICFile(
-	//	L"Resources/puricone_amesu.png",
-	//	WIC_FLAGS_NONE,
-	//	&metadata,
-	//	scratchImg
-	//);
-	//ScratchImage mipChain{};
-	////ミップマップ生成
-	//result = GenerateMipMaps(
-	//	scratchImg.GetImages(),
-	//	scratchImg.GetImageCount(),
-	//	scratchImg.GetMetadata(),
-	//	TEX_FILTER_DEFAULT,
-	//	0,
-	//	mipChain
-	//);
-	//if (SUCCEEDED(result)) {
-	//	scratchImg = std::move(mipChain);
-	//	metadata = scratchImg.GetMetadata();
-	//}
-	////読み込んだディフューズテクスチャをSRGBとして扱う
-	//metadata.format = MakeSRGB(metadata.format);
-
-	////ヒープ設定
-	//D3D12_HEAP_PROPERTIES textureHeapProp{};
-	//textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	//textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	//textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-
-	////リソース設定
-	//D3D12_RESOURCE_DESC textureResourceDesc{};
-	//textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	//textureResourceDesc.Format = metadata.format;
-	//textureResourceDesc.Width = metadata.width;
-	//textureResourceDesc.Height = (UINT)metadata.height;
-	//textureResourceDesc.DepthOrArraySize = (UINT)metadata.arraySize;
-	//textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
-	//textureResourceDesc.SampleDesc.Count = 1;
-
-	////テクスチャバッファの生成
-	//ID3D12Resource* texBuff = nullptr;
-	//result = device->CreateCommittedResource(
-	//	&textureHeapProp,
-	//	D3D12_HEAP_FLAG_NONE,
-	//	&textureResourceDesc,
-	//	D3D12_RESOURCE_STATE_GENERIC_READ,
-	//	nullptr,
-	//	IID_PPV_ARGS(&texBuff)
-	//);
-	////全ミップマップについて
-	//for (size_t i = 0; i < metadata.mipLevels; i++) {
-	//	//ミップマップレベルを指定してイメージを取得
-	//	const Image* img = scratchImg.GetImage(i, 0, 0);
-	//	// テクスチャバッファにデータ転送
-	//	result = texBuff->WriteToSubresource(
-	//		(UINT)i,
-	//		nullptr,
-	//		img->pixels,
-	//		(UINT)img->rowPitch,
-	//		(UINT)img->slicePitch
-	//	);
-	//	assert(SUCCEEDED(result));
-	//}
-
-	//delete[] imageData;
-
-	
 	//デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -546,17 +456,6 @@ void Sprite::Initialize()
 	assert(SUCCEEDED(result));
 
 	LoadTexture();
-	////SRVヒープの先頭ハンドルを取得
-	//D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
-
-	////シェーダーリソースビュー設定
-	//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
-	//srvDesc.Format = textureResourceDesc.Format;
-	//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	//2Dテクスチャ
-	//srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
-
-	//device->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
 
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
@@ -697,12 +596,10 @@ void Sprite::SetUpVertex() {
 		bottom *= -1;
 	}
 
-	VertexSp vertices[] = {
-		{{  left,bottom,0.0f},{0.0f,1.0f}},	//左下
-		{{  left,   top,0.0f},{0.0f,0.0f}},	//左上
-		{{ right,bottom,0.0f},{1.0f,1.0f}},	//右下
-		{{ right,   top,0.0f},{1.0f,0.0f}},	//右上
-	};
+	vertices[0] = { { left,bottom,0.0f }, { 0.0f,1.0f } };	//左下
+	vertices[1] = { {  left,   top,0.0f},{0.0f,0.0f} };	//左上
+	vertices[2] = { { right,bottom,0.0f},{1.0f,1.0f} };	//右下
+	vertices[3] = { { right,   top,0.0f},{1.0f,0.0f} };	//右上
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
 	VertexSp* vertMap = nullptr;

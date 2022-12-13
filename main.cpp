@@ -90,31 +90,62 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region ゲームシーン
 
-		box.Trans(20.0f, -5.0f, 30.0f);
-		box.Update();
+		if (input->PushKey(DIK_W)) {
+			Object3d::AddCameraPos(Vector3(0, 1, 0));
+		}
+		if (input->PushKey(DIK_S)) {
+			Object3d::AddCameraPos(Vector3(0, -1, 0));
+		}
+		if (input->PushKey(DIK_D)) {
+			Object3d::AddCameraPos(Vector3(1, 0, 0));
+		}
+		if (input->PushKey(DIK_A)) {
+			Object3d::AddCameraPos(Vector3(-1, 0, 0));
+		}
+		if (input->PushKey(DIK_R)) {
+			Object3d::AddCameraPos(Vector3(0, 0, 1));
+		}
+		if (input->PushKey(DIK_F)) {
+			Object3d::AddCameraPos(Vector3(0, 0, -1));
+		}
 
-		box2.Trans(-20.0f, 5.0f, -10.0f);
-		box2.Update();
+		if (input->PushKey(DIK_UP)) {
+			Object3d::AddCameraTarget(Vector3(0, 0, 1));
+		}
+		if (input->PushKey(DIK_DOWN)) {
+			Object3d::AddCameraTarget(Vector3(0, 0, -1));
+		}
+		if (input->PushKey(DIK_RIGHT)) {
+			Object3d::AddCameraTarget(Vector3(1, 0, 0));
+		}
+		if (input->PushKey(DIK_LEFT)) {
+			Object3d::AddCameraTarget(Vector3(-1, 0, 0));
+		}
+
+
+		box.Trans(0.0f, 0.0f, 30.0f);
+		//box.Scale(10, 10, 10);
+		box.Update();
 
 		Object3d::PreDraw(dxCom->GetCommandList());
 
 		box.Draw(0);
-		box2.Draw(1);
 
 		Object3d::PostDraw();
 
-		Sprite::PreDraw(dxCom->GetCommandList());
+		sprite.Pos(100, 100);
 
-		sprite.Pos(100,100);
-		sprite.Color(1, 0, 0, 1);
-		sprite.Size(100.0f,100.0f);
-		sprite.Draw(0);
-		sprite2.Pos(300,300);
+		sprite2.Pos(300, 300);
 		sprite2.Color(1, 0, 0, 1);
-		sprite2.Size(200.0f,200.0f);
-		sprite2.SetAnchorPoint(0.5f,0.5f);
+		sprite2.Size(200.0f, 200.0f);
+		sprite2.SetAnchorPoint(0.5f, 0.5f);
 		sprite2.Rotate(45);
 		sprite2.FlipX(true);
+
+		//スプライト
+		Sprite::PreDraw(dxCom->GetCommandList());
+
+		sprite.Draw(0);
 		sprite2.Draw(1);
 
 		Sprite::PostDraw();

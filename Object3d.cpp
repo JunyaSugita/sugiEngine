@@ -1,7 +1,12 @@
 #include "Object3d.h"
 #include <d3dcompiler.h>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 using namespace Microsoft::WRL;
+using namespace std;
 
 /// <summary>
 /// 静的メンバ変数の実態
@@ -27,6 +32,15 @@ ComPtr<ID3D12Resource> Object3d::indexBuff;
 ComPtr<ID3D12Resource> Object3d::texBuff = nullptr;
 ComPtr<ID3D12Resource> Object3d::texBuff2 = nullptr;
 ComPtr<ID3D12Resource> Object3d::vertBuff;
+
+vector<Vertex> Object3d::vertices;
+vector<unsigned short> Object3d::indices;
+
+Object3d::Material Object3d::material;
+
+XMFLOAT3 Object3d::eye;
+XMFLOAT3 Object3d::target;
+XMFLOAT3 Object3d::up;
 
 void Object3d::StaticInitialize(ID3D12Device* device)
 {
@@ -68,10 +82,11 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	matProjecsion = ConvertToMatrix4(perspective);
 
 	//ビュー変換行列
+	//カメラ操作
 	XMMATRIX xmmatView;
-	XMFLOAT3 eye(0, 0, -100);	//視点座標
-	XMFLOAT3 target(0, 0, 0);	//注視点座標
-	XMFLOAT3 up(0, 1, 0);		//上方向ベクトル
+	eye = XMFLOAT3(0, 0, -100);	//視点座標
+	target = XMFLOAT3(0, 0, 0);	//注視点座標
+	up = XMFLOAT3(0, 1, 0);		//上方向ベクトル
 	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 	//matrix4に変換
 	matView = ConvertToMatrix4(xmmatView);
@@ -84,7 +99,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/BasicVS.hlsl", // シェーダファイル名
+		L"Resources/Shaders/ObjVS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -108,7 +123,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/BasicPS.hlsl", // シェーダファイル名
+		L"Resources/Shaders/ObjPS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -222,15 +237,15 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
 	rootParams[0].Descriptor.RegisterSpace = 0;						//デフォルト値
 	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
-	//テクスチャレジスタ0番
-	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
-	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;					//定数バッファ番号
-	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//デフォルト値
-	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
 	//定数バッファ1番
-	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
-	rootParams[2].Descriptor.ShaderRegister = 1;					//定数バッファ番号
-	rootParams[2].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[1].Descriptor.ShaderRegister = 1;					//定数バッファ番号
+	rootParams[1].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
+	//テクスチャレジスタ0番
+	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+	rootParams[2].DescriptorTable.pDescriptorRanges = &descriptorRange;					//定数バッファ番号
+	rootParams[2].DescriptorTable.NumDescriptorRanges = 1;						//デフォルト値
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
 
 	//テクスチャサンプラーの設定
@@ -277,225 +292,94 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 
 #pragma endregion
 
-#pragma region テクスチャ読み込み
-
-	TexMetadata metadata{};
-	ScratchImage scratchImg{};
-	//WICテクスチャのロード
-	result = LoadFromWICFile(
-		L"Resources/puricone_amesu.png",
-		WIC_FLAGS_NONE,
-		&metadata,
-		scratchImg
-	);
-
-	TexMetadata metadata2{};
-	ScratchImage scratchImg2{};
-	//WICテクスチャのロード2
-	result = LoadFromWICFile(
-		L"Resources/puricone_inori.png",
-		WIC_FLAGS_NONE,
-		&metadata2,
-		scratchImg2
-	);
-
-	ScratchImage mipChain{};
-	//ミップマップ生成
-	result = GenerateMipMaps(
-		scratchImg.GetImages(),
-		scratchImg.GetImageCount(),
-		scratchImg.GetMetadata(),
-		TEX_FILTER_DEFAULT,
-		0,
-		mipChain
-	);
-	if (SUCCEEDED(result)) {
-		scratchImg = std::move(mipChain);
-		metadata = scratchImg.GetMetadata();
-	}
-	//読み込んだディフューズテクスチャをSRGBとして扱う
-	metadata.format = MakeSRGB(metadata.format);
-
-	ScratchImage mipChain2{};
-	//ミップマップ生成2
-	result = GenerateMipMaps(
-		scratchImg2.GetImages(),
-		scratchImg2.GetImageCount(),
-		scratchImg2.GetMetadata(),
-		TEX_FILTER_DEFAULT,
-		0,
-		mipChain2
-	);
-	if (SUCCEEDED(result)) {
-		scratchImg2 = std::move(mipChain2);
-		metadata2 = scratchImg2.GetMetadata();
-	}
-	//読み込んだディフューズテクスチャをSRGBとして扱う2
-	metadata2.format = MakeSRGB(metadata2.format);
-
-	//ヒープ設定
-	D3D12_HEAP_PROPERTIES textureHeapProp{};
-	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-	//リソース設定
-	D3D12_RESOURCE_DESC textureResourceDesc{};
-	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc.Format = metadata.format;
-	textureResourceDesc.Width = metadata.width;
-	textureResourceDesc.Height = (UINT)metadata.height;
-	textureResourceDesc.DepthOrArraySize = (UINT)metadata.arraySize;
-	textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
-	textureResourceDesc.SampleDesc.Count = 1;
-
-	//リソース設定2
-	D3D12_RESOURCE_DESC textureResourceDesc2{};
-	textureResourceDesc2.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc2.Format = metadata2.format;
-	textureResourceDesc2.Width = metadata2.width;
-	textureResourceDesc2.Height = (UINT)metadata2.height;
-	textureResourceDesc2.DepthOrArraySize = (UINT)metadata2.arraySize;
-	textureResourceDesc2.MipLevels = (UINT)metadata2.mipLevels;
-	textureResourceDesc2.SampleDesc.Count = 1;
-
-	//テクスチャバッファの生成
-	result = Object3d::device->CreateCommittedResource(
-		&textureHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&texBuff)
-	);
-	//テクスチャバッファ2の生成
-	result = Object3d::device->CreateCommittedResource(
-		&textureHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc2,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&texBuff2)
-	);
-
-	//全ミップマップについて
-	for (size_t i = 0; i < metadata.mipLevels; i++) {
-		//ミップマップレベルを指定してイメージを取得
-		const Image* img = scratchImg.GetImage(i, 0, 0);
-		// テクスチャバッファにデータ転送
-		result = texBuff->WriteToSubresource(
-			(UINT)i,
-			nullptr,
-			img->pixels,
-			(UINT)img->rowPitch,
-			(UINT)img->slicePitch
-		);
-		assert(SUCCEEDED(result));
-	}
-	//全ミップマップについて2
-	for (size_t i = 0; i < metadata2.mipLevels; i++) {
-		//ミップマップレベルを指定してイメージを取得
-		const Image* img2 = scratchImg2.GetImage(i, 0, 0);
-		// テクスチャバッファにデータ転送
-		result = texBuff2->WriteToSubresource(
-			(UINT)i,
-			nullptr,
-			img2->pixels,
-			(UINT)img2->rowPitch,
-			(UINT)img2->slicePitch
-		);
-		assert(SUCCEEDED(result));
-	}
-
-	//SRVヒープの先頭ハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
-
-	//シェーダーリソースビュー設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
-	srvDesc.Format = textureResourceDesc.Format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	//2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
-
-	//ハンドルの指す位置にシェーダーリソースビュー作成
-	Object3d::device->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
-
-	//テクスチャ切り替え
-	incrementSize = Object3d::device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	srvHandle.ptr += incrementSize;
-
-
-	///シェーダーリソースビュー設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};//設定構造体
-	srvDesc2.Format = textureResourceDesc2.Format;
-	srvDesc2.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	//2Dテクスチャ
-	srvDesc2.Texture2D.MipLevels = textureResourceDesc2.MipLevels;
-
-	//ハンドルの指す位置にシェーダーリソースビュー作成2
-	Object3d::device->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
-
-#pragma endregion
-	
 #pragma region モデル生成
-	// 頂点データ
-	Vertex vertices[] = {
-		//前
-		{ { -5.0f, -5.0f, -5.0f},{}, {0.0f,1.0f}}, // 左下0
-		{ { -5.0f,  5.0f, -5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ {  5.0f,  5.0f, -5.0f},{},{1.0f,0.0f}}, // 右上3
-		//後
-		{ { -5.0f, -5.0f,  5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ {  5.0f, -5.0f,  5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-		//左
-		{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ { -5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ { -5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-		//右
-		{ {  5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ {  5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-		//上
-		{ { -5.0f,  5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ { -5.0f,  5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f,  5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ {  5.0f,  5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-		//下
-		{ { -5.0f, -5.0f, -5.0f},{},{0.0f,1.0f}}, // 左下0
-		{ {  5.0f, -5.0f, -5.0f},{},{1.0f,1.0f}}, // 右下2
-		{ { -5.0f, -5.0f,  5.0f},{},{0.0f,0.0f}}, // 左上1
-		{ {  5.0f, -5.0f,  5.0f},{},{1.0f,0.0f}}, // 右上3
-	};
-	//インデックスデータ
-	uint16_t indices[] = {
-		//前
-		0,1,2,
-		3,2,1,
-		//後
-		4,5,6,
-		7,6,5,
-		//左
-		8,9,10,
-		11,10,9,
-		//右
-		12,13,14,
-		15,14,13,
-		//上
-		16,17,18,
-		19,18,17,
-		//下
-		20,21,22,
-		23,22,21
-	};
+	//ファイルストリーム
+	ifstream file;
+	//objファイルを開く
+	const string modelname = "ground";
+	const string filename = modelname + ".obj";
+	const string directoryPath = "Resources/" + modelname + "/";
+	file.open(directoryPath + filename);
+	//assert
+	assert(!file.fail());
 
-	CountIndex = _countof(indices);
+	vector<XMFLOAT3> positions;
+	vector<XMFLOAT3> normals;
+	vector<XMFLOAT2> texcoords;
 
-	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
+	//1行ずつ読み込む
+	string line;
+	while (getline(file, line)) {
+		//1行分の文字列をストリームに変換して解析しやすくする
+		istringstream line_stream(line);
+
+		//半角スペース区切りで行の先端文字列を取得
+		string key;
+		getline(line_stream, key, ' ');
+
+		if (key == "mtllib") {
+			//マテリアル名読み込み
+			string filename;
+			line_stream >> filename;
+			//マテリアル読み込み
+			LoadMaterial(directoryPath, filename);
+		}
+		if (key == "v") {
+			//xyz座標読み込み
+			XMFLOAT3 position{};
+			line_stream >> position.x;
+			line_stream >> position.y;
+			line_stream >> position.z;
+			//座標データに追加
+			positions.emplace_back(position);
+		}
+		if (key == "vt") {
+			//U.V成分読み込み
+			XMFLOAT2 texcoord{};
+			line_stream >> texcoord.x;
+			line_stream >> texcoord.y;
+			//V方向反転
+			texcoord.y = 1.0f - texcoord.y;
+			//テクスチャ座標データに追加
+			texcoords.emplace_back(texcoord);
+		}
+		if (key == "vn") {
+			//X,Y,Z成分
+			XMFLOAT3 normal{};
+			line_stream >> normal.x;
+			line_stream >> normal.y;
+			line_stream >> normal.z;
+			//法線ベクトルデータに追加
+			normals.emplace_back(normal);
+		}
+		if (key == "f") {
+			//半角スペース区切りで次の行の続きを読み込む
+			string index_string;
+			while (getline(line_stream, index_string, ' ')) {
+				//頂点インデックス1個分の文字列をストリームに変換して解析しやすくする
+				std::istringstream index_stream(index_string);
+				unsigned short indexPosition, indexNormal, indexTexcoord;
+				index_stream >> indexPosition;
+				index_stream.seekg(1, ios_base::cur);
+				index_stream >> indexTexcoord;
+				index_stream.seekg(1, ios_base::cur);
+				index_stream >> indexNormal;
+				//頂点データの追加
+				Vertex vertex{};
+				vertex.pos = positions[indexPosition - 1];
+				vertex.normal = normals[indexNormal - 1];
+				vertex.uv = texcoords[indexTexcoord - 1];
+				vertices.emplace_back(vertex);
+
+				//頂点インデックスに追加
+				indices.emplace_back((unsigned short)indices.size());
+			}
+		}
+
+	}
+	file.close();
+
+	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * vertices.size());
 
 	// 頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapProp{}; // ヒープ設定
@@ -520,8 +404,16 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 		IID_PPV_ARGS(&vertBuff));
 	assert(SUCCEEDED(result));
 
-	//インデックスデータ全体のサイズ
-	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
+	//頂点バッファへデータを転送
+	Vertex* vertMap = nullptr;
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	copy(vertices.begin(), vertices.end(), vertMap);
+	//マッピングを解除
+	vertBuff->Unmap(0, nullptr);
+	//頂点バッファビューの作成
+	vbView.SizeInBytes = sizeVB;
+
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
 
 	//リソース設定
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -542,54 +434,19 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 		IID_PPV_ARGS(&indexBuff)
 	);
 
-	//インデックスバッファのマッピング
+	//インデックスバッファの生成
 	uint16_t* indexMap = nullptr;
+
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	//全インデックスに対して
-	for (int i = 0; i < _countof(indices); i++) {
-		indexMap[i] = indices[i];//インデックスをコピー
-	}
-	//マッピングを解除
+	assert(SUCCEEDED(result));
+	copy(indices.begin(), indices.end(), indexMap);
+	// 繋がりを解除
 	indexBuff->Unmap(0, nullptr);
 
 	//インデックスバッファビューの作成
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
-
-	//三角形1つごとに計算していく
-	for (int i = 0; i < _countof(indices) / 3; i++) {
-		//三角形のインデックスを取り出して一時的な変数を入れる
-		unsigned short index0 = indices[i * 3 + 0];
-		unsigned short index1 = indices[i * 3 + 1];
-		unsigned short index2 = indices[i * 3 + 2];
-		//三角形を編成する頂点座標をベクトルに代入
-		XMVECTOR p0 = XMLoadFloat3(&vertices[index0].pos);
-		XMVECTOR p1 = XMLoadFloat3(&vertices[index1].pos);
-		XMVECTOR p2 = XMLoadFloat3(&vertices[index2].pos);
-		//p0->p1ベクトル、p0->p2ベクトルを計算(ベクトルを減算)
-		XMVECTOR v1 = XMVectorSubtract(p1, p0);
-		XMVECTOR v2 = XMVectorSubtract(p2, p0);
-		//外積は両方から垂直なベクトル
-		XMVECTOR normal = XMVector3Cross(v1, v2);
-		//正規化(長さを1にする)
-		normal = XMVector3Normalize(normal);
-		//求めた法線を頂点データに代入
-		XMStoreFloat3(&vertices[index0].normal, normal);
-		XMStoreFloat3(&vertices[index1].normal, normal);
-		XMStoreFloat3(&vertices[index2].normal, normal);
-	}
-
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	Vertex* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
-		vertMap[i] = vertices[i]; // 座標をコピー
-	}
-	// 繋がりを解除
-	vertBuff->Unmap(0, nullptr);
 
 	// GPU仮想アドレス
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
@@ -662,6 +519,156 @@ void Object3d::PostDraw()
 	Object3d::cmdList = nullptr;
 }
 
+void Object3d::LoadMaterial(const string& directoryPath, const string& filename)
+{
+	//ファイルストリーム
+	std::ifstream file;
+	//マテリアルファイルを開く
+	file.open(directoryPath + filename);
+	if (file.fail()) {
+		assert(0);
+	}
+
+	//1行ずつ
+	string line;
+	while (getline(file, line)) {
+		//1行分の文字列をストリームに変換
+		std::istringstream line_stream(line);
+		//半角スペース区切りで行の先頭文字を習得
+		string key;
+		getline(line_stream, key, ' ');
+		//先頭のタブ文字は無視
+		if (key[0] == '\t') {
+			key.erase(key.begin());
+		}
+		//先頭文字列がnewmtlならマテリアル名
+		if (key == "newmtl") {
+			//マテリアル名読み込み
+			line_stream >> material.name;
+		}
+		//先頭文字列がKaならアンビエント色
+		if (key == "Ka") {
+			line_stream >> material.ambient.x;
+			line_stream >> material.ambient.y;
+			line_stream >> material.ambient.z;
+		}
+		//先頭文字列がKdならディフューズ色
+		if (key == "Kd") {
+			line_stream >> material.diffuse.x;
+			line_stream >> material.diffuse.y;
+			line_stream >> material.diffuse.z;
+		}
+		//先頭文字列がKsならスペキュラー色
+		if (key == "Ks") {
+			line_stream >> material.specular.x;
+			line_stream >> material.specular.y;
+			line_stream >> material.specular.z;
+		}
+		//先頭文字列がmap_Kdならテクスチャファイル名
+		if (key == "map_Kd") {
+			//テクスチャのファイル名読み込み
+			line_stream >> material.textureFilename;
+			//テクスチャ読み込み
+			LoadTexture(directoryPath, material.textureFilename);
+		}
+
+
+	}
+	file.close();
+}
+
+bool Object3d::LoadTexture(const string& directoryPath, const string& filename)
+{
+	HRESULT result;
+
+	//ファイルパスを結合
+	string filepath = directoryPath + filename;
+	//ユニコード文字列に変換する
+	wchar_t wfilepath[128];
+	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
+
+	TexMetadata metadata{};
+	ScratchImage scratchImg{};
+	//WICテクスチャのロード
+	result = LoadFromWICFile(
+		wfilepath,
+		WIC_FLAGS_NONE,
+		&metadata,
+		scratchImg
+	);
+	ScratchImage mipChain{};
+	//ミップマップ生成
+	result = GenerateMipMaps(
+		scratchImg.GetImages(),
+		scratchImg.GetImageCount(),
+		scratchImg.GetMetadata(),
+		TEX_FILTER_DEFAULT,
+		0,
+		mipChain
+	);
+	if (SUCCEEDED(result)) {
+		scratchImg = std::move(mipChain);
+		metadata = scratchImg.GetMetadata();
+	}
+	//読み込んだディフューズテクスチャをSRGBとして扱う
+	metadata.format = MakeSRGB(metadata.format);
+
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES textureHeapProp{};
+	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	//リソース設定
+	D3D12_RESOURCE_DESC textureResourceDesc{};
+	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	textureResourceDesc.Format = metadata.format;
+	textureResourceDesc.Width = metadata.width;
+	textureResourceDesc.Height = (UINT)metadata.height;
+	textureResourceDesc.DepthOrArraySize = (UINT)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
+	textureResourceDesc.SampleDesc.Count = 1;
+
+	//テクスチャバッファの生成
+	result = Object3d::device->CreateCommittedResource(
+		&textureHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&textureResourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&texBuff)
+	);
+
+	//全ミップマップについて
+	for (size_t i = 0; i < metadata.mipLevels; i++) {
+		//ミップマップレベルを指定してイメージを取得
+		const Image* img = scratchImg.GetImage(i, 0, 0);
+		// テクスチャバッファにデータ転送
+		result = texBuff->WriteToSubresource(
+			(UINT)i,
+			nullptr,
+			img->pixels,
+			(UINT)img->rowPitch,
+			(UINT)img->slicePitch
+		);
+		assert(SUCCEEDED(result));
+	}
+
+	//SRVヒープの先頭ハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+
+	//シェーダーリソースビュー設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
+	srvDesc.Format = textureResourceDesc.Format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	//2Dテクスチャ
+	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
+
+	//ハンドルの指す位置にシェーダーリソースビュー作成
+	Object3d::device->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
+
+	return false;
+}
+
 void Object3d::Initialize()
 {
 	HRESULT result;
@@ -672,7 +679,7 @@ void Object3d::Initialize()
 	//リソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;	//256バイトアライメント
+	cbResourceDesc.Width = (sizeof(ConstBufferDataB0) + 0xff) & ~0xff;	//256バイトアライメント
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
@@ -686,13 +693,30 @@ void Object3d::Initialize()
 		&cbResourceDesc,	//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffTransform)
+		IID_PPV_ARGS(&constBuffB0)
+	);
+	assert(SUCCEEDED(result));
+	//定数バッファのマッピング
+	result = constBuffB0->Map(0, nullptr, (void**)&constMapTransform);	//マッピング
+	assert(SUCCEEDED(result));
+
+	cbResourceDesc.Width = (sizeof(ConstBufferDataB1) + 0xff) & ~0xff;
+	//定数バッファの生成2
+	result = device->CreateCommittedResource(
+		&cbHeapProp,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,	//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffB1)
 	);
 	assert(SUCCEEDED(result));
 
-	//定数バッファのマッピング
-	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);	//マッピング
-	assert(SUCCEEDED(result));
+	result = constBuffB1->Map(0, nullptr, (void**)&constMap1);
+	constMap1->ambient = material.ambient;
+	constMap1->diffuse = material.diffuse;
+	constMap1->specular = material.specular;
+	constMap1->alpha = material.alpha;
 
 	//ワールド変換行列
 	worldTransform.scale = { 1.0f,1.0f,1.0f };
@@ -705,8 +729,22 @@ void Object3d::Initialize()
 
 void Object3d::Update()
 {
+	HRESULT result;
+
 	worldTransform.SetWorldMat();
+
+	XMMATRIX xmmatView;
+	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+	//matrix4に変換
+	matView = ConvertToMatrix4(xmmatView);
+
 	constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
+
+	//マテリアル
+	constMap1->ambient = material.ambient;
+	constMap1->diffuse = material.diffuse;
+	constMap1->specular = material.specular;
+	constMap1->alpha = material.alpha;
 }
 
 void Object3d::Scale(float x, float y, float z)
@@ -730,10 +768,7 @@ void Object3d::Draw(UINT texNum)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
 	//2枚目
-	srvGpuHandle.ptr += incrementSize * texNum;
-
-	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	Object3d::cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	//srvGpuHandle.ptr += incrementSize * texNum;
 
 	// 頂点バッファビューの設定コマンド
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
@@ -742,7 +777,35 @@ void Object3d::Draw(UINT texNum)
 	cmdList->IASetIndexBuffer(&ibView);
 
 	//定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(1, constBuffB1->GetGPUVirtualAddress());
 
-	cmdList->DrawIndexedInstanced(CountIndex, 1, 0, 0, 0); // 全ての頂点を使って描画
+	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+
+	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0); // 全ての頂点を使って描画
+}
+
+void Object3d::SetCameraPos(Vector3 pos) {
+	eye.x = pos.x;
+	eye.y = pos.y;
+	eye.z = pos.z;
+}
+
+void Object3d::SetCameraTarget(Vector3 pos) {
+	target.x = pos.x;
+	target.y = pos.y;
+	target.z = pos.z;
+}
+
+void Object3d::AddCameraPos(Vector3 pos) {
+	eye.x += pos.x;
+	eye.y += pos.y;
+	eye.z += pos.z;
+}
+
+void Object3d::AddCameraTarget(Vector3 pos) {
+	target.x += pos.x;
+	target.y += pos.y;
+	target.z += pos.z;
 }

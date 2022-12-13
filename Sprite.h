@@ -38,7 +38,6 @@ private:
 	static ComPtr<ID3D12RootSignature> rootSignature;
 	// 頂点バッファビューの作成
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
-	static XMFLOAT3 vertices[];
 	static ComPtr<ID3D12GraphicsCommandList> cmdList;
 	static ComPtr<ID3D12Resource> constBuffMaterial;
 
@@ -92,5 +91,6 @@ private:
 	bool isFlipX = false;
 	bool isFlipY = false;
 	bool isView = true;
+	VertexSp vertices[4];
 };
 
