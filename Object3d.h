@@ -18,8 +18,41 @@ struct Vertex {
 	XMFLOAT2 uv;	//uv座標
 };
 
+//定数バッファ用データ構造体B0
+struct ConstBufferDataB0 {
+	Matrix4 mat;
+};
+
+//定数バッファ用データ構造体B1
+struct ConstBufferDataB1 {
+	XMFLOAT3 ambient;	//アンビエント係数
+	float pad1;			//パディング
+	XMFLOAT3 diffuse;	//ディフューズ係数
+	float pad2;			//パディング
+	XMFLOAT3 specular;	//スペキュラー係数
+	float alpha;		//アルファ
+};
+
+
 class Object3d
 {
+	//マテリアル
+	struct Material {
+		std::string name;	//マテリアル名
+		XMFLOAT3 ambient;	//アンビエント影響度
+		XMFLOAT3 diffuse;	//ディフューズ影響度
+		XMFLOAT3 specular;	//スペキュラー影響度
+		float alpha;		//アルファ
+		std::string textureFilename;	//テクスチャファイル名
+		//コンストラクタ
+		Material() {
+			ambient = { 0.3f,0.3f,0.3f };
+			diffuse = { 0.0f,0.0f,0.0f };
+			specular = { 0.0f,0.0f,0.0f };
+			alpha = 1.0f;
+		}
+	};
+
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -30,6 +63,21 @@ public:
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 
 	static void PostDraw();
+
+	/// <summary>
+	/// マテリアル読み込み
+	/// </summary>
+	static void LoadMaterial(const string& directoryPath, const string& filename);
+
+	/// <summary>
+	/// テクスチャ読み込み
+	/// </summary>
+	static bool LoadTexture(const string& directoryPath, const string& filename);
+
+	static void SetCameraPos(Vector3 pos);
+	static void SetCameraTarget(Vector3 pos);
+	static void AddCameraPos(Vector3 pos);
+	static void AddCameraTarget(Vector3 pos);
 
 private:
 	//デバイス
@@ -65,19 +113,28 @@ private:
 	static vector<Vertex> vertices;
 	static vector<unsigned short> indices;
 
+	static Material material;
+
+	static XMFLOAT3 eye;
+	static XMFLOAT3 target;
+	static XMFLOAT3 up;
+
 public:
 	void Initialize();
 
 	void Update();
-	void Scale(float x,float y,float z);
+	void Scale(float x, float y, float z);
 	void Rotate(float x, float y, float z);
 	void Trans(float x, float y, float z);
 
 	void Draw(UINT texNum);
 
 private:
-	ComPtr<ID3D12Resource> constBuffTransform = nullptr;
-	ConstBufferDataTransform* constMapTransform = nullptr;
+	ComPtr<ID3D12Resource> constBuffB0 = nullptr;
+	ComPtr<ID3D12Resource> constBuffB1 = nullptr;
+
+	ConstBufferDataB0* constMapTransform = nullptr;
 	WorldTransform worldTransform;
+	ConstBufferDataB1* constMap1 = nullptr;
 };
 

@@ -61,6 +61,16 @@ void DXCommon::Initialize(WinApp* winApp)
 		}
 	}
 
+#ifdef _DEBUG
+
+	ComPtr<ID3D12InfoQueue> infoQueue;
+	if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+	}
+
+#endif
+
 	// コマンドアロケータを生成
 	result = device_->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
