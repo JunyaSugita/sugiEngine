@@ -296,7 +296,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	//ファイルストリーム
 	ifstream file;
 	//objファイルを開く
-	const string modelname = "ground";
+	const string modelname = "box";
 	const string filename = modelname + ".obj";
 	const string directoryPath = "Resources/" + modelname + "/";
 	file.open(directoryPath + filename);
@@ -669,7 +669,7 @@ bool Object3d::LoadTexture(const string& directoryPath, const string& filename)
 	return false;
 }
 
-void Object3d::Initialize()
+bool Object3d::Initialize()
 {
 	HRESULT result;
 
@@ -725,6 +725,8 @@ void Object3d::Initialize()
 	worldTransform.SetWorldMat();
 
 	constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
+
+	return true;
 }
 
 void Object3d::Update()
@@ -762,13 +764,10 @@ void Object3d::Trans(float x, float y, float z)
 	worldTransform.trans = { Vector3(x,y,z) };
 }
 
-void Object3d::Draw(UINT texNum)
+void Object3d::Draw()
 {
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
-
-	//2枚目
-	//srvGpuHandle.ptr += incrementSize * texNum;
 
 	// 頂点バッファビューの設定コマンド
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
@@ -808,4 +807,20 @@ void Object3d::AddCameraTarget(Vector3 pos) {
 	target.x += pos.x;
 	target.y += pos.y;
 	target.z += pos.z;
+}
+
+Object3d* Object3d::Create()
+{
+	Object3d* object3d = new Object3d();
+	if (object3d == nullptr) {
+		return nullptr;
+	}
+
+	if (!object3d->Initialize()) {
+		delete object3d;
+		assert(0);
+		return nullptr;
+	}
+
+	return object3d;
 }

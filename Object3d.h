@@ -79,6 +79,8 @@ public:
 	static void AddCameraPos(Vector3 pos);
 	static void AddCameraTarget(Vector3 pos);
 
+	static Object3d* Create();
+
 private:
 	//デバイス
 	static ID3D12Device* device;
@@ -120,14 +122,14 @@ private:
 	static XMFLOAT3 up;
 
 public:
-	void Initialize();
+	bool Initialize();
 
 	void Update();
 	void Scale(float x, float y, float z);
 	void Rotate(float x, float y, float z);
 	void Trans(float x, float y, float z);
 
-	void Draw(UINT texNum);
+	void Draw();
 
 private:
 	ComPtr<ID3D12Resource> constBuffB0 = nullptr;
