@@ -91,10 +91,10 @@
     <None Include="Resources\Shaders\Basic.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
-    <None Include="..\..\..\OneDrive\ドキュメント\KamataEngineAL4CG3_v2\KamataEngineAL4CG3_v2\DirectXGame\Resources\shaders\SpriteShaderHeader.hlsli">
+    <None Include="Resources\Shaders\Obj.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
-    <None Include="..\..\..\OneDrive\ドキュメント\KamataEngineAL4CG3_v2\KamataEngineAL4CG3_v2\DirectXGame\Resources\shaders\OBJShaderHeader.hlsli">
+    <None Include="Resources\Shaders\Sprite.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
@@ -105,16 +105,16 @@
     <FxCompile Include="Resources\Shaders\BasicVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\..\OneDrive\ドキュメント\KamataEngineAL4CG3_v2\KamataEngineAL4CG3_v2\DirectXGame\Resources\shaders\SpritePixelShader.hlsl">
+    <FxCompile Include="Resources\Shaders\ObjPS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\..\OneDrive\ドキュメント\KamataEngineAL4CG3_v2\KamataEngineAL4CG3_v2\DirectXGame\Resources\shaders\SpriteVertexShader.hlsl">
+    <FxCompile Include="Resources\Shaders\ObjVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\..\OneDrive\ドキュメント\KamataEngineAL4CG3_v2\KamataEngineAL4CG3_v2\DirectXGame\Resources\shaders\OBJPixelShader.hlsl">
+    <FxCompile Include="Resources\Shaders\SpritePS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\..\OneDrive\ドキュメント\KamataEngineAL4CG3_v2\KamataEngineAL4CG3_v2\DirectXGame\Resources\shaders\OBJVertexShader.hlsl">
+    <FxCompile Include="Resources\Shaders\SpriteVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
