@@ -23,6 +23,7 @@ using namespace DirectX;
 #include"Input.h"
 #include "Object3d.h"
 #include "Sprite.h"
+#include "Model.h"
 
 //エイリアステンプレート
 template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -34,9 +35,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<DXCommon> dxCom = std::make_unique<DXCommon>();
 	std::unique_ptr<Input> input = std::make_unique<Input>();
 	std::unique_ptr <Matrix4> matrix4 = std::make_unique <Matrix4>();
-
-	Object3d box;
-	Object3d box2;
 
 	Sprite sprite;
 	Sprite sprite2;
@@ -64,8 +62,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Object3d::StaticInitialize(dxCom->GetDevice());
 
-	box.Initialize();
-	box2.Initialize();
+	Model* model = Model::LoadFromObj("box");
+	Model* model2 = Model::LoadFromObj("skydome");
+
+	Object3d* object3d = Object3d::Create();
+	Object3d* object3d2 = Object3d::Create();
+
+	object3d->SetModel(model);
+	object3d2->SetModel(model2);
 
 	Sprite::StaticInitialize(dxCom->GetDevice());
 
@@ -122,14 +126,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Object3d::AddCameraTarget(Vector3(-1, 0, 0));
 		}
 
+		object3d->Scale(30, 30, 30);
+		object3d->Trans(10, 10, 10);
+		object3d->Rotate(0,-45,45);
+		object3d->Update();
 
-		box.Trans(0.0f, 0.0f, 30.0f);
-		//box.Scale(10, 10, 10);
-		box.Update();
+		object3d2->Scale(5,5,5);
+		object3d2->Update();
 
 		Object3d::PreDraw(dxCom->GetCommandList());
 
-		box.Draw(0);
+		object3d->Draw();
+		object3d2->Draw();
 
 		Object3d::PostDraw();
 
@@ -145,8 +153,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//スプライト
 		Sprite::PreDraw(dxCom->GetCommandList());
 
-		sprite.Draw(0);
-		sprite2.Draw(1);
+		//sprite.Draw(0);
+		//sprite2.Draw(1);
 
 		Sprite::PostDraw();
 
@@ -164,6 +172,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 #pragma region delete処理 
+	delete object3d;
+	delete object3d2;
+
+	delete model;
+	delete model2;
 
 #pragma endregion
 
