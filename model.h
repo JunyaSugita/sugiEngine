@@ -7,6 +7,7 @@
 
 #include "GrovalSetting.h"
 #include "DXCommon.h"
+#include "Vector4.h"
 
 class Model
 {
@@ -25,6 +26,7 @@ public:
 		XMFLOAT3 diffuse;	//ディフューズ影響度
 		XMFLOAT3 specular;	//スペキュラー影響度
 		float alpha;		//アルファ
+		XMFLOAT4 color;
 		std::string textureFilename;	//テクスチャファイル名
 		//コンストラクタ
 		Material() {
@@ -32,6 +34,7 @@ public:
 			diffuse = { 0.0f,0.0f,0.0f };
 			specular = { 0.0f,0.0f,0.0f };
 			alpha = 1.0f;
+			color = { 1,1,1,1 };
 		}
 	};
 
@@ -43,6 +46,7 @@ public:
 		float pad2;			//パディング
 		XMFLOAT3 specular;	//スペキュラー係数
 		float alpha;		//アルファ
+		XMFLOAT4 color;
 	};
 
 
@@ -73,7 +77,7 @@ public:
 
 	void CreateBuffers();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial);
+	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial, XMFLOAT4 color);
 
 private:
 	std::vector<Vertex> vertices;

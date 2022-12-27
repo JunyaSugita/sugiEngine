@@ -55,7 +55,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	//ビュー変換行列
 	//カメラ操作
 	XMMATRIX xmmatView;
-	eye = XMFLOAT3(0, 0, -100);	//視点座標
+	eye = XMFLOAT3(0, 0, -50);	//視点座標
 	target = XMFLOAT3(0, 0, 0);	//注視点座標
 	up = XMFLOAT3(0, 1, 0);		//上方向ベクトル
 	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
@@ -357,7 +357,7 @@ bool Object3d::Initialize()
 	result = constBuffB0->Map(0, nullptr, (void**)&constMapTransform);	//マッピング
 	assert(SUCCEEDED(result));
 
-	
+
 
 	//ワールド変換行列
 	worldTransform.scale = { 1.0f,1.0f,1.0f };
@@ -384,19 +384,19 @@ void Object3d::Update()
 	constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
 }
 
-void Object3d::Scale(float x, float y, float z)
+void Object3d::Scale(Vector3 scale)
 {
-	worldTransform.scale = { Vector3(x,y,z) };
+	worldTransform.scale = scale;
 }
 
-void Object3d::Rotate(float x, float y, float z)
+void Object3d::Rotate(Vector3 rot)
 {
-	worldTransform.rotation = { Vector3(x,y,z) };
+	worldTransform.rotation = rot;
 }
 
-void Object3d::Trans(float x, float y, float z)
+void Object3d::Trans(Vector3 pos)
 {
-	worldTransform.trans = { Vector3(x,y,z) };
+	worldTransform.trans = pos;
 }
 
 void Object3d::Draw()
@@ -410,8 +410,8 @@ void Object3d::Draw()
 
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
-	
-	model->Draw(cmdList, 1);
+
+	model->Draw(cmdList, 1, color_);
 }
 
 void Object3d::SetCameraPos(Vector3 pos) {

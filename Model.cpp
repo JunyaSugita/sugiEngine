@@ -295,10 +295,13 @@ void Model::CreateBuffers()
 	constMap1->diffuse = material.diffuse;
 	constMap1->specular = material.specular;
 	constMap1->alpha = material.alpha;
+	constMap1->color = { 1,1,1,1 };
 }
 
-void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial)
+void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial, XMFLOAT4 color)
 {
+	constMap1->color = color;
+
 	// 頂点バッファビューの設定コマンド
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 
