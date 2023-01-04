@@ -8,6 +8,7 @@ public:
 	virtual void Update(Input* input) = 0;
 	virtual void Draw() = 0;
 	virtual void SpriteDraw() = 0;
+	virtual void Delete() = 0;
 
 };
 

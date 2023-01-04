@@ -120,6 +120,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region delete処理 
 	delete input;
+	gameM->Delete();
 #pragma endregion
 
 	return 0;

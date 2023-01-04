@@ -18,7 +18,7 @@ public:
 	void Update(Input* input);
 	void Draw();
 	void SpriteDraw();
-
+	void Delete();
 	
 };
 

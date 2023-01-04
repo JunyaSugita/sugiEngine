@@ -16,6 +16,7 @@ public:
 	void Update(Input* input) override;
 	void Draw() override;
 	void SpriteDraw() override;
+	void Delete() override;
 
 public:
 
@@ -25,6 +26,6 @@ private:
 	Sprite sprite;
 
 	std::unique_ptr <Player> player_;
-	std::unique_ptr <Map> map_;
+	Map* map_;
 };
 

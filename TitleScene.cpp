@@ -21,3 +21,7 @@ void TitleScene::SpriteDraw()
 {
 
 }
+
+void TitleScene::Delete()
+{
+}

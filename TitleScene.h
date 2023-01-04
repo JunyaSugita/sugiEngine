@@ -13,6 +13,7 @@ public:
 	void Update(Input* input) override;
 	void Draw() override;
 	void SpriteDraw() override;
+	void Delete() override;
 
 public:
 

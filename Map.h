@@ -9,12 +9,16 @@ public:
 	void Update();
 	void Draw();
 
+	int GetMap(int mapX, int mapY);
 private:
+	static const int mapX = 37;
+	static const int mapY = 21;
+
 	//モデルデータ
 	Model* modelBlock;
-	Object3d* objectBlock_[20][30];
+	Object3d* objectBlock_[mapY][mapX];
 
-	WorldTransform worldTransform_[20][30];
-	int map_[20][30];
+	WorldTransform worldTransform_[mapY][mapX];
+	int map_[mapY][mapX];
 };
 
