@@ -5,6 +5,13 @@
 #include "Input.h"
 #include "Map.h"
 
+enum {
+	LT,
+	LB,
+	RT,
+	RB
+};
+
 class Player
 {
 public:
@@ -44,5 +51,10 @@ private:
 	Vector2 LB_;
 	Vector2 RT_;
 	Vector2 RB_;
+
+	WorldTransform trans_[4];
+
+	//ÉvÉåÉCÉÑÅ[ê∂ë∂
+	bool isDead_;
 };
 

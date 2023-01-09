@@ -13,6 +13,7 @@ void Player::Initialize()
 
 	speed_ = 0.5f;
 	jumpPow_ = 0.0f;
+
 	isJump_ = false;
 
 	//残像
@@ -30,11 +31,16 @@ void Player::Initialize()
 
 void Player::Update(Input* input, Map* map)
 {
+	trans_[LT].trans = Vector3(player_.trans.x - 0.5f, player_.trans.y + 0.5f, 0);	//LT
+	trans_[LB].trans = Vector3(player_.trans.x - 0.5f, player_.trans.y - 1.5f, 0);	//LB
+	trans_[RT].trans = Vector3(player_.trans.x + 1.5f, player_.trans.y + 0.5f, 0);	//RT
+	trans_[RB].trans = Vector3(player_.trans.x + 1.5f, player_.trans.y - 1.5f, 0);	//RB
+
 	//ジャンプ(押す長さで高さ調整)
-	if (input->TriggerKey(DIK_SPACE) && isJump_ == false) {
-		jumpPow_ += 0.4f;
+	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_A)) && isJump_ == false) {
+		jumpPow_ += 0.6f;
 	}
-	if (input->PushKey(DIK_SPACE) && isJump_ == false) {
+	if ((input->PushKey(DIK_SPACE) || input->PushButton(XINPUT_GAMEPAD_A)) && isJump_ == false) {
 		if (jumpPow_ < 1.4f) {
 			jumpPow_ += 0.2f;
 		}
@@ -42,49 +48,193 @@ void Player::Update(Input* input, Map* map)
 			isJump_ = true;
 		}
 	}
-	if (input->ReleaseKey(DIK_SPACE) && isJump_ == false) {
+	if ((input->ReleaseKey(DIK_SPACE) || input->ReleaseButton(XINPUT_GAMEPAD_A)) && isJump_ == false) {
 		isJump_ = true;
 		if (jumpPow_ < 0.4f) {
 			jumpPow_ += 0.5f;
 		}
 	}
 
-	//ダッシュ
-	if (input->TriggerKey(DIK_LSHIFT) && isDash_ == false) {
-		dash_ = 15;
-		jumpPow_ = 0;
-		isDash_ = true;
-		way_ = { 0,0,0 };
-
-		//方向
-		if (input->PushKey(DIK_A)) {
-			way_.x = -1;
-		}
-		if (input->PushKey(DIK_D)) {
-			way_.x = 1;
-		}
-		if (input->PushKey(DIK_S)) {
-			way_.y = -1;
-		}
-		if (input->PushKey(DIK_W)) {
-			way_.y = 1;
-		}
-	}
 	//ジャンプしてたらだんだん上昇力減衰
 	jumpPow_ -= 0.05f;
 	if (jumpPow_ < 0) {
 		jumpPow_ = 0;
 	}
 
+	//重力とジャンプ力でプレイヤーを仮移動
+	if (isGrab_ == false) {
+		for (int i = 0; i < 4; i++) {
+			trans_[i].trans.y += GRAVITY + jumpPow_;
+		}
+	}
+
+	//床の判定
+	if (map->GetMap((trans_[LB].trans.x + 36) / 2, (trans_[LB].trans.y - 20) * -1 / 2) == 1) {
+		if (input->PushKey(DIK_SPACE) != true) {
+			isJump_ = false;
+			isDash_ = false;
+		}
+		for (int i = 0; i < 5; i++) {
+			map->SetItemUse(i, false);
+		}
+		for (int i = 0; i < 4; i++) {
+			if (isGrab_ == false) {
+				trans_[i].trans.y -= GRAVITY + jumpPow_;
+			}
+		}
+	}
+	else if (map->GetMap((trans_[RB].trans.x + 36) / 2, (trans_[RB].trans.y - 20) * -1 / 2) == 1) {
+		if (input->PushKey(DIK_SPACE) != true) {
+			isJump_ = false;
+			isDash_ = false;
+		}
+		for (int i = 0; i < 5; i++) {
+			map->SetItemUse(i, false);
+		}
+		for (int i = 0; i < 4; i++) {
+			if (isGrab_ == false) {
+				trans_[i].trans.y -= GRAVITY + jumpPow_;
+			}
+		}
+	}
+	//天井の判定
+	else if(map->GetMap((trans_[LT].trans.x + 36) / 2, (trans_[LT].trans.y - 20) * -1 / 2) == 1){
+		jumpPow_ = 0;
+		isJump_ = true;
+		if (isGrab_ == false) {
+			for (int i = 0; i < 4; i++) {
+				trans_[i].trans.y -= GRAVITY + jumpPow_;
+			}
+		}
+	}
+	else if (map->GetMap((trans_[RT].trans.x + 36) / 2, (trans_[RT].trans.y - 20) * -1 / 2) == 1) {
+		jumpPow_ = 0;
+		isJump_ = true;
+		if (isGrab_ == false) {
+			for (int i = 0; i < 4; i++) {
+				trans_[i].trans.y -= GRAVITY + jumpPow_;
+			}
+		}
+	}
+	else {
+		if (dash_ == false && isGrab_ == false) {
+			player_.trans.y += GRAVITY + jumpPow_;
+		}
+	}
+
+	//ダッシュ
+	if ((input->TriggerKey(DIK_LSHIFT) || input->TriggerButton(XINPUT_GAMEPAD_X)) && isDash_ == false) {
+		dash_ = 15;
+		jumpPow_ = 0;
+		isDash_ = true;
+		way_ = { 0,0,0 };
+		int count = 0;
+		//方向
+		if (input->PushKey(DIK_A)) {
+			way_.x = -1;
+			count++;
+		}
+		else if (input->PushKey(DIK_D)) {
+			way_.x = 1;
+			count++;
+		}
+		if (input->PushKey(DIK_S)) {
+			way_.y = -1;
+			count++;
+		}
+		else if (input->PushKey(DIK_W)) {
+			count++;
+			way_.y = 1;
+		}
+		if (count == 2) {
+			way_ *= 0.7;
+		}
+
+
+		if (input->GetLSteckX() != 0 || input->GetLSteckY() != 0) {
+			Vector3 angle = { 0,0,0 };
+			angle.x = input->GetLSteckX();
+			angle.y = input->GetLSteckY();
+			way_ = angle.normalize();
+		}
+	}
+
+	isGrab_ = false;
+	//左右移動
+	if (dash_ == false) {
+		if (input->PushKey(DIK_A) || input->GetLSteckX() < 0) {
+			for (int i = 0; i < 4; i++) {
+				trans_[i].trans.x -= speed_;
+			}
+			if (map->GetMap((trans_[LT].trans.x + 36) / 2, (trans_[LT].trans.y - 20) * -1 / 2) == 1) {
+				if (input->PushKey(DIK_LCONTROL) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+					isGrab_ = true;
+					if (input->PushKey(DIK_W) || input->GetLSteckY() > 0) {
+						player_.trans.y += 0.2f;
+					}
+					else if (input->PushKey(DIK_S) || input->GetLSteckY() < 0) {
+						player_.trans.y -= 0.2f;
+					}
+				}
+			}
+			else if (map->GetMap((trans_[LB].trans.x + 36) / 2, (trans_[LB].trans.y - 20) * -1 / 2) == 1) {
+
+			}
+			else {
+				player_.trans.x -= speed_;
+			}
+		}
+		else if (input->PushKey(DIK_D) || input->GetLSteckX() > 0) {
+			for (int i = 0; i < 4; i++) {
+				trans_[i].trans.x += speed_;
+			}
+			if (map->GetMap((trans_[RT].trans.x + 36) / 2, (trans_[RT].trans.y - 20) * -1 / 2) == 1) {
+				if (input->PushKey(DIK_LCONTROL) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+					isGrab_ = true;
+					if (input->PushKey(DIK_W) || input->GetLSteckY() > 0) {
+						player_.trans.y += 0.2f;
+					}
+					else if (input->PushKey(DIK_S) || input->GetLSteckY() < 0) {
+						player_.trans.y -= 0.2f;
+					}
+				}
+			}
+			else if (map->GetMap((trans_[RB].trans.x + 36) / 2, (trans_[RB].trans.y - 20) * -1 / 2) == 1) {
+
+			}
+			else {
+				player_.trans.x += speed_;
+			}
+		}
+	}
+
 	//ダッシュ中の処理
 	if (dash_ != 0) {
 		dash_--;
-		if (way_.x == 0 || way_.y == 0) {
-			player_.trans += way_;
+		trans_[LT].trans = Vector3(player_.trans.x - 0.5f, player_.trans.y + 0.5f, 0);	//LT
+		trans_[LB].trans = Vector3(player_.trans.x - 0.5f, player_.trans.y - 1.5f, 0);	//LB
+		trans_[RT].trans = Vector3(player_.trans.x + 1.5f, player_.trans.y + 0.5f, 0);	//RT
+		trans_[RB].trans = Vector3(player_.trans.x + 1.5f, player_.trans.y - 1.5f, 0);	//RB
+		for (int i = 0; i < 4; i++) {
+			trans_[i].trans += way_;
+		}
+
+		if (map->GetMap((trans_[LT].trans.x + 36) / 2, (trans_[LT].trans.y - 20) * -1 / 2) == 1) {
+			dash_ = 0;
+		}
+		else if (map->GetMap((trans_[LB].trans.x + 36) / 2, (trans_[LB].trans.y - 20) * -1 / 2) == 1) {
+			dash_ = 0;
+		}
+		else if (map->GetMap((trans_[RT].trans.x + 36) / 2, (trans_[RT].trans.y - 20) * -1 / 2) == 1) {
+			dash_ = 0;
+		}
+		else if (map->GetMap((trans_[RB].trans.x + 36) / 2, (trans_[RB].trans.y - 20) * -1 / 2) == 1) {
+			dash_ = 0;
 		}
 		else {
-			player_.trans += way_ * 0.7f;
+			player_.trans += way_;
 		}
+		
 		if (dash_ == 0) {
 			if (way_.y > 0) {
 				jumpPow_ = 1.0f;
@@ -98,85 +248,16 @@ void Player::Update(Input* input, Map* map)
 		}
 		player_.trans.y -= 0.01f;
 	}
-	//ダッシュして無かったら
-	else
-	{
-		if (input->PushKey(DIK_A)) {
-			player_.trans.x -= speed_;
-			LT_ = Vector2(player_.trans.x - 1.0f, player_.trans.y + 2.0f);
-			LB_ = Vector2(player_.trans.x - 1.0f, player_.trans.y - 2.0f);
-			if (map->GetMap((LT_.x + 37) / 2, 10 - LT_.y / 2) == 1) {
-				player_.trans.x += speed_;
-				isJump_ = false;
-				if (input->PushKey(DIK_LCONTROL)) {
-					isGrab_ = true;
-					if (input->PushKey(DIK_W)) {
-						player_.trans.y += 0.2f;
-					}
-					else if(input->PushKey(DIK_S)){
-						player_.trans.y -= 0.2f;
-					}
-				}
-			}
-			else if (map->GetMap((LB_.x + 37) / 2, (10 - LB_.y / 2) - 1) == 1) {
-				player_.trans.x += speed_;
-				isJump_ = false;
-			}
-		}
-		if (input->PushKey(DIK_D)) {
-			player_.trans.x += speed_;
-			RT_ = Vector2(player_.trans.x + 1.0f, player_.trans.y + 2.0f);
-			RB_ = Vector2(player_.trans.x + 1.0f, player_.trans.y - 2.0f);
-			if (map->GetMap((RT_.x + 37) / 2, 10 - RT_.y / 2) == 1) {
-				player_.trans.x -= speed_;
-				isJump_ = false;
-				if (input->PushKey(DIK_LCONTROL)) {
-					isGrab_ = true;
-					if (input->PushKey(DIK_W)) {
-						player_.trans.y += 0.2f;
-					}
-					else if (input->PushKey(DIK_S)) {
-						player_.trans.y -= 0.2f;
-					}
-				}
-			}
-			else if (map->GetMap((RB_.x + 37) / 2, (10 - RB_.y / 2) - 1) == 1) {
-				player_.trans.x -= speed_;
-				isJump_ = false;
-			}
-		}
 
-		if (isGrab_ == false) {
-			player_.trans.y += GRAVITY + jumpPow_;
+	//残像
+	for (int i = 0; i < CONST_SHADOW; i++) {
+		shadowAlpha_[i] -= 0.05f;
+		if (shadowAlpha_[i] < 0.0f) {
+			shadowAlpha_[i] = 0.0f;
 		}
-		isGrab_ = false;
-	}
-
-	//床(仮)
-	if (player_.trans.y < -20) {
-		player_.trans.y = -20;
-		if (input->PushKey(DIK_SPACE) != true) {
-			isJump_ = false;
-			isDash_ = false;
-		}
-	}
-
-	LB_ = Vector2(player_.trans.x - 1.0f, player_.trans.y - 2.0f);
-	RB_ = Vector2(player_.trans.x + 1.0f, player_.trans.y - 2.0f);
-
-	if (map->GetMap((LB_.x + 37) / 2, 10 - LB_.y / 2) == 1) {
-		player_.trans.y = LB_.y + 2.5f;
-		if (input->PushKey(DIK_SPACE) != true) {
-			isJump_ = false;
-			isDash_ = false;
-		}
-	}
-	else if (map->GetMap((RB_.x + 37) / 2, 10 - RB_.y / 2) == 1) {
-		player_.trans.y = LB_.y + 2.5f;
-		if (input->PushKey(DIK_SPACE) != true) {
-			isJump_ = false;
-			isDash_ = false;
-		}
+		objectShadow_[i]->SetColor(Vector4(0.0f, 0.0f, 1.0f, shadowAlpha_[i]));
+		objectShadow_[i]->SetWorldTransform(shadow_[i]);
+		objectShadow_[i]->Update();
 	}
 
 	//プレイヤーの色
@@ -190,32 +271,34 @@ void Player::Update(Input* input, Map* map)
 		objectPlayer_->SetColor(Vector4(1.0f, 1.0f, 0.0f, 1.0f));
 	}
 
-	////壁(仮)
-	//if (player_.trans.x < -34) {
-	//	player_.trans.x = -34;
-	//}
-	//if (player_.trans.x > 34) {
-	//	player_.trans.x = 34;
-	//}
-
-	//プレイヤーの場所
+	//プレイヤーの場所をモデルにセット
 	objectPlayer_->SetWorldTransform(player_);
 	objectPlayer_->Update();
-	//残像
-	for (int i = 0; i < CONST_SHADOW; i++) {
-		shadowAlpha_[i] -= 0.05f;
-		if (shadowAlpha_[i] < 0.0f) {
-			shadowAlpha_[i] = 0.0f;
+
+	//アイテムとの判定
+	for (int i = 0; i < 5; i++) {
+		Vector3 len = map->GetItemPos(i) - player_.trans;
+		if (len.length() > -1.5f && len.length() < 1.5f) {
+			map->SetItemUse(i, true);
+			isDash_ = false;
 		}
-		objectShadow_[i]->SetColor(Vector4(0.0f, 0.0f, 1.0f, shadowAlpha_[i]));
-		objectShadow_[i]->SetWorldTransform(shadow_[i]);
-		objectShadow_[i]->Update();
+	}
+	//トラップとの判定
+	for (int i = 0; i < 50; i++) {
+		Vector3 len = map->GetTrapPos(i) - player_.trans;
+		if (len.length() > -2 && len.length() < 2) {
+			isDead_ = true;
+			player_.trans = map->GetRespornPoint();
+			isDead_ = false;
+		}
 	}
 }
 
 void Player::Draw()
 {
-	objectPlayer_->Draw();
+	if (isDead_ == false) {
+		objectPlayer_->Draw();
+	}
 	for (int i = 0; i < CONST_SHADOW; i++) {
 		objectShadow_[i]->Draw();
 	}
@@ -229,7 +312,6 @@ void Player::Delete()
 		delete modelShadow_[i];
 		delete objectShadow_[i];
 	}
-
 }
 
 void Player::SetShadow(Vector3 pos)
