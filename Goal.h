@@ -2,14 +2,13 @@
 #include "Model.h"
 #include "Object3d.h"
 
-class Trap
+
+class Goal
 {
 public:
 	void Initialize();
 	void Update();
 	void Draw();
-
-	void InitializePos();
 
 	bool GetIsSet() {
 		return isSet_;
@@ -29,8 +28,8 @@ public:
 
 private:
 	//モデルデータ
-	Model* modelTrap_;
-	Object3d* objectTrap_;
+	Model* modelGoal_;
+	Object3d* objectGoal_;
 
 	bool isSet_ = false;
 

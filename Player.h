@@ -42,6 +42,10 @@ private:
 	bool isDash_;
 	bool isGrab_;
 
+	bool isJumpNow = false;
+	int isWallJumpL_ = 0;
+	int isWallJumpR_ = 0;
+
 	//残像
 	WorldTransform shadow_[CONST_SHADOW];
 	float shadowAlpha_[CONST_SHADOW];
@@ -56,5 +60,10 @@ private:
 
 	//プレイヤー生存
 	bool isDead_;
+	//ゴール判定
+	bool isGoal_;
+
+	//マップ
+	int mapNum = 0;
 };
 

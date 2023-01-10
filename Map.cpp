@@ -13,14 +13,14 @@ Map::~Map()
 void Map::Initialize()
 {
 	//オブジェクト
-	modelBlock = Model::LoadFromObj("box");
+	modelBlock = Model::LoadFromObj("block");
 	for (int i = 0; i < mapY; i++) {
 		for (int j = 0; j < mapX; j++) {
 			objectBlock_[i][j] = Object3d::Create();
 			objectBlock_[i][j]->SetModel(modelBlock);
-			objectBlock_[i][j]->SetColor(Vector4(0, 0, 0, 1));
+			objectBlock_[i][j]->SetColor(Vector4(1, 1, 1, 1));
 
-			worldTransform_[i][j].scale = { 10,10,10 };
+			worldTransform_[i][j].scale = { 1,1,1 };
 		}
 	}
 
@@ -34,8 +34,11 @@ void Map::Initialize()
 		trap_[i] = new Trap();
 		trap_[i]->Initialize();
 	}
-	
-	SetMap();
+
+	goal_ = new Goal();
+	goal_->Initialize();
+
+	SetMap(0);
 }
 
 void Map::Update()
@@ -50,6 +53,7 @@ void Map::Update()
 			trap_[i]->Update();
 		}
 	}
+	goal_->Update();
 }
 
 void Map::Draw()
@@ -69,6 +73,7 @@ void Map::Draw()
 			trap_[i]->Draw();
 		}
 	}
+	goal_->Draw();
 }
 
 int Map::GetMap(int mapX, int mapY)
@@ -86,21 +91,37 @@ Vector3 Map::GetTrapPos(int index)
 	return trap_[index]->GetPos();
 }
 
-void Map::SetMap()
+Vector3 Map::GetGoalPos()
+{
+	return goal_->GetPos();
+}
+
+void Map::SetMap(int index)
 {
 	//マップの代入
 	for (int i = 0; i < mapY; i++) {
 		for (int j = 0; j < mapX; j++) {
-			map_[i][j] = map1[i][j];
+			map_[i][j] = map[index][i][j];
 		}
 	}
 
+	//アイテムの初期化
+	for (int i = 0; i < ITEM_CONST; i++) {
+		item_[i]->InitializePos();
+		item_[i]->SetIsSet(false);
+	}
+	//トラップの初期化
+	for (int i = 0; i < TRAP_CONST; i++) {
+		trap_[i]->InitializePos();
+		trap_[i]->SetIsSet(false);
+	}
 	//マップの設置
 	for (int i = 0; i < mapY; i++) {
 		for (int j = 0; j < mapX; j++) {
 			if (map_[i][j] == 1) {
 				worldTransform_[i][j].trans.y = (i - 10) * -2;
 				worldTransform_[i][j].trans.x = (j - 18) * 2;
+				worldTransform_[i][j].trans.z = 0;
 			}
 			else if (map_[i][j] == 2) {
 				for (int k = 0; k < ITEM_CONST; k++) {
@@ -128,6 +149,14 @@ void Map::SetMap()
 				worldTransform_[i][j].trans.x = (j - 18) * 2;
 				worldTransform_[i][j].trans.z = -1000;
 			}
+			else if (map_[i][j] == 5) {
+				goal_->SetPos({ float((j - 18) * 2) , float((i - 10) * -2),0 });
+				goal_->SetIsSet(true);
+
+				worldTransform_[i][j].trans.y = (i - 10) * -2;
+				worldTransform_[i][j].trans.x = (j - 18) * 2;
+				worldTransform_[i][j].trans.z = -1000;
+			}
 			else {
 				worldTransform_[i][j].trans.y = (i - 10) * -2;
 				worldTransform_[i][j].trans.x = (j - 18) * 2;
@@ -140,7 +169,7 @@ void Map::SetMap()
 		}
 	}
 
-	//マップ0の設置
+	//マップの設置
 	for (int i = 0; i < mapY; i++) {
 		for (int j = 0; j < mapX; j++) {
 			objectBlock_[i][j]->SetWorldTransform(worldTransform_[i][j]);

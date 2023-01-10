@@ -34,10 +34,10 @@ void Input::Update()
 	ZeroMemory(&state_, sizeof(XINPUT_STATE));
 	DWORD dwResult = XInputGetState(0, &state_);
 
-	if (state_.Gamepad.sThumbLX <  20000 && state_.Gamepad.sThumbLX > -20000) {
+	if (state_.Gamepad.sThumbLX <  2000 && state_.Gamepad.sThumbLX > -2000) {
 		state_.Gamepad.sThumbLX = 0;
 	}
-	if (state_.Gamepad.sThumbLY <  20000 && state_.Gamepad.sThumbLY > -20000) {
+	if (state_.Gamepad.sThumbLY <  2000 && state_.Gamepad.sThumbLY > -2000) {
 		state_.Gamepad.sThumbLY = 0;
 	}
 }

@@ -7,9 +7,7 @@ void Trap::Initialize()
 	objectTrap_ = Object3d::Create();
 	objectTrap_->SetModel(modelTrap_);
 
-	worldTransform_.trans = { 0,0,-500 };
-	worldTransform_.scale = { 1,1,1 };
-	worldTransform_.SetWorldMat();
+	InitializePos();
 
 	objectTrap_->SetColor({ 0.1f,0.1f,0.1f,1 });
 }
@@ -24,4 +22,11 @@ void Trap::Update()
 void Trap::Draw()
 {
 	objectTrap_->Draw();
+}
+
+void Trap::InitializePos()
+{
+	worldTransform_.trans = { 0,0,-500 };
+	worldTransform_.scale = { 1,1,1 };
+	worldTransform_.SetWorldMat();
 }

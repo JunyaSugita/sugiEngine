@@ -2,7 +2,9 @@
 
 void TitleScene::Initialize()
 {
-
+	titleTexture_ = Sprite::LoadTexture("titleTex.png");
+	titleSprite_.Initialize(titleTexture_);
+	titleSprite_.Size(400, 200);
 }
 
 void TitleScene::Update(Input* input)
@@ -19,7 +21,7 @@ void TitleScene::Draw()
 
 void TitleScene::SpriteDraw()
 {
-
+	titleSprite_.Draw();
 }
 
 void TitleScene::Delete()

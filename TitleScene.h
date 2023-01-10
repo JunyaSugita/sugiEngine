@@ -18,6 +18,14 @@ public:
 public:
 
 private:
+	//スプライトデータ
+	uint32_t titleTexture_;
+	Sprite titleSprite_;
 
+	uint32_t tutorialTexture_;
+	Sprite tutorialSprite_;
+
+	uint32_t maingameTexture_;
+	Sprite maingameSprite_;
 };
 

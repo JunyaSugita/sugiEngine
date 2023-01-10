@@ -9,6 +9,8 @@ public:
 	void Update();
 	void Draw();
 
+	void InitializePos();
+
 	bool GetIsSet() {
 		return isSet_;
 	}

@@ -31,29 +31,32 @@ void Player::Initialize()
 
 void Player::Update(Input* input, Map* map)
 {
-	trans_[LT].trans = Vector3(player_.trans.x - 0.5f, player_.trans.y + 0.5f, 0);	//LT
-	trans_[LB].trans = Vector3(player_.trans.x - 0.5f, player_.trans.y - 1.5f, 0);	//LB
-	trans_[RT].trans = Vector3(player_.trans.x + 1.5f, player_.trans.y + 0.5f, 0);	//RT
-	trans_[RB].trans = Vector3(player_.trans.x + 1.5f, player_.trans.y - 1.5f, 0);	//RB
+	trans_[LT].trans = Vector3(player_.trans.x - 0.0f, player_.trans.y + 0.0f, 0);	//LT
+	trans_[LB].trans = Vector3(player_.trans.x - 0.0f, player_.trans.y - 1.5f, 0);	//LB
+	trans_[RT].trans = Vector3(player_.trans.x + 2.0f, player_.trans.y + 0.0f, 0);	//RT
+	trans_[RB].trans = Vector3(player_.trans.x + 2.0f, player_.trans.y - 1.5f, 0);	//RB
 
 	//ジャンプ(押す長さで高さ調整)
 	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_A)) && isJump_ == false) {
 		jumpPow_ += 0.6f;
+		isJumpNow = true;
 	}
-	if ((input->PushKey(DIK_SPACE) || input->PushButton(XINPUT_GAMEPAD_A)) && isJump_ == false) {
+	if ((input->PushKey(DIK_SPACE) || input->PushButton(XINPUT_GAMEPAD_A)) && isJumpNow == true) {
 		if (jumpPow_ < 1.4f) {
 			jumpPow_ += 0.2f;
 		}
 		else {
-			isJump_ = true;
+			isJumpNow = false;
 		}
 	}
-	if ((input->ReleaseKey(DIK_SPACE) || input->ReleaseButton(XINPUT_GAMEPAD_A)) && isJump_ == false) {
-		isJump_ = true;
+	if ((input->ReleaseKey(DIK_SPACE) || input->ReleaseButton(XINPUT_GAMEPAD_A)) && isJumpNow == true) {
 		if (jumpPow_ < 0.4f) {
 			jumpPow_ += 0.5f;
 		}
+		isJumpNow = false;
 	}
+
+	isJump_ = true;
 
 	//ジャンプしてたらだんだん上昇力減衰
 	jumpPow_ -= 0.05f;
@@ -73,6 +76,8 @@ void Player::Update(Input* input, Map* map)
 		if (input->PushKey(DIK_SPACE) != true) {
 			isJump_ = false;
 			isDash_ = false;
+			isWallJumpL_ = -1;
+			isWallJumpR_ = -1;
 		}
 		for (int i = 0; i < 5; i++) {
 			map->SetItemUse(i, false);
@@ -158,27 +163,27 @@ void Player::Update(Input* input, Map* map)
 			way_ = angle.normalize();
 		}
 	}
-
+	trans_[LT].trans = Vector3(player_.trans.x - 0.0f, player_.trans.y + 0.0f, 0);	//LT
+	trans_[LB].trans = Vector3(player_.trans.x - 0.0f, player_.trans.y - 1.5f, 0);	//LB
+	trans_[RT].trans = Vector3(player_.trans.x + 2.0f, player_.trans.y + 0.0f, 0);	//RT
+	trans_[RB].trans = Vector3(player_.trans.x + 2.0f, player_.trans.y - 1.5f, 0);	//RB
 	isGrab_ = false;
 	//左右移動
-	if (dash_ == false) {
+	if (dash_ == false && isWallJumpL_ <= 0 && isWallJumpR_ <= 0) {
 		if (input->PushKey(DIK_A) || input->GetLSteckX() < 0) {
 			for (int i = 0; i < 4; i++) {
 				trans_[i].trans.x -= speed_;
 			}
 			if (map->GetMap((trans_[LT].trans.x + 36) / 2, (trans_[LT].trans.y - 20) * -1 / 2) == 1) {
-				if (input->PushKey(DIK_LCONTROL) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) {
-					isGrab_ = true;
-					if (input->PushKey(DIK_W) || input->GetLSteckY() > 0) {
-						player_.trans.y += 0.2f;
-					}
-					else if (input->PushKey(DIK_S) || input->GetLSteckY() < 0) {
-						player_.trans.y -= 0.2f;
+				if (input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
+					if (isWallJumpL_ == -1 && isJump_ == true) {
+						isWallJumpL_ = 10;
+						jumpPow_ = 1.5f;
+						isWallJumpR_ = -1;
 					}
 				}
 			}
 			else if (map->GetMap((trans_[LB].trans.x + 36) / 2, (trans_[LB].trans.y - 20) * -1 / 2) == 1) {
-
 			}
 			else {
 				player_.trans.x -= speed_;
@@ -189,18 +194,15 @@ void Player::Update(Input* input, Map* map)
 				trans_[i].trans.x += speed_;
 			}
 			if (map->GetMap((trans_[RT].trans.x + 36) / 2, (trans_[RT].trans.y - 20) * -1 / 2) == 1) {
-				if (input->PushKey(DIK_LCONTROL) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) {
-					isGrab_ = true;
-					if (input->PushKey(DIK_W) || input->GetLSteckY() > 0) {
-						player_.trans.y += 0.2f;
-					}
-					else if (input->PushKey(DIK_S) || input->GetLSteckY() < 0) {
-						player_.trans.y -= 0.2f;
+				if (input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
+					if (isWallJumpR_ == -1 && isJump_ == true) {
+						isWallJumpR_ = 10;
+						jumpPow_ = 1.5f;
+						isWallJumpL_ = -1;
 					}
 				}
 			}
 			else if (map->GetMap((trans_[RB].trans.x + 36) / 2, (trans_[RB].trans.y - 20) * -1 / 2) == 1) {
-
 			}
 			else {
 				player_.trans.x += speed_;
@@ -211,10 +213,10 @@ void Player::Update(Input* input, Map* map)
 	//ダッシュ中の処理
 	if (dash_ != 0) {
 		dash_--;
-		trans_[LT].trans = Vector3(player_.trans.x - 0.5f, player_.trans.y + 0.5f, 0);	//LT
-		trans_[LB].trans = Vector3(player_.trans.x - 0.5f, player_.trans.y - 1.5f, 0);	//LB
-		trans_[RT].trans = Vector3(player_.trans.x + 1.5f, player_.trans.y + 0.5f, 0);	//RT
-		trans_[RB].trans = Vector3(player_.trans.x + 1.5f, player_.trans.y - 1.5f, 0);	//RB
+		trans_[LT].trans = Vector3(player_.trans.x - 0.0f, player_.trans.y + 0.0f, 0);	//LT
+		trans_[LB].trans = Vector3(player_.trans.x - 0.0f, player_.trans.y - 1.5f, 0);	//LB
+		trans_[RT].trans = Vector3(player_.trans.x + 2.0f, player_.trans.y + 0.0f, 0);	//RT
+		trans_[RB].trans = Vector3(player_.trans.x + 2.0f, player_.trans.y - 1.5f, 0);	//RB
 		for (int i = 0; i < 4; i++) {
 			trans_[i].trans += way_;
 		}
@@ -249,6 +251,53 @@ void Player::Update(Input* input, Map* map)
 		player_.trans.y -= 0.01f;
 	}
 
+	//壁キック
+	if (isWallJumpL_ > 0) {
+		Vector3 vec = { 0.7f,0,0 };
+		isWallJumpL_--;
+		for (int i = 0; i < 4; i++) {
+			trans_[i].trans += vec;
+		}
+		if (map->GetMap((trans_[LT].trans.x + 36) / 2, (trans_[LT].trans.y - 20) * -1 / 2) == 1) {
+			isWallJumpL_ = 0;
+		}
+		else if (map->GetMap((trans_[LB].trans.x + 36) / 2, (trans_[LB].trans.y - 20) * -1 / 2) == 1) {
+			isWallJumpL_ = 0;
+		}
+		else if (map->GetMap((trans_[RT].trans.x + 36) / 2, (trans_[RT].trans.y - 20) * -1 / 2) == 1) {
+			isWallJumpL_ = 0;
+		}
+		else if (map->GetMap((trans_[RB].trans.x + 36) / 2, (trans_[RB].trans.y - 20) * -1 / 2) == 1) {
+			isWallJumpL_ = 0;
+		}
+		else {
+			player_.trans += vec;
+		}
+	}
+	if (isWallJumpR_ > 0) {
+		Vector3 vec = { -0.7f,0,0 };
+		isWallJumpR_--;
+		for (int i = 0; i < 4; i++) {
+			trans_[i].trans += vec;
+		}
+		if (map->GetMap((trans_[LT].trans.x + 36) / 2, (trans_[LT].trans.y - 20) * -1 / 2) == 1) {
+			isWallJumpR_ = 0;
+		}
+		else if (map->GetMap((trans_[LB].trans.x + 36) / 2, (trans_[LB].trans.y - 20) * -1 / 2) == 1) {
+			isWallJumpR_ = 0;
+		}
+		else if (map->GetMap((trans_[RT].trans.x + 36) / 2, (trans_[RT].trans.y - 20) * -1 / 2) == 1) {
+			isWallJumpR_ = 0;
+		}
+		else if (map->GetMap((trans_[RB].trans.x + 36) / 2, (trans_[RB].trans.y - 20) * -1 / 2) == 1) {
+			isWallJumpR_ = 0;
+		}
+		else {
+			player_.trans += vec;
+		}
+	}
+
+
 	//残像
 	for (int i = 0; i < CONST_SHADOW; i++) {
 		shadowAlpha_[i] -= 0.05f;
@@ -278,7 +327,7 @@ void Player::Update(Input* input, Map* map)
 	//アイテムとの判定
 	for (int i = 0; i < 5; i++) {
 		Vector3 len = map->GetItemPos(i) - player_.trans;
-		if (len.length() > -1.5f && len.length() < 1.5f) {
+		if (len.length() > -2 && len.length() < 2) {
 			map->SetItemUse(i, true);
 			isDash_ = false;
 		}
@@ -292,6 +341,16 @@ void Player::Update(Input* input, Map* map)
 			isDead_ = false;
 		}
 	}
+	//ゴールの判定
+	Vector3 len = map->GetGoalPos() - player_.trans;
+	if (len.length() > -2 && len.length() < 2) {
+		isGoal_ = true;
+		mapNum++;
+		map->SetMap(mapNum);
+		player_.trans = map->GetRespornPoint();
+		isGoal_ = false;
+	}
+
 }
 
 void Player::Draw()
