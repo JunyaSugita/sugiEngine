@@ -2,15 +2,22 @@
 
 Map::~Map()
 {
+	delete modelBlock;
+	for (int i = 0; i < mapY; i++) {
+		for (int j = 0; j < mapX; j++) {
+			delete objectBlock_[i][j];
+		}
+	}
 	for (int i = 0; i < ITEM_CONST; i++) {
 		delete item_[i];
 	}
 	for (int i = 0; i < TRAP_CONST; i++) {
 		delete trap_[i];
 	}
+	delete goal_;
 }
 
-void Map::Initialize()
+void Map::Initialize(int num)
 {
 	//オブジェクト
 	modelBlock = Model::LoadFromObj("block");
@@ -38,7 +45,70 @@ void Map::Initialize()
 	goal_ = new Goal();
 	goal_->Initialize();
 
-	SetMap(0);
+	SetMap(num);
+
+	//スプライト
+	stageNumTexture_[0] = Sprite::LoadTexture("stage0.png");
+	stageNumSprite_[0].Initialize(stageNumTexture_[0]);
+	stageNumTexture_[1] = Sprite::LoadTexture("stage1.png");
+	stageNumSprite_[1].Initialize(stageNumTexture_[1]);
+	stageNumTexture_[2] = Sprite::LoadTexture("stage2.png");
+	stageNumSprite_[2].Initialize(stageNumTexture_[2]);
+	stageNumTexture_[3] = Sprite::LoadTexture("stage3.png");
+	stageNumSprite_[3].Initialize(stageNumTexture_[3]);
+	stageNumTexture_[4] = Sprite::LoadTexture("stage4.png");
+	stageNumSprite_[4].Initialize(stageNumTexture_[4]);
+	stageNumTexture_[5] = Sprite::LoadTexture("stage5.png");
+	stageNumSprite_[5].Initialize(stageNumTexture_[5]);
+	stageNumTexture_[6] = Sprite::LoadTexture("stage6.png");
+	stageNumSprite_[6].Initialize(stageNumTexture_[6]);
+	stageNumTexture_[7] = Sprite::LoadTexture("stage7.png");
+	stageNumSprite_[7].Initialize(stageNumTexture_[7]);
+	stageNumTexture_[8] = Sprite::LoadTexture("stage8.png");
+	stageNumSprite_[8].Initialize(stageNumTexture_[8]);
+	stageNumTexture_[9] = Sprite::LoadTexture("stage9.png");
+	stageNumSprite_[9].Initialize(stageNumTexture_[9]);
+	stageNumTexture_[10] = Sprite::LoadTexture("stage10.png");
+	stageNumSprite_[10].Initialize(stageNumTexture_[10]);
+	stageNumTexture_[11] = Sprite::LoadTexture("stage11.png");
+	stageNumSprite_[11].Initialize(stageNumTexture_[11]);
+	stageNumTexture_[12] = Sprite::LoadTexture("stage12.png");
+	stageNumSprite_[12].Initialize(stageNumTexture_[12]);
+	stageNumTexture_[13] = Sprite::LoadTexture("stage13.png");
+	stageNumSprite_[13].Initialize(stageNumTexture_[13]);
+	stageNumTexture_[14] = Sprite::LoadTexture("stage14.png");
+	stageNumSprite_[14].Initialize(stageNumTexture_[14]);
+	stageNumTexture_[15] = Sprite::LoadTexture("stage15.png");
+	stageNumSprite_[15].Initialize(stageNumTexture_[15]);
+	stageNumTexture_[16] = Sprite::LoadTexture("stage16.png");
+	stageNumSprite_[16].Initialize(stageNumTexture_[16]);
+	stageNumTexture_[17] = Sprite::LoadTexture("stage17.png");
+	stageNumSprite_[17].Initialize(stageNumTexture_[17]);
+	stageNumTexture_[18] = Sprite::LoadTexture("stage18.png");
+	stageNumSprite_[18].Initialize(stageNumTexture_[18]);
+	stageNumTexture_[19] = Sprite::LoadTexture("stage19.png");
+	stageNumSprite_[19].Initialize(stageNumTexture_[19]);
+	for (int i = 0; i < 20; i++) {
+		stageNumSprite_[i].Size(375,45);
+		stageNumSprite_[i].Pos(50,50);
+	}
+
+	tutorialTexture_[0] = Sprite::LoadTexture("tutorial1.png");
+	tutorialSprite_[0].Initialize(tutorialTexture_[0]);
+	tutorialTexture_[1] = Sprite::LoadTexture("tutorial2.png");
+	tutorialSprite_[1].Initialize(tutorialTexture_[1]);
+	tutorialTexture_[2] = Sprite::LoadTexture("tutorial3.png");
+	tutorialSprite_[2].Initialize(tutorialTexture_[2]);
+	tutorialTexture_[3] = Sprite::LoadTexture("tutorial4.png");
+	tutorialSprite_[3].Initialize(tutorialTexture_[3]);
+	tutorialTexture_[4] = Sprite::LoadTexture("tutorial5.png");
+	tutorialSprite_[4].Initialize(tutorialTexture_[4]);
+
+	for (int i = 0; i < 5; i++) {
+		tutorialSprite_[i].Size(500, 300);
+		tutorialSprite_[i].Pos(390,100);
+	}
+	tutorialSprite_[4].Pos(700, 100);
 }
 
 void Map::Update()
@@ -54,6 +124,13 @@ void Map::Update()
 		}
 	}
 	goal_->Update();
+}
+
+void Map::BackSpriteDraw()
+{
+	if (mapNum_ < 5) {
+		tutorialSprite_[mapNum_].Draw();
+	}
 }
 
 void Map::Draw()
@@ -74,6 +151,11 @@ void Map::Draw()
 		}
 	}
 	goal_->Draw();
+}
+
+void Map::SpriteDraw()
+{
+	stageNumSprite_[mapNum_].Draw();
 }
 
 int Map::GetMap(int mapX, int mapY)
@@ -99,6 +181,8 @@ Vector3 Map::GetGoalPos()
 void Map::SetMap(int index)
 {
 	//マップの代入
+	mapNum_ = index;
+
 	for (int i = 0; i < mapY; i++) {
 		for (int j = 0; j < mapX; j++) {
 			map_[i][j] = map[index][i][j];

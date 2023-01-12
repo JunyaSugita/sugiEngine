@@ -15,8 +15,8 @@ enum {
 class Player
 {
 public:
-	void Initialize();
-	void Update(Input* input,Map* map);
+	void Initialize(int num);
+	int Update(Input* input,Map* map);
 	void Draw();
 	void Delete();
 
@@ -28,8 +28,10 @@ private:
 	static const int CONST_SHADOW = 10;
 	//モデルデータ
 	Model* modelPlayer_;
+	Model* modelPlayer2_;
 	Model* modelShadow_[CONST_SHADOW];
 	Object3d* objectPlayer_;
+	Object3d* objectPlayer2_;
 	Object3d* objectShadow_[CONST_SHADOW];
 
 	//プレイヤーの情報
@@ -59,11 +61,11 @@ private:
 	WorldTransform trans_[4];
 
 	//プレイヤー生存
-	bool isDead_;
+	int isDead_ = 0;
 	//ゴール判定
-	bool isGoal_;
+	int isGoal_ = 0;
 
 	//マップ
-	int mapNum = 0;
+	int mapNum;
 };
 

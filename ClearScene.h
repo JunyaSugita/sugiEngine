@@ -1,15 +1,10 @@
 #pragma once
 #include "ISceneManager.h"
-#include "Model.h"
 #include "Object3d.h"
 #include "Sprite.h"
-#include "Input.h"
 #include "GameManager.h"
 
-#include "Player.h"
-#include "Map.h"
-
-class GameScene : public ISceneManager
+class ClearScene : public ISceneManager
 {
 public:
 	void Initialize(int num) override;
@@ -19,10 +14,7 @@ public:
 	void SpriteDraw() override;
 	void Delete() override;
 
-public:
-
 private:
-	std::unique_ptr <Player> player_;
-	Map* map_;
+	int clearNum_;
 };
 

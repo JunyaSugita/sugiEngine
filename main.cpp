@@ -89,6 +89,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		gameM->Update(input);
 
 		///
+		//背景スプライト
+		///
+		Sprite::PreDraw(dxCom->GetCommandList());
+
+		gameM->BackSpriteDraw();
+
+		Sprite::PostDraw();
+		///
 		//モデル
 		///
 		Object3d::PreDraw(dxCom->GetCommandList());

@@ -1,25 +1,29 @@
 #include "GameScene.h"
 
-void GameScene::Initialize()
+void GameScene::Initialize(int num)
 {
-	catTexture = Sprite::LoadTexture("cat.png");
-	sprite.Initialize(catTexture);
-
 	player_ = std::make_unique <Player>();
-	player_->Initialize();
+	player_->Initialize(num);
 
 	map_ = new Map();
-	map_->Initialize();
+	map_->Initialize(num);
 }
 
 void GameScene::Update(Input* input)
 {
 	map_->Update();
-	player_->Update(input,map_);
 
-	if (input->TriggerKey(DIK_1)) {
-		GameManager::SetTitleScene();
+	int num = player_->Update(input, map_);
+
+	if (num != 0) {
+		GameManager::SetStage(num);
+		GameManager::SetClearScene();
 	}
+}
+
+void GameScene::BackSpriteDraw()
+{
+	map_->BackSpriteDraw();
 }
 
 void GameScene::Draw()
@@ -30,10 +34,12 @@ void GameScene::Draw()
 
 void GameScene::SpriteDraw()
 {
-	sprite.Draw();
+	map_->SpriteDraw();
 }
 
 void GameScene::Delete()
 {
+	player_->Delete();
+
 	delete map_;
 }

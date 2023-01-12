@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="DXCommon.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="ISceneManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="StageSelectScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Trap.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -170,6 +172,7 @@
     <ClCompile Include="WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClearScene.h" />
     <ClInclude Include="DXCommon.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
@@ -185,6 +188,7 @@
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="ISceneManager.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="StageSelectScene.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Trap.h" />
     <ClInclude Include="Vector2.h" />
