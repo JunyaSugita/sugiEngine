@@ -26,6 +26,10 @@ public:
 		worldTransform_.trans = pos;
 	};
 
+	void AddPosY() {
+		worldTransform_.trans.y++;
+	}
+
 private:
 	//モデルデータ
 	Model* modelGoal_;

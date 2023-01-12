@@ -12,8 +12,9 @@
 class GameScene : public ISceneManager
 {
 public:
-	void Initialize() override;
+	void Initialize(int num) override;
 	void Update(Input* input) override;
+	void BackSpriteDraw() override;
 	void Draw() override;
 	void SpriteDraw() override;
 	void Delete() override;
@@ -21,10 +22,6 @@ public:
 public:
 
 private:
-	//スプライトデータ
-	uint32_t catTexture;
-	Sprite sprite;
-
 	std::unique_ptr <Player> player_;
 	Map* map_;
 };

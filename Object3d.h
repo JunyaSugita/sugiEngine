@@ -84,6 +84,10 @@ public:
 		color_.w = color.w;
 	}
 
+	Vector3 GetPos() {
+		return worldTransform.trans;
+	}
+
 private:
 	ComPtr<ID3D12Resource> constBuffB0 = nullptr;
 	ConstBufferDataB0* constMapTransform = nullptr;

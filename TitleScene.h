@@ -9,23 +9,18 @@
 class TitleScene : public ISceneManager
 {
 public:
-	void Initialize() override;
+	void Initialize(int num) override;
 	void Update(Input* input) override;
+	void BackSpriteDraw() override;
 	void Draw() override;
 	void SpriteDraw() override;
 	void Delete() override;
-
-public:
 
 private:
 	//スプライトデータ
 	uint32_t titleTexture_;
 	Sprite titleSprite_;
-
-	uint32_t tutorialTexture_;
-	Sprite tutorialSprite_;
-
-	uint32_t maingameTexture_;
-	Sprite maingameSprite_;
+	uint32_t pressTexture_;
+	Sprite pressSprite_;
 };
 
