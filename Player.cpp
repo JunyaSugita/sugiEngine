@@ -34,6 +34,9 @@ void Player::Initialize(int num)
 	}
 
 	mapNum = num;
+
+	effectM_ = new EffectManager();
+	effectM_->Initialize();
 }
 
 int Player::Update(Input* input, Map* map)
@@ -334,14 +337,16 @@ int Player::Update(Input* input, Map* map)
 			if (len.length() > -2 && len.length() < 2) {
 				map->SetItemUse(i, true);
 				isDash_ = false;
+				effectM_->BurstGenerate(player_.trans, 10, { 0,0.8f,0.8f,1 });
 			}
 		}
 		//トラップとの判定
 		for (int i = 0; i < 50; i++) {
 			Vector3 len = map->GetTrapPos(i) - player_.trans;
 			if (len.length() > -2 && len.length() < 2) {
-				isDead_ = 120;
+				isDead_ = 80;
 				dash_ = 0;
+				effectM_->BurstGenerate(player_.trans, 10, { 0.8f,0,0,1 });
 			}
 		}
 		//ゴールの判定
@@ -353,6 +358,13 @@ int Player::Update(Input* input, Map* map)
 	}
 	else if (isGoal_ != 0) {
 		isGoal_--;
+		
+		if (isGoal_ == 100) {
+			effectM_->BurstGenerate(map->GetGoalPos(), 10, {1.1f,1.1f,1.1f,1});
+		}
+		else {
+			map->AddGoalPosY();
+		}
 		if (isGoal_ == 0) {
 			mapNum++;
 			if (mapNum % 5 == 0) {
@@ -370,21 +382,25 @@ int Player::Update(Input* input, Map* map)
 			player_.trans = map->GetRespornPoint();
 		}
 	}
+	effectM_->Update();
 
 	return 0;
 }
 
 void Player::Draw()
 {
-	if (isDash_ == false) {
-		objectPlayer_->Draw();
-	}
-	else {
-		objectPlayer2_->Draw();
+	if (isDead_ % 4 != 1) {
+		if (isDash_ == false) {
+			objectPlayer_->Draw();
+		}
+		else {
+			objectPlayer2_->Draw();
+		}
 	}
 	for (int i = 0; i < CONST_SHADOW; i++) {
 		objectShadow_[i]->Draw();
 	}
+	effectM_->Draw();
 }
 
 void Player::Delete()
@@ -397,6 +413,7 @@ void Player::Delete()
 		delete modelShadow_[i];
 		delete objectShadow_[i];
 	}
+	delete effectM_;
 }
 
 void Player::SetShadow(Vector3 pos)

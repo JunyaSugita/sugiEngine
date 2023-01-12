@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Input.h"
 #include "Map.h"
+#include "EffectManager.h"
 
 enum {
 	LT,
@@ -67,5 +68,7 @@ private:
 
 	//ƒ}ƒbƒv
 	int mapNum;
+
+	EffectManager* effectM_;
 };
 

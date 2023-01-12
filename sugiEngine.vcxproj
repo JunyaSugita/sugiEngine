@@ -146,8 +146,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Burst.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="DXCommon.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Goal.cpp" />
@@ -159,7 +161,6 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="ISceneManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StageSelectScene.cpp" />
@@ -172,8 +173,10 @@
     <ClCompile Include="WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Burst.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="DXCommon.h" />
+    <ClInclude Include="EffectManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Goal.h" />
@@ -185,7 +188,6 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="ISceneManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StageSelectScene.h" />

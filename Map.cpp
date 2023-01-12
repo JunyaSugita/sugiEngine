@@ -137,7 +137,9 @@ void Map::Draw()
 {
 	for (int i = 0; i < mapY; i++) {
 		for (int j = 0; j < mapX; j++) {
-			objectBlock_[i][j]->Draw();
+			if (objectBlock_[i][j]->GetPos().z == 0) {
+				objectBlock_[i][j]->Draw();
+			}
 		}
 	}
 	for (int i = 0; i < ITEM_CONST; i++) {
