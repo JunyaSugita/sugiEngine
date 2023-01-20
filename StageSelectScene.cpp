@@ -29,14 +29,14 @@ void StageSelectScene::Initialize(int num)
 
 void StageSelectScene::Update(Input* input)
 {
-	if (input->GetLSteckY() > 0 && change_ == false) {
+	if ((input->GetLSteckY() > 0 && change_ == false) || input->TriggerKey(DIK_UP)) {
 		select_--;
 		if (select_ < 0) {
 			select_ = 0;
 		}
 		change_ = true;
 	}
-	if (input->GetLSteckY() < 0 && change_ == false) {
+	if ((input->GetLSteckY() < 0 && change_ == false) || input->TriggerKey(DIK_DOWN)) {
 		select_++;
 		if (select_ > 3) {
 			select_ = 3;
@@ -55,7 +55,7 @@ void StageSelectScene::Update(Input* input)
 		easySprite_.Size(400, 100);
 		normalSprite_.Size(400, 100);
 		hardSprite_.Size(400, 100);
-		if (input->TriggerButton(XINPUT_GAMEPAD_A)) {
+		if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
 			GameManager::SetStage(0);
 			GameManager::SetGameScene();
 		}
@@ -65,7 +65,7 @@ void StageSelectScene::Update(Input* input)
 		easySprite_.Size(440, 110);
 		normalSprite_.Size(400, 100);
 		hardSprite_.Size(400, 100);
-		if (input->TriggerButton(XINPUT_GAMEPAD_A)) {
+		if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
 			GameManager::SetStage(5);
 			GameManager::SetGameScene();
 		}
@@ -75,7 +75,7 @@ void StageSelectScene::Update(Input* input)
 		easySprite_.Size(400, 100);
 		normalSprite_.Size(440, 110);
 		hardSprite_.Size(400, 100);
-		if (input->TriggerButton(XINPUT_GAMEPAD_A)) {
+		if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
 			GameManager::SetStage(10);
 			GameManager::SetGameScene();
 		}
@@ -85,7 +85,7 @@ void StageSelectScene::Update(Input* input)
 		easySprite_.Size(400, 100);
 		normalSprite_.Size(400, 100);
 		hardSprite_.Size(440, 110);
-		if (input->TriggerButton(XINPUT_GAMEPAD_A)) {
+		if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
 			GameManager::SetStage(15);
 			GameManager::SetGameScene();
 		}

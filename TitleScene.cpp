@@ -11,6 +11,11 @@ void TitleScene::Initialize(int num)
 	pressSprite_.Initialize(pressTexture_);
 	pressSprite_.Size(600, 200);
 	pressSprite_.Pos(340, 460);
+
+	padTexture_ = Sprite::LoadTexture("pad.png");
+	padSprite_.Initialize(padTexture_);
+	padSprite_.Size(400, 200);
+	padSprite_.Pos(0, 0);
 }
 
 void TitleScene::Update(Input* input)
@@ -33,6 +38,7 @@ void TitleScene::SpriteDraw()
 {
 	titleSprite_.Draw();
 	pressSprite_.Draw();
+	padSprite_.Draw();
 }
 
 void TitleScene::Delete()

@@ -19,6 +19,10 @@ public:
 		return worldTransform_.trans;
 	}
 
+	bool GetIsUse() {
+		return isUse_;
+	}
+
 	void SetPos(Vector3 pos) {
 		worldTransform_.trans = pos;
 	};

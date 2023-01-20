@@ -25,7 +25,7 @@ public:
 
 private:
 	//固定値
-	const float GRAVITY = -0.5f;
+	const float GRAVITY = -0.8f;
 	static const int CONST_SHADOW = 10;
 	//モデルデータ
 	Model* modelPlayer_;

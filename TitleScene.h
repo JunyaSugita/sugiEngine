@@ -22,5 +22,7 @@ private:
 	Sprite titleSprite_;
 	uint32_t pressTexture_;
 	Sprite pressSprite_;
+	uint32_t padTexture_;
+	Sprite padSprite_;
 };
 

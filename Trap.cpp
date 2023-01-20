@@ -9,7 +9,7 @@ void Trap::Initialize()
 
 	InitializePos();
 
-	objectTrap_->SetColor({ 0.1f,0.1f,0.1f,1 });
+	objectTrap_->SetColor({ 0.3f,0.3f,0.3f,1 });
 }
 
 void Trap::Update()
