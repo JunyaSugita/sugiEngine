@@ -6,9 +6,6 @@
 #include "Input.h"
 #include "GameManager.h"
 
-#include "Player.h"
-#include "Map.h"
-
 class GameScene : public ISceneManager
 {
 public:
@@ -22,7 +19,6 @@ public:
 public:
 
 private:
-	std::unique_ptr <Player> player_;
-	Map* map_;
+
 };
 

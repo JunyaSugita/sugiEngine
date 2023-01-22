@@ -10,13 +10,8 @@ private:
 	static int stage_;
 public:
 	static void SetTitleScene();
-	static void SetStageSelectScene();
 	static void SetGameScene();
 	static void SetClearScene();
-
-	static void SetStage(int stageNum) {
-		stage_ = stageNum;
-	};
 
 public:
 	GameManager();
