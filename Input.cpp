@@ -29,6 +29,17 @@ void Input::Update()
 	memcpy(oldKey_, key_, sizeof(key_));
 	//‘SƒL[‚Ì“ü—Íó‘Ô‚ðŽæ“¾‚·‚é
 	keyboard_->GetDeviceState(sizeof(key_), key_);
+
+	oldState_ = state_;
+	ZeroMemory(&state_, sizeof(XINPUT_STATE));
+	DWORD dwResult = XInputGetState(0, &state_);
+
+	if (state_.Gamepad.sThumbLX <  2000 && state_.Gamepad.sThumbLX > -2000) {
+		state_.Gamepad.sThumbLX = 0;
+	}
+	if (state_.Gamepad.sThumbLY <  2000 && state_.Gamepad.sThumbLY > -2000) {
+		state_.Gamepad.sThumbLY = 0;
+	}
 }
 
 bool Input::PushKey(int keyNum)
@@ -36,9 +47,7 @@ bool Input::PushKey(int keyNum)
 	if (key_[keyNum]) {
 		return true;
 	}
-	else {
-		return false;
-	}
+	return false;
 }
 
 bool Input::TriggerKey(int keyNum)
@@ -46,9 +55,7 @@ bool Input::TriggerKey(int keyNum)
 	if (key_[keyNum] && oldKey_[keyNum] == 0) {
 		return true;
 	}
-	else {
-		return false;
-	}
+	return false;
 }
 
 bool Input::ReleaseKey(int keyNum)
@@ -56,7 +63,45 @@ bool Input::ReleaseKey(int keyNum)
 	if (key_[keyNum] == 0 && oldKey_[keyNum]) {
 		return true;
 	}
-	else {
-		return false;
+	return false;
+}
+
+bool Input::PushButton(int buttonNum)
+{
+	if (state_.Gamepad.wButtons & buttonNum) {
+		return true;
 	}
+
+	return false;
+}
+
+bool Input::TriggerButton(int buttonNum)
+{
+	if ((state_.Gamepad.wButtons & buttonNum) && (oldState_.Gamepad.wButtons & buttonNum) == 0) {
+		return true;
+	}
+	return false;
+}
+
+bool Input::ReleaseButton(int buttonNum)
+{
+	if ((state_.Gamepad.wButtons & buttonNum) == 0 && (oldState_.Gamepad.wButtons & buttonNum)) {
+		return true;
+	}
+	return false;
+}
+
+SHORT Input::GetLSteckX()
+{
+	return state_.Gamepad.sThumbLX;
+}
+
+SHORT Input::GetLSteckY()
+{
+	return state_.Gamepad.sThumbLY;
+}
+
+BYTE Input::GetLTrigger()
+{
+	return state_.Gamepad.bLeftTrigger;
 }

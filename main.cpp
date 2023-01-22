@@ -24,6 +24,7 @@ using namespace DirectX;
 #include "Object3d.h"
 #include "Sprite.h"
 #include "Model.h"
+#include "GameManager.h"
 
 //エイリアステンプレート
 template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -33,11 +34,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	std::unique_ptr<WinApp> winApp = std::make_unique<WinApp>();
 	std::unique_ptr<DXCommon> dxCom = std::make_unique<DXCommon>();
-	std::unique_ptr<Input> input = std::make_unique<Input>();
+	Input* input = new Input;
 	std::unique_ptr <Matrix4> matrix4 = std::make_unique <Matrix4>();
-
-	Sprite sprite;
-	Sprite sprite2;
 
 #pragma region windowsAPI初期化処理
 
@@ -61,22 +59,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	HRESULT result;
 
 	Object3d::StaticInitialize(dxCom->GetDevice());
-
-	Model* model = Model::LoadFromObj("box");
-	Model* model2 = Model::LoadFromObj("skydome");
-
-	Object3d* object3d = Object3d::Create();
-	Object3d* object3d2 = Object3d::Create();
-
-	object3d->SetModel(model);
-	object3d2->SetModel(model2);
-
 	Sprite::StaticInitialize(dxCom->GetDevice());
 
-	sprite.Initialize();
-	sprite2.Initialize();
+
 
 #pragma endregion
+
+	std::unique_ptr <GameManager> gameM = std::make_unique <GameManager>();
 
 #pragma region ゲームループ
 
@@ -94,67 +83,33 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region ゲームシーン
 
-		if (input->PushKey(DIK_W)) {
-			Object3d::AddCameraPos(Vector3(0, 1, 0));
-		}
-		if (input->PushKey(DIK_S)) {
-			Object3d::AddCameraPos(Vector3(0, -1, 0));
-		}
-		if (input->PushKey(DIK_D)) {
-			Object3d::AddCameraPos(Vector3(1, 0, 0));
-		}
-		if (input->PushKey(DIK_A)) {
-			Object3d::AddCameraPos(Vector3(-1, 0, 0));
-		}
-		if (input->PushKey(DIK_R)) {
-			Object3d::AddCameraPos(Vector3(0, 0, 1));
-		}
-		if (input->PushKey(DIK_F)) {
-			Object3d::AddCameraPos(Vector3(0, 0, -1));
-		}
+		///
+		//アップデート
+		///
+		gameM->Update(input);
 
-		if (input->PushKey(DIK_UP)) {
-			Object3d::AddCameraTarget(Vector3(0, 0, 1));
-		}
-		if (input->PushKey(DIK_DOWN)) {
-			Object3d::AddCameraTarget(Vector3(0, 0, -1));
-		}
-		if (input->PushKey(DIK_RIGHT)) {
-			Object3d::AddCameraTarget(Vector3(1, 0, 0));
-		}
-		if (input->PushKey(DIK_LEFT)) {
-			Object3d::AddCameraTarget(Vector3(-1, 0, 0));
-		}
-
-		object3d->Scale(30, 30, 30);
-		object3d->Trans(10, 10, 10);
-		object3d->Rotate(0,-45,45);
-		object3d->Update();
-
-		object3d2->Scale(5,5,5);
-		object3d2->Update();
-
-		Object3d::PreDraw(dxCom->GetCommandList());
-
-		object3d->Draw();
-		object3d2->Draw();
-
-		Object3d::PostDraw();
-
-		sprite.Pos(100, 100);
-
-		sprite2.Pos(300, 300);
-		sprite2.Color(1, 0, 0, 1);
-		sprite2.Size(200.0f, 200.0f);
-		sprite2.SetAnchorPoint(0.5f, 0.5f);
-		sprite2.Rotate(45);
-		sprite2.FlipX(true);
-
-		//スプライト
+		///
+		//背景スプライト
+		///
 		Sprite::PreDraw(dxCom->GetCommandList());
 
-		//sprite.Draw(0);
-		//sprite2.Draw(1);
+		gameM->BackSpriteDraw();
+
+		Sprite::PostDraw();
+		///
+		//モデル
+		///
+		Object3d::PreDraw(dxCom->GetCommandList());
+
+		gameM->Draw();
+
+		Object3d::PostDraw();
+		///
+		//スプライト
+		///
+		Sprite::PreDraw(dxCom->GetCommandList());
+
+		gameM->SpriteDraw();
 
 		Sprite::PostDraw();
 
@@ -172,12 +127,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 #pragma region delete処理 
-	delete object3d;
-	delete object3d2;
-
-	delete model;
-	delete model2;
-
+	delete input;
+	gameM->Delete();
 #pragma endregion
 
 	return 0;

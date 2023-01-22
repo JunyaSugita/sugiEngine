@@ -28,7 +28,7 @@ public:
 
 	static void PostDraw();
 
-	static void LoadTexture();
+	static uint32_t LoadTexture(const std::string& textureName);
 
 private:
 	//デバイス
@@ -37,24 +37,20 @@ private:
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootSignature;
 	// 頂点バッファビューの作成
-	static D3D12_VERTEX_BUFFER_VIEW vbView;
+
 	static ComPtr<ID3D12GraphicsCommandList> cmdList;
-	static ComPtr<ID3D12Resource> constBuffMaterial;
 
 	//SRVの最大数
 	static const size_t kMaxSRVCount = 2056;
-	//std::array<ComPtr<ID3D12Resource>, kMaxSRVCount> textureBuffers_;
+	static std::array<ComPtr<ID3D12Resource>, kMaxSRVCount> textureBuffers_;
 
-	//テクスチャバッファの生成
-	static ComPtr<ID3D12Resource> texBuff;
-	//テクスチャバッファ2の生成
-	static ComPtr<ID3D12Resource> texBuff2;
 	static ComPtr<ID3D12DescriptorHeap> srvHeap;
 	static UINT incrementSize;
+	static uint32_t textureIndex;
 
 public:
-	void Initialize();
-	void Draw(UINT texNum);
+	void Initialize(uint32_t texNum);
+	void Draw();
 
 	void Pos(float x, float y);
 
@@ -75,12 +71,16 @@ public:
 
 	void SetUpVertex();
 
+	void SetTexture(uint32_t texNum) {
+		textureNum = texNum;
+	};
+
 private:
-	D3D12_HEAP_PROPERTIES heapProp{}; // ヒープ設定
-	D3D12_RESOURCE_DESC resDesc{};
-	ComPtr<ID3D12Resource> vertBuff = nullptr;
-	ID3D12Resource* constBuffTransform = nullptr;
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	D3D12_HEAP_PROPERTIES heapProp_{}; // ヒープ設定
+	D3D12_RESOURCE_DESC resDesc_{};
+	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
+	ID3D12Resource* constBuffTransform_ = nullptr;
+	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
 	ConstBufferDataTransform* constMapTransform = nullptr;
 	WorldTransform worldTransform;
 	Vector2 pos;
@@ -92,5 +92,8 @@ private:
 	bool isFlipY = false;
 	bool isView = true;
 	VertexSp vertices[4];
+	D3D12_VERTEX_BUFFER_VIEW vbView;
+	ComPtr<ID3D12Resource> constBuffMaterial;
+	uint32_t textureNum;
 };
 

@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "model.h"
+#include "Vector3.h"
 
 using namespace std;
 
@@ -64,14 +65,27 @@ public:
 	bool Initialize();
 
 	void Update();
-	void Scale(float x, float y, float z);
-	void Rotate(float x, float y, float z);
-	void Trans(float x, float y, float z);
+	void Scale(Vector3 scale);
+	void Rotate(Vector3 rot);
+	void Trans(Vector3 pos);
 
 	void Draw();
 
 	void SetModel(Model* model) {
 		this->model = model;
+	}
+	void SetWorldTransform(WorldTransform worldTransform) {
+		this->worldTransform = worldTransform;
+	}
+	void SetColor(Vector4 color) {
+		color_.x = color.x;
+		color_.y = color.y;
+		color_.z = color.z;
+		color_.w = color.w;
+	}
+
+	Vector3 GetPos() {
+		return worldTransform.trans;
 	}
 
 private:
@@ -80,6 +94,7 @@ private:
 	WorldTransform worldTransform;
 
 	Model* model = nullptr;
+	XMFLOAT4 color_ = {1,1,1,1};
 
 };
 
