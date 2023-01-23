@@ -19,6 +19,9 @@ public:
 public:
 
 private:
+	Model* model_;
+	Object3d* obj_;
+	WorldTransform worldTransform_;
 
 };
 
