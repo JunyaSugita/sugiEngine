@@ -80,3 +80,13 @@ Matrix4 ConvertToMatrix4(XMMATRIX xmmatrix)
 		xmmatrix.r[3].m128_f32[0], xmmatrix.r[3].m128_f32[1], xmmatrix.r[3].m128_f32[2], xmmatrix.r[3].m128_f32[3]
 	);
 }
+
+XMMATRIX ConvertToXMMATRIX(Matrix4 matrix4)
+{
+	return XMMATRIX(
+		matrix4.m[0][0], matrix4.m[0][1], matrix4.m[0][2], matrix4.m[0][3],
+		matrix4.m[1][0], matrix4.m[1][1], matrix4.m[1][2], matrix4.m[1][3],
+		matrix4.m[2][0], matrix4.m[2][1], matrix4.m[2][2], matrix4.m[2][3],
+		matrix4.m[3][0], matrix4.m[3][1], matrix4.m[3][2], matrix4.m[3][3]
+	);
+}

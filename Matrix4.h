@@ -24,3 +24,4 @@ public:
 };
 
 Matrix4 ConvertToMatrix4(XMMATRIX xmmatrix);
+XMMATRIX ConvertToXMMATRIX(Matrix4 matrix4);

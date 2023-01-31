@@ -204,7 +204,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER rootParams[3] = {};
+	D3D12_ROOT_PARAMETER rootParams[4] = {};
 	//定数バッファ0番
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
 	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
@@ -220,6 +220,11 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	rootParams[2].DescriptorTable.pDescriptorRanges = &descriptorRange;					//定数バッファ番号
 	rootParams[2].DescriptorTable.NumDescriptorRanges = 1;						//デフォルト値
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
+	//定数バッファ2番
+	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[3].Descriptor.ShaderRegister = 2;					//定数バッファ番号
+	rootParams[3].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -356,7 +361,7 @@ bool Object3d::Initialize()
 	);
 	assert(SUCCEEDED(result));
 	//定数バッファのマッピング
-	result = constBuffB0->Map(0, nullptr, (void**)&constMapTransform);	//マッピング
+	result = constBuffB0->Map(0, nullptr, (void**)&constMap);	//マッピング
 	assert(SUCCEEDED(result));
 
 
@@ -367,7 +372,7 @@ bool Object3d::Initialize()
 	worldTransform.trans = { 0.0f,0.0f,0.0f };
 	worldTransform.SetWorldMat();
 
-	constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
+	//constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
 
 	return true;
 }
@@ -383,7 +388,12 @@ void Object3d::Update()
 	//matrix4に変換
 	matView = ConvertToMatrix4(xmmatView);
 
-	constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
+	
+	const XMFLOAT3& cameraPos = eye;
+
+	constMap->viewproj = ConvertToXMMATRIX(matView * matProjecsion);
+	constMap->world = ConvertToXMMATRIX(worldTransform.matWorld);
+	constMap->cameraPos = cameraPos;
 }
 
 void Object3d::Scale(Vector3 scale)
@@ -413,6 +423,7 @@ void Object3d::Draw()
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 
+	lightGroup_->Draw(cmdList,3);
 	model->Draw(cmdList, 1, color_);
 }
 

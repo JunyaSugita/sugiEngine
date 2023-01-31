@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "GameManager.h"
 #include "Sound.h"
+#include "LightGroup.h"
 
 class GameScene : public ISceneManager
 {
@@ -28,6 +29,7 @@ private:
 	Sprite catSprite_;
 
 	std::unique_ptr<Sound> sound = std::make_unique <Sound>();
-	SoundData soundData1;
+
+	LightGroup* lightGroup_ = nullptr;
 };
 
