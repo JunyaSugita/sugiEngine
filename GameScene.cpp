@@ -2,7 +2,7 @@
 
 void GameScene::Initialize(int num)
 {
-	model_ = Model::LoadFromObj("sphere");
+	model_ = Model::LoadFromObj("sphere",true);
 	obj_ = Object3d::Create();
 	obj_->SetModel(model_);
 
@@ -24,7 +24,9 @@ void GameScene::Initialize(int num)
 
 void GameScene::Update(Input* input)
 {
-
+	//worldTransform_.rotation.z += 0.3f;
+	//obj_->SetWorldTransform(worldTransform_);
+	//obj_->Update();
 }
 
 void GameScene::BackSpriteDraw()

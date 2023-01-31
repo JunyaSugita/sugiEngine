@@ -4,6 +4,7 @@
 #include <sstream>
 #include <vector>
 #include <wrl.h>
+#include <unordered_map>
 
 #include "GrovalSetting.h"
 #include "DXCommon.h"
@@ -51,7 +52,7 @@ public:
 
 
 public:
-	static Model* LoadFromObj(const std::string& modelname);
+	static Model* LoadFromObj(const std::string& modelname,bool smoothing = false);
 	static void SetDevice(ID3D12Device* device) {
 		Model::device = device;
 	}
@@ -60,7 +61,7 @@ private:
 	static ID3D12Device* device;
 
 private:
-	void LoatFromObjInternal(const std::string& modelname);
+	void LoatFromObjInternal(const std::string& modelname, bool smoothing = false);
 
 public:
 	/// <summary>
@@ -79,6 +80,13 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial, XMFLOAT4 color);
 
+	inline size_t GetVertexCount() {
+		return vertices.size();
+	}
+
+	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
+	void CalculateSmoothedVertexNormals();
+
 private:
 	std::vector<Vertex> vertices;
 	std::vector<unsigned short> indices;
@@ -95,5 +103,6 @@ private:
 	D3D12_INDEX_BUFFER_VIEW ibView;
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1;
 	ConstBufferDataB1* constMap1 = nullptr;
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
 };
 

@@ -5,13 +5,13 @@ using namespace std;
 
 ID3D12Device* Model::device = nullptr;
 
-Model* Model::LoadFromObj(const std::string& modelname)
+Model* Model::LoadFromObj(const std::string& modelname, bool smoothing)
 {
 	Model* model = new Model;
 
 	model->InitializeDescriptorHeap();
 
-	model->LoatFromObjInternal(modelname);
+	model->LoatFromObjInternal(modelname, smoothing);
 
 	model->CreateBuffers();
 
@@ -322,7 +322,29 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial
 
 }
 
-void Model::LoatFromObjInternal(const std::string& modelname) {
+void Model::AddSmoothData(unsigned short indexPosition, unsigned short indexVertex)
+{
+	smoothData[indexPosition].emplace_back(indexVertex);
+}
+
+void Model::CalculateSmoothedVertexNormals()
+{
+	auto itr = smoothData.begin();
+	for (; itr != smoothData.end(); ++itr) {
+		std::vector<unsigned short>& v = itr->second;
+		XMVECTOR normal = {};
+		for (unsigned short index : v) {
+			normal += XMVectorSet(vertices[index].normal.x, vertices[index].normal.y, vertices[index].normal.z, 0);
+		}
+		normal = XMVector3Normalize(normal / (float)v.size());
+
+		for (unsigned short index : v) {
+			vertices[index].normal = { normal.m128_f32[0],normal.m128_f32[1], normal.m128_f32[2] };
+		}
+	}
+}
+
+void Model::LoatFromObjInternal(const std::string& modelname, bool smoothing) {
 	//ファイルストリーム
 	ifstream file;
 	//objファイルを開く
@@ -399,6 +421,9 @@ void Model::LoatFromObjInternal(const std::string& modelname) {
 				vertex.normal = normals[indexNormal - 1];
 				vertex.uv = texcoords[indexTexcoord - 1];
 				vertices.emplace_back(vertex);
+				if (smoothing) {
+					AddSmoothData(indexPosition, (unsigned short)GetVertexCount() - 1);
+				}
 
 				//頂点インデックスに追加
 				indices.emplace_back((unsigned short)indices.size());
@@ -408,4 +433,7 @@ void Model::LoatFromObjInternal(const std::string& modelname) {
 	}
 	file.close();
 
+	if (smoothing) {
+		CalculateSmoothedVertexNormals();
+	}
 }

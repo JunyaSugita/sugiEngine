@@ -25,6 +25,7 @@ using namespace DirectX;
 #include "Sprite.h"
 #include "Model.h"
 #include "GameManager.h"
+#include "LightGroup.h"
 
 //エイリアステンプレート
 template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -36,7 +37,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<DXCommon> dxCom = std::make_unique<DXCommon>();
 	Input* input = new Input;
 	std::unique_ptr <Matrix4> matrix4 = std::make_unique <Matrix4>();
-
 
 #pragma region windowsAPI初期化処理
 
@@ -62,7 +62,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Object3d::StaticInitialize(dxCom->GetDevice());
 	Sprite::StaticInitialize(dxCom->GetDevice());
-
+	LightGroup::StaticInitialize(dxCom->GetDevice());
 
 
 #pragma endregion
