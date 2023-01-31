@@ -153,6 +153,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="LightGroup.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Burst.h" />
+    <ClInclude Include="CircleShadow.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="DXCommon.h" />
     <ClInclude Include="EffectManager.h" />
@@ -175,11 +177,14 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GrovalSetting.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="LightGroup.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="ISceneManager.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Vector2.h" />

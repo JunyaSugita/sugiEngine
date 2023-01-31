@@ -10,12 +10,16 @@
 #include <vector>
 #include "model.h"
 #include "Vector3.h"
+#include "LightGroup.h"
 
 using namespace std;
 
 //定数バッファ用データ構造体B0
 struct ConstBufferDataB0 {
 	Matrix4 mat;
+	//XMMATRIX viewproj;
+	//XMMATRIX world;
+	//XMFLOAT3 cameraPos;
 };
 
 class Object3d
@@ -95,6 +99,6 @@ private:
 
 	Model* model = nullptr;
 	XMFLOAT4 color_ = {1,1,1,1};
-
+	static LightGroup* lightGroup_;
 };
 

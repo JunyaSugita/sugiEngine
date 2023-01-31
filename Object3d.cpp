@@ -29,6 +29,8 @@ XMFLOAT3 Object3d::eye;
 XMFLOAT3 Object3d::target;
 XMFLOAT3 Object3d::up;
 
+LightGroup* Object3d::lightGroup_ = nullptr;
+
 void Object3d::StaticInitialize(ID3D12Device* device)
 {
 	HRESULT result;
@@ -258,7 +260,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 
 	// パイプランステートの生成
-	result = Object3d::device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
+	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
 #pragma endregion
