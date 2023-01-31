@@ -15,7 +15,7 @@ public:
 	}
 private:
 	//座標
-	WorldTransform worldTransform_;
+	WorldTransform sphereWorldTransform_;
 	//移動
 	Vector3 move_;
 	//色
@@ -23,9 +23,9 @@ private:
 	//回転
 	Vector3 rotate_;
 	//モデル
-	Model* model_;
+	Model* sphereModel_;
 	//テクスチャ
-	Object3d* obj_;
+	Object3d* sphereObj_;
 	//消滅フラグ
 	bool isDead_;
 };

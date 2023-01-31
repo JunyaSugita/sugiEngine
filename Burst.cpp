@@ -3,9 +3,9 @@
 
 void Burst::Initialize(Vector3 pos, Vector4 color, float range, float pow) {
 
-	model_ = Model::LoadFromObj("box");
-	obj_ = Object3d::Create();
-	obj_->SetModel(model_);
+	sphereModel_ = Model::LoadFromObj("box");
+	sphereObj_ = Object3d::Create();
+	sphereObj_->SetModel(sphereModel_);
 
 	//ƒ‰ƒ“ƒ_ƒ€
 	std::random_device seed_gen;
@@ -40,30 +40,30 @@ void Burst::Initialize(Vector3 pos, Vector4 color, float range, float pow) {
 	move_ = { x(engine), y(engine), z(engine) };
 	rotate_ = { rx(engine), ry(engine), rz(engine) };
 
-	obj_->SetColor(color_);
+	sphereObj_->SetColor(color_);
 
 	//ˆø”‚ÌÀ•W‚ð“ü‚ê‚é
-	worldTransform_.trans = pos;
+	sphereWorldTransform_.trans = pos;
 	//‘å‚«‚³‚ð•ÏX
-	worldTransform_.scale = { 1.0f, 1.0f, 1.0f };
+	sphereWorldTransform_.scale = { 1.0f, 1.0f, 1.0f };
 
-	worldTransform_.SetWorldMat();
-	obj_->SetWorldTransform(worldTransform_);
-	obj_->Update();
+	sphereWorldTransform_.SetWorldMat();
+	sphereObj_->SetWorldTransform(sphereWorldTransform_);
+	sphereObj_->Update();
 }
 
 void Burst::Update() {
-	worldTransform_.trans += move_;
+	sphereWorldTransform_.trans += move_;
 	move_.y -= 0.01f;
-	if (worldTransform_.trans.y < -100) {
+	if (sphereWorldTransform_.trans.y < -100) {
 		isDead_ = true;
 	}
-	worldTransform_.rotation += rotate_;
-	worldTransform_.SetWorldMat();
-	obj_->SetWorldTransform(worldTransform_);
-	obj_->Update();
+	sphereWorldTransform_.rotation += rotate_;
+	sphereWorldTransform_.SetWorldMat();
+	sphereObj_->SetWorldTransform(sphereWorldTransform_);
+	sphereObj_->Update();
 }
 
 void Burst::Draw() {
-	obj_->Draw();
+	sphereObj_->Draw();
 }

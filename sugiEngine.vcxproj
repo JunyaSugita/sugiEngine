@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="Burst.cpp" />
     <ClCompile Include="ClearScene.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DXCommon.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -168,6 +169,8 @@
   <ItemGroup>
     <ClInclude Include="Burst.h" />
     <ClInclude Include="ClearScene.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="DXCommon.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="GameManager.h" />

@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Input.h"
 #include "GameManager.h"
+#include "CollisionPrimitive.h"
 
 class GameScene : public ISceneManager
 {
@@ -19,9 +20,14 @@ public:
 public:
 
 private:
-	Model* model_;
-	Object3d* obj_;
-	WorldTransform worldTransform_;
+	Model* sphereModel_;
+	Object3d* sphereObj_;
+	WorldTransform sphereWorldTransform_;
+	Sphere sphere_;
 
+	Model* planeModel_;
+	Object3d* planeObj_;
+	WorldTransform planeWorldTransform_;
+	Plane plane_;
 };
 
