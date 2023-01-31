@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Input.h"
 #include "GameManager.h"
+#include "Sound.h"
 
 class GameScene : public ISceneManager
 {
@@ -25,5 +26,8 @@ private:
 
 	uint32_t catTexture_;
 	Sprite catSprite_;
+
+	std::unique_ptr<Sound> sound = std::make_unique <Sound>();
+	SoundData soundData1;
 };
 

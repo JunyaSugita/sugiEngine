@@ -37,6 +37,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Input* input = new Input;
 	std::unique_ptr <Matrix4> matrix4 = std::make_unique <Matrix4>();
 
+
 #pragma region windowsAPI初期化処理
 
 	winApp->CreateWindowScreen();
@@ -51,6 +52,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	dxCom->Initialize(winApp.get());
 	//キーボード入力の初期化
 	input->Initialize(winApp.get());
+
 
 
 #pragma endregion
@@ -129,6 +131,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region delete処理 
 	delete input;
 	gameM->Delete();
+
 #pragma endregion
 
 	return 0;

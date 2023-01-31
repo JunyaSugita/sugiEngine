@@ -14,6 +14,12 @@ void GameScene::Initialize(int num)
 	catSprite_.Initialize(catTexture_);
 	catSprite_.SetSize(300,300);
 	catSprite_.SetTextureSize(100,100);
+
+	//ƒTƒEƒ“ƒh‰Šú‰»
+	sound->Initialize();
+	sound->LoadWave("Alarm01");
+
+	sound->PlayWave("Alarm01");
 }
 
 void GameScene::Update(Input* input)
@@ -40,4 +46,5 @@ void GameScene::Delete()
 {
 	delete model_;
 	delete obj_;
+	sound->Delete();
 }
