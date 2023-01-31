@@ -16,10 +16,10 @@ using namespace std;
 
 //定数バッファ用データ構造体B0
 struct ConstBufferDataB0 {
-	Matrix4 mat;
-	//XMMATRIX viewproj;
-	//XMMATRIX world;
-	//XMFLOAT3 cameraPos;
+	//Matrix4 mat;
+	XMMATRIX viewproj;
+	XMMATRIX world;
+	XMFLOAT3 cameraPos;
 };
 
 class Object3d
@@ -92,9 +92,13 @@ public:
 		return worldTransform.trans;
 	}
 
+	static void SetLight(LightGroup* lightGroup) {
+		lightGroup_ = lightGroup;
+	}
+
 private:
 	ComPtr<ID3D12Resource> constBuffB0 = nullptr;
-	ConstBufferDataB0* constMapTransform = nullptr;
+	ConstBufferDataB0* constMap = nullptr;
 	WorldTransform worldTransform;
 
 	Model* model = nullptr;
