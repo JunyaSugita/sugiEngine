@@ -23,5 +23,7 @@ private:
 	Object3d* obj_;
 	WorldTransform worldTransform_;
 
+	uint32_t catTexture_;
+	Sprite catSprite_;
 };
 

@@ -48,22 +48,25 @@ private:
 	static UINT incrementSize;
 	static uint32_t textureIndex;
 
+private:
+	void AdjustTextureSize();
+
 public:
 	void Initialize(uint32_t texNum);
 	void Draw();
 
-	void Pos(float x, float y);
+	void SetPos(float x, float y);
 
-	void Rotate(float r);
+	void SetRotate(float r);
 
-	void Color(float x, float y, float z, float w);
+	void SetColor(float x, float y, float z, float w);
 
-	void Size(float x, float y);
+	void SetSize(float x, float y);
 
 	void SetAnchorPoint(float x,float y);
 
-	void FlipX(bool isFlip);
-	void FlipY(bool isFlip);
+	void SetFlipX(bool isFlip);
+	void SetFlipY(bool isFlip);
 
 	void SetIsView(bool is) {
 		isView = is;
@@ -74,6 +77,15 @@ public:
 	void SetTexture(uint32_t texNum) {
 		textureNum = texNum;
 	};
+
+	Vector2 GetTextureSize() {
+		return textureSize_;
+	}
+
+	void SetTextureSize(float x,float y) {
+		textureSize_.x = x;
+		textureSize_.y = y;
+	}
 
 private:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ÉqÅ[Évê›íË
@@ -95,5 +107,8 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 	ComPtr<ID3D12Resource> constBuffMaterial;
 	uint32_t textureNum;
+
+	Vector2 textureLeftTop_ = { 0.0f,0.0f };
+	Vector2 textureSize_ = { 100.0f,100.0f };
 };
 

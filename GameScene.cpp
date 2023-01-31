@@ -9,6 +9,11 @@ void GameScene::Initialize(int num)
 	worldTransform_.scale = { 10,10,10 };
 	obj_->SetWorldTransform(worldTransform_);
 	obj_->Update();
+
+	catTexture_ = Sprite::LoadTexture("cat.png");
+	catSprite_.Initialize(catTexture_);
+	catSprite_.SetSize(300,300);
+	catSprite_.SetTextureSize(100,100);
 }
 
 void GameScene::Update(Input* input)
@@ -28,7 +33,7 @@ void GameScene::Draw()
 
 void GameScene::SpriteDraw()
 {
-
+	catSprite_.Draw();
 }
 
 void GameScene::Delete()

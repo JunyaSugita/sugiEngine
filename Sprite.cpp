@@ -329,11 +329,13 @@ void Sprite::Initialize(uint32_t texNum)
 {
 	HRESULT result;
 	textureNum = texNum;
+	AdjustTextureSize();
 
-	vertices[0] = { {  0.0f,100.0f,0.0f},{0.0f,1.0f} };	//左下
+	vertices[0] = { {  0.0f,textureSize_.y,0.0f},{0.0f,1.0f} };	//左下
 	vertices[1] = { {  0.0f,  0.0f,0.0f},{0.0f,0.0f} };	//左上
-	vertices[2] = { {100.0f,100.0f,0.0f},{1.0f,1.0f} };	//右下
-	vertices[3] = { {100.0f,  0.0f,0.0f},{1.0f,0.0f} };	//右上
+	vertices[2] = { {textureSize_.x,textureSize_.y,0.0f},{1.0f,1.0f} };	//右下
+	vertices[3] = { {textureSize_.x,  0.0f,0.0f},{1.0f,0.0f} };	//右上
+	size = textureSize_;
 
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 
@@ -437,6 +439,8 @@ void Sprite::Initialize(uint32_t texNum)
 	assert(SUCCEEDED(result));
 
 	constMapMaterial_->color = color;	//RGBAで半透明の赤
+
+	SetUpVertex();
 }
 
 void Sprite::Draw()
@@ -463,20 +467,20 @@ void Sprite::Draw()
 	}
 }
 
-void Sprite::Pos(float x, float y) {
+void Sprite::SetPos(float x, float y) {
 	pos.x = x;
 	pos.y = y;
 
 	SetUpVertex();
 }
 
-void Sprite::Rotate(float r) {
+void Sprite::SetRotate(float r) {
 	rotate = r;
 
 	SetUpVertex();
 }
 
-void Sprite::Color(float x, float y, float z, float w) {
+void Sprite::SetColor(float x, float y, float z, float w) {
 	color.x = x;
 	color.y = y;
 	color.z = z;
@@ -485,7 +489,7 @@ void Sprite::Color(float x, float y, float z, float w) {
 	SetUpVertex();
 }
 
-void Sprite::Size(float x, float y) {
+void Sprite::SetSize(float x, float y) {
 	size.x = x;
 	size.y = y;
 
@@ -499,12 +503,12 @@ void Sprite::SetAnchorPoint(float x, float y) {
 	SetUpVertex();
 }
 
-void Sprite::FlipX(bool isFlip) {
+void Sprite::SetFlipX(bool isFlip) {
 	isFlipX = isFlip;
 
 	SetUpVertex();
 }
-void Sprite::FlipY(bool isFlip) {
+void Sprite::SetFlipY(bool isFlip) {
 	isFlipY = isFlip;
 
 	SetUpVertex();
@@ -528,10 +532,27 @@ void Sprite::SetUpVertex() {
 		bottom *= -1;
 	}
 
-	vertices[0] = { { left,bottom,0.0f }, { 0.0f,1.0f } };	//左下
-	vertices[1] = { {  left,   top,0.0f},{0.0f,0.0f} };	//左上
-	vertices[2] = { { right,bottom,0.0f},{1.0f,1.0f} };	//右下
-	vertices[3] = { { right,   top,0.0f},{1.0f,0.0f} };	//右上
+	vertices[0].pos = { left,bottom,0.0f };	//左下
+	vertices[1].pos = { left,   top,0.0f };	//左上
+	vertices[2].pos = { right,bottom,0.0f };	//右下
+	vertices[3].pos = { right,   top,0.0f };	//右上
+
+	//ID3D12Resource* textureBuffer = textureBuffers_[textureIndex].Get();
+	if (textureBuffers_[textureNum]) {
+
+		D3D12_RESOURCE_DESC resDesc = textureBuffers_[textureNum]->GetDesc();
+
+		float tex_left = textureLeftTop_.x / resDesc.Width;
+		float tex_right = (textureLeftTop_.x + textureSize_.x) / resDesc.Width;
+		float tex_top = textureLeftTop_.y / resDesc.Height;
+		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
+
+		//UV
+		vertices[0].uv = { tex_left,tex_bottom };	//左下
+		vertices[1].uv = { tex_left,tex_top };	//左上
+		vertices[2].uv = { tex_right,tex_bottom };	//右下
+		vertices[3].uv = { tex_right,tex_top };	//右上
+	}
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
 	VertexSp* vertMap = nullptr;
@@ -555,4 +576,12 @@ void Sprite::SetUpVertex() {
 
 	constMapMaterial_->color = color;
 
+}
+
+void Sprite::AdjustTextureSize()
+{
+	D3D12_RESOURCE_DESC resDesc = textureBuffers_[textureNum]->GetDesc();
+
+	textureSize_.x = static_cast<float>(resDesc.Width);
+	textureSize_.y = static_cast<float>(resDesc.Height);
 }
