@@ -168,10 +168,13 @@
     <ClCompile Include="WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="Burst.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionInfo.h" />
     <ClInclude Include="CollisionPrimitive.h" />
+    <ClInclude Include="CollisionTypes.h" />
     <ClInclude Include="DXCommon.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="GameManager.h" />

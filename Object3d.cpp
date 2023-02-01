@@ -29,6 +29,13 @@ XMFLOAT3 Object3d::eye;
 XMFLOAT3 Object3d::target;
 XMFLOAT3 Object3d::up;
 
+Object3d::~Object3d()
+{
+	if (collider) {
+		delete collider;
+	}
+}
+
 void Object3d::StaticInitialize(ID3D12Device* device)
 {
 	HRESULT result;
@@ -367,6 +374,8 @@ bool Object3d::Initialize()
 
 	constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
 
+	name = typeid(*this).name();
+
 	return true;
 }
 
@@ -382,6 +391,16 @@ void Object3d::Update()
 	matView = ConvertToMatrix4(xmmatView);
 
 	constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
+
+	if (collider) {
+		collider->Update();
+	}
+}
+
+void Object3d::SetCollider(BaseCollider* collider)
+{
+	collider->SetObject(this);
+	this->collider = collider;
 }
 
 void Object3d::Scale(Vector3 scale)

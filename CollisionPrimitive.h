@@ -25,3 +25,10 @@ public:
 
 	DirectX::XMVECTOR normal;
 };
+
+struct Ray {
+	//Žn“_
+	DirectX::XMVECTOR start = { 0,0,0,1 };
+	//•ûŒü
+	DirectX::XMVECTOR dir = { 1,0,0,0 };
+};

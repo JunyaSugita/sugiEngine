@@ -10,8 +10,11 @@
 #include <vector>
 #include "model.h"
 #include "Vector3.h"
+#include "CollisionInfo.h"
+#include "BaseCollider.h"
 
 using namespace std;
+class BaseCollider;
 
 //定数バッファ用データ構造体B0
 struct ConstBufferDataB0 {
@@ -62,14 +65,19 @@ private:
 	static XMFLOAT3 up;
 
 public:
-	bool Initialize();
+	Object3d() = default;
 
-	void Update();
+	virtual ~Object3d();
+
+	virtual bool Initialize();
+
+	virtual void Update();
+
 	void Scale(Vector3 scale);
 	void Rotate(Vector3 rot);
 	void Trans(Vector3 pos);
 
-	void Draw();
+	virtual void Draw();
 
 	void SetModel(Model* model) {
 		this->model = model;
@@ -88,7 +96,15 @@ public:
 		return worldTransform.trans;
 	}
 
-private:
+	const XMMATRIX& GetMatWorld() {
+		return ConvertToXMMATRIX(worldTransform.matWorld);
+	}
+
+	void SetCollider(BaseCollider* collider);
+
+	virtual void OnCollision(const CollisionInfo& info) {}
+
+protected:
 	ComPtr<ID3D12Resource> constBuffB0 = nullptr;
 	ConstBufferDataB0* constMapTransform = nullptr;
 	WorldTransform worldTransform;
@@ -96,5 +112,8 @@ private:
 	Model* model = nullptr;
 	XMFLOAT4 color_ = {1,1,1,1};
 
+	const char* name = nullptr;
+
+	BaseCollider* collider = nullptr;
 };
 
