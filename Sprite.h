@@ -82,10 +82,7 @@ public:
 		return textureSize_;
 	}
 
-	void SetTextureSize(float x,float y) {
-		textureSize_.x = x;
-		textureSize_.y = y;
-	}
+	void SetTextureSize(float x, float y);
 
 private:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ÉqÅ[Évê›íË

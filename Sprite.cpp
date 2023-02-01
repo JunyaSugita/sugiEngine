@@ -514,6 +514,13 @@ void Sprite::SetFlipY(bool isFlip) {
 	SetUpVertex();
 }
 
+void Sprite::SetTextureSize(float x, float y){
+	textureSize_.x = x;
+	textureSize_.y = y;
+
+	SetUpVertex();
+}
+
 void Sprite::SetUpVertex() {
 
 	HRESULT result;

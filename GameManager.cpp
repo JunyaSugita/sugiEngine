@@ -8,7 +8,7 @@ int GameManager::stage_;
 
 GameManager::GameManager()
 {
-	scene_ = std::make_unique<GameScene>();
+	scene_ = std::make_unique<TitleScene>();
 	scene_->Initialize(0);
 }
 
