@@ -29,5 +29,12 @@ private:
 	Object3d* planeObj_;
 	WorldTransform planeWorldTransform_;
 	Plane plane_;
+
+	Model* triangleModel_;
+	Object3d* triangleObj_;
+	WorldTransform triangleWorldTransform_;
+	Triangle triangle_;
+
+	int scene_ = 0;
 };
 

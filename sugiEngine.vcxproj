@@ -149,6 +149,7 @@
     <ClCompile Include="Burst.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="DXCommon.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="GameManager.cpp" />

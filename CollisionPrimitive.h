@@ -16,3 +16,12 @@ struct Plane {
 	//Œ´“_(0,0,0)‚©‚ç‚Ì‹——£
 	float distance = 0.0f;
 };
+
+class Triangle {
+public:
+	DirectX::XMVECTOR p0;
+	DirectX::XMVECTOR p1;
+	DirectX::XMVECTOR p2;
+
+	DirectX::XMVECTOR normal;
+};
