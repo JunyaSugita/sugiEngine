@@ -40,6 +40,14 @@ private:
 	Object3d* rayObj_;
 	WorldTransform rayWorldTransform_;
 	Ray ray_;
+	//sphere2
+	Model* sphere2Model_;
+	Object3d* sphere2Obj_;
+	WorldTransform sphere2WorldTransform_;
+	Sphere sphere2_;
 
 	int scene_ = 0;
+	bool isMove_ = 0;
+	static const int TIME_MAX = 50;
+	int timer_ = TIME_MAX;
 };

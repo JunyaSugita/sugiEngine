@@ -24,6 +24,10 @@ public:
 	DirectX::XMVECTOR p2;
 
 	DirectX::XMVECTOR normal;
+
+public:
+	void ComputeNormal();
+
 };
 
 struct Ray {

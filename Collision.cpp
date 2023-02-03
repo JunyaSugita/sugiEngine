@@ -137,3 +137,80 @@ bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distan
 
 	return true;
 }
+
+bool Collision::ChackRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, DirectX::XMVECTOR* inter)
+{
+	Plane plane;
+	XMVECTOR interPlane;
+	plane.normal = triangle.normal;
+	plane.distance = XMVector3Dot(triangle.normal, triangle.p0).m128_f32[0];
+	//レイと平面が当たっていなければ当たってない
+	if (!CheckRay2Plane(ray, plane, distance, &interPlane)) {
+		return false;
+	}
+	//誤差吸収
+	const float epsilon = 1.0e-5f;
+	XMVECTOR m;
+	//辺p0_p1
+	XMVECTOR pt_p0 = triangle.p0 - interPlane;
+	XMVECTOR p0_p1 = triangle.p1 - triangle.p0;
+	m = XMVector3Cross(pt_p0, p0_p1);
+	//外側なら判定打ち切り
+	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon) {
+		return false;
+	}
+	//辺p1_p2
+	XMVECTOR pt_p1 = triangle.p1 - interPlane;
+	XMVECTOR p1_p2 = triangle.p2 - triangle.p1;
+	m = XMVector3Cross(pt_p1, p1_p2);
+	//外側なら判定打ち切り
+	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon) {
+		return false;
+	}
+	//辺p2_p0
+	XMVECTOR pt_p2 = triangle.p2 - interPlane;
+	XMVECTOR p2_p0 = triangle.p0 - triangle.p2;
+	m = XMVector3Cross(pt_p2, p2_p0);
+	//外側なら判定打ち切り
+	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon) {
+		return false;
+	}
+	//内側なので当たり
+	if (inter) {
+		*inter = interPlane;
+	}
+
+	return true;
+}
+
+bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, DirectX::XMVECTOR* inter)
+{
+	XMVECTOR m = ray.start - sphere.center;
+	float b = XMVector3Dot(m, ray.dir).m128_f32[0];
+	float c = XMVector3Dot(m, m).m128_f32[0] - sphere.radius;
+	//レイの始点が球の外側にあり、レイが球から離れた方向を向いていた時当たらない
+	if (c > 0.0f && b > 0.0f) {
+		return false;
+	}
+
+	float discr = b * b - c;
+	//負の判別式はレイが球を外れている
+	if (discr < 0.0f) {
+		return false;
+	}
+
+	//交差確定
+	//交差する最小の値
+	float t = -b - sqrtf(discr);
+	//tが負ならレイの始点は球の中から開始しているのでtを0に
+	if (t < 0) {
+		t = 0.0f;
+	}
+	if (distance) {
+		*distance = t;
+	}
+	if (inter) {
+		*inter = ray.start + t * ray.dir;
+	}
+	return true;
+}
