@@ -4,7 +4,14 @@
 //“–‚½‚è”»’è
 class Collision {
 public:
-	//‹…‚Æ•½–Ê
+	
+	/// <summary>
+	/// ‹…‚Æ•½–Ê
+	/// </summary>
+	/// <param name="sphere">‹…</param>
+	/// <param name="plane">•½–Ê</param>
+	/// <param name="inter">Œğ“_</param>
+	/// <returns>Œğ·‚µ‚Ä‚¢‚é‚©</returns>
 	static bool CheckSphere2Plane(const Sphere& sphere, const Plane& plane, DirectX::XMVECTOR* inter = nullptr);
 
 	/// <summary>

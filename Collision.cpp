@@ -23,7 +23,7 @@ bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, XMVE
 
 void Collision::ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& triangle, DirectX::XMVECTOR* closest)
 {
-	// pointがp0の外側の頂点領域の中にあるかどうかチェック
+	// pointがp0の外側の頂点領域の中にあるかどうか
 	XMVECTOR p0_p1 = triangle.p1 - triangle.p0;
 	XMVECTOR p0_p2 = triangle.p2 - triangle.p0;
 	XMVECTOR p0_pt = point - triangle.p0;
@@ -35,7 +35,7 @@ void Collision::ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Tr
 		*closest = triangle.p0;
 		return;
 	}
-	// pointがp1の外側の頂点領域の中にあるかどうかチェック
+	// pointがp1の外側の頂点領域の中にあるかどうか
 	XMVECTOR p1_pt = point - triangle.p1;
 	XMVECTOR d3 = XMVector3Dot(p0_p1, p1_pt);
 	XMVECTOR d4 = XMVector3Dot(p0_p2, p1_pt);
