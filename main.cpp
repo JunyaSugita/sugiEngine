@@ -26,6 +26,7 @@ using namespace DirectX;
 #include "Model.h"
 #include "GameManager.h"
 #include "LightGroup.h"
+#include "ImGuiManager.h"
 
 //エイリアステンプレート
 template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -35,8 +36,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	std::unique_ptr<WinApp> winApp = std::make_unique<WinApp>();
 	std::unique_ptr<DXCommon> dxCom = std::make_unique<DXCommon>();
-	Input* input = new Input;
+	std::unique_ptr<Input> input = std::make_unique<Input>();
 	std::unique_ptr <Matrix4> matrix4 = std::make_unique <Matrix4>();
+	std::unique_ptr <ImGuiManager> imGuiManager = std::make_unique <ImGuiManager>();
 
 #pragma region windowsAPI初期化処理
 
@@ -63,7 +65,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Object3d::StaticInitialize(dxCom->GetDevice());
 	Sprite::StaticInitialize(dxCom->GetDevice());
 	LightGroup::StaticInitialize(dxCom->GetDevice());
-
+	imGuiManager->Initialie(winApp.get());
 
 #pragma endregion
 
@@ -88,7 +90,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		//アップデート
 		///
-		gameM->Update(input);
+		gameM->Update(input.get());
 
 		///
 		//背景スプライト
@@ -129,7 +131,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 #pragma region delete処理 
-	delete input;
 	gameM->Delete();
 
 #pragma endregion

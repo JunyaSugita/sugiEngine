@@ -77,10 +77,10 @@
     <IncludePath>$(SolutionDir)DirectXTex</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)DirectXTex</IncludePath>
+    <IncludePath>$(SolutionDir)DirectXTex;$(SolutionDir)imgui</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)DirectXTex</IncludePath>
+    <IncludePath>$(SolutionDir)DirectXTex;$(SolutionDir)imgui</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -119,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -137,6 +138,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,6 +155,7 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LightGroup.cpp" />
     <ClCompile Include="main.cpp" />
@@ -176,6 +180,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GrovalSetting.h" />
+    <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="LightGroup.h" />
     <ClInclude Include="Matrix4.h" />
@@ -196,6 +201,9 @@
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
       <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+    <ProjectReference Include="imgui\imgui.vcxproj">
+      <Project>{6f6143cc-3d5d-4597-ab9f-0eb8217d5f4b}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
