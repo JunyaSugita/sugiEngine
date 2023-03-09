@@ -65,7 +65,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Object3d::StaticInitialize(dxCom->GetDevice());
 	Sprite::StaticInitialize(dxCom->GetDevice());
 	LightGroup::StaticInitialize(dxCom->GetDevice());
-	imGuiManager->Initialie(winApp.get());
+	imGuiManager->Initialie(winApp.get(),dxCom.get());
 
 #pragma endregion
 
@@ -91,6 +91,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//アップデート
 		///
 		gameM->Update(input.get());
+
+		//ImGui
+		bool my_tool_active_ = true;
+		ImGui::NewFrame();
+		ImGui::SetNextWindowSize(ImVec2(WIN_WIDTH, WIN_HEIGHT));
+		ImGui::Begin("abc", &my_tool_active_, ImGuiWindowFlags_MenuBar);
+		ImGui::ShowDemoWindow();
+		ImGui::End();
 
 		///
 		//背景スプライト

@@ -7,6 +7,7 @@
 #include "GameManager.h"
 #include "Sound.h"
 #include "LightGroup.h"
+#include "ImGuiManager.h"
 
 class GameScene : public ISceneManager
 {
@@ -51,5 +52,9 @@ private:
 	float circleShadowDir[3] = { 0,-1,0 };
 	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
 	float circleShadowFactorAngle[2] = { 0.0f,0.5f };
+
+	//ImGui
+	ImGuiManager* imGui_ = nullptr;
+	bool my_tool_active_ = true;
 };
 
