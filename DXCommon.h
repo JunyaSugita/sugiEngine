@@ -54,6 +54,9 @@ public:
 		++fenceVal_;
 		return fenceVal_;
 	}
+	size_t GetBackBufferCount() const {
+		return backBuffers_.size();
+	}
 
 	void InitializeFixFPS();
 

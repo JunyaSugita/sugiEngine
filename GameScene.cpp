@@ -40,13 +40,13 @@ void GameScene::Initialize(int num)
 	lightGroup_ = LightGroup::Create();
 	Object3d::SetLight(lightGroup_);
 	lightGroup_->SetCircleShadowActive(0, true);
-	
 
-	sound->PlayWave("Alarm01");
+	//sound->PlayWave("Alarm01");
 }
 
-void GameScene::Update(Input* input)
+void GameScene::Update(Input* input, ImGuiManager* imGui)
 {
+	imGui_ = imGui;
 	if (input->PushKey(DIK_LEFT)) {
 		sphereWorldTransform_.trans.x -= 0.3f;
 	}
@@ -74,6 +74,9 @@ void GameScene::Update(Input* input)
 	if (input->TriggerKey(DIK_1)) {
 		GameManager::SetTitleScene();
 	}
+
+	ImGui::Text("Hello,world 123");
+
 }
 
 void GameScene::BackSpriteDraw()

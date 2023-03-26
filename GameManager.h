@@ -16,7 +16,7 @@ public:
 public:
 	GameManager();
 
-	void Update(Input* input);
+	void Update(Input* input, ImGuiManager* imGui);
 	void BackSpriteDraw();
 	void Draw();
 	void SpriteDraw();

@@ -24,7 +24,7 @@ void TitleScene::Initialize(int num)
 	Object3d::SetLight(lightGroup_);
 }
 
-void TitleScene::Update(Input* input)
+void TitleScene::Update(Input* input, ImGuiManager* imGui)
 {
 	for (int i = 0; i < 2; i++) {
 		sphereWorldTransform_[i].rotation.z += 0.5f;
