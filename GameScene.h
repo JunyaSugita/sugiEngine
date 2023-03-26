@@ -13,7 +13,7 @@ class GameScene : public ISceneManager
 {
 public:
 	void Initialize(int num) override;
-	void Update(Input* input) override;
+	void Update(Input* input, ImGuiManager* imGui) override;
 	void BackSpriteDraw() override;
 	void Draw() override;
 	void SpriteDraw() override;

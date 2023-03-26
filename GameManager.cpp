@@ -12,9 +12,9 @@ GameManager::GameManager()
 	scene_->Initialize(0);
 }
 
-void GameManager::Update(Input* input)
+void GameManager::Update(Input* input, ImGuiManager* imGui)
 {
-	scene_->Update(input);
+	scene_->Update(input,imGui);
 }
 
 void GameManager::BackSpriteDraw()

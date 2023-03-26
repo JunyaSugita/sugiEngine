@@ -7,6 +7,7 @@ using namespace ImGui;
 void ImGuiManager::Initialie(WinApp* winApp, DXCommon* dxCom)
 {
 	HRESULT result;
+	dxCom_ = dxCom;
 
 	//ImGuiのコンテキストを生成
 	CreateContext();
@@ -37,6 +38,40 @@ void ImGuiManager::Initialie(WinApp* winApp, DXCommon* dxCom)
 	ImGuiIO& io = ImGui::GetIO();
 	//フォント設定
 	io.Fonts->AddFontDefault();
+}
+
+void ImGuiManager::Finalize()
+{
+	//後始末
+	ImGui_ImplDX12_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	DestroyContext();
+
+	//デスクリプタヒープを解放
+	srvHeap_.Reset();
+}
+
+void ImGuiManager::Begin()
+{
+	ImGui_ImplDX12_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	NewFrame();
+}
+
+void ImGuiManager::End()
+{
+	Render();
+}
+
+void ImGuiManager::Draw()
+{
+	ID3D12GraphicsCommandList* commandList = dxCom_->GetCommandList();
+
+	//デスクリプタヒープの配列をセット
+	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	//描画コマンド
+	ImGui_ImplDX12_RenderDrawData(GetDrawData(), commandList);
 }
 
 void ImGuiManager::Text(const char* text, ...)

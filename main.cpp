@@ -90,16 +90,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		//アップデート
 		///
-		gameM->Update(input.get());
-
-		//ImGui
-		bool my_tool_active_ = true;
-		ImGui::NewFrame();
-		ImGui::SetNextWindowSize(ImVec2(WIN_WIDTH, WIN_HEIGHT));
-		ImGui::Begin("abc", &my_tool_active_, ImGuiWindowFlags_MenuBar);
-		ImGui::ShowDemoWindow();
-		ImGui::End();
-
+		imGuiManager->Begin();
+		gameM->Update(input.get(),imGuiManager.get());
+		imGuiManager->End();
 		///
 		//背景スプライト
 		///
@@ -125,6 +118,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Sprite::PostDraw();
 
+		imGuiManager->Draw();
+
 #pragma endregion
 		dxCom->PostDraw();
 
@@ -140,6 +135,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region delete処理 
 	gameM->Delete();
+	imGuiManager->Finalize();
 
 #pragma endregion
 

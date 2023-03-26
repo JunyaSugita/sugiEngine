@@ -5,7 +5,7 @@ void ClearScene::Initialize(int num)
 
 }
 
-void ClearScene::Update(Input* input)
+void ClearScene::Update(Input* input, ImGuiManager* imGui)
 {
 
 }
