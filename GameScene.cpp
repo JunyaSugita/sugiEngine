@@ -1,5 +1,7 @@
 #include "GameScene.h"
 
+using namespace ImGui;
+
 void GameScene::Initialize(int num)
 {
 	sphereModel_ = Model::LoadFromObj("sphere", true);
@@ -46,7 +48,6 @@ void GameScene::Initialize(int num)
 
 void GameScene::Update(Input* input, ImGuiManager* imGui)
 {
-	imGui_ = imGui;
 	if (input->PushKey(DIK_LEFT)) {
 		sphereWorldTransform_.trans.x -= 0.3f;
 	}
@@ -75,8 +76,11 @@ void GameScene::Update(Input* input, ImGuiManager* imGui)
 		GameManager::SetTitleScene();
 	}
 
-	ImGui::Text("Hello,world 123");
-
+	Text("Hello,world %f", sphereWorldTransform_.trans.x);
+	if (Button("nanimonaiyo")) {
+		GameManager::SetTitleScene();
+	}
+	SliderFloat("float", &sphereWorldTransform_.trans.x, 0.0f, 1.0f);
 }
 
 void GameScene::BackSpriteDraw()
