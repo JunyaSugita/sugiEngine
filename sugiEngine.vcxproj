@@ -56,6 +56,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -76,6 +77,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,58 +87,58 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Burst.cpp" />
-    <ClCompile Include="ClearScene.cpp" />
-    <ClCompile Include="DXCommon.cpp" />
-    <ClCompile Include="EffectManager.cpp" />
-    <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="ImGuiManager.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="LightGroup.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Matrix4.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="MyGame.cpp" />
-    <ClCompile Include="Object3d.cpp" />
-    <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SugiFramework.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="Vector4.cpp" />
-    <ClCompile Include="WinApp.cpp" />
-    <ClCompile Include="WorldTransform.cpp" />
+    <ClCompile Include="sugiEngine\engine\effect\Burst.cpp" />
+    <ClCompile Include="sugiEngine\app\scene\ClearScene.cpp" />
+    <ClCompile Include="sugiEngine\engine\base\DXCommon.cpp" />
+    <ClCompile Include="sugiEngine\engine\effect\EffectManager.cpp" />
+    <ClCompile Include="sugiEngine\engine\scene\GameManager.cpp" />
+    <ClCompile Include="sugiEngine\app\scene\GameScene.cpp" />
+    <ClCompile Include="sugiEngine\engine\2d\ImGuiManager.cpp" />
+    <ClCompile Include="sugiEngine\engine\io\Input.cpp" />
+    <ClCompile Include="sugiEngine\engine\light\LightGroup.cpp" />
+    <ClCompile Include="sugiEngine\main.cpp" />
+    <ClCompile Include="sugiEngine\engine\math\Matrix4.cpp" />
+    <ClCompile Include="sugiEngine\engine\3d\Model.cpp" />
+    <ClCompile Include="sugiEngine\engine\scene\MyGame.cpp" />
+    <ClCompile Include="sugiEngine\engine\3d\Object3d.cpp" />
+    <ClCompile Include="sugiEngine\engine\audio\Sound.cpp" />
+    <ClCompile Include="sugiEngine\engine\2d\Sprite.cpp" />
+    <ClCompile Include="sugiEngine\engine\base\SugiFramework.cpp" />
+    <ClCompile Include="sugiEngine\app\scene\TitleScene.cpp" />
+    <ClCompile Include="sugiEngine\engine\math\Vector2.cpp" />
+    <ClCompile Include="sugiEngine\engine\math\Vector3.cpp" />
+    <ClCompile Include="sugiEngine\engine\math\Vector4.cpp" />
+    <ClCompile Include="sugiEngine\engine\base\WinApp.cpp" />
+    <ClCompile Include="sugiEngine\engine\3d\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Burst.h" />
-    <ClInclude Include="CircleShadow.h" />
-    <ClInclude Include="ClearScene.h" />
-    <ClInclude Include="DXCommon.h" />
-    <ClInclude Include="EffectManager.h" />
-    <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="GrovalSetting.h" />
-    <ClInclude Include="ImGuiManager.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="LightGroup.h" />
-    <ClInclude Include="Matrix4.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="MyGame.h" />
-    <ClInclude Include="Object3d.h" />
-    <ClInclude Include="ISceneManager.h" />
-    <ClInclude Include="PointLight.h" />
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="SpotLight.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SugiFramework.h" />
-    <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="Vector4.h" />
-    <ClInclude Include="WinApp.h" />
-    <ClInclude Include="WorldTransform.h" />
+    <ClInclude Include="sugiEngine\engine\effect\Burst.h" />
+    <ClInclude Include="sugiEngine\engine\light\CircleShadow.h" />
+    <ClInclude Include="sugiEngine\app\scene\ClearScene.h" />
+    <ClInclude Include="sugiEngine\engine\base\DXCommon.h" />
+    <ClInclude Include="sugiEngine\engine\effect\EffectManager.h" />
+    <ClInclude Include="sugiEngine\engine\scene\GameManager.h" />
+    <ClInclude Include="sugiEngine\app\scene\GameScene.h" />
+    <ClInclude Include="sugiEngine\engine\base\GrovalSetting.h" />
+    <ClInclude Include="sugiEngine\engine\2d\ImGuiManager.h" />
+    <ClInclude Include="sugiEngine\engine\io\Input.h" />
+    <ClInclude Include="sugiEngine\engine\light\LightGroup.h" />
+    <ClInclude Include="sugiEngine\engine\math\Matrix4.h" />
+    <ClInclude Include="sugiEngine\engine\3d\Model.h" />
+    <ClInclude Include="sugiEngine\engine\scene\MyGame.h" />
+    <ClInclude Include="sugiEngine\engine\3d\Object3d.h" />
+    <ClInclude Include="sugiEngine\engine\scene\ISceneManager.h" />
+    <ClInclude Include="sugiEngine\engine\light\PointLight.h" />
+    <ClInclude Include="sugiEngine\engine\audio\Sound.h" />
+    <ClInclude Include="sugiEngine\engine\light\SpotLight.h" />
+    <ClInclude Include="sugiEngine\engine\2d\Sprite.h" />
+    <ClInclude Include="sugiEngine\engine\base\SugiFramework.h" />
+    <ClInclude Include="sugiEngine\app\scene\TitleScene.h" />
+    <ClInclude Include="sugiEngine\engine\math\Vector2.h" />
+    <ClInclude Include="sugiEngine\engine\math\Vector3.h" />
+    <ClInclude Include="sugiEngine\engine\math\Vector4.h" />
+    <ClInclude Include="sugiEngine\engine\base\WinApp.h" />
+    <ClInclude Include="sugiEngine\engine\3d\WorldTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

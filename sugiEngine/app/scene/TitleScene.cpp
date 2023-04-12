@@ -33,10 +33,8 @@ void TitleScene::Update(Input* input, ImGuiManager* imGui)
 		sphereObj_[i]->Update();
 	}
 
-
 	//ƒ‰ƒCƒg
 	lightGroup_->Update();
-
 
 	if (input->TriggerKey(DIK_2)) {
 		GameManager::SetGameScene();

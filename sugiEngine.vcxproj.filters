@@ -13,165 +13,228 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル\math.h">
-      <UniqueIdentifier>{1b6ee87e-a843-406d-918b-13be7866f16c}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\engine">
+      <UniqueIdentifier>{b26678df-cb32-42f6-826e-87ea17ea605a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\math.cpp">
+    <Filter Include="ソース ファイル\engine\math">
       <UniqueIdentifier>{9c9c6675-0683-4c10-bfd4-9957ee34f1ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\engine\2d">
+      <UniqueIdentifier>{27bf4a0f-f8bd-49ca-bded-82bc18740816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\effect">
+      <UniqueIdentifier>{7e80ead7-9116-49b8-8d15-753e731586f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\3d">
+      <UniqueIdentifier>{021490bd-1430-4443-8624-b980f596adec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app">
+      <UniqueIdentifier>{1be550cc-44cb-4701-9f33-4a821b717e8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\scene">
+      <UniqueIdentifier>{bb14ac36-6c37-4345-b81c-456b9da8b2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\base">
+      <UniqueIdentifier>{a938204c-ad5d-4672-8d8a-680ca77903e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\scene">
+      <UniqueIdentifier>{a173e55b-004a-4cf5-afe9-2d5076510e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\io">
+      <UniqueIdentifier>{1afe5cd1-a943-4b1b-a6d4-1be85fffa0dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\audio">
+      <UniqueIdentifier>{43bbfcd1-ba26-43aa-8773-0868beb26bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine">
+      <UniqueIdentifier>{aedce325-df96-47b7-9bfb-cc92b8c94db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app">
+      <UniqueIdentifier>{f1ed7343-c38b-4961-9282-b010f74228c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\math">
+      <UniqueIdentifier>{1b6ee87e-a843-406d-918b-13be7866f16c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\2d">
+      <UniqueIdentifier>{e2dd8067-fc55-4542-9e31-d12e5e51414c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\3d">
+      <UniqueIdentifier>{e74d6d40-74f0-4c69-95bd-905d2708abce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\effect">
+      <UniqueIdentifier>{aaf14df9-f8d9-450c-9421-5433f4808bff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\base">
+      <UniqueIdentifier>{ee31c06b-c4b7-44f7-8a62-b7a5f00db943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\io">
+      <UniqueIdentifier>{0e622cd1-8b93-4c2f-81b4-b063a845442e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\audio">
+      <UniqueIdentifier>{096f34a7-d27c-4b84-9b1c-c01ff77f28ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\scene">
+      <UniqueIdentifier>{9b62b117-f323-48a7-b26a-4776472af503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app\scene">
+      <UniqueIdentifier>{1f14d361-19b3-4491-8730-0fe2f51e2b16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\light">
+      <UniqueIdentifier>{2187c251-87b4-4338-8286-67ec0e6db2b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="sugiEngine\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\math\Vector2.cpp">
+      <Filter>ソース ファイル\engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="Vector2.cpp">
-      <Filter>ソース ファイル\math.cpp</Filter>
+    <ClCompile Include="sugiEngine\engine\math\Vector3.cpp">
+      <Filter>ソース ファイル\engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="Vector3.cpp">
-      <Filter>ソース ファイル\math.cpp</Filter>
+    <ClCompile Include="sugiEngine\engine\math\Matrix4.cpp">
+      <Filter>ソース ファイル\engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix4.cpp">
-      <Filter>ソース ファイル\math.cpp</Filter>
+    <ClCompile Include="sugiEngine\engine\math\Vector4.cpp">
+      <Filter>ソース ファイル\engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="WorldTransform.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\app\scene\ClearScene.cpp">
+      <Filter>ソース ファイル\app\scene</Filter>
     </ClCompile>
-    <ClCompile Include="WinApp.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\app\scene\GameScene.cpp">
+      <Filter>ソース ファイル\app\scene</Filter>
     </ClCompile>
-    <ClCompile Include="DXCommon.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\app\scene\TitleScene.cpp">
+      <Filter>ソース ファイル\app\scene</Filter>
     </ClCompile>
-    <ClCompile Include="Object3d.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\effect\Burst.cpp">
+      <Filter>ソース ファイル\engine\effect</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\effect\EffectManager.cpp">
+      <Filter>ソース ファイル\engine\effect</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\2d\Sprite.cpp">
+      <Filter>ソース ファイル\engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Vector4.cpp">
-      <Filter>ソース ファイル\math.cpp</Filter>
+    <ClCompile Include="sugiEngine\engine\2d\ImGuiManager.cpp">
+      <Filter>ソース ファイル\engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\3d\Object3d.cpp">
+      <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\3d\WorldTransform.cpp">
+      <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\3d\Model.cpp">
+      <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
-    <ClCompile Include="ClearScene.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\base\DXCommon.cpp">
+      <Filter>ソース ファイル\engine\base</Filter>
     </ClCompile>
-    <ClCompile Include="EffectManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\scene\GameManager.cpp">
+      <Filter>ソース ファイル\engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="Burst.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\io\Input.cpp">
+      <Filter>ソース ファイル\engine\io</Filter>
     </ClCompile>
-    <ClCompile Include="Sound.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\scene\MyGame.cpp">
+      <Filter>ソース ファイル\engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="LightGroup.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\audio\Sound.cpp">
+      <Filter>ソース ファイル\engine\audio</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\base\WinApp.cpp">
+      <Filter>ソース ファイル\engine\base</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\base\SugiFramework.cpp">
+      <Filter>ソース ファイル\engine\base</Filter>
     </ClCompile>
-    <ClCompile Include="SugiFramework.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\engine\light\LightGroup.cpp">
+      <Filter>ソース ファイル\engine\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Input.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\math\Vector2.h">
+      <Filter>ヘッダー ファイル\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>ヘッダー ファイル\math.h</Filter>
+    <ClInclude Include="sugiEngine\engine\math\Vector3.h">
+      <Filter>ヘッダー ファイル\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>ヘッダー ファイル\math.h</Filter>
+    <ClInclude Include="sugiEngine\engine\math\Matrix4.h">
+      <Filter>ヘッダー ファイル\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix4.h">
-      <Filter>ヘッダー ファイル\math.h</Filter>
+    <ClInclude Include="sugiEngine\engine\math\Vector4.h">
+      <Filter>ヘッダー ファイル\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="WorldTransform.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\2d\ImGuiManager.h">
+      <Filter>ヘッダー ファイル\engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="WinApp.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\effect\Burst.h">
+      <Filter>ヘッダー ファイル\engine\effect</Filter>
     </ClInclude>
-    <ClInclude Include="DXCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\base\DXCommon.h">
+      <Filter>ヘッダー ファイル\engine\base</Filter>
     </ClInclude>
-    <ClInclude Include="Object3d.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\effect\EffectManager.h">
+      <Filter>ヘッダー ファイル\engine\effect</Filter>
     </ClInclude>
-    <ClInclude Include="GrovalSetting.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\scene\GameManager.h">
+      <Filter>ヘッダー ファイル\engine\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\app\scene\GameScene.h">
+      <Filter>ヘッダー ファイル\app\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\base\GrovalSetting.h">
+      <Filter>ヘッダー ファイル\engine\base</Filter>
     </ClInclude>
-    <ClInclude Include="Vector4.h">
-      <Filter>ヘッダー ファイル\math.h</Filter>
+    <ClInclude Include="sugiEngine\engine\io\Input.h">
+      <Filter>ヘッダー ファイル\engine\io</Filter>
     </ClInclude>
-    <ClInclude Include="ISceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\scene\ISceneManager.h">
+      <Filter>ヘッダー ファイル\engine\scene</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\light\LightGroup.h">
+      <Filter>ヘッダー ファイル\engine\light</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\app\scene\ClearScene.h">
+      <Filter>ヘッダー ファイル\engine\light</Filter>
     </ClInclude>
-    <ClInclude Include="TitleScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\light\CircleShadow.h">
+      <Filter>ヘッダー ファイル\engine\light</Filter>
     </ClInclude>
-    <ClInclude Include="ClearScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\3d\Model.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
-    <ClInclude Include="EffectManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\scene\MyGame.h">
+      <Filter>ヘッダー ファイル\app\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Burst.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\3d\Object3d.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\light\PointLight.h">
+      <Filter>ヘッダー ファイル\engine\light</Filter>
     </ClInclude>
-    <ClInclude Include="CircleShadow.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\audio\Sound.h">
+      <Filter>ヘッダー ファイル\engine\audio</Filter>
     </ClInclude>
-    <ClInclude Include="LightGroup.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\light\SpotLight.h">
+      <Filter>ヘッダー ファイル\engine\light</Filter>
     </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\2d\Sprite.h">
+      <Filter>ヘッダー ファイル\engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="SpotLight.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\base\SugiFramework.h">
+      <Filter>ヘッダー ファイル\engine\base</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\app\scene\TitleScene.h">
+      <Filter>ヘッダー ファイル\app\scene</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\base\WinApp.h">
+      <Filter>ヘッダー ファイル\engine\base</Filter>
     </ClInclude>
-    <ClInclude Include="SugiFramework.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="sugiEngine\engine\3d\WorldTransform.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
