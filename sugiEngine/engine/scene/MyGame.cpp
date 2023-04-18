@@ -9,19 +9,16 @@ void MyGame::Initialize()
 	SugiFramework::Initialize();
 	
 	//ゲーム固有の初期化
-	gameM = make_unique <GameManager>();
-	imGuiManager = make_unique <ImGuiManager>();
-
-	imGuiManager->Initialie(winApp.get(), dxCom.get());
+	ImGuiManager::GetInstance()->Initialie(winApp.get(), dxCom.get());
 }
 
 void MyGame::Finalize()
 {
 	//ゲーム固有の終了処理
-	gameM->Delete();
+	GameManager::GetInstance()->Delete();
 	//基底クラスの終了処理
 	SugiFramework::Finalize();
-	imGuiManager->Finalize();
+	ImGuiManager::GetInstance()->Finalize();
 }
 
 void MyGame::Update()
@@ -30,9 +27,9 @@ void MyGame::Update()
 	SugiFramework::Update();
 
 	//ゲーム固有の更新処理
-	imGuiManager->Begin();
-	gameM->Update(input.get(), imGuiManager.get());
-	imGuiManager->End();
+	ImGuiManager::GetInstance()->Begin();
+	GameManager::GetInstance()->Update();
+	ImGuiManager::GetInstance()->End();
 }
 
 void MyGame::Draw()
@@ -42,25 +39,25 @@ void MyGame::Draw()
 	//背景スプライト
 	Sprite::PreDraw(dxCom->GetCommandList());
 
-	gameM->BackSpriteDraw();
+	GameManager::GetInstance()->BackSpriteDraw();
 
 	Sprite::PostDraw();
 
 	//モデル
 	Object3d::PreDraw(dxCom->GetCommandList());
 
-	gameM->Draw();
+	GameManager::GetInstance()->Draw();
 
 	Object3d::PostDraw();
 
 	//スプライト
 	Sprite::PreDraw(dxCom->GetCommandList());
 
-	gameM->SpriteDraw();
+	GameManager::GetInstance()->SpriteDraw();
 
 	Sprite::PostDraw();
 
-	imGuiManager->Draw();
+	ImGuiManager::GetInstance()->Draw();
 
 
 	dxCom->PostDraw();

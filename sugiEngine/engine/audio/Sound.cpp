@@ -18,8 +18,6 @@ void Sound::Initialize(const std::string& directoryPath, const std::string& exte
 
 void Sound::LoadWave(const std::string& filename)
 {
-	HRESULT result;
-
 	//重複チェック
 	if (soundDatas_.find(filename) != soundDatas_.end()) {
 		return;
@@ -30,7 +28,7 @@ void Sound::LoadWave(const std::string& filename)
 	//ファイルオープン
 	std::ifstream file;
 	file.open(filepath, std::ios_base::binary);
-	assert(file, is_open());
+	assert(file.is_open());
 
 	//wavデータ読み込み
 	RiffHeader riff;

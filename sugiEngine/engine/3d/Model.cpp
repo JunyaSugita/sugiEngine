@@ -3,7 +3,7 @@
 
 using namespace std;
 
-ID3D12Device* Model::device = nullptr;
+ID3D12Device* Model::device_ = nullptr;
 
 Model* Model::LoadFromObj(const std::string& modelname, bool smoothing)
 {
@@ -123,12 +123,12 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 	textureResourceDesc.Format = metadata.format;
 	textureResourceDesc.Width = metadata.width;
 	textureResourceDesc.Height = (UINT)metadata.height;
-	textureResourceDesc.DepthOrArraySize = (UINT)metadata.arraySize;
-	textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
+	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
 	//テクスチャバッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
@@ -163,7 +163,7 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
-	device->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
+	device_->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
 
 	return false;
 }
@@ -181,7 +181,7 @@ void Model::InitializeDescriptorHeap() {
 	srvHeapDesc.NumDescriptors = kMaxSRVCount;
 
 	//設定を元にSRV用デスクリプタヒープを生成
-	result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	result = device_->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 }
 
@@ -205,7 +205,7 @@ void Model::CreateBuffers()
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// 頂点バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -235,7 +235,7 @@ void Model::CreateBuffers()
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//インデックスバッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&heapProp,	//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,	//リソース設定
@@ -280,7 +280,7 @@ void Model::CreateBuffers()
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成2
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -370,10 +370,10 @@ void Model::LoatFromObjInternal(const std::string& modelname, bool smoothing) {
 
 		if (key == "mtllib") {
 			//マテリアル名読み込み
-			string filename;
-			line_stream >> filename;
+			string filenameM;
+			line_stream >> filenameM;
 			//マテリアル読み込み
-			LoadMaterial(directoryPath, filename);
+			LoadMaterial(directoryPath, filenameM);
 		}
 		if (key == "v") {
 			//xyz座標読み込み

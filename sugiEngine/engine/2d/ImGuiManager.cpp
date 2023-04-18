@@ -3,6 +3,20 @@
 #include <imgui_impl_dx12.h>
 using namespace ImGui;
 
+ImGuiManager::ImGuiManager()
+{
+}
+
+ImGuiManager::~ImGuiManager()
+{
+}
+
+ImGuiManager* ImGuiManager::GetInstance()
+{
+	static ImGuiManager instance;
+
+	return &instance;
+}
 
 void ImGuiManager::Initialie(WinApp* winApp, DXCommon* dxCom)
 {

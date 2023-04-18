@@ -38,12 +38,12 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 				}
 			}
 		}
-		matRot.m[0][0] = cos(XMConvertToRadians(rot.z));
-		matRot.m[0][1] = sin(XMConvertToRadians(rot.z));
-		matRot.m[1][0] = -sin(XMConvertToRadians(rot.z));
-		matRot.m[1][1] = cos(XMConvertToRadians(rot.z));
+		matRot.m[0][0] = static_cast<float> (cos(XMConvertToRadians(rot.z)));
+		matRot.m[0][1] = static_cast<float> (sin(XMConvertToRadians(rot.z)));
+		matRot.m[1][0] = static_cast<float> (-sin(XMConvertToRadians(rot.z)));
+		matRot.m[1][1] = static_cast<float> (cos(XMConvertToRadians(rot.z)));
 	}
-	
+
 	if (way == 'x') {
 		//XŽ²‰ñ“]
 		for (int i = 0; i < 4; i++) {
@@ -56,10 +56,10 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 				}
 			}
 		}
-		matRot.m[1][1] = cos(XMConvertToRadians(rot.x));
-		matRot.m[1][2] = sin(XMConvertToRadians(rot.x));
-		matRot.m[2][1] = -sin(XMConvertToRadians(rot.x));
-		matRot.m[2][2] = cos(XMConvertToRadians(rot.x));
+		matRot.m[1][1] = static_cast<float> (cos(XMConvertToRadians(rot.x)));
+		matRot.m[1][2] = static_cast<float> (sin(XMConvertToRadians(rot.x)));
+		matRot.m[2][1] = static_cast<float> (-sin(XMConvertToRadians(rot.x)));
+		matRot.m[2][2] = static_cast<float> (cos(XMConvertToRadians(rot.x)));
 	}
 	//YŽ²‰ñ“]
 	if (way == 'y') {
@@ -73,10 +73,10 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 				}
 			}
 		}
-		matRot.m[0][0] = cos(XMConvertToRadians(rot.y));
-		matRot.m[0][2] = -sin(XMConvertToRadians(rot.y));
-		matRot.m[2][0] = sin(XMConvertToRadians(rot.y));
-		matRot.m[2][2] = cos(XMConvertToRadians(rot.y));
+		matRot.m[0][0] = static_cast<float> (cos(XMConvertToRadians(rot.y)));
+		matRot.m[0][2] = static_cast<float> (-sin(XMConvertToRadians(rot.y)));
+		matRot.m[2][0] = static_cast<float> (sin(XMConvertToRadians(rot.y)));
+		matRot.m[2][2] = static_cast<float> (cos(XMConvertToRadians(rot.y)));
 	}
 }
 
@@ -91,10 +91,10 @@ void WorldTransform::SetWorldMat() {
 	};
 
 	Matrix4 matScale;
-	SetMatScale(matScale, scale);
+	SetMatScale(matScale, scale_);
 
 	Matrix4 matTrans;
-	SetMatTrans(matTrans, trans);
+	SetMatTrans(matTrans, trans_);
 
 	Matrix4 matRotZ;
 	SetMatRot(matRotZ, rotation, 'z');

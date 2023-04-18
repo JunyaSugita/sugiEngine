@@ -21,7 +21,7 @@ void EffectManager::Draw()
 }
 
 //飛び散りエフェクト
-void EffectManager::BurstGenerate(Vector3 pos, uint32_t num, Vector4 color, float range, float pow)
+void EffectManager::BurstGenerate(Vector3 pos, int num, Vector4 color, float range, float pow)
 {
 	for (int i = 0; i < num; i++) {
 		std::unique_ptr<Burst> newBurst = std::make_unique<Burst>();

@@ -6,10 +6,10 @@
 using namespace Microsoft::WRL;
 using namespace std;
 
-ComPtr<ID3D12Device> Sprite::device = nullptr;
+ComPtr<ID3D12Device> Sprite::device_ = nullptr;
 ComPtr<ID3D12PipelineState> Sprite::pipelineState = nullptr;
 ComPtr<ID3D12RootSignature> Sprite::rootSignature;
-ComPtr<ID3D12GraphicsCommandList> Sprite::cmdList;
+ComPtr<ID3D12GraphicsCommandList> Sprite::cmdList_;
 std::array<ComPtr<ID3D12Resource>, Sprite::kMaxSRVCount> Sprite::textureBuffers_;
 const size_t Sprite::kMaxSRVCount;
 ComPtr<ID3D12DescriptorHeap> Sprite::srvHeap;
@@ -19,7 +19,7 @@ uint32_t Sprite::textureIndex = 0;
 void Sprite::StaticInitialize(ID3D12Device* device)
 {
 	HRESULT result;
-	Sprite::device = device;
+	device_ = device;
 
 	ComPtr<ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
@@ -213,7 +213,7 @@ void Sprite::StaticInitialize(ID3D12Device* device)
 
 void Sprite::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
-	Sprite::cmdList = cmdList;
+	Sprite::cmdList_ = cmdList;
 	// パイプラインステートとルートシグネチャの設定コマンド
 	cmdList->SetPipelineState(pipelineState.Get());
 	cmdList->SetGraphicsRootSignature(rootSignature.Get());
@@ -226,7 +226,7 @@ void Sprite::PreDraw(ID3D12GraphicsCommandList* cmdList)
 
 void Sprite::PostDraw()
 {
-	Sprite::cmdList = nullptr;
+	Sprite::cmdList_ = nullptr;
 }
 
 uint32_t Sprite::LoadTexture(const string& textureName) {
@@ -237,7 +237,7 @@ uint32_t Sprite::LoadTexture(const string& textureName) {
 	string fileName = "Resources/" + textureName;
 	//ユニコード文字列に変換する
 	wchar_t wfilepath[128];
-	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, fileName.c_str(), -1, wfilepath, _countof(wfilepath));
+	MultiByteToWideChar(CP_ACP, 0, fileName.c_str(), -1, wfilepath, _countof(wfilepath));
 
 	//WICテクスチャのロード
 	result = LoadFromWICFile(
@@ -275,12 +275,12 @@ uint32_t Sprite::LoadTexture(const string& textureName) {
 	textureResourceDesc.Format = metadata.format;
 	textureResourceDesc.Width = metadata.width;
 	textureResourceDesc.Height = (UINT)metadata.height;
-	textureResourceDesc.DepthOrArraySize = (UINT)metadata.arraySize;
-	textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
+	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
 	//テクスチャバッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
@@ -314,11 +314,11 @@ uint32_t Sprite::LoadTexture(const string& textureName) {
 	//SRVヒープの先頭ハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 	//テクスチャ切り替え
-	incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	incrementSize = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	srvHandle.ptr += incrementSize * textureIndex;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
-	device->CreateShaderResourceView(textureBuffers_[textureIndex].Get(), &srvDesc, srvHandle);
+	device_->CreateShaderResourceView(textureBuffers_[textureIndex].Get(), &srvDesc, srvHandle);
 
 	textureIndex++;
 
@@ -351,7 +351,7 @@ void Sprite::Initialize(uint32_t texNum)
 	resDesc_.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// 頂点バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&heapProp_, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc_, // リソース設定
@@ -394,7 +394,7 @@ void Sprite::Initialize(uint32_t texNum)
 
 
 	//定数バッファの生成
-	result = Sprite::device->CreateCommittedResource(
+	result = Sprite::device_->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -419,13 +419,13 @@ void Sprite::Initialize(uint32_t texNum)
 	WorldTransform matTransform;
 	matTransform.matWorld.Initialize();
 	matTransform.rotation.z = rotate;
-	matTransform.trans = { pos.x,pos.y,0 };
+	matTransform.trans_ = { pos.x,pos.y,0 };
 	matTransform.SetWorldMat();
 
 	constMapTransform->mat = matTransform.matWorld * worldTransform.matWorld;
 
 	//定数バッファ
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&cbHeapProp,	//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,//リソース設定
@@ -446,24 +446,24 @@ void Sprite::Initialize(uint32_t texNum)
 void Sprite::Draw()
 {
 	// 頂点バッファビューの設定コマンド
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
+	cmdList_->IASetVertexBuffers(0, 1, &vbView);
 	//定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap.Get() };
-	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	//SRVヒープの先頭ハンドルを取得(SRVを指すはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 	//描画するテクスチャの指定
 	srvGpuHandle.ptr += incrementSize * textureNum;
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	cmdList_->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 	//定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
+	cmdList_->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
 	if (isView == true) {
 		// 描画コマンド
-		cmdList->DrawInstanced(4, 1, 0, 0); // 全ての頂点を使って描画
+		cmdList_->DrawInstanced(4, 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -576,7 +576,7 @@ void Sprite::SetUpVertex() {
 	WorldTransform matTransform;
 	matTransform.matWorld.Initialize();
 	matTransform.rotation.z = rotate;
-	matTransform.trans = { pos.x,pos.y,0 };
+	matTransform.trans_ = { pos.x,pos.y,0 };
 	matTransform.SetWorldMat();
 
 	constMapTransform->mat = matTransform.matWorld * worldTransform.matWorld;

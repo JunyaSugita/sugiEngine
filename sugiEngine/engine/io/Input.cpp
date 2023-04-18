@@ -1,5 +1,20 @@
 #include "Input.h"
 
+Input::Input()
+{
+}
+
+Input::~Input()
+{
+}
+
+Input* Input::GetInstance()
+{
+	static Input instance;
+
+	return &instance;
+}
+
 void Input::Initialize(WinApp* winApp)
 {
 	winApp_ = winApp;
@@ -32,7 +47,7 @@ void Input::Update()
 
 	oldState_ = state_;
 	ZeroMemory(&state_, sizeof(XINPUT_STATE));
-	DWORD dwResult = XInputGetState(0, &state_);
+	//DWORD dwResult = XInputGetState(0, &state_);
 
 	if (state_.Gamepad.sThumbLX <  2000 && state_.Gamepad.sThumbLX > -2000) {
 		state_.Gamepad.sThumbLX = 0;

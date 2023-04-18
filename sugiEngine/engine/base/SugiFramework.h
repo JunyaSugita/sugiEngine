@@ -47,6 +47,5 @@ public:
 protected:
 	std::unique_ptr<WinApp> winApp = nullptr;
 	std::unique_ptr<DXCommon> dxCom = nullptr;
-	std::unique_ptr<Input> input = nullptr;
 	std::unique_ptr <Matrix4> matrix4 = nullptr;
 };

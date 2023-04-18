@@ -7,8 +7,8 @@
 class ClearScene : public ISceneManager
 {
 public:
-	void Initialize(int num) override;
-	void Update(Input* input, ImGuiManager* imGui) override;
+	void Initialize() override;
+	void Update() override;
 	void BackSpriteDraw() override;
 	void Draw() override;
 	void SpriteDraw() override;

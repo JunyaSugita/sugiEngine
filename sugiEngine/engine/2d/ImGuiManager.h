@@ -3,8 +3,21 @@
 #include "DXCommon.h"
 #include <imgui.h>
 
-class ImGuiManager
+class ImGuiManager final
 {
+private:
+	ImGuiManager();
+	~ImGuiManager();
+
+public:
+	//コピーコンストラクタ無効
+	ImGuiManager(const ImGuiManager& obj) = delete;
+	//代入演算子を無効
+	ImGuiManager& operator=(const ImGuiManager& obj) = delete;
+
+	static ImGuiManager* GetInstance();
+
+
 public:
 	/// <summary>
 	/// 初期化

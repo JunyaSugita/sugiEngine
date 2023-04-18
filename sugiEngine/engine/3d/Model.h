@@ -54,11 +54,11 @@ public:
 public:
 	static Model* LoadFromObj(const std::string& modelname,bool smoothing = false);
 	static void SetDevice(ID3D12Device* device) {
-		Model::device = device;
+		device_ = device;
 	}
 
 private:
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 
 private:
 	void LoatFromObjInternal(const std::string& modelname, bool smoothing = false);
