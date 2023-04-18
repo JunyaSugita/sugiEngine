@@ -1,26 +1,33 @@
 #pragma once
 #include "ISceneManager.h"
-
 #include <memory>
 
 class GameManager
 {
 private:
-	static std::unique_ptr<ISceneManager> scene_;
-	static int stage_;
-public:
-	static void SetTitleScene();
-	static void SetGameScene();
-	static void SetClearScene();
-
-public:
 	GameManager();
+	~GameManager();
 
-	void Update(Input* input, ImGuiManager* imGui);
+public:
+	//コピーコンストラクタ無効
+	GameManager(const GameManager& obj) = delete;
+	//代入演算子を無効
+	GameManager& operator=(const GameManager& obj) = delete;
+
+	static GameManager* GetInstance();
+
+public:
+	void Update();
 	void BackSpriteDraw();
 	void Draw();
 	void SpriteDraw();
 	void Delete();
 	
+	void SetTitleScene();
+	void SetGameScene();
+	void SetClearScene();
+
+private:
+	std::unique_ptr<ISceneManager> scene_;
 };
 

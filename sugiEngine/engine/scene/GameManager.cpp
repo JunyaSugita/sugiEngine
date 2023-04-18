@@ -3,18 +3,19 @@
 #include "GameScene.h"
 #include "ClearScene.h"
 
-std::unique_ptr<ISceneManager> GameManager::scene_;
-int GameManager::stage_;
-
 GameManager::GameManager()
 {
 	scene_ = std::make_unique<TitleScene>();
-	scene_->Initialize(0);
+	scene_->Initialize();
 }
 
-void GameManager::Update(Input* input, ImGuiManager* imGui)
+GameManager::~GameManager()
 {
-	scene_->Update(input,imGui);
+}
+
+void GameManager::Update()
+{
+	scene_->Update();
 }
 
 void GameManager::BackSpriteDraw()
@@ -37,23 +38,30 @@ void GameManager::Delete()
 	scene_->Delete();
 }
 
+GameManager* GameManager::GetInstance()
+{
+	static GameManager instance;
+
+	return &instance;
+}
+
 void GameManager::SetTitleScene()
 {
 	scene_->Delete();
 	scene_ = std::make_unique<TitleScene>();
-	scene_->Initialize(0);
+	scene_->Initialize();
 }
 
 void GameManager::SetGameScene()
 {
 	scene_->Delete();
 	scene_ = std::make_unique<GameScene>();
-	scene_->Initialize(stage_);
+	scene_->Initialize();
 }
 
 void GameManager::SetClearScene()
 {
 	scene_->Delete();
 	scene_ = std::make_unique<ClearScene>();
-	scene_->Initialize(stage_);
+	scene_->Initialize();
 }

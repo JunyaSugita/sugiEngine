@@ -44,7 +44,7 @@ public:
 
 private:
 	//デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 	//並行投影行列
 	static XMMATRIX ortho;
 	//透視投影変換行列の計算
@@ -53,7 +53,7 @@ private:
 	static Matrix4 matProjecsion;
 	static Matrix4 matView;
 
-	static ID3D12GraphicsCommandList* cmdList;
+	static ID3D12GraphicsCommandList* cmdList_;
 	static ComPtr<ID3D12PipelineState> pipelineState;
 	static ComPtr<ID3D12RootSignature> rootSignature;
 
@@ -76,10 +76,10 @@ public:
 	void Draw();
 
 	void SetModel(Model* model) {
-		this->model = model;
+		model_ = model;
 	}
 	void SetWorldTransform(WorldTransform worldTransform) {
-		this->worldTransform = worldTransform;
+		worldTransform_ = worldTransform;
 	}
 	void SetColor(Vector4 color) {
 		color_.x = color.x;
@@ -89,7 +89,7 @@ public:
 	}
 
 	Vector3 GetPos() {
-		return worldTransform.trans;
+		return worldTransform_.trans_;
 	}
 
 	static void SetLight(LightGroup* lightGroup) {
@@ -99,9 +99,9 @@ public:
 private:
 	ComPtr<ID3D12Resource> constBuffB0 = nullptr;
 	ConstBufferDataB0* constMap = nullptr;
-	WorldTransform worldTransform;
+	WorldTransform worldTransform_;
 
-	Model* model = nullptr;
+	Model* model_ = nullptr;
 	XMFLOAT4 color_ = {1,1,1,1};
 	static LightGroup* lightGroup_;
 };

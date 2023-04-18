@@ -1,11 +1,11 @@
 #include "ClearScene.h"
 
-void ClearScene::Initialize(int num)
+void ClearScene::Initialize()
 {
 
 }
 
-void ClearScene::Update(Input* input, ImGuiManager* imGui)
+void ClearScene::Update()
 {
 
 }

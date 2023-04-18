@@ -32,13 +32,13 @@ public:
 
 private:
 	//デバイス
-	static ComPtr<ID3D12Device> device;
+	static ComPtr<ID3D12Device> device_;
 	static ComPtr<ID3D12PipelineState> pipelineState;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootSignature;
 	// 頂点バッファビューの作成
 
-	static ComPtr<ID3D12GraphicsCommandList> cmdList;
+	static ComPtr<ID3D12GraphicsCommandList> cmdList_;
 
 	//SRVの最大数
 	static const size_t kMaxSRVCount = 2056;

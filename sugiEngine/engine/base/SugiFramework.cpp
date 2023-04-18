@@ -4,7 +4,6 @@ void SugiFramework::Initialize()
 {
 	winApp = make_unique<WinApp>();
 	dxCom = make_unique<DXCommon>();
-	input = make_unique<Input>();
 	matrix4 = make_unique <Matrix4>();
 
 #pragma region windowsAPI初期化処理
@@ -18,7 +17,7 @@ void SugiFramework::Initialize()
 	// DirectX初期化処理 ここから
 	dxCom->Initialize(winApp.get());
 	//キーボード入力の初期化
-	input->Initialize(winApp.get());
+	Input::GetInstance()->Initialize(winApp.get());
 #pragma endregion
 
 #pragma region 描画初期化処理
@@ -38,7 +37,7 @@ void SugiFramework::Finalize()
 void SugiFramework::Update()
 {
 	//キーボード入力
-	input->Update();
+	Input::GetInstance()->Update();
 }
 
 void SugiFramework::Run()

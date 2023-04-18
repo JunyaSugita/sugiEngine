@@ -11,13 +11,13 @@ using namespace std;
 /// <summary>
 /// 静的メンバ変数の実態
 /// </summary>
-ID3D12Device* Object3d::device = nullptr;
+ID3D12Device* Object3d::device_ = nullptr;
 XMMATRIX Object3d::ortho;
 XMMATRIX Object3d::perspective;
 Matrix4 Object3d::matProjecsion;
 Matrix4 Object3d::matView;
 
-ID3D12GraphicsCommandList* Object3d::cmdList = nullptr;
+ID3D12GraphicsCommandList* Object3d::cmdList_ = nullptr;
 ComPtr<ID3D12PipelineState> Object3d::pipelineState;
 ComPtr<ID3D12RootSignature> Object3d::rootSignature;
 
@@ -34,7 +34,7 @@ LightGroup* Object3d::lightGroup_ = nullptr;
 void Object3d::StaticInitialize(ID3D12Device* device)
 {
 	HRESULT result;
-	Object3d::device = device;
+	device_ = device;
 	Model::SetDevice(device);
 
 #pragma region カメラ
@@ -251,7 +251,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
-	result = Object3d::device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+	result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
 
@@ -285,7 +285,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 
 
 	//定数バッファの生成
-	result = Object3d::device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -306,19 +306,19 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 
 void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
-	Object3d::cmdList = cmdList;
+	Object3d::cmdList_ = cmdList;
 
 	// パイプラインステートとルートシグネチャの設定コマンド
-	Object3d::cmdList->SetPipelineState(pipelineState.Get());
-	Object3d::cmdList->SetGraphicsRootSignature(rootSignature.Get());
+	Object3d::cmdList_->SetPipelineState(pipelineState.Get());
+	Object3d::cmdList_->SetGraphicsRootSignature(rootSignature.Get());
 
 	// プリミティブ形状の設定コマンド
-	Object3d::cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	Object3d::cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 
 
 	//定数バッファビュー(CBV)の設定コマンド
-	Object3d::cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	Object3d::cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 
 
 }
@@ -326,7 +326,7 @@ void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 void Object3d::PostDraw()
 {
 	// コマンドリストを解除
-	Object3d::cmdList = nullptr;
+	Object3d::cmdList_ = nullptr;
 }
 
 
@@ -351,7 +351,7 @@ bool Object3d::Initialize()
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -367,10 +367,10 @@ bool Object3d::Initialize()
 
 
 	//ワールド変換行列
-	worldTransform.scale = { 1.0f,1.0f,1.0f };
-	worldTransform.rotation = { 0.0f,1.0f,1.0f };
-	worldTransform.trans = { 0.0f,0.0f,0.0f };
-	worldTransform.SetWorldMat();
+	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
+	worldTransform_.rotation = { 0.0f,1.0f,1.0f };
+	worldTransform_.trans_ = { 0.0f,0.0f,0.0f };
+	worldTransform_.SetWorldMat();
 
 	//constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
 
@@ -379,9 +379,7 @@ bool Object3d::Initialize()
 
 void Object3d::Update()
 {
-	HRESULT result;
-
-	worldTransform.SetWorldMat();
+	worldTransform_.SetWorldMat();
 
 	XMMATRIX xmmatView;
 	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
@@ -392,39 +390,39 @@ void Object3d::Update()
 	const XMFLOAT3& cameraPos = eye;
 
 	constMap->viewproj = ConvertToXMMATRIX(matView * matProjecsion);
-	constMap->world = ConvertToXMMATRIX(worldTransform.matWorld);
+	constMap->world = ConvertToXMMATRIX(worldTransform_.matWorld);
 	constMap->cameraPos = cameraPos;
 }
 
 void Object3d::Scale(Vector3 scale)
 {
-	worldTransform.scale = scale;
+	worldTransform_.scale_ = scale;
 }
 
 void Object3d::Rotate(Vector3 rot)
 {
-	worldTransform.rotation = rot;
+	worldTransform_.rotation = rot;
 }
 
 void Object3d::Trans(Vector3 pos)
 {
-	worldTransform.trans = pos;
+	worldTransform_.trans_ = pos;
 }
 
 void Object3d::Draw()
 {
-	assert(device);
-	assert(Object3d::cmdList);
+	assert(device_);
+	assert(Object3d::cmdList_);
 
-	if (model == nullptr) {
+	if (model_ == nullptr) {
 		return;
 	}
 
 	//定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
+	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 
-	lightGroup_->Draw(cmdList,3);
-	model->Draw(cmdList, 1, color_);
+	lightGroup_->Draw(cmdList_,3);
+	model_->Draw(cmdList_, 1, color_);
 }
 
 void Object3d::SetCameraPos(Vector3 pos) {

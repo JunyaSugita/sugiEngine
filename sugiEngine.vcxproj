@@ -57,6 +57,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -78,6 +79,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

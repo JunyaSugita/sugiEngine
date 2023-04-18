@@ -16,7 +16,20 @@
 
 
 
-class Input {
+class Input final{
+private:
+	Input();
+	~Input();
+
+public:
+	//コピーコンストラクタ無効
+	Input(const Input& obj) = delete;
+	//代入演算子を無効
+	Input& operator=(const Input& obj) = delete;
+
+	static Input* GetInstance();
+
+
 public:
 	void Initialize(WinApp* winApp);
 	void Update();

@@ -1,8 +1,9 @@
 #include "GameScene.h"
+#include "Input.h"
 
 using namespace ImGui;
 
-void GameScene::Initialize(int num)
+void GameScene::Initialize()
 {
 	sphereModel_ = Model::LoadFromObj("sphere", true);
 	sphereObj_ = Object3d::Create();
@@ -16,12 +17,12 @@ void GameScene::Initialize(int num)
 	boxObj_ = Object3d::Create();
 	boxObj_->SetModel(boxModel_);
 
-	sphereWorldTransform_.trans = { 0,1,-45 };
-	sphereWorldTransform_.scale = { 1,1,1 };
+	sphereWorldTransform_.trans_ = { 0,1,-45 };
+	sphereWorldTransform_.scale_ = { 1,1,1 };
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
 	sphereObj_->Update();
 
-	groundWorldTransform_.trans = { 0,-1,-40 };
+	groundWorldTransform_.trans_ = { 0,-1,-40 };
 	groundObj_->SetWorldTransform(groundWorldTransform_);
 	groundObj_->Update();
 
@@ -46,13 +47,15 @@ void GameScene::Initialize(int num)
 	//sound->PlayWave("Alarm01");
 }
 
-void GameScene::Update(Input* input, ImGuiManager* imGui)
+void GameScene::Update()
 {
+	Input* input = Input::GetInstance();
+
 	if (input->PushKey(DIK_LEFT)) {
-		sphereWorldTransform_.trans.x -= 0.3f;
+		sphereWorldTransform_.trans_.x -= 0.3f;
 	}
 	if (input->PushKey(DIK_RIGHT)) {
-		sphereWorldTransform_.trans.x += 0.3f;
+		sphereWorldTransform_.trans_.x += 0.3f;
 	}
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
 	sphereObj_->Update();
@@ -64,23 +67,23 @@ void GameScene::Update(Input* input, ImGuiManager* imGui)
 	lightGroup_->SetCircleShadowCasterPos(0,
 		XMFLOAT3(
 			{	
-				sphereWorldTransform_.trans.x,
-				sphereWorldTransform_.trans.y,
-				sphereWorldTransform_.trans.z
+				sphereWorldTransform_.trans_.x,
+				sphereWorldTransform_.trans_.y,
+				sphereWorldTransform_.trans_.z
 			}
 	));
 	lightGroup_->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
 	lightGroup_->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
 
 	if (input->TriggerKey(DIK_1)) {
-		GameManager::SetTitleScene();
+		GameManager::GetInstance()->SetTitleScene();
 	}
 
-	Text("Hello,world %f", sphereWorldTransform_.trans.x);
+	Text("Hello,world %f", sphereWorldTransform_.trans_.x);
 	if (Button("nanimonaiyo")) {
-		GameManager::SetTitleScene();
+		GameManager::GetInstance()->SetTitleScene();
 	}
-	SliderFloat("float", &sphereWorldTransform_.trans.x, 0.0f, 1.0f);
+	SliderFloat("float", &sphereWorldTransform_.trans_.x, 0.0f, 1.0f);
 }
 
 void GameScene::BackSpriteDraw()
