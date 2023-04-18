@@ -17,7 +17,7 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 
 public:
 	//ïΩçsåı

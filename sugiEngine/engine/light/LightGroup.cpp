@@ -3,14 +3,14 @@
 
 using namespace DirectX;
 
-ID3D12Device* LightGroup::device = nullptr;
+ID3D12Device* LightGroup::device_ = nullptr;
 
 void LightGroup::StaticInitialize(ID3D12Device* device)
 {
-	assert(!LightGroup::device);
+	assert(!LightGroup::device_);
 	assert(device);
 
-	LightGroup::device = device;
+	LightGroup::device_ = device;
 }
 
 LightGroup* LightGroup::Create()
@@ -41,7 +41,7 @@ void LightGroup::Initialize()
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	//定数バッファ
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
