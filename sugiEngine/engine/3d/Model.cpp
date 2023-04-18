@@ -84,7 +84,7 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 	string filepath = directoryPath + filename;
 	//ユニコード文字列に変換する
 	wchar_t wfilepath[128];
-	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
+	MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
