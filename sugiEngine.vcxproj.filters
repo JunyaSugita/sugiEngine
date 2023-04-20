@@ -236,6 +236,9 @@
     <ClInclude Include="sugiEngine\engine\3d\WorldTransform.h">
       <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
+    <ClInclude Include="SugiMath.h">
+      <Filter>ヘッダー ファイル\engine\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli">

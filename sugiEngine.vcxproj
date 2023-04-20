@@ -141,6 +141,7 @@
     <ClInclude Include="sugiEngine\engine\math\Vector4.h" />
     <ClInclude Include="sugiEngine\engine\base\WinApp.h" />
     <ClInclude Include="sugiEngine\engine\3d\WorldTransform.h" />
+    <ClInclude Include="SugiMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
