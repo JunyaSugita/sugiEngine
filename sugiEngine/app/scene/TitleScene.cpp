@@ -13,7 +13,7 @@ void TitleScene::Initialize()
 		sphereWorldTransform_[i].scale_ = { 10,10,10 };
 
 		sphereWorldTransform_[0].trans_ = { -10,-5,0 };
-		sphereWorldTransform_[1].trans_ = { 10,-5,0 };
+		sphereWorldTransform_[1].trans_ = { 0,-5,0 };
 
 		sphereObj_[i]->SetWorldTransform(sphereWorldTransform_[i]);
 		sphereObj_[i]->Update();
@@ -23,6 +23,7 @@ void TitleScene::Initialize()
 	//ƒ‰ƒCƒg
 	lightGroup_ = LightGroup::Create();
 	Object3d::SetLight(lightGroup_);
+
 }
 
 void TitleScene::Update()
@@ -38,7 +39,7 @@ void TitleScene::Update()
 	lightGroup_->Update();
 
 	if (Input::GetInstance()->TriggerKey(DIK_2)) {
-		GameManager::GetInstance()->SetGameScene();
+		//GameManager::GetInstance()->SetGameScene();
 	}
 }
 
@@ -49,7 +50,7 @@ void TitleScene::BackSpriteDraw()
 
 void TitleScene::Draw()
 {
-	sphereObj_[0]->Draw();
+	// sphereObj_[0]->Draw();
 	sphereObj_[1]->Draw();
 }
 

@@ -58,7 +58,7 @@ private:
 	DirectionalLight dirLights_[DirLightNum];
 	//点光源の配列
 	PointLight pointLights_[PointLightNum];
-	//点光源の配列
+	//スポットライトの配列
 	SpotLight spotLights_[SpotLightNum];
 	//丸影の配列
 	CircleShadow circleShadows_[CircleShadowNum];

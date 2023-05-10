@@ -8,23 +8,29 @@ float4 main(VSOutput input) : SV_TARGET
 	//テクスチャマッピング
 	float4 texcolor = tex.Sample(smp,input.uv);
 	//光沢度
-	const float shininess = 4.0f;
+	const float shininess = 20.0f;
 	//頂点から視点のベクトル
 	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 	//環境反射光
 	float3 ambient = m_ambient;
 	//シェーディングによる色
-	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
+	float4 shadecolor = float4(ambientColor + ambient, m_alpha);
 
 	//平行光
 	for (int i = 0; i < DIRLIGHT_NUM; i++) {
 		if (dirLights[i].active) {
-			float3 dotlightnormal = dot(dirLights[i].lightv, input.normal);
-			float3 reflect = normalize(-dirLights[i].lightv + 2 * dotlightnormal * input.normal);
-			float3 diffuse = dotlightnormal * m_diffuse;
-			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
+			float3 iNormal = normalize(input.normal);
+			float3 lightNormal = normalize(dirLights[i].lightv);
+			float3 dotlightnormal = dot(iNormal, lightNormal);
+			float3 reflect = -lightNormal + 2 * iNormal * dotlightnormal;
+			float3 diffuse = smoothstep(0.01, 0.05, dotlightnormal) * m_diffuse * dirLights[i].lightcolor;
+			float3 specular = smoothstep(0.01, 0.05, pow(saturate(dot(reflect, eyedir)), shininess) * m_specular * dirLights[i].lightcolor);
 
-			shadecolor.rgb += (diffuse + specular) * dirLights[i].lightcolor;
+			float rim = 1 - smoothstep(0.5, 0.6, dot(eyedir, iNormal));
+			float4 rimColor = { 0,0,1,1 };
+
+
+			shadecolor.rgb += (rimColor.rgb * rim) + diffuse + specular;
 		}
 	}
 	//点光源
@@ -82,7 +88,6 @@ float4 main(VSOutput input) : SV_TARGET
 			shadecolor.rgb -= atten;
 		}
 	}
-
 
 	//シェーディングによる色で描画
 	return shadecolor * texcolor;
