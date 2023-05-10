@@ -197,9 +197,6 @@
     <ClInclude Include="sugiEngine\engine\light\LightGroup.h">
       <Filter>ヘッダー ファイル\engine\light</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\app\scene\ClearScene.h">
-      <Filter>ヘッダー ファイル\engine\light</Filter>
-    </ClInclude>
     <ClInclude Include="sugiEngine\engine\light\CircleShadow.h">
       <Filter>ヘッダー ファイル\engine\light</Filter>
     </ClInclude>
@@ -238,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="SugiMath.h">
       <Filter>ヘッダー ファイル\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\scene\ClearScene.h">
+      <Filter>ヘッダー ファイル\engine\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
