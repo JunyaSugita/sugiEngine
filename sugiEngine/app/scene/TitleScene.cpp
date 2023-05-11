@@ -19,7 +19,6 @@ void TitleScene::Initialize()
 		sphereObj_[i]->Update();
 	}
 
-
 	//ƒ‰ƒCƒg
 	lightGroup_ = LightGroup::Create();
 	Object3d::SetLight(lightGroup_);
@@ -39,6 +38,10 @@ void TitleScene::Update()
 
 	if (Input::GetInstance()->TriggerKey(DIK_2)) {
 		GameManager::GetInstance()->SetGameScene();
+	}
+
+	if (Input::GetInstance()->TriggerKey(DIK_3)) {
+		GameManager::GetInstance()->SetClearScene();
 	}
 }
 
