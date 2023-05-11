@@ -45,7 +45,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)DirectXTex;$(SolutionDir)imgui;$(ProjectDir)lib\fbx_sdk\include</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>;$(SolutionDir)json</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)DirectXTex;$(SolutionDir)imgui;$(ProjectDir)lib\fbx_sdk\include</IncludePath>
@@ -97,6 +97,7 @@
     <ClCompile Include="sugiEngine\app\scene\ClearScene.cpp" />
     <ClCompile Include="sugiEngine\engine\base\DXCommon.cpp" />
     <ClCompile Include="sugiEngine\engine\effect\EffectManager.cpp" />
+    <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\scene\GameManager.cpp" />
     <ClCompile Include="sugiEngine\app\scene\GameScene.cpp" />
     <ClCompile Include="sugiEngine\engine\2d\ImGuiManager.cpp" />
@@ -118,11 +119,13 @@
     <ClCompile Include="sugiEngine\engine\3d\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JsonLoader.h" />
     <ClInclude Include="sugiEngine\engine\effect\Burst.h" />
     <ClInclude Include="sugiEngine\engine\light\CircleShadow.h" />
     <ClInclude Include="sugiEngine\app\scene\ClearScene.h" />
     <ClInclude Include="sugiEngine\engine\base\DXCommon.h" />
     <ClInclude Include="sugiEngine\engine\effect\EffectManager.h" />
+    <ClInclude Include="sugiEngine\engine\math\SugiMath.h" />
     <ClInclude Include="sugiEngine\engine\scene\GameManager.h" />
     <ClInclude Include="sugiEngine\app\scene\GameScene.h" />
     <ClInclude Include="sugiEngine\engine\base\GrovalSetting.h" />

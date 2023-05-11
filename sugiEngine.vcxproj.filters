@@ -82,6 +82,9 @@
     <Filter Include="ヘッダー ファイル\engine\light">
       <UniqueIdentifier>{2187c251-87b4-4338-8286-67ec0e6db2b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\engine\liget">
+      <UniqueIdentifier>{66de793a-24d9-4d64-9990-d2f9271824bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sugiEngine\main.cpp">
@@ -151,7 +154,10 @@
       <Filter>ソース ファイル\engine\base</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\light\LightGroup.cpp">
-      <Filter>ソース ファイル\engine\base</Filter>
+      <Filter>ソース ファイル\engine\liget</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp">
+      <Filter>ソース ファイル\engine\io</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +203,6 @@
     <ClInclude Include="sugiEngine\engine\light\LightGroup.h">
       <Filter>ヘッダー ファイル\engine\light</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\app\scene\ClearScene.h">
-      <Filter>ヘッダー ファイル\engine\light</Filter>
-    </ClInclude>
     <ClInclude Include="sugiEngine\engine\light\CircleShadow.h">
       <Filter>ヘッダー ファイル\engine\light</Filter>
     </ClInclude>
@@ -235,6 +238,15 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\3d\WorldTransform.h">
       <Filter>ヘッダー ファイル\engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\scene\ClearScene.h">
+      <Filter>ヘッダー ファイル\engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonLoader.h">
+      <Filter>ヘッダー ファイル\engine\io</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\math\SugiMath.h">
+      <Filter>ヘッダー ファイル\engine\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
