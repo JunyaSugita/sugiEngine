@@ -27,6 +27,7 @@
 #include "GameManager.h"
 #include "LightGroup.h"
 #include "ImGuiManager.h"
+#include "FbxLoader.h"
 
 class SugiFramework {
 public:

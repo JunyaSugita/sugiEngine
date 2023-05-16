@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "Input.h"
+#include "FbxLoader.h"
 
 using namespace ImGui;
 
@@ -45,6 +46,7 @@ void GameScene::Initialize()
 	lightGroup_->SetCircleShadowActive(0, true);
 
 	//sound->PlayWave("Alarm01");
+	FbxLoader::GetInstance()->LoadMadelFromFile("cube");
 }
 
 void GameScene::Update()
