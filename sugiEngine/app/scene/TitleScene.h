@@ -21,6 +21,8 @@ private:
 
 	Object3d* sphereObj_[2];
 	WorldTransform sphereWorldTransform_[2];
+	Vector3 cameraPos;
+	float angle_ = 0.0f;
 
 	LightGroup* lightGroup_ = nullptr;
 };

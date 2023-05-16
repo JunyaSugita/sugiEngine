@@ -19,6 +19,7 @@ void TitleScene::Initialize()
 		sphereObj_[i]->Update();
 	}
 
+	cameraPos = { 0,0,-50 };
 
 	//ライト
 	lightGroup_ = LightGroup::Create();
@@ -28,19 +29,30 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-	for (int i = 0; i < 2; i++) {
-		sphereWorldTransform_[i].rotation.z += 0.5f;
+	//for (int i = 0; i < 2; i++) {
+	//	sphereWorldTransform_[i].rotation.z += 0.5f;
 
-		sphereObj_[i]->SetWorldTransform(sphereWorldTransform_[i]);
-		sphereObj_[i]->Update();
-	}
+	//	sphereObj_[i]->SetWorldTransform(sphereWorldTransform_[i]);
+	//	sphereObj_[i]->Update();
+	//}
 
 	//ライト
 	lightGroup_->Update();
 
-	if (Input::GetInstance()->TriggerKey(DIK_2)) {
-		//GameManager::GetInstance()->SetGameScene();
+	if (Input::GetInstance()->PushKey(DIK_A)) {
+		angle_ -= 0.1f;
 	}
+	if (Input::GetInstance()->PushKey(DIK_D)) {
+		angle_ += 0.1f;
+	}
+
+	cameraPos.x = (float)sin(angle_) * 50;
+	cameraPos.z = (float)cos(angle_) * 50;
+	sphereObj_[1]->SetCameraPos(cameraPos);
+	sphereObj_[1]->Update();
+	//if (Input::GetInstance()->TriggerKey(DIK_2)) {
+	//	GameManager::GetInstance()->SetGameScene();
+	//}
 }
 
 void TitleScene::BackSpriteDraw()

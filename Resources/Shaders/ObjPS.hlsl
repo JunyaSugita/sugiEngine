@@ -26,8 +26,8 @@ float4 main(VSOutput input) : SV_TARGET
 			float3 diffuse = smoothstep(0.01, 0.05, dotlightnormal) * m_diffuse * dirLights[i].lightcolor;
 			float3 specular = smoothstep(0.01, 0.05, pow(saturate(dot(reflect, eyedir)), shininess) * m_specular * dirLights[i].lightcolor);
 
-			float rim = 1 - smoothstep(0.5, 0.6, dot(eyedir, iNormal));
-			float4 rimColor = { 0,0,1,1 };
+			float rim = 1 - smoothstep(0.3, 0.4, dot(eyedir, iNormal));
+			float4 rimColor = { 1,1,1,1 };
 
 
 			shadecolor.rgb += (rimColor.rgb * rim) + diffuse + specular;
