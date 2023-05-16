@@ -97,6 +97,7 @@
     <ClCompile Include="sugiEngine\app\scene\ClearScene.cpp" />
     <ClCompile Include="sugiEngine\engine\base\DXCommon.cpp" />
     <ClCompile Include="sugiEngine\engine\effect\EffectManager.cpp" />
+    <ClCompile Include="sugiEngine\engine\io\FbxLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\scene\GameManager.cpp" />
     <ClCompile Include="sugiEngine\app\scene\GameScene.cpp" />
@@ -121,6 +122,7 @@
   <ItemGroup>
     <ClInclude Include="JsonLoader.h" />
     <ClInclude Include="sugiEngine\engine\effect\Burst.h" />
+    <ClInclude Include="sugiEngine\engine\io\FbxLoader.h" />
     <ClInclude Include="sugiEngine\engine\light\CircleShadow.h" />
     <ClInclude Include="sugiEngine\app\scene\ClearScene.h" />
     <ClInclude Include="sugiEngine\engine\base\DXCommon.h" />

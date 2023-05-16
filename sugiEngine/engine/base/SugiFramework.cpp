@@ -18,6 +18,8 @@ void SugiFramework::Initialize()
 	dxCom->Initialize(winApp.get());
 	//キーボード入力の初期化
 	Input::GetInstance()->Initialize(winApp.get());
+	//FbxLoder初期化
+	FbxLoader::GetInstance()->Initialize(dxCom->GetDevice());
 #pragma endregion
 
 #pragma region 描画初期化処理
@@ -29,7 +31,11 @@ void SugiFramework::Initialize()
 
 void SugiFramework::Finalize()
 {
+	//解放処理
+	FbxLoader::GetInstance()->Finalize();
+
 #pragma region WindowsAPI後始末
+	//最後にする
 	winApp->DeleteWindow();
 #pragma endregion
 }

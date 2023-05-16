@@ -159,6 +159,9 @@
     <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp">
       <Filter>ソース ファイル\engine\io</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\engine\io\FbxLoader.cpp">
+      <Filter>ソース ファイル\engine\io</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\math\SugiMath.h">
       <Filter>ヘッダー ファイル\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\io\FbxLoader.h">
+      <Filter>ヘッダー ファイル\engine\io</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
