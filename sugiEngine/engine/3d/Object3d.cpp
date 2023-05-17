@@ -57,7 +57,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	//ビュー変換行列
 	//カメラ操作
 	XMMATRIX xmmatView;
-	eye = XMFLOAT3(0, 0, -50);	//視点座標
+	eye = XMFLOAT3(0, 50, -50);	//視点座標
 	target = XMFLOAT3(0, 0, 0);	//注視点座標
 	up = XMFLOAT3(0, 1, 0);		//上方向ベクトル
 	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));

@@ -72,6 +72,7 @@ void JsonLoader::LoadRecursive()
 			//回転角
 			objectData.rot.x = (float)-transform["rotation"][1];
 			objectData.rot.y = (float)-transform["rotation"][2];
+			objectData.rot.y += 90;
 			objectData.rot.z = (float)transform["rotation"][0];
 			//スケーリング
 			objectData.scale.x = (float)transform["scaling"][1];
