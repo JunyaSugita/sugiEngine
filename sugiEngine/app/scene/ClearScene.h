@@ -23,10 +23,17 @@ private:
 	LevelData* levelData_;
 
 	Model* sphereModel_;
+	Model* playerModel_;
 	std::map<std::string, Model*> models;
 
-	WorldTransform sphereWorldTransform_;
+	WorldTransform worldTransform_;
 	std::vector<Object3d*> objects;
+
+	//スポーンポイント
+	Vector3 spawnPoint_;
+	int spawnNum_;
+	
+	int playerNum_;
 
 	LightGroup* lightGroup_ = nullptr;
 };

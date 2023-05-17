@@ -3,10 +3,14 @@
 void ClearScene::Initialize()
 {
 	// レベルデータの読み込み
-	levelData_ = JsonLoader::LoadJson("untitled");
+	levelData_ = JsonLoader::LoadJson("level");
 
 	sphereModel_ = Model::LoadFromObj("sphere", true);
+	playerModel_ = Model::LoadFromObj("player");
 	models.insert(std::make_pair("sphere", sphereModel_));
+	models.insert(std::make_pair("player", playerModel_));
+
+	int objNum = 0;
 
 	for (auto& objectData : levelData_->obj) {
 		//ファイルから登録済みモデルを探索
@@ -17,17 +21,27 @@ void ClearScene::Initialize()
 		}
 		//モデルを指定して3Dオブジェクトを生成
 		Object3d* newObject = Object3d::Create();
-		newObject->SetModel(sphereModel_);
+		newObject->SetModel(model);
+
+		if (objectData.filename == "player") {
+			playerNum_ = objNum;
+		}
+		else if (objectData.filename == "spawn") {
+			spawnNum_ = objNum;
+		}
 
 		//obj情報
-		sphereWorldTransform_.trans_ = Vector3(objectData.pos);
-		sphereWorldTransform_.rotation = Vector3(objectData.rot);
-		sphereWorldTransform_.scale_ = Vector3(objectData.scale);
+		worldTransform_.trans_ = Vector3(objectData.pos);
+		worldTransform_.rotation = Vector3(objectData.rot);
+		worldTransform_.scale_ = Vector3(objectData.scale);
 
-		newObject->SetWorldTransform(sphereWorldTransform_);
+		newObject->SetWorldTransform(worldTransform_);
 
 		objects.push_back(newObject);
+		objNum++;
 	}
+
+	spawnPoint_ = objects[spawnNum_]->GetPos();
 
 	//ライト
 	lightGroup_ = LightGroup::Create();
@@ -40,11 +54,17 @@ void ClearScene::Update()
 	Input* input = Input::GetInstance();
 
 	if (input->PushKey(DIK_LEFT)) {
-		sphereWorldTransform_.trans_.x -= 0.3f;
+		worldTransform_.trans_.x -= 0.3f;
 	}
 	if (input->PushKey(DIK_RIGHT)) {
-		sphereWorldTransform_.trans_.x += 0.3f;
+		worldTransform_.trans_.x += 0.3f;
 	}
+	if (input->TriggerKey(DIK_R)) {
+		worldTransform_.trans_ = spawnPoint_;
+	}
+
+	objects[playerNum_]->SetWorldTransform(worldTransform_);
+	
 
 	for (auto& object : objects) {
 		object->Update();

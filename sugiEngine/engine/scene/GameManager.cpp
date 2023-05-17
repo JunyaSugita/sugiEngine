@@ -5,7 +5,7 @@
 
 GameManager::GameManager()
 {
-	scene_ = std::make_unique<TitleScene>();
+	scene_ = std::make_unique<ClearScene>();
 	scene_->Initialize();
 }
 
