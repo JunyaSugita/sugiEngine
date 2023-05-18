@@ -46,7 +46,7 @@ void GameScene::Initialize()
 	lightGroup_->SetCircleShadowActive(0, true);
 
 	//sound->PlayWave("Alarm01");
-	FbxLoader::GetInstance()->LoadMadelFromFile("cube");
+	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 }
 
 void GameScene::Update()

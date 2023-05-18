@@ -6,6 +6,7 @@
 #include <d3dx12.h>
 
 #include <string>
+#include "FbxModel.h"
 
 class FbxLoader
 {
@@ -38,8 +39,9 @@ public:
 	/// </summary>
 	void Finalize();
 
-	void LoadMadelFromFile(const std::string& modelName);
+	void LoadModelFromFile(const std::string& modelName);
 
+	void ParseNodeRecursive(FbxModel* model,FbxNode* fbxNode,Node* parent = nullptr);
 public:
 	//モデル格納ルートパス
 	static const std::string baseDirectory;
