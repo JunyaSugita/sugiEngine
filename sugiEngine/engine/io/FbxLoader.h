@@ -42,9 +42,20 @@ public:
 	void LoadModelFromFile(const std::string& modelName);
 
 	void ParseNodeRecursive(FbxModel* model,FbxNode* fbxNode,Node* parent = nullptr);
+
+	void ParseMesh(FbxModel* model, FbxNode* fbxNode);
+	void ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh);
+	void ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh);
+	void ParseMaterial(FbxModel* model,FbxNode* fbxNode);
+	void LoadTexture(FbxModel* model, const std::string& fullpath);
+
+	std::string ExtractFileName(const std::string& path);
+
 public:
 	//モデル格納ルートパス
+
 	static const std::string baseDirectory;
+	static const std::string defaultTextureFileName;
 
 private:
 	ID3D12Device* device = nullptr;

@@ -68,10 +68,10 @@ void JsonLoader::LoadRecursive()
 			//平行移動
 			objectData.pos.x = (float)transform["translation"][1];
 			objectData.pos.y = (float)transform["translation"][2];
-			objectData.pos.z = (float)-transform["translation"][0];
+			objectData.pos.z = -(float)transform["translation"][0];
 			//回転角
-			objectData.rot.x = (float)-transform["rotation"][1];
-			objectData.rot.y = (float)-transform["rotation"][2];
+			objectData.rot.x = -(float)transform["rotation"][1];
+			objectData.rot.y = -(float)transform["rotation"][2];
 			objectData.rot.y += 90;
 			objectData.rot.z = (float)transform["rotation"][0];
 			//スケーリング
