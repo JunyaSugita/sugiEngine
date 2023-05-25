@@ -48,6 +48,11 @@ public:
 
 public:
 	void CreateBuffers(ID3D12Device* device);
+	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	const XMMATRIX& GetModelTransform() {
+		return meshNode->globalTransform;
+	}
 
 private:
 	string name;
