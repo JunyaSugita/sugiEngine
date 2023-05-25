@@ -3,8 +3,12 @@
 #include <DirectXMath.h>
 #include <vector>
 #include <DirectXTex.h>
+#include <Windows.h>
+#include <wrl.h>
+#include <d3d12.h>
+#include <d3dx12.h>
 
-struct Node 
+struct Node
 {
 	std::string name;
 
@@ -20,30 +24,51 @@ struct Node
 
 class FbxModel
 {
+private:
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+	using TexMetadata = DirectX::TexMetadata;
+	using ScratchImage = DirectX::ScratchImage;
+	using string = std::string;
+	template <class T> using vector = std::vector<T>;
+
 public:
 	struct VertexPosNormalUv {
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 normal;
-		DirectX::XMFLOAT2 uv;
+		XMFLOAT3 pos;
+		XMFLOAT3 normal;
+		XMFLOAT2 uv;
 	};
 
 public:
 	friend class FbxLoader;
 
+public:
+	void CreateBuffers(ID3D12Device* device);
+
 private:
-	std::string name;
+	string name;
 	//ノード配列
-	std::vector<Node> nodes;
+	vector<Node> nodes;
 
 	Node* meshNode = nullptr;
-	std::vector<VertexPosNormalUv> vertices;
-	std::vector<unsigned short> indices;
+	vector<VertexPosNormalUv> vertices;
+	vector<unsigned short> indices;
 
 	//マテリアル
-	DirectX::XMFLOAT3 ambient = { 1,1,1 };
-	DirectX::XMFLOAT3 diffuse = { 1,1,1 };
-	DirectX::TexMetadata metadata = {};
-	DirectX::ScratchImage scratchImg = {};
+	XMFLOAT3 ambient = { 1,1,1 };
+	XMFLOAT3 diffuse = { 1,1,1 };
+	TexMetadata metadata = {};
+	ScratchImage scratchImg = {};
 
+	ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> indexBuff;
+	ComPtr<ID3D12Resource> texBuff;
+	D3D12_VERTEX_BUFFER_VIEW vbView = {};
+	D3D12_INDEX_BUFFER_VIEW ibView = {};
+	ComPtr <ID3D12DescriptorHeap> descHeapSRV;
 };
 
