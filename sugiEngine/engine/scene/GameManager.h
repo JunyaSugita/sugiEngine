@@ -1,6 +1,7 @@
 #pragma once
 #include "ISceneManager.h"
 #include <memory>
+#include "Camera.h"
 
 class GameManager
 {

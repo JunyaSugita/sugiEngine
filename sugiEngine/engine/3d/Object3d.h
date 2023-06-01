@@ -11,6 +11,7 @@
 #include "model.h"
 #include "Vector3.h"
 #include "LightGroup.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -35,23 +36,11 @@ public:
 
 	static void PostDraw();
 
-	static void SetCameraPos(Vector3 pos);
-	static void SetCameraTarget(Vector3 pos);
-	static void AddCameraPos(Vector3 pos);
-	static void AddCameraTarget(Vector3 pos);
-
 	static Object3d* Create();
 
 private:
 	//デバイス
 	static ID3D12Device* device_;
-	//並行投影行列
-	static XMMATRIX ortho;
-	//透視投影変換行列の計算
-	static XMMATRIX perspective;
-
-	static Matrix4 matProjecsion;
-	static Matrix4 matView;
 
 	static ID3D12GraphicsCommandList* cmdList_;
 	static ComPtr<ID3D12PipelineState> pipelineState;
@@ -60,10 +49,6 @@ private:
 	static UINT incrementSize;
 	static ComPtr<ID3D12Resource> constBuffMaterial;
 	static uint16_t CountIndex;
-
-	static XMFLOAT3 eye;
-	static XMFLOAT3 target;
-	static XMFLOAT3 up;
 
 public:
 	bool Initialize();

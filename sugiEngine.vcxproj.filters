@@ -43,9 +43,6 @@
     <Filter Include="ソース ファイル\engine\io">
       <UniqueIdentifier>{1afe5cd1-a943-4b1b-a6d4-1be85fffa0dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\engine\audio">
-      <UniqueIdentifier>{43bbfcd1-ba26-43aa-8773-0868beb26bc3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\engine">
       <UniqueIdentifier>{aedce325-df96-47b7-9bfb-cc92b8c94db2}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,9 @@
     </Filter>
     <Filter Include="ソース ファイル\engine\liget">
       <UniqueIdentifier>{66de793a-24d9-4d64-9990-d2f9271824bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\audio">
+      <UniqueIdentifier>{43bbfcd1-ba26-43aa-8773-0868beb26bc3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +163,9 @@
       <Filter>ソース ファイル\engine\io</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp">
+      <Filter>ソース ファイル\engine\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
   </ItemGroup>
@@ -258,6 +261,9 @@
       <Filter>ヘッダー ファイル\engine\io</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\3d\FbxModel.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\3d\Camera.h">
       <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
   </ItemGroup>
