@@ -12,10 +12,6 @@ using namespace std;
 /// 静的メンバ変数の実態
 /// </summary>
 ID3D12Device* Object3d::device_ = nullptr;
-XMMATRIX Object3d::ortho;
-XMMATRIX Object3d::perspective;
-Matrix4 Object3d::matProjecsion;
-Matrix4 Object3d::matView;
 
 ID3D12GraphicsCommandList* Object3d::cmdList_ = nullptr;
 ComPtr<ID3D12PipelineState> Object3d::pipelineState;
@@ -25,10 +21,6 @@ UINT Object3d::incrementSize;
 ComPtr<ID3D12Resource> Object3d::constBuffMaterial;
 uint16_t Object3d::CountIndex;
 
-XMFLOAT3 Object3d::eye;
-XMFLOAT3 Object3d::target;
-XMFLOAT3 Object3d::up;
-
 LightGroup* Object3d::lightGroup_ = nullptr;
 
 void Object3d::StaticInitialize(ID3D12Device* device)
@@ -37,34 +29,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	device_ = device;
 	Model::SetDevice(device);
 
-#pragma region カメラ
-	//並行投影行列
-	ortho = XMMatrixOrthographicOffCenterLH(
-		0.0f, WIN_WIDTH,
-		WIN_HEIGHT, 0.0f,
-		0.0f, 1.0f
-	);
-
-	//透視投影変換行列の計算
-	perspective = XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(45.0f),			//上下画角45度
-		(float)WIN_WIDTH / WIN_HEIGHT,//アスペクト比
-		0.1f, 1000.0f						//前端,奥端
-	);
-	//matrix4に変換
-	matProjecsion = ConvertToMatrix4(perspective);
-
-	//ビュー変換行列
-	//カメラ操作
-	XMMATRIX xmmatView;
-	eye = XMFLOAT3(0, 50, -50);	//視点座標
-	target = XMFLOAT3(0, 0, 0);	//注視点座標
-	up = XMFLOAT3(0, 1, 0);		//上方向ベクトル
-	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-	//matrix4に変換
-	matView = ConvertToMatrix4(xmmatView);
-
-#pragma endregion
+	Camera::GetInstance()->Initialize();
 
 #pragma region パイプライン初期化
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -381,17 +346,11 @@ void Object3d::Update()
 {
 	worldTransform_.SetWorldMat();
 
-	XMMATRIX xmmatView;
-	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-	//matrix4に変換
-	matView = ConvertToMatrix4(xmmatView);
-
+	Camera* camera = Camera::GetInstance();
 	
-	const XMFLOAT3& cameraPos = eye;
-
-	constMap->viewproj = ConvertToXMMATRIX(matView * matProjecsion);
+	constMap->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
 	constMap->world = ConvertToXMMATRIX(worldTransform_.matWorld);
-	constMap->cameraPos = cameraPos;
+	constMap->cameraPos = *camera->GetEyeXM();
 }
 
 void Object3d::Scale(Vector3 scale)
@@ -423,30 +382,6 @@ void Object3d::Draw()
 
 	lightGroup_->Draw(cmdList_,3);
 	model_->Draw(cmdList_, 1, color_);
-}
-
-void Object3d::SetCameraPos(Vector3 pos) {
-	eye.x = pos.x;
-	eye.y = pos.y;
-	eye.z = pos.z;
-}
-
-void Object3d::SetCameraTarget(Vector3 pos) {
-	target.x = pos.x;
-	target.y = pos.y;
-	target.z = pos.z;
-}
-
-void Object3d::AddCameraPos(Vector3 pos) {
-	eye.x += pos.x;
-	eye.y += pos.y;
-	eye.z += pos.z;
-}
-
-void Object3d::AddCameraTarget(Vector3 pos) {
-	target.x += pos.x;
-	target.y += pos.y;
-	target.z += pos.z;
 }
 
 Object3d* Object3d::Create()

@@ -51,6 +51,7 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
+
 	Input* input = Input::GetInstance();
 
 	if (input->PushKey(DIK_LEFT)) {
