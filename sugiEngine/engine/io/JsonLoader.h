@@ -3,6 +3,7 @@
 #include <vector>
 #include "json.hpp"
 #include "SugiMath.h"
+#include "FbxModel.h"
 
 struct LevelData {
 	struct OBJData {

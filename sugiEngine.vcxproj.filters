@@ -162,6 +162,9 @@
     <ClCompile Include="sugiEngine\engine\io\FbxLoader.cpp">
       <Filter>ソース ファイル\engine\io</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp">
+      <Filter>ソース ファイル\engine\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\io\FbxLoader.h">
       <Filter>ヘッダー ファイル\engine\io</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\3d\FbxModel.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

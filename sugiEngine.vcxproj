@@ -95,6 +95,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp" />
     <ClCompile Include="sugiEngine\engine\effect\Burst.cpp" />
     <ClCompile Include="sugiEngine\app\scene\ClearScene.cpp" />
     <ClCompile Include="sugiEngine\engine\base\DXCommon.cpp" />
@@ -123,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JsonLoader.h" />
+    <ClInclude Include="sugiEngine\engine\3d\FbxModel.h" />
     <ClInclude Include="sugiEngine\engine\effect\Burst.h" />
     <ClInclude Include="sugiEngine\engine\io\FbxLoader.h" />
     <ClInclude Include="sugiEngine\engine\light\CircleShadow.h" />
