@@ -29,8 +29,6 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	device_ = device;
 	Model::SetDevice(device);
 
-	Camera::GetInstance()->Initialize();
-
 #pragma region パイプライン初期化
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob; // ピクセルシェーダオブジェクト
@@ -294,10 +292,6 @@ void Object3d::PostDraw()
 	Object3d::cmdList_ = nullptr;
 }
 
-
-
-
-
 bool Object3d::Initialize()
 {
 	HRESULT result;
@@ -328,8 +322,6 @@ bool Object3d::Initialize()
 	//定数バッファのマッピング
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);	//マッピング
 	assert(SUCCEEDED(result));
-
-
 
 	//ワールド変換行列
 	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };

@@ -28,6 +28,7 @@
 #include "LightGroup.h"
 #include "ImGuiManager.h"
 #include "FbxLoader.h"
+#include "Fbx.h"
 
 class SugiFramework {
 public:

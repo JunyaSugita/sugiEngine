@@ -30,6 +30,9 @@ void MyGame::Update()
 	ImGuiManager::GetInstance()->Begin();
 	GameManager::GetInstance()->Update();
 	ImGuiManager::GetInstance()->End();
+
+	//ƒJƒƒ‰‚ÌˆÚ“®
+	Camera::GetInstance()->Update();
 }
 
 void MyGame::Draw()
