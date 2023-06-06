@@ -26,6 +26,7 @@ void SugiFramework::Initialize()
 	Camera::GetInstance()->Initialize();
 	Object3d::StaticInitialize(dxCom->GetDevice());
 	Fbx::SetDevice(dxCom->GetDevice());
+	Fbx::CreateGraphicsPipeline();
 	Sprite::StaticInitialize(dxCom->GetDevice());
 	LightGroup::StaticInitialize(dxCom->GetDevice());
 #pragma endregion

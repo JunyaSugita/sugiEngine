@@ -1,7 +1,8 @@
 #pragma once
 #pragma once
-#include "Model.h"
+#include "FbxModel.h"
 #include "Camera.h"
+#include "WorldTransform.h"
 
 #include <Windows.h>
 #include <wrl.h>
@@ -38,6 +39,12 @@ public:
 
 public:
 	void Initialize();
+	void Update();
+	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	void SetModel(FbxModel* model) {
+		model_ = model;
+	}
 
 public:
 	static ComPtr<ID3D12RootSignature> rootsignature;
@@ -49,5 +56,11 @@ private:
 	static Camera* camera_;
 
 	ComPtr<ID3D12Resource> constBuffTransform_;
+
+	Vector3 scale_ = { 1,1,1 };
+	Vector3 rotation_ = { 0,0,0 };
+	Vector3 position_ = { 0,0,0 };
+	WorldTransform worldTransform_;
+	FbxModel* model_ = nullptr;
 };
 

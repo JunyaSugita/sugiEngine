@@ -13,9 +13,9 @@ using namespace DirectX;
 class WorldTransform {
 public:
 	//アフィン変換情報
-	Vector3 scale_ = { 1,1,1 };
-	Vector3 rotation = { 0,0,0 };
-	Vector3 trans_ = { 0,0,0 };
+	Vector3 scale = { 1,1,1 };
+	Vector3 rot = { 0,0,0 };
+	Vector3 pos = { 0,0,0 };
 
 	//ワールド変換行列
 	Matrix4 matWorld;

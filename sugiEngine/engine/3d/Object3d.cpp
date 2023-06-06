@@ -264,7 +264,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	assert(SUCCEEDED(result));
 
 	//’l‚ð‘‚«ž‚Þ‚ÆŽ©“®“I‚É“]‘—‚³‚ê‚é
-	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//RGBA‚Å”¼“§–¾‚ÌÔ
+	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
