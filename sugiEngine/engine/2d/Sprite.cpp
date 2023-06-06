@@ -418,8 +418,8 @@ void Sprite::Initialize(uint32_t texNum)
 	//ワールド変換行列
 	WorldTransform matTransform;
 	matTransform.matWorld.Initialize();
-	matTransform.rotation.z = rotate;
-	matTransform.trans_ = { pos.x,pos.y,0 };
+	matTransform.rot.z = rotate;
+	matTransform.pos = { pos.x,pos.y,0 };
 	matTransform.SetWorldMat();
 
 	constMapTransform->mat = matTransform.matWorld * worldTransform.matWorld;
@@ -575,8 +575,8 @@ void Sprite::SetUpVertex() {
 	//ワールド変換行列
 	WorldTransform matTransform;
 	matTransform.matWorld.Initialize();
-	matTransform.rotation.z = rotate;
-	matTransform.trans_ = { pos.x,pos.y,0 };
+	matTransform.rot.z = rotate;
+	matTransform.pos = { pos.x,pos.y,0 };
 	matTransform.SetWorldMat();
 
 	constMapTransform->mat = matTransform.matWorld * worldTransform.matWorld;

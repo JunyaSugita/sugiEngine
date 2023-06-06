@@ -31,9 +31,9 @@ void ClearScene::Initialize()
 		}
 
 		//objî•ñ
-		worldTransform_.trans_ = Vector3(objectData.pos);
-		worldTransform_.rotation = Vector3(objectData.rot);
-		worldTransform_.scale_ = Vector3(objectData.scale);
+		worldTransform_.pos = Vector3(objectData.pos);
+		worldTransform_.rot = Vector3(objectData.rot);
+		worldTransform_.scale = Vector3(objectData.scale);
 
 		newObject->SetWorldTransform(worldTransform_);
 
@@ -54,13 +54,13 @@ void ClearScene::Update()
 	Input* input = Input::GetInstance();
 
 	if (input->PushKey(DIK_LEFT)) {
-		worldTransform_.trans_.x -= 0.3f;
+		worldTransform_.pos.x -= 0.3f;
 	}
 	if (input->PushKey(DIK_RIGHT)) {
-		worldTransform_.trans_.x += 0.3f;
+		worldTransform_.pos.x += 0.3f;
 	}
 	if (input->TriggerKey(DIK_R)) {
-		worldTransform_.trans_ = spawnPoint_;
+		worldTransform_.pos = spawnPoint_;
 	}
 
 	objects[playerNum_]->SetWorldTransform(worldTransform_);

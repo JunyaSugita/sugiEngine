@@ -91,19 +91,19 @@ void WorldTransform::SetWorldMat() {
 	};
 
 	Matrix4 matScale;
-	SetMatScale(matScale, scale_);
+	SetMatScale(matScale, scale);
 
 	Matrix4 matTrans;
-	SetMatTrans(matTrans, trans_);
+	SetMatTrans(matTrans, pos);
 
 	Matrix4 matRotZ;
-	SetMatRot(matRotZ, rotation, 'z');
+	SetMatRot(matRotZ, rot, 'z');
 
 	Matrix4 matRotX;
-	SetMatRot(matRotX, rotation, 'x');
+	SetMatRot(matRotX, rot, 'x');
 
 	Matrix4 matRotY;
-	SetMatRot(matRotY, rotation, 'y');
+	SetMatRot(matRotY, rot, 'y');
 
 	Matrix4 matRot = matRotZ * matRotX * matRotY;
 

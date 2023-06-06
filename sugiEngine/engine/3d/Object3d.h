@@ -74,7 +74,7 @@ public:
 	}
 
 	Vector3 GetPos() {
-		return worldTransform_.trans_;
+		return worldTransform_.pos;
 	}
 
 	static void SetLight(LightGroup* lightGroup) {

@@ -18,12 +18,12 @@ void GameScene::Initialize()
 	boxObj_ = Object3d::Create();
 	boxObj_->SetModel(boxModel_);
 
-	sphereWorldTransform_.trans_ = { 0,1,-45 };
-	sphereWorldTransform_.scale_ = { 1,1,1 };
+	sphereWorldTransform_.pos = { 0,1,-45 };
+	sphereWorldTransform_.scale = { 1,1,1 };
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
 	sphereObj_->Update();
 
-	groundWorldTransform_.trans_ = { 0,-1,-40 };
+	groundWorldTransform_.pos = { 0,-1,-40 };
 	groundObj_->SetWorldTransform(groundWorldTransform_);
 	groundObj_->Update();
 
@@ -55,10 +55,10 @@ void GameScene::Update()
 	Input* input = Input::GetInstance();
 
 	if (input->PushKey(DIK_LEFT)) {
-		sphereWorldTransform_.trans_.x -= 0.3f;
+		sphereWorldTransform_.pos.x -= 0.3f;
 	}
 	if (input->PushKey(DIK_RIGHT)) {
-		sphereWorldTransform_.trans_.x += 0.3f;
+		sphereWorldTransform_.pos.x += 0.3f;
 	}
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
 	sphereObj_->Update();
@@ -70,9 +70,9 @@ void GameScene::Update()
 	lightGroup_->SetCircleShadowCasterPos(0,
 		XMFLOAT3(
 			{	
-				sphereWorldTransform_.trans_.x,
-				sphereWorldTransform_.trans_.y,
-				sphereWorldTransform_.trans_.z
+				sphereWorldTransform_.pos.x,
+				sphereWorldTransform_.pos.y,
+				sphereWorldTransform_.pos.z
 			}
 	));
 	lightGroup_->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
@@ -82,11 +82,11 @@ void GameScene::Update()
 		GameManager::GetInstance()->SetTitleScene();
 	}
 
-	Text("Hello,world %f", sphereWorldTransform_.trans_.x);
+	Text("Hello,world %f", sphereWorldTransform_.pos.x);
 	if (Button("nanimonaiyo")) {
 		GameManager::GetInstance()->SetTitleScene();
 	}
-	SliderFloat("float", &sphereWorldTransform_.trans_.x, 0.0f, 1.0f);
+	SliderFloat("float", &sphereWorldTransform_.pos.x, 0.0f, 1.0f);
 }
 
 void GameScene::BackSpriteDraw()

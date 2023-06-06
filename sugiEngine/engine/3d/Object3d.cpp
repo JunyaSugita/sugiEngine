@@ -324,9 +324,9 @@ bool Object3d::Initialize()
 	assert(SUCCEEDED(result));
 
 	//ƒ[ƒ‹ƒh•ÏŠ·s—ñ
-	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
-	worldTransform_.rotation = { 0.0f,1.0f,1.0f };
-	worldTransform_.trans_ = { 0.0f,0.0f,0.0f };
+	worldTransform_.scale = { 1.0f,1.0f,1.0f };
+	worldTransform_.rot = { 0.0f,1.0f,1.0f };
+	worldTransform_.pos = { 0.0f,0.0f,0.0f };
 	worldTransform_.SetWorldMat();
 
 	//constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
@@ -347,17 +347,17 @@ void Object3d::Update()
 
 void Object3d::Scale(Vector3 scale)
 {
-	worldTransform_.scale_ = scale;
+	worldTransform_.scale = scale;
 }
 
 void Object3d::Rotate(Vector3 rot)
 {
-	worldTransform_.rotation = rot;
+	worldTransform_.rot = rot;
 }
 
 void Object3d::Trans(Vector3 pos)
 {
-	worldTransform_.trans_ = pos;
+	worldTransform_.pos = pos;
 }
 
 void Object3d::Draw()

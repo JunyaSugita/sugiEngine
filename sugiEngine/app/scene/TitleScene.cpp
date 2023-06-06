@@ -10,10 +10,10 @@ void TitleScene::Initialize()
 		sphereObj_[i] = Object3d::Create();
 		sphereObj_[i]->SetModel(sphereModel_[i]);
 
-		sphereWorldTransform_[i].scale_ = { 10,10,10 };
+		sphereWorldTransform_[i].scale = { 10,10,10 };
 
-		sphereWorldTransform_[0].trans_ = { -10,-5,0 };
-		sphereWorldTransform_[1].trans_ = { 10,-5,0 };
+		sphereWorldTransform_[0].pos = { -10,-5,0 };
+		sphereWorldTransform_[1].pos = { 10,-5,0 };
 
 		sphereObj_[i]->SetWorldTransform(sphereWorldTransform_[i]);
 		sphereObj_[i]->Update();
@@ -27,7 +27,7 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	for (int i = 0; i < 2; i++) {
-		sphereWorldTransform_[i].rotation.z += 0.5f;
+		sphereWorldTransform_[i].rot.z += 0.5f;
 
 		sphereObj_[i]->SetWorldTransform(sphereWorldTransform_[i]);
 		sphereObj_[i]->Update();
