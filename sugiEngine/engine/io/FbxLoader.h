@@ -39,7 +39,7 @@ public:
 	/// </summary>
 	void Finalize();
 
-	void LoadModelFromFile(const std::string& modelName);
+	FbxModel* LoadModelFromFile(const std::string& modelName);
 
 	void ParseNodeRecursive(FbxModel* model,FbxNode* fbxNode,Node* parent = nullptr);
 

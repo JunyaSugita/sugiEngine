@@ -8,6 +8,7 @@
 #include "Sound.h"
 #include "LightGroup.h"
 #include "ImGuiManager.h"
+#include "FBX.h"
 
 class GameScene : public ISceneManager
 {
@@ -41,6 +42,9 @@ private:
 
 	uint32_t dogTexture_;
 	Sprite dogSprite_;
+
+	FbxModel* model1 = nullptr;
+	Fbx* obj1 = nullptr;
 
 	//‰¹
 	std::unique_ptr<Sound> sound = std::make_unique <Sound>();

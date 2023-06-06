@@ -46,7 +46,11 @@ void GameScene::Initialize()
 	lightGroup_->SetCircleShadowActive(0, true);
 
 	//sound->PlayWave("Alarm01");
-	FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+
+	obj1 = new Fbx;
+	obj1->Initialize();
+	obj1->SetModel(model1);
 }
 
 void GameScene::Update()
@@ -78,6 +82,8 @@ void GameScene::Update()
 	lightGroup_->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
 	lightGroup_->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
 
+	obj1->Update();
+
 	if (input->TriggerKey(DIK_1)) {
 		GameManager::GetInstance()->SetTitleScene();
 	}
@@ -99,6 +105,8 @@ void GameScene::Draw()
 	sphereObj_->Draw();
 	groundObj_->Draw();
 	boxObj_->Draw();
+
+	obj1->Draw(cmdList);
 }
 
 void GameScene::SpriteDraw()
@@ -115,4 +123,6 @@ void GameScene::Delete()
 	delete groundObj_;
 	sound->Delete();
 	delete lightGroup_;
+	delete obj1;
+	delete model1;
 }
