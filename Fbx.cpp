@@ -222,9 +222,6 @@ void Fbx::Draw()
 		return;
 	}
 
-	cmdList->SetPipelineState(pipelinestate.Get());
-	cmdList->SetGraphicsRootSignature(rootsignature.Get());
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform_->GetGPUVirtualAddress());
 
 	model_->Draw(cmdList);
@@ -233,8 +230,9 @@ void Fbx::Draw()
 void Fbx::PreDraw(ID3D12GraphicsCommandList* cmdList_)
 {
 	cmdList = cmdList_;
-
-
+	cmdList->SetPipelineState(pipelinestate.Get());
+	cmdList->SetGraphicsRootSignature(rootsignature.Get());
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void Fbx::PostDraw()
