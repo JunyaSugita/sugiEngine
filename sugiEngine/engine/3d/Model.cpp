@@ -315,7 +315,7 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
-	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+	//SRVヒープの先頭にあるSRVをルートパラメータ2番に設定
 	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
 	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0); // 全ての頂点を使って描画

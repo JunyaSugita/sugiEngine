@@ -13,6 +13,7 @@ public:
 	void Update() override;
 	void BackSpriteDraw() override;
 	void Draw() override;
+	void ObjDraw() override;
 	void SpriteDraw() override;
 	void Delete() override;
 

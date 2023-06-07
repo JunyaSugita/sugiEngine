@@ -9,6 +9,7 @@ ID3D12Device* Fbx::device_ = nullptr;
 Camera* Fbx::camera_ = nullptr;
 ComPtr<ID3D12RootSignature> Fbx::rootsignature;
 ComPtr<ID3D12PipelineState> Fbx::pipelinestate;
+ID3D12GraphicsCommandList* Fbx::cmdList;
 
 void Fbx::CreateGraphicsPipeline()
 {
@@ -215,7 +216,7 @@ void Fbx::Update()
 	constBuffTransform_->Unmap(0, nullptr);
 }
 
-void Fbx::Draw(ID3D12GraphicsCommandList* cmdList)
+void Fbx::Draw()
 {
 	if (model_ == nullptr) {
 		return;
@@ -227,4 +228,16 @@ void Fbx::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform_->GetGPUVirtualAddress());
 
 	model_->Draw(cmdList);
+}
+
+void Fbx::PreDraw(ID3D12GraphicsCommandList* cmdList_)
+{
+	cmdList = cmdList_;
+
+
+}
+
+void Fbx::PostDraw()
+{
+	cmdList = nullptr;
 }

@@ -37,10 +37,14 @@ public:
 
 	static void CreateGraphicsPipeline();
 
+	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
+
+	static void PostDraw();
+
 public:
 	void Initialize();
 	void Update();
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw();
 
 	void SetModel(FbxModel* model) {
 		model_ = model;
@@ -50,6 +54,8 @@ public:
 	static ComPtr<ID3D12RootSignature> rootsignature;
 
 	static ComPtr<ID3D12PipelineState> pipelinestate;
+
+	static ID3D12GraphicsCommandList* cmdList;
 
 private:
 	static ID3D12Device* device_;
@@ -62,5 +68,7 @@ private:
 	Vector3 position_ = { 0,0,0 };
 	WorldTransform worldTransform_;
 	FbxModel* model_ = nullptr;
+
+	
 };
 

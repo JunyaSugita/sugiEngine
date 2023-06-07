@@ -56,6 +56,10 @@ void TitleScene::Draw()
 	sphereObj_[1]->Draw();
 }
 
+void TitleScene::ObjDraw()
+{
+}
+
 void TitleScene::SpriteDraw()
 {
 

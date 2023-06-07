@@ -46,11 +46,14 @@ void MyGame::Draw()
 
 	Sprite::PostDraw();
 
-	//モデル
-	Object3d::PreDraw(dxCom->GetCommandList());
-
+	//Fbxモデル
+	Fbx::PreDraw(dxCom->GetCommandList());
 	GameManager::GetInstance()->Draw();
+	Fbx::PostDraw();
 
+	//objモデル
+	Object3d::PreDraw(dxCom->GetCommandList());
+	GameManager::GetInstance()->ObjDraw();
 	Object3d::PostDraw();
 
 	//スプライト

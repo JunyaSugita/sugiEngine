@@ -29,6 +29,11 @@ void GameManager::Draw()
 	scene_->Draw();
 }
 
+void GameManager::ObjDraw()
+{
+	scene_->ObjDraw();
+}
+
 void GameManager::SpriteDraw()
 {
 	scene_->SpriteDraw();

@@ -87,6 +87,10 @@ void ClearScene::Draw()
 	}
 }
 
+void ClearScene::ObjDraw()
+{
+}
+
 void ClearScene::SpriteDraw()
 {
 	

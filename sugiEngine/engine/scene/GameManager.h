@@ -21,6 +21,7 @@ public:
 	void Update();
 	void BackSpriteDraw();
 	void Draw();
+	void ObjDraw();
 	void SpriteDraw();
 	void Delete();
 	

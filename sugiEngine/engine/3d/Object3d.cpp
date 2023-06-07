@@ -278,12 +278,8 @@ void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 	// プリミティブ形状の設定コマンド
 	Object3d::cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-
-
 	//定数バッファビュー(CBV)の設定コマンド
 	Object3d::cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
-
-
 }
 
 void Object3d::PostDraw()
