@@ -8,8 +8,8 @@ void WorldTransform::SetMatScale(Matrix4& matScale, const Vector3& scale) {
 };
 
 void WorldTransform::SetMatTrans(Matrix4& matTrans, const Vector3& trans) {
-	for (uint32_t i = 0; i < 4; i++) {
-		for (uint32_t j = 0; j < 4; j++) {
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
 			if (i == j) {
 				matTrans.m[i][j] = 1;
 			}
@@ -28,8 +28,8 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 
 	if (way == 'z') {
 		//ZŽ²‰ñ“]
-		for (uint32_t i = 0; i < 4; i++) {
-			for (uint32_t j = 0; j < 4; j++) {
+		for (int32_t i = 0; i < 4; i++) {
+			for (int32_t j = 0; j < 4; j++) {
 				if (i == j) {
 					matRot.m[i][j] = 1;
 				}
@@ -46,8 +46,8 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 
 	if (way == 'x') {
 		//XŽ²‰ñ“]
-		for (uint32_t i = 0; i < 4; i++) {
-			for (uint32_t j = 0; j < 4; j++) {
+		for (int32_t i = 0; i < 4; i++) {
+			for (int32_t j = 0; j < 4; j++) {
 				if (i == j) {
 					matRot.m[i][j] = 1;
 				}
@@ -63,8 +63,8 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 	}
 	//YŽ²‰ñ“]
 	if (way == 'y') {
-		for (uint32_t i = 0; i < 4; i++) {
-			for (uint32_t j = 0; j < 4; j++) {
+		for (int32_t i = 0; i < 4; i++) {
+			for (int32_t j = 0; j < 4; j++) {
 				if (i == j) {
 					matRot.m[i][j] = 1;
 				}
@@ -108,8 +108,8 @@ void WorldTransform::SetWorldMat() {
 	Matrix4 matRot = matRotZ * matRotX * matRotY;
 
 	//’PˆÊs—ñ‚ð‘ã“ü
-	for (uint32_t i = 0; i < 4; i++) {
-		for (uint32_t j = 0; j < 4; j++) {
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
 			if (i == j) {
 				matWorld_.m[i][j] = 1;
 			}

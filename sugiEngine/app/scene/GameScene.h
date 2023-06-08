@@ -38,10 +38,10 @@ private:
 	WorldTransform boxWorldTransform_;
 
 	//スプライト
-	uint32_t catTexture_;
+	int32_t catTexture_;
 	Sprite catSprite_;
 
-	uint32_t dogTexture_;
+	int32_t dogTexture_;
 	Sprite dogSprite_;
 
 	FbxModel* model1_ = nullptr;

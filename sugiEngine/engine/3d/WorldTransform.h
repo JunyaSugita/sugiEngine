@@ -121,7 +121,7 @@ public:
 	}
 
 	//matWorld_
-	void SetMatWorld(int i,int j,int num) {
+	void SetMatWorld(int i,int j,float num) {
 		matWorld_.m[i][j] = num;
 	}
 	Matrix4 GetMatWorld() {

@@ -32,9 +32,9 @@ private:
 
 	//スポーンポイント
 	Vector3 spawnPoint_;
-	uint32_t spawnNum_;
+	int32_t spawnNum_;
 	
-	uint32_t playerNum_;
+	int32_t playerNum_;
 
 	LightGroup* lightGroup_ = nullptr;
 };

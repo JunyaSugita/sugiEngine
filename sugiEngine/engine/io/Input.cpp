@@ -57,7 +57,7 @@ void Input::Update()
 	}
 }
 
-bool Input::PushKey(uint32_t keyNum)
+bool Input::PushKey(int32_t keyNum)
 {
 	if (key_[keyNum]) {
 		return true;
@@ -65,7 +65,7 @@ bool Input::PushKey(uint32_t keyNum)
 	return false;
 }
 
-bool Input::TriggerKey(uint32_t keyNum)
+bool Input::TriggerKey(int32_t keyNum)
 {
 	if (key_[keyNum] && oldKey_[keyNum] == 0) {
 		return true;
@@ -73,7 +73,7 @@ bool Input::TriggerKey(uint32_t keyNum)
 	return false;
 }
 
-bool Input::ReleaseKey(uint32_t keyNum)
+bool Input::ReleaseKey(int32_t keyNum)
 {
 	if (key_[keyNum] == 0 && oldKey_[keyNum]) {
 		return true;
@@ -81,7 +81,7 @@ bool Input::ReleaseKey(uint32_t keyNum)
 	return false;
 }
 
-bool Input::PushButton(uint32_t buttonNum)
+bool Input::PushButton(int32_t buttonNum)
 {
 	if (state_.Gamepad.wButtons & buttonNum) {
 		return true;
@@ -90,7 +90,7 @@ bool Input::PushButton(uint32_t buttonNum)
 	return false;
 }
 
-bool Input::TriggerButton(uint32_t buttonNum)
+bool Input::TriggerButton(int32_t buttonNum)
 {
 	if ((state_.Gamepad.wButtons & buttonNum) && (oldState_.Gamepad.wButtons & buttonNum) == 0) {
 		return true;
@@ -98,7 +98,7 @@ bool Input::TriggerButton(uint32_t buttonNum)
 	return false;
 }
 
-bool Input::ReleaseButton(uint32_t buttonNum)
+bool Input::ReleaseButton(int32_t buttonNum)
 {
 	if ((state_.Gamepad.wButtons & buttonNum) == 0 && (oldState_.Gamepad.wButtons & buttonNum)) {
 		return true;

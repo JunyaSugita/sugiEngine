@@ -34,13 +34,13 @@ public:
 	void Initialize(WinApp* winApp);
 	void Update();
 
-	bool PushKey(uint32_t keyNum);
-	bool TriggerKey(uint32_t keyNum);
-	bool ReleaseKey(uint32_t keyNum);
+	bool PushKey(int32_t keyNum);
+	bool TriggerKey(int32_t keyNum);
+	bool ReleaseKey(int32_t keyNum);
 
-	bool PushButton(uint32_t buttonNum);
-	bool TriggerButton(uint32_t buttonNum);
-	bool ReleaseButton(uint32_t buttonNum);
+	bool PushButton(int32_t buttonNum);
+	bool TriggerButton(int32_t buttonNum);
+	bool ReleaseButton(int32_t buttonNum);
 
 	SHORT GetLSteckX();
 	SHORT GetLSteckY();

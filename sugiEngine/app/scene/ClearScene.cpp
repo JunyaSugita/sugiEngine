@@ -10,7 +10,7 @@ void ClearScene::Initialize()
 	models_.insert(std::make_pair("sphere", sphereModel_));
 	models_.insert(std::make_pair("player", playerModel_));
 
-	uint32_t objNum = 0;
+	int32_t objNum = 0;
 
 	for (auto& objectData : levelData_->obj) {
 		//ファイルから登録済みモデルを探索
