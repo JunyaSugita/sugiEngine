@@ -1,4 +1,13 @@
-float4 main( float4 pos : POSITION ) : SV_POSITION
+#include "FBX.hlsli"
+
+VSOutput main(VSInput input)
 {
-	return pos;
+	float4 wnormal = normalize(mul(world,float4(input.normal,0)));
+
+	VSOutput output;
+	output.svpos = mul(mul(viewproj, world), input.pos);
+	output.normal = wnormal.xyz;
+	output.uv = input.uv;
+
+	return output;
 }
