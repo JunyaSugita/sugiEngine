@@ -54,11 +54,8 @@ public:
 public:
 	static Model* LoadFromObj(const std::string& modelname,bool smoothing = false);
 	static void SetDevice(ID3D12Device* device) {
-		device_ = device;
+		sDevice = device;
 	}
-
-private:
-	static ID3D12Device* device_;
 
 private:
 	void LoatFromObjInternal(const std::string& modelname, bool smoothing = false);
@@ -81,28 +78,31 @@ public:
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial, XMFLOAT4 color);
 
 	inline size_t GetVertexCount() {
-		return vertices.size();
+		return vertices_.size();
 	}
 
 	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
 	void CalculateSmoothedVertexNormals();
 
 private:
-	std::vector<Vertex> vertices;
-	std::vector<unsigned short> indices;
-	Material material;
-	//テクスチャバッファの生成
-	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff;
+	static ID3D12Device* sDevice;
 
-	ID3D12DescriptorHeap* srvHeap;
+private:
+	std::vector<Vertex> vertices_;
+	std::vector<unsigned short> indices_;
+	Material material_;
+	//テクスチャバッファの生成
+	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff_;
+
+	ID3D12DescriptorHeap* srvHeap_;
 	//インデックスバッファの生成
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff;
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff_;
 	// 頂点バッファの生成
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff;
-	D3D12_VERTEX_BUFFER_VIEW vbView;
-	D3D12_INDEX_BUFFER_VIEW ibView;
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1;
-	ConstBufferDataB1* constMap1 = nullptr;
-	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff_;
+	D3D12_VERTEX_BUFFER_VIEW vbView_;
+	D3D12_INDEX_BUFFER_VIEW ibView_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1_;
+	ConstBufferDataB1* constMap1_ = nullptr;
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 };
 

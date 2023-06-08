@@ -18,12 +18,12 @@ void GameScene::Initialize()
 	boxObj_ = Object3d::Create();
 	boxObj_->SetModel(boxModel_);
 
-	sphereWorldTransform_.pos = { 0,0,0 };
-	sphereWorldTransform_.scale = { 1,1,1 };
+	sphereWorldTransform_.SetPos(Vector3());
+	sphereWorldTransform_.SetScale(Vector3(1, 1, 1));
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
 	sphereObj_->Update();
 
-	groundWorldTransform_.pos = { 0,-1,0 };
+	groundWorldTransform_.SetPos(Vector3(0, -1, 0));
 	groundObj_->SetWorldTransform(groundWorldTransform_);
 	groundObj_->Update();
 
@@ -37,8 +37,8 @@ void GameScene::Initialize()
 	dogSprite_.SetPos(850, 0);
 
 	//サウンド初期化
-	sound->Initialize();
-	sound->LoadWave("Alarm01");
+	sound_->Initialize();
+	sound_->LoadWave("Alarm01");
 
 	//ライト
 	lightGroup_ = LightGroup::Create();
@@ -46,11 +46,11 @@ void GameScene::Initialize()
 	lightGroup_->SetCircleShadowActive(0, true);
 
 	//sound->PlayWave("Alarm01");
-	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	model1_ = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
-	obj1 = new Fbx;
-	obj1->Initialize();
-	obj1->SetModel(model1);
+	obj1_ = new Fbx;
+	obj1_->Initialize();
+	obj1_->SetModel(model1_);
 }
 
 void GameScene::Update()
@@ -59,43 +59,43 @@ void GameScene::Update()
 	Input* input = Input::GetInstance();
 
 	if (input->PushKey(DIK_LEFT)) {
-		sphereWorldTransform_.pos.x -= 0.3f;
+		sphereWorldTransform_.AddPosX(-0.3f);
 	}
 	if (input->PushKey(DIK_RIGHT)) {
-		sphereWorldTransform_.pos.x += 0.3f;
+		sphereWorldTransform_.AddPosX(0.3f);
 	}
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
 	sphereObj_->Update();
 
 	Camera::GetInstance()->SetTarget(Vector3(0, 20, 0));
-	Camera::GetInstance()->SetEye(Vector3(0,0,-100));
+	Camera::GetInstance()->SetEye(Vector3(0, 0, -100));
 
 	//ライト
 	lightGroup_->Update();
 	//丸影
-	lightGroup_->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0],circleShadowDir[1], circleShadowDir[2], 0 }));
+	lightGroup_->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir_[0],circleShadowDir_[1], circleShadowDir_[2], 0 }));
 	lightGroup_->SetCircleShadowCasterPos(0,
 		XMFLOAT3(
 			{
-				sphereWorldTransform_.pos.x,
-				sphereWorldTransform_.pos.y,
-				sphereWorldTransform_.pos.z
+				sphereWorldTransform_.GetPos().x,
+				sphereWorldTransform_.GetPos().y,
+				sphereWorldTransform_.GetPos().z
 			}
 	));
-	lightGroup_->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
-	lightGroup_->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
+	lightGroup_->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten_));
+	lightGroup_->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle_));
 
-	obj1->Update();
+	obj1_->Update();
 
 	if (input->TriggerKey(DIK_1)) {
 		GameManager::GetInstance()->SetTitleScene();
 	}
 
-	Text("Hello,world %f", sphereWorldTransform_.pos.x);
+	Text("Hello,world %f", sphereWorldTransform_.GetPos().x);
 	if (Button("nanimonaiyo")) {
 		GameManager::GetInstance()->SetTitleScene();
 	}
-	SliderFloat("float", &sphereWorldTransform_.pos.x, -50.0f, 50.0f);
+	SliderFloat("float", sphereWorldTransform_.GetPosPointerX(), -50.0f, 50.0f);
 }
 
 void GameScene::BackSpriteDraw()
@@ -105,7 +105,7 @@ void GameScene::BackSpriteDraw()
 
 void GameScene::Draw()
 {
-	obj1->Draw();
+	obj1_->Draw();
 }
 
 void GameScene::ObjDraw()
@@ -127,8 +127,8 @@ void GameScene::Delete()
 	delete sphereObj_;
 	delete groundModel_;
 	delete groundObj_;
-	sound->Delete();
+	sound_->Delete();
 	delete lightGroup_;
-	delete obj1;
-	delete model1;
+	delete obj1_;
+	delete model1_;
 }

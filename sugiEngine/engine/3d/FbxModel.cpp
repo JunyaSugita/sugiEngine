@@ -9,7 +9,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
 
 	//リソース設定
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices.size());
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices_.size());
 
 	D3D12_RESOURCE_DESC resDesc{};
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -26,22 +26,22 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		&resDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&vertBuff)
+		IID_PPV_ARGS(&vertBuff_)
 	);
 
 	VertexPosNormalUv* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
-		std::copy(vertices.begin(), vertices.end(), vertMap);
-		vertBuff->Unmap(0,nullptr);
+		std::copy(vertices_.begin(), vertices_.end(), vertMap);
+		vertBuff_->Unmap(0,nullptr);
 	}
 
 	//頂点バッファビューの作成
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeVB;
-	vbView.StrideInBytes = sizeof(vertices[0]);
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	vbView_.SizeInBytes = sizeVB;
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
 	resDesc.Width = sizeIB;
 
 	result = device->CreateCommittedResource(
@@ -50,22 +50,22 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		&resDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&indexBuff)
+		IID_PPV_ARGS(&indexBuff_)
 	);
 
 	//インデックスバッファへのデータ転送
 	unsigned short* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	if (SUCCEEDED(result)) {
-		std::copy(indices.begin(), indices.end(), indexMap);
-		indexBuff->Unmap(0, nullptr);
+		std::copy(indices_.begin(), indices_.end(), indexMap);
+		indexBuff_->Unmap(0, nullptr);
 	}
 
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
+	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
+	ibView_.Format = DXGI_FORMAT_R16_UINT;
+	ibView_.SizeInBytes = sizeIB;
 
-	const DirectX::Image* img = scratchImg.GetImage(0, 0, 0);
+	const DirectX::Image* img = scratchImg_.GetImage(0, 0, 0);
 	assert(img);
 
 	//ヒープ設定
@@ -76,11 +76,11 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	//リソース設定
 	D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc.Format = metadata.format;
-	textureResourceDesc.Width = metadata.width;
-	textureResourceDesc.Height = (UINT)metadata.height;
-	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
-	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
+	textureResourceDesc.Format = metadata_.format;
+	textureResourceDesc.Width = metadata_.width;
+	textureResourceDesc.Height = (UINT)metadata_.height;
+	textureResourceDesc.DepthOrArraySize = (UINT16)metadata_.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)metadata_.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
 	//テクスチャバッファの生成
@@ -90,10 +90,10 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		&textureResourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&texBuff)
+		IID_PPV_ARGS(&texBuff_)
 	);
 
-	result = texBuff->WriteToSubresource(
+	result = texBuff_->WriteToSubresource(
 		0,
 		nullptr,
 		img->pixels,
@@ -106,10 +106,10 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	descHeapDesc.NumDescriptors = 1;
-	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeapSRV));
+	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeapSRV_));
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	resDesc = texBuff->GetDesc();
+	resDesc = texBuff_->GetDesc();
 
 	srvDesc.Format = resDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -117,22 +117,22 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	srvDesc.Texture2D.MipLevels = 1;
 
 	device->CreateShaderResourceView(
-		texBuff.Get(),
+		texBuff_.Get(),
 		&srvDesc,
-		descHeapSRV->GetCPUDescriptorHandleForHeapStart()
+		descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
 	);
 }
 
 void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
-	cmdList->IASetIndexBuffer(&ibView);
+	cmdList->IASetVertexBuffers(0, 1, &vbView_);
+	cmdList->IASetIndexBuffer(&ibView_);
 
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
+	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV_.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	//1番に設定
-	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
+	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV_->GetGPUDescriptorHandleForHeapStart());
 
-	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }

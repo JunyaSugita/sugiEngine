@@ -25,10 +25,10 @@ private:
 
 	Model* sphereModel_;
 	Model* playerModel_;
-	std::map<std::string, Model*> models;
+	std::map<std::string, Model*> models_;
 
 	WorldTransform worldTransform_;
-	std::vector<Object3d*> objects;
+	std::vector<Object3d*> objects_;
 
 	//スポーンポイント
 	Vector3 spawnPoint_;

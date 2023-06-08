@@ -7,9 +7,9 @@ using namespace DirectX;
 
 ID3D12Device* Fbx::device_ = nullptr;
 Camera* Fbx::camera_ = nullptr;
-ComPtr<ID3D12RootSignature> Fbx::rootsignature;
-ComPtr<ID3D12PipelineState> Fbx::pipelinestate;
-ID3D12GraphicsCommandList* Fbx::cmdList = nullptr;
+ComPtr<ID3D12RootSignature> Fbx::sRootSignature;
+ComPtr<ID3D12PipelineState> Fbx::sPipelineState;
+ID3D12GraphicsCommandList* Fbx::sCmdList = nullptr;
 
 void Fbx::CreateGraphicsPipeline()
 {
@@ -179,15 +179,15 @@ void Fbx::CreateGraphicsPipeline()
 	// バージョン自動判定のシリアライズ
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	// ルートシグネチャの生成
-	result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(rootsignature.ReleaseAndGetAddressOf()));
+	result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(sRootSignature.ReleaseAndGetAddressOf()));
 	if (FAILED(result)) {
 		assert(0);
 	}
 
-	gpipeline.pRootSignature = rootsignature.Get();
+	gpipeline.pRootSignature = sRootSignature.Get();
 
 	// グラフィックスパイプラインの生成
-	result = device_->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(pipelinestate.ReleaseAndGetAddressOf()));
+	result = device_->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(sPipelineState.ReleaseAndGetAddressOf()));
 	if (FAILED(result)) {
 		assert(0);
 	}
@@ -224,9 +224,9 @@ void Fbx::Initialize()
 
 void Fbx::Update()
 {
-	worldTransform_.scale = scale_;
-	worldTransform_.pos = position_;
-	worldTransform_.rot = rotation_;
+	worldTransform_.SetScale(scale_);
+	worldTransform_.SetPos(position_);
+	worldTransform_.SetRot(rotation_);
 	worldTransform_.SetWorldMat();
 
 	const XMMATRIX& modelTransform = model_->GetModelTransform();
@@ -240,7 +240,7 @@ void Fbx::Update()
 	result = constBuffTransform_->Map(0, nullptr, (void**)&constMap);
 
 	constMap->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
-	constMap->world = ConvertToXMMATRIX(worldTransform_.matWorld);
+	constMap->world = ConvertToXMMATRIX(worldTransform_.GetMatWorld());
 	constMap->cameraPos = *camera->GetEyeXM();
 	constBuffTransform_->Unmap(0, nullptr);
 }
@@ -251,20 +251,20 @@ void Fbx::Draw()
 		return;
 	}
 
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform_->GetGPUVirtualAddress());
+	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform_->GetGPUVirtualAddress());
 
-	model_->Draw(cmdList);
+	model_->Draw(sCmdList);
 }
 
 void Fbx::PreDraw(ID3D12GraphicsCommandList* cmdList_)
 {
-	cmdList = cmdList_;
-	cmdList->SetPipelineState(pipelinestate.Get());
-	cmdList->SetGraphicsRootSignature(rootsignature.Get());
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	sCmdList = cmdList_;
+	sCmdList->SetPipelineState(sPipelineState.Get());
+	sCmdList->SetGraphicsRootSignature(sRootSignature.Get());
+	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void Fbx::PostDraw()
 {
-	cmdList = nullptr;
+	sCmdList = nullptr;
 }

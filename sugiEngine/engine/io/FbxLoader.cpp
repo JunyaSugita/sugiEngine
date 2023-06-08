@@ -57,10 +57,10 @@ FbxModel* FbxLoader::LoadModelFromFile(const string& modelName)
 
 	//モデル生成
 	FbxModel* model = new FbxModel();
-	model->name = modelName;
+	model->name_ = modelName;
 
 	uint32_t nodeCount = fbxScene->GetNodeCount();
-	model->nodes.reserve(nodeCount);
+	model->nodes_.reserve(nodeCount);
 
 	//解析してモデルに流す
 	ParseNodeRecursive(model, fbxScene->GetRootNode());
@@ -75,8 +75,8 @@ FbxModel* FbxLoader::LoadModelFromFile(const string& modelName)
 void FbxLoader::ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* parent)
 {
 	//ノード追加
-	model->nodes.emplace_back();
-	Node& node = model->nodes.back();
+	model->nodes_.emplace_back();
+	Node& node = model->nodes_.back();
 	//ノード名
 	node.name = fbxNode->GetName();
 
@@ -117,7 +117,7 @@ void FbxLoader::ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* pare
 
 	if (fbxNodeAttribute) {
 		if (fbxNodeAttribute->GetAttributeType() == FbxNodeAttribute::eMesh) {
-			model->meshNode = &node;
+			model->meshNode_ = &node;
 			ParseMesh(model, fbxNode);
 		}
 	}
@@ -138,13 +138,13 @@ void FbxLoader::ParseMesh(FbxModel* model, FbxNode* fbxNode)
 
 void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh)
 {
-	auto& vertices = model->vertices;
+	auto& vertices = model->vertices_;
 
 	//頂点座標データ数
 	const uint32_t controlPointsCount = fbxMesh->GetControlPointsCount();
 	//必要数だけ頂点データ配列を確保
 	FbxModel::VertexPosNormalUv vert{};
-	model->vertices.resize(controlPointsCount, vert);
+	model->vertices_.resize(controlPointsCount, vert);
 	//FBXメッシュの頂点座標配列を取得
 	FbxVector4* pCoord = fbxMesh->GetControlPoints();
 	//FBXメッシュの全頂点座標をモデル内の配列にコピー
@@ -160,8 +160,8 @@ void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh)
 
 void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
 {
-	auto& vertices = model->vertices;
-	auto& indices = model->indices;
+	auto& vertices = model->vertices_;
+	auto& indices = model->indices_;
 
 	//1ファイルに複数メッシュのモデルは非対応
 	assert(indices.size() == 0);
@@ -242,14 +242,14 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
 			FbxSurfaceLambert* lambert = static_cast<FbxSurfaceLambert*>(material);
 
 			FbxPropertyT<FbxDouble3> ambient = lambert->Ambient;
-			model->ambient.x = (float)ambient.Get()[0];
-			model->ambient.y = (float)ambient.Get()[1];
-			model->ambient.z = (float)ambient.Get()[2];
+			model->ambient_.x = (float)ambient.Get()[0];
+			model->ambient_.y = (float)ambient.Get()[1];
+			model->ambient_.z = (float)ambient.Get()[2];
 
 			FbxPropertyT<FbxDouble3> diffuse = lambert->Diffuse;
-			model->diffuse.x = (float)diffuse.Get()[0];
-			model->diffuse.y = (float)diffuse.Get()[1];
-			model->diffuse.z = (float)diffuse.Get()[2];
+			model->diffuse_.x = (float)diffuse.Get()[0];
+			model->diffuse_.y = (float)diffuse.Get()[1];
+			model->diffuse_.z = (float)diffuse.Get()[2];
 		}
 
 		const FbxProperty diffuseProperty = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
@@ -260,7 +260,7 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
 				string path_str(filepath);
 				string name = ExtractFileName(path_str);
 
-				LoadTexture(model, baseDirectory + model->name + "/" + name);
+				LoadTexture(model, baseDirectory + model->name_ + "/" + name);
 				textureLoaded = true;
 			}
 		}
@@ -271,8 +271,8 @@ void FbxLoader::LoadTexture(FbxModel* model, const string& fullpath)
 {
 	HRESULT result = S_FALSE;
 
-	TexMetadata& metadata = model->metadata;
-	ScratchImage& scratchImg = model->scratchImg;
+	TexMetadata& metadata = model->metadata_;
+	ScratchImage& scratchImg = model->scratchImg_;
 
 	wchar_t wfilepath[128];
 	MultiByteToWideChar(CP_ACP, 0, fullpath.c_str(), -1, wfilepath, _countof(wfilepath));

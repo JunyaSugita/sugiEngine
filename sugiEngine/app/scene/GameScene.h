@@ -44,20 +44,20 @@ private:
 	uint32_t dogTexture_;
 	Sprite dogSprite_;
 
-	FbxModel* model1 = nullptr;
-	Fbx* obj1 = nullptr;
+	FbxModel* model1_ = nullptr;
+	Fbx* obj1_ = nullptr;
 
 	//‰¹
-	std::unique_ptr<Sound> sound = std::make_unique <Sound>();
+	std::unique_ptr<Sound> sound_ = std::make_unique <Sound>();
 
 	//ƒ‰ƒCƒgŠÖ˜A
 	LightGroup* lightGroup_ = nullptr;
 
 	//ŠÛ‰e
-	float circleShadowDir[3] = { 0,-1,0 };
-	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
-	float circleShadowFactorAngle[2] = { 0.0f,0.5f };
+	float circleShadowDir_[3] = { 0,-1,0 };
+	float circleShadowAtten_[3] = { 0.5f,0.6f,0.0f };
+	float circleShadowFactorAngle_[2] = { 0.0f,0.5f };
 
-	float f;
+	float f_;
 };
 

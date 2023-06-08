@@ -50,11 +50,11 @@ public:
 	}
 
 public:
-	static ComPtr<ID3D12RootSignature> rootsignature;
+	static ComPtr<ID3D12RootSignature> sRootSignature;
 
-	static ComPtr<ID3D12PipelineState> pipelinestate;
+	static ComPtr<ID3D12PipelineState> sPipelineState;
 
-	static ID3D12GraphicsCommandList* cmdList;
+	static ID3D12GraphicsCommandList* sCmdList;
 
 private:
 	static ID3D12Device* device_;

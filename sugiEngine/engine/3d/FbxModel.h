@@ -13,7 +13,7 @@ struct Node
 
 	DirectX::XMVECTOR scaling = { 1,1,1,0 };
 	DirectX::XMVECTOR rotation = { 0,0,0,0 };
-	DirectX::XMVECTOR  translation = { 0,0,0,1 };
+	DirectX::XMVECTOR translation = { 0,0,0,1 };
 	DirectX::XMMATRIX transform;
 	DirectX::XMMATRIX globalTransform;
 
@@ -50,29 +50,29 @@ public:
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	const XMMATRIX& GetModelTransform() {
-		return meshNode->globalTransform;
+		return meshNode_->globalTransform;
 	}
 
 private:
-	string name;
+	string name_;
 	//ノード配列
-	vector<Node> nodes;
+	vector<Node> nodes_;
 
-	Node* meshNode = nullptr;
-	vector<VertexPosNormalUv> vertices;
-	vector<unsigned short> indices;
+	Node* meshNode_ = nullptr;
+	vector<VertexPosNormalUv> vertices_;
+	vector<unsigned short> indices_;
 
 	//マテリアル
-	XMFLOAT3 ambient = { 1,1,1 };
-	XMFLOAT3 diffuse = { 1,1,1 };
-	TexMetadata metadata = {};
-	ScratchImage scratchImg = {};
+	XMFLOAT3 ambient_ = { 1,1,1 };
+	XMFLOAT3 diffuse_ = { 1,1,1 };
+	TexMetadata metadata_ = {};
+	ScratchImage scratchImg_ = {};
 
-	ComPtr<ID3D12Resource> vertBuff;
-	ComPtr<ID3D12Resource> indexBuff;
-	ComPtr<ID3D12Resource> texBuff;
-	D3D12_VERTEX_BUFFER_VIEW vbView = {};
-	D3D12_INDEX_BUFFER_VIEW ibView = {};
-	ComPtr <ID3D12DescriptorHeap> descHeapSRV;
+	ComPtr<ID3D12Resource> vertBuff_;
+	ComPtr<ID3D12Resource> indexBuff_;
+	ComPtr<ID3D12Resource> texBuff_;
+	D3D12_VERTEX_BUFFER_VIEW vbView_ = {};
+	D3D12_INDEX_BUFFER_VIEW ibView_ = {};
+	ComPtr <ID3D12DescriptorHeap> descHeapSRV_;
 };
 

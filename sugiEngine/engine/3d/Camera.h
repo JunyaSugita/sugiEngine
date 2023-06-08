@@ -109,11 +109,11 @@ public:
 	}
 
 	Matrix4 GetMatView() {
-		return matView;
+		return matView_;
 	}
 
 	Matrix4 GetMatProjection() {
-		return matProjection;
+		return matProjection_;
 	}
 
 
@@ -125,12 +125,12 @@ private:
 	Vector3 up_[MAX_NUM];		//上方向ベクトル
 
 	//並行投影行列
-	XMMATRIX ortho;
+	XMMATRIX ortho_;
 	//透視投影変換行列の計算
-	XMMATRIX perspective;
+	XMMATRIX perspective_;
 
-	Matrix4 matProjection;
-	Matrix4 matView;
+	Matrix4 matProjection_;
+	Matrix4 matView_;
 
 	uint32_t activeNum_ = 0;
 };

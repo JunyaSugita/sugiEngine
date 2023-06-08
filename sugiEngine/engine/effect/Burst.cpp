@@ -43,9 +43,9 @@ void Burst::Initialize(Vector3 pos, Vector4 color, float range, float pow) {
 	sphereObj_->SetColor(color_);
 
 	//ˆø”‚ÌÀ•W‚ð“ü‚ê‚é
-	sphereWorldTransform_.pos = pos;
+	sphereWorldTransform_.SetPos(pos);
 	//‘å‚«‚³‚ð•ÏX
-	sphereWorldTransform_.scale = { 1.0f, 1.0f, 1.0f };
+	sphereWorldTransform_.SetScale(Vector3(1.0f, 1.0f, 1.0f));
 
 	sphereWorldTransform_.SetWorldMat();
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
@@ -53,12 +53,12 @@ void Burst::Initialize(Vector3 pos, Vector4 color, float range, float pow) {
 }
 
 void Burst::Update() {
-	sphereWorldTransform_.pos += move_;
+	sphereWorldTransform_.AddPos(move_);
 	move_.y -= 0.01f;
-	if (sphereWorldTransform_.pos.y < -100) {
+	if (sphereWorldTransform_.GetPos().y < -100) {
 		isDead_ = true;
 	}
-	sphereWorldTransform_.rot += rotate_;
+	sphereWorldTransform_.AddRot(rotate_);
 	sphereWorldTransform_.SetWorldMat();
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
 	sphereObj_->Update();

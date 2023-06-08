@@ -2,7 +2,7 @@
 #include "MyGame.h"
 
 //windowsのエントリーポイント
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+int32_t WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int32_t) {
 	SugiFramework* game = new MyGame();
 
 	game->Run();
