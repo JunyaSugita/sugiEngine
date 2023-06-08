@@ -54,13 +54,13 @@ public:
 public:
 	//モデル格納ルートパス
 
-	static const std::string baseDirectory;
-	static const std::string defaultTextureFileName;
+	static const std::string sBaseDirectory;
+	static const std::string sDefaultTextureFileName;
 
 private:
-	ID3D12Device* device = nullptr;
+	ID3D12Device* device_ = nullptr;
 
-	FbxManager* fbxManager = nullptr;
+	FbxManager* fbxManager_ = nullptr;
 
-	FbxImporter* fbxImporter = nullptr;
+	FbxImporter* fbxImporter_ = nullptr;
 };

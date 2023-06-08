@@ -157,22 +157,22 @@ void DXCommon::Initialize(WinApp* winApp)
 		&depthResourceDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,	//深度値書き込みに使用
 		&depthClearValue,
-		IID_PPV_ARGS(&depthBuff)
+		IID_PPV_ARGS(&depthBuff_)
 	);
 	//深度ビュー用デスクリプタヒープ生成
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;//深度ビュー1つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;//デプスステンシルビュー
-	result = GetDevice()->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
+	result = GetDevice()->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap_));
 
 	//深度ビュー作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	GetDevice()->CreateDepthStencilView(
-		depthBuff.Get(),
+		depthBuff_.Get(),
 		&dsvDesc,
-		dsvHeap->GetCPUDescriptorHandleForHeapStart()
+		dsvHeap_->GetCPUDescriptorHandleForHeapStart()
 	);
 
 	// フェンスの生成
@@ -184,15 +184,15 @@ void DXCommon::PreDraw()
 	// バックバッファの番号を取得(2つなので0番か1番)
 	UINT bbIndex = GetSwapChain()->GetCurrentBackBufferIndex();
 	// 1.リソースバリアで書き込み可能に変更
-	barrierDesc.Transition.pResource = GetBackBuffers(bbIndex); // バックバッファを指定
-	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
-	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
-	GetCommandList()->ResourceBarrier(1, &barrierDesc);
+	barrierDesc_.Transition.pResource = GetBackBuffers(bbIndex); // バックバッファを指定
+	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
+	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
+	GetCommandList()->ResourceBarrier(1, &barrierDesc_);
 	// 2.描画先の変更
 	// レンダーターゲットビューのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = GetRtvHeap()->GetCPUDescriptorHandleForHeapStart();
 	rtvHandle.ptr += bbIndex * GetDevice()->GetDescriptorHandleIncrementSize(GetRtvHeapDesc().Type);
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUDescriptorHandleForHeapStart();
 	GetCommandList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 	// 3.画面クリア R G B A
 	FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
@@ -226,9 +226,9 @@ void DXCommon::PostDraw()
 	HRESULT result;
 
 	// 5.リソースバリアを戻す
-	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
-	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
-	GetCommandList()->ResourceBarrier(1, &barrierDesc);
+	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
+	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
+	GetCommandList()->ResourceBarrier(1, &barrierDesc_);
 
 	// 命令のクローズ
 	result = GetCommandList()->Close();

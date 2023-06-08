@@ -2,12 +2,12 @@
 
 void SugiFramework::Initialize()
 {
-	winApp = make_unique<WinApp>();
-	dxCom = make_unique<DXCommon>();
-	matrix4 = make_unique <Matrix4>();
+	winApp_ = make_unique<WinApp>();
+	dxCom_ = make_unique<DXCommon>();
+	matrix4_ = make_unique <Matrix4>();
 
 #pragma region windowsAPI初期化処理
-	winApp->CreateWindowScreen();
+	winApp_->CreateWindowScreen();
 	//コンソールへ文字入力
 	OutputDebugStringA("Hello DirectX\n");
 	OutputDebugStringA("This is sugiEngine\n");
@@ -15,20 +15,20 @@ void SugiFramework::Initialize()
 
 #pragma region DirectX初期化処理
 	// DirectX初期化処理 ここから
-	dxCom->Initialize(winApp.get());
+	dxCom_->Initialize(winApp_.get());
 	//キーボード入力の初期化
-	Input::GetInstance()->Initialize(winApp.get());
+	Input::GetInstance()->Initialize(winApp_.get());
 	//FbxLoder初期化
-	FbxLoader::GetInstance()->Initialize(dxCom->GetDevice());
+	FbxLoader::GetInstance()->Initialize(dxCom_->GetDevice());
 #pragma endregion
 
 #pragma region 描画初期化処理
 	Camera::GetInstance()->Initialize();
-	Object3d::StaticInitialize(dxCom->GetDevice());
-	Fbx::SetDevice(dxCom->GetDevice());
+	Object3d::StaticInitialize(dxCom_->GetDevice());
+	Fbx::SetDevice(dxCom_->GetDevice());
 	Fbx::CreateGraphicsPipeline();
-	Sprite::StaticInitialize(dxCom->GetDevice());
-	LightGroup::StaticInitialize(dxCom->GetDevice());
+	Sprite::StaticInitialize(dxCom_->GetDevice());
+	LightGroup::StaticInitialize(dxCom_->GetDevice());
 #pragma endregion
 }
 
@@ -39,7 +39,7 @@ void SugiFramework::Finalize()
 
 #pragma region WindowsAPI後始末
 	//最後にする
-	winApp->DeleteWindow();
+	winApp_->DeleteWindow();
 #pragma endregion
 }
 
@@ -72,7 +72,7 @@ void SugiFramework::Run()
 
 bool SugiFramework::GetIsEnd()
 {
-	if (winApp->ProcMessage()) {
+	if (winApp_->ProcMessage()) {
 		return true;
 	}
 	return false;

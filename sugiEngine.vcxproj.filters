@@ -251,9 +251,6 @@
     <ClInclude Include="sugiEngine\engine\3d\WorldTransform.h">
       <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
-    <ClInclude Include="JsonLoader.h">
-      <Filter>ヘッダー ファイル\engine\io</Filter>
-    </ClInclude>
     <ClInclude Include="sugiEngine\engine\math\SugiMath.h">
       <Filter>ヘッダー ファイル\engine\math</Filter>
     </ClInclude>
@@ -271,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\scene\ClearScene.h">
       <Filter>ヘッダー ファイル\app\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\io\JsonLoader.h">
+      <Filter>ヘッダー ファイル\engine\io</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

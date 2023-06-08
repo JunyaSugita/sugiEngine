@@ -4,8 +4,8 @@
 using namespace std;
 using namespace  DirectX;
 
-const string FbxLoader::baseDirectory = "Resources/";
-const string FbxLoader::defaultTextureFileName = "white1x1.png";
+const string FbxLoader::sBaseDirectory = "Resources/";
+const string FbxLoader::sDefaultTextureFileName = "white1x1.png";
 
 FbxLoader* FbxLoader::GetInstance()
 {
@@ -16,44 +16,44 @@ FbxLoader* FbxLoader::GetInstance()
 void FbxLoader::Initialize(ID3D12Device* device)
 {
 	//再初期化チェック
-	assert(fbxManager == nullptr);
+	assert(fbxManager_ == nullptr);
 	//引数からメンバ変数に代入
-	this->device = device;
+	this->device_ = device;
 	//FBXマネージャの生成
-	fbxManager = FbxManager::Create();
+	fbxManager_ = FbxManager::Create();
 	//FBXマネージャの入出力設定
-	FbxIOSettings* ios = FbxIOSettings::Create(fbxManager, IOSROOT);
-	fbxManager->SetIOSettings(ios);
+	FbxIOSettings* ios = FbxIOSettings::Create(fbxManager_, IOSROOT);
+	fbxManager_->SetIOSettings(ios);
 	//FBXインポータ
-	fbxImporter = FbxImporter::Create(fbxManager, "");
+	fbxImporter_ = FbxImporter::Create(fbxManager_, "");
 }
 
 void FbxLoader::Finalize()
 {
 	//インスタンス破棄
-	fbxImporter->Destroy();
-	fbxManager->Destroy();
+	fbxImporter_->Destroy();
+	fbxManager_->Destroy();
 }
 
 FbxModel* FbxLoader::LoadModelFromFile(const string& modelName)
 {
 	//モデルと同じ名前のフォルダから読み込み
-	const string directoryPath = baseDirectory + modelName + "/";
+	const string directoryPath = sBaseDirectory + modelName + "/";
 	//拡張子を付加
 	const string fileName = modelName + ".fbx";
 	//合体
 	const string fullpath = directoryPath + fileName;
 
 	//ファイル名を指定して読み込み
-	if (!fbxImporter->Initialize(fullpath.c_str(), -1, fbxManager->GetIOSettings())) {
+	if (!fbxImporter_->Initialize(fullpath.c_str(), -1, fbxManager_->GetIOSettings())) {
 		assert(0);
 	}
 
 	//シーン生成
-	FbxScene* fbxScene = FbxScene::Create(fbxManager, "fbxScane");
+	FbxScene* fbxScene = FbxScene::Create(fbxManager_, "fbxScane");
 
 	//ファイルからロードしたFBXの情報をシーンにインポート
-	fbxImporter->Import(fbxScene);
+	fbxImporter_->Import(fbxScene);
 
 	//モデル生成
 	FbxModel* model = new FbxModel();
@@ -67,7 +67,7 @@ FbxModel* FbxLoader::LoadModelFromFile(const string& modelName)
 	//解放
 	fbxScene->Destroy();
 
-	model->CreateBuffers(device);
+	model->CreateBuffers(device_);
 
 	return model;
 }
@@ -235,7 +235,7 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
 		}
 
 		if (!textureLoaded) {
-			LoadTexture(model, baseDirectory + defaultTextureFileName);
+			LoadTexture(model, sBaseDirectory + sDefaultTextureFileName);
 		}
 
 		if (material->GetClassId().Is(FbxSurfaceLambert::ClassId)) {
@@ -260,7 +260,7 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
 				string path_str(filepath);
 				string name = ExtractFileName(path_str);
 
-				LoadTexture(model, baseDirectory + model->name_ + "/" + name);
+				LoadTexture(model, sBaseDirectory + model->name_ + "/" + name);
 				textureLoaded = true;
 			}
 		}

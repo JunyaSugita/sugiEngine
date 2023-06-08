@@ -17,17 +17,17 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	static ID3D12Device* device_;
+	static ID3D12Device* sDevice;
 
 public:
 	//平行光
-	static const uint32_t DirLightNum = 3;
+	static const uint32_t sDirLightNum = 3;
 	//点光源
-	static const uint32_t PointLightNum = 3;
+	static const uint32_t sPointLightNum = 3;
 	//スポットライト
-	static const uint32_t SpotLightNum = 3;
+	static const uint32_t sSpotLightNum = 3;
 	//丸影
-	static const uint32_t CircleShadowNum = 1;
+	static const uint32_t sCircleShadowNum = 1;
 
 public:
 	struct ConstBufferData
@@ -36,13 +36,13 @@ public:
 		XMFLOAT3 ambientColor;
 		float pad1;
 		//平行光線用
-		DirectionalLight::ConstBufferData dirLights[DirLightNum];
+		DirectionalLight::ConstBufferData dirLights[sDirLightNum];
 		//点光源
-		PointLight::ConstBufferData pointLights[PointLightNum];
+		PointLight::ConstBufferData pointLights[sPointLightNum];
 		//スポットライト
-		SpotLight::ConstBufferData spotLights[SpotLightNum];
+		SpotLight::ConstBufferData spotLights[sSpotLightNum];
 		//丸影
-		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
+		CircleShadow::ConstBufferData circleShadows[sCircleShadowNum];
 	};
 
 	static void StaticInitialize(ID3D12Device* device);
@@ -55,13 +55,13 @@ private:
 	//環境光の色
 	XMFLOAT3 ambientColor_ = { 1,1,1 };
 	//平行光線の配列
-	DirectionalLight dirLights_[DirLightNum];
+	DirectionalLight dirLights_[sDirLightNum];
 	//点光源の配列
-	PointLight pointLights_[PointLightNum];
+	PointLight pointLights_[sPointLightNum];
 	//点光源の配列
-	SpotLight spotLights_[SpotLightNum];
+	SpotLight spotLights_[sSpotLightNum];
 	//丸影の配列
-	CircleShadow circleShadows_[CircleShadowNum];
+	CircleShadow circleShadows_[sCircleShadowNum];
 	//ダーティフラグ
 	bool dirty_ = false;
 

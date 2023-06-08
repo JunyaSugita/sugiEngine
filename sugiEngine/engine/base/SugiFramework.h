@@ -47,7 +47,7 @@ public:
 	bool GetIsEnd();
 
 protected:
-	std::unique_ptr<WinApp> winApp = nullptr;
-	std::unique_ptr<DXCommon> dxCom = nullptr;
-	std::unique_ptr <Matrix4> matrix4 = nullptr;
+	std::unique_ptr<WinApp> winApp_ = nullptr;
+	std::unique_ptr<DXCommon> dxCom_ = nullptr;
+	std::unique_ptr <Matrix4> matrix4_ = nullptr;
 };
