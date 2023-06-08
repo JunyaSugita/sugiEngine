@@ -20,20 +20,20 @@ public:
 	void Initialize();
 	void Update();
 
-	void SetEye(Vector3 eye, int num = -1) {
+	void SetEye(Vector3 eye, uint32_t num = -1) {
 		if (num == -1) {
 			eye_[activeNum_] = eye;
 			return;
 		}
 		eye_[num] = eye;
 	}
-	Vector3 GetEye(int num = -1) {
+	Vector3 GetEye(uint32_t num = -1) {
 		if (num == -1) {
 			return eye_[activeNum_];
 		}
 		return eye_[num];
 	}
-	const XMFLOAT3* GetEyeXM(int num = -1) {
+	const XMFLOAT3* GetEyeXM(uint32_t num = -1) {
 		XMFLOAT3 temp;
 		if (num == -1) {
 			temp.x = eye_[activeNum_].x;
@@ -49,21 +49,21 @@ public:
 		return &temp;
 	}
 
-	void SetTarget(Vector3 target, int num = -1) {
+	void SetTarget(Vector3 target, uint32_t num = -1) {
 		if (num == -1) {
 			target_[activeNum_] = target;
 			return;
 		}
 		target_[num] = target;
 	}
-	Vector3 GetTarget(int num = -1) {
+	Vector3 GetTarget(uint32_t num = -1) {
 		if (num == -1) {
 			return target_[activeNum_];
 		}
 		return target_[num];
 	}
 
-	const XMFLOAT3* GetTargetXM(int num = -1) {
+	const XMFLOAT3* GetTargetXM(uint32_t num = -1) {
 		XMFLOAT3 temp;
 		if (num == -1) {
 			temp.x = target_[activeNum_].x;
@@ -79,20 +79,20 @@ public:
 		return &temp;
 	}
 
-	void SetUp(Vector3 up, int num = -1) {
+	void SetUp(Vector3 up, uint32_t num = -1) {
 		if (num == -1) {
 			up_[activeNum_] = up;
 			return;
 		}
 		up_[num] = up;
 	}
-	Vector3 GetUp(int num = -1) {
+	Vector3 GetUp(uint32_t num = -1) {
 		if (num == -1) {
 			return up_[activeNum_];
 		}
 		return up_[num];
 	}
-	const XMFLOAT3* GetUpXM(int num = -1) {
+	const XMFLOAT3* GetUpXM(uint32_t num = -1) {
 		XMFLOAT3 temp;
 		if (num == -1) {
 			temp.x = up_[activeNum_].x;
@@ -118,7 +118,7 @@ public:
 
 
 private:
-	static const int MAX_NUM = 10;
+	static const uint32_t MAX_NUM = 10;
 
 	Vector3 eye_[MAX_NUM];	//視点座標
 	Vector3 target_[MAX_NUM];	//注視点座標
@@ -132,5 +132,5 @@ private:
 	Matrix4 matProjection;
 	Matrix4 matView;
 
-	int activeNum_ = 0;
+	uint32_t activeNum_ = 0;
 };

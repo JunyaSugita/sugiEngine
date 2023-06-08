@@ -28,7 +28,7 @@ struct SoundData {
 	//バッファの先頭アドレス
 	BYTE* pBuffer;
 	//バッファのサイズ
-	unsigned int bufferSize;
+	size_t bufferSize;
 };
 
 class Sound

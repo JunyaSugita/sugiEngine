@@ -6,7 +6,7 @@ void TitleScene::Initialize()
 	sphereModel_[0] = Model::LoadFromObj("sphere");
 	sphereModel_[1] = Model::LoadFromObj("sphere",true);
 
-	for (int i = 0; i < 2; i++) {
+	for (uint32_t i = 0; i < 2; i++) {
 		sphereObj_[i] = Object3d::Create();
 		sphereObj_[i]->SetModel(sphereModel_[i]);
 
@@ -26,7 +26,7 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-	for (int i = 0; i < 2; i++) {
+	for (uint32_t i = 0; i < 2; i++) {
 		sphereWorldTransform_[i].rot.z += 0.5f;
 
 		sphereObj_[i]->SetWorldTransform(sphereWorldTransform_[i]);
@@ -67,7 +67,7 @@ void TitleScene::SpriteDraw()
 
 void TitleScene::Delete()
 {
-	for (int i = 0; i < 2; i++) {
+	for (uint32_t i = 0; i < 2; i++) {
 		delete sphereModel_[i];
 		delete sphereObj_[i];
 	}

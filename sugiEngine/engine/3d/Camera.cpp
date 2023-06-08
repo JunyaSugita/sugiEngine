@@ -38,7 +38,7 @@ void Camera::Initialize()
 	//カメラ操作
 	XMMATRIX xmmatView;
 	activeNum_ = 0;
-	for (int i = 0; i < MAX_NUM; i++) {
+	for (uint32_t i = 0; i < MAX_NUM; i++) {
 		eye_[i] = Vector3(0, 50, -50);	//視点座標
 		target_[i] = Vector3(0, 0, 0);	//注視点座標
 		up_[i] = Vector3(0, 1, 0);		//上方向ベクトル

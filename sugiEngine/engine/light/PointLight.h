@@ -18,7 +18,7 @@ public:
 		XMFLOAT3 lightcolor;
 		float pad2;
 		XMFLOAT3 lightatten;
-		unsigned int active;
+		size_t active;
 	};
 
 public:

@@ -365,7 +365,7 @@ void Sprite::Initialize(uint32_t texNum)
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
+	for (uint32_t i = 0; i < _countof(vertices); i++) {
 		vertMap[i] = vertices[i]; // 座標をコピー
 	}
 	// 繋がりを解除
@@ -566,7 +566,7 @@ void Sprite::SetUpVertex() {
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
+	for (uint32_t i = 0; i < _countof(vertices); i++) {
 		vertMap[i] = vertices[i]; // 座標をコピー
 	}
 	// 繋がりを解除
