@@ -1,7 +1,7 @@
 #include "Burst.h"
 #include <random>
 
-void Burst::Initialize(Vector3 pos, Vector4 color, float range, float pow) {
+void Burst::Initialize(const Vector3& pos,Vector4 color,const float& range,const float& pow) {
 
 	sphereModel_ = Model::LoadFromObj("box");
 	sphereObj_ = Object3d::Create();

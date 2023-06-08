@@ -409,7 +409,13 @@ void Sprite::Initialize(uint32_t texNum)
 	assert(SUCCEEDED(result));
 
 	//2Dの行列
-	worldTransform_.GetMatWorld().Initialize();
+	
+	worldTransform_.SetMatWorld(
+		Matrix4(1,0,0,0,
+				0,1,0,0,
+				0,0,1,0,
+				0,0,0,1)
+	);
 	worldTransform_.SetMatWorld(0, 0, 2.0f / WIN_WIDTH);
 	worldTransform_.SetMatWorld(1, 1, -2.0f / WIN_HEIGHT);
 	worldTransform_.SetMatWorld(3, 0, -1.0f);
@@ -417,7 +423,12 @@ void Sprite::Initialize(uint32_t texNum)
 
 	//ワールド変換行列
 	WorldTransform matTransform;
-	matTransform.GetMatWorld().Initialize();
+	matTransform.SetMatWorld(
+		Matrix4(1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1)
+	);
 	matTransform.SetRotZ(rotate_);
 	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
 	matTransform.SetWorldMat();

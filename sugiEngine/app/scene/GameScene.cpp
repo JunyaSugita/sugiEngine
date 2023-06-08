@@ -105,7 +105,7 @@ void GameScene::BackSpriteDraw()
 
 void GameScene::Draw()
 {
-	obj1_->Draw();
+	//obj1_->Draw();
 }
 
 void GameScene::ObjDraw()

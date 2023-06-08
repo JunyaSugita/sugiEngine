@@ -23,7 +23,7 @@ public:
 
 	//scale_-----------------------
 	//set
-	void SetScale(Vector3 scale) {
+	void SetScale(const Vector3& scale) {
 		scale_ = scale;
 	}
 	void SetScaleX(float scale) {
@@ -36,7 +36,7 @@ public:
 		scale_.z = scale;
 	}
 	//add
-	void AddScale(Vector3 add) {
+	void AddScale(const Vector3& add) {
 		scale_ += add;
 	}
 	void AddScaleX(float add) {
@@ -55,7 +55,7 @@ public:
 
 	//rot_---------------------
 	//set
-	void SetRot(Vector3 rot) {
+	void SetRot(const Vector3& rot) {
 		rot_ = rot;
 	}
 	void SetRotX(float rot) {
@@ -68,7 +68,7 @@ public:
 		rot_.z = rot;
 	}
 	//add
-	void AddRot(Vector3 add) {
+	void AddRot(const Vector3& add) {
 		rot_ += add;
 	}
 	void AddRotX(float add) {
@@ -100,7 +100,7 @@ public:
 		pos_.z = pos;
 	}
 	//add
-	void AddPos(Vector3 add) {
+	void AddPos(const Vector3& add) {
 		pos_ += add;
 	}
 	void AddPosX(float add) {
@@ -121,14 +121,17 @@ public:
 	}
 
 	//matWorld_
-	void SetMatWorld(int i,int j,float num) {
+	void SetMatWorld(const Matrix4& mat) {
+		matWorld_ = mat;
+	}
+	void SetMatWorld(const uint32_t i,const uint32_t& j,const float& num) {
 		matWorld_.m[i][j] = num;
 	}
 	Matrix4 GetMatWorld() {
 		return matWorld_;
 	}
 
-private:
+public:
 	//ÉAÉtÉBÉìïœä∑èÓïÒ
 	Vector3 scale_ = { 1,1,1 };
 	Vector3 rot_ = { 0,0,0 };
