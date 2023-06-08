@@ -38,18 +38,6 @@ public:
 
 	static Object3d* Create();
 
-private:
-	//デバイス
-	static ID3D12Device* device_;
-
-	static ID3D12GraphicsCommandList* cmdList_;
-	static ComPtr<ID3D12PipelineState> pipelineState;
-	static ComPtr<ID3D12RootSignature> rootSignature;
-
-	static UINT incrementSize;
-	static ComPtr<ID3D12Resource> constBuffMaterial;
-	static uint16_t CountIndex;
-
 public:
 	bool Initialize();
 
@@ -74,16 +62,28 @@ public:
 	}
 
 	Vector3 GetPos() {
-		return worldTransform_.trans_;
+		return worldTransform_.GetPos();
 	}
 
 	static void SetLight(LightGroup* lightGroup) {
 		lightGroup_ = lightGroup;
 	}
+private:
+	//デバイス
+	static ID3D12Device* sDevice;
+
+	static ID3D12GraphicsCommandList* sCmdList;
+	static ComPtr<ID3D12PipelineState> sPipelineState;
+	static ComPtr<ID3D12RootSignature> sRootSignature;
+
+	static UINT sIncrementSize;
+	static ComPtr<ID3D12Resource> sConstBuffMaterial;
+	static uint16_t sCountIndex;
+
 
 private:
-	ComPtr<ID3D12Resource> constBuffB0 = nullptr;
-	ConstBufferDataB0* constMap = nullptr;
+	ComPtr<ID3D12Resource> constBuffB0_ = nullptr;
+	ConstBufferDataB0* constMap_ = nullptr;
 	WorldTransform worldTransform_;
 
 	Model* model_ = nullptr;

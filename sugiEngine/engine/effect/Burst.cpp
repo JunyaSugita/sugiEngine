@@ -1,7 +1,7 @@
 #include "Burst.h"
 #include <random>
 
-void Burst::Initialize(Vector3 pos, Vector4 color, float range, float pow) {
+void Burst::Initialize(const Vector3& pos,Vector4 color,const float& range,const float& pow) {
 
 	sphereModel_ = Model::LoadFromObj("box");
 	sphereObj_ = Object3d::Create();
@@ -43,9 +43,9 @@ void Burst::Initialize(Vector3 pos, Vector4 color, float range, float pow) {
 	sphereObj_->SetColor(color_);
 
 	//ˆø”‚ÌÀ•W‚ð“ü‚ê‚é
-	sphereWorldTransform_.trans_ = pos;
+	sphereWorldTransform_.SetPos(pos);
 	//‘å‚«‚³‚ð•ÏX
-	sphereWorldTransform_.scale_ = { 1.0f, 1.0f, 1.0f };
+	sphereWorldTransform_.SetScale(Vector3(1.0f, 1.0f, 1.0f));
 
 	sphereWorldTransform_.SetWorldMat();
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
@@ -53,12 +53,12 @@ void Burst::Initialize(Vector3 pos, Vector4 color, float range, float pow) {
 }
 
 void Burst::Update() {
-	sphereWorldTransform_.trans_ += move_;
+	sphereWorldTransform_.AddPos(move_);
 	move_.y -= 0.01f;
-	if (sphereWorldTransform_.trans_.y < -100) {
+	if (sphereWorldTransform_.GetPos().y < -100) {
 		isDead_ = true;
 	}
-	sphereWorldTransform_.rotation += rotate_;
+	sphereWorldTransform_.AddRot(rotate_);
 	sphereWorldTransform_.SetWorldMat();
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
 	sphereObj_->Update();

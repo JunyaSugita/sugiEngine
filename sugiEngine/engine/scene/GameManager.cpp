@@ -7,8 +7,6 @@ GameManager::GameManager()
 {
 	scene_ = std::make_unique<GameScene>();
 	scene_->Initialize();
-
-	Camera::GetInstance()->Initialize();
 }
 
 GameManager::~GameManager()
@@ -19,8 +17,6 @@ void GameManager::Update()
 {
 	//各シーンの処理
 	scene_->Update();
-	//カメラ処理
-	Camera::GetInstance()->Update();
 }
 
 void GameManager::BackSpriteDraw()
@@ -31,6 +27,11 @@ void GameManager::BackSpriteDraw()
 void GameManager::Draw()
 {
 	scene_->Draw();
+}
+
+void GameManager::ObjDraw()
+{
+	scene_->ObjDraw();
 }
 
 void GameManager::SpriteDraw()

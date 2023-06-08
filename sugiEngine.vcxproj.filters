@@ -165,7 +165,10 @@
     <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp">
       <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="sugiEngine\engine\3d\Camera.cpp">
+      <Filter>ソース ファイル\engine\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp">
       <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
   </ItemGroup>
@@ -248,12 +251,6 @@
     <ClInclude Include="sugiEngine\engine\3d\WorldTransform.h">
       <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\app\scene\ClearScene.h">
-      <Filter>ヘッダー ファイル\engine\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="JsonLoader.h">
-      <Filter>ヘッダー ファイル\engine\io</Filter>
-    </ClInclude>
     <ClInclude Include="sugiEngine\engine\math\SugiMath.h">
       <Filter>ヘッダー ファイル\engine\math</Filter>
     </ClInclude>
@@ -266,6 +263,15 @@
     <ClInclude Include="sugiEngine\engine\3d\Camera.h">
       <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
+    <ClInclude Include="sugiEngine\engine\3d\Fbx.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\scene\ClearScene.h">
+      <Filter>ヘッダー ファイル\app\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\io\JsonLoader.h">
+      <Filter>ヘッダー ファイル\engine\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli">
@@ -275,6 +281,9 @@
       <Filter>リソース ファイル</Filter>
     </None>
     <None Include="Resources\Shaders\Sprite.hlsli">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\Shaders\FBX.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
@@ -295,6 +304,12 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\SpriteVS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FBXPS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FBXVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

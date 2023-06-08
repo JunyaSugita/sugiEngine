@@ -16,6 +16,7 @@ public:
 	void Update() override;
 	void BackSpriteDraw() override;
 	void Draw() override;
+	void ObjDraw() override;
 	void SpriteDraw() override;
 	void Delete() override;
 
@@ -24,16 +25,16 @@ private:
 
 	Model* sphereModel_;
 	Model* playerModel_;
-	std::map<std::string, Model*> models;
+	std::map<std::string, Model*> models_;
 
 	WorldTransform worldTransform_;
-	std::vector<Object3d*> objects;
+	std::vector<Object3d*> objects_;
 
 	//スポーンポイント
 	Vector3 spawnPoint_;
-	int spawnNum_;
+	int32_t spawnNum_;
 	
-	int playerNum_;
+	int32_t playerNum_;
 
 	LightGroup* lightGroup_ = nullptr;
 };

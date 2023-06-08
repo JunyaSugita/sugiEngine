@@ -1,8 +1,8 @@
 #pragma once
 #include "Matrix4.h"
 
-static const int WIN_WIDTH = 1280;
-static const int WIN_HEIGHT = 720;
+static const int32_t WIN_WIDTH = 1280;
+static const int32_t WIN_HEIGHT = 720;
 
 //定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDataMaterial {

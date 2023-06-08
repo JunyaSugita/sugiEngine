@@ -1,8 +1,8 @@
 #include "Matrix4.h"
 
 Matrix4::Matrix4() {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
 			m[i][j] = 0;
 		}
 	}
@@ -29,8 +29,8 @@ Matrix4::Matrix4(float m00, float m01, float m02, float m03, float m10, float m1
 
 void Matrix4::Initialize()
 {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
 			if (i == j) {
 				m[i][j] = 1;
 			}
@@ -44,9 +44,9 @@ void Matrix4::Initialize()
 Matrix4& Matrix4::operator*=(const Matrix4& m2)
 {
 	Matrix4 ans;
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			for (int k = 0; k < 4; k++) {
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
+			for (int32_t k = 0; k < 4; k++) {
 				ans.m[i][j] += m[i][k] * m2.m[k][j];
 			}
 		}
@@ -60,9 +60,9 @@ Matrix4& Matrix4::operator*=(const Matrix4& m2)
 Matrix4 Matrix4::operator*(const Matrix4& m2)const
 {
 	Matrix4 ans;
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			for (int k = 0; k < 4; k++) {
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
+			for (int32_t k = 0; k < 4; k++) {
 				ans.m[i][j] += m[i][k] * m2.m[k][j];
 			}
 		}

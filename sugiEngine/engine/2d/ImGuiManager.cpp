@@ -42,7 +42,7 @@ void ImGuiManager::Initialie(WinApp* winApp, DXCommon* dxCom)
 	//DirectX12—p‰Šú‰»
 	ImGui_ImplDX12_Init(
 		dxCom->GetDevice(),
-		static_cast<int>(dxCom->GetBackBufferCount()),
+		static_cast<uint32_t>(dxCom->GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
 		srvHeap_.Get(),
 		srvHeap_->GetCPUDescriptorHandleForHeapStart(),

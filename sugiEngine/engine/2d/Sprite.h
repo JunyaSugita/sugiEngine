@@ -69,13 +69,13 @@ public:
 	void SetFlipY(bool isFlip);
 
 	void SetIsView(bool is) {
-		isView = is;
+		isView_ = is;
 	}
 
 	void SetUpVertex();
 
 	void SetTexture(uint32_t texNum) {
-		textureNum = texNum;
+		textureNum_ = texNum;
 	};
 
 	Vector2 GetTextureSize() {
@@ -90,20 +90,20 @@ private:
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	ID3D12Resource* constBuffTransform_ = nullptr;
 	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
-	ConstBufferDataTransform* constMapTransform = nullptr;
-	WorldTransform worldTransform;
-	Vector2 pos;
-	float rotate;
-	XMFLOAT4 color = {1,1,1,1};
-	Vector2 size = { 100.0f,100.0f };
-	Vector2 anchorPoint = {0.0f,0.0f};
-	bool isFlipX = false;
-	bool isFlipY = false;
-	bool isView = true;
-	VertexSp vertices[4];
-	D3D12_VERTEX_BUFFER_VIEW vbView;
-	ComPtr<ID3D12Resource> constBuffMaterial;
-	uint32_t textureNum;
+	ConstBufferDataTransform* constMapTransform_ = nullptr;
+	WorldTransform worldTransform_;
+	Vector2 pos_;
+	float rotate_;
+	XMFLOAT4 color_ = {1,1,1,1};
+	Vector2 size_ = { 100.0f,100.0f };
+	Vector2 anchorPoint_ = {0.0f,0.0f};
+	bool isFlipX_ = false;
+	bool isFlipY_ = false;
+	bool isView_ = true;
+	VertexSp vertices_[4];
+	D3D12_VERTEX_BUFFER_VIEW vbView_;
+	ComPtr<ID3D12Resource> constBuffMaterial_;
+	uint32_t textureNum_;
 
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	Vector2 textureSize_ = { 100.0f,100.0f };

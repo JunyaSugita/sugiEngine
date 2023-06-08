@@ -3,7 +3,7 @@
 
 using namespace std;
 
-ID3D12Device* Model::device_ = nullptr;
+ID3D12Device* Model::sDevice = nullptr;
 
 Model* Model::LoadFromObj(const std::string& modelname, bool smoothing)
 {
@@ -43,32 +43,32 @@ void Model::LoadMaterial(const string& directoryPath, const string& filename)
 		//先頭文字列がnewmtlならマテリアル名
 		if (key == "newmtl") {
 			//マテリアル名読み込み
-			line_stream >> material.name;
+			line_stream >> material_.name;
 		}
 		//先頭文字列がKaならアンビエント色
 		if (key == "Ka") {
-			line_stream >> material.ambient.x;
-			line_stream >> material.ambient.y;
-			line_stream >> material.ambient.z;
+			line_stream >> material_.ambient.x;
+			line_stream >> material_.ambient.y;
+			line_stream >> material_.ambient.z;
 		}
 		//先頭文字列がKdならディフューズ色
 		if (key == "Kd") {
-			line_stream >> material.diffuse.x;
-			line_stream >> material.diffuse.y;
-			line_stream >> material.diffuse.z;
+			line_stream >> material_.diffuse.x;
+			line_stream >> material_.diffuse.y;
+			line_stream >> material_.diffuse.z;
 		}
 		//先頭文字列がKsならスペキュラー色
 		if (key == "Ks") {
-			line_stream >> material.specular.x;
-			line_stream >> material.specular.y;
-			line_stream >> material.specular.z;
+			line_stream >> material_.specular.x;
+			line_stream >> material_.specular.y;
+			line_stream >> material_.specular.z;
 		}
 		//先頭文字列がmap_Kdならテクスチャファイル名
 		if (key == "map_Kd") {
 			//テクスチャのファイル名読み込み
-			line_stream >> material.textureFilename;
+			line_stream >> material_.textureFilename;
 			//テクスチャ読み込み
-			LoadTexture(directoryPath, material.textureFilename);
+			LoadTexture(directoryPath, material_.textureFilename);
 		}
 
 
@@ -128,13 +128,13 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 	textureResourceDesc.SampleDesc.Count = 1;
 
 	//テクスチャバッファの生成
-	result = device_->CreateCommittedResource(
+	result = sDevice->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&texBuff)
+		IID_PPV_ARGS(&texBuff_)
 	);
 
 	//全ミップマップについて
@@ -142,7 +142,7 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 		//ミップマップレベルを指定してイメージを取得
 		const Image* img = scratchImg.GetImage(i, 0, 0);
 		// テクスチャバッファにデータ転送
-		result = texBuff->WriteToSubresource(
+		result = texBuff_->WriteToSubresource(
 			(UINT)i,
 			nullptr,
 			img->pixels,
@@ -153,7 +153,7 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 	}
 
 	//SRVヒープの先頭ハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap_->GetCPUDescriptorHandleForHeapStart();
 
 	//シェーダーリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
@@ -163,7 +163,7 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
-	device_->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
+	sDevice->CreateShaderResourceView(texBuff_.Get(), &srvDesc, srvHandle);
 
 	return false;
 }
@@ -181,7 +181,7 @@ void Model::InitializeDescriptorHeap() {
 	srvHeapDesc.NumDescriptors = kMaxSRVCount;
 
 	//設定を元にSRV用デスクリプタヒープを生成
-	result = device_->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	result = sDevice->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap_));
 	assert(SUCCEEDED(result));
 }
 
@@ -189,7 +189,7 @@ void Model::CreateBuffers()
 {
 	HRESULT result;
 
-	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * vertices.size());
+	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * vertices_.size());
 
 	// 頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapProp{}; // ヒープ設定
@@ -205,25 +205,25 @@ void Model::CreateBuffers()
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// 頂点バッファの生成
-	result = device_->CreateCommittedResource(
+	result = sDevice->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&vertBuff));
+		IID_PPV_ARGS(&vertBuff_));
 	assert(SUCCEEDED(result));
 
 	//頂点バッファへデータを転送
 	Vertex* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	copy(vertices.begin(), vertices.end(), vertMap);
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	copy(vertices_.begin(), vertices_.end(), vertMap);
 	//マッピングを解除
-	vertBuff->Unmap(0, nullptr);
+	vertBuff_->Unmap(0, nullptr);
 	//頂点バッファビューの作成
-	vbView.SizeInBytes = sizeVB;
+	vbView_.SizeInBytes = sizeVB;
 
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
 
 	//リソース設定
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -235,35 +235,35 @@ void Model::CreateBuffers()
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//インデックスバッファの生成
-	result = device_->CreateCommittedResource(
+	result = sDevice->CreateCommittedResource(
 		&heapProp,	//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,	//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&indexBuff)
+		IID_PPV_ARGS(&indexBuff_)
 	);
 
 	//インデックスバッファの生成
 	uint16_t* indexMap = nullptr;
 
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	assert(SUCCEEDED(result));
-	copy(indices.begin(), indices.end(), indexMap);
+	copy(indices_.begin(), indices_.end(), indexMap);
 	// 繋がりを解除
-	indexBuff->Unmap(0, nullptr);
+	indexBuff_->Unmap(0, nullptr);
 
 	//インデックスバッファビューの作成
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
+	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
+	ibView_.Format = DXGI_FORMAT_R16_UINT;
+	ibView_.SizeInBytes = sizeIB;
 
 	// GPU仮想アドレス
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	// 頂点バッファのサイズ
-	vbView.SizeInBytes = sizeVB;
+	vbView_.SizeInBytes = sizeVB;
 	// 頂点1つ分のデータサイズ
-	vbView.StrideInBytes = sizeof(vertices[0]);
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
 
 	//ヒープ設定
@@ -280,66 +280,66 @@ void Model::CreateBuffers()
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成2
-	result = device_->CreateCommittedResource(
+	result = sDevice->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffB1)
+		IID_PPV_ARGS(&constBuffB1_)
 	);
 	assert(SUCCEEDED(result));
 
-	result = constBuffB1->Map(0, nullptr, (void**)&constMap1);
-	constMap1->ambient = material.ambient;
-	constMap1->diffuse = material.diffuse;
-	constMap1->specular = material.specular;
-	constMap1->alpha = material.alpha;
-	constMap1->color = { 1,1,1,1 };
+	result = constBuffB1_->Map(0, nullptr, (void**)&constMap1_);
+	constMap1_->ambient = material_.ambient;
+	constMap1_->diffuse = material_.diffuse;
+	constMap1_->specular = material_.specular;
+	constMap1_->alpha = material_.alpha;
+	constMap1_->color = { 1,1,1,1 };
 }
 
 void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial, XMFLOAT4 color)
 {
-	constMap1->color = color;
+	constMap1_->color = color;
 
 	// 頂点バッファビューの設定コマンド
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
+	cmdList->IASetVertexBuffers(0, 1, &vbView_);
 
 	//インデックスバッファビューのセットコマンド
-	cmdList->IASetIndexBuffer(&ibView);
+	cmdList->IASetIndexBuffer(&ibView_);
 
-	cmdList->SetGraphicsRootConstantBufferView(rootparamIndexMaterial, constBuffB1->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(rootparamIndexMaterial, constBuffB1_->GetGPUVirtualAddress());
 
 	//SRVヒープの設定コマンド
-	cmdList->SetDescriptorHeaps(1, &srvHeap);
+	cmdList->SetDescriptorHeaps(1, &srvHeap_);
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap_->GetGPUDescriptorHandleForHeapStart();
 
-	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+	//SRVヒープの先頭にあるSRVをルートパラメータ2番に設定
 	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
-	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0); // 全ての頂点を使って描画
+	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0); // 全ての頂点を使って描画
 
 }
 
 void Model::AddSmoothData(unsigned short indexPosition, unsigned short indexVertex)
 {
-	smoothData[indexPosition].emplace_back(indexVertex);
+	smoothData_[indexPosition].emplace_back(indexVertex);
 }
 
 void Model::CalculateSmoothedVertexNormals()
 {
-	auto itr = smoothData.begin();
-	for (; itr != smoothData.end(); ++itr) {
+	auto itr = smoothData_.begin();
+	for (; itr != smoothData_.end(); ++itr) {
 		std::vector<unsigned short>& v = itr->second;
 		XMVECTOR normal = {};
 		for (unsigned short index : v) {
-			normal += XMVectorSet(vertices[index].normal.x, vertices[index].normal.y, vertices[index].normal.z, 0);
+			normal += XMVectorSet(vertices_[index].normal.x, vertices_[index].normal.y, vertices_[index].normal.z, 0);
 		}
 		normal = XMVector3Normalize(normal / (float)v.size());
 
 		for (unsigned short index : v) {
-			vertices[index].normal = { normal.m128_f32[0],normal.m128_f32[1], normal.m128_f32[2] };
+			vertices_[index].normal = { normal.m128_f32[0],normal.m128_f32[1], normal.m128_f32[2] };
 		}
 	}
 }
@@ -420,13 +420,13 @@ void Model::LoatFromObjInternal(const std::string& modelname, bool smoothing) {
 				vertex.pos = positions[indexPosition - 1];
 				vertex.normal = normals[indexNormal - 1];
 				vertex.uv = texcoords[indexTexcoord - 1];
-				vertices.emplace_back(vertex);
+				vertices_.emplace_back(vertex);
 				if (smoothing) {
 					AddSmoothData(indexPosition, (unsigned short)GetVertexCount() - 1);
 				}
 
 				//頂点インデックスに追加
-				indices.emplace_back((unsigned short)indices.size());
+				indices_.emplace_back((unsigned short)indices_.size());
 			}
 		}
 

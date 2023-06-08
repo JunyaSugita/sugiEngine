@@ -328,16 +328,16 @@ uint32_t Sprite::LoadTexture(const string& textureName) {
 void Sprite::Initialize(uint32_t texNum)
 {
 	HRESULT result;
-	textureNum = texNum;
+	textureNum_ = texNum;
 	AdjustTextureSize();
 
-	vertices[0] = { {  0.0f,textureSize_.y,0.0f},{0.0f,1.0f} };	//左下
-	vertices[1] = { {  0.0f,  0.0f,0.0f},{0.0f,0.0f} };	//左上
-	vertices[2] = { {textureSize_.x,textureSize_.y,0.0f},{1.0f,1.0f} };	//右下
-	vertices[3] = { {textureSize_.x,  0.0f,0.0f},{1.0f,0.0f} };	//右上
-	size = textureSize_;
+	vertices_[0] = { {  0.0f,textureSize_.y,0.0f},{0.0f,1.0f} };	//左下
+	vertices_[1] = { {  0.0f,  0.0f,0.0f},{0.0f,0.0f} };	//左上
+	vertices_[2] = { {textureSize_.x,textureSize_.y,0.0f},{1.0f,1.0f} };	//右下
+	vertices_[3] = { {textureSize_.x,  0.0f,0.0f},{1.0f,0.0f} };	//右上
+	size_ = textureSize_;
 
-	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
+	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * _countof(vertices_));
 
 	// 頂点バッファの設定
 	heapProp_.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
@@ -365,18 +365,18 @@ void Sprite::Initialize(uint32_t texNum)
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
-		vertMap[i] = vertices[i]; // 座標をコピー
+	for (int32_t i = 0; i < _countof(vertices_); i++) {
+		vertMap[i] = vertices_[i]; // 座標をコピー
 	}
 	// 繋がりを解除
 	vertBuff_->Unmap(0, nullptr);
 
 	// GPU仮想アドレス
-	vbView.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	// 頂点バッファのサイズ
-	vbView.SizeInBytes = sizeVB;
+	vbView_.SizeInBytes = sizeVB;
 	// 頂点1つ分のデータサイズ
-	vbView.StrideInBytes = sizeof(vertices[0]);
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
 
 	//ヒープ設定
@@ -405,24 +405,35 @@ void Sprite::Initialize(uint32_t texNum)
 	assert(SUCCEEDED(result));
 
 	//定数バッファのマッピング
-	result = constBuffTransform_->Map(0, nullptr, (void**)&constMapTransform);	//マッピング
+	result = constBuffTransform_->Map(0, nullptr, (void**)&constMapTransform_);	//マッピング
 	assert(SUCCEEDED(result));
 
 	//2Dの行列
-	worldTransform.matWorld.Initialize();
-	worldTransform.matWorld.m[0][0] = 2.0f / WIN_WIDTH;
-	worldTransform.matWorld.m[1][1] = -2.0f / WIN_HEIGHT;
-	worldTransform.matWorld.m[3][0] = -1.0f;
-	worldTransform.matWorld.m[3][1] = 1.0f;
+	
+	worldTransform_.SetMatWorld(
+		Matrix4(1,0,0,0,
+				0,1,0,0,
+				0,0,1,0,
+				0,0,0,1)
+	);
+	worldTransform_.SetMatWorld(0, 0, 2.0f / WIN_WIDTH);
+	worldTransform_.SetMatWorld(1, 1, -2.0f / WIN_HEIGHT);
+	worldTransform_.SetMatWorld(3, 0, -1.0f);
+	worldTransform_.SetMatWorld(3, 1, 1.0f);
 
 	//ワールド変換行列
 	WorldTransform matTransform;
-	matTransform.matWorld.Initialize();
-	matTransform.rotation.z = rotate;
-	matTransform.trans_ = { pos.x,pos.y,0 };
+	matTransform.SetMatWorld(
+		Matrix4(1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1)
+	);
+	matTransform.SetRotZ(rotate_);
+	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
 	matTransform.SetWorldMat();
 
-	constMapTransform->mat = matTransform.matWorld * worldTransform.matWorld;
+	constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
 
 	//定数バッファ
 	result = device_->CreateCommittedResource(
@@ -431,14 +442,14 @@ void Sprite::Initialize(uint32_t texNum)
 		&cbResourceDesc,//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffMaterial)
+		IID_PPV_ARGS(&constBuffMaterial_)
 	);
 	assert(SUCCEEDED(result));
 
-	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial_);	//マッピング
+	result = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial_);	//マッピング
 	assert(SUCCEEDED(result));
 
-	constMapMaterial_->color = color;	//RGBAで半透明の赤
+	constMapMaterial_->color = color_;	//RGBAで半透明の赤
 
 	SetUpVertex();
 }
@@ -446,75 +457,75 @@ void Sprite::Initialize(uint32_t texNum)
 void Sprite::Draw()
 {
 	// 頂点バッファビューの設定コマンド
-	cmdList_->IASetVertexBuffers(0, 1, &vbView);
+	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
 	//定数バッファビュー(CBV)の設定コマンド
-	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap.Get() };
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	//SRVヒープの先頭ハンドルを取得(SRVを指すはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 	//描画するテクスチャの指定
-	srvGpuHandle.ptr += incrementSize * textureNum;
+	srvGpuHandle.ptr += incrementSize * textureNum_;
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	cmdList_->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList_->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
-	if (isView == true) {
+	if (isView_ == true) {
 		// 描画コマンド
 		cmdList_->DrawInstanced(4, 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
 void Sprite::SetPos(float x, float y) {
-	pos.x = x;
-	pos.y = y;
+	pos_.x = x;
+	pos_.y = y;
 
 	SetUpVertex();
 }
 
 void Sprite::SetRotate(float r) {
-	rotate = r;
+	rotate_ = r;
 
 	SetUpVertex();
 }
 
 void Sprite::SetColor(float x, float y, float z, float w) {
-	color.x = x;
-	color.y = y;
-	color.z = z;
-	color.w = w;
+	color_.x = x;
+	color_.y = y;
+	color_.z = z;
+	color_.w = w;
 
 	SetUpVertex();
 }
 
 void Sprite::SetSize(float x, float y) {
-	size.x = x;
-	size.y = y;
+	size_.x = x;
+	size_.y = y;
 
 	SetUpVertex();
 }
 
 void Sprite::SetAnchorPoint(float x, float y) {
-	anchorPoint.x = x;
-	anchorPoint.y = y;
+	anchorPoint_.x = x;
+	anchorPoint_.y = y;
 
 	SetUpVertex();
 }
 
 void Sprite::SetFlipX(bool isFlip) {
-	isFlipX = isFlip;
+	isFlipX_ = isFlip;
 
 	SetUpVertex();
 }
 void Sprite::SetFlipY(bool isFlip) {
-	isFlipY = isFlip;
+	isFlipY_ = isFlip;
 
 	SetUpVertex();
 }
 
-void Sprite::SetTextureSize(float x, float y){
+void Sprite::SetTextureSize(float x, float y) {
 	textureSize_.x = x;
 	textureSize_.y = y;
 
@@ -525,29 +536,29 @@ void Sprite::SetUpVertex() {
 
 	HRESULT result;
 
-	float left = (0.0f - anchorPoint.x) * size.x;
-	float right = (1.0f - anchorPoint.x) * size.x;
-	float top = (0.0f - anchorPoint.y) * size.y;
-	float bottom = (1.0f - anchorPoint.y) * size.y;
+	float left = (0.0f - anchorPoint_.x) * size_.x;
+	float right = (1.0f - anchorPoint_.x) * size_.x;
+	float top = (0.0f - anchorPoint_.y) * size_.y;
+	float bottom = (1.0f - anchorPoint_.y) * size_.y;
 
-	if (isFlipX == true) {
+	if (isFlipX_ == true) {
 		left *= -1;
 		right *= -1;
 	}
-	if (isFlipY == true) {
+	if (isFlipY_ == true) {
 		top *= -1;
 		bottom *= -1;
 	}
 
-	vertices[0].pos = { left,bottom,0.0f };	//左下
-	vertices[1].pos = { left,   top,0.0f };	//左上
-	vertices[2].pos = { right,bottom,0.0f };	//右下
-	vertices[3].pos = { right,   top,0.0f };	//右上
+	vertices_[0].pos = { left,bottom,0.0f };	//左下
+	vertices_[1].pos = { left,   top,0.0f };	//左上
+	vertices_[2].pos = { right,bottom,0.0f };	//右下
+	vertices_[3].pos = { right,   top,0.0f };	//右上
 
 	//ID3D12Resource* textureBuffer = textureBuffers_[textureIndex].Get();
-	if (textureBuffers_[textureNum]) {
+	if (textureBuffers_[textureNum_]) {
 
-		D3D12_RESOURCE_DESC resDesc = textureBuffers_[textureNum]->GetDesc();
+		D3D12_RESOURCE_DESC resDesc = textureBuffers_[textureNum_]->GetDesc();
 
 		float tex_left = textureLeftTop_.x / resDesc.Width;
 		float tex_right = (textureLeftTop_.x + textureSize_.x) / resDesc.Width;
@@ -555,10 +566,10 @@ void Sprite::SetUpVertex() {
 		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
 
 		//UV
-		vertices[0].uv = { tex_left,tex_bottom };	//左下
-		vertices[1].uv = { tex_left,tex_top };	//左上
-		vertices[2].uv = { tex_right,tex_bottom };	//右下
-		vertices[3].uv = { tex_right,tex_top };	//右上
+		vertices_[0].uv = { tex_left,tex_bottom };	//左下
+		vertices_[1].uv = { tex_left,tex_top };	//左上
+		vertices_[2].uv = { tex_right,tex_bottom };	//右下
+		vertices_[3].uv = { tex_right,tex_top };	//右上
 	}
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
@@ -566,28 +577,28 @@ void Sprite::SetUpVertex() {
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
-		vertMap[i] = vertices[i]; // 座標をコピー
+	for (int32_t i = 0; i < _countof(vertices_); i++) {
+		vertMap[i] = vertices_[i]; // 座標をコピー
 	}
 	// 繋がりを解除
 	vertBuff_->Unmap(0, nullptr);
 
 	//ワールド変換行列
 	WorldTransform matTransform;
-	matTransform.matWorld.Initialize();
-	matTransform.rotation.z = rotate;
-	matTransform.trans_ = { pos.x,pos.y,0 };
+	matTransform.GetMatWorld().Initialize();
+	matTransform.SetRotZ(rotate_);
+	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
 	matTransform.SetWorldMat();
 
-	constMapTransform->mat = matTransform.matWorld * worldTransform.matWorld;
+	constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
 
-	constMapMaterial_->color = color;
+	constMapMaterial_->color = color_;
 
 }
 
 void Sprite::AdjustTextureSize()
 {
-	D3D12_RESOURCE_DESC resDesc = textureBuffers_[textureNum]->GetDesc();
+	D3D12_RESOURCE_DESC resDesc = textureBuffers_[textureNum_]->GetDesc();
 
 	textureSize_.x = static_cast<float>(resDesc.Width);
 	textureSize_.y = static_cast<float>(resDesc.Height);

@@ -8,8 +8,8 @@ void WorldTransform::SetMatScale(Matrix4& matScale, const Vector3& scale) {
 };
 
 void WorldTransform::SetMatTrans(Matrix4& matTrans, const Vector3& trans) {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
 			if (i == j) {
 				matTrans.m[i][j] = 1;
 			}
@@ -28,8 +28,8 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 
 	if (way == 'z') {
 		//Z軸回転
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int32_t i = 0; i < 4; i++) {
+			for (int32_t j = 0; j < 4; j++) {
 				if (i == j) {
 					matRot.m[i][j] = 1;
 				}
@@ -46,8 +46,8 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 
 	if (way == 'x') {
 		//X軸回転
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int32_t i = 0; i < 4; i++) {
+			for (int32_t j = 0; j < 4; j++) {
 				if (i == j) {
 					matRot.m[i][j] = 1;
 				}
@@ -63,8 +63,8 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 	}
 	//Y軸回転
 	if (way == 'y') {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int32_t i = 0; i < 4; i++) {
+			for (int32_t j = 0; j < 4; j++) {
 				if (i == j) {
 					matRot.m[i][j] = 1;
 				}
@@ -82,7 +82,7 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 
 void WorldTransform::SetWorldMat() {
 	//ワールドトランスフォームの初期化
-	matWorld =
+	matWorld_ =
 	{
 		1,0,0,0,
 		0,1,0,0,
@@ -94,34 +94,34 @@ void WorldTransform::SetWorldMat() {
 	SetMatScale(matScale, scale_);
 
 	Matrix4 matTrans;
-	SetMatTrans(matTrans, trans_);
+	SetMatTrans(matTrans, pos_);
 
 	Matrix4 matRotZ;
-	SetMatRot(matRotZ, rotation, 'z');
+	SetMatRot(matRotZ, rot_, 'z');
 
 	Matrix4 matRotX;
-	SetMatRot(matRotX, rotation, 'x');
+	SetMatRot(matRotX, rot_, 'x');
 
 	Matrix4 matRotY;
-	SetMatRot(matRotY, rotation, 'y');
+	SetMatRot(matRotY, rot_, 'y');
 
 	Matrix4 matRot = matRotZ * matRotX * matRotY;
 
 	//単位行列を代入
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
 			if (i == j) {
-				matWorld.m[i][j] = 1;
+				matWorld_.m[i][j] = 1;
 			}
 			else {
-				matWorld.m[i][j] = 0;
+				matWorld_.m[i][j] = 0;
 			}
 		}
 	}
 
-	matWorld *= matScale * matRot * matTrans;
+	matWorld_ *= matScale * matRot * matTrans;
 
-	if (parent != nullptr) {
-		matWorld *= parent->matWorld;
+	if (parent_ != nullptr) {
+		matWorld_ *= parent_->matWorld_;
 	}
 }

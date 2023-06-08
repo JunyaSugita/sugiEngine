@@ -9,7 +9,7 @@ void MyGame::Initialize()
 	SugiFramework::Initialize();
 	
 	//ゲーム固有の初期化
-	ImGuiManager::GetInstance()->Initialie(winApp.get(), dxCom.get());
+	ImGuiManager::GetInstance()->Initialie(winApp_.get(), dxCom_.get());
 }
 
 void MyGame::Finalize()
@@ -30,28 +30,34 @@ void MyGame::Update()
 	ImGuiManager::GetInstance()->Begin();
 	GameManager::GetInstance()->Update();
 	ImGuiManager::GetInstance()->End();
+
+	//カメラの移動
+	Camera::GetInstance()->Update();
 }
 
 void MyGame::Draw()
 {
-	SugiFramework::dxCom->PreDraw();
+	SugiFramework::dxCom_->PreDraw();
 
 	//背景スプライト
-	Sprite::PreDraw(dxCom->GetCommandList());
+	Sprite::PreDraw(dxCom_->GetCommandList());
 
 	GameManager::GetInstance()->BackSpriteDraw();
 
 	Sprite::PostDraw();
 
-	//モデル
-	Object3d::PreDraw(dxCom->GetCommandList());
-
+	//Fbxモデル
+	Fbx::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->Draw();
+	Fbx::PostDraw();
 
+	//objモデル
+	Object3d::PreDraw(dxCom_->GetCommandList());
+	GameManager::GetInstance()->ObjDraw();
 	Object3d::PostDraw();
 
 	//スプライト
-	Sprite::PreDraw(dxCom->GetCommandList());
+	Sprite::PreDraw(dxCom_->GetCommandList());
 
 	GameManager::GetInstance()->SpriteDraw();
 
@@ -60,5 +66,5 @@ void MyGame::Draw()
 	ImGuiManager::GetInstance()->Draw();
 
 
-	dxCom->PostDraw();
+	dxCom_->PostDraw();
 }

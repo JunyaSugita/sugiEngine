@@ -7,16 +7,16 @@ void ClearScene::Initialize()
 
 	sphereModel_ = Model::LoadFromObj("sphere", true);
 	playerModel_ = Model::LoadFromObj("player");
-	models.insert(std::make_pair("sphere", sphereModel_));
-	models.insert(std::make_pair("player", playerModel_));
+	models_.insert(std::make_pair("sphere", sphereModel_));
+	models_.insert(std::make_pair("player", playerModel_));
 
-	int objNum = 0;
+	int32_t objNum = 0;
 
 	for (auto& objectData : levelData_->obj) {
 		//ファイルから登録済みモデルを探索
 		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(objectData.filename);
-		if (it != models.end()) {
+		decltype(models_)::iterator it = models_.find(objectData.filename);
+		if (it != models_.end()) {
 			model = it->second;
 		}
 		//モデルを指定して3Dオブジェクトを生成
@@ -31,17 +31,17 @@ void ClearScene::Initialize()
 		}
 
 		//obj情報
-		worldTransform_.trans_ = Vector3(objectData.pos);
-		worldTransform_.rotation = Vector3(objectData.rot);
-		worldTransform_.scale_ = Vector3(objectData.scale);
+		worldTransform_.SetPos(Vector3(objectData.pos));
+		worldTransform_.SetRot(Vector3(objectData.rot));
+		worldTransform_.SetScale(Vector3(objectData.scale));
 
 		newObject->SetWorldTransform(worldTransform_);
 
-		objects.push_back(newObject);
+		objects_.push_back(newObject);
 		objNum++;
 	}
 
-	spawnPoint_ = objects[spawnNum_]->GetPos();
+	spawnPoint_ = objects_[spawnNum_]->GetPos();
 
 	//ライト
 	lightGroup_ = LightGroup::Create();
@@ -54,19 +54,19 @@ void ClearScene::Update()
 	Input* input = Input::GetInstance();
 
 	if (input->PushKey(DIK_LEFT)) {
-		worldTransform_.trans_.x -= 0.3f;
+		worldTransform_.AddPosX(-0.3f);
 	}
 	if (input->PushKey(DIK_RIGHT)) {
-		worldTransform_.trans_.x += 0.3f;
+		worldTransform_.AddPosX(0.3f);
 	}
 	if (input->TriggerKey(DIK_R)) {
-		worldTransform_.trans_ = spawnPoint_;
+		worldTransform_.SetPos(spawnPoint_);
 	}
 
-	objects[playerNum_]->SetWorldTransform(worldTransform_);
-	
+	objects_[playerNum_]->SetWorldTransform(worldTransform_);
 
-	for (auto& object : objects) {
+
+	for (auto& object : objects_) {
 		object->Update();
 	}
 
@@ -82,14 +82,18 @@ void ClearScene::BackSpriteDraw()
 
 void ClearScene::Draw()
 {
-	for (auto& object : objects) {
+	for (auto& object : objects_) {
 		object->Draw();
 	}
 }
 
+void ClearScene::ObjDraw()
+{
+}
+
 void ClearScene::SpriteDraw()
 {
-	
+
 }
 
 void ClearScene::Delete()

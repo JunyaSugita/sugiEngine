@@ -11,25 +11,23 @@ using namespace std;
 /// <summary>
 /// 静的メンバ変数の実態
 /// </summary>
-ID3D12Device* Object3d::device_ = nullptr;
+ID3D12Device* Object3d::sDevice = nullptr;
 
-ID3D12GraphicsCommandList* Object3d::cmdList_ = nullptr;
-ComPtr<ID3D12PipelineState> Object3d::pipelineState;
-ComPtr<ID3D12RootSignature> Object3d::rootSignature;
+ID3D12GraphicsCommandList* Object3d::sCmdList = nullptr;
+ComPtr<ID3D12PipelineState> Object3d::sPipelineState;
+ComPtr<ID3D12RootSignature> Object3d::sRootSignature;
 
-UINT Object3d::incrementSize;
-ComPtr<ID3D12Resource> Object3d::constBuffMaterial;
-uint16_t Object3d::CountIndex;
+UINT Object3d::sIncrementSize;
+ComPtr<ID3D12Resource> Object3d::sConstBuffMaterial;
+uint16_t Object3d::sCountIndex;
 
 LightGroup* Object3d::lightGroup_ = nullptr;
 
 void Object3d::StaticInitialize(ID3D12Device* device)
 {
 	HRESULT result;
-	device_ = device;
+	sDevice = device;
 	Model::SetDevice(device);
-
-	Camera::GetInstance()->Initialize();
 
 #pragma region パイプライン初期化
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -216,12 +214,12 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
-	result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
-		IID_PPV_ARGS(&rootSignature));
+	result = sDevice->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+		IID_PPV_ARGS(&sRootSignature));
 	assert(SUCCEEDED(result));
 
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = rootSignature.Get();
+	pipelineDesc.pRootSignature = sRootSignature.Get();
 
 	//デプスステンシルステートの設定
 	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
@@ -230,7 +228,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 
 	// パイプランステートの生成
-	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
+	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&sPipelineState));
 	assert(SUCCEEDED(result));
 
 #pragma endregion
@@ -250,53 +248,45 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 
 
 	//定数バッファの生成
-	result = device_->CreateCommittedResource(
+	result = sDevice->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffMaterial)
+		IID_PPV_ARGS(&sConstBuffMaterial)
 	);
 	assert(SUCCEEDED(result));
 
 	//定数バッファのマッピング
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
-	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);	//マッピング
+	result = sConstBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);	//マッピング
 	assert(SUCCEEDED(result));
 
 	//値を書き込むと自動的に転送される
-	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//RGBAで半透明の赤
+	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
-	Object3d::cmdList_ = cmdList;
+	Object3d::sCmdList = cmdList;
 
 	// パイプラインステートとルートシグネチャの設定コマンド
-	Object3d::cmdList_->SetPipelineState(pipelineState.Get());
-	Object3d::cmdList_->SetGraphicsRootSignature(rootSignature.Get());
+	Object3d::sCmdList->SetPipelineState(sPipelineState.Get());
+	Object3d::sCmdList->SetGraphicsRootSignature(sRootSignature.Get());
 
 	// プリミティブ形状の設定コマンド
-	Object3d::cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-
-
+	Object3d::sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	//定数バッファビュー(CBV)の設定コマンド
-	Object3d::cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
-
-
+	Object3d::sCmdList->SetGraphicsRootConstantBufferView(0, sConstBuffMaterial->GetGPUVirtualAddress());
 }
 
 void Object3d::PostDraw()
 {
 	// コマンドリストを解除
-	Object3d::cmdList_ = nullptr;
+	Object3d::sCmdList = nullptr;
 }
-
-
-
-
 
 bool Object3d::Initialize()
 {
@@ -316,25 +306,23 @@ bool Object3d::Initialize()
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device_->CreateCommittedResource(
+	result = sDevice->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffB0)
+		IID_PPV_ARGS(&constBuffB0_)
 	);
 	assert(SUCCEEDED(result));
 	//定数バッファのマッピング
-	result = constBuffB0->Map(0, nullptr, (void**)&constMap);	//マッピング
+	result = constBuffB0_->Map(0, nullptr, (void**)&constMap_);	//マッピング
 	assert(SUCCEEDED(result));
 
-
-
 	//ワールド変換行列
-	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
-	worldTransform_.rotation = { 0.0f,1.0f,1.0f };
-	worldTransform_.trans_ = { 0.0f,0.0f,0.0f };
+	worldTransform_.SetScale(Vector3(1.0f, 1.0f, 1.0f));
+	worldTransform_.SetRot(Vector3(0.0f, 1.0f, 1.0f));
+	worldTransform_.SetPos(Vector3(0.0f, 0.0f, 0.0f));
 	worldTransform_.SetWorldMat();
 
 	//constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
@@ -347,41 +335,41 @@ void Object3d::Update()
 	worldTransform_.SetWorldMat();
 
 	Camera* camera = Camera::GetInstance();
-	
-	constMap->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
-	constMap->world = ConvertToXMMATRIX(worldTransform_.matWorld);
-	constMap->cameraPos = *camera->GetEyeXM();
+
+	constMap_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
+	constMap_->world = ConvertToXMMATRIX(worldTransform_.GetMatWorld());
+	constMap_->cameraPos = *camera->GetEyeXM();
 }
 
 void Object3d::Scale(Vector3 scale)
 {
-	worldTransform_.scale_ = scale;
+	worldTransform_.SetScale(scale);
 }
 
 void Object3d::Rotate(Vector3 rot)
 {
-	worldTransform_.rotation = rot;
+	worldTransform_.SetRot(rot);
 }
 
 void Object3d::Trans(Vector3 pos)
 {
-	worldTransform_.trans_ = pos;
+	worldTransform_.SetPos(pos);
 }
 
 void Object3d::Draw()
 {
-	assert(device_);
-	assert(Object3d::cmdList_);
+	assert(sDevice);
+	assert(Object3d::sCmdList);
 
 	if (model_ == nullptr) {
 		return;
 	}
 
 	//定数バッファビュー(CBV)の設定コマンド
-	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
+	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffB0_->GetGPUVirtualAddress());
 
-	lightGroup_->Draw(cmdList_,3);
-	model_->Draw(cmdList_, 1, color_);
+	lightGroup_->Draw(sCmdList, 3);
+	model_->Draw(sCmdList, 1, color_);
 }
 
 Object3d* Object3d::Create()

@@ -92,11 +92,11 @@ private:
 	UINT64 fenceVal_ = 0;
 
 	//リソース生成
-	ComPtr<ID3D12Resource> depthBuff;
+	ComPtr<ID3D12Resource> depthBuff_;
 
-	ComPtr<ID3D12DescriptorHeap> dsvHeap;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap_;
 	//リソースバリア
-	D3D12_RESOURCE_BARRIER barrierDesc{};
+	D3D12_RESOURCE_BARRIER barrierDesc_{};
 
 	//記録時間
 	std::chrono::steady_clock::time_point reference_;

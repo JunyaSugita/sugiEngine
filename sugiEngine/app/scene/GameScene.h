@@ -8,6 +8,7 @@
 #include "Sound.h"
 #include "LightGroup.h"
 #include "ImGuiManager.h"
+#include "FBX.h"
 
 class GameScene : public ISceneManager
 {
@@ -16,6 +17,7 @@ public:
 	void Update() override;
 	void BackSpriteDraw() override;
 	void Draw() override;
+	void ObjDraw() override;
 	void SpriteDraw() override;
 	void Delete() override;
 
@@ -36,23 +38,26 @@ private:
 	WorldTransform boxWorldTransform_;
 
 	//スプライト
-	uint32_t catTexture_;
+	int32_t catTexture_;
 	Sprite catSprite_;
 
-	uint32_t dogTexture_;
+	int32_t dogTexture_;
 	Sprite dogSprite_;
 
+	FbxModel* model1_ = nullptr;
+	Fbx* obj1_ = nullptr;
+
 	//音
-	std::unique_ptr<Sound> sound = std::make_unique <Sound>();
+	std::unique_ptr<Sound> sound_ = std::make_unique <Sound>();
 
 	//ライト関連
 	LightGroup* lightGroup_ = nullptr;
 
 	//丸影
-	float circleShadowDir[3] = { 0,-1,0 };
-	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
-	float circleShadowFactorAngle[2] = { 0.0f,0.5f };
+	float circleShadowDir_[3] = { 0,-1,0 };
+	float circleShadowAtten_[3] = { 0.5f,0.6f,0.0f };
+	float circleShadowFactorAngle_[2] = { 0.0f,0.5f };
 
-	float f;
+	float f_;
 };
 

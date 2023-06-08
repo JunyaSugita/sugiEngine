@@ -20,7 +20,7 @@ public:
 		XMFLOAT3 lightatten;
 		float pad3;
 		XMFLOAT2 lightfactoranglecos;
-		unsigned int active;
+		size_t active;
 		float pad4;
 	};
 public:
