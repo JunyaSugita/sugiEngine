@@ -46,7 +46,7 @@ void GameScene::Initialize()
 	lightGroup_->SetCircleShadowActive(0, true);
 
 	//sound->PlayWave("Alarm01");
-	model1_ = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	model1_ = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	obj1_ = new Fbx;
 	obj1_->Initialize();

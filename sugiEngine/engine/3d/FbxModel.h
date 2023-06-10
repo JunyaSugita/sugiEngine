@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
+#include <fbxsdk.h>
 
 struct Node
 {
@@ -23,6 +24,8 @@ struct Node
 
 class FbxModel
 {
+public:
+	~FbxModel();
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
@@ -36,11 +39,30 @@ private:
 	template <class T> using vector = std::vector<T>;
 
 public:
-	struct VertexPosNormalUv {
+	static const int MAX_BONE_INDICES = 4;
+
+public:
+	struct VertexPosNormalUvSkin {
 		XMFLOAT3 pos;
 		XMFLOAT3 normal;
 		XMFLOAT2 uv;
+		UINT boneIndex[MAX_BONE_INDICES];	//番号
+		float boneWeight[MAX_BONE_INDICES];	//重み
 	};
+
+	struct Bone {
+		string name;
+		//初期姿勢の逆行列
+		XMMATRIX invInitializePose;
+		//FBX側のボーン情報
+		FbxCluster* fbxCluster;
+
+		//コンストラクタ
+		Bone(const string& name) {
+			this->name = name;
+		}
+	};
+
 
 public:
 	friend class FbxLoader;
@@ -53,13 +75,21 @@ public:
 		return meshNode_->globalTransform;
 	}
 
+	std::vector<Bone>& GetBones() {
+		return bones;
+	}
+
+	FbxScene* GetFbxScene() {
+		return fbxScene;
+	}
+
 private:
 	string name_;
 	//ノード配列
 	vector<Node> nodes_;
 
 	Node* meshNode_ = nullptr;
-	vector<VertexPosNormalUv> vertices_;
+	vector<VertexPosNormalUvSkin> vertices_;
 	vector<unsigned short> indices_;
 
 	//マテリアル
@@ -74,5 +104,10 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView_ = {};
 	D3D12_INDEX_BUFFER_VIEW ibView_ = {};
 	ComPtr <ID3D12DescriptorHeap> descHeapSRV_;
+
+	//ボーン配列
+	std::vector<Bone> bones;
+	//FBXシーン
+	FbxScene* fbxScene = nullptr;
 };
 

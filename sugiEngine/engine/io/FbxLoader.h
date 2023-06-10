@@ -17,6 +17,8 @@ public:
 	/// <returns>インスタンス</returns>
 	static FbxLoader* GetInstance();
 
+	static void ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& src);
+
 private:
 	// privateなコンストラクタ（シングルトンパターン）
 	FbxLoader() = default;
@@ -48,6 +50,7 @@ public:
 	void ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh);
 	void ParseMaterial(FbxModel* model,FbxNode* fbxNode);
 	void LoadTexture(FbxModel* model, const std::string& fullpath);
+	void ParseSkin(FbxModel* model, FbxMesh* fbxMesh);
 
 	std::string ExtractFileName(const std::string& path);
 

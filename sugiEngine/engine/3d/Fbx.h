@@ -3,6 +3,7 @@
 #include "FbxModel.h"
 #include "Camera.h"
 #include "WorldTransform.h"
+#include "FbxLoader.h"
 
 #include <Windows.h>
 #include <wrl.h>
@@ -20,10 +21,18 @@ protected:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
+	static const int MAX_BONES = 32;
+
+public:
 	struct ConstBufferDataTransform {
 		XMMATRIX viewproj;
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
+	};
+
+	struct ConstBufferDataSkin
+	{
+		XMMATRIX bones[MAX_BONES];
 	};
 
 public:
@@ -68,6 +77,7 @@ private:
 	WorldTransform worldTransform_;
 	FbxModel* model_ = nullptr;
 
-	
+	//定数バッファ
+	ComPtr<ID3D12Resource> constBuffSkin_;
 };
 

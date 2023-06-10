@@ -68,21 +68,31 @@ void Fbx::CreateGraphicsPipeline()
 
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{ // xy座標(1行で書いたほうが見やすい)
+		{ // xy座標
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // 法線ベクトル(1行で書いたほうが見やすい)
+		{ // 法線ベクトル
 			"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // uv座標(1行で書いたほうが見やすい)
+		{ // uv座標
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
+		{ //影響の受けるボーン番号
+			"BONEINDICES",0,DXGI_FORMAT_R32G32B32A32_UINT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
+		{
+			"BONEWEIGHTS",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		}
 	};
 
 	// グラフィックスパイプラインの流れを設定
@@ -141,7 +151,7 @@ void Fbx::CreateGraphicsPipeline()
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParams[2] = {};
+	D3D12_ROOT_PARAMETER rootParams[3] = {};
 	// CBV（座標変換行列用）
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
 	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
@@ -152,7 +162,11 @@ void Fbx::CreateGraphicsPipeline()
 	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;					//定数バッファ番号
 	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//デフォルト値
 	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
-
+	// CBV (スキニング用)
+	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[2].Descriptor.ShaderRegister = 3;					//定数バッファ番号
+	rootParams[2].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
 
 	// スタティックサンプラー
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -220,6 +234,17 @@ void Fbx::Initialize()
 		IID_PPV_ARGS(&constBuffTransform_)
 	);
 
+	//スキニング情報定数バッファ
+	cbResourceDesc.Width = (sizeof(ConstBufferDataSkin) + 0xff) & ~0xff;
+
+	result = device_->CreateCommittedResource(
+		&cbHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffSkin_)
+	);
 }
 
 void Fbx::Update()
@@ -243,6 +268,19 @@ void Fbx::Update()
 	constMap->world = ConvertToXMMATRIX(worldTransform_.GetMatWorld());
 	constMap->cameraPos = *camera->GetEyeXM();
 	constBuffTransform_->Unmap(0, nullptr);
+
+	std::vector<FbxModel::Bone>& bones = model_->GetBones();
+
+	ConstBufferDataSkin* constMapSkin = nullptr;
+	result = constBuffSkin_->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < bones.size(); i++) {
+		XMMATRIX matCurrentPose;
+		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(0);
+		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
+		//合成してスキニング行列に
+		constMapSkin->bones[i] = bones[i].invInitializePose * matCurrentPose;
+	}
+	constBuffSkin_->Unmap(0, nullptr);
 }
 
 void Fbx::Draw()
@@ -252,6 +290,7 @@ void Fbx::Draw()
 	}
 
 	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform_->GetGPUVirtualAddress());
+	sCmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin_->GetGPUVirtualAddress());
 
 	model_->Draw(sCmdList);
 }
