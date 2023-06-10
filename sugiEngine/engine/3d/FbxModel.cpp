@@ -1,5 +1,10 @@
 #include "FbxModel.h"
 
+FbxModel::~FbxModel()
+{
+	fbxScene->Destroy();
+}
+
 void FbxModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
@@ -9,7 +14,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
 
 	//ÉäÉ\Å[ÉXê›íË
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices_.size());
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUvSkin) * vertices_.size());
 
 	D3D12_RESOURCE_DESC resDesc{};
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -29,7 +34,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		IID_PPV_ARGS(&vertBuff_)
 	);
 
-	VertexPosNormalUv* vertMap = nullptr;
+	VertexPosNormalUvSkin* vertMap = nullptr;
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
 		std::copy(vertices_.begin(), vertices_.end(), vertMap);
