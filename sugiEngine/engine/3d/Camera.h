@@ -20,20 +20,42 @@ public:
 	void Initialize();
 	void Update();
 
-	void SetEye(const Vector3& eye, const int32_t& num = -1) {
+	//eye
+	void SetEye(const Vector3& eye, int32_t num = -1) {
 		if (num == -1) {
 			eye_[activeNum_] = eye;
 			return;
 		}
 		eye_[num] = eye;
 	}
-	Vector3 GetEye(const int32_t& num = -1) {
+	void SetEyeX(float eye, int32_t num = -1) {
+		if (num == -1) {
+			eye_[activeNum_].x = eye;
+			return;
+		}
+		eye_[num].x = eye;
+	}
+	void SetEyeY(float eye, int32_t num = -1) {
+		if (num == -1) {
+			eye_[activeNum_].y = eye;
+			return;
+		}
+		eye_[num].y = eye;
+	}
+	void SetEyeZ(float eye, int32_t num = -1) {
+		if (num == -1) {
+			eye_[activeNum_].z = eye;
+			return;
+		}
+		eye_[num].z = eye;
+	}
+	Vector3 GetEye(int32_t num = -1) {
 		if (num == -1) {
 			return eye_[activeNum_];
 		}
 		return eye_[num];
 	}
-	const XMFLOAT3* GetEyeXM(const int32_t& num = -1) {
+	const XMFLOAT3* GetEyeXM(int32_t num = -1) {
 		if (num == -1) {
 			eyeXM_.x = eye_[activeNum_].x;
 			eyeXM_.y = eye_[activeNum_].y;
@@ -48,21 +70,44 @@ public:
 		return &eyeXM_;
 	}
 
-	void SetTarget(const Vector3& target,const int32_t& num = -1) {
+	void AddEyeX(float add,int32_t num = -1) {
+		if (num == -1) {
+			eye_[activeNum_].x += add;
+			return;
+		}
+		eye_[num].x += add;
+	}
+	void AddEyeY(float add, int32_t num = -1) {
+		if (num == -1) {
+			eye_[activeNum_].y += add;
+			return;
+		}
+		eye_[num].y += add;
+	}
+	void AddEyeZ(float add, int32_t num = -1) {
+		if (num == -1) {
+			eye_[activeNum_].z += add;
+			return;
+		}
+		eye_[num].z += add;
+	}
+
+	//target
+	void SetTarget(const Vector3& target,int32_t num = -1) {
 		if (num == -1) {
 			target_[activeNum_] = target;
 			return;
 		}
 		target_[num] = target;
 	}
-	Vector3 GetTarget(const int32_t& num = -1) {
+	Vector3 GetTarget(int32_t num = -1) {
 		if (num == -1) {
 			return target_[activeNum_];
 		}
 		return target_[num];
 	}
 
-	const XMFLOAT3* GetTargetXM(const int32_t& num = -1) {
+	const XMFLOAT3* GetTargetXM(int32_t num = -1) {
 		if (num == -1) {
 			targetXM_.x = target_[activeNum_].x;
 			targetXM_.y = target_[activeNum_].y;
@@ -77,20 +122,20 @@ public:
 		return &targetXM_;
 	}
 
-	void SetUp(const Vector3& up,const int32_t& num = -1) {
+	void SetUp(const Vector3& up,int32_t num = -1) {
 		if (num == -1) {
 			up_[activeNum_] = up;
 			return;
 		}
 		up_[num] = up;
 	}
-	Vector3 GetUp(const int32_t& num = -1) {
+	Vector3 GetUp(int32_t num = -1) {
 		if (num == -1) {
 			return up_[activeNum_];
 		}
 		return up_[num];
 	}
-	const XMFLOAT3* GetUpXM(const int32_t& num = -1) {
+	const XMFLOAT3* GetUpXM(int32_t num = -1) {
 		if (num == -1) {
 			upXM_.x = up_[activeNum_].x;
 			upXM_.y = up_[activeNum_].y;
