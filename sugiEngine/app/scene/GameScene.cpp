@@ -51,6 +51,7 @@ void GameScene::Initialize()
 	obj1_ = new Fbx;
 	obj1_->Initialize();
 	obj1_->SetModel(model1_);
+	obj1_->PlayAnimation();
 }
 
 void GameScene::Update()

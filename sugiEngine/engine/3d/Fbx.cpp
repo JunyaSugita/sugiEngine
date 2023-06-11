@@ -245,6 +245,18 @@ void Fbx::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&constBuffSkin_)
 	);
+
+	//スキン無し
+	ConstBufferDataSkin* constMapSkin = nullptr;
+	result = constBuffSkin_->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < MAX_BONES; i++) {
+		constMapSkin->bones[i] = XMMatrixIdentity();
+	}
+	constBuffSkin_->Unmap(0, nullptr);
+
+	//1フレーム分の時間を60FPSで設定
+	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
+
 }
 
 void Fbx::Update()
@@ -271,11 +283,19 @@ void Fbx::Update()
 
 	std::vector<FbxModel::Bone>& bones = model_->GetBones();
 
+	//アニメション
+	if (isPlay) {
+		currentTime += frameTime;
+		if (currentTime > endTime) {
+			currentTime = startTime;
+		}
+	}
+
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin_->Map(0, nullptr, (void**)&constMapSkin);
 	for (int i = 0; i < bones.size(); i++) {
 		XMMATRIX matCurrentPose;
-		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(0);
+		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime);
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
 		//合成してスキニング行列に
 		constMapSkin->bones[i] = bones[i].invInitializePose * matCurrentPose;
@@ -293,6 +313,20 @@ void Fbx::Draw()
 	sCmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin_->GetGPUVirtualAddress());
 
 	model_->Draw(sCmdList);
+}
+
+void Fbx::PlayAnimation()
+{
+	FbxScene* fbxScene = model_->GetFbxScene();
+
+	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(0);
+	const char* animstackname = animstack->GetName();
+	FbxTakeInfo* takeinfo = fbxScene->GetTakeInfo(animstackname);
+
+	startTime = takeinfo->mLocalTimeSpan.GetStart();
+	endTime = takeinfo->mLocalTimeSpan.GetStop();
+	currentTime = startTime;
+	isPlay = true;
 }
 
 void Fbx::PreDraw(ID3D12GraphicsCommandList* cmdList_)
