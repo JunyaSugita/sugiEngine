@@ -58,6 +58,8 @@ public:
 		model_ = model;
 	}
 
+	void PlayAnimation();
+
 public:
 	static ComPtr<ID3D12RootSignature> sRootSignature;
 
@@ -79,5 +81,12 @@ private:
 
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuffSkin_;
+
+	//アニメーション関係
+	FbxTime frameTime;
+	FbxTime startTime;
+	FbxTime endTime;
+	FbxTime currentTime;
+	bool isPlay = false;
 };
 
