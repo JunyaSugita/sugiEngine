@@ -171,6 +171,9 @@
     <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp">
       <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\engine\2d\PostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\io\JsonLoader.h">
       <Filter>ヘッダー ファイル\engine\io</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\2d\PostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

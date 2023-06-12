@@ -30,7 +30,7 @@ public:
 
 	static uint32_t LoadTexture(const std::string& textureName);
 
-private:
+protected:
 	//デバイス
 	static ComPtr<ID3D12Device> device_;
 	static ComPtr<ID3D12PipelineState> pipelineState;
@@ -84,7 +84,7 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-private:
+protected:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ヒープ設定
 	D3D12_RESOURCE_DESC resDesc_{};
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;

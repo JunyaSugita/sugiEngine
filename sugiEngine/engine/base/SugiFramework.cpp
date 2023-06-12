@@ -20,6 +20,7 @@ void SugiFramework::Initialize()
 	Input::GetInstance()->Initialize(winApp_.get());
 	//FbxLoder‰Šú‰»
 	FbxLoader::GetInstance()->Initialize(dxCom_->GetDevice());
+
 #pragma endregion
 
 #pragma region •`‰æ‰Šú‰»ˆ—
@@ -30,6 +31,13 @@ void SugiFramework::Initialize()
 	Sprite::StaticInitialize(dxCom_->GetDevice());
 	LightGroup::StaticInitialize(dxCom_->GetDevice());
 #pragma endregion
+
+	//PostEffect
+	postEffect = make_unique <PostEffect>();
+	uint32_t postNum = Sprite::LoadTexture("white1x1.png");
+
+	postEffect->Sprite::Initialize(postNum);
+	postEffect->SetSize(500.0f,500.0f);
 }
 
 void SugiFramework::Finalize()
