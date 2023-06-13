@@ -29,6 +29,7 @@
 #include "ImGuiManager.h"
 #include "FbxLoader.h"
 #include "Fbx.h"
+#include "PostEffect.h"
 
 class SugiFramework {
 public:
@@ -47,7 +48,8 @@ public:
 	bool GetIsEnd();
 
 protected:
-	std::unique_ptr<WinApp> winApp_ = nullptr;
-	std::unique_ptr<DXCommon> dxCom_ = nullptr;
-	std::unique_ptr <Matrix4> matrix4_ = nullptr;
+	unique_ptr<WinApp> winApp_ = nullptr;
+	unique_ptr<DXCommon> dxCom_ = nullptr;
+	unique_ptr <Matrix4> matrix4_ = nullptr;
+	unique_ptr <PostEffect> postEffect = nullptr;
 };
