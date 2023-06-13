@@ -220,8 +220,6 @@ void Sprite::PreDraw(ID3D12GraphicsCommandList* cmdList)
 
 	// プリミティブ形状の設定コマンド
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // 三角形リスト
-
-
 }
 
 void Sprite::PostDraw()

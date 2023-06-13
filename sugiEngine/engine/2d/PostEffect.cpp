@@ -168,8 +168,8 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
 	D3D12_RESOURCE_BARRIER resourceBarrier{};
 	resourceBarrier.Transition.pResource = texBuff.Get();
-	resourceBarrier.Transition.Subresource = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-	resourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	resourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	resourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 
 	cmdList->ResourceBarrier(1,&resourceBarrier);
 
@@ -190,9 +190,26 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 	cmdList->RSSetViewports(1,&viewport);
 
 	//シザリング矩形の設定
+	D3D12_RECT rect{};
+	rect.top = 0;
+	rect.bottom = WIN_HEIGHT;
+	rect.left = 0;
+	rect.right = WIN_WIDTH;
+
+	cmdList->RSSetScissorRects(1, &rect);
+
+	//全画面クリア
+	cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+	//深度バッファのクリア
+	cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
+	D3D12_RESOURCE_BARRIER resourceBarrier{};
+	resourceBarrier.Transition.pResource = texBuff.Get();
+	resourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	resourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 
+	cmdList->ResourceBarrier(1, &resourceBarrier);
 }
