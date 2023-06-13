@@ -37,6 +37,7 @@ void SugiFramework::Initialize()
 	uint32_t postNum = Sprite::LoadTexture("white1x1.png");
 
 	postEffect->Sprite::Initialize(postNum);
+	postEffect->Initialize();
 	postEffect->SetSize(500.0f,500.0f);
 }
 

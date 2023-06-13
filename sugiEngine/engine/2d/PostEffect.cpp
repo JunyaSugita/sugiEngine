@@ -35,7 +35,7 @@ void PostEffect::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&texBuff)
 	);
-	assert(result);
+	assert(SUCCEEDED(result));
 
 	//テクスチャを赤にする
 	{
@@ -84,11 +84,9 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
-	//cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	//SRVヒープの先頭ハンドルを取得(SRVを指すはず)
 	//D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
-	//描画するテクスチャの指定
-	//srvGpuHandle.ptr += incrementSize * textureNum_;
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
 	//定数バッファビュー(CBV)の設定コマンド
