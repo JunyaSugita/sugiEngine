@@ -43,7 +43,7 @@ void MyGame::Draw()
 
 	SugiFramework::dxCom_->PreDraw();
 	postEffect->Draw(dxCom_->GetCommandList());
-	//ImGuiManager::GetInstance()->Draw();
+	ImGuiManager::GetInstance()->Draw();
 	SugiFramework::dxCom_->PostDraw();
 }
 
