@@ -42,19 +42,19 @@ public:
 	bool Initialize();
 
 	void Update();
-	void Scale(Vector3 scale);
-	void Rotate(Vector3 rot);
-	void Trans(Vector3 pos);
+	void Scale(const Vector3& scale);
+	void Rotate(const Vector3& rot);
+	void Trans(const Vector3& pos);
 
 	void Draw();
 
 	void SetModel(Model* model) {
 		model_ = model;
 	}
-	void SetWorldTransform(WorldTransform worldTransform) {
+	void SetWorldTransform(const WorldTransform& worldTransform) {
 		worldTransform_ = worldTransform;
 	}
-	void SetColor(Vector4 color) {
+	void SetColor(const Vector4& color) {
 		color_.x = color.x;
 		color_.y = color.y;
 		color_.z = color.z;

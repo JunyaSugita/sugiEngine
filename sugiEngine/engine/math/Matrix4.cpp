@@ -71,7 +71,7 @@ Matrix4 Matrix4::operator*(const Matrix4& m2)const
 	return ans;
 }
 
-Matrix4 ConvertToMatrix4(XMMATRIX xmmatrix)
+Matrix4 ConvertToMatrix4(const XMMATRIX& xmmatrix)
 {
 	return Matrix4(
 		xmmatrix.r[0].m128_f32[0], xmmatrix.r[0].m128_f32[1], xmmatrix.r[0].m128_f32[2], xmmatrix.r[0].m128_f32[3],
@@ -81,7 +81,7 @@ Matrix4 ConvertToMatrix4(XMMATRIX xmmatrix)
 	);
 }
 
-XMMATRIX ConvertToXMMATRIX(Matrix4 matrix4)
+XMMATRIX ConvertToXMMATRIX(const Matrix4& matrix4)
 {
 	return XMMATRIX(
 		matrix4.m[0][0], matrix4.m[0][1], matrix4.m[0][2], matrix4.m[0][3],

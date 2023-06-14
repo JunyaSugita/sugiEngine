@@ -341,17 +341,17 @@ void Object3d::Update()
 	constMap_->cameraPos = *camera->GetEyeXM();
 }
 
-void Object3d::Scale(Vector3 scale)
+void Object3d::Scale(const Vector3& scale)
 {
 	worldTransform_.SetScale(scale);
 }
 
-void Object3d::Rotate(Vector3 rot)
+void Object3d::Rotate(const Vector3& rot)
 {
 	worldTransform_.SetRot(rot);
 }
 
-void Object3d::Trans(Vector3 pos)
+void Object3d::Trans(const Vector3& pos)
 {
 	worldTransform_.SetPos(pos);
 }

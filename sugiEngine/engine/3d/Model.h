@@ -75,7 +75,7 @@ public:
 
 	void CreateBuffers();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial, XMFLOAT4 color);
+	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial,const XMFLOAT4& color);
 
 	inline size_t GetVertexCount() {
 		return vertices_.size();

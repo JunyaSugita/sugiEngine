@@ -6,7 +6,7 @@
 
 class Burst {
 public:
-	void Initialize(const Vector3& pos,Vector4 color, const float& range,const float& pow);
+	void Initialize(const Vector3& pos,Vector4 color, float range,float pow);
 	void Update();
 	void Draw();
 

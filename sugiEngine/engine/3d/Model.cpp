@@ -298,7 +298,7 @@ void Model::CreateBuffers()
 	constMap1_->color = { 1,1,1,1 };
 }
 
-void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial, XMFLOAT4 color)
+void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial,const XMFLOAT4& color)
 {
 	constMap1_->color = color;
 

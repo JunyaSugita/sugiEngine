@@ -6,7 +6,7 @@ using namespace std;
 nlohmann::json JsonLoader::deserialized_;
 LevelData* JsonLoader::levelData_;
 
-LevelData* JsonLoader::LoadJson(std::string filename)
+LevelData* JsonLoader::LoadJson(const std::string& filename)
 {
 	//連結してフルパスを得る
 	const string fullpath = "Resources/level/" + filename + ".Json";

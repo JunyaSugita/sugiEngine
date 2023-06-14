@@ -13,7 +13,7 @@ public:
 	void Draw();
 
 	//飛び散りエフェクト(座標,数)
-	void BurstGenerate(Vector3 pos, int32_t num,Vector4 color, float range = 0.5f, float pow = 0.5f);
+	void BurstGenerate(const Vector3& pos, int32_t num,const Vector4& color, float range = 0.5f, float pow = 0.5f);
 private:
 	std::list<std::unique_ptr<Burst>> burst_;
 };

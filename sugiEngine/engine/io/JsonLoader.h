@@ -20,7 +20,7 @@ struct LevelData {
 class JsonLoader
 {
 public:
-	static LevelData* LoadJson(std::string filename);
+	static LevelData* LoadJson(const std::string& filename);
 	static void LoadRecursive();
 private:
 	static nlohmann::json deserialized_;

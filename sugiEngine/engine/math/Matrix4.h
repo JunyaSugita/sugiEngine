@@ -23,5 +23,5 @@ public:
 	Matrix4 operator*(const Matrix4& m2)const;
 };
 
-Matrix4 ConvertToMatrix4(XMMATRIX xmmatrix);
-XMMATRIX ConvertToXMMATRIX(Matrix4 matrix4);
+Matrix4 ConvertToMatrix4(const XMMATRIX& xmmatrix);
+XMMATRIX ConvertToXMMATRIX(const Matrix4& matrix4);

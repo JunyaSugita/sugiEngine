@@ -26,7 +26,7 @@ public:
 	inline void SetLightPos(const XMFLOAT3& lightpos) {
 		lightpos_ = lightpos;
 	}
-	inline void SetLightColor(const XMFLOAT3 lightcolor) {
+	inline void SetLightColor(const XMFLOAT3& lightcolor) {
 		lightcolor_ = lightcolor;
 	}
 	inline void SetLightAtten(const XMFLOAT3& lightAtten) {
