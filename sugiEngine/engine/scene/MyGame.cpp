@@ -37,36 +37,40 @@ void MyGame::Update()
 
 void MyGame::Draw()
 {
+	postEffect->PreDrawScene(dxCom_->GetCommandList());
+	GameDraw();
+	postEffect->PostDrawScene(dxCom_->GetCommandList());
+
 	SugiFramework::dxCom_->PreDraw();
-
-	////背景スプライト
-	//Sprite::PreDraw(dxCom_->GetCommandList());
-
-	//GameManager::GetInstance()->BackSpriteDraw();
-
-	//Sprite::PostDraw();
-
-	////Fbxモデル
-	//Fbx::PreDraw(dxCom_->GetCommandList());
-	//GameManager::GetInstance()->Draw();
-	//Fbx::PostDraw();
-
-	////objモデル
-	//Object3d::PreDraw(dxCom_->GetCommandList());
-	//GameManager::GetInstance()->ObjDraw();
-	//Object3d::PostDraw();
-
-	////スプライト
-	Sprite::PreDraw(dxCom_->GetCommandList());
-
-	//GameManager::GetInstance()->SpriteDraw();
 	postEffect->Draw(dxCom_->GetCommandList());
+	ImGuiManager::GetInstance()->Draw();
+	SugiFramework::dxCom_->PostDraw();
 
+	//SugiFramework::dxCom_->PreDraw();
+	//GameDraw();
+	//ImGuiManager::GetInstance()->Draw();
+	//SugiFramework::dxCom_->PostDraw();
+}
+
+void MyGame::GameDraw()
+{
+	//背景スプライト
+	Sprite::PreDraw(dxCom_->GetCommandList());
+	GameManager::GetInstance()->BackSpriteDraw();
 	Sprite::PostDraw();
 
+	//Fbxモデル
+	Fbx::PreDraw(dxCom_->GetCommandList());
+	GameManager::GetInstance()->Draw();
+	Fbx::PostDraw();
 
-	ImGuiManager::GetInstance()->Draw();
+	//objモデル
+	Object3d::PreDraw(dxCom_->GetCommandList());
+	GameManager::GetInstance()->ObjDraw();
+	Object3d::PostDraw();
 
-
-	SugiFramework::dxCom_->PostDraw();
+	//スプライト
+	Sprite::PreDraw(dxCom_->GetCommandList());
+	GameManager::GetInstance()->SpriteDraw();
+	Sprite::PostDraw();
 }

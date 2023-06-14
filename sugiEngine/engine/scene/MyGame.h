@@ -1,8 +1,6 @@
 #pragma once
 #include "SugiFramework.h"
 
-
-
 class MyGame : public SugiFramework
 {
 public:
@@ -14,5 +12,8 @@ public:
 	void Update() override;
 
 	void Draw() override;
+
+private:
+	void GameDraw();
 };
 
