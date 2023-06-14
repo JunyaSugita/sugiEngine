@@ -2,6 +2,7 @@
 #include <assert.h>
 
 using namespace DirectX;
+using namespace std;
 
 ID3D12Device* LightGroup::sDevice = nullptr;
 
@@ -13,9 +14,9 @@ void LightGroup::StaticInitialize(ID3D12Device* device)
 	LightGroup::sDevice = device;
 }
 
-LightGroup* LightGroup::Create()
+unique_ptr<LightGroup> LightGroup::Create()
 {
-	LightGroup* instance = new LightGroup();
+	unique_ptr<LightGroup> instance = make_unique<LightGroup>();
 
 	instance->Initialize();
 

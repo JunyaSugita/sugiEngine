@@ -45,7 +45,7 @@ void ClearScene::Initialize()
 
 	//ƒ‰ƒCƒg
 	lightGroup_ = LightGroup::Create();
-	Object3d::SetLight(lightGroup_);
+	Object3d::SetLight(lightGroup_.get());
 	lightGroup_->SetCircleShadowActive(0, true);
 }
 
@@ -99,5 +99,4 @@ void ClearScene::SpriteDraw()
 void ClearScene::Delete()
 {
 	delete sphereModel_;
-	delete lightGroup_;
 }

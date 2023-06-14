@@ -4,6 +4,7 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "CircleShadow.h"
+#include <memory>
 
 class LightGroup
 {
@@ -47,7 +48,7 @@ public:
 
 	static void StaticInitialize(ID3D12Device* device);
 
-	static LightGroup* Create();
+	static std::unique_ptr<LightGroup> Create();
 
 private:
 	//定数バッファ

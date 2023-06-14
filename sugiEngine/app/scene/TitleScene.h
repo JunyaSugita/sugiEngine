@@ -23,6 +23,6 @@ private:
 	Object3d* sphereObj_[2];
 	WorldTransform sphereWorldTransform_[2];
 
-	LightGroup* lightGroup_ = nullptr;
+	unique_ptr<LightGroup> lightGroup_ = nullptr;
 };
 

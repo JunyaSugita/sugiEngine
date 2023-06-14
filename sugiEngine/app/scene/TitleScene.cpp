@@ -21,7 +21,7 @@ void TitleScene::Initialize()
 
 	//ƒ‰ƒCƒg
 	lightGroup_ = LightGroup::Create();
-	Object3d::SetLight(lightGroup_);
+	Object3d::SetLight(lightGroup_.get());
 }
 
 void TitleScene::Update()
@@ -71,6 +71,4 @@ void TitleScene::Delete()
 		delete sphereModel_[i];
 		delete sphereObj_[i];
 	}
-
-	delete lightGroup_;
 }

@@ -36,6 +36,6 @@ private:
 	
 	int32_t playerNum_;
 
-	LightGroup* lightGroup_ = nullptr;
+	unique_ptr<LightGroup> lightGroup_ = nullptr;
 };
 
