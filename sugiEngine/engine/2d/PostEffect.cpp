@@ -146,13 +146,16 @@ void PostEffect::Initialize()
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
+	cmdList->SetPipelineState(pipelineState.Get());
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // 三角形リスト
 	// 頂点バッファビューの設定コマンド
 	cmdList->IASetVertexBuffers(0, 1, &vbView_);
-	//定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
+
 	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	//定数バッファビュー(CBV)の設定コマンド
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
 	//定数バッファビュー(CBV)の設定コマンド
@@ -186,6 +189,8 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 	viewport.TopLeftY = 0.0f;
 	viewport.Width = WIN_WIDTH;
 	viewport.Height = WIN_HEIGHT;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
 
 	cmdList->RSSetViewports(1,&viewport);
 
