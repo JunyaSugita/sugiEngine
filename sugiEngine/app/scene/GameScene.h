@@ -19,22 +19,22 @@ public:
 	void Draw() override;
 	void ObjDraw() override;
 	void SpriteDraw() override;
-	void Delete() override;
+	void Finalize() override;
 
 public:
 
 private:
 	//モデル
-	Model* sphereModel_;
-	Object3d* sphereObj_;
+	std::unique_ptr<Model> sphereModel_;
+	std::unique_ptr<Object3d> sphereObj_;
 	WorldTransform sphereWorldTransform_;
 
-	Model* groundModel_;
-	Object3d* groundObj_;
+	std::unique_ptr<Model> groundModel_;
+	std::unique_ptr<Object3d> groundObj_;
 	WorldTransform groundWorldTransform_;
 
-	Model* boxModel_;
-	Object3d* boxObj_;
+	std::unique_ptr<Model> boxModel_;
+	std::unique_ptr<Object3d> boxObj_;
 	WorldTransform boxWorldTransform_;
 
 	//スプライト
@@ -44,14 +44,14 @@ private:
 	int32_t dogTexture_;
 	Sprite dogSprite_;
 
-	FbxModel* model1_ = nullptr;
-	Fbx* obj1_ = nullptr;
+	std::unique_ptr<FbxModel> model1_ = nullptr;
+	unique_ptr<Fbx> obj1_ = nullptr;
 
 	//音
-	std::unique_ptr<Sound> sound_ = std::make_unique <Sound>();
+	unique_ptr<Sound> sound_ = std::make_unique <Sound>();
 
 	//ライト関連
-	LightGroup* lightGroup_ = nullptr;
+	unique_ptr<LightGroup> lightGroup_ = nullptr;
 
 	//丸影
 	float circleShadowDir_[3] = { 0,-1,0 };

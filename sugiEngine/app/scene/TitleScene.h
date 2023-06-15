@@ -15,14 +15,14 @@ public:
 	void Draw() override;
 	void ObjDraw() override;
 	void SpriteDraw() override;
-	void Delete() override;
+	void Finalize() override;
 
 private:
-	Model* sphereModel_[2];
+	std::unique_ptr<Model> sphereModel_[2];
 
-	Object3d* sphereObj_[2];
+	std::unique_ptr<Object3d> sphereObj_[2];
 	WorldTransform sphereWorldTransform_[2];
 
-	LightGroup* lightGroup_ = nullptr;
+	unique_ptr<LightGroup> lightGroup_ = nullptr;
 };
 

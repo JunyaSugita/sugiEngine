@@ -3,8 +3,8 @@
 
 using namespace std;
 
-nlohmann::json JsonLoader::deserialized_;
-LevelData* JsonLoader::levelData_;
+nlohmann::json JsonLoader::sDeserialized;
+LevelData* JsonLoader::sLevelData;
 
 LevelData* JsonLoader::LoadJson(const std::string& filename)
 {
@@ -22,30 +22,30 @@ LevelData* JsonLoader::LoadJson(const std::string& filename)
 	}
 
 	//解凍
-	file >> deserialized_;
+	file >> sDeserialized;
 
 	//正しいレベルデータファイルかチェック
-	assert(deserialized_.is_object());
-	assert(deserialized_.contains("name"));
-	assert(deserialized_["name"].is_string());
+	assert(sDeserialized.is_object());
+	assert(sDeserialized.contains("name"));
+	assert(sDeserialized["name"].is_string());
 
 	//"name"を文字列として取得
-	string name = deserialized_["name"].get<string>();
+	string name = sDeserialized["name"].get<string>();
 	//正しいレベルデータファイルかチェック
 	assert(name.compare("scene") == 0);
 
 	//レベルデータ格納用インスタンスを生成
-	levelData_ = new LevelData();
+	sLevelData = new LevelData();
 
 	LoadRecursive();
 
-	return levelData_;
+	return sLevelData;
 }
 
 void JsonLoader::LoadRecursive()
 {
 	//"objects"の全オブジェクトを走査
-	for (nlohmann::json& object : deserialized_["objects"]) {
+	for (nlohmann::json& object : sDeserialized["objects"]) {
 		assert(object.contains("type"));
 
 		//種別を取得
@@ -54,9 +54,9 @@ void JsonLoader::LoadRecursive()
 		//MESH
 		if (type.compare("MESH") == 0) {
 			//要素追加
-			levelData_->obj.emplace_back(LevelData::OBJData{});
+			sLevelData->obj.emplace_back(LevelData::OBJData{});
 			//今追加した要素の参照を得る
-			LevelData::OBJData& objectData = levelData_->obj.back();
+			LevelData::OBJData& objectData = sLevelData->obj.back();
 
 			if (object.contains("file_name")) {
 				//ファイル名

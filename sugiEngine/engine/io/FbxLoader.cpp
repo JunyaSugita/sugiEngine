@@ -44,7 +44,7 @@ void FbxLoader::Finalize()
 	fbxManager_->Destroy();
 }
 
-FbxModel* FbxLoader::LoadModelFromFile(const string& modelName)
+unique_ptr<FbxModel> FbxLoader::LoadModelFromFile(const string& modelName)
 {
 	//モデルと同じ名前のフォルダから読み込み
 	const string directoryPath = sBaseDirectory + modelName + "/";
@@ -65,14 +65,14 @@ FbxModel* FbxLoader::LoadModelFromFile(const string& modelName)
 	fbxImporter_->Import(fbxScene);
 
 	//モデル生成
-	FbxModel* model = new FbxModel();
+	unique_ptr<FbxModel> model = make_unique<FbxModel>();
 	model->name_ = modelName;
 
 	int32_t nodeCount = fbxScene->GetNodeCount();
 	model->nodes_.reserve(nodeCount);
 
 	//解析してモデルに流す
-	ParseNodeRecursive(model, fbxScene->GetRootNode());
+	ParseNodeRecursive(model.get(), fbxScene->GetRootNode());
 	//解放
 	model->fbxScene = fbxScene;
 

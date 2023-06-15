@@ -3,9 +3,9 @@
 
 void Burst::Initialize(const Vector3& pos,Vector4 color,float range,float pow) {
 
-	sphereModel_ = Model::LoadFromObj("box");
-	sphereObj_ = Object3d::Create();
-	sphereObj_->SetModel(sphereModel_);
+	sphereModel_ = move(Model::LoadFromObj("box"));
+	sphereObj_ = move(Object3d::Create());
+	sphereObj_->SetModel(sphereModel_.get());
 
 	//ƒ‰ƒ“ƒ_ƒ€
 	std::random_device seed_gen;

@@ -36,7 +36,7 @@ public:
 
 	static void PostDraw();
 
-	static Object3d* Create();
+	static std::unique_ptr<Object3d> Create();
 
 public:
 	bool Initialize();

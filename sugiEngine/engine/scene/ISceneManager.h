@@ -11,7 +11,7 @@ public:
 	virtual void Draw() = 0;
 	virtual void ObjDraw() = 0;
 	virtual void SpriteDraw() = 0;
-	virtual void Delete() = 0;
+	virtual void Finalize() = 0;
 
 };
 

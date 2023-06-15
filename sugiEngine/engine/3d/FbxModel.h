@@ -24,8 +24,6 @@ struct Node
 
 class FbxModel
 {
-public:
-	~FbxModel();
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
@@ -70,6 +68,7 @@ public:
 public:
 	void CreateBuffers(ID3D12Device* device);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Finalize();
 
 	const XMMATRIX& GetModelTransform() {
 		return meshNode_->globalTransform;

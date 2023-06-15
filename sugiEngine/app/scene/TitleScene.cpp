@@ -3,12 +3,12 @@
 
 void TitleScene::Initialize()
 {
-	sphereModel_[0] = Model::LoadFromObj("sphere");
-	sphereModel_[1] = Model::LoadFromObj("sphere", true);
+	sphereModel_[0] = move(Model::LoadFromObj("sphere"));
+	sphereModel_[1] = move(Model::LoadFromObj("sphere", true));
 
 	for (uint32_t i = 0; i < 2; i++) {
-		sphereObj_[i] = Object3d::Create();
-		sphereObj_[i]->SetModel(sphereModel_[i]);
+		sphereObj_[i] = move(Object3d::Create());
+		sphereObj_[i]->SetModel(sphereModel_[i].get());
 
 		sphereWorldTransform_[i].SetScale(Vector3(10, 10, 10));
 
@@ -21,7 +21,7 @@ void TitleScene::Initialize()
 
 	//ƒ‰ƒCƒg
 	lightGroup_ = LightGroup::Create();
-	Object3d::SetLight(lightGroup_);
+	Object3d::SetLight(lightGroup_.get());
 }
 
 void TitleScene::Update()
@@ -65,12 +65,6 @@ void TitleScene::SpriteDraw()
 
 }
 
-void TitleScene::Delete()
+void TitleScene::Finalize()
 {
-	for (uint32_t i = 0; i < 2; i++) {
-		delete sphereModel_[i];
-		delete sphereObj_[i];
-	}
-
-	delete lightGroup_;
 }

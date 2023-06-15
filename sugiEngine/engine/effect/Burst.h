@@ -23,9 +23,9 @@ private:
 	//回転
 	Vector3 rotate_;
 	//モデル
-	Model* sphereModel_;
+	std::unique_ptr <Model> sphereModel_;
 	//テクスチャ
-	Object3d* sphereObj_;
+	std::unique_ptr<Object3d> sphereObj_;
 	//消滅フラグ
 	bool isDead_;
 };

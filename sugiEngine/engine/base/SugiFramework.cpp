@@ -38,7 +38,7 @@ void SugiFramework::Initialize()
 
 	postEffect->Sprite::Initialize(postNum);
 	postEffect->Initialize();
-	postEffect->SetSize(500.0f,500.0f);
+	postEffect->SetSize(WIN_WIDTH,WIN_HEIGHT);
 }
 
 void SugiFramework::Finalize()

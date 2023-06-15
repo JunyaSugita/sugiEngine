@@ -79,7 +79,7 @@ void Sound::LoadWave(const std::string& filename)
 
 void Sound::Unload(SoundData* soundData)
 {
-	delete[] soundData->pBuffer;
+	//delete[] soundData->pBuffer;
 
 	soundData->pBuffer = 0;
 	soundData->bufferSize = 0;
@@ -108,13 +108,15 @@ void Sound::PlayWave(std::string filename)
 	result = pSourceVoice->Start();
 }
 
-void Sound::Delete()
+void Sound::Finalize()
 {
 	xAudio2_.Reset();
 
-	map<string, SoundData>::iterator it = soundDatas_.begin();
+	soundDatas_.clear();
 
-	for (; it != soundDatas_.end(); ++it) {
-		Unload(&it->second);
-	}
+	//map<string, SoundData>::iterator it = soundDatas_.begin();
+
+	//for (; it != soundDatas_.end(); ++it) {
+	//	Unload(&it->second);
+	//}
 }

@@ -9,13 +9,13 @@ void MyGame::Initialize()
 	SugiFramework::Initialize();
 	
 	//ゲーム固有の初期化
-	ImGuiManager::GetInstance()->Initialie(winApp_.get(), dxCom_.get());
+	ImGuiManager::GetInstance()->Initialize(winApp_.get(), dxCom_.get());
 }
 
 void MyGame::Finalize()
 {
 	//ゲーム固有の終了処理
-	GameManager::GetInstance()->Delete();
+	GameManager::GetInstance()->Finalize();
 	//基底クラスの終了処理
 	SugiFramework::Finalize();
 	ImGuiManager::GetInstance()->Finalize();
@@ -43,6 +43,12 @@ void MyGame::Draw()
 
 	SugiFramework::dxCom_->PreDraw();
 	postEffect->Draw(dxCom_->GetCommandList());
+
+	//スプライト
+	Sprite::PreDraw(dxCom_->GetCommandList());
+	GameManager::GetInstance()->SpriteDraw();
+	Sprite::PostDraw();
+
 	ImGuiManager::GetInstance()->Draw();
 	SugiFramework::dxCom_->PostDraw();
 
@@ -71,6 +77,6 @@ void MyGame::GameDraw()
 
 	//スプライト
 	Sprite::PreDraw(dxCom_->GetCommandList());
-	GameManager::GetInstance()->SpriteDraw();
+	//GameManager::GetInstance()->SpriteDraw();
 	Sprite::PostDraw();
 }

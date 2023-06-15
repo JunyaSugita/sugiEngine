@@ -39,9 +39,9 @@ void GameManager::SpriteDraw()
 	scene_->SpriteDraw();
 }
 
-void GameManager::Delete()
+void GameManager::Finalize()
 {
-	scene_->Delete();
+	scene_->Finalize();
 }
 
 GameManager* GameManager::GetInstance()
@@ -53,21 +53,21 @@ GameManager* GameManager::GetInstance()
 
 void GameManager::SetTitleScene()
 {
-	scene_->Delete();
+	scene_->Finalize();
 	scene_ = std::make_unique<TitleScene>();
 	scene_->Initialize();
 }
 
 void GameManager::SetGameScene()
 {
-	scene_->Delete();
+	scene_->Finalize();
 	scene_ = std::make_unique<GameScene>();
 	scene_->Initialize();
 }
 
 void GameManager::SetClearScene()
 {
-	scene_->Delete();
+	scene_->Finalize();
 	scene_ = std::make_unique<ClearScene>();
 	scene_->Initialize();
 }

@@ -18,13 +18,13 @@ public:
 	void Draw() override;
 	void ObjDraw() override;
 	void SpriteDraw() override;
-	void Delete() override;
+	void Finalize() override;
 
 private:
 	LevelData* levelData_;
 
-	Model* sphereModel_;
-	Model* playerModel_;
+	std::unique_ptr<Model> sphereModel_;
+	std::unique_ptr<Model> playerModel_;
 	std::map<std::string, Model*> models_;
 
 	WorldTransform worldTransform_;
@@ -36,6 +36,6 @@ private:
 	
 	int32_t playerNum_;
 
-	LightGroup* lightGroup_ = nullptr;
+	unique_ptr<LightGroup> lightGroup_ = nullptr;
 };
 
