@@ -23,7 +23,7 @@ public:
 	static LevelData* LoadJson(const std::string& filename);
 	static void LoadRecursive();
 private:
-	static nlohmann::json deserialized_;
-	static LevelData* levelData_;
+	static nlohmann::json sDeserialized;
+	static LevelData* sLevelData;
 };
 

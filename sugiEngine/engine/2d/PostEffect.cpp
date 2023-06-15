@@ -46,21 +46,21 @@ void PostEffect::Initialize()
 	);
 	assert(SUCCEEDED(result));
 
-	//テクスチャを赤にする
-	{
-		const UINT pixelCount = WIN_WIDTH * WIN_HEIGHT;
-		const UINT rowPitch = sizeof(UINT) * WIN_WIDTH;
-		const UINT depthPitch = rowPitch * WIN_HEIGHT;
-		//イメージ
-		UINT* img = new UINT[pixelCount];
-		for (int i = 0; i < pixelCount; i++) {
-			img[i] = 0xff0000ff;
-		}
-		//データ転送
-		result = texBuff->WriteToSubresource(0, nullptr, img, rowPitch, depthPitch);
-		assert(SUCCEEDED(result));
-		delete[] img;
-	}
+	////テクスチャを赤にする
+	//{
+	//	const UINT pixelCount = WIN_WIDTH * WIN_HEIGHT;
+	//	const UINT rowPitch = sizeof(UINT) * WIN_WIDTH;
+	//	const UINT depthPitch = rowPitch * WIN_HEIGHT;
+	//	//イメージ
+	//	UINT* img = new UINT[pixelCount];
+	//	for (int i = 0; i < pixelCount; i++) {
+	//		img[i] = 0xff0000ff;
+	//	}
+	//	//データ転送
+	//	result = texBuff->WriteToSubresource(0, nullptr, img, rowPitch, depthPitch);
+	//	assert(SUCCEEDED(result));
+	//	delete[] img;
+	//}
 
 	//SRVデスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};

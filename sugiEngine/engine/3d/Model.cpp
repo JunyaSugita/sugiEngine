@@ -5,9 +5,9 @@ using namespace std;
 
 ID3D12Device* Model::sDevice = nullptr;
 
-std::unique_ptr <Model> Model::LoadFromObj(const std::string& modelname, bool smoothing)
+unique_ptr <Model> Model::LoadFromObj(const string& modelname, bool smoothing)
 {
-	std::unique_ptr <Model> model = make_unique<Model>();
+	unique_ptr <Model> model = make_unique<Model>();
 
 	model->InitializeDescriptorHeap();
 
@@ -21,7 +21,7 @@ std::unique_ptr <Model> Model::LoadFromObj(const std::string& modelname, bool sm
 void Model::LoadMaterial(const string& directoryPath, const string& filename)
 {
 	//ファイルストリーム
-	std::ifstream file;
+	ifstream file;
 	//マテリアルファイルを開く
 	file.open(directoryPath + filename);
 	if (file.fail()) {
@@ -32,7 +32,7 @@ void Model::LoadMaterial(const string& directoryPath, const string& filename)
 	string line;
 	while (getline(file, line)) {
 		//1行分の文字列をストリームに変換
-		std::istringstream line_stream(line);
+		istringstream line_stream(line);
 		//半角スペース区切りで行の先頭文字を習得
 		string key;
 		getline(line_stream, key, ' ');
