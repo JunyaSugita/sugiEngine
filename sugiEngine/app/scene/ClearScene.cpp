@@ -96,6 +96,6 @@ void ClearScene::SpriteDraw()
 
 }
 
-void ClearScene::Delete()
+void ClearScene::Finalize()
 {
 }

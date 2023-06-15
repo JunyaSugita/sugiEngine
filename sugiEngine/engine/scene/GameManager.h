@@ -23,7 +23,7 @@ public:
 	void Draw();
 	void ObjDraw();
 	void SpriteDraw();
-	void Delete();
+	void Finalize();
 	
 	void SetTitleScene();
 	void SetGameScene();

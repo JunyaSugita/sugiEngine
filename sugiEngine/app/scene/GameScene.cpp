@@ -129,7 +129,7 @@ void GameScene::SpriteDraw()
 
 }
 
-void GameScene::Delete()
+void GameScene::Finalize()
 {
 	sound_->Finalize();
 	model1_->Finalize();

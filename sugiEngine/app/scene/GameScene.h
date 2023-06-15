@@ -19,7 +19,7 @@ public:
 	void Draw() override;
 	void ObjDraw() override;
 	void SpriteDraw() override;
-	void Delete() override;
+	void Finalize() override;
 
 public:
 

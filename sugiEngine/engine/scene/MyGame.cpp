@@ -15,7 +15,7 @@ void MyGame::Initialize()
 void MyGame::Finalize()
 {
 	//ゲーム固有の終了処理
-	GameManager::GetInstance()->Delete();
+	GameManager::GetInstance()->Finalize();
 	//基底クラスの終了処理
 	SugiFramework::Finalize();
 	ImGuiManager::GetInstance()->Finalize();

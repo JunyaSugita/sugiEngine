@@ -65,6 +65,6 @@ void TitleScene::SpriteDraw()
 
 }
 
-void TitleScene::Delete()
+void TitleScene::Finalize()
 {
 }
