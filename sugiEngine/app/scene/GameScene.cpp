@@ -6,14 +6,17 @@ using namespace ImGui;
 
 void GameScene::Initialize()
 {
-	sphereObj_ = Object3d::Create();
-	sphereObj_->SetModel(Model::LoadFromObj("sphere", true));
+	sphereModel_ = move(Model::LoadFromObj("sphere", true));
+	sphereObj_ = move(Object3d::Create());
+	sphereObj_->SetModel(sphereModel_.get());
 
-	groundObj_ = Object3d::Create();
-	groundObj_->SetModel(Model::LoadFromObj("ground"));
+	groundModel_ = move(Model::LoadFromObj("ground"));
+	groundObj_ = move(Object3d::Create());
+	groundObj_->SetModel(groundModel_.get());
 
-	boxObj_ = Object3d::Create();
-	boxObj_->SetModel(Model::LoadFromObj("box"));
+	boxModel_ = move(Model::LoadFromObj("box"));
+	boxObj_ = move(Object3d::Create());
+	boxObj_->SetModel(boxModel_.get());
 
 	sphereWorldTransform_.SetPos(Vector3());
 	sphereWorldTransform_.SetScale(Vector3(1, 1, 1));
@@ -43,11 +46,11 @@ void GameScene::Initialize()
 	lightGroup_->SetCircleShadowActive(0, true);
 
 	//sound->PlayWave("Alarm01");
-	model1_ = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	model1_ = move(FbxLoader::GetInstance()->LoadModelFromFile("boneTest"));
 
 	obj1_ = make_unique<Fbx>();
 	obj1_->Initialize();
-	obj1_->SetModel(model1_);
+	obj1_->SetModel(model1_.get());
 	obj1_->PlayAnimation();
 
 	//ƒJƒƒ‰
@@ -128,8 +131,6 @@ void GameScene::SpriteDraw()
 
 void GameScene::Delete()
 {
-	delete sphereObj_;
-	delete groundObj_;
-	sound_->Delete();
-	delete model1_;
+	sound_->Finalize();
+	model1_->Finalize();
 }

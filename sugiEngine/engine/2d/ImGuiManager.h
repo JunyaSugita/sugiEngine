@@ -23,7 +23,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="winApp">WinAppnのポインタ</param>
-	void Initialie(WinApp* winApp,DXCommon* dxCom);
+	void Initialize(WinApp* winApp,DXCommon* dxCom);
 
 	/// <summary>
 	/// 終了

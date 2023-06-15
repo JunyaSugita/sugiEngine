@@ -18,9 +18,9 @@ public:
 	void Delete() override;
 
 private:
-	Model* sphereModel_[2];
+	std::unique_ptr<Model> sphereModel_[2];
 
-	Object3d* sphereObj_[2];
+	std::unique_ptr<Object3d> sphereObj_[2];
 	WorldTransform sphereWorldTransform_[2];
 
 	unique_ptr<LightGroup> lightGroup_ = nullptr;

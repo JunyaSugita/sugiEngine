@@ -1,10 +1,5 @@
 #include "FbxModel.h"
 
-FbxModel::~FbxModel()
-{
-	fbxScene->Destroy();
-}
-
 void FbxModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
@@ -140,4 +135,9 @@ void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV_->GetGPUDescriptorHandleForHeapStart());
 
 	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
+}
+
+void FbxModel::Finalize()
+{
+	fbxScene->Destroy();
 }

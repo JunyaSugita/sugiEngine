@@ -372,15 +372,14 @@ void Object3d::Draw()
 	model_->Draw(sCmdList, 1, color_);
 }
 
-Object3d* Object3d::Create()
+std::unique_ptr<Object3d> Object3d::Create()
 {
-	Object3d* object3d = new Object3d();
+	std::unique_ptr<Object3d> object3d = make_unique<Object3d>();
 	if (object3d == nullptr) {
 		return nullptr;
 	}
 
 	if (!object3d->Initialize()) {
-		delete object3d;
 		assert(0);
 		return nullptr;
 	}

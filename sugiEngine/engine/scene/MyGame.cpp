@@ -9,7 +9,7 @@ void MyGame::Initialize()
 	SugiFramework::Initialize();
 	
 	//ƒQ[ƒ€ŒÅ—L‚Ì‰Šú‰»
-	ImGuiManager::GetInstance()->Initialie(winApp_.get(), dxCom_.get());
+	ImGuiManager::GetInstance()->Initialize(winApp_.get(), dxCom_.get());
 }
 
 void MyGame::Finalize()

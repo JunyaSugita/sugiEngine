@@ -42,7 +42,7 @@ public:
 	void LoadWave(const std::string& filename);
 	void Unload(SoundData* soundData);
 	void PlayWave(std::string filename);
-	void Delete();
+	void Finalize();
 
 private:
 	ComPtr<IXAudio2> xAudio2_;

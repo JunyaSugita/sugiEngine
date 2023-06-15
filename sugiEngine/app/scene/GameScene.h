@@ -25,13 +25,16 @@ public:
 
 private:
 	//モデル
-	Object3d* sphereObj_;
+	std::unique_ptr<Model> sphereModel_;
+	std::unique_ptr<Object3d> sphereObj_;
 	WorldTransform sphereWorldTransform_;
 
-	Object3d* groundObj_;
+	std::unique_ptr<Model> groundModel_;
+	std::unique_ptr<Object3d> groundObj_;
 	WorldTransform groundWorldTransform_;
 
-	Object3d* boxObj_;
+	std::unique_ptr<Model> boxModel_;
+	std::unique_ptr<Object3d> boxObj_;
 	WorldTransform boxWorldTransform_;
 
 	//スプライト
@@ -41,7 +44,7 @@ private:
 	int32_t dogTexture_;
 	Sprite dogSprite_;
 
-	FbxModel* model1_ = nullptr;
+	std::unique_ptr<FbxModel> model1_ = nullptr;
 	unique_ptr<Fbx> obj1_ = nullptr;
 
 	//音

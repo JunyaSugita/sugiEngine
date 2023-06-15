@@ -108,7 +108,7 @@ void Sound::PlayWave(std::string filename)
 	result = pSourceVoice->Start();
 }
 
-void Sound::Delete()
+void Sound::Finalize()
 {
 	xAudio2_.Reset();
 

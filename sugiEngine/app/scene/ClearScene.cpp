@@ -5,10 +5,10 @@ void ClearScene::Initialize()
 	// レベルデータの読み込み
 	levelData_ = JsonLoader::LoadJson("level");
 
-	sphereModel_ = Model::LoadFromObj("sphere", true);
-	playerModel_ = Model::LoadFromObj("player");
-	models_.insert(std::make_pair("sphere", sphereModel_));
-	models_.insert(std::make_pair("player", playerModel_));
+	sphereModel_ = move(Model::LoadFromObj("sphere", true));
+	playerModel_ = move(Model::LoadFromObj("player"));
+	models_.insert(std::make_pair("sphere", sphereModel_.get()));
+	models_.insert(std::make_pair("player", playerModel_.get()));
 
 	int32_t objNum = 0;
 
@@ -20,7 +20,7 @@ void ClearScene::Initialize()
 			model = it->second;
 		}
 		//モデルを指定して3Dオブジェクトを生成
-		Object3d* newObject = Object3d::Create();
+		std::unique_ptr<Object3d> newObject = move(Object3d::Create());
 		newObject->SetModel(model);
 
 		if (objectData.filename == "player") {
@@ -37,7 +37,7 @@ void ClearScene::Initialize()
 
 		newObject->SetWorldTransform(worldTransform_);
 
-		objects_.push_back(newObject);
+		objects_.push_back(newObject.get());
 		objNum++;
 	}
 
@@ -98,5 +98,4 @@ void ClearScene::SpriteDraw()
 
 void ClearScene::Delete()
 {
-	delete sphereModel_;
 }

@@ -23,8 +23,8 @@ public:
 private:
 	LevelData* levelData_;
 
-	Model* sphereModel_;
-	Model* playerModel_;
+	std::unique_ptr<Model> sphereModel_;
+	std::unique_ptr<Model> playerModel_;
 	std::map<std::string, Model*> models_;
 
 	WorldTransform worldTransform_;

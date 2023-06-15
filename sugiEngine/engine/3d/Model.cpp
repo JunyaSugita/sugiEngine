@@ -5,9 +5,9 @@ using namespace std;
 
 ID3D12Device* Model::sDevice = nullptr;
 
-Model* Model::LoadFromObj(const std::string& modelname, bool smoothing)
+std::unique_ptr <Model> Model::LoadFromObj(const std::string& modelname, bool smoothing)
 {
-	Model* model = new Model;
+	std::unique_ptr <Model> model = make_unique<Model>();
 
 	model->InitializeDescriptorHeap();
 
