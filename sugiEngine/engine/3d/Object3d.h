@@ -76,7 +76,7 @@ private:
 	static ComPtr<ID3D12PipelineState> sPipelineState;
 	static ComPtr<ID3D12RootSignature> sRootSignature;
 
-	static UINT sIncrementSize;
+	static uint32_t sIncrementSize;
 	static ComPtr<ID3D12Resource> sConstBuffMaterial;
 	static uint16_t sCountIndex;
 

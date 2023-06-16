@@ -122,7 +122,7 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	textureResourceDesc.Format = metadata.format;
 	textureResourceDesc.Width = metadata.width;
-	textureResourceDesc.Height = (UINT)metadata.height;
+	textureResourceDesc.Height = (uint32_t)metadata.height;
 	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
 	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
@@ -143,11 +143,11 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 		const Image* img = scratchImg.GetImage(i, 0, 0);
 		// テクスチャバッファにデータ転送
 		result = texBuff_->WriteToSubresource(
-			(UINT)i,
+			(uint32_t)i,
 			nullptr,
 			img->pixels,
-			(UINT)img->rowPitch,
-			(UINT)img->slicePitch
+			(uint32_t)img->rowPitch,
+			(uint32_t)img->slicePitch
 		);
 		assert(SUCCEEDED(result));
 	}
@@ -189,7 +189,7 @@ void Model::CreateBuffers()
 {
 	HRESULT result;
 
-	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * vertices_.size());
+	uint32_t sizeVB = static_cast<uint32_t>(sizeof(Vertex) * vertices_.size());
 
 	// 頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapProp{}; // ヒープ設定
@@ -223,7 +223,7 @@ void Model::CreateBuffers()
 	//頂点バッファビューの作成
 	vbView_.SizeInBytes = sizeVB;
 
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
+	uint32_t sizeIB = static_cast<uint32_t>(sizeof(unsigned short) * indices_.size());
 
 	//リソース設定
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -298,7 +298,7 @@ void Model::CreateBuffers()
 	constMap1_->color = { 1,1,1,1 };
 }
 
-void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial,const XMFLOAT4& color)
+void Model::Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootparamIndexMaterial,const XMFLOAT4& color)
 {
 	constMap1_->color = color;
 
@@ -318,7 +318,7 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootparamIndexMaterial
 	//SRVヒープの先頭にあるSRVをルートパラメータ2番に設定
 	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
-	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0); // 全ての頂点を使って描画
+	cmdList->DrawIndexedInstanced((uint32_t)indices_.size(), 1, 0, 0, 0); // 全ての頂点を使って描画
 
 }
 

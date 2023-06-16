@@ -336,7 +336,7 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 	}
 
 	struct WeightSet {
-		UINT index;
+		uint32_t index;
 		float weight;
 	};
 
@@ -358,7 +358,7 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 			//スキンウェイト
 			float weight = (float)controlPointWeights[j];
 			//ボーンリストにペア追加
-			weightLists[vertIndex].emplace_back(WeightSet{ (UINT)i,weight });
+			weightLists[vertIndex].emplace_back(WeightSet{ (uint32_t)i,weight });
 
 		}
 	}

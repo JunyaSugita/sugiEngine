@@ -9,7 +9,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
 
 	//リソース設定
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUvSkin) * vertices_.size());
+	uint32_t sizeVB = static_cast<uint32_t>(sizeof(VertexPosNormalUvSkin) * vertices_.size());
 
 	D3D12_RESOURCE_DESC resDesc{};
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -41,7 +41,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	vbView_.SizeInBytes = sizeVB;
 	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
+	uint32_t sizeIB = static_cast<uint32_t>(sizeof(unsigned short) * indices_.size());
 	resDesc.Width = sizeIB;
 
 	result = device->CreateCommittedResource(
@@ -78,7 +78,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	textureResourceDesc.Format = metadata_.format;
 	textureResourceDesc.Width = metadata_.width;
-	textureResourceDesc.Height = (UINT)metadata_.height;
+	textureResourceDesc.Height = (uint32_t)metadata_.height;
 	textureResourceDesc.DepthOrArraySize = (UINT16)metadata_.arraySize;
 	textureResourceDesc.MipLevels = (UINT16)metadata_.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
@@ -97,8 +97,8 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		0,
 		nullptr,
 		img->pixels,
-		(UINT)img->rowPitch,
-		(UINT)img->slicePitch
+		(uint32_t)img->rowPitch,
+		(uint32_t)img->slicePitch
 	);
 
 	//SRV用デスクリプタヒープの生成
@@ -134,7 +134,7 @@ void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList)
 	//1番に設定
 	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV_->GetGPUDescriptorHandleForHeapStart());
 
-	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
+	cmdList->DrawIndexedInstanced((uint32_t)indices_.size(), 1, 0, 0, 0);
 }
 
 void FbxModel::Finalize()

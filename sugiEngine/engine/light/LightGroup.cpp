@@ -142,7 +142,7 @@ void LightGroup::DefaultLightSetting()
 	dirLights_[2].SetLightDir({ -0.5f,+0.1f,-0.2f,0 });
 }
 
-void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
+void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootParameterIndex)
 {
 	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff_->GetGPUVirtualAddress());
 }

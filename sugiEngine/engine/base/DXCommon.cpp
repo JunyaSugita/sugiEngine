@@ -20,7 +20,7 @@ void DXCommon::Initialize(WinApp* winApp)
 	assert(SUCCEEDED(result));
 
 	// パフォーマンスが高いものから順に、全てのアダプターを列挙する
-	for (UINT i = 0;
+	for (uint32_t i = 0;
 		dxgiFactory_->EnumAdapterByGpuPreference(i,
 			DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE,
 			IID_PPV_ARGS(&tmpAdapter_)) != DXGI_ERROR_NOT_FOUND;
@@ -121,7 +121,7 @@ void DXCommon::Initialize(WinApp* winApp)
 	// スワップチェーンの全てのバッファについて処理する
 	for (size_t i = 0; i < backBuffers_.size(); i++) {
 		// スワップチェーンからバッファを取得
-		swapChain_->GetBuffer((UINT)i, IID_PPV_ARGS(&backBuffers_[i]));
+		swapChain_->GetBuffer((uint32_t)i, IID_PPV_ARGS(&backBuffers_[i]));
 		// デスクリプタヒープのハンドルを取得
 		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap_->GetCPUDescriptorHandleForHeapStart();
 		// 裏か表かでアドレスがずれる
@@ -183,7 +183,7 @@ void DXCommon::Initialize(WinApp* winApp)
 void DXCommon::PreDraw()
 {
 	// バックバッファの番号を取得(2つなので0番か1番)
-	UINT bbIndex = GetSwapChain()->GetCurrentBackBufferIndex();
+	uint32_t bbIndex = GetSwapChain()->GetCurrentBackBufferIndex();
 	// 1.リソースバリアで書き込み可能に変更
 	barrierDesc_.Transition.pResource = GetBackBuffers(bbIndex); // バックバッファを指定
 	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から

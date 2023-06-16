@@ -75,7 +75,7 @@ public:
 
 	void DefaultLightSetting();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex);
+	void Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootParameterIndex);
 
 	void SetAmbientColor(const XMFLOAT3& color);
 	//ïΩçsåı

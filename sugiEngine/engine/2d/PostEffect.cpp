@@ -48,11 +48,11 @@ void PostEffect::Initialize()
 
 	////テクスチャを赤にする
 	//{
-	//	const UINT pixelCount = WIN_WIDTH * WIN_HEIGHT;
-	//	const UINT rowPitch = sizeof(UINT) * WIN_WIDTH;
-	//	const UINT depthPitch = rowPitch * WIN_HEIGHT;
+	//	const uint32_t pixelCount = WIN_WIDTH * WIN_HEIGHT;
+	//	const uint32_t rowPitch = sizeof(uint32_t) * WIN_WIDTH;
+	//	const uint32_t depthPitch = rowPitch * WIN_HEIGHT;
 	//	//イメージ
-	//	UINT* img = new UINT[pixelCount];
+	//	uint32_t* img = new uint32_t[pixelCount];
 	//	for (int i = 0; i < pixelCount; i++) {
 	//		img[i] = 0xff0000ff;
 	//	}

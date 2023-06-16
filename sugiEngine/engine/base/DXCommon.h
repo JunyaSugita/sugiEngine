@@ -41,7 +41,7 @@ public:
 	D3D12_DESCRIPTOR_HEAP_DESC GetRtvHeapDesc() {
 		return rtvHeapDesc_;
 	}
-	ID3D12Resource* GetBackBuffers(UINT num) {
+	ID3D12Resource* GetBackBuffers(uint32_t num) {
 		return backBuffers_[num].Get();
 	}
 	ID3D12Fence* GetFence() {

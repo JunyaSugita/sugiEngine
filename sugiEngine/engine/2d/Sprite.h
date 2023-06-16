@@ -45,7 +45,7 @@ protected:
 	static std::array<ComPtr<ID3D12Resource>, kMaxSRVCount> textureBuffers_;
 
 	static ComPtr<ID3D12DescriptorHeap> srvHeap;
-	static UINT incrementSize;
+	static uint32_t incrementSize;
 	static uint32_t textureIndex;
 
 private:

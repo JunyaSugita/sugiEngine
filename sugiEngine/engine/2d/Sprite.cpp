@@ -13,7 +13,7 @@ ComPtr<ID3D12GraphicsCommandList> Sprite::cmdList_;
 std::array<ComPtr<ID3D12Resource>, Sprite::kMaxSRVCount> Sprite::textureBuffers_;
 const size_t Sprite::kMaxSRVCount;
 ComPtr<ID3D12DescriptorHeap> Sprite::srvHeap;
-UINT Sprite::incrementSize;
+uint32_t Sprite::incrementSize;
 uint32_t Sprite::textureIndex = 0;
 
 void Sprite::StaticInitialize(ID3D12Device* device)
@@ -272,7 +272,7 @@ uint32_t Sprite::LoadTexture(const string& textureName) {
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	textureResourceDesc.Format = metadata.format;
 	textureResourceDesc.Width = metadata.width;
-	textureResourceDesc.Height = (UINT)metadata.height;
+	textureResourceDesc.Height = (uint32_t)metadata.height;
 	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
 	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
@@ -293,11 +293,11 @@ uint32_t Sprite::LoadTexture(const string& textureName) {
 		const Image* img = scratchImg.GetImage(i, 0, 0);
 		// テクスチャバッファにデータ転送
 		result = textureBuffers_[textureIndex]->WriteToSubresource(
-			(UINT)i,
+			(uint32_t)i,
 			nullptr,
 			img->pixels,
-			(UINT)img->rowPitch,
-			(UINT)img->slicePitch
+			(uint32_t)img->rowPitch,
+			(uint32_t)img->slicePitch
 		);
 		assert(SUCCEEDED(result));
 	}
@@ -335,7 +335,7 @@ void Sprite::Initialize(uint32_t texNum)
 	vertices_[3] = { {textureSize_.x,  0.0f,0.0f},{1.0f,0.0f} };	//右上
 	size_ = textureSize_;
 
-	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * _countof(vertices_));
+	uint32_t sizeVB = static_cast<uint32_t>(sizeof(vertices_[0]) * _countof(vertices_));
 
 	// 頂点バッファの設定
 	heapProp_.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用

@@ -5,7 +5,7 @@
 class WinApp
 {
 public:
-	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+	static LRESULT WindowProc(HWND hwnd, uint32_t msg, WPARAM wparam, LPARAM lparam);
 	void CreateWindowScreen();
 	bool ProcMessage();
 	void DeleteWindow();

@@ -17,7 +17,7 @@ ID3D12GraphicsCommandList* Object3d::sCmdList = nullptr;
 ComPtr<ID3D12PipelineState> Object3d::sPipelineState;
 ComPtr<ID3D12RootSignature> Object3d::sRootSignature;
 
-UINT Object3d::sIncrementSize;
+uint32_t Object3d::sIncrementSize;
 ComPtr<ID3D12Resource> Object3d::sConstBuffMaterial;
 uint16_t Object3d::sCountIndex;
 

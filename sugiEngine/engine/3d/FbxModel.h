@@ -44,7 +44,7 @@ public:
 		XMFLOAT3 pos;
 		XMFLOAT3 normal;
 		XMFLOAT2 uv;
-		UINT boneIndex[MAX_BONE_INDICES];	//î‘çÜ
+		uint32_t boneIndex[MAX_BONE_INDICES];	//î‘çÜ
 		float boneWeight[MAX_BONE_INDICES];	//èdÇ›
 	};
 
