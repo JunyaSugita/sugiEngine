@@ -47,7 +47,7 @@ private:
 	Vector2 pos_;
 	float rotate_;
 	XMFLOAT4 color_ = { 1,1,1,1 };
-	Vector2 size_ = { WIN_WIDTH / 2,WIN_HEIGHT / 2};
+	Vector2 size_ = { WIN_WIDTH,WIN_HEIGHT};
 	Vector2 anchorPoint_ = { 0.0f,0.0f };
 	bool isFlipX_ = false;
 	bool isFlipY_ = false;
