@@ -2,7 +2,6 @@
 #include <Windows.h>
 #include "DXCommon.h"
 #include "GrovalSetting.h"
-#include "GrovalSetting.h"
 #include "WorldTransform.h"
 #include "Vector2.h"
 
