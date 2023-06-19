@@ -36,9 +36,7 @@ void SugiFramework::Initialize()
 	postEffect = make_unique <PostEffect>();
 	uint32_t postNum = Sprite::LoadTexture("white1x1.png");
 
-	postEffect->Sprite::Initialize(postNum);
-	postEffect->Initialize();
-	postEffect->SetSize(WIN_WIDTH,WIN_HEIGHT);
+	postEffect->Initialize(dxCom_->GetDevice());
 }
 
 void SugiFramework::Finalize()
