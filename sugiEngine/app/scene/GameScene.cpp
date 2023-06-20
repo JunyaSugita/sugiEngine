@@ -108,7 +108,7 @@ void GameScene::Update()
 
 void GameScene::BackSpriteDraw()
 {
-	dogSprite_.Draw();
+	//dogSprite_.Draw();
 }
 
 void GameScene::Draw()
@@ -119,13 +119,13 @@ void GameScene::Draw()
 void GameScene::ObjDraw()
 {
 	sphereObj_->Draw();
-	groundObj_->Draw();
+	//groundObj_->Draw();
 	boxObj_->Draw();
 }
 
 void GameScene::SpriteDraw()
 {
-	catSprite_.Draw();
+	//catSprite_.Draw();
 
 }
 
