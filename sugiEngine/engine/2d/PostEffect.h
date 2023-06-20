@@ -44,11 +44,11 @@ private:
 	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
 	WorldTransform worldTransform_;
-	Vector2 pos_;
-	float rotate_;
+	Vector2 pos_ = { WIN_WIDTH / 2,WIN_HEIGHT / 2 };
+	float rotate_ = 180; //ŒÊ“x–@
 	XMFLOAT4 color_ = { 1,1,1,1 };
-	Vector2 size_ = { WIN_WIDTH,WIN_HEIGHT};
-	Vector2 anchorPoint_ = { 0.0f,0.0f };
+	Vector2 size_ = { WIN_WIDTH / 2,WIN_HEIGHT / 2};
+	Vector2 anchorPoint_ = { 0.5f,0.5f };
 	bool isFlipX_ = false;
 	bool isFlipY_ = false;
 	bool isView_ = true;

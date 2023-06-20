@@ -8,16 +8,24 @@ float4 main(VSOutput input) : SV_TARGET
 	float pixW = 1.0f / 1280.0f;
 	float pixH = 1.0f / 720.0f;
 	float4 temp = float4(0, 0, 0, 0);
+	const int MAX_PIX = 7;
+	int count = 0;
 	
-	temp += tex.Sample(smp,input.uv + float2 (-pixW,-pixH));
-	temp += tex.Sample(smp, input.uv + float2 (0, -pixH));
-	temp += tex.Sample(smp, input.uv + float2 (pixW, -pixH));
-	temp += tex.Sample(smp, input.uv + float2 (-pixW, 0));
-	temp += tex.Sample(smp, input.uv + float2 (0, 0));
-	temp += tex.Sample(smp, input.uv + float2 (+pixW, 0));
-	temp += tex.Sample(smp, input.uv + float2 (-pixW, +pixH));
-	temp += tex.Sample(smp, input.uv + float2 (0, +pixH));
-	temp += tex.Sample(smp, input.uv + float2 (+pixW, +pixH));
+	for (int x = -MAX_PIX; x < MAX_PIX; x++) {
+		for (int y = -MAX_PIX; y < MAX_PIX; y++) {
+			temp += tex.Sample(smp, input.uv + float2 (-pixW * x, -pixH * y));
+			temp += tex.Sample(smp, input.uv + float2 (0 * x, -pixH * y));
+			temp += tex.Sample(smp, input.uv + float2 (pixW * x, -pixH * y));
+			temp += tex.Sample(smp, input.uv + float2 (-pixW * x, 0 * y));
+			temp += tex.Sample(smp, input.uv + float2 (0 * x, 0 * y));
+			temp += tex.Sample(smp, input.uv + float2 (+pixW * x, 0 * y));
+			temp += tex.Sample(smp, input.uv + float2 (-pixW * x, +pixH * y));
+			temp += tex.Sample(smp, input.uv + float2 (0 * x, +pixH * y));
+			temp += tex.Sample(smp, input.uv + float2 (+pixW * x, +pixH * y));
 
-	return float4(temp.rgb / 9,1);
+			count += 9;
+		}
+	}
+
+	return float4(temp.rgb / count, 1);
 }
