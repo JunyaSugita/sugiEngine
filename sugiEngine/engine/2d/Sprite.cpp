@@ -447,7 +447,7 @@ void Sprite::Initialize(uint32_t texNum)
 	result = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial_);	//マッピング
 	assert(SUCCEEDED(result));
 
-	constMapMaterial_->color = color_;	//RGBAで半透明の赤
+	constMapMaterial_->color = color_;
 
 	SetUpVertex();
 }
