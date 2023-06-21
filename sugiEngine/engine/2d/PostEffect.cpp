@@ -135,7 +135,7 @@ void PostEffect::Initialize(ID3D12Device* device)
 	descriptorRange1.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	//ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParams[4] = {};
+	D3D12_ROOT_PARAMETER rootParams[5] = {};
 	//定数バッファ0番
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
 	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
@@ -157,6 +157,12 @@ void PostEffect::Initialize(ID3D12Device* device)
 	rootParams[3].DescriptorTable.pDescriptorRanges = &descriptorRange1;			//デスクリプタレンジ
 	rootParams[3].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
 	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	//定数バッファ2番
+	rootParams[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
+	rootParams[4].Descriptor.ShaderRegister = 2;					//定数バッファ番号
+	rootParams[4].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -478,6 +484,36 @@ void PostEffect::Initialize(ID3D12Device* device)
 
 	constMapMaterial_->color = color_;
 
+
+	//ヒープ設定
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPUへの転送用
+	//リソース設定
+	//D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataEffect) + 0xff) & ~0xff;	//256バイトアライメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+
+	//定数バッファの生成
+	result = device->CreateCommittedResource(
+		&cbHeapProp,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,	//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffEffect_)
+	);
+	assert(SUCCEEDED(result));
+
+	result = constBuffEffect_->Map(0, nullptr, (void**)&constMapEffect_);	//マッピング
+	assert(SUCCEEDED(result));
+
+	constMapEffect_->blur = true;
+
 	//ヒープ設定
 	//D3D12_HEAP_PROPERTIES textureHeapProp{};
 	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
@@ -618,6 +654,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootDescriptorTable(3, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 1, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(4, constBuffEffect_->GetGPUVirtualAddress());
 
 	if (isView_ == true) {
 		// 描画コマンド

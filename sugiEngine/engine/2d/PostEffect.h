@@ -17,6 +17,10 @@ public:
 		XMFLOAT2 uv;
 	};
 
+	struct ConstBufferDataEffect {
+		bool blur;
+	};
+
 public:
 	void Initialize(ID3D12Device* device);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
@@ -41,21 +45,23 @@ private:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ヒープ設定
 	D3D12_RESOURCE_DESC resDesc_{};
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
-	ID3D12Resource* constBuffTransform_ = nullptr;
 	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
+	ConstBufferDataEffect* constMapEffect_ = nullptr;
 	WorldTransform worldTransform_;
-	Vector2 pos_ = { WIN_WIDTH / 2,WIN_HEIGHT / 2 };
-	float rotate_ = 180; //弧度法
+	Vector2 pos_ = { 0,0 };
+	float rotate_ = 0; //弧度法
 	XMFLOAT4 color_ = { 1,1,1,1 };
-	Vector2 size_ = { WIN_WIDTH / 2,WIN_HEIGHT / 2};
-	Vector2 anchorPoint_ = { 0.5f,0.5f };	//0.0f ~ 1.0f
+	Vector2 size_ = { WIN_WIDTH,WIN_HEIGHT};
+	Vector2 anchorPoint_ = { 0,0 };	//0.0f ~ 1.0f
 	bool isFlipX_ = false;
 	bool isFlipY_ = false;
 	bool isView_ = true;
 	VertexSp vertices_[4];
 	D3D12_VERTEX_BUFFER_VIEW vbView_;
-	ComPtr<ID3D12Resource> constBuffMaterial_;
+	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
+	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
+	ComPtr<ID3D12Resource> constBuffEffect_ = nullptr;
 	uint32_t textureNum_;
 
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };

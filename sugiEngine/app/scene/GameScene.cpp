@@ -126,7 +126,6 @@ void GameScene::ObjDraw()
 void GameScene::SpriteDraw()
 {
 	//catSprite_.Draw();
-
 }
 
 void GameScene::Finalize()
