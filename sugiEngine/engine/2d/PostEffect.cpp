@@ -1,6 +1,8 @@
 #include "PostEffect.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
+#include <d3dx12.h>
+#include "Input.h"
 
 using namespace std;
 
@@ -9,6 +11,8 @@ const float PostEffect::clearColor[4] = { 0.25,0.5f,0.2f,0.0f };
 void PostEffect::Initialize(ID3D12Device* device)
 {
 	HRESULT result;
+
+	device_ = device;
 
 	ComPtr<ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
@@ -485,16 +489,18 @@ void PostEffect::Initialize(ID3D12Device* device)
 	clearValue.Color[2] = clearColor[2];
 	clearValue.Color[3] = clearColor[3];
 
-	//テクスチャバッファの生成
-	result = device->CreateCommittedResource(
-		&textureHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		&clearValue,
-		IID_PPV_ARGS(&texBuff)
-	);
-	assert(SUCCEEDED(result));
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		//テクスチャバッファの生成
+		result = device->CreateCommittedResource(
+			&textureHeapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&textureResourceDesc,
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+			&clearValue,
+			IID_PPV_ARGS(&texBuff[i])
+		);
+		assert(SUCCEEDED(result));
+	}
 
 	//SRVデスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
@@ -513,7 +519,7 @@ void PostEffect::Initialize(ID3D12Device* device)
 	srvDesc.Texture2D.MipLevels = 1;
 
 	//デスクリプタヒープにSRV作成
-	device->CreateShaderResourceView(texBuff.Get(),
+	device->CreateShaderResourceView(texBuff[0].Get(),
 		&srvDesc,
 		descHeapSRV->GetCPUDescriptorHandleForHeapStart()
 	);
@@ -521,7 +527,7 @@ void PostEffect::Initialize(ID3D12Device* device)
 	//RTV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc{};
 	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	rtvDescHeapDesc.NumDescriptors = 1;
+	rtvDescHeapDesc.NumDescriptors = MULTI_RENDAR_TARGET_NUM;
 	//RTV用デスクリプタヒープを生成
 	result = device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
 	assert(SUCCEEDED(result));
@@ -532,8 +538,11 @@ void PostEffect::Initialize(ID3D12Device* device)
 	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	//デスクリプタヒープにRTV作成
-	device->CreateRenderTargetView(texBuff.Get(), &renderTargetViewDesc, descHeapRTV->GetCPUDescriptorHandleForHeapStart());
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		//デスクリプタヒープにRTV作成
+		device->CreateRenderTargetView(texBuff[i].Get(), &renderTargetViewDesc,
+			CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapRTV->GetCPUDescriptorHandleForHeapStart(), i, device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)));
+	}
 
 	D3D12_RESOURCE_DESC depthResourceDesc{};
 	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -578,6 +587,18 @@ void PostEffect::Initialize(ID3D12Device* device)
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
+	if (Input::GetInstance()->TriggerKey(DIK_0)) {
+		static int tex = 0;
+		tex = (tex + 1) % 2;
+
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = 1;
+		device_->CreateShaderResourceView(texBuff[tex].Get(), &srvDesc, descHeapSRV->GetCPUDescriptorHandleForHeapStart());
+	}
+
 	cmdList->SetPipelineState(pipelineState.Get());
 	cmdList->SetGraphicsRootSignature(rootSignature.Get());
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // 三角形リスト
@@ -603,41 +624,52 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
 	D3D12_RESOURCE_BARRIER resourceBarrier{};
-	resourceBarrier.Transition.pResource = texBuff.Get();
-	resourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-	resourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
-
-	cmdList->ResourceBarrier(1, &resourceBarrier);
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		resourceBarrier.Transition.pResource = texBuff[i].Get();
+		resourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+		resourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+		cmdList->ResourceBarrier(1, &resourceBarrier);
+	}
 
 	//レンダーターゲット取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvH = descHeapRTV->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[MULTI_RENDAR_TARGET_NUM];
+
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		rtvHs[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapRTV->GetCPUDescriptorHandleForHeapStart(), i, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+
+	}
 	//深度ステンシルビュー取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH = descHeapDSV->GetCPUDescriptorHandleForHeapStart();
 	//set
-	cmdList->OMSetRenderTargets(1, &rtvH, false, &dsvH);
+	cmdList->OMSetRenderTargets(MULTI_RENDAR_TARGET_NUM, rtvHs, false, &dsvH);
 
 	//ビューポート設定
-	D3D12_VIEWPORT viewport{};
-	viewport.TopLeftX = 0.0f;
-	viewport.TopLeftY = 0.0f;
-	viewport.Width = WIN_WIDTH;
-	viewport.Height = WIN_HEIGHT;
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-
-	cmdList->RSSetViewports(1, &viewport);
+	D3D12_VIEWPORT viewports[MULTI_RENDAR_TARGET_NUM];
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		viewports[i].TopLeftX = 0.0f;
+		viewports[i].TopLeftY = 0.0f;
+		viewports[i].Width = WIN_WIDTH;
+		viewports[i].Height = WIN_HEIGHT;
+		viewports[i].MinDepth = 0.0f;
+		viewports[i].MaxDepth = 1.0f;
+	}
+	cmdList->RSSetViewports(MULTI_RENDAR_TARGET_NUM, viewports);
 
 	//シザリング矩形の設定
-	D3D12_RECT rect{};
-	rect.top = 0;
-	rect.bottom = WIN_HEIGHT;
-	rect.left = 0;
-	rect.right = WIN_WIDTH;
+	D3D12_RECT rects[MULTI_RENDAR_TARGET_NUM];
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		rects[i].top = 0;
+		rects[i].bottom = WIN_HEIGHT;
+		rects[i].left = 0;
+		rects[i].right = WIN_WIDTH;
+	}
 
-	cmdList->RSSetScissorRects(1, &rect);
+	cmdList->RSSetScissorRects(MULTI_RENDAR_TARGET_NUM, rects);
 
 	//全画面クリア
-	cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		cmdList->ClearRenderTargetView(rtvHs[i], clearColor, 0, nullptr);
+	}
 	//深度バッファのクリア
 	cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
@@ -645,9 +677,10 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
 	D3D12_RESOURCE_BARRIER resourceBarrier{};
-	resourceBarrier.Transition.pResource = texBuff.Get();
-	resourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	resourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-
-	cmdList->ResourceBarrier(1, &resourceBarrier);
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		resourceBarrier.Transition.pResource = texBuff[i].Get();
+		resourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+		resourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+		cmdList->ResourceBarrier(1, &resourceBarrier);
+	}
 }

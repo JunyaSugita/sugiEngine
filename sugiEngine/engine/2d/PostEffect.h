@@ -27,7 +27,7 @@ public:
 	static const float clearColor[4];
 	static const size_t kMaxSRVCount = 2056;
 private:
-	ComPtr<ID3D12Resource> texBuff;
+	ComPtr<ID3D12Resource> texBuff[MULTI_RENDAR_TARGET_NUM];
 	ComPtr<ID3D12DescriptorHeap>descHeapSRV;
 	ComPtr<ID3D12Resource> depthBuff;
 	ComPtr<ID3D12DescriptorHeap> descHeapRTV;
@@ -36,6 +36,7 @@ private:
 	ComPtr<ID3D12PipelineState> pipelineState;
 	ComPtr<ID3D12RootSignature> rootSignature;
 	ComPtr<ID3D12DescriptorHeap> srvHeap;
+	ComPtr<ID3D12Device> device_;
 
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ÉqÅ[Évê›íË
 	D3D12_RESOURCE_DESC resDesc_{};
