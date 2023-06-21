@@ -18,7 +18,8 @@ public:
 	};
 
 	struct ConstBufferDataEffect {
-		bool blur;
+		uint32_t blur;
+		uint32_t border;
 	};
 
 public:
@@ -27,9 +28,36 @@ public:
 	void PreDrawScene(ID3D12GraphicsCommandList* cmdList);
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
 
+	void SetUp();
+
+	static void SetClear() {
+		sIsBlur = false;
+		sIsBorder = false;
+
+		sIsDirty = true;
+	}
+
+	static void SetBlur() {
+		sIsBlur = true;
+		sIsBorder = false;
+
+		sIsDirty = true;
+	}
+	static void SetBorder() {
+		sIsBlur = false;
+		sIsBorder = true;
+
+		sIsDirty = true;
+	}
+
 public:
 	static const float CLEAR_COLOR[4];
 	static const size_t MAX_SRV_COUNT = 2056;
+
+	static bool sIsBlur;
+	static bool sIsBorder;
+
+	static bool sIsDirty;
 private:
 	ComPtr<ID3D12Resource> texBuff_[MULTI_RENDAR_TARGET_NUM];
 	ComPtr<ID3D12DescriptorHeap>descHeapSRV_;

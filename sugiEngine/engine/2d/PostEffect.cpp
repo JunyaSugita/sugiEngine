@@ -7,6 +7,10 @@
 using namespace std;
 
 const float PostEffect::CLEAR_COLOR[4] = { 0.25,0.5f,0.2f,0.0f };
+bool PostEffect::sIsBlur = false;
+bool PostEffect::sIsBorder = false;
+
+bool PostEffect::sIsDirty = false;
 
 void PostEffect::Initialize(ID3D12Device* device)
 {
@@ -427,92 +431,7 @@ void PostEffect::Initialize(ID3D12Device* device)
 
 	constMapMaterial_->color = color_;	//RGBAで半透明の赤
 
-	float left = (0.0f - anchorPoint_.x) * size_.x;
-	float right = (1.0f - anchorPoint_.x) * size_.x;
-	float top = (0.0f - anchorPoint_.y) * size_.y;
-	float bottom = (1.0f - anchorPoint_.y) * size_.y;
-
-	if (isFlipX_ == true) {
-		left *= -1;
-		right *= -1;
-	}
-	if (isFlipY_ == true) {
-		top *= -1;
-		bottom *= -1;
-	}
-
-	vertices_[0].pos = { left,bottom,0.0f };	//左下
-	vertices_[1].pos = { left,   top,0.0f };	//左上
-	vertices_[2].pos = { right,bottom,0.0f };	//右下
-	vertices_[3].pos = { right,   top,0.0f };	//右上
-
-	if (textureBuffer_) {
-
-		D3D12_RESOURCE_DESC resDesc = textureBuffer_->GetDesc();
-
-		float tex_left = textureLeftTop_.x / resDesc.Width;
-		float tex_right = (textureLeftTop_.x + textureSize_.x) / resDesc.Width;
-		float tex_top = textureLeftTop_.y / resDesc.Height;
-		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
-
-		//UV
-		vertices_[0].uv = { tex_left,tex_bottom };	//左下
-		vertices_[1].uv = { tex_left,tex_top };	//左上
-		vertices_[2].uv = { tex_right,tex_bottom };	//右下
-		vertices_[3].uv = { tex_right,tex_top };	//右上
-	}
-
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	//VertexSp* vertMap = nullptr;
-	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (int32_t i = 0; i < _countof(vertices_); i++) {
-		vertMap[i] = vertices_[i]; // 座標をコピー
-	}
-	// 繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
-
-	//ワールド変換行列
-	//WorldTransform matTransform;
-	matTransform.GetMatWorld().Initialize();
-	matTransform.SetRotZ(rotate_);
-	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
-	matTransform.SetWorldMat();
-
-	constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
-
-	constMapMaterial_->color = color_;
-
-
-	//ヒープ設定
-	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPUへの転送用
-	//リソース設定
-	//D3D12_RESOURCE_DESC cbResourceDesc{};
-	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferDataEffect) + 0xff) & ~0xff;	//256バイトアライメント
-	cbResourceDesc.Height = 1;
-	cbResourceDesc.DepthOrArraySize = 1;
-	cbResourceDesc.MipLevels = 1;
-	cbResourceDesc.SampleDesc.Count = 1;
-	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-
-	//定数バッファの生成
-	result = device->CreateCommittedResource(
-		&cbHeapProp,		//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,	//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffEffect_)
-	);
-	assert(SUCCEEDED(result));
-
-	result = constBuffEffect_->Map(0, nullptr, (void**)&constMapEffect_);	//マッピング
-	assert(SUCCEEDED(result));
-
-	constMapEffect_->blur = true;
+	SetUp();
 
 	//ヒープ設定
 	//D3D12_HEAP_PROPERTIES textureHeapProp{};
@@ -638,6 +557,11 @@ void PostEffect::Initialize(ID3D12Device* device)
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
+	if (sIsDirty) {
+		SetUp();
+		sIsDirty = false;
+	}
+
 	cmdList->SetPipelineState(pipelineState_.Get());
 	cmdList->SetGraphicsRootSignature(rootSignature_.Get());
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // 三角形リスト
@@ -724,4 +648,98 @@ void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
 		resourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 		cmdList->ResourceBarrier(1, &resourceBarrier);
 	}
+}
+
+void PostEffect::SetUp()
+{
+	HRESULT result;
+
+	float left = (0.0f - anchorPoint_.x) * size_.x;
+	float right = (1.0f - anchorPoint_.x) * size_.x;
+	float top = (0.0f - anchorPoint_.y) * size_.y;
+	float bottom = (1.0f - anchorPoint_.y) * size_.y;
+
+	if (isFlipX_ == true) {
+		left *= -1;
+		right *= -1;
+	}
+	if (isFlipY_ == true) {
+		top *= -1;
+		bottom *= -1;
+	}
+
+	vertices_[0].pos = { left,bottom,0.0f };	//左下
+	vertices_[1].pos = { left,   top,0.0f };	//左上
+	vertices_[2].pos = { right,bottom,0.0f };	//右下
+	vertices_[3].pos = { right,   top,0.0f };	//右上
+
+	if (textureBuffer_) {
+
+		D3D12_RESOURCE_DESC resDesc = textureBuffer_->GetDesc();
+
+		float tex_left = textureLeftTop_.x / resDesc.Width;
+		float tex_right = (textureLeftTop_.x + textureSize_.x) / resDesc.Width;
+		float tex_top = textureLeftTop_.y / resDesc.Height;
+		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
+
+		//UV
+		vertices_[0].uv = { tex_left,tex_bottom };	//左下
+		vertices_[1].uv = { tex_left,tex_top };	//左上
+		vertices_[2].uv = { tex_right,tex_bottom };	//右下
+		vertices_[3].uv = { tex_right,tex_top };	//右上
+	}
+
+	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	VertexSp* vertMap = nullptr;
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result));
+	// 全頂点に対して
+	for (int32_t i = 0; i < _countof(vertices_); i++) {
+		vertMap[i] = vertices_[i]; // 座標をコピー
+	}
+	// 繋がりを解除
+	vertBuff_->Unmap(0, nullptr);
+
+	//ワールド変換行列
+	WorldTransform matTransform;
+	matTransform.GetMatWorld().Initialize();
+	matTransform.SetRotZ(rotate_);
+	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
+	matTransform.SetWorldMat();
+
+	constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
+
+	constMapMaterial_->color = color_;
+
+
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPUへの転送用
+	//リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataEffect) + 0xff) & ~0xff;	//256バイトアライメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+
+	//定数バッファの生成
+	result = device_->CreateCommittedResource(
+		&cbHeapProp,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,	//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffEffect_)
+	);
+	assert(SUCCEEDED(result));
+
+	result = constBuffEffect_->Map(0, nullptr, (void**)&constMapEffect_);	//マッピング
+	assert(SUCCEEDED(result));
+
+	constMapEffect_->blur = sIsBlur;
+	constMapEffect_->border = sIsBorder;
 }

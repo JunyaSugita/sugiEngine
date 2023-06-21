@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "Input.h"
 #include "FbxLoader.h"
+#include "PostEffect.h"
 
 using namespace ImGui;
 
@@ -100,8 +101,14 @@ void GameScene::Update()
 	}
 
 	Text("Hello,world %f", sphereWorldTransform_.GetPos().x);
-	if (Button("nanimonaiyo")) {
-		GameManager::GetInstance()->SetTitleScene();
+	if (Button("Clear",{100,30})) {
+		PostEffect::SetClear();
+	}
+	if (Button("Blur", { 100,30 })) {
+		PostEffect::SetBlur();
+	}
+	if (Button("Border", { 100,30 })) {
+		PostEffect::SetBorder();
 	}
 	SliderFloat("float", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
 }

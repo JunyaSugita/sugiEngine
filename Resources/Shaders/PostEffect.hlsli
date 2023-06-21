@@ -10,7 +10,8 @@ cbuffer ConstBufferDataTransform : register(b1) {
 
 //3D変換行列
 cbuffer ConstBufferDataEffect : register(b2) {
-	bool blur;
+	int blur;
+	int border;
 }
 
 //頂点シェーダーの出力構造体
