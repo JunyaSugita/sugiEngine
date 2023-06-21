@@ -24,18 +24,18 @@ public:
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
 
 public:
-	static const float clearColor[4];
-	static const size_t kMaxSRVCount = 2056;
+	static const float CLEAR_COLOR[4];
+	static const size_t MAX_SRV_COUNT = 2056;
 private:
-	ComPtr<ID3D12Resource> texBuff[MULTI_RENDAR_TARGET_NUM];
-	ComPtr<ID3D12DescriptorHeap>descHeapSRV;
-	ComPtr<ID3D12Resource> depthBuff;
-	ComPtr<ID3D12DescriptorHeap> descHeapRTV;
-	ComPtr<ID3D12DescriptorHeap> descHeapDSV;
+	ComPtr<ID3D12Resource> texBuff_[MULTI_RENDAR_TARGET_NUM];
+	ComPtr<ID3D12DescriptorHeap>descHeapSRV_;
+	ComPtr<ID3D12Resource> depthBuff_;
+	ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
+	ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
 	ComPtr<ID3D12Resource> textureBuffer_;
-	ComPtr<ID3D12PipelineState> pipelineState;
-	ComPtr<ID3D12RootSignature> rootSignature;
-	ComPtr<ID3D12DescriptorHeap> srvHeap;
+	ComPtr<ID3D12PipelineState> pipelineState_;
+	ComPtr<ID3D12RootSignature> rootSignature_;
+	ComPtr<ID3D12DescriptorHeap> srvHeap_;
 	ComPtr<ID3D12Device> device_;
 
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ヒープ設定
@@ -49,7 +49,7 @@ private:
 	float rotate_ = 180; //弧度法
 	XMFLOAT4 color_ = { 1,1,1,1 };
 	Vector2 size_ = { WIN_WIDTH / 2,WIN_HEIGHT / 2};
-	Vector2 anchorPoint_ = { 0.5f,0.5f };
+	Vector2 anchorPoint_ = { 0.5f,0.5f };	//0.0f ~ 1.0f
 	bool isFlipX_ = false;
 	bool isFlipY_ = false;
 	bool isView_ = true;
