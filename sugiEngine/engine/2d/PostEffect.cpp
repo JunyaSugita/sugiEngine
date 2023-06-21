@@ -587,18 +587,6 @@ void PostEffect::Initialize(ID3D12Device* device)
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	if (Input::GetInstance()->TriggerKey(DIK_0)) {
-		static int tex = 0;
-		tex = (tex + 1) % 2;
-
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = 1;
-		device_->CreateShaderResourceView(texBuff[tex].Get(), &srvDesc, descHeapSRV->GetCPUDescriptorHandleForHeapStart());
-	}
-
 	cmdList->SetPipelineState(pipelineState.Get());
 	cmdList->SetGraphicsRootSignature(rootSignature.Get());
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // 三角形リスト
