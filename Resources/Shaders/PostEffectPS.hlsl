@@ -1,6 +1,7 @@
 #include "PostEffect.hlsli"
 
-Texture2D<float4> tex : register(t0);
+Texture2D<float4> tex0 : register(t0);
+Texture2D<float4> tex1 : register(t1);
 SamplerState smp : register(s0);
 
 float4 main(VSOutput input) : SV_TARGET
@@ -13,19 +14,28 @@ float4 main(VSOutput input) : SV_TARGET
 	
 	for (int x = -MAX_PIX; x < MAX_PIX; x++) {
 		for (int y = -MAX_PIX; y < MAX_PIX; y++) {
-			temp += tex.Sample(smp, input.uv + float2 (-pixW * x, -pixH * y));
-			temp += tex.Sample(smp, input.uv + float2 (0 * x, -pixH * y));
-			temp += tex.Sample(smp, input.uv + float2 (pixW * x, -pixH * y));
-			temp += tex.Sample(smp, input.uv + float2 (-pixW * x, 0 * y));
-			temp += tex.Sample(smp, input.uv + float2 (0 * x, 0 * y));
-			temp += tex.Sample(smp, input.uv + float2 (+pixW * x, 0 * y));
-			temp += tex.Sample(smp, input.uv + float2 (-pixW * x, +pixH * y));
-			temp += tex.Sample(smp, input.uv + float2 (0 * x, +pixH * y));
-			temp += tex.Sample(smp, input.uv + float2 (+pixW * x, +pixH * y));
+			temp += tex0.Sample(smp, input.uv + float2 (-pixW * x, -pixH * y));
+			temp += tex0.Sample(smp, input.uv + float2 (0 * x, -pixH * y));
+			temp += tex0.Sample(smp, input.uv + float2 (pixW * x, -pixH * y));
+			temp += tex0.Sample(smp, input.uv + float2 (-pixW * x, 0 * y));
+			temp += tex0.Sample(smp, input.uv + float2 (0 * x, 0 * y));
+			temp += tex0.Sample(smp, input.uv + float2 (+pixW * x, 0 * y));
+			temp += tex0.Sample(smp, input.uv + float2 (-pixW * x, +pixH * y));
+			temp += tex0.Sample(smp, input.uv + float2 (0 * x, +pixH * y));
+			temp += tex0.Sample(smp, input.uv + float2 (+pixW * x, +pixH * y));
 
 			count += 9;
 		}
 	}
 
-	return float4(temp.rgb / count, 1);
+	temp = temp / count;
+
+	float4 colortex1 = tex1.Sample(smp, input.uv);
+
+	float4 color = temp;
+	if (fmod(input.uv.y, 0.1f) < 0.05f) {
+		color = colortex1;
+	}
+
+	return float4(color.rgb, 1);
 }
