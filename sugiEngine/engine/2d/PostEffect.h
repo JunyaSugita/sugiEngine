@@ -20,6 +20,8 @@ public:
 	struct ConstBufferDataEffect {
 		uint32_t blur;
 		uint32_t border;
+		uint32_t gray;
+		uint32_t bloom;
 	};
 
 public:
@@ -33,6 +35,8 @@ public:
 	static void SetClear() {
 		sIsBlur = false;
 		sIsBorder = false;
+		sIsGray = false;
+		sIsBloom = false;
 
 		sIsDirty = true;
 	}
@@ -40,12 +44,32 @@ public:
 	static void SetBlur() {
 		sIsBlur = true;
 		sIsBorder = false;
+		sIsGray = false;
+		sIsBloom = false;
 
 		sIsDirty = true;
 	}
 	static void SetBorder() {
 		sIsBlur = false;
 		sIsBorder = true;
+		sIsGray = false;
+		sIsBloom = false;
+
+		sIsDirty = true;
+	}
+	static void SetGray() {
+		sIsBlur = false;
+		sIsBorder = false;
+		sIsGray = true;
+		sIsBloom = false;
+
+		sIsDirty = true;
+	}
+	static void SetBloom() {
+		sIsBlur = false;
+		sIsBorder = false;
+		sIsGray = false;
+		sIsBloom = true;
 
 		sIsDirty = true;
 	}
@@ -56,6 +80,8 @@ public:
 
 	static bool sIsBlur;
 	static bool sIsBorder;
+	static bool sIsGray;
+	static bool sIsBloom;
 
 	static bool sIsDirty;
 private:

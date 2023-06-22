@@ -56,7 +56,7 @@ void GameScene::Initialize()
 
 	//ƒJƒƒ‰
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
-	Camera::GetInstance()->SetEye(Vector3(5, 5, -10));
+	Camera::GetInstance()->SetEye(Vector3(0, 10, -1));
 }
 
 void GameScene::Update()
@@ -109,6 +109,12 @@ void GameScene::Update()
 	}
 	if (Button("Border", { 100,30 })) {
 		PostEffect::SetBorder();
+	}
+	if (Button("Gray", { 100,30 })) {
+		PostEffect::SetGray();
+	}
+	if (Button("Bloom", { 100,30 })) {
+		PostEffect::SetBloom();
 	}
 	SliderFloat("float", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
 }

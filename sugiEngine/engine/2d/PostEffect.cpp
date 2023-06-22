@@ -9,6 +9,8 @@ using namespace std;
 const float PostEffect::CLEAR_COLOR[4] = { 0.25,0.5f,0.2f,0.0f };
 bool PostEffect::sIsBlur = false;
 bool PostEffect::sIsBorder = false;
+bool PostEffect::sIsGray = false;
+bool PostEffect::sIsBloom = false;
 
 bool PostEffect::sIsDirty = false;
 
@@ -711,7 +713,6 @@ void PostEffect::SetUp()
 
 	constMapMaterial_->color = color_;
 
-
 	//ƒq[ƒvÝ’è
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPU‚Ö‚Ì“]‘——p
@@ -742,4 +743,6 @@ void PostEffect::SetUp()
 
 	constMapEffect_->blur = sIsBlur;
 	constMapEffect_->border = sIsBorder;
+	constMapEffect_->gray = sIsGray;
+	constMapEffect_->bloom = sIsBloom;
 }

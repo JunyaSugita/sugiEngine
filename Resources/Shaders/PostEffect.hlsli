@@ -12,6 +12,8 @@ cbuffer ConstBufferDataTransform : register(b1) {
 cbuffer ConstBufferDataEffect : register(b2) {
 	int blur;
 	int border;
+	int gray;
+	int bloom;
 }
 
 //頂点シェーダーの出力構造体

@@ -15,7 +15,7 @@ float4 main(VSOutput input) : SV_TARGET
 			for (float j = -(sigma * 2); j < sigma * 2; j += stepWidth) {
 				float d = distance(input.uv, input.uv + float2(j,i));
 				float weight = exp(-(d * d) / (2 * sigma * sigma));
-				col += tex0.Sample(smp, input.uv + float2 (j, i)) * weight;
+				col += tex1.Sample(smp, input.uv + float2 (j, i)) * weight;
 				totalWeight += weight;
 			}
 		}
@@ -30,6 +30,35 @@ float4 main(VSOutput input) : SV_TARGET
 			color = colortex1;
 		}
 		return float4(color.rgb, 1);
-	 }
-	return float4(tex0.Sample(smp, input.uv)) * color;
+	}
+	else if (gray) {
+		float4 col = float4(float3((tex1.Sample(smp, input.uv) * color).rgb), 1);
+		float grayScale = col.r * 0.299f + col.g * 0.587f + col.b * 0.114f;
+		float extract = smoothstep(0.85f, 0.9f, grayScale);
+		return float4(extract, extract, extract, 1);
+	}
+	else if (bloom) {
+		float4 col = float4(float3((tex1.Sample(smp, input.uv) * color).rgb), 1);
+		float grayScale = col.r * 0.299f + col.g * 0.587f + col.b * 0.114f;
+		float extract = smoothstep(0.85f, 0.9f, grayScale);
+		float4 temp = float4(extract, extract, extract, 1);
+
+		float totalWeight = 0;
+		float sigma = 0.005f;
+		float stepWidth = 0.001f;
+		float4 col1 = float4(0, 0, 0, 0);
+		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+			for (float j = -(sigma * 2); j < sigma * 2; j += stepWidth) {
+				float d = distance(input.uv, input.uv + float2(j, i));
+				float weight = exp(-(d * d) / (2 * sigma * sigma));
+				col1 += temp * weight;
+				totalWeight += weight;
+			}
+		}
+		col1 = col1 / totalWeight;
+
+		return float4(col1.rgb, 1);
+	}
+
+	return float4(float3((tex1.Sample(smp, input.uv) * color).rgb),1);
 }
