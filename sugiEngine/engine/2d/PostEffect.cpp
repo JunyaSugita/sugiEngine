@@ -127,29 +127,17 @@ void PostEffect::Initialize(ID3D12Device* device)
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0~255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
+	D3D12_DESCRIPTOR_RANGE descriptorRange[MULTI_RENDAR_TARGET_NUM]{};
 	//デスクリプタレンジの設定
-	D3D12_DESCRIPTOR_RANGE descriptorRange0{};
-	descriptorRange0.NumDescriptors = 1;
-	descriptorRange0.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRange0.BaseShaderRegister = 0;//t0
-	descriptorRange0.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-	//デスクリプタレンジの設定
-	D3D12_DESCRIPTOR_RANGE descriptorRange1{};
-	descriptorRange1.NumDescriptors = 1;
-	descriptorRange1.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRange1.BaseShaderRegister = 1;//t1
-	descriptorRange1.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-	//デスクリプタレンジの設定
-	D3D12_DESCRIPTOR_RANGE descriptorRange2{};
-	descriptorRange2.NumDescriptors = 1;
-	descriptorRange2.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRange2.BaseShaderRegister = 2;//t2
-	descriptorRange2.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		descriptorRange[i].NumDescriptors = 1;
+		descriptorRange[i].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+		descriptorRange[i].BaseShaderRegister = i;//t0
+		descriptorRange[i].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	}
 
 	//ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParams[6] = {};
+	D3D12_ROOT_PARAMETER rootParams[MULTI_RENDAR_TARGET_NUM + 3] = {};
 	//定数バッファ0番
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
 	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
@@ -157,7 +145,7 @@ void PostEffect::Initialize(ID3D12Device* device)
 	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから
 	//テクスチャレジスタ
 	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
-	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange0;			//デスクリプタレンジ
+	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange[0];			//デスクリプタレンジ
 	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
 	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;				//全てのシェーダーから
 	//定数バッファ1番
@@ -168,7 +156,7 @@ void PostEffect::Initialize(ID3D12Device* device)
 
 	//テクスチャレジスタ
 	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
-	rootParams[3].DescriptorTable.pDescriptorRanges = &descriptorRange1;			//デスクリプタレンジ
+	rootParams[3].DescriptorTable.pDescriptorRanges = &descriptorRange[1];			//デスクリプタレンジ
 	rootParams[3].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
 	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
@@ -180,9 +168,21 @@ void PostEffect::Initialize(ID3D12Device* device)
 
 	//テクスチャレジスタ
 	rootParams[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
-	rootParams[5].DescriptorTable.pDescriptorRanges = &descriptorRange2;			//デスクリプタレンジ
+	rootParams[5].DescriptorTable.pDescriptorRanges = &descriptorRange[2];			//デスクリプタレンジ
 	rootParams[5].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
 	rootParams[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	//テクスチャレジスタ
+	rootParams[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+	rootParams[6].DescriptorTable.pDescriptorRanges = &descriptorRange[3];			//デスクリプタレンジ
+	rootParams[6].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+	rootParams[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	//テクスチャレジスタ
+	rootParams[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+	rootParams[7].DescriptorTable.pDescriptorRanges = &descriptorRange[4];			//デスクリプタレンジ
+	rootParams[7].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+	rootParams[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -593,6 +593,8 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootDescriptorTable(1, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 0, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	cmdList->SetGraphicsRootDescriptorTable(3, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 1, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	cmdList->SetGraphicsRootDescriptorTable(5, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 2, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+	cmdList->SetGraphicsRootDescriptorTable(6, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 3, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+	cmdList->SetGraphicsRootDescriptorTable(7, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 4, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());

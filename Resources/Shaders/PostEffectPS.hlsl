@@ -3,6 +3,8 @@
 Texture2D<float4> tex0 : register(t0);
 Texture2D<float4> tex1 : register(t1);
 Texture2D<float4> tex2 : register(t2);
+Texture2D<float4> tex3 : register(t3);
+Texture2D<float4> tex4 : register(t4);
 SamplerState smp : register(s0);
 
 float4 main(VSOutput input) : SV_TARGET

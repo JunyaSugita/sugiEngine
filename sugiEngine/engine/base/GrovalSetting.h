@@ -4,7 +4,7 @@
 static const uint16_t WIN_WIDTH = 1280;
 static const uint16_t WIN_HEIGHT = 720;
 
-static const uint8_t MULTI_RENDAR_TARGET_NUM = 3;
+static const uint8_t MULTI_RENDAR_TARGET_NUM = 5;
 
 //定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDataMaterial {
