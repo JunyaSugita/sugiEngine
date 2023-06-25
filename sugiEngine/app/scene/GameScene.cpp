@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "Input.h"
 #include "FbxLoader.h"
+#include "PostEffect.h"
 
 using namespace ImGui;
 
@@ -55,7 +56,7 @@ void GameScene::Initialize()
 
 	//ƒJƒƒ‰
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
-	Camera::GetInstance()->SetEye(Vector3(5, 5, -10));
+	Camera::GetInstance()->SetEye(Vector3(0, 12, -1));
 }
 
 void GameScene::Update()
@@ -99,11 +100,26 @@ void GameScene::Update()
 		GameManager::GetInstance()->SetTitleScene();
 	}
 
-	Text("Hello,world %f", sphereWorldTransform_.GetPos().x);
-	if (Button("nanimonaiyo")) {
-		GameManager::GetInstance()->SetTitleScene();
+	//Text("Hello,world %f", sphereWorldTransform_.GetPos().x);
+	if (Button("Clear",{100,30})) {
+		PostEffect::SetClear();
 	}
-	SliderFloat("float", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
+	if (Button("Blur", { 100,30 })) {
+		PostEffect::SetBlur();
+	}
+	if (Button("InvertColor", { 100,30 })) {
+		PostEffect::SetInvertColor();
+	}
+	if (Button("Border", { 100,30 })) {
+		PostEffect::SetBorder();
+	}
+	if (Button("Gray", { 100,30 })) {
+		PostEffect::SetGray();
+	}
+	if (Button("Bloom", { 100,30 })) {
+		PostEffect::SetBloom();
+	}
+	//SliderFloat("float", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
 }
 
 void GameScene::BackSpriteDraw()
@@ -118,7 +134,7 @@ void GameScene::Draw()
 
 void GameScene::ObjDraw()
 {
-	sphereObj_->Draw();
+	//sphereObj_->Draw();
 	groundObj_->Draw();
 	boxObj_->Draw();
 }
@@ -126,7 +142,6 @@ void GameScene::ObjDraw()
 void GameScene::SpriteDraw()
 {
 	//catSprite_.Draw();
-
 }
 
 void GameScene::Finalize()

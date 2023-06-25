@@ -31,21 +31,21 @@ public:
 
 protected:
 	//デバイス
-	static ComPtr<ID3D12Device> device_;
-	static ComPtr<ID3D12PipelineState> pipelineState;
+	static ComPtr<ID3D12Device> sDevice;
+	static ComPtr<ID3D12PipelineState> sPipelineState;
 	// ルートシグネチャ
-	static ComPtr<ID3D12RootSignature> rootSignature;
+	static ComPtr<ID3D12RootSignature> sRootSignature;
 	// 頂点バッファビューの作成
 
-	static ComPtr<ID3D12GraphicsCommandList> cmdList_;
+	static ComPtr<ID3D12GraphicsCommandList> sCmdList;
 
 	//SRVの最大数
-	static const size_t kMaxSRVCount = 2056;
-	static std::array<ComPtr<ID3D12Resource>, kMaxSRVCount> textureBuffers_;
+	static const size_t MAX_SRV_COUNT = 2056;
+	static std::array<ComPtr<ID3D12Resource>, MAX_SRV_COUNT> sTextureBuffers;
 
-	static ComPtr<ID3D12DescriptorHeap> srvHeap;
-	static uint32_t incrementSize;
-	static uint32_t textureIndex;
+	static ComPtr<ID3D12DescriptorHeap> sSrvHeap;
+	static uint32_t sIncrementSize;
+	static uint32_t sTextureIndex;
 
 private:
 	void AdjustTextureSize();

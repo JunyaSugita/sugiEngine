@@ -127,7 +127,9 @@ void Fbx::CreateGraphicsPipeline()
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
 
 	// ブレンドステートの設定
-	gpipeline.BlendState.RenderTarget[0] = blenddesc;
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		gpipeline.BlendState.RenderTarget[i] = blenddesc;
+	}
 
 	// 深度バッファのフォーマット
 	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
@@ -139,8 +141,10 @@ void Fbx::CreateGraphicsPipeline()
 	// 図形の形状設定（三角形）
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	gpipeline.NumRenderTargets = 1;    // 描画対象は1つ
-	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
+	gpipeline.NumRenderTargets = MULTI_RENDAR_TARGET_NUM;    // 描画対象は1つ
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		gpipeline.RTVFormats[i] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
+	}
 	gpipeline.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// デスクリプタレンジ
@@ -205,7 +209,6 @@ void Fbx::CreateGraphicsPipeline()
 	if (FAILED(result)) {
 		assert(0);
 	}
-
 }
 
 void Fbx::Initialize()
