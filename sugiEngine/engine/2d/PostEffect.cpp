@@ -8,6 +8,7 @@ using namespace std;
 
 const float PostEffect::CLEAR_COLOR[4] = { 0.25,0.5f,0.2f,0.0f };
 bool PostEffect::sIsBlur = false;
+bool PostEffect::sIsInvertColor = false;
 bool PostEffect::sIsBorder = false;
 bool PostEffect::sIsGray = false;
 bool PostEffect::sIsBloom = false;
@@ -140,8 +141,15 @@ void PostEffect::Initialize(ID3D12Device* device)
 	descriptorRange1.BaseShaderRegister = 1;//t1
 	descriptorRange1.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
+	//デスクリプタレンジの設定
+	D3D12_DESCRIPTOR_RANGE descriptorRange2{};
+	descriptorRange2.NumDescriptors = 1;
+	descriptorRange2.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange2.BaseShaderRegister = 2;//t2
+	descriptorRange2.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 	//ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParams[5] = {};
+	D3D12_ROOT_PARAMETER rootParams[6] = {};
 	//定数バッファ0番
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
 	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
@@ -170,11 +178,17 @@ void PostEffect::Initialize(ID3D12Device* device)
 	rootParams[4].Descriptor.RegisterSpace = 0;						//デフォルト値
 	rootParams[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
+	//テクスチャレジスタ
+	rootParams[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+	rootParams[5].DescriptorTable.pDescriptorRanges = &descriptorRange2;			//デスクリプタレンジ
+	rootParams[5].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+	rootParams[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
-	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_BORDER;					//ボーダー
-	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_BORDER;					//ボーダー
-	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_BORDER;					//ボーダー
+	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;					//クランプ
+	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;					//クランプ
+	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;					//クランプ
 	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;	//ボーダーの時は黒
 	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;					//全てリニア補間
 	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;									//ミップマップ最大値
@@ -476,7 +490,7 @@ void PostEffect::Initialize(ID3D12Device* device)
 	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
 	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvDescHeapDesc.NumDescriptors = 2;
+	srvDescHeapDesc.NumDescriptors = MULTI_RENDAR_TARGET_NUM;
 	//SRVデスクリプタヒープ生成
 	result = device->CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descHeapSRV_));
 	assert(SUCCEEDED(result));
@@ -489,7 +503,7 @@ void PostEffect::Initialize(ID3D12Device* device)
 	srvDesc.Texture2D.MipLevels = 1;
 
 	//デスクリプタヒープにSRV作成
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
 		device->CreateShaderResourceView(texBuff_[i].Get(),
 			&srvDesc,
 			CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetCPUDescriptorHandleForHeapStart(), i, device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
@@ -578,6 +592,8 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	cmdList->SetGraphicsRootDescriptorTable(1, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 0, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	cmdList->SetGraphicsRootDescriptorTable(3, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 1, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+	cmdList->SetGraphicsRootDescriptorTable(5, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 2, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 	cmdList->SetGraphicsRootConstantBufferView(4, constBuffEffect_->GetGPUVirtualAddress());
@@ -603,7 +619,6 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 
 	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
 		rtvHs[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapRTV_->GetCPUDescriptorHandleForHeapStart(), i, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-
 	}
 	//深度ステンシルビュー取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH = descHeapDSV_->GetCPUDescriptorHandleForHeapStart();
@@ -742,6 +757,7 @@ void PostEffect::SetUp()
 	assert(SUCCEEDED(result));
 
 	constMapEffect_->blur = sIsBlur;
+	constMapEffect_->invertColor = sIsInvertColor;
 	constMapEffect_->border = sIsBorder;
 	constMapEffect_->gray = sIsGray;
 	constMapEffect_->bloom = sIsBloom;

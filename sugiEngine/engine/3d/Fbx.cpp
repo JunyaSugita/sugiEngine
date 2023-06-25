@@ -209,7 +209,6 @@ void Fbx::CreateGraphicsPipeline()
 	if (FAILED(result)) {
 		assert(0);
 	}
-
 }
 
 void Fbx::Initialize()
