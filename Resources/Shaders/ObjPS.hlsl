@@ -10,6 +10,9 @@ struct PSOutput
 	float4 target2 : SV_TARGET2;
 	float4 target3 : SV_TARGET3;
 	float4 target4 : SV_TARGET4;
+	float4 target5 : SV_TARGET5;
+	float4 target6 : SV_TARGET6;
+	float4 target7 : SV_TARGET7;
 };
 
 PSOutput main(VSOutput input)
