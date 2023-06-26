@@ -102,7 +102,7 @@ void GameScene::Update()
 	}
 
 	{
-		Begin("Effect");
+		Begin("PostEffect");
 		if (Button("Clear", { 100,30 })) {
 			PostEffect::SetClear();
 		}
@@ -132,7 +132,7 @@ void GameScene::Update()
 		}
 		End();
 
-		Begin("obj");
+		Begin("Object");
 		SliderFloat("spherePosX", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
 		End();
 	}
