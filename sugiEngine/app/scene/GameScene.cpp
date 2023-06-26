@@ -44,7 +44,8 @@ void GameScene::Initialize()
 	//ƒ‰ƒCƒg
 	lightGroup_ = LightGroup::Create();
 	Object3d::SetLight(lightGroup_.get());
-	lightGroup_->SetCircleShadowActive(0, true);
+	Fbx::SetLight(lightGroup_.get());
+	//lightGroup_->SetCircleShadowActive(0, true);
 
 	//sound->PlayWave("Alarm01");
 	model1_ = move(FbxLoader::GetInstance()->LoadModelFromFile("boneTest"));
@@ -119,8 +120,14 @@ void GameScene::Update()
 	if (Button("Bloom", { 100,30 })) {
 		PostEffect::SetBloom();
 	}
-	if (Button("Closs", { 100,30 })) {
-		PostEffect::SetCloss();
+	if (Button("Closs4", { 100,30 })) {
+		PostEffect::SetCloss4();
+	}
+	if (Button("Closs6", { 100,30 })) {
+		PostEffect::SetCloss6();
+	}
+	if (Button("Closs8", { 100,30 })) {
+		PostEffect::SetCloss8();
 	}
 	//SliderFloat("float", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
 }

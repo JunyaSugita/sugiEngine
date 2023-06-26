@@ -15,7 +15,9 @@ cbuffer ConstBufferDataEffect : register(b2) {
 	int border;
 	int gray;
 	int bloom;
-	int closs;
+	int closs4;
+	int closs6;
+	int closs8;
 	int moveCloss;
 }
 
