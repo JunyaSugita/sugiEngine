@@ -119,6 +119,9 @@ void GameScene::Update()
 	if (Button("Bloom", { 100,30 })) {
 		PostEffect::SetBloom();
 	}
+	if (Button("Closs", { 100,30 })) {
+		PostEffect::SetCloss();
+	}
 	//SliderFloat("float", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
 }
 

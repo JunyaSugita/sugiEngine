@@ -59,12 +59,36 @@ float4 main(VSOutput input) : SV_TARGET
 			}
 		}
 		col = col / totalWeight;
-		//ƒuƒ‹[ƒ€Œõ‚è•û’²®
-		col.rgb = col.rgb * 1;
 		col.w = 1;
 
 		col.rgb += float3((tex1.Sample(smp, input.uv) * color).rgb);
 		return col;
+	}
+	else if (closs) {
+		float sigma = 0.06f;
+		float stepWidth = 0.005f;
+		float4 col1 = float4(0, 0, 0, 1);
+		float totalWeight1 = 0;
+		float4 col2 = float4(0, 0, 0, 1);
+		float totalWeight2 = 0;
+		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+			float d = distance(input.uv, input.uv + float2(i, i));
+			float weight = exp(-(d * d) / (2 * sigma * sigma));
+			col1 += tex2.Sample(smp, input.uv + float2 (i, i)) * weight;
+			totalWeight1 += weight;
+		}
+		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+			float d = distance(input.uv, input.uv + float2(i, -i));
+			float weight = exp(-(d * d) / (2 * sigma * sigma));
+			col2 += tex2.Sample(smp, input.uv + float2 (i,-i)) * weight;
+			totalWeight2 += weight;
+		}
+		col1 = col1 / totalWeight1;
+		col2 = col2 / totalWeight2;
+		col1 += col2;
+
+		col1.rgb += float3((tex1.Sample(smp, input.uv) * color).rgb);
+		return col1;
 	}
 
 	return float4(float3((tex1.Sample(smp, input.uv) * color).rgb),1);

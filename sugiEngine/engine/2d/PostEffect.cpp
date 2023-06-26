@@ -12,6 +12,8 @@ bool PostEffect::sIsInvertColor = false;
 bool PostEffect::sIsBorder = false;
 bool PostEffect::sIsGray = false;
 bool PostEffect::sIsBloom = false;
+bool PostEffect::sIsCloss = false;
+bool PostEffect::sIsMoveCloss = false;
 
 bool PostEffect::sIsDirty = false;
 
@@ -781,4 +783,6 @@ void PostEffect::SetUp()
 	constMapEffect_->border = sIsBorder;
 	constMapEffect_->gray = sIsGray;
 	constMapEffect_->bloom = sIsBloom;
+	constMapEffect_->closs = sIsCloss;
+	constMapEffect_->moveCloss = sIsMoveCloss;
 }
