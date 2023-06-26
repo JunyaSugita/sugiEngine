@@ -15,6 +15,8 @@ cbuffer ConstBufferDataEffect : register(b2) {
 	int border;
 	int gray;
 	int bloom;
+	int closs;
+	int moveCloss;
 }
 
 //頂点シェーダーの出力構造体

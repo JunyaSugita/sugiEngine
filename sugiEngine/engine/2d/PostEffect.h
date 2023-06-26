@@ -23,6 +23,8 @@ public:
 		uint32_t border;
 		uint32_t gray;
 		uint32_t bloom;
+		uint32_t closs;
+		uint32_t moveCloss;
 	};
 
 public:
@@ -39,6 +41,8 @@ public:
 		sIsBorder = false;
 		sIsGray = false;
 		sIsBloom = false;
+		sIsCloss = false;
+		sIsMoveCloss = false;
 
 		sIsDirty = true;
 	}
@@ -63,6 +67,14 @@ public:
 		SetClear();
 		sIsBloom = true;
 	}
+	static void SetCloss() {
+		SetClear();
+		sIsCloss = true;
+	}
+	static void SetMoveCloss() {
+		SetClear();
+		sIsMoveCloss = true;
+	}
 
 public:
 	static const float CLEAR_COLOR[4];
@@ -73,6 +85,8 @@ public:
 	static bool sIsBorder;
 	static bool sIsGray;
 	static bool sIsBloom;
+	static bool sIsCloss;
+	static bool sIsMoveCloss;
 
 	static bool sIsDirty;
 private:
