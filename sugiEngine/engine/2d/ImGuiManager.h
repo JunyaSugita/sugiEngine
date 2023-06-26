@@ -45,8 +45,6 @@ public:
 	/// </summary>
 	void Draw();
 
-	void Text(const char* text,...);
-
 private:
 	//SRV用デスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvHeap_;

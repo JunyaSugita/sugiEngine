@@ -87,8 +87,3 @@ void ImGuiManager::Draw()
 	//•`‰æƒRƒ}ƒ“ƒh
 	ImGui_ImplDX12_RenderDrawData(GetDrawData(), commandList);
 }
-
-void ImGuiManager::Text(const char* text, ...)
-{
-	ImGui::Text(text);
-}

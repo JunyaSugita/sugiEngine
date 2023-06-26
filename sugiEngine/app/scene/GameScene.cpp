@@ -57,7 +57,7 @@ void GameScene::Initialize()
 
 	//ƒJƒƒ‰
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
-	Camera::GetInstance()->SetEye(Vector3(0, 12, -1));
+	Camera::GetInstance()->SetEye(Vector3(0, 10, -1));
 }
 
 void GameScene::Update()
@@ -101,40 +101,46 @@ void GameScene::Update()
 		GameManager::GetInstance()->SetTitleScene();
 	}
 
-	//Text("Hello,world %f", sphereWorldTransform_.GetPos().x);
-	if (Button("Clear",{100,30})) {
-		PostEffect::SetClear();
+	{
+		Begin("Effect");
+		if (Button("Clear", { 100,30 })) {
+			PostEffect::SetClear();
+		}
+		if (Button("Blur", { 100,30 })) {
+			PostEffect::SetBlur();
+		}
+		if (Button("InvertColor", { 100,30 })) {
+			PostEffect::SetInvertColor();
+		}
+		if (Button("Border", { 100,30 })) {
+			PostEffect::SetBorder();
+		}
+		if (Button("Gray", { 100,30 })) {
+			PostEffect::SetGray();
+		}
+		if (Button("Bloom", { 100,30 })) {
+			PostEffect::SetBloom();
+		}
+		if (Button("Closs4", { 100,30 })) {
+			PostEffect::SetCloss4();
+		}
+		if (Button("Closs6", { 100,30 })) {
+			PostEffect::SetCloss6();
+		}
+		if (Button("Closs8", { 100,30 })) {
+			PostEffect::SetCloss8();
+		}
+		End();
+
+		Begin("obj");
+		SliderFloat("spherePosX", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
+		End();
 	}
-	if (Button("Blur", { 100,30 })) {
-		PostEffect::SetBlur();
-	}
-	if (Button("InvertColor", { 100,30 })) {
-		PostEffect::SetInvertColor();
-	}
-	if (Button("Border", { 100,30 })) {
-		PostEffect::SetBorder();
-	}
-	if (Button("Gray", { 100,30 })) {
-		PostEffect::SetGray();
-	}
-	if (Button("Bloom", { 100,30 })) {
-		PostEffect::SetBloom();
-	}
-	if (Button("Closs4", { 100,30 })) {
-		PostEffect::SetCloss4();
-	}
-	if (Button("Closs6", { 100,30 })) {
-		PostEffect::SetCloss6();
-	}
-	if (Button("Closs8", { 100,30 })) {
-		PostEffect::SetCloss8();
-	}
-	//SliderFloat("float", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
 }
 
 void GameScene::BackSpriteDraw()
 {
-	dogSprite_.Draw();
+	//dogSprite_.Draw();
 }
 
 void GameScene::Draw()
@@ -144,7 +150,7 @@ void GameScene::Draw()
 
 void GameScene::ObjDraw()
 {
-	//sphereObj_->Draw();
+	sphereObj_->Draw();
 	groundObj_->Draw();
 	boxObj_->Draw();
 }
