@@ -121,12 +121,45 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		&srvDesc,
 		descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
 	);
+
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPUへの転送用
+	//リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataB1) + 0xff) & ~0xff;	//256バイトアライメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//定数バッファの生成2
+	result = device->CreateCommittedResource(
+		&cbHeapProp,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,	//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffB1_)
+	);
+	assert(SUCCEEDED(result));
+
+	result = constBuffB1_->Map(0, nullptr, (void**)&constMap1_);
+	constMap1_->ambient = material_.ambient;
+	constMap1_->diffuse = material_.diffuse;
+	constMap1_->specular = material_.specular;
+	constMap1_->alpha = material_.alpha;
+	constMap1_->color = { 1,1,1,1 };
 }
 
 void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	cmdList->IASetVertexBuffers(0, 1, &vbView_);
 	cmdList->IASetIndexBuffer(&ibView_);
+
+	cmdList->SetGraphicsRootConstantBufferView(3, constBuffB1_->GetGPUVirtualAddress());
 
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV_.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);

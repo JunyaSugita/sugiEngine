@@ -12,7 +12,9 @@ bool PostEffect::sIsInvertColor = false;
 bool PostEffect::sIsBorder = false;
 bool PostEffect::sIsGray = false;
 bool PostEffect::sIsBloom = false;
-bool PostEffect::sIsCloss = false;
+bool PostEffect::sIsCloss4 = false;
+bool PostEffect::sIsCloss6 = false;
+bool PostEffect::sIsCloss8 = false;
 bool PostEffect::sIsMoveCloss = false;
 
 bool PostEffect::sIsDirty = false;
@@ -783,6 +785,8 @@ void PostEffect::SetUp()
 	constMapEffect_->border = sIsBorder;
 	constMapEffect_->gray = sIsGray;
 	constMapEffect_->bloom = sIsBloom;
-	constMapEffect_->closs = sIsCloss;
+	constMapEffect_->closs4 = sIsCloss4;
+	constMapEffect_->closs6 = sIsCloss6;
+	constMapEffect_->closs8 = sIsCloss8;
 	constMapEffect_->moveCloss = sIsMoveCloss;
 }

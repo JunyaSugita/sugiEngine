@@ -23,7 +23,9 @@ public:
 		uint32_t border;
 		uint32_t gray;
 		uint32_t bloom;
-		uint32_t closs;
+		uint32_t closs4;
+		uint32_t closs6;
+		uint32_t closs8;
 		uint32_t moveCloss;
 	};
 
@@ -41,7 +43,9 @@ public:
 		sIsBorder = false;
 		sIsGray = false;
 		sIsBloom = false;
-		sIsCloss = false;
+		sIsCloss4 = false;
+		sIsCloss6 = false;
+		sIsCloss8 = false;
 		sIsMoveCloss = false;
 
 		sIsDirty = true;
@@ -67,9 +71,17 @@ public:
 		SetClear();
 		sIsBloom = true;
 	}
-	static void SetCloss() {
+	static void SetCloss4() {
 		SetClear();
-		sIsCloss = true;
+		sIsCloss4 = true;
+	}
+	static void SetCloss6() {
+		SetClear();
+		sIsCloss6 = true;
+	}
+	static void SetCloss8() {
+		SetClear();
+		sIsCloss8 = true;
 	}
 	static void SetMoveCloss() {
 		SetClear();
@@ -85,7 +97,9 @@ public:
 	static bool sIsBorder;
 	static bool sIsGray;
 	static bool sIsBloom;
-	static bool sIsCloss;
+	static bool sIsCloss4;
+	static bool sIsCloss6;
+	static bool sIsCloss8;
 	static bool sIsMoveCloss;
 
 	static bool sIsDirty;

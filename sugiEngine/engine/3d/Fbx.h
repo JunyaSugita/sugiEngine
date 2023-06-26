@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "WorldTransform.h"
 #include "FbxLoader.h"
+#include "LightGroup.h"
 
 #include <Windows.h>
 #include <wrl.h>
@@ -49,6 +50,10 @@ public:
 
 	static void PostDraw();
 
+	static void SetLight(LightGroup* lightGroup) {
+		lightGroup_ = lightGroup;
+	}
+
 public:
 	void Initialize();
 	void Update();
@@ -88,5 +93,8 @@ private:
 	FbxTime endTime;
 	FbxTime currentTime;
 	bool isPlay = false;
+
+	//ƒ‰ƒCƒg
+	static LightGroup* lightGroup_;
 };
 

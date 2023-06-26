@@ -10,6 +10,7 @@ Camera* Fbx::camera_ = nullptr;
 ComPtr<ID3D12RootSignature> Fbx::sRootSignature;
 ComPtr<ID3D12PipelineState> Fbx::sPipelineState;
 ID3D12GraphicsCommandList* Fbx::sCmdList = nullptr;
+LightGroup* Fbx::lightGroup_ = nullptr;
 
 void Fbx::CreateGraphicsPipeline()
 {
@@ -155,7 +156,7 @@ void Fbx::CreateGraphicsPipeline()
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParams[3] = {};
+	D3D12_ROOT_PARAMETER rootParams[5] = {};
 	// CBV（座標変換行列用）
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
 	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
@@ -171,6 +172,16 @@ void Fbx::CreateGraphicsPipeline()
 	rootParams[2].Descriptor.ShaderRegister = 3;					//定数バッファ番号
 	rootParams[2].Descriptor.RegisterSpace = 0;						//デフォルト値
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
+	//
+	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[3].Descriptor.ShaderRegister = 1;					//定数バッファ番号
+	rootParams[3].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
+	//
+	rootParams[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[4].Descriptor.ShaderRegister = 2;					//定数バッファ番号
+	rootParams[4].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
 
 	// スタティックサンプラー
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -315,6 +326,7 @@ void Fbx::Draw()
 	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform_->GetGPUVirtualAddress());
 	sCmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin_->GetGPUVirtualAddress());
 
+	lightGroup_->Draw(sCmdList, 4);
 	model_->Draw(sCmdList);
 }
 
