@@ -51,7 +51,8 @@ public:
 	void SetModel(Model* model) {
 		model_ = model;
 	}
-	void SetWorldTransform(const WorldTransform& worldTransform) {
+	void SetWorldTransform(WorldTransform& worldTransform) {
+		worldTransform.SetWorldMat();
 		worldTransform_ = worldTransform;
 	}
 	void SetColor(const Vector4& color) {

@@ -53,6 +53,10 @@ void GameScene::Update()
 		GameManager::GetInstance()->SetTitleScene();
 	}
 
+	if (input->TriggerKey(DIK_SPACE)) {
+		enemyM->Set();
+	}
+
 #pragma region Update呼び出し
 	//Update呼び出し
 	player->Update();//プレイヤー

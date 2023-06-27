@@ -19,11 +19,15 @@ EnemyManager* EnemyManager::GetInstance()
 
 void EnemyManager::Initialize()
 {
-	Set();
 }
 
 void EnemyManager::Update()
 {
+	//Á‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½“G‚Ìíœ
+	enemys_.remove_if([](unique_ptr<Enemy>& enemy) {
+		return enemy->GetIsDead();
+	});
+
 	for (unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update();
 	}
