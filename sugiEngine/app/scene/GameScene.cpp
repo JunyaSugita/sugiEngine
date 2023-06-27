@@ -57,7 +57,7 @@ void GameScene::Initialize()
 
 	//ƒJƒƒ‰
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
-	Camera::GetInstance()->SetEye(Vector3(0, 10, -1));
+	Camera::GetInstance()->SetEye(Vector3(0, 1, -10));
 }
 
 void GameScene::Update()
@@ -140,7 +140,7 @@ void GameScene::Update()
 
 void GameScene::BackSpriteDraw()
 {
-	//dogSprite_.Draw();
+	dogSprite_.Draw();
 }
 
 void GameScene::Draw()
