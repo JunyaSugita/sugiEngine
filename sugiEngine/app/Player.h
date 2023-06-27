@@ -19,8 +19,13 @@ public:
 	void Draw();
 
 private:
-	const float CAMERA_Y = 2.0f;//プレイヤーの目線調整
-	const float SPEED = 0.5f;	//プレイヤーのスピード
+	void Move();
+	void CameraMove();
+
+private:
+	const Vector3 CAMERA_EYE = { 0.0f,2.0f,0.0f };//プレイヤーの目線調整
+	const float SPEED_MOVE = 0.5f;	//プレイヤーのスピード
+	const float SPEED_CAMERA = 1.0f;	//カメラのスピード
 
 private:
 	Vector3 pos_;

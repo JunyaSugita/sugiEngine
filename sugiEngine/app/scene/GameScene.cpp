@@ -72,12 +72,6 @@ void GameScene::Update()
 
 #pragma endregion
 
-	if (input->PushKey(DIK_LEFT)) {
-		sphereWorldTransform_.AddPosX(-0.3f);
-	}
-	if (input->PushKey(DIK_RIGHT)) {
-		sphereWorldTransform_.AddPosX(0.3f);
-	}
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);
 	sphereObj_->Update();
 	groundObj_->SetWorldTransform(groundWorldTransform_);
