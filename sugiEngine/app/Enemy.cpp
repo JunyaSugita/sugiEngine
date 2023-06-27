@@ -42,23 +42,23 @@ void Enemy::Update()
 	pos_.z += len.y * SPEED_MOVE;
 	
 	//ƒvƒŒƒCƒ„[‚Ì•û‚ðŒü‚­
-	float angle_ = atan2(len.cross({ 0,-1 }), -len.dot({ 0,-1 })) / PI * -180 - 90;
-	while (rot_.y - angle_ > 180 || rot_.y - angle_ < -180) {
-		if (rot_.y - angle_ > 180) {
-			rot_.y -= 360;
+	float angle_ = atan2(len.cross({ 0,-1 }), -len.dot({ 0,-1 })) / PI * -RADIAN - (RADIAN / 2);
+	while (rot_.y - angle_ > RADIAN || rot_.y - angle_ < -RADIAN) {
+		if (rot_.y - angle_ > RADIAN) {
+			rot_.y -= RADIAN * 2;
 		}
-		if (rot_.y - angle_ < -180) {
-			rot_.y += 360;
+		if (rot_.y - angle_ < -RADIAN) {
+			rot_.y += RADIAN * 2;
 		}
 	}
 	if (rot_.y - angle_ < 0) {
-		rot_.y += 1;
+		rot_.y += SPEED_ANGLE;
 		if (rot_.y - angle_ > 0) {
 			rot_.y = angle_;
 		}
 	}
 	else {
-		rot_.y -= 1;
+		rot_.y -= SPEED_ANGLE;
 		if (rot_.y - angle_ < 0) {
 			rot_.y = angle_;
 		}

@@ -20,6 +20,8 @@ private:
 
 private:
 	const float SPEED_MOVE = 0.05f;
+	const float SPEED_ANGLE = 1;
+	const float RADIAN = 180;
 
 private:
 	//–{‘Ì
