@@ -2,8 +2,6 @@
 #include "Camera.h"
 #include "Input.h"
 
-float Radian(float r);
-
 Player::Player()
 {
 }

@@ -97,6 +97,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="sugiEngine\app\Enemy.cpp" />
+    <ClCompile Include="sugiEngine\app\EnemyManager.cpp" />
     <ClCompile Include="sugiEngine\app\Player.cpp" />
     <ClCompile Include="sugiEngine\engine\2d\PostEffect.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Camera.cpp" />
@@ -129,6 +131,8 @@
     <ClCompile Include="sugiEngine\engine\3d\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sugiEngine\app\Enemy.h" />
+    <ClInclude Include="sugiEngine\app\EnemyManager.h" />
     <ClInclude Include="sugiEngine\app\Player.h" />
     <ClInclude Include="sugiEngine\engine\2d\PostEffect.h" />
     <ClInclude Include="sugiEngine\engine\3d\Camera.h" />

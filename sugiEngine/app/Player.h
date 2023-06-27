@@ -1,7 +1,7 @@
 #pragma once
 #include "SugiMath.h"
 
-class Player{
+class Player final{
 private:
 	Player();
 	~Player();
@@ -33,3 +33,5 @@ private:
 	Vector3 frontVec_;
 	Vector3 rightVec_;
 };
+
+float Radian(float r);
