@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "FbxLoader.h"
 #include "PostEffect.h"
+#include "Player.h"
 
 using namespace ImGui;
 
@@ -58,12 +59,18 @@ void GameScene::Initialize()
 	//カメラ
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
 	Camera::GetInstance()->SetEye(Vector3(0, 1, -10));
+
+	//プレイヤー
+	Player::GetInstance()->Initialize();
 }
 
 void GameScene::Update()
 {
-
+#pragma region インスタンス呼び出し
 	Input* input = Input::GetInstance();
+	Player* player = Player::GetInstance();
+
+#pragma endregion
 
 	if (input->PushKey(DIK_LEFT)) {
 		sphereWorldTransform_.AddPosX(-0.3f);
@@ -101,6 +108,13 @@ void GameScene::Update()
 		GameManager::GetInstance()->SetTitleScene();
 	}
 
+#pragma region Update呼び出し
+	//プレイヤー呼び出し
+	player->Update();
+
+#pragma endregion
+
+#pragma region ImGui
 	{
 		Begin("PostEffect");
 		if (Button("Clear", { 100,30 })) {
@@ -136,6 +150,9 @@ void GameScene::Update()
 		SliderFloat("spherePosX", sphereWorldTransform_.GetPosPointerX(), -5.0f, 5.0f);
 		End();
 	}
+
+#pragma endregion
+
 }
 
 void GameScene::BackSpriteDraw()

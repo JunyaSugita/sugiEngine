@@ -100,6 +100,28 @@ public:
 		}
 		target_[num] = target;
 	}
+	void SetTargetX(float target, int32_t num = -1) {
+		if (num == -1) {
+			target_[activeNum_].x = target;
+			return;
+		}
+		target_[num].x = target;
+	}
+	void SetTargetY(float target, int32_t num = -1) {
+		if (num == -1) {
+			target_[activeNum_].y = target;
+			return;
+		}
+		target_[num].y = target;
+	}
+	void SetTargetZ(float target, int32_t num = -1) {
+		if (num == -1) {
+			target_[activeNum_].z = target;
+			return;
+		}
+		target_[num].z = target;
+	}
+	
 	Vector3 GetTarget(int32_t num = -1) {
 		if (num == -1) {
 			return target_[activeNum_];
@@ -122,6 +144,7 @@ public:
 		return &targetXM_;
 	}
 
+	//up
 	void SetUp(const Vector3& up,int32_t num = -1) {
 		if (num == -1) {
 			up_[activeNum_] = up;

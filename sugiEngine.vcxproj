@@ -58,7 +58,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -83,7 +83,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="sugiEngine\app\Player.cpp" />
     <ClCompile Include="sugiEngine\engine\2d\PostEffect.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Camera.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="sugiEngine\engine\3d\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sugiEngine\app\Player.h" />
     <ClInclude Include="sugiEngine\engine\2d\PostEffect.h" />
     <ClInclude Include="sugiEngine\engine\3d\Camera.h" />
     <ClInclude Include="sugiEngine\engine\3d\Fbx.h" />
