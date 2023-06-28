@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "Input.h"
 #include "EnemyManager.h"
+#include "PlayerWeapon.h"
 
 Player::Player()
 {
@@ -21,17 +22,23 @@ Player* Player::GetInstance()
 void Player::Initialize()
 {
 	pos_ = { 0,0,-50 };
+	rot_ = { 0,0,0 };
+	scale_ = { 1,1,1 };
 	cameraAngle_ = { 0,0 };
 	life_ = 10;
 	isAttack_ = false;
+
+	PlayerWeapon::GetInstance()->Initialize();
 }
 
 void Player::Update()
 {
 	CameraMove();
 	Move();
-
+	WorldTransUpdate();
 	
+	//攻撃
+	Attack();
 
 	//リセット
 	if (Input::GetInstance()->TriggerKey(DIK_R)) {
@@ -41,7 +48,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-
+	PlayerWeapon::GetInstance()->Draw();
 }
 
 void Player::Move()
@@ -104,6 +111,7 @@ void Player::Attack()
 {
 	//インスタンス取得
 	Input* input = Input::GetInstance();
+	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
 
 	if (input->TriggerKey(DIK_SPACE) && !isAttack_) {
 		//攻撃フラグを立てる
@@ -125,6 +133,15 @@ void Player::Attack()
 			attackTime_--;
 		}
 	}
+
+	weapon->Update();
+}
+
+void Player::WorldTransUpdate()
+{
+	worldTrans_.SetPos(pos_);
+	worldTrans_.SetRot(rot_);
+	worldTrans_.SetScale(scale_);
 }
 
 float Radian(float r) {

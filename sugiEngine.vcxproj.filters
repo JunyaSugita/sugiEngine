@@ -183,6 +183,9 @@
     <ClCompile Include="sugiEngine\app\EnemyManager.cpp">
       <Filter>ソース ファイル\app</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\scene\PlayerWeapon.cpp">
+      <Filter>ソース ファイル\app</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -294,6 +297,9 @@
       <Filter>ヘッダー ファイル\app</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\EnemyManager.h">
+      <Filter>ヘッダー ファイル\app</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\PlayerWeapon.h">
       <Filter>ヘッダー ファイル\app</Filter>
     </ClInclude>
   </ItemGroup>

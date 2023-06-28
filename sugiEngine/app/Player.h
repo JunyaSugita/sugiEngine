@@ -1,5 +1,6 @@
 #pragma once
 #include "SugiMath.h"
+#include "WorldTransform.h"
 
 class Player final{
 private:
@@ -43,10 +44,16 @@ public:
 		life_--;
 	}
 
+	//worldTrans
+	WorldTransform GetWorldTrans() {
+		return worldTrans_;
+	}
+
 private:
 	void Move();
 	void CameraMove();
 	void Attack();
+	void WorldTransUpdate();
 
 private:
 	const Vector3 CAMERA_EYE = { 0.0f,5.0f,0.0f };//プレイヤーの目線調整
@@ -57,7 +64,10 @@ private:
 	const float TIME_ATTACK_END_NORMAL = 4.5f * 60.0f;//通常攻撃開始から攻撃判定が無くなるまでの時間
 
 private:
+	WorldTransform worldTrans_;
 	Vector3 pos_;
+	Vector3 rot_;
+	Vector3 scale_;
 	Vector2 cameraAngle_;//カメラ角度
 	Vector3 frontVec_;//正面ベクトル
 	Vector3 rightVec_;//右ベクトル
