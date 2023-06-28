@@ -13,6 +13,9 @@ public:
 	bool GetIsDead() {
 		return isDead_;
 	}
+	void SetIsDead() {
+		isDead_ = true;
+	}
 
 private:
 	void WorldTransUpdate();

@@ -21,12 +21,15 @@ void Player::Initialize()
 {
 	pos_ = { 0,0,-50 };
 	cameraAngle_ = { 0,0 };
+	life_ = 10;
 }
 
 void Player::Update()
 {
 	CameraMove();
 	Move();
+
+	
 
 	//ƒŠƒZƒbƒg
 	if (Input::GetInstance()->TriggerKey(DIK_R)) {

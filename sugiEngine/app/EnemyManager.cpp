@@ -19,6 +19,9 @@ EnemyManager* EnemyManager::GetInstance()
 
 void EnemyManager::Initialize()
 {
+	for (unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->SetIsDead();
+	}
 }
 
 void EnemyManager::Update()
@@ -40,7 +43,7 @@ void EnemyManager::Draw()
 	}
 }
 
-void EnemyManager::Set(Vector3 pos)
+void EnemyManager::PopEnemy(Vector3 pos)
 {
 	unique_ptr<Enemy> newEnemy = make_unique<Enemy>();
 	newEnemy->Initialize();

@@ -19,7 +19,7 @@ public:
 	void Update();
 	void Draw();
 
-	void Set(Vector3 pos = Vector3(0,0,0));
+	void PopEnemy(Vector3 pos = Vector3(0,0,0));
 
 private:
 	std::list<std::unique_ptr<Enemy>> enemys_;

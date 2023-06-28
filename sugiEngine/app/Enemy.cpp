@@ -37,6 +37,7 @@ void Enemy::Update()
 	//ƒvƒŒƒCƒ„[‚É‹ß‚Ã‚¢‚½‚ç€‚Ê
 	if (len.length() <= 0.5f) {
 		isDead_ = true;
+		player->SubLife();
 	}
 	pos_.x += len.x * SPEED_MOVE;
 	pos_.z += len.y * SPEED_MOVE;

@@ -35,6 +35,13 @@ public:
 		pos_.z = pos;
 	}
 
+	//life
+	uint32_t GetLife() {
+		return life_;
+	}
+	void SubLife() {
+		life_--;
+	}
 
 private:
 	void Move();
@@ -50,6 +57,8 @@ private:
 	Vector2 cameraAngle_;
 	Vector3 frontVec_;
 	Vector3 rightVec_;
+
+	int32_t life_;
 };
 
 float Radian(float r);

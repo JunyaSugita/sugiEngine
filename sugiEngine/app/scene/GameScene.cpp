@@ -46,16 +46,21 @@ void GameScene::Update()
 	groundObj_->SetWorldTransform(groundWorldTransform_);
 	groundObj_->Update();
 
+#pragma region ライト
 	//ライト
 	lightGroup_->Update();
+#pragma endregion
+
+#pragma region デバッグ用
 
 	if (input->TriggerKey(DIK_1)) {
 		GameManager::GetInstance()->SetTitleScene();
 	}
 
-	if (input->TriggerKey(DIK_SPACE)) {
-		enemyM->Set();
+	if (input->TriggerKey(DIK_E)) {
+		enemyM->PopEnemy();
 	}
+#pragma endregion
 
 #pragma region Update呼び出し
 	//Update呼び出し
@@ -95,7 +100,8 @@ void GameScene::Update()
 		}
 		End();
 
-		Begin("Object");
+		Begin("PlayerState");
+		Text("Life %d", player->GetLife());
 		End();
 	}
 
