@@ -1,4 +1,5 @@
 #include "EnemyManager.h"
+#include "PlayerWeapon.h"
 
 using namespace std;
 
@@ -26,6 +27,8 @@ void EnemyManager::Initialize()
 
 void EnemyManager::Update()
 {
+	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
+
 	//Á‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½“G‚Ìíœ
 	enemys_.remove_if([](unique_ptr<Enemy>& enemy) {
 		return enemy->GetIsDead();
@@ -33,6 +36,15 @@ void EnemyManager::Update()
 
 	for (unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update();
+		//ƒvƒŒƒCƒ„[‚ªUŒ‚’†‚È‚ç
+		if (weapon->GetIsAt()) {
+			//“–‚½‚è”»’èŒŸõ
+			if ((enemy->GetPos() - weapon->GetHitPos()).length() < weapon->ATTACK_LENGTH) {
+				//“–‚½‚Á‚½”»’è‚ğ“G‚É—^‚¦‚é
+				enemy->SetIsHit();
+			}
+
+		}
 	}
 }
 

@@ -4,7 +4,7 @@
 #include "Object3d.h"
 #include "WorldTransform.h"
 
-class PlayerWeapon final{
+class PlayerWeapon final {
 private:
 	PlayerWeapon();
 	~PlayerWeapon();
@@ -24,13 +24,29 @@ public:
 
 	void NormalMove();
 	void AttackMove(bool isAttackOn);
+	void AttackCol();	//z‚Í”¼Œa
+
+	Vector3 GetPos() {
+		return pos_;
+	}
+
+
+	Vector3 GetHitPos() {
+		return hitPos_;
+	}
+
+	bool GetIsAt() {
+		return isAt_;
+	}
 
 private:
 	void WorldTransUpdate();
 	void SetWorldTrans();
 
-private:
+public:
 	const float SPEED_MOVE = 0.5f;
+	const float ATTACK_RADIUS = 3;
+	const float ATTACK_LENGTH = 4;
 
 private:
 	//–{‘Ì
@@ -39,7 +55,22 @@ private:
 	Vector3 rot_;
 	Vector3 scale_;
 
+	//UŒ‚”»’è
+	bool isAt_;
+
 	//–{‘Ì‚Ìƒ‚ƒfƒ‹ŠÖŒW
 	std::unique_ptr <Model> model_;
 	std::unique_ptr <Object3d> obj_;
+
+	//“–‚½‚è”»’è
+	WorldTransform hitWorldTrans_;
+	Vector3 hitPos_;
+	Vector3 hitRot_;
+	Vector3 hitScale_;
+
+	//“–‚½‚è”»’è‚Ìƒ‚ƒfƒ‹ŠÖŒW
+	std::unique_ptr <Model> hitModel_;
+	std::unique_ptr <Object3d> hitObj_;
+
+
 };

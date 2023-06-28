@@ -10,6 +10,10 @@ public:
 	void Update();
 	void Draw();
 
+	Vector3 GetPos() {
+		return pos_;
+	}
+
 	bool GetIsDead() {
 		return isDead_;
 	}
