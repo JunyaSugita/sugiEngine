@@ -134,7 +134,7 @@ void Player::Attack()
 		}
 	}
 
-	weapon->Update();
+	weapon->Update(isAttack_);
 }
 
 void Player::WorldTransUpdate()

@@ -30,9 +30,16 @@ void PlayerWeapon::Initialize()
 	WorldTransUpdate();
 }
 
-void PlayerWeapon::Update()
+void PlayerWeapon::Update(bool isAttack)
 {
+	//UŒ‚’†‚Í•Ší‚ğU‚é
+	if (isAttack) {
 
+	}
+	//UŒ‚‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í’Êí‚¿
+	else {
+
+	}
 
 	WorldTransUpdate();
 }

@@ -19,7 +19,7 @@ public:
 
 public:
 	void Initialize();
-	void Update();
+	void Update(bool isAttack);
 	void Draw();
 
 private:
@@ -33,6 +33,7 @@ private:
 	Vector3 rot_;
 	Vector3 scale_;
 
+	//–{‘Ì‚Ìƒ‚ƒfƒ‹ŠÖŒW
 	std::unique_ptr <Model> model_;
 	std::unique_ptr <Object3d> obj_;
 };
