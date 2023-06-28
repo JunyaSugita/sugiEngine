@@ -33,9 +33,9 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	CameraMove();
 	Move();
 	WorldTransUpdate();
+	CameraMove();
 	
 	//UŒ‚
 	Attack();

@@ -22,9 +22,14 @@ public:
 	void Update(bool isAttack);
 	void Draw();
 
+	void NormalMove();
+
 private:
 	void WorldTransUpdate();
 	void SetWorldTrans();
+
+private:
+	const float SPEED_MOVE = 0.5f;
 
 private:
 	//–{‘Ì

@@ -1,5 +1,9 @@
 #include "PlayerWeapon.h"
 #include "Player.h"
+#include "ImGuiManager.h"
+#include "Input.h"
+
+using namespace ImGui;
 
 PlayerWeapon::PlayerWeapon()
 {
@@ -22,7 +26,7 @@ void PlayerWeapon::Initialize()
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(model_.get());
 	
-	pos_ = { 0,0,0 };
+	pos_ = { 0,4,-49 };
 	rot_ = { 0,0,0 };
 	scale_ = { 1,10,1 };
 
@@ -41,12 +45,11 @@ void PlayerWeapon::Update(bool isAttack)
 	}
 	//攻撃していないときは通常持ち
 	else {
-		pos_ = player->GetPos();
-		pos_.x += 1.0f + float(sin(Radian(player->GetCameraAngle().x)) * 1);
-		pos_.y += 4.0f;
-		pos_.z += 1.0f + float(cos(Radian(player->GetCameraAngle().x)) * 1);
-		rot_.x = 30;
-		rot_.y = player->GetCameraAngle().x;
+		NormalMove();
+		Begin("weapon");
+		Text("length %f", (player->GetPos() - pos_).length());
+		End();
+		
 	}
 
 	WorldTransUpdate();
@@ -55,6 +58,31 @@ void PlayerWeapon::Update(bool isAttack)
 void PlayerWeapon::Draw()
 {
 	obj_->Draw();
+}
+
+void PlayerWeapon::NormalMove()
+{
+	//インスタンス取得
+	Input* input = Input::GetInstance();
+	Player* player = Player::GetInstance();
+
+	Vector3 moveZ = { player->GetFrontVec().x,0, player->GetFrontVec().z};
+	moveZ.normalize();
+	Vector3 moveX = { player->GetRightVec().x,0,player->GetRightVec().z };
+	moveX.normalize();
+	//移動
+	if (input->PushKey(DIK_W)) {
+		pos_ += moveZ * SPEED_MOVE;
+	}
+	if (input->PushKey(DIK_S)) {
+		pos_ -= moveZ * SPEED_MOVE;
+	}
+	if (input->PushKey(DIK_A)) {
+		pos_ -= moveX * SPEED_MOVE;
+	}
+	if (input->PushKey(DIK_D)) {
+		pos_ += moveX * SPEED_MOVE;
+	}
 }
 
 void PlayerWeapon::WorldTransUpdate()

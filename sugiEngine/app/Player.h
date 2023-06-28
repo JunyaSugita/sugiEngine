@@ -54,6 +54,14 @@ public:
 		return cameraAngle_;
 	}
 
+	//vec
+	Vector3 GetFrontVec() {
+		return frontVec_;
+	}
+	Vector3 GetRightVec() {
+		return rightVec_;
+	}
+
 private:
 	void Move();
 	void CameraMove();
