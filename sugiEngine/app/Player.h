@@ -49,6 +49,11 @@ public:
 		return worldTrans_;
 	}
 
+	//cameraAngle
+	Vector2 GetCameraAngle() {
+		return cameraAngle_;
+	}
+
 private:
 	void Move();
 	void CameraMove();

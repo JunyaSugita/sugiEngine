@@ -22,9 +22,7 @@ void PlayerWeapon::Initialize()
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(model_.get());
 	
-	playerWorldTrans_ = Player::GetInstance()->GetWorldTrans();
-	worldTrans_.parent_ = &playerWorldTrans_;
-	pos_ = { 0,0,5 };
+	pos_ = { 0,0,0 };
 	rot_ = { 0,0,0 };
 	scale_ = { 1,10,1 };
 
@@ -33,16 +31,22 @@ void PlayerWeapon::Initialize()
 
 void PlayerWeapon::Update(bool isAttack)
 {
-	//ƒvƒŒƒCƒ„[‚ÌworldTransŽæ“¾
-	playerWorldTrans_ = Player::GetInstance()->GetWorldTrans();
-
+	Player* player = Player::GetInstance();
 	//UŒ‚’†‚Í•Ší‚ðU‚é
 	if (isAttack) {
-
+		pos_ = player->GetPos();
+		pos_.y += 4.5f;
+		pos_.z += 2.0f;
+		rot_ = { 90,0,0 };
 	}
 	//UŒ‚‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í’ÊíŽ‚¿
 	else {
-
+		pos_ = player->GetPos();
+		pos_.x += 1.0f + float(sin(Radian(player->GetCameraAngle().x)) * 1);
+		pos_.y += 4.0f;
+		pos_.z += 1.0f + float(cos(Radian(player->GetCameraAngle().x)) * 1);
+		rot_.x = 30;
+		rot_.y = player->GetCameraAngle().x;
 	}
 
 	WorldTransUpdate();

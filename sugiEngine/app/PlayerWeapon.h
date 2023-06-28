@@ -36,7 +36,4 @@ private:
 	//本体のモデル関係
 	std::unique_ptr <Model> model_;
 	std::unique_ptr <Object3d> obj_;
-
-	//プレイヤーのworldTrans
-	WorldTransform playerWorldTrans_;
 };
