@@ -23,6 +23,7 @@ public:
 	void Draw();
 
 	void NormalMove();
+	void AttackMove();
 
 private:
 	void WorldTransUpdate();
