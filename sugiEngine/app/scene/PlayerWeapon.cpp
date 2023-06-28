@@ -21,17 +21,21 @@ void PlayerWeapon::Initialize()
 	model_ = move(Model::LoadFromObj("box"));
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(model_.get());
-
-	worldTrans_.parent_ = &Player::GetInstance()->GetWorldTrans();
-	pos_ = { 0,0,1 };
+	
+	playerWorldTrans_ = Player::GetInstance()->GetWorldTrans();
+	worldTrans_.parent_ = &playerWorldTrans_;
+	pos_ = { 0,0,5 };
 	rot_ = { 0,0,0 };
-	scale_ = { 1,10,1 };
+	scale_ = { 1,1,1 };
 
 	WorldTransUpdate();
 }
 
 void PlayerWeapon::Update(bool isAttack)
 {
+	//ƒvƒŒƒCƒ„[‚ÌworldTransæ“¾
+	playerWorldTrans_ = Player::GetInstance()->GetWorldTrans();
+
 	//UŒ‚’†‚Í•Ší‚ğU‚é
 	if (isAttack) {
 

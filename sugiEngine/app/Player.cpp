@@ -139,7 +139,7 @@ void Player::Attack()
 
 void Player::WorldTransUpdate()
 {
-	worldTrans_.SetPos(pos_);
+	worldTrans_.SetPos(pos_ + CAMERA_EYE);
 	worldTrans_.SetRot(rot_);
 	worldTrans_.SetScale(scale_);
 }

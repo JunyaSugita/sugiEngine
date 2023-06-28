@@ -45,7 +45,7 @@ public:
 	}
 
 	//worldTrans
-	WorldTransform GetWorldTrans() {
+	WorldTransform& GetWorldTrans() {
 		return worldTrans_;
 	}
 

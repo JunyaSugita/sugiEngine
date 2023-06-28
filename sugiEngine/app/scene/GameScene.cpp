@@ -120,6 +120,7 @@ void GameScene::Draw()
 void GameScene::ObjDraw()
 {
 	groundObj_->Draw();
+	Player::GetInstance()->Draw();
 	EnemyManager::GetInstance()->Draw();
 }
 
