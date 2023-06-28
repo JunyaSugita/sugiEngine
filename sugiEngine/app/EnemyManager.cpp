@@ -50,3 +50,10 @@ void EnemyManager::PopEnemy(Vector3 pos)
 
 	enemys_.push_back(move(newEnemy));
 }
+
+void EnemyManager::ResetIsHit()
+{
+	for (unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->ResetIsHit();
+	}
+}

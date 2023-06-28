@@ -20,6 +20,7 @@ public:
 	void Draw();
 
 	void PopEnemy(Vector3 pos = Vector3(0,0,0));
+	void ResetIsHit();
 
 private:
 	std::list<std::unique_ptr<Enemy>> enemys_;

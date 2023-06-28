@@ -46,19 +46,26 @@ public:
 private:
 	void Move();
 	void CameraMove();
+	void Attack();
 
 private:
 	const Vector3 CAMERA_EYE = { 0.0f,5.0f,0.0f };//プレイヤーの目線調整
 	const float SPEED_MOVE = 0.5f;	//プレイヤーのスピード
 	const float SPEED_CAMERA = 3.0f;	//カメラのスピード
+	const float TIME_ATTACK_NORMAL = 5.0f * 60.0f;	//通常攻撃のスピード
+	const float TIME_ATTACK_START_NORMAL = 2.0f * 60.0f;//通常攻撃開始から攻撃判定が出るまでの時間
+	const float TIME_ATTACK_END_NORMAL = 4.5f * 60.0f;//通常攻撃開始から攻撃判定が無くなるまでの時間
 
 private:
 	Vector3 pos_;
-	Vector2 cameraAngle_;
-	Vector3 frontVec_;
-	Vector3 rightVec_;
+	Vector2 cameraAngle_;//カメラ角度
+	Vector3 frontVec_;//正面ベクトル
+	Vector3 rightVec_;//右ベクトル
 
-	int32_t life_;
+	int32_t life_;//体力
+
+	bool isAttack_;//攻撃フラグ
+	float attackTime_;//攻撃時間
 };
 
 float Radian(float r);
