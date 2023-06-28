@@ -6,6 +6,7 @@
 
 class Enemy{
 public:
+	static void OneTimeInitialize();
 	void Initialize();
 	void Update();
 	void Draw();
@@ -41,6 +42,9 @@ private:
 	const Vector2 UP = { 0,-1 };
 
 private:
+	static std::unique_ptr<Model> sModel_;
+	static std::unique_ptr<Model> sEyeModel_;
+private:
 	//–{‘Ì
 	WorldTransform worldTransform_;
 	Vector3 pos_;
@@ -60,7 +64,7 @@ private:
 	bool isHit_;
 
 	//–{‘Ì‚Ìƒ‚ƒfƒ‹ŠÖŒW
-	std::unique_ptr<Model> model_;
+	
 	std::unique_ptr<Object3d> obj_;
 
 	//–Ú
@@ -70,6 +74,6 @@ private:
 	Vector3 eyeScale_;
 
 	//–Ú‚Ìƒ‚ƒfƒ‹ŠÖŒW
-	std::unique_ptr<Model> eyeModel_;
+	
 	std::unique_ptr<Object3d> eyeObj_;
 };

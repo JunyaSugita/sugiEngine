@@ -5,20 +5,13 @@
 
 #include "Player.h"
 #include "EnemyManager.h"
-
+#include "GroundManager.h"
+#include "EffectManager.h"
 
 using namespace ImGui;
 
 void GameScene::Initialize()
 {
-	groundModel_ = move(Model::LoadFromObj("ground"));
-	groundObj_ = move(Object3d::Create());
-	groundObj_->SetModel(groundModel_.get());
-
-	groundWorldTransform_.SetPos(Vector3(0, 0, 0));
-	groundObj_->SetWorldTransform(groundWorldTransform_);
-	groundObj_->Update();
-
 	//ライト
 	lightGroup_ = LightGroup::Create();
 	Object3d::SetLight(lightGroup_.get());
@@ -28,10 +21,16 @@ void GameScene::Initialize()
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
 	Camera::GetInstance()->SetEye(Vector3(0, 1, -10));
 
+	//地面
+	GroundManager::GetInstance()->Initialize();
+
 	//プレイヤー
 	Player::GetInstance()->Initialize();
 	//敵
 	EnemyManager::GetInstance()->Initialize();
+
+	//エフェクト
+	EffectManager::GetInstance()->Initialize();
 }
 
 void GameScene::Update()
@@ -40,11 +39,10 @@ void GameScene::Update()
 	Input* input = Input::GetInstance();
 	Player* player = Player::GetInstance();
 	EnemyManager* enemyM = EnemyManager::GetInstance();
+	GroundManager* groundM = GroundManager::GetInstance();
+	EffectManager* effectM = EffectManager::GetInstance();
 
 #pragma endregion
-
-	groundObj_->SetWorldTransform(groundWorldTransform_);
-	groundObj_->Update();
 
 #pragma region ライト
 	//ライト
@@ -64,8 +62,10 @@ void GameScene::Update()
 
 #pragma region Update呼び出し
 	//Update呼び出し
+	groundM->Update();
 	player->Update();//プレイヤー
 	enemyM->Update();//敵
+	effectM->Update();
 #pragma endregion
 
 #pragma region ImGui
@@ -119,9 +119,10 @@ void GameScene::Draw()
 
 void GameScene::ObjDraw()
 {
-	groundObj_->Draw();
+	GroundManager::GetInstance()->Draw();
 	Player::GetInstance()->Draw();
 	EnemyManager::GetInstance()->Draw();
+	EffectManager::GetInstance()->Draw();
 }
 
 void GameScene::SpriteDraw()

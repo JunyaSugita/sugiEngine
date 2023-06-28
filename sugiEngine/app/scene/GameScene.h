@@ -24,11 +24,6 @@ public:
 public:
 
 private:
-	//モデル
-	std::unique_ptr<Model> groundModel_;
-	std::unique_ptr<Object3d> groundObj_;
-	WorldTransform groundWorldTransform_;
-
 	//ライト関連
 	unique_ptr<LightGroup> lightGroup_ = nullptr;
 };

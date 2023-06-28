@@ -1,11 +1,17 @@
 #include "Burst.h"
 #include <random>
 
+std::unique_ptr <Model> Burst::sSphereModel_;
+
+void Burst::OneTimeInitialize()
+{
+	sSphereModel_ = move(Model::LoadFromObj("box"));
+}
+
 void Burst::Initialize(const Vector3& pos,Vector4 color,float range,float pow) {
 
-	sphereModel_ = move(Model::LoadFromObj("box"));
 	sphereObj_ = move(Object3d::Create());
-	sphereObj_->SetModel(sphereModel_.get());
+	sphereObj_->SetModel(sSphereModel_.get());
 
 	//ƒ‰ƒ“ƒ_ƒ€
 	std::random_device seed_gen;
@@ -55,7 +61,7 @@ void Burst::Initialize(const Vector3& pos,Vector4 color,float range,float pow) {
 void Burst::Update() {
 	sphereWorldTransform_.AddPos(move_);
 	move_.y -= 0.01f;
-	if (sphereWorldTransform_.GetPos().y < -100) {
+	if (sphereWorldTransform_.GetPos().y < -1) {
 		isDead_ = true;
 	}
 	sphereWorldTransform_.AddRot(rotate_);

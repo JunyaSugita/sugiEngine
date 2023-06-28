@@ -7,6 +7,18 @@
 
 class EffectManager
 {
+private:
+	EffectManager();
+	~EffectManager();
+
+public:
+	//コピーコンストラクタ無効
+	EffectManager(const EffectManager& obj) = delete;
+	//代入演算子を無効
+	EffectManager& operator=(const EffectManager& obj) = delete;
+
+	static EffectManager* GetInstance();
+
 public:
 	void Initialize();
 	void Update();

@@ -100,6 +100,7 @@
     <ClCompile Include="sugiEngine\app\Enemy.cpp" />
     <ClCompile Include="sugiEngine\app\EnemyManager.cpp" />
     <ClCompile Include="sugiEngine\app\Graund.cpp" />
+    <ClCompile Include="sugiEngine\app\GroundManager.cpp" />
     <ClCompile Include="sugiEngine\app\Player.cpp" />
     <ClCompile Include="sugiEngine\app\PlayerWeapon.cpp" />
     <ClCompile Include="sugiEngine\engine\2d\PostEffect.cpp" />
@@ -133,6 +134,7 @@
     <ClCompile Include="sugiEngine\engine\3d\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GroundManager.h" />
     <ClInclude Include="sugiEngine\app\Enemy.h" />
     <ClInclude Include="sugiEngine\app\EnemyManager.h" />
     <ClInclude Include="sugiEngine\app\Graund.h" />

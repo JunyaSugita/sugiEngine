@@ -1,16 +1,26 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "ImGuiManager.h"
+#include "EffectManager.h"
+
+std::unique_ptr<Model> Enemy::sModel_;
+std::unique_ptr<Model> Enemy::sEyeModel_;
+
+void Enemy::OneTimeInitialize()
+{
+	sModel_ = move(Model::LoadFromObj("player"));
+	sEyeModel_ = move(Model::LoadFromObj("sphere", true));
+}
 
 void Enemy::Initialize()
 {
-	model_ = move(Model::LoadFromObj("player"));
+	
 	obj_ = move(Object3d::Create());
-	obj_->SetModel(model_.get());
+	obj_->SetModel(sModel_.get());
 
-	eyeModel_ = move(Model::LoadFromObj("sphere",true));
+	
 	eyeObj_ = move(Object3d::Create());
-	eyeObj_->SetModel(eyeModel_.get());
+	eyeObj_->SetModel(sEyeModel_.get());
 
 	pos_ = {0,0,0};
 	rot_ = {0,90,0};
@@ -26,7 +36,7 @@ void Enemy::Initialize()
 	WorldTransUpdate();
 
 	isHit_ = false;
-	life_ = 2;
+	life_ = 4;
 }
 
 void Enemy::Update()
@@ -144,7 +154,26 @@ void Enemy::Move()
 void Enemy::SubLife()
 {
 	life_--;
+	EffectManager::GetInstance()->BurstGenerate({ pos_.x,pos_.y + 4,pos_.z }, 20, { 1,0,0,1 });
 	if (life_ <= 0) {
 		isDead_ = true;
+	}
+	else {
+		switch (life_)
+		{
+		case 1:
+			obj_->SetColor({ 1,0,0,1 });
+			
+			break;
+		case 2:
+			obj_->SetColor({ 1,1,0,1 });
+			break;
+		case 3:
+			obj_->SetColor({ 0,0,1,1 });
+			break;
+		default:
+			break;
+		}
+		
 	}
 }

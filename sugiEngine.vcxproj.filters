@@ -189,6 +189,9 @@
     <ClCompile Include="sugiEngine\app\PlayerWeapon.cpp">
       <Filter>ソース ファイル\app</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\GroundManager.cpp">
+      <Filter>ソース ファイル\app</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -306,6 +309,9 @@
       <Filter>ヘッダー ファイル\app</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\Graund.h">
+      <Filter>ヘッダー ファイル\app</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundManager.h">
       <Filter>ヘッダー ファイル\app</Filter>
     </ClInclude>
   </ItemGroup>
