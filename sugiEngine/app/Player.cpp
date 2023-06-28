@@ -113,28 +113,30 @@ void Player::Attack()
 	Input* input = Input::GetInstance();
 	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
 
+	bool isAttackOn = false;
+
 	if (input->TriggerKey(DIK_SPACE) && !isAttack_) {
 		//攻撃フラグを立てる
 		isAttack_ = true;
 		attackTime_ = TIME_ATTACK_NORMAL;
-		//攻撃判定チェック
-		if (attackTime_ < TIME_ATTACK_NORMAL - TIME_ATTACK_START_NORMAL && attackTime_ > TIME_ATTACK_NORMAL - TIME_ATTACK_END_NORMAL) {
-
-		}
-		//攻撃終了
-		if (attackTime_ <= 0) {
-			//攻撃フラグを消す
-			isAttack_ = false;
-			//敵の多段ヒット回避フラグを消す
-			EnemyManager::GetInstance()->ResetIsHit();
-		}
-		else {
-			//時間を減らす
-			attackTime_--;
-		}
+	}
+	//攻撃判定チェック
+	if (attackTime_ < TIME_ATTACK_NORMAL - TIME_ATTACK_START_NORMAL && attackTime_ > TIME_ATTACK_NORMAL - TIME_ATTACK_END_NORMAL) {
+		isAttackOn = true;
+	}
+	//攻撃終了
+	if (attackTime_ <= 0) {
+		//攻撃フラグを消す
+		isAttack_ = false;
+		//敵の多段ヒット回避フラグを消す
+		EnemyManager::GetInstance()->ResetIsHit();
+	}
+	else {
+		//時間を減らす
+		attackTime_--;
 	}
 
-	weapon->Update(isAttack_);
+	weapon->Update(isAttack_, isAttackOn);
 }
 
 void Player::WorldTransUpdate()

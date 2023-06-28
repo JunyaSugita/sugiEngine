@@ -19,11 +19,11 @@ public:
 
 public:
 	void Initialize();
-	void Update(bool isAttack);
+	void Update(bool isAttack, bool isAttackOn);
 	void Draw();
 
 	void NormalMove();
-	void AttackMove();
+	void AttackMove(bool isAttackOn);
 
 private:
 	void WorldTransUpdate();

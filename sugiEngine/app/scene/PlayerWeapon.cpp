@@ -34,11 +34,11 @@ void PlayerWeapon::Initialize()
 	WorldTransUpdate();
 }
 
-void PlayerWeapon::Update(bool isAttack)
+void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 {
 	//UŒ‚’†‚Í•Ší‚ðU‚é
 	if (isAttack) {
-		AttackMove();
+		AttackMove(isAttackOn);
 	}
 	//UŒ‚‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í’ÊíŽ‚¿
 	else {
@@ -55,19 +55,36 @@ void PlayerWeapon::Draw()
 
 void PlayerWeapon::NormalMove()
 {
+	Camera* camera = Camera::GetInstance();
+	Player* player = Player::GetInstance();
+
+	float nowTime = player->GetTime();
+
+	pos_ = camera->GetEye();
+	pos_.x += 1.5f;
+	pos_.y = 4;
+	pos_.z += 3;
+	rot_ = { 30,0,0 };
 
 }
 
-void PlayerWeapon::AttackMove()
+void PlayerWeapon::AttackMove(bool isAttackOn)
 {
 	Camera* camera = Camera::GetInstance();
+	Player* player = Player::GetInstance();
+
+	float nowTime = player->GetTime();
 
 	pos_ = camera->GetEye();
-	pos_.y = 6;
+	pos_.y = 4 + (nowTime / 30);
 	pos_.z += 3;
-	rot_ = { 90,-5,0 };
-
-	obj_->SetColor({1,0,0,1});
+	rot_ = { 120 - nowTime * 4,-5,0 };
+	if (isAttackOn) {
+		obj_->SetColor({ 1,0,0,1 });
+	}
+	else {
+		obj_->SetColor({ 1,1,1,1 });
+	}
 }
 
 void PlayerWeapon::WorldTransUpdate()

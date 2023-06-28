@@ -54,13 +54,10 @@ public:
 		return cameraAngle_;
 	}
 
-	//vec
-	Vector3 GetFrontVec() {
-		return frontVec_;
-	}
-	Vector3 GetRightVec() {
-		return rightVec_;
-	}
+	//time 
+	float GetTime() {
+		return attackTime_;
+	};
 
 private:
 	void Move();
@@ -68,13 +65,13 @@ private:
 	void Attack();
 	void WorldTransUpdate();
 
-private:
+public:
 	const Vector3 CAMERA_EYE = { 0.0f,5.0f,0.0f };//プレイヤーの目線調整
 	const float SPEED_MOVE = 0.5f;	//プレイヤーのスピード
 	const float SPEED_CAMERA = 3.0f;	//カメラのスピード
-	const float TIME_ATTACK_NORMAL = 5.0f * 60.0f;	//通常攻撃のスピード
-	const float TIME_ATTACK_START_NORMAL = 2.0f * 60.0f;//通常攻撃開始から攻撃判定が出るまでの時間
-	const float TIME_ATTACK_END_NORMAL = 4.5f * 60.0f;//通常攻撃開始から攻撃判定が無くなるまでの時間
+	const float TIME_ATTACK_NORMAL = 0.8f * 60.0f;	//通常攻撃のスピード
+	const float TIME_ATTACK_START_NORMAL = 0.3f * 60.0f;//通常攻撃開始から攻撃判定が出るまでの時間
+	const float TIME_ATTACK_END_NORMAL = 0.75f * 60.0f;//通常攻撃開始から攻撃判定が無くなるまでの時間
 
 private:
 	WorldTransform worldTrans_;
