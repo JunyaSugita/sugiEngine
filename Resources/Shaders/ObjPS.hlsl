@@ -90,7 +90,7 @@ PSOutput main(VSOutput input)
 			float3 lightv = normalize(lightpos - input.worldpos.xyz);
 			float cos = dot(lightv, circleShadows[i].dir);
 			float angleatten = smoothstep(circleShadows[i].factorAngleCos.y, circleShadows[i].factorAngleCos.x, cos);
-			atten *= angleatten;
+            atten *= angleatten;
 
 			shadecolor.rgb -= atten;
 		}

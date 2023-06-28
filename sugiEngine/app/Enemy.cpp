@@ -126,8 +126,6 @@ void Enemy::GetPlayer()
 
 	toPlayer = Vector2((player->GetPos() - pos_).x, (player->GetPos() - pos_).z);
 
-	toPlayer.normalize();
-
 	//ƒvƒŒƒCƒ„[‚É‹ß‚Ã‚¢‚½‚ç€‚Ê
 	if (toPlayer.length() <= 0.5f) {
 		isDead_ = true;
@@ -137,6 +135,8 @@ void Enemy::GetPlayer()
 
 void Enemy::Move()
 {
+	toPlayer.normalize();
+
 	pos_.x += toPlayer.x * SPEED_MOVE;
 	pos_.z += toPlayer.y * SPEED_MOVE;
 }

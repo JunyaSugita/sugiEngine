@@ -26,7 +26,7 @@ void PlayerWeapon::Initialize()
 	worldTrans_.parent_ = &playerWorldTrans_;
 	pos_ = { 0,0,5 };
 	rot_ = { 0,0,0 };
-	scale_ = { 1,1,1 };
+	scale_ = { 1,10,1 };
 
 	WorldTransUpdate();
 }
