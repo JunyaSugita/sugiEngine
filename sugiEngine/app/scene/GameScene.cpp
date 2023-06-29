@@ -8,6 +8,7 @@
 #include "GroundManager.h"
 #include "EffectManager.h"
 #include "SpellManager.h"
+#include "UIManager.h"
 
 using namespace ImGui;
 
@@ -35,6 +36,9 @@ void GameScene::Initialize()
 
 	//–‚–@
 	SpellManager::GetInstance()->Initialize();
+
+	//UI
+	UIManager::GetInstance()->Initialize();
 }
 
 void GameScene::Update()
@@ -46,6 +50,7 @@ void GameScene::Update()
 	GroundManager* groundM = GroundManager::GetInstance();
 	EffectManager* effectM = EffectManager::GetInstance();
 	SpellManager* spellM = SpellManager::GetInstance();
+	UIManager* uiM = UIManager::GetInstance();
 
 #pragma endregion
 
@@ -72,6 +77,7 @@ void GameScene::Update()
 	enemyM->Update();//“G
 	effectM->Update();
 	spellM->Update();
+	uiM->Update();
 #pragma endregion
 
 #pragma region ImGui
@@ -134,6 +140,7 @@ void GameScene::ObjDraw()
 
 void GameScene::SpriteDraw()
 {
+	UIManager::GetInstance()->Draw();
 }
 
 void GameScene::Finalize()
