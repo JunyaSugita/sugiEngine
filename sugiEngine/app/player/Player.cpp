@@ -136,7 +136,7 @@ void Player::Attack()
 		isSpell_ = true;
 	}
 	else {
-		isSpell_;
+		isSpell_ = false;
 	}
 
 	//攻撃判定チェック
