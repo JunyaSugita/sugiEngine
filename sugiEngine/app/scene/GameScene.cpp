@@ -7,6 +7,7 @@
 #include "EnemyManager.h"
 #include "GroundManager.h"
 #include "EffectManager.h"
+#include "SpellManager.h"
 
 using namespace ImGui;
 
@@ -31,6 +32,9 @@ void GameScene::Initialize()
 
 	//エフェクト
 	EffectManager::GetInstance()->Initialize();
+
+	//魔法
+	SpellManager::GetInstance()->Initialize();
 }
 
 void GameScene::Update()
@@ -41,6 +45,7 @@ void GameScene::Update()
 	EnemyManager* enemyM = EnemyManager::GetInstance();
 	GroundManager* groundM = GroundManager::GetInstance();
 	EffectManager* effectM = EffectManager::GetInstance();
+	SpellManager* spellM = SpellManager::GetInstance();
 
 #pragma endregion
 
@@ -51,9 +56,9 @@ void GameScene::Update()
 
 #pragma region デバッグ用
 
-	if (input->TriggerKey(DIK_1)) {
-		GameManager::GetInstance()->SetTitleScene();
-	}
+	//if (input->TriggerKey(DIK_1)) {
+	//	GameManager::GetInstance()->SetTitleScene();
+	//}
 
 	if (input->TriggerKey(DIK_E)) {
 		enemyM->PopEnemy();
@@ -66,6 +71,7 @@ void GameScene::Update()
 	player->Update();//プレイヤー
 	enemyM->Update();//敵
 	effectM->Update();
+	spellM->Update();
 #pragma endregion
 
 #pragma region ImGui
@@ -123,6 +129,7 @@ void GameScene::ObjDraw()
 	Player::GetInstance()->Draw();
 	EnemyManager::GetInstance()->Draw();
 	EffectManager::GetInstance()->Draw();
+	SpellManager::GetInstance()->Draw();
 }
 
 void GameScene::SpriteDraw()

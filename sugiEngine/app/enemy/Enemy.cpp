@@ -25,7 +25,7 @@ void Enemy::Initialize(Vector3 pos)
 
 	isDead_ = false;
 
-	eyeWorldTransform_.parent_ = &worldTransform_;
+	eyeWorldTrans_.parent_ = &worldTrans_;
 	eyePos_ = { 0.3f,4.1f,0 };
 	eyeRot_ = { 0,0,0 };
 	eyeScale_ = { 0.3f,0.3f,0.3f };
@@ -72,22 +72,22 @@ void Enemy::SetIsHit()
 
 void Enemy::WorldTransUpdate()
 {
-	worldTransform_.SetPos(pos_);
-	worldTransform_.SetRot(rot_);
-	worldTransform_.SetScale(scale_);
+	worldTrans_.SetPos(pos_);
+	worldTrans_.SetRot(rot_);
+	worldTrans_.SetScale(scale_);
 
-	eyeWorldTransform_.SetPos(eyePos_);
-	eyeWorldTransform_.SetRot(eyeRot_);
-	eyeWorldTransform_.SetScale(eyeScale_);
+	eyeWorldTrans_.SetPos(eyePos_);
+	eyeWorldTrans_.SetRot(eyeRot_);
+	eyeWorldTrans_.SetScale(eyeScale_);
 
 	SetWorldTrans();
 }
 
 void Enemy::SetWorldTrans()
 {
-	obj_->SetWorldTransform(worldTransform_);
+	obj_->SetWorldTransform(worldTrans_);
 	obj_->Update();
-	eyeObj_->SetWorldTransform(eyeWorldTransform_);
+	eyeObj_->SetWorldTransform(eyeWorldTrans_);
 	eyeObj_->Update();
 }
 

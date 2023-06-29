@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "EnemyManager.h"
 #include "PlayerWeapon.h"
+#include "SpellManager.h"
 
 Player::Player()
 {
@@ -49,6 +50,14 @@ void Player::Update()
 void Player::Draw()
 {
 	PlayerWeapon::GetInstance()->Draw();
+}
+
+bool Player::GetIsCanAction()
+{
+	if (isAttack_ || isSpell_) {
+		return false;
+	}
+	return true;
 }
 
 void Player::Move()
@@ -112,14 +121,24 @@ void Player::Attack()
 	//インスタンス取得
 	Input* input = Input::GetInstance();
 	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
+	SpellManager* spellM = SpellManager::GetInstance();
 
 	bool isAttackOn = false;
 
-	if (input->TriggerKey(DIK_SPACE) && !isAttack_) {
+	if (input->TriggerKey(DIK_SPACE) && GetIsCanAction()) {
 		//攻撃フラグを立てる
 		isAttack_ = true;
 		attackTime_ = TIME_ATTACK_NORMAL;
 	}
+	//ファイアーボールを1に割り当て
+	if ((input->PushKey(DIK_1) || input->ReleaseKey(DIK_1))) {
+		spellM->ChargeFireBall();
+		isSpell_ = true;
+	}
+	else {
+		isSpell_;
+	}
+
 	//攻撃判定チェック
 	if (attackTime_ < TIME_ATTACK_NORMAL - TIME_ATTACK_START_NORMAL && attackTime_ > TIME_ATTACK_NORMAL - TIME_ATTACK_END_NORMAL) {
 		isAttackOn = true;

@@ -103,6 +103,12 @@
     <Filter Include="ヘッダー ファイル\app\player">
       <UniqueIdentifier>{541f585f-1128-4e36-8afc-d3e229ff94c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\app\spell">
+      <UniqueIdentifier>{ed79f357-9476-492e-ab76-1ef20cd5001c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\spell">
+      <UniqueIdentifier>{54259f63-3234-4720-b881-f0af9ac0e85b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sugiEngine\main.cpp">
@@ -209,6 +215,12 @@
     </ClCompile>
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp">
       <Filter>ソース ファイル\app\player</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\SpellManager.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\FireBall.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +343,12 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h">
       <Filter>ヘッダー ファイル\app\player</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\SpellManager.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\FireBall.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -45,7 +45,7 @@ private:
 	static std::unique_ptr<Model> sEyeModel_;
 private:
 	//–{‘Ì
-	WorldTransform worldTransform_;
+	WorldTransform worldTrans_;
 	Vector3 pos_;
 	Vector3 rot_;
 	Vector3 scale_;
@@ -67,7 +67,7 @@ private:
 	std::unique_ptr<Object3d> obj_;
 
 	//–Ú
-	WorldTransform eyeWorldTransform_;
+	WorldTransform eyeWorldTrans_;
 	Vector3 eyePos_;
 	Vector3 eyeRot_;
 	Vector3 eyeScale_;

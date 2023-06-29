@@ -59,6 +59,8 @@ public:
 		return attackTime_;
 	};
 
+	bool GetIsCanAction();
+
 private:
 	void Move();
 	void CameraMove();
@@ -85,6 +87,7 @@ private:
 	int32_t life_;//体力
 
 	bool isAttack_;//攻撃フラグ
+	bool isSpell_;//魔法フラグ
 	float attackTime_;//攻撃時間
 };
 
