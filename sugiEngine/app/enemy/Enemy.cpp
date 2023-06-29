@@ -3,19 +3,18 @@
 #include "ImGuiManager.h"
 #include "EffectManager.h"
 
-std::unique_ptr<Model> Enemy::sModel_;
 std::unique_ptr<Model> Enemy::sEyeModel_;
 
 void Enemy::OneTimeInitialize()
 {
-	sModel_ = move(Model::LoadFromObj("player"));
 	sEyeModel_ = move(Model::LoadFromObj("sphere", true));
 }
 
 void Enemy::Initialize(Vector3 pos)
 {
+	model_ = move(Model::LoadFromObj("player"));
 	obj_ = move(Object3d::Create());
-	obj_->SetModel(sModel_.get());
+	obj_->SetModel(model_.get());
 	
 	eyeObj_ = move(Object3d::Create());
 	eyeObj_->SetModel(sEyeModel_.get());

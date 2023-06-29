@@ -42,7 +42,6 @@ private:
 	const Vector2 UP = { 0,-1 };
 
 private:
-	static std::unique_ptr<Model> sModel_;
 	static std::unique_ptr<Model> sEyeModel_;
 private:
 	//–{‘Ì
@@ -64,7 +63,7 @@ private:
 	bool isHit_;
 
 	//–{‘Ì‚Ìƒ‚ƒfƒ‹ŠÖŒW
-	
+	std::unique_ptr<Model> model_;
 	std::unique_ptr<Object3d> obj_;
 
 	//–Ú

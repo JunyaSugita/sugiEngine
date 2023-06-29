@@ -1,8 +1,10 @@
 #include "EnemyManager.h"
 #include "PlayerWeapon.h"
 #include <random>
+#include "ImGuiManager.h"
 
 using namespace std;
+using namespace ImGui;
 
 EnemyManager::EnemyManager()
 {
@@ -36,8 +38,10 @@ void EnemyManager::Update()
 		return enemy->GetIsDead();
 	});
 
+	int enemyCount = 0;
 	for (unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update();
+		enemyCount++;
 		//ƒvƒŒƒCƒ„[‚ªUŒ‚’†‚È‚ç
 		if (weapon->GetIsAt()) {
 			//“–‚½‚è”»’èŒŸõ
@@ -48,6 +52,10 @@ void EnemyManager::Update()
 
 		}
 	}
+
+	Begin("EnemyState");
+	Text("RemainingEnemies %d",enemyCount);
+	End();
 }
 
 void EnemyManager::Draw()
