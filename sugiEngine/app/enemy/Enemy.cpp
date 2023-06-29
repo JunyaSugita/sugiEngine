@@ -12,17 +12,15 @@ void Enemy::OneTimeInitialize()
 	sEyeModel_ = move(Model::LoadFromObj("sphere", true));
 }
 
-void Enemy::Initialize()
+void Enemy::Initialize(Vector3 pos)
 {
-	
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(sModel_.get());
-
 	
 	eyeObj_ = move(Object3d::Create());
 	eyeObj_->SetModel(sEyeModel_.get());
 
-	pos_ = {0,0,0};
+	pos_ = pos;
 	rot_ = {0,90,0};
 	scale_ = {1,1,1};
 
@@ -51,8 +49,6 @@ void Enemy::Update()
 
 	//移動を適応
 	WorldTransUpdate();
-
-
 }
 
 void Enemy::Draw()
@@ -137,7 +133,7 @@ void Enemy::GetPlayer()
 	toPlayer = Vector2((player->GetPos() - pos_).x, (player->GetPos() - pos_).z);
 
 	//プレイヤーに近づいたら死ぬ
-	if (toPlayer.length() <= 0.5f) {
+	if (toPlayer.length() <= 1.5f) {
 		isDead_ = true;
 		player->SubLife();
 	}
@@ -163,7 +159,6 @@ void Enemy::SubLife()
 		{
 		case 1:
 			obj_->SetColor({ 1,0,0,1 });
-			
 			break;
 		case 2:
 			obj_->SetColor({ 1,1,0,1 });

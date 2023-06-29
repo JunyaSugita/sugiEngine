@@ -64,7 +64,7 @@ void PlayerWeapon::Draw()
 	obj_->Draw();
 
 	if (isAt_) {
-		hitObj_->Draw();
+		//hitObj_->Draw();
 	}
 }
 

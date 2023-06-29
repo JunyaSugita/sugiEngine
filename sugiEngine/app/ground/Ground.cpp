@@ -1,13 +1,13 @@
-#include "Graund.h"
+#include "Ground.h"
 
-std::unique_ptr<Model> Graund::sModel_ = nullptr;
+std::unique_ptr<Model> Ground::sModel_ = nullptr;
 
-void Graund::OneTimeInitialize()
+void Ground::OneTimeInitialize()
 {
 	sModel_ = move(Model::LoadFromObj("ground"));
 }
 
-void Graund::Initialize(Vector3 pos,Vector3 scale)
+void Ground::Initialize(Vector3 pos,Vector3 scale)
 {
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(sModel_.get());
@@ -19,17 +19,17 @@ void Graund::Initialize(Vector3 pos,Vector3 scale)
 	WorldTransUpdate();
 }
 
-void Graund::Update()
+void Ground::Update()
 {
 	WorldTransUpdate();
 }
 
-void Graund::Draw()
+void Ground::Draw()
 {
 	obj_->Draw();
 }
 
-void Graund::WorldTransUpdate()
+void Ground::WorldTransUpdate()
 {
 	worldTrans_.SetPos(pos_);
 	worldTrans_.SetRot(rot_);
@@ -38,7 +38,7 @@ void Graund::WorldTransUpdate()
 	SetWorldTrans();
 }
 
-void Graund::SetWorldTrans()
+void Ground::SetWorldTrans()
 {
 	obj_->SetWorldTransform(worldTrans_);
 	obj_->Update();

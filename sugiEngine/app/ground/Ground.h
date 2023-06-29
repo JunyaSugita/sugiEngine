@@ -4,7 +4,7 @@
 #include "Model.h"
 #include "Object3d.h"
 
-class Graund {
+class Ground {
 public:
 	static void OneTimeInitialize();
 	void Initialize(Vector3 pos, Vector3 scale = Vector3(1,1,1));

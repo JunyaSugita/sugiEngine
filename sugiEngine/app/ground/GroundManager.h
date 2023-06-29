@@ -1,6 +1,6 @@
 #pragma once
 #include "SugiMath.h"
-#include "Graund.h"
+#include "Ground.h"
 
 #include <memory>
 
@@ -23,6 +23,6 @@ public:
 	void Draw();
 
 public:
-	std::unique_ptr<Graund> grounds_[25];
+	std::unique_ptr<Ground> grounds_[25];
 
 };

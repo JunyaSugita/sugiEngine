@@ -7,7 +7,7 @@
 class Enemy{
 public:
 	static void OneTimeInitialize();
-	void Initialize();
+	void Initialize(Vector3 pos = Vector3(0,0,0));
 	void Update();
 	void Draw();
 

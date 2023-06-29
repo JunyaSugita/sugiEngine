@@ -1,5 +1,6 @@
 #include "EnemyManager.h"
 #include "PlayerWeapon.h"
+#include <random>
 
 using namespace std;
 
@@ -58,8 +59,31 @@ void EnemyManager::Draw()
 
 void EnemyManager::PopEnemy(Vector3 pos)
 {
+	//ƒ‰ƒ“ƒ_ƒ€
+	random_device seed_gen;
+	mt19937_64 engine(seed_gen());
+	uniform_real_distribution<float> rand(0.0f, 5.9f);
+
 	unique_ptr<Enemy> newEnemy = make_unique<Enemy>();
-	newEnemy->Initialize();
+	switch (int(rand(engine)))
+	{
+	case 1:
+		newEnemy->Initialize({40,0,40});
+		break;
+	case 2:
+		newEnemy->Initialize({ -40,0,40 });
+		break;
+	case 3:
+		newEnemy->Initialize({ 40,0,-40 });
+		break;
+	case 4:
+		newEnemy->Initialize({ -40,0,-40 });
+		break;
+
+	default:
+		newEnemy->Initialize();
+		break;
+	}
 
 	enemys_.push_back(move(newEnemy));
 }

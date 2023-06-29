@@ -19,10 +19,10 @@ GroundManager* GroundManager::GetInstance()
 
 void GroundManager::Initialize()
 {
-	Graund::OneTimeInitialize();
+	Ground::OneTimeInitialize();
 
 	for (int i = 0; i < 25; i++) {
-		grounds_[i] = make_unique<Graund>();
+		grounds_[i] = make_unique<Ground>();
 	}
 	for (int i = -2; i < 3; i++) {
 		for (int j = -2; j < 3; j++) {
