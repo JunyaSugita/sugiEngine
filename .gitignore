@@ -29,7 +29,6 @@ x64/*/*.obj
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
