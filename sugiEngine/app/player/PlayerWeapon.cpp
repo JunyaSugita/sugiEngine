@@ -55,6 +55,9 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 	else if (SpellManager::GetInstance()->GetIsUseSpell()) {
 		SpellMove();
 	}
+	else if (SpellManager::GetInstance()->ChargeParcent() != 0.0f) {
+		ChargeMove();
+	}
 	//UŒ‚‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í’ÊíŽ‚¿
 	else {
 		NormalMove();
@@ -76,8 +79,6 @@ void PlayerWeapon::Draw()
 void PlayerWeapon::NormalMove()
 {
 	Player* player = Player::GetInstance();
-
-	float nowTime = player->GetTime();
 
 	pos_ = player->GetPos();
 	pos_.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
@@ -111,6 +112,18 @@ void PlayerWeapon::SpellMove()
 		pos_.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
 		rot_ = { (player->GetCameraAngle().y + 90) * -1,player->GetCameraAngle().x,0 };
 	}
+}
+
+void PlayerWeapon::ChargeMove()
+{
+	Player* player = Player::GetInstance();
+	SpellManager* spellM = SpellManager::GetInstance();
+
+	pos_ = player->GetPos();
+	pos_.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
+	pos_.y = 4;
+	pos_.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
+	rot_ = { 30 + float(sin(Radian(spellM->ChargeParcent() * 1000))* 15),player->GetCameraAngle().x,0 + float(cos(Radian(spellM->ChargeParcent() * 1000)) * 15) };
 }
 
 void PlayerWeapon::AttackMove(bool isAttackOn)

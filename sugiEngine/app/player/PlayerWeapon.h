@@ -24,6 +24,7 @@ public:
 
 	void NormalMove();
 	void SpellMove();
+	void ChargeMove();
 	void AttackMove(bool isAttackOn);
 	void AttackCol();	//z‚Í”¼Œa
 

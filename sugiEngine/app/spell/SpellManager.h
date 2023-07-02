@@ -40,6 +40,9 @@ public:
 	void FireMagicMissile();
 
 	float ChargeParcent() {
+		if (maxCharge_ == 0.0f) {
+			return 0.0f;
+		}
 		return chargeTime_ / maxCharge_;
 	};
 	float UseParcent() {
