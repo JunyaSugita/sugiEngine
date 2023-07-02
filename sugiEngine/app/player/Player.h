@@ -72,6 +72,9 @@ public:
 	void SetPresetSpell(uint32_t spellName) {
 		presetSpell_ = spellName;
 	}
+	uint32_t GetPresetSpell(){
+		return presetSpell_;
+	}
 
 private:
 	void Move();
@@ -103,8 +106,8 @@ private:
 	float attackTime_;//UŒ‚ŠÔ
 
 	//‘•”õô•¶
-	//uint32_t presetSpell_ = FIRE_BALL;
-	uint32_t presetSpell_ = MAGIC_MISSILE;
+	uint32_t presetSpell_;
+	float spellAngle_;
 };
 
 float Radian(float r);

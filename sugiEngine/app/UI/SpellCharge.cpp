@@ -1,6 +1,5 @@
 #include "SpellCharge.h"
 #include "Player.h"
-#include "SpellManager.h"
 
 SpellCharge::SpellCharge()
 {

@@ -28,6 +28,8 @@ void Player::Initialize()
 	cameraAngle_ = { 0,0 };
 	life_ = 10;
 	isAttack_ = false;
+	presetSpell_ = FIRE_BALL;
+	spellAngle_ = 0;
 
 	PlayerWeapon::GetInstance()->Initialize();
 }
@@ -37,7 +39,7 @@ void Player::Update()
 	Move();
 	WorldTransUpdate();
 	CameraMove();
-	
+
 	//攻撃
 	Attack();
 }
@@ -60,7 +62,7 @@ void Player::Move()
 	//インスタンス取得
 	Input* input = Input::GetInstance();
 
-	Vector3 moveZ= { frontVec_.x,0,frontVec_.z };
+	Vector3 moveZ = { frontVec_.x,0,frontVec_.z };
 	moveZ.normalize();
 	Vector3 moveX = { rightVec_.x,0,rightVec_.z };
 	moveX.normalize();
@@ -119,20 +121,36 @@ void Player::CameraMove()
 	float stickX = float(input->GetRSteckX()) / 32768.0f;
 	float stickY = float(input->GetRSteckY()) / 32768.0f;
 
-	if (input->GetRSteckX()) {
-		cameraAngle_.x += SPEED_CAMERA * stickX;
-	}
-
-	if (input->GetRSteckY()) {
-		cameraAngle_.y += SPEED_CAMERA * stickY;
-
-		//最大値設定
-		if (cameraAngle_.y > 90) {
-			cameraAngle_.y = 90;
+	if (input->GetLTrigger() < 50) {
+		if (input->GetRSteckX()) {
+			cameraAngle_.x += SPEED_CAMERA * stickX;
 		}
-		//最小値設定
-		if (cameraAngle_.y < -90) {
-			cameraAngle_.y = -90;
+
+		if (input->GetRSteckY()) {
+			cameraAngle_.y += SPEED_CAMERA * stickY;
+
+			//最大値設定
+			if (cameraAngle_.y > 90) {
+				cameraAngle_.y = 90;
+			}
+			//最小値設定
+			if (cameraAngle_.y < -90) {
+				cameraAngle_.y = -90;
+			}
+		}
+
+		if (spellAngle_ >= 0 && spellAngle_ < 72) {
+			presetSpell_ = FIRE_BALL;
+		}
+		else if (spellAngle_ >= 72 && spellAngle_ < 144) {
+			presetSpell_ = MAGIC_MISSILE;
+		}
+	}
+	else {
+		Vector2 len = Vector2(input->GetRSteckX(), input->GetRSteckY());
+		len.normalize();
+		if (input->GetRSteckX() != 0 && input->GetRSteckY() != 0) {
+			spellAngle_ = (atan2(len.cross({ 0,-1 }), -len.dot({ 0,-1 })) / PI * -180 - (180 / 2)) + 90;
 		}
 	}
 
@@ -157,13 +175,13 @@ void Player::Attack()
 
 	bool isAttackOn = false;
 
-	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_RIGHT_SHOULDER))&& GetIsCanAction()) {
+	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_RIGHT_SHOULDER)) && GetIsCanAction()) {
 		//攻撃フラグを立てる
 		isAttack_ = true;
 		attackTime_ = TIME_ATTACK_NORMAL;
 	}
 	//呪文詠唱
-	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER))) {
+	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) && !spellM->GetIsUseSpell()) {
 		switch (presetSpell_)
 		{
 		case FIRE_BALL:
@@ -176,7 +194,7 @@ void Player::Attack()
 		default:
 			break;
 		}
-		
+
 		isSpell_ = true;
 	}
 	else {

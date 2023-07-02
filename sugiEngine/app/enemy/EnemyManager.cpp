@@ -28,6 +28,7 @@ void EnemyManager::Initialize()
 	for (unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->SetIsDead();
 	}
+	enemyCount_ = 0;
 }
 
 void EnemyManager::Update()
@@ -39,11 +40,11 @@ void EnemyManager::Update()
 		return enemy->GetIsDead();
 	});
 
-	int enemyCount = 0;
+	enemyCount_ = 0;
 	for (unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update();
 
-		enemyCount++;
+		enemyCount_++;
 		//プレイヤーが攻撃中なら
 		if (weapon->GetIsAt()) {
 			//当たり判定検索
@@ -55,9 +56,9 @@ void EnemyManager::Update()
 		}
 	}
 
-	Begin("EnemyState");
-	Text("RemainingEnemies %d",enemyCount);
-	End();
+	//Begin("EnemyState");
+	//Text("RemainingEnemies %d",enemyCount);
+	//End();
 }
 
 void EnemyManager::Draw()
@@ -72,7 +73,7 @@ void EnemyManager::PopEnemy(Vector3 pos)
 	//ランダム
 	random_device seed_gen;
 	mt19937_64 engine(seed_gen());
-	uniform_real_distribution<float> rand(0.0f, 5.9f);
+	uniform_real_distribution<float> rand(0.0f, 3.9f);
 
 	unique_ptr<Enemy> newEnemy = make_unique<Enemy>();
 	switch (int(rand(engine)))
@@ -86,12 +87,9 @@ void EnemyManager::PopEnemy(Vector3 pos)
 	case 3:
 		newEnemy->Initialize({ 40,0,-40 });
 		break;
-	case 4:
-		newEnemy->Initialize({ -40,0,-40 });
-		break;
 
 	default:
-		newEnemy->Initialize();
+		newEnemy->Initialize({ -40,0,-40 });
 		break;
 	}
 

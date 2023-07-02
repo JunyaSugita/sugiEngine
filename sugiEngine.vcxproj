@@ -108,7 +108,9 @@
     <ClCompile Include="sugiEngine\app\spell\MagicMissile.cpp" />
     <ClCompile Include="sugiEngine\app\spell\SpellManager.cpp" />
     <ClCompile Include="sugiEngine\app\UI\Closshair.cpp" />
+    <ClCompile Include="sugiEngine\app\UI\SetSpell.cpp" />
     <ClCompile Include="sugiEngine\app\UI\SpellCharge.cpp" />
+    <ClCompile Include="sugiEngine\app\UI\Tutorial.cpp" />
     <ClCompile Include="sugiEngine\app\UI\UIManager.cpp" />
     <ClCompile Include="sugiEngine\engine\2d\PostEffect.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Camera.cpp" />
@@ -152,7 +154,9 @@
     <ClInclude Include="sugiEngine\app\spell\MagicMissile.h" />
     <ClInclude Include="sugiEngine\app\spell\SpellManager.h" />
     <ClInclude Include="sugiEngine\app\UI\Closshair.h" />
+    <ClInclude Include="sugiEngine\app\UI\SetSpell.h" />
     <ClInclude Include="sugiEngine\app\UI\SpellCharge.h" />
+    <ClInclude Include="sugiEngine\app\UI\Tutorial.h" />
     <ClInclude Include="sugiEngine\app\UI\UIManager.h" />
     <ClInclude Include="sugiEngine\engine\2d\PostEffect.h" />
     <ClInclude Include="sugiEngine\engine\3d\Camera.h" />

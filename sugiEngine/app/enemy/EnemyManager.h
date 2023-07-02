@@ -30,7 +30,13 @@ public:
 		return enemysList_;
 	}
 
+	uint32_t GetEnemyCount() {
+		return enemyCount_;
+	}
+
 private:
 	std::list<std::unique_ptr<Enemy>> enemys_;
 	std::vector<Enemy*> enemysList_;
+
+	uint32_t enemyCount_;
 };

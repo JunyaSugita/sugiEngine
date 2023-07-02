@@ -138,7 +138,7 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 	pos_.z += float(cos(Radian(player->GetCameraAngle().x)) * 2);
 	rot_ = { 120 - nowTime * 4,player->GetCameraAngle().x - 5,0 };
 	if (isAttackOn) {
-		obj_->SetColor({ 1,0,0,1 });
+		//obj_->SetColor({ 1,0,0,1 });
 		isAt_ = true;
 		AttackCol();
 	}

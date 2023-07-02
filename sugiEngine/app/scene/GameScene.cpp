@@ -95,6 +95,10 @@ void GameScene::Update()
 	uiM->Update();
 	colM->Update();
 
+	if (enemyM->GetEnemyCount() < 5) {
+		enemyM->PopEnemy();
+	}
+
 #pragma endregion
 
 #pragma region ImGui
@@ -133,23 +137,23 @@ void GameScene::Update()
 		Text("Life %d", player->GetLife());
 		End();
 
-		Begin("DebugButton");
-		if (Button("Reset", { 150,30 })) {
-			Initialize();
-		}
-		if (Button("EnemyPop", { 150,30 })) {
-			enemyM->PopEnemy();
-		}
-		if (Button("ShowHitBox", { 150,30 })) {
-			colM->ChangeIsShowHitBox();
-		}
-		if (Button("SetSpell FireBall", { 150,30 })) {
-			player->SetPresetSpell(FIRE_BALL);
-		}
-		if (Button("SetSpell MagicMissile", { 150,30 })) {
-			player->SetPresetSpell(MAGIC_MISSILE);
-		}
-		End();
+		//Begin("DebugButton");
+		//if (Button("Reset", { 150,30 })) {
+		//	Initialize();
+		//}
+		//if (Button("EnemyPop", { 150,30 })) {
+		//	enemyM->PopEnemy();
+		//}
+		//if (Button("ShowHitBox", { 150,30 })) {
+		//	colM->ChangeIsShowHitBox();
+		//}
+		//if (Button("SetSpell FireBall", { 150,30 })) {
+		//	player->SetPresetSpell(FIRE_BALL);
+		//}
+		//if (Button("SetSpell MagicMissile", { 150,30 })) {
+		//	player->SetPresetSpell(MAGIC_MISSILE);
+		//}
+		//End();
 	}
 
 #pragma endregion

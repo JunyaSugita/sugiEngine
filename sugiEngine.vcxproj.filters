@@ -249,6 +249,12 @@
     <ClCompile Include="sugiEngine\app\spell\MagicMissile.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\UI\SetSpell.cpp">
+      <Filter>ソース ファイル\app\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\UI\Tutorial.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -391,6 +397,12 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\spell\MagicMissile.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\UI\SetSpell.h">
+      <Filter>ヘッダー ファイル\app\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\UI\Tutorial.h">
+      <Filter>ヘッダー ファイル\app\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
