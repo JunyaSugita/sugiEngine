@@ -16,7 +16,7 @@ public:
 	float length() const;
 	Vector3& normalize();
 	float dot(const Vector3& v) const;
-	Vector3 cross(const Vector3& v) const;
+	float cross(const Vector3& v) const;
 
 	//単項演算子オーバーロード
 	Vector3 operator+() const;

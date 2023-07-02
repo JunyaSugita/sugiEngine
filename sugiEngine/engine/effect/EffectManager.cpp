@@ -1,7 +1,23 @@
 #include "EffectManager.h"
 
+EffectManager::EffectManager()
+{
+}
+
+EffectManager::~EffectManager()
+{
+}
+
+EffectManager* EffectManager::GetInstance()
+{
+	static EffectManager instance;
+
+	return &instance;
+}
+
 void EffectManager::Initialize()
 {
+	Burst::OneTimeInitialize();
 }
 
 void EffectManager::Update()

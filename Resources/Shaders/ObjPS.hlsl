@@ -90,19 +90,19 @@ PSOutput main(VSOutput input)
 			float3 lightv = normalize(lightpos - input.worldpos.xyz);
 			float cos = dot(lightv, circleShadows[i].dir);
 			float angleatten = smoothstep(circleShadows[i].factorAngleCos.y, circleShadows[i].factorAngleCos.x, cos);
-			atten *= angleatten;
+            atten *= angleatten;
 
 			shadecolor.rgb -= atten;
 		}
 	}
 
-	output.target0 = float4(1 - (shadecolor * texcolor).rgb, 1);
-	output.target1 = float4((shadecolor * texcolor).rgb,1);
+    output.target0 = float4(1 - (shadecolor * texcolor).rgb * m_color.rgb, 1);
+	output.target1 = float4((shadecolor * texcolor).rgb * m_color.rgb,1);
 
 	float4 col = output.target1;
 	float grayScale = col.r * 0.299f + col.g * 0.587f + col.b * 0.114f;
 	float extract = smoothstep(0.0f, 1.0f, grayScale);
-	output.target2 = float4(col.rgb * extract,1);
+    output.target2 = float4(col.rgb * m_color.rgb * extract, 1);
 
 	//シェーディングによる色で描画
 	return output;

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const float PostEffect::CLEAR_COLOR[4] = { 0.25,0.5f,0.2f,0.0f };
+const float PostEffect::CLEAR_COLOR[4] = { 0.0f,0.0f,0.0f,0.0f };
 bool PostEffect::sIsBlur = false;
 bool PostEffect::sIsInvertColor = false;
 bool PostEffect::sIsBorder = false;

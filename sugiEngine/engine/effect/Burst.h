@@ -6,6 +6,7 @@
 
 class Burst {
 public:
+	static void OneTimeInitialize();
 	void Initialize(const Vector3& pos,Vector4 color, float range,float pow);
 	void Update();
 	void Draw();
@@ -13,6 +14,10 @@ public:
 	bool IsDead() const {
 		return isDead_;
 	}
+private:
+	//モデル
+	static std::unique_ptr <Model> sSphereModel_;
+
 private:
 	//座標
 	WorldTransform sphereWorldTransform_;
@@ -22,8 +27,6 @@ private:
 	Vector4 color_;
 	//回転
 	Vector3 rotate_;
-	//モデル
-	std::unique_ptr <Model> sphereModel_;
 	//テクスチャ
 	std::unique_ptr<Object3d> sphereObj_;
 	//消滅フラグ

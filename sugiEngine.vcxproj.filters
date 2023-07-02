@@ -85,6 +85,42 @@
     <Filter Include="ソース ファイル\engine\audio">
       <UniqueIdentifier>{43bbfcd1-ba26-43aa-8773-0868beb26bc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\enemy">
+      <UniqueIdentifier>{7ca4e0f9-b129-4177-8e8a-c153424b8d4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\ground">
+      <UniqueIdentifier>{7792c58d-83c2-411c-b0b8-fa4e58b746b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\player">
+      <UniqueIdentifier>{f7a40fd4-0d47-4d44-a38c-3cd22e31ee89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app\enemy">
+      <UniqueIdentifier>{4c19197f-6386-407c-9d8b-09d118ef0a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app\ground">
+      <UniqueIdentifier>{1cd152f3-5582-4e6b-8452-a41bab75e3e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app\player">
+      <UniqueIdentifier>{541f585f-1128-4e36-8afc-d3e229ff94c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app\spell">
+      <UniqueIdentifier>{ed79f357-9476-492e-ab76-1ef20cd5001c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\spell">
+      <UniqueIdentifier>{54259f63-3234-4720-b881-f0af9ac0e85b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\UI">
+      <UniqueIdentifier>{19520a78-0a90-428c-829a-0da793bff049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app\UI">
+      <UniqueIdentifier>{74a443cd-2c12-4ca3-809f-7a6ad3664e06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\collider">
+      <UniqueIdentifier>{50beaaae-49fd-418c-9442-1d69dd0276c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app\collider">
+      <UniqueIdentifier>{20c6474a-7b5d-4df7-934b-1be5131a72ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sugiEngine\main.cpp">
@@ -173,6 +209,51 @@
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\2d\PostEffect.cpp">
       <Filter>ソース ファイル\engine\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\enemy\Enemy.cpp">
+      <Filter>ソース ファイル\app\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\enemy\EnemyManager.cpp">
+      <Filter>ソース ファイル\app\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\ground\Ground.cpp">
+      <Filter>ソース ファイル\app\ground</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\ground\GroundManager.cpp">
+      <Filter>ソース ファイル\app\ground</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\player\Player.cpp">
+      <Filter>ソース ファイル\app\player</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp">
+      <Filter>ソース ファイル\app\player</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\SpellManager.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\FireBall.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\UI\Closshair.cpp">
+      <Filter>ソース ファイル\app\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\UI\UIManager.cpp">
+      <Filter>ソース ファイル\app\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\UI\SpellCharge.cpp">
+      <Filter>ソース ファイル\app\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\collider\ColliderManager.cpp">
+      <Filter>ソース ファイル\app\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\MagicMissile.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\UI\SetSpell.cpp">
+      <Filter>ソース ファイル\app\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\UI\Tutorial.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +358,51 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\2d\PostEffect.h">
       <Filter>ヘッダー ファイル\engine\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\app\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\enemy\EnemyManager.h">
+      <Filter>ヘッダー ファイル\app\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\ground\Ground.h">
+      <Filter>ヘッダー ファイル\app\ground</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\ground\GroundManager.h">
+      <Filter>ヘッダー ファイル\app\ground</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\player\Player.h">
+      <Filter>ヘッダー ファイル\app\player</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h">
+      <Filter>ヘッダー ファイル\app\player</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\SpellManager.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\FireBall.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\UI\Closshair.h">
+      <Filter>ヘッダー ファイル\app\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\UI\UIManager.h">
+      <Filter>ヘッダー ファイル\app\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\UI\SpellCharge.h">
+      <Filter>ヘッダー ファイル\app\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\collider\ColliderManager.h">
+      <Filter>ヘッダー ファイル\app\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\MagicMissile.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\UI\SetSpell.h">
+      <Filter>ヘッダー ファイル\app\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\UI\Tutorial.h">
+      <Filter>ヘッダー ファイル\app\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

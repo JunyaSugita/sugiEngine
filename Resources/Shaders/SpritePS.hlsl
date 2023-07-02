@@ -12,8 +12,8 @@ struct PSOutput
 PSOutput main(VSOutput input)
 {
 	PSOutput output;
-	output.target0 = float4(1 - float3(tex.Sample(smp, input.uv).rgb * color.rgb), float4(tex.Sample(smp, input.uv) * color).a);
-	output.target1 = float4(tex.Sample(smp, input.uv)) * color;
+	output.target0 = float4(tex.Sample(smp, input.uv)) * color;
+	output.target1 = float4(1 - float3(tex.Sample(smp, input.uv).rgb * color.rgb), float4(tex.Sample(smp, input.uv) * color).a);
 
 	return output;
 }

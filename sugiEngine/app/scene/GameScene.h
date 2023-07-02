@@ -24,40 +24,7 @@ public:
 public:
 
 private:
-	//モデル
-	std::unique_ptr<Model> sphereModel_;
-	std::unique_ptr<Object3d> sphereObj_;
-	WorldTransform sphereWorldTransform_;
-
-	std::unique_ptr<Model> groundModel_;
-	std::unique_ptr<Object3d> groundObj_;
-	WorldTransform groundWorldTransform_;
-
-	std::unique_ptr<Model> boxModel_;
-	std::unique_ptr<Object3d> boxObj_;
-	WorldTransform boxWorldTransform_;
-
-	//スプライト
-	int32_t catTexture_;
-	Sprite catSprite_;
-
-	int32_t dogTexture_;
-	Sprite dogSprite_;
-
-	std::unique_ptr<FbxModel> model1_ = nullptr;
-	unique_ptr<Fbx> obj1_ = nullptr;
-
-	//音
-	unique_ptr<Sound> sound_ = std::make_unique <Sound>();
-
 	//ライト関連
 	unique_ptr<LightGroup> lightGroup_ = nullptr;
-
-	//丸影
-	float circleShadowDir_[3] = { 0,-1,0 };
-	float circleShadowAtten_[3] = { 0.5f,0.6f,0.0f };
-	float circleShadowFactorAngle_[2] = { 0.0f,0.5f };
-
-	float f_;
 };
 

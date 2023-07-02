@@ -47,13 +47,19 @@ void Input::Update()
 
 	oldState_ = state_;
 	ZeroMemory(&state_, sizeof(XINPUT_STATE));
-	//DWORD dwResult = XInputGetState(0, &state_);
+	DWORD dwResult = XInputGetState(0, &state_);
 
 	if (state_.Gamepad.sThumbLX <  2000 && state_.Gamepad.sThumbLX > -2000) {
 		state_.Gamepad.sThumbLX = 0;
 	}
 	if (state_.Gamepad.sThumbLY <  2000 && state_.Gamepad.sThumbLY > -2000) {
 		state_.Gamepad.sThumbLY = 0;
+	}
+	if (state_.Gamepad.sThumbRX <  2000 && state_.Gamepad.sThumbRX > -2000) {
+		state_.Gamepad.sThumbRX = 0;
+	}
+	if (state_.Gamepad.sThumbRY <  2000 && state_.Gamepad.sThumbRY > -2000) {
+		state_.Gamepad.sThumbRY = 0;
 	}
 }
 
@@ -114,6 +120,16 @@ SHORT Input::GetLSteckX()
 SHORT Input::GetLSteckY()
 {
 	return state_.Gamepad.sThumbLY;
+}
+
+SHORT Input::GetRSteckX()
+{
+	return state_.Gamepad.sThumbRX;
+}
+
+SHORT Input::GetRSteckY()
+{
+	return state_.Gamepad.sThumbRY;
 }
 
 BYTE Input::GetLTrigger()
