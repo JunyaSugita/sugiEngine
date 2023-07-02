@@ -22,6 +22,15 @@ public:
 	void PopEnemy(Vector3 pos = Vector3(0,0,0));
 	void ResetIsHit();
 
+	std::vector<Enemy*> GetEnemysList() {
+		enemysList_.clear();
+		for (unique_ptr<Enemy>& enemy : enemys_) {
+			enemysList_.push_back(enemy.get());
+		}
+		return enemysList_;
+	}
+
 private:
 	std::list<std::unique_ptr<Enemy>> enemys_;
+	std::vector<Enemy*> enemysList_;
 };

@@ -1,31 +1,31 @@
-#include "FireBall.h"
-std::unique_ptr<Model> FireBall::sModel_;
-std::unique_ptr<Model> FireBall::sColModel_;
+#include "MagicMissile.h"
+std::unique_ptr<Model> MagicMissile::sModel_;
+std::unique_ptr<Model> MagicMissile::sColModel_;
 
-void FireBall::OneTimeInitialize()
+void MagicMissile::OneTimeInitialize()
 {
 	sModel_ = move(Model::LoadFromObj("sphere", true));
 	sColModel_ = move(Model::LoadFromObj("box"));
 }
 
-void FireBall::Initialize(Vector3 pos, Vector3 vec)
+void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 {
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(sModel_.get());
-	obj_->SetColor({ 1,0,0,1 });
+	obj_->SetColor({ 1,0,1,1 });
 
 	colObj_ = move(Object3d::Create());
 	colObj_->SetModel(sColModel_.get());
 
 	pos_ = pos;
 	rot_ = { 0,0,0 };
-	scale_ = { 1,1,1 };
+	scale_ = { 0.5f,0.5f,0.5f };
 
 	vec_ = vec.normalize();
 
 	boxCol_.pos = pos;
-	boxCol_.width = 1;
-	boxCol_.height = 1;
+	boxCol_.width = 0.1f;
+	boxCol_.height = 0.1f;
 
 	WorldTransUpdate();
 
@@ -33,7 +33,7 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 	isHit_ = false;
 }
 
-void FireBall::Update()
+void MagicMissile::Update()
 {
 	if (!isHit_) {
 		pos_ += vec_ * SPEED_MOVE;
@@ -50,7 +50,7 @@ void FireBall::Update()
 	WorldTransUpdate();
 }
 
-void FireBall::Draw()
+void MagicMissile::Draw()
 {
 	obj_->Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
@@ -58,19 +58,17 @@ void FireBall::Draw()
 	}
 }
 
-void FireBall::Fire()
+void MagicMissile::Fire()
 {
 	isDead_ = false;
 }
 
-void FireBall::SetCol()
+void MagicMissile::SetCol()
 {
 	boxCol_.pos = pos_;
-	boxCol_.width = scale_.x;
-	boxCol_.height = scale_.y;
 }
 
-void FireBall::WorldTransUpdate()
+void MagicMissile::WorldTransUpdate()
 {
 	worldTrans_.SetPos(pos_);
 	worldTrans_.SetRot(rot_);
@@ -82,7 +80,7 @@ void FireBall::WorldTransUpdate()
 	SetWorldTrans();
 }
 
-void FireBall::SetWorldTrans()
+void MagicMissile::SetWorldTrans()
 {
 	obj_->SetWorldTransform(worldTrans_);
 	obj_->Update();
@@ -90,10 +88,7 @@ void FireBall::SetWorldTrans()
 	colObj_->Update();
 }
 
-void FireBall::Explode()
+void MagicMissile::Explode()
 {
-	scale_ *= 1.2f;
-	if (scale_.x >= 10.0f) {
-		isDead_ = true;
-	}
+	isDead_ = true;
 }

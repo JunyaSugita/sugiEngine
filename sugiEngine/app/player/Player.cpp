@@ -40,11 +40,6 @@ void Player::Update()
 	
 	//攻撃
 	Attack();
-
-	//リセット
-	if (Input::GetInstance()->TriggerKey(DIK_R)) {
-		Initialize();
-	}
 }
 
 void Player::Draw()
@@ -82,6 +77,17 @@ void Player::Move()
 	if (input->PushKey(DIK_D)) {
 		pos_ += moveX * SPEED_MOVE;
 	}
+
+	float stickX = float(input->GetLSteckX()) / 32768.0f;
+	float stickY = float(input->GetLSteckY()) / 32768.0f;
+
+	//移動
+	if (input->GetLSteckY()) {
+		pos_ += moveZ * SPEED_MOVE * stickY;
+	}
+	if (input->GetLSteckX()) {
+		pos_ += moveX * SPEED_MOVE * stickX;
+	}
 }
 
 void Player::CameraMove()
@@ -98,10 +104,36 @@ void Player::CameraMove()
 		cameraAngle_.x += SPEED_CAMERA;
 	}
 	if (input->PushKey(DIK_UP)) {
-		cameraAngle_.y += SPEED_CAMERA;
+		//最大値設定
+		if (cameraAngle_.y <= 90) {
+			cameraAngle_.y += SPEED_CAMERA;
+		}
 	}
 	if (input->PushKey(DIK_DOWN)) {
-		cameraAngle_.y -= SPEED_CAMERA;
+		//最小値設定
+		if (cameraAngle_.y >= -90) {
+			cameraAngle_.y -= SPEED_CAMERA;
+		}
+	}
+
+	float stickX = float(input->GetRSteckX()) / 32768.0f;
+	float stickY = float(input->GetRSteckY()) / 32768.0f;
+
+	if (input->GetRSteckX()) {
+		cameraAngle_.x += SPEED_CAMERA * stickX;
+	}
+
+	if (input->GetRSteckY()) {
+		cameraAngle_.y += SPEED_CAMERA * stickY;
+
+		//最大値設定
+		if (cameraAngle_.y > 90) {
+			cameraAngle_.y = 90;
+		}
+		//最小値設定
+		if (cameraAngle_.y < -90) {
+			cameraAngle_.y = -90;
+		}
 	}
 
 	frontVec_.x = float(sin(Radian(cameraAngle_.x)));
@@ -125,14 +157,26 @@ void Player::Attack()
 
 	bool isAttackOn = false;
 
-	if (input->TriggerKey(DIK_SPACE) && GetIsCanAction()) {
+	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_RIGHT_SHOULDER))&& GetIsCanAction()) {
 		//攻撃フラグを立てる
 		isAttack_ = true;
 		attackTime_ = TIME_ATTACK_NORMAL;
 	}
-	//ファイアーボールを1に割り当て
-	if ((input->PushKey(DIK_1) || input->ReleaseKey(DIK_1))) {
-		spellM->ChargeFireBall();
+	//呪文詠唱
+	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER))) {
+		switch (presetSpell_)
+		{
+		case FIRE_BALL:
+			spellM->ChargeFireBall();
+			break;
+		case MAGIC_MISSILE:
+			spellM->ChargeMagicMissile();
+			break;
+
+		default:
+			break;
+		}
+		
 		isSpell_ = true;
 	}
 	else {

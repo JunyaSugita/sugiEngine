@@ -1,6 +1,7 @@
 #pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"
+#include "SpellManager.h"
 
 class Player final{
 private:
@@ -60,6 +61,17 @@ public:
 	};
 
 	bool GetIsCanAction();
+	bool GetIsSpell() {
+		return isSpell_;
+	}
+
+	void SetIsSpell(bool is) {
+		isSpell_ = is;
+	}
+
+	void SetPresetSpell(uint32_t spellName) {
+		presetSpell_ = spellName;
+	}
 
 private:
 	void Move();
@@ -89,6 +101,10 @@ private:
 	bool isAttack_;//攻撃フラグ
 	bool isSpell_;//魔法フラグ
 	float attackTime_;//攻撃時間
+
+	//装備呪文
+	//uint32_t presetSpell_ = FIRE_BALL;
+	uint32_t presetSpell_ = MAGIC_MISSILE;
 };
 
 float Radian(float r);

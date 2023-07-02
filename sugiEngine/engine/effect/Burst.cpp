@@ -51,7 +51,7 @@ void Burst::Initialize(const Vector3& pos,Vector4 color,float range,float pow) {
 	//ˆø”‚ÌÀ•W‚ð“ü‚ê‚é
 	sphereWorldTransform_.SetPos(pos);
 	//‘å‚«‚³‚ð•ÏX
-	sphereWorldTransform_.SetScale(Vector3(1.0f, 1.0f, 1.0f));
+	sphereWorldTransform_.SetScale(Vector3(0.1f, 0.1f, 0.1f));
 
 	sphereWorldTransform_.SetWorldMat();
 	sphereObj_->SetWorldTransform(sphereWorldTransform_);

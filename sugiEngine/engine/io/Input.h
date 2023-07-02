@@ -44,6 +44,8 @@ public:
 
 	SHORT GetLSteckX();
 	SHORT GetLSteckY();
+	SHORT GetRSteckX();
+	SHORT GetRSteckY();
 	BYTE GetLTrigger();
 public:
 	//エイリアステンプレート

@@ -3,6 +3,7 @@
 #include "ImGuiManager.h"
 #include "Input.h"
 #include "EnemyManager.h"
+#include "SpellManager.h"
 
 using namespace ImGui;
 
@@ -29,7 +30,7 @@ void PlayerWeapon::Initialize()
 	
 	pos_ = { 0,4,-50 };
 	rot_ = { 30,0,0 };
-	scale_ = { 1,10,1 };
+	scale_ = { 0.1f,1,0.1f };
 
 	hitModel_ = move(Model::LoadFromObj("sphere",true));
 	hitObj_ = move(Object3d::Create());
@@ -51,9 +52,13 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 		AttackMove(isAttackOn);
 		
 	}
+	else if (SpellManager::GetInstance()->GetIsUseSpell()) {
+		SpellMove();
+	}
 	//UŒ‚‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í’ÊíŽ‚¿
 	else {
 		NormalMove();
+		a = 20;
 	}
 
 	WorldTransUpdate();
@@ -82,6 +87,32 @@ void PlayerWeapon::NormalMove()
 
 }
 
+void PlayerWeapon::SpellMove()
+{
+	Player* player = Player::GetInstance();
+	SpellManager* spellM = SpellManager::GetInstance();
+
+	if (--a > 0) {
+		Player* player = Player::GetInstance();
+
+		float nowTime = a;
+
+		pos_ = player->GetPos();
+		pos_.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
+		pos_.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f + (nowTime / 10));
+		pos_.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
+		rot_ = { (player->GetCameraAngle().y + 90) * -1,player->GetCameraAngle().x,0 };
+	}
+	else {
+
+		pos_ = player->GetPos();
+		pos_.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
+		pos_.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f);
+		pos_.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
+		rot_ = { (player->GetCameraAngle().y + 90) * -1,player->GetCameraAngle().x,0 };
+	}
+}
+
 void PlayerWeapon::AttackMove(bool isAttackOn)
 {
 	Player* player = Player::GetInstance();
@@ -103,8 +134,6 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 		isAt_ = false;
 		EnemyManager::GetInstance()->ResetIsHit();
 	}
-
-	
 }
 
 void PlayerWeapon::AttackCol()

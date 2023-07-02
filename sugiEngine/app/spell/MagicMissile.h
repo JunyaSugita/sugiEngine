@@ -4,7 +4,7 @@
 #include "Object3d.h"
 #include "ColliderManager.h"
 
-class FireBall {
+class MagicMissile {
 public:
 	static void OneTimeInitialize();
 	void Initialize(Vector3 pos, Vector3 vec);

@@ -4,10 +4,12 @@
 #include "EffectManager.h"
 
 std::unique_ptr<Model> Enemy::sEyeModel_;
+std::unique_ptr<Model> Enemy::sColModel_;
 
 void Enemy::OneTimeInitialize()
 {
 	sEyeModel_ = move(Model::LoadFromObj("sphere", true));
+	sColModel_ = move(Model::LoadFromObj("box"));
 }
 
 void Enemy::Initialize(Vector3 pos)
@@ -15,13 +17,20 @@ void Enemy::Initialize(Vector3 pos)
 	model_ = move(Model::LoadFromObj("player"));
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(model_.get());
-	
+
 	eyeObj_ = move(Object3d::Create());
 	eyeObj_->SetModel(sEyeModel_.get());
 
+	colObj_ = move(Object3d::Create());
+	colObj_->SetModel(sColModel_.get());
+
 	pos_ = pos;
-	rot_ = {0,90,0};
-	scale_ = {1,1,1};
+	rot_ = { 0,90,0 };
+	scale_ = { 1,1,1 };
+
+	boxCol_.pos = pos;
+	boxCol_.height = 2.2f;
+	boxCol_.width = 1.0f;
 
 	isDead_ = false;
 
@@ -33,7 +42,7 @@ void Enemy::Initialize(Vector3 pos)
 	WorldTransUpdate();
 
 	isHit_ = false;
-	life_ = 4;
+	life_ = MAX_HP;
 }
 
 void Enemy::Update()
@@ -46,6 +55,9 @@ void Enemy::Update()
 	//プレイヤーの方へゆっくり回転
 	SetAngleToPlayer();
 
+	//当たり判定移動
+	SetCol();
+
 	//移動を適応
 	WorldTransUpdate();
 }
@@ -54,9 +66,12 @@ void Enemy::Draw()
 {
 	obj_->Draw();
 	eyeObj_->Draw();
+	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
+		colObj_->Draw();
+	}
 }
 
-void Enemy::SetIsHit()
+void Enemy::SetIsHit(int32_t num, int32_t num2)
 {
 	//既に当たっていたら当たらない
 	if (isHit_) {
@@ -66,8 +81,32 @@ void Enemy::SetIsHit()
 		//当たったフラグを立てる
 		isHit_ = true;
 		//体力を削る
-		SubLife();
+		SubLife(num,num2);
 	}
+}
+
+void Enemy::SetDebuff(uint8_t debuff)
+{
+	debuff_ = debuff;
+
+	switch (debuff_)
+	{
+	case FIRE:
+		obj_->SetColor({ 1, 0, 0, 1 });
+		break;
+	case THUNDER:
+		obj_->SetColor({ 1, 0, 1, 1 });
+		break;
+	default:
+		obj_->SetColor({ 1, 1, 1, 1 });
+		break;
+	}
+}
+
+void Enemy::SetCol()
+{
+	boxCol_.pos = pos_;
+	boxCol_.pos.y += 2.3f;
 }
 
 void Enemy::WorldTransUpdate()
@@ -80,6 +119,9 @@ void Enemy::WorldTransUpdate()
 	eyeWorldTrans_.SetRot(eyeRot_);
 	eyeWorldTrans_.SetScale(eyeScale_);
 
+	colWorldTrans_.SetPos(boxCol_.pos);
+	colWorldTrans_.SetScale({ boxCol_.width,boxCol_.height,boxCol_.width });
+
 	SetWorldTrans();
 }
 
@@ -89,6 +131,8 @@ void Enemy::SetWorldTrans()
 	obj_->Update();
 	eyeObj_->SetWorldTransform(eyeWorldTrans_);
 	eyeObj_->Update();
+	colObj_->SetWorldTransform(colWorldTrans_);
+	colObj_->Update();
 }
 
 void Enemy::SetAngleToPlayer()
@@ -146,28 +190,11 @@ void Enemy::Move()
 	pos_.z += toPlayer.y * SPEED_MOVE;
 }
 
-void Enemy::SubLife()
+void Enemy::SubLife(int32_t num, int32_t num2)
 {
-	life_--;
-	EffectManager::GetInstance()->BurstGenerate({ pos_.x,pos_.y + 4,pos_.z }, 20, { 1,0,0,1 });
+	life_ -= num;
+	EffectManager::GetInstance()->BurstGenerate({ pos_.x,pos_.y + 4,pos_.z }, num2, { 1,0,0,1 });
 	if (life_ <= 0) {
 		isDead_ = true;
-	}
-	else {
-		switch (life_)
-		{
-		case 1:
-			obj_->SetColor({ 1,0,0,1 });
-			break;
-		case 2:
-			obj_->SetColor({ 1,1,0,1 });
-			break;
-		case 3:
-			obj_->SetColor({ 0,0,1,1 });
-			break;
-		default:
-			break;
-		}
-		
 	}
 }

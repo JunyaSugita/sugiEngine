@@ -23,6 +23,7 @@ public:
 	void Draw();
 
 	void NormalMove();
+	void SpellMove();
 	void AttackMove(bool isAttackOn);
 	void AttackCol();	//z‚Í”¼Œa
 
@@ -72,5 +73,5 @@ private:
 	std::unique_ptr <Model> hitModel_;
 	std::unique_ptr <Object3d> hitObj_;
 
-
+	float a = 0;
 };

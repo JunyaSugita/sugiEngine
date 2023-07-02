@@ -2,6 +2,7 @@
 #include "PlayerWeapon.h"
 #include <random>
 #include "ImGuiManager.h"
+#include "SpellManager.h"
 
 using namespace std;
 using namespace ImGui;
@@ -41,13 +42,14 @@ void EnemyManager::Update()
 	int enemyCount = 0;
 	for (unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update();
+
 		enemyCount++;
 		//ƒvƒŒƒCƒ„[‚ªUŒ‚’†‚È‚ç
 		if (weapon->GetIsAt()) {
 			//“–‚½‚è”»’èŒŸõ
 			if ((enemy->GetPos() - weapon->GetHitPos()).length() < weapon->ATTACK_LENGTH) {
 				//“–‚½‚Á‚½”»’è‚ð“G‚É—^‚¦‚é
-				enemy->SetIsHit();
+				enemy->SetIsHit(10,20);
 			}
 
 		}

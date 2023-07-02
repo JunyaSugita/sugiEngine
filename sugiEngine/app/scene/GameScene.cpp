@@ -9,6 +9,7 @@
 #include "EffectManager.h"
 #include "SpellManager.h"
 #include "UIManager.h"
+#include "ColliderManager.h"
 
 using namespace ImGui;
 
@@ -39,6 +40,10 @@ void GameScene::Initialize()
 
 	//UI
 	UIManager::GetInstance()->Initialize();
+
+	//当たり判定
+	ColliderManager::GetInstance()->Initialize();
+
 }
 
 void GameScene::Update()
@@ -51,12 +56,8 @@ void GameScene::Update()
 	EffectManager* effectM = EffectManager::GetInstance();
 	SpellManager* spellM = SpellManager::GetInstance();
 	UIManager* uiM = UIManager::GetInstance();
+	ColliderManager* colM = ColliderManager::GetInstance();
 
-#pragma endregion
-
-#pragma region ライト
-	//ライト
-	lightGroup_->Update();
 #pragma endregion
 
 #pragma region デバッグ用
@@ -65,55 +66,89 @@ void GameScene::Update()
 	//	GameManager::GetInstance()->SetTitleScene();
 	//}
 
-	if (input->TriggerKey(DIK_E)) {
+	if (input->TriggerKey(DIK_R)) {
+		Initialize();
+	}
+	if (input->TriggerKey(DIK_P)) {
 		enemyM->PopEnemy();
 	}
+	if (input->TriggerKey(DIK_O)) {
+		colM->ChangeIsShowHitBox();
+	}
+	if (input->TriggerKey(DIK_1)) {
+		player->SetPresetSpell(FIRE_BALL);
+	}
+	if (input->TriggerKey(DIK_2)) {
+		player->SetPresetSpell(MAGIC_MISSILE);
+	}
+
 #pragma endregion
 
 #pragma region Update呼び出し
 	//Update呼び出し
+	lightGroup_->Update();
 	groundM->Update();
 	player->Update();//プレイヤー
 	enemyM->Update();//敵
 	effectM->Update();
 	spellM->Update();
 	uiM->Update();
+	colM->Update();
+
 #pragma endregion
 
 #pragma region ImGui
 	{
-		Begin("PostEffect");
-		if (Button("Clear", { 100,30 })) {
-			PostEffect::SetClear();
-		}
-		if (Button("Blur", { 100,30 })) {
-			PostEffect::SetBlur();
-		}
-		if (Button("InvertColor", { 100,30 })) {
-			PostEffect::SetInvertColor();
-		}
-		if (Button("Border", { 100,30 })) {
-			PostEffect::SetBorder();
-		}
-		if (Button("Gray", { 100,30 })) {
-			PostEffect::SetGray();
-		}
-		if (Button("Bloom", { 100,30 })) {
-			PostEffect::SetBloom();
-		}
-		if (Button("Closs4", { 100,30 })) {
-			PostEffect::SetCloss4();
-		}
-		if (Button("Closs6", { 100,30 })) {
-			PostEffect::SetCloss6();
-		}
-		if (Button("Closs8", { 100,30 })) {
-			PostEffect::SetCloss8();
-		}
-		End();
+		//Begin("PostEffect");
+		//if (Button("Clear", { 100,30 })) {
+		//	PostEffect::SetClear();
+		//}
+		//if (Button("Blur", { 100,30 })) {
+		//	PostEffect::SetBlur();
+		//}
+		//if (Button("InvertColor", { 100,30 })) {
+		//	PostEffect::SetInvertColor();
+		//}
+		//if (Button("Border", { 100,30 })) {
+		//	PostEffect::SetBorder();
+		//}
+		//if (Button("Gray", { 100,30 })) {
+		//	PostEffect::SetGray();
+		//}
+		//if (Button("Bloom", { 100,30 })) {
+		//	PostEffect::SetBloom();
+		//}
+		//if (Button("Closs4", { 100,30 })) {
+		//	PostEffect::SetCloss4();
+		//}
+		//if (Button("Closs6", { 100,30 })) {
+		//	PostEffect::SetCloss6();
+		//}
+		//if (Button("Closs8", { 100,30 })) {
+		//	PostEffect::SetCloss8();
+		//}
+		//End();
 
 		Begin("PlayerState");
 		Text("Life %d", player->GetLife());
+		End();
+
+		Begin("DebugButton");
+		if (Button("Reset", { 150,30 })) {
+			Initialize();
+		}
+		if (Button("EnemyPop", { 150,30 })) {
+			enemyM->PopEnemy();
+		}
+		if (Button("ShowHitBox", { 150,30 })) {
+			colM->ChangeIsShowHitBox();
+		}
+		if (Button("SetSpell FireBall", { 150,30 })) {
+			player->SetPresetSpell(FIRE_BALL);
+		}
+		if (Button("SetSpell MagicMissile", { 150,30 })) {
+			player->SetPresetSpell(MAGIC_MISSILE);
+		}
 		End();
 	}
 
