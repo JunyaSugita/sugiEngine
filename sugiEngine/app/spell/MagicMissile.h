@@ -40,7 +40,8 @@ private:
 	static std::unique_ptr<Model> sColModel_;
 
 public:
-	const float SPEED_MOVE = 1.0f;
+	const float SPEED_MOVE = 1.0f;	//魔法のスピード
+	const int32_t TIME_ALIVE = 10 * 60;
 
 private:
 	WorldTransform worldTrans_;
@@ -56,6 +57,8 @@ private:
 
 	//表示フラグ
 	bool isDead_;
+	//消えるまでの時間
+	int32_t time_;
 	//当たったフラグ
 	bool isHit_;
 

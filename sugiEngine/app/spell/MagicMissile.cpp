@@ -30,11 +30,16 @@ void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 	WorldTransUpdate();
 
 	isDead_ = true;
+	time_ = TIME_ALIVE;
 	isHit_ = false;
 }
 
 void MagicMissile::Update()
 {
+	if (time_ <= 0) {
+		isDead_ = true;
+	}
+
 	if (!isHit_) {
 		pos_ += vec_ * SPEED_MOVE;
 		if (pos_.y <= 0) {

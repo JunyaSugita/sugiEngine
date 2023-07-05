@@ -66,18 +66,25 @@ void Player::Move()
 	moveZ.normalize();
 	Vector3 moveX = { rightVec_.x,0,rightVec_.z };
 	moveX.normalize();
+
+	//ˆÚ“®‘¬“x’á‰ºˆ—
+	float slow = 1;
+	if (!GetIsCanAction() || SpellManager::GetInstance()->GetIsUseSpell()) {
+		slow = SPEED_SLOW;
+	}
+
 	//ˆÚ“®
 	if (input->PushKey(DIK_W)) {
-		pos_ += moveZ * SPEED_MOVE;
+		pos_ += moveZ * SPEED_MOVE * slow;
 	}
 	if (input->PushKey(DIK_S)) {
-		pos_ -= moveZ * SPEED_MOVE;
+		pos_ -= moveZ * SPEED_MOVE * slow;
 	}
 	if (input->PushKey(DIK_A)) {
-		pos_ -= moveX * SPEED_MOVE;
+		pos_ -= moveX * SPEED_MOVE * slow;
 	}
 	if (input->PushKey(DIK_D)) {
-		pos_ += moveX * SPEED_MOVE;
+		pos_ += moveX * SPEED_MOVE * slow;
 	}
 
 	float stickX = float(input->GetLSteckX()) / 32768.0f;
@@ -85,10 +92,10 @@ void Player::Move()
 
 	//ˆÚ“®
 	if (input->GetLSteckY()) {
-		pos_ += moveZ * SPEED_MOVE * stickY;
+		pos_ += moveZ * SPEED_MOVE * stickY * slow;
 	}
 	if (input->GetLSteckX()) {
-		pos_ += moveX * SPEED_MOVE * stickX;
+		pos_ += moveX * SPEED_MOVE * stickX * slow;
 	}
 }
 
