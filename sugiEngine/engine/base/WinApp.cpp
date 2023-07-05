@@ -30,7 +30,7 @@ void WinApp::CreateWindowScreen()
 	//ウィンドウクラスの設定
 	w_.cbSize = sizeof(WNDCLASSEX);
 	w_.lpfnWndProc = (WNDPROC)WindowProc; // ウィンドウプロシージャを設定
-	w_.lpszClassName = L"DirectXGame"; // ウィンドウクラス名
+	w_.lpszClassName = L"NoName v1.00"; // ウィンドウクラス名
 	w_.hInstance = GetModuleHandle(nullptr); // ウィンドウハンドル
 	w_.hCursor = LoadCursor(NULL, IDC_ARROW); // カーソル指定
 
