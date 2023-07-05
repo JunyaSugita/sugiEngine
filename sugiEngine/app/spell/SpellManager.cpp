@@ -160,6 +160,18 @@ void SpellManager::FireMagicMissile()
 
 }
 
+float SpellManager::ChargePercent()
+{
+	if (maxCharge_ == 0.0f) {
+		return 0.0f;
+	}
+	float temp = chargeTime_ / maxCharge_;
+	if (temp > 1.0f) {
+		return 1.0f;
+	}
+	return temp;
+};
+
 bool SpellManager::GetIsUseSpell()
 {
 	if (isUseFireBall_ || isUseMagicMissile_) {

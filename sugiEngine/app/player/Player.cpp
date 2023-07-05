@@ -137,36 +137,43 @@ void Player::CameraMove()
 			cameraAngle_.y += SPEED_CAMERA * stickY;
 
 			//最大値設定
-			if (cameraAngle_.y > 90) {
-				cameraAngle_.y = 90;
+			if (cameraAngle_.y > RAD / 2) {
+				cameraAngle_.y = RAD / 2;
 			}
 			//最小値設定
-			if (cameraAngle_.y < -90) {
-				cameraAngle_.y = -90;
+			if (cameraAngle_.y < -RAD / 2) {
+				cameraAngle_.y = -RAD / 2;
 			}
-		}
-
-		if (spellAngle_ >= 0 && spellAngle_ < 72) {
-			presetSpell_ = FIRE_BALL;
-		}
-		else if (spellAngle_ >= 72 && spellAngle_ < 144) {
-			presetSpell_ = MAGIC_MISSILE;
 		}
 	}
 	else {
 		Vector2 len = Vector2(input->GetRSteckX(), input->GetRSteckY());
-		len.normalize();
-		if (input->GetRSteckX() != 0 && input->GetRSteckY() != 0) {
-			spellAngle_ = (atan2(len.cross({ 0,-1 }), -len.dot({ 0,-1 })) / PI * -180 - (180 / 2)) + 90;
+		float length = len.length();
+		if (len.length() > 20000) {
+			len.normalize();
+			if (input->GetRSteckX() != 0 && input->GetRSteckY() != 0) {
+				spellAngle_ = (atan2(len.cross({ 0,-1 }), -len.dot({ 0,-1 })) / PI * -RAD - (RAD / 2)) + RAD / 2 * 3;
+			}
+
+			//スティックを倒した方向の呪文に変える
+			if (spellAngle_ >= RAD && spellAngle_ < 72 + RAD) {
+				presetSpell_ = FIRE_BALL;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
+			else if (spellAngle_ >= 72 + RAD && spellAngle_ < 144 + RAD) {
+				presetSpell_ = MAGIC_MISSILE;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
+
 		}
 	}
 
 	frontVec_.x = float(sin(Radian(cameraAngle_.x)));
 	frontVec_.y = float(sin(Radian(cameraAngle_.y)));
 	frontVec_.z = float(cos(Radian(cameraAngle_.x)));
-	rightVec_.x = float(sin(Radian(cameraAngle_.x + 90)));
+	rightVec_.x = float(sin(Radian(cameraAngle_.x + RAD / 2)));
 	rightVec_.y = float(sin(Radian(cameraAngle_.y)));
-	rightVec_.z = float(cos(Radian(cameraAngle_.x + 90)));
+	rightVec_.z = float(cos(Radian(cameraAngle_.x + RAD / 2)));
 
 	//カメラ操作
 	camera->SetEye(pos_ + CAMERA_EYE);//目線にカメラを調整
@@ -235,5 +242,5 @@ void Player::WorldTransUpdate()
 }
 
 float Radian(float r) {
-	return r * (PI / 180);
+	return r * (PI / RAD);
 }
