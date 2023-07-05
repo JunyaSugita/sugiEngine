@@ -34,8 +34,8 @@ void SpellCharge::Initialize()
 void SpellCharge::Update()
 {
 	if (Player::GetInstance()->GetIsSpell()) {
-		chargeSprite_.SetSize(301 * SpellManager::GetInstance()->ChargeParcent(), 50);
-		if (SpellManager::GetInstance()->ChargeParcent() >= 1.0f) {
+		chargeSprite_.SetSize(301 * SpellManager::GetInstance()->ChargePercent(), 50);
+		if (SpellManager::GetInstance()->ChargePercent() >= 1.0f) {
 			chargeSprite_.SetColor(1, 1, 0, 1);
 		}
 		else {
@@ -43,7 +43,7 @@ void SpellCharge::Update()
 		}
 	}
 	if (SpellManager::GetInstance()->GetIsUseSpell()) {
-		chargeSprite_.SetSize(301 * SpellManager::GetInstance()->UseParcent(), 50);
+		chargeSprite_.SetSize(301 * SpellManager::GetInstance()->UsePercent(), 50);
 		chargeSprite_.SetColor(1, 1, 0, 1);
 	}
 }

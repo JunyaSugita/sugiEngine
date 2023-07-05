@@ -5,3 +5,4 @@
 #include "Matrix4.h"
 
 const float PI = 3.14159265f;
+const float RAD = 180.0f;
