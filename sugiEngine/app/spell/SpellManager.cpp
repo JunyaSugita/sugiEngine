@@ -22,6 +22,7 @@ void SpellManager::Initialize()
 	FireBall::OneTimeInitialize();
 	MagicMissile::OneTimeInitialize();
 	IceBolt::OneTimeInitialize();
+	ChainLightning::OneTimeInitialize();
 	for (unique_ptr<FireBall>& fireBall : fireBalls_) {
 		fireBall->SetIsDead();
 	}
@@ -31,6 +32,9 @@ void SpellManager::Initialize()
 	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 		iceBolt->SetIsDead();
 	}
+	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
+		chainLightning->SetIsDead();
+	}
 
 	maxCharge_ = 0;
 	chargeTime_ = 0;
@@ -38,6 +42,7 @@ void SpellManager::Initialize()
 	isUseFireBall_ = false;
 	isUseMagicMissile_ = false;
 	isUseIceBolt_ = false;
+	isUseChainLightning_ = false;
 }
 
 void SpellManager::Update()
@@ -215,6 +220,45 @@ void SpellManager::FireIceBolt()
 	}
 }
 
+void SpellManager::ChargeChainLightning()
+{
+	maxCharge_ = TIME_CHARGE_CHAINLIGHTNING;
+
+	if (chargeTime_ < maxCharge_) {
+		chargeTime_++;
+	}
+
+	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+		if (int(chargeTime_ / TIME_CHARGE_CHAINLIGHTNING)) {
+			isUseChainLightning_ = true;
+			useTime_ = TIME_FIRE_CHAINLIGHTNING;
+		}
+		chargeTime_ = 0;
+	}
+	Player::GetInstance()->SetIsSpell(false);
+}
+
+void SpellManager::FireChainLightning()
+{
+	Camera* camera = Camera::GetInstance();
+
+	maxCharge_ = TIME_FIRE_CHAINLIGHTNING;
+
+	if (int(useTime_) == 1) {
+		unique_ptr<ChainLightning> newSpell = make_unique<ChainLightning>();
+		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
+		newSpell->Fire();
+
+		chainLightnings_.push_back(move(newSpell));
+	}
+	if (--useTime_ <= 0) {
+		useTime_ = 0;
+		isUseChainLightning_ = false;
+		Player::GetInstance()->SetIsSpell(false);
+	}
+
+}
+
 float SpellManager::ChargePercent()
 {
 	if (maxCharge_ == 0.0f) {
@@ -229,7 +273,7 @@ float SpellManager::ChargePercent()
 
 bool SpellManager::GetIsUseSpell()
 {
-	if (isUseFireBall_ || isUseMagicMissile_ || isUseIceBolt_) {
+	if (isUseFireBall_ || isUseMagicMissile_ || isUseIceBolt_ || isUseChainLightning_) {
 		return true;
 	}
 	return false;

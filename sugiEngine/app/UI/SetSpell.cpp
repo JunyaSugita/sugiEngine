@@ -26,6 +26,7 @@ void SetSpell::Initialize()
 	fireBallTex_ = Sprite::LoadTexture("fireBallIcon.png");
 	magicMissileTex_ = Sprite::LoadTexture("magicMissileIcon.png");
 	iceBoltTex_ = Sprite::LoadTexture("iceBolt.png");
+	chainLightningTex_ = Sprite::LoadTexture("iceBolt.png");
 	comingSoonTex_ = Sprite::LoadTexture("comingSoonIcon.png");
 
 	spell1Sprite_.Initialize(fireBallTex_);
@@ -43,7 +44,7 @@ void SetSpell::Initialize()
 	spell3Sprite_.SetPos(WIN_WIDTH / 2, 600);
 	spell3Sprite_.SetColor(1, 1, 1, 0.3f);
 
-	spell4Sprite_.Initialize(comingSoonTex_);
+	spell4Sprite_.Initialize(chainLightningTex_);
 	spell4Sprite_.SetAnchorPoint(0.5f, 0.5f);
 	spell4Sprite_.SetPos(400, 450);
 	spell4Sprite_.SetColor(1, 1, 1, 0.3f);
@@ -72,6 +73,9 @@ void SetSpell::Update()
 		useSpellSprite_.SetTexture(magicMissileTex_);
 		break;
 	case ICE:
+		useSpellSprite_.SetTexture(iceBoltTex_);
+		break;
+	case CHAIN_LIGHTNING:
 		useSpellSprite_.SetTexture(iceBoltTex_);
 		break;
 	default:

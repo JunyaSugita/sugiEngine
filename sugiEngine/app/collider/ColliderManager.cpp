@@ -76,6 +76,22 @@ void ColliderManager::Update()
 	}
 
 #pragma endregion
+
+#pragma region チェインライトニングの判定
+	//チェインライトニング
+	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
+
+	for (int i = 0; i < enemysCol.size(); i++) {
+		for (int j = 0; j < chainLightningsCol.size(); j++) {
+			if (ChackHitBox(enemysCol[i]->GetBoxCol(), chainLightningsCol[j]->GetBoxCol())) {
+				enemysCol[i]->SetIsHit(15, 5);
+				enemysCol[i]->SetDebuff(ICE, 8);
+				chainLightningsCol[j]->SetIsHit();
+			}
+		}
+	}
+
+#pragma endregion
 }
 
 bool ColliderManager::ChackHitBox(BoxCol a, BoxCol b)

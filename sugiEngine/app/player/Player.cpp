@@ -169,7 +169,7 @@ void Player::CameraMove()
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
 			else if (spellAngle_ >= 36 && spellAngle_ < 108) {
-				presetSpell_ = FIRE_BALL;
+				presetSpell_ = CHAIN_LIGHTNING;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
 			else if (spellAngle_ >= 108 && spellAngle_ < RAD) {
@@ -218,7 +218,9 @@ void Player::Attack()
 		case ICE_BOLT:
 			spellM->ChargeIceBolt();
 			break;
-
+		case CHAIN_LIGHTNING:
+			spellM->ChargeChainLightning();
+			break;
 		default:
 			break;
 		}

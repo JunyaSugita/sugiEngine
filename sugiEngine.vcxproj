@@ -104,6 +104,7 @@
     <ClCompile Include="sugiEngine\app\ground\GroundManager.cpp" />
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
+    <ClCompile Include="sugiEngine\app\spell\ChainLightning.cpp" />
     <ClCompile Include="sugiEngine\app\spell\FireBall.cpp" />
     <ClCompile Include="sugiEngine\app\spell\IceBolt.cpp" />
     <ClCompile Include="sugiEngine\app\spell\MagicMissile.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="sugiEngine\app\ground\GroundManager.h" />
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
+    <ClInclude Include="sugiEngine\app\spell\ChainLightning.h" />
     <ClInclude Include="sugiEngine\app\spell\FireBall.h" />
     <ClInclude Include="sugiEngine\app\spell\IceBolt.h" />
     <ClInclude Include="sugiEngine\app\spell\MagicMissile.h" />
