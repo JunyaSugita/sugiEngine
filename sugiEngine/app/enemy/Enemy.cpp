@@ -3,6 +3,8 @@
 #include "ImGuiManager.h"
 #include "EffectManager.h"
 
+#include <random>
+
 std::unique_ptr<Model> Enemy::sEyeModel_;
 std::unique_ptr<Model> Enemy::sColModel_;
 
@@ -50,6 +52,9 @@ void Enemy::Update()
 	//プレイヤー情報の取得
 	GetPlayer();
 
+	//シェイクを戻す
+	ResetShake();
+
 	//デバフの適応
 	UpdateDebuff();
 
@@ -61,9 +66,13 @@ void Enemy::Update()
 		//プレイヤーの方へゆっくり回転
 		SetAngleToPlayer();
 
+		//当たり判定移動
+		SetCol();
 	}
-	//当たり判定移動
-	SetCol();
+	else
+	{
+		SetShake();
+	}
 
 	//移動を適応
 	WorldTransUpdate();
@@ -239,7 +248,7 @@ void Enemy::UpdateDebuff()
 	if (isDebuff()) {
 		if (debuff_.isFire) {
 			if (debuff_.fireTime % (3 * 60) == 0) {
-				life_ -= 5;
+				Enemy::SubLife(5, 10);
 			}
 
 			if (--debuff_.fireTime < 0) {
@@ -255,8 +264,30 @@ void Enemy::UpdateDebuff()
 	else {
 		obj_->SetColor({1,1,1,1});
 	}
+}
 
-	if (life_ <= 0) {
-		isDead_ = true;
+void Enemy::SetShake()
+{
+	//ランダム
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+
+	//カメラとの距離でシェイクの大きさを変える
+	Vector3 len = Camera::GetInstance()->GetEye() - pos_;
+	float maxShake = len.length() / 100;
+	if (maxShake > 0.5f) {
+		maxShake = 0.5f;
 	}
+
+	std::uniform_real_distribution<float> x(-maxShake, maxShake);
+	std::uniform_real_distribution<float> z(-maxShake, maxShake);
+
+	pos_.x += x(engine);
+	pos_.z += z(engine);
+}
+
+void Enemy::ResetShake()
+{
+	pos_.x = boxCol_.pos.x;
+	pos_.z = boxCol_.pos.z;
 }

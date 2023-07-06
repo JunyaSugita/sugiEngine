@@ -52,6 +52,8 @@ private:
 	void Move();
 	void SubLife(int32_t subLife, int32_t effectNum);
 	void UpdateDebuff();
+	void SetShake();
+	void ResetShake();
 
 private:
 	const float SPEED_MOVE = 0.05f;
