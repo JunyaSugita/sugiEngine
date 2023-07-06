@@ -17,6 +17,7 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 	colObj_ = move(Object3d::Create());
 	colObj_->SetModel(sColModel_.get());
 
+
 	pos_ = pos;
 	rot_ = { 0,0,0 };
 	scale_ = { 1,1,1 };
@@ -32,6 +33,8 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 	isDead_ = true;
 	time_ = TIME_ALIVE;
 	isHit_ = false;
+
+	alpha_ = 1.0f;
 }
 
 void FireBall::Update()
@@ -98,6 +101,8 @@ void FireBall::SetWorldTrans()
 void FireBall::Explode()
 {
 	scale_ *= 1.2f;
+	alpha_ -= 0.03f;
+	obj_->SetColor({ 1,0,0,alpha_ });
 	if (scale_.x >= 10.0f) {
 		isDead_ = true;
 	}

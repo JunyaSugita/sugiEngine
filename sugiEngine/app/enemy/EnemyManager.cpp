@@ -52,7 +52,6 @@ void EnemyManager::Update()
 				//“–‚½‚Á‚½”»’è‚ð“G‚É—^‚¦‚é
 				enemy->SetIsHit(10,20);
 			}
-
 		}
 	}
 

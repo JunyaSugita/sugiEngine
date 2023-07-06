@@ -5,6 +5,13 @@
 #include "Object3d.h"
 #include "ColliderManager.h"
 
+struct DebuffM {
+	bool isFire;
+	int32_t fireTime;
+	bool isThunder;
+	int32_t thunderTime;
+};
+
 class Enemy{
 public:
 	static void OneTimeInitialize();
@@ -23,8 +30,8 @@ public:
 		isDead_ = true;
 	}
 
-	void SetIsHit(int32_t num = 1, int32_t num2 = 0);
-	void SetDebuff(uint8_t debuff = 0);
+	void SetIsHit(int32_t subLife = 1, int32_t effectNum = 0);
+	void SetDebuff(uint8_t debuff,uint32_t time);
 	void ResetIsHit() {
 		isHit_ = false;
 	}
@@ -33,6 +40,9 @@ public:
 		return boxCol_;
 	}
 
+	bool isDebuff();
+	bool isCanMove();
+
 private:
 	void SetCol();
 	void WorldTransUpdate();
@@ -40,7 +50,8 @@ private:
 	void SetAngleToPlayer();
 	void GetPlayer();
 	void Move();
-	void SubLife(int32_t num, int32_t num2);
+	void SubLife(int32_t subLife, int32_t effectNum);
+	void UpdateDebuff();
 
 private:
 	const float SPEED_MOVE = 0.05f;
@@ -75,7 +86,7 @@ private:
 	bool isHit_;
 
 	//デバフ
-	uint8_t debuff_;
+	DebuffM debuff_;
 
 	//本体のモデル関係
 	std::unique_ptr<Model> model_;

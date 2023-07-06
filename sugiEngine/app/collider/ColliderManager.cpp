@@ -37,7 +37,7 @@ void ColliderManager::Update()
 		for (int j = 0; j < fireBallsCol.size(); j++) {
 			if (ChackHitBox(enemysCol[i]->GetBoxCol(), fireBallsCol[j]->GetBoxCol())) {
 				enemysCol[i]->SetIsHit(1,1);
-				enemysCol[i]->SetDebuff(FIRE);
+				enemysCol[i]->SetDebuff(FIRE,10);
 				fireBallsCol[j]->SetIsHit();
 			}
 		}
@@ -53,7 +53,7 @@ void ColliderManager::Update()
 		for (int j = 0; j < majicMissilesCol.size(); j++) {
 			if (ChackHitBox(enemysCol[i]->GetBoxCol(), majicMissilesCol[j]->GetBoxCol())) {
 				enemysCol[i]->SetIsHit(5, 5);
-				enemysCol[i]->SetDebuff(THUNDER);
+				enemysCol[i]->SetDebuff(THUNDER,5);
 				majicMissilesCol[j]->SetIsHit();
 			}
 		}

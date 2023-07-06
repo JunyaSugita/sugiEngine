@@ -10,7 +10,6 @@ enum MAGIC {
 
 enum DEBUFF
 {
-	NONE,
 	FIRE,
 	THUNDER,
 };
