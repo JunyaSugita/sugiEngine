@@ -113,6 +113,10 @@ void Enemy::SetDebuff(uint8_t debuff, uint32_t time)
 		debuff_.isThunder = true;
 		debuff_.thunderTime = time * 60;
 		break;
+	case ICE:
+		debuff_.isIce = true;
+		debuff_.iceTime = time * 60;
+		break;
 	default:
 		break;
 	}
@@ -124,6 +128,9 @@ void Enemy::SetDebuff(uint8_t debuff, uint32_t time)
 	else if (debuff_.isThunder) {
 		obj_->SetColor({ 1, 0, 1, 1 });
 	}
+	else if (debuff_.isIce) {
+		obj_->SetColor({ 0, 0.3f, 1, 1 });
+	}
 	else {
 		obj_->SetColor({ 1, 1, 1, 1 });
 	}
@@ -131,7 +138,7 @@ void Enemy::SetDebuff(uint8_t debuff, uint32_t time)
 
 bool Enemy::isDebuff()
 {
-	if (debuff_.isFire || debuff_.isThunder) {
+	if (debuff_.isFire || debuff_.isThunder || debuff_.isIce) {
 		return true;
 	}
 
@@ -199,13 +206,13 @@ void Enemy::SetAngleToPlayer()
 		}
 	}
 	if (rot_.y - angle_ < 0) {
-		rot_.y += SPEED_ANGLE;
+		rot_.y += SPEED_ANGLE * GetSlow();
 		if (rot_.y - angle_ > 0) {
 			rot_.y = angle_;
 		}
 	}
 	else {
-		rot_.y -= SPEED_ANGLE;
+		rot_.y -= SPEED_ANGLE * GetSlow();
 		if (rot_.y - angle_ < 0) {
 			rot_.y = angle_;
 		}
@@ -230,8 +237,8 @@ void Enemy::Move()
 {
 	toPlayer.normalize();
 
-	pos_.x += toPlayer.x * SPEED_MOVE;
-	pos_.z += toPlayer.y * SPEED_MOVE;
+	pos_.x += toPlayer.x * SPEED_MOVE * GetSlow();
+	pos_.z += toPlayer.y * SPEED_MOVE * GetSlow();
 }
 
 void Enemy::SubLife(int32_t subLife, int32_t effectNum)
@@ -290,4 +297,12 @@ void Enemy::ResetShake()
 {
 	pos_.x = boxCol_.pos.x;
 	pos_.z = boxCol_.pos.z;
+}
+
+float Enemy::GetSlow()
+{
+	if (debuff_.isIce) {
+		return 0.5;
+	}
+	return 1.0f;
 }

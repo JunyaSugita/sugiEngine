@@ -25,6 +25,7 @@ void SetSpell::Initialize()
 
 	fireBallTex_ = Sprite::LoadTexture("fireBallIcon.png");
 	magicMissileTex_ = Sprite::LoadTexture("magicMissileIcon.png");
+	iceBoltTex_ = Sprite::LoadTexture("iceBolt.png");
 	comingSoonTex_ = Sprite::LoadTexture("comingSoonIcon.png");
 
 	spell1Sprite_.Initialize(fireBallTex_);
@@ -37,7 +38,7 @@ void SetSpell::Initialize()
 	spell2Sprite_.SetPos(850, 450);
 	spell2Sprite_.SetColor(1, 1, 1, 0.3f);
 
-	spell3Sprite_.Initialize(comingSoonTex_);
+	spell3Sprite_.Initialize(iceBoltTex_);
 	spell3Sprite_.SetAnchorPoint(0.5f, 0.5f);
 	spell3Sprite_.SetPos(WIN_WIDTH / 2, 600);
 	spell3Sprite_.SetColor(1, 1, 1, 0.3f);
@@ -69,6 +70,9 @@ void SetSpell::Update()
 		break;
 	case MAGIC_MISSILE:
 		useSpellSprite_.SetTexture(magicMissileTex_);
+		break;
+	case ICE:
+		useSpellSprite_.SetTexture(iceBoltTex_);
 		break;
 	default:
 		break;

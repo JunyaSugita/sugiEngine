@@ -10,6 +10,8 @@ struct DebuffM {
 	int32_t fireTime;
 	bool isThunder;
 	int32_t thunderTime;
+	bool isIce;
+	int32_t iceTime;
 };
 
 class Enemy{
@@ -54,9 +56,10 @@ private:
 	void UpdateDebuff();
 	void SetShake();
 	void ResetShake();
+	float GetSlow();
 
 private:
-	const float SPEED_MOVE = 0.05f;
+	const float SPEED_MOVE = 0.15f;
 	const float SPEED_ANGLE = 1;
 	const float RADIAN = 180;
 	const Vector2 UP = { 0,-1 };

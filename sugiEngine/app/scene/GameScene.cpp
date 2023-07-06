@@ -81,6 +81,9 @@ void GameScene::Update()
 	if (input->TriggerKey(DIK_2)) {
 		player->SetPresetSpell(MAGIC_MISSILE);
 	}
+	if (input->TriggerKey(DIK_3)) {
+		player->SetPresetSpell(ICE_BOLT);
+	}
 
 #pragma endregion
 
@@ -153,6 +156,9 @@ void GameScene::Update()
 		}
 		if (Button("SetSpell MagicMissile", { 150,30 })) {
 			player->SetPresetSpell(MAGIC_MISSILE);
+		}
+		if (Button("SetSpell IceBolt", { 150,30 })) {
+			player->SetPresetSpell(ICE_BOLT);
 		}
 		End();
 	}
