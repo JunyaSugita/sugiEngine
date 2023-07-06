@@ -49,12 +49,19 @@ void Enemy::Update()
 {
 	//プレイヤー情報の取得
 	GetPlayer();
-	//移動
-	Move();
 
-	//プレイヤーの方へゆっくり回転
-	SetAngleToPlayer();
+	//デバフの適応
+	UpdateDebuff();
 
+	//動けるかどうか
+	if (isCanMove()) {
+		//移動
+		Move();
+
+		//プレイヤーの方へゆっくり回転
+		SetAngleToPlayer();
+
+	}
 	//当たり判定移動
 	SetCol();
 
@@ -71,7 +78,7 @@ void Enemy::Draw()
 	}
 }
 
-void Enemy::SetIsHit(int32_t num, int32_t num2)
+void Enemy::SetIsHit(int32_t subLife, int32_t effectNum)
 {
 	//既に当たっていたら当たらない
 	if (isHit_) {
@@ -81,26 +88,54 @@ void Enemy::SetIsHit(int32_t num, int32_t num2)
 		//当たったフラグを立てる
 		isHit_ = true;
 		//体力を削る
-		SubLife(num,num2);
+		SubLife(subLife, effectNum);
 	}
 }
 
-void Enemy::SetDebuff(uint8_t debuff)
+void Enemy::SetDebuff(uint8_t debuff, uint32_t time)
 {
-	debuff_ = debuff;
-
-	switch (debuff_)
+	switch (debuff)
 	{
 	case FIRE:
-		obj_->SetColor({ 1, 0, 0, 1 });
+		debuff_.isFire = true;
+		debuff_.fireTime = time * 60;
 		break;
 	case THUNDER:
-		obj_->SetColor({ 1, 0, 1, 1 });
+		debuff_.isThunder = true;
+		debuff_.thunderTime = time * 60;
 		break;
 	default:
-		obj_->SetColor({ 1, 1, 1, 1 });
 		break;
 	}
+
+
+	if (debuff_.isFire) {
+		obj_->SetColor({ 1, 0, 0, 1 });
+	}
+	else if (debuff_.isThunder) {
+		obj_->SetColor({ 1, 0, 1, 1 });
+	}
+	else {
+		obj_->SetColor({ 1, 1, 1, 1 });
+	}
+}
+
+bool Enemy::isDebuff()
+{
+	if (debuff_.isFire || debuff_.isThunder) {
+		return true;
+	}
+
+	return false;
+}
+
+bool Enemy::isCanMove()
+{
+	if (debuff_.isThunder) {
+		return false;
+	}
+
+	return true;
 }
 
 void Enemy::SetCol()
@@ -190,10 +225,37 @@ void Enemy::Move()
 	pos_.z += toPlayer.y * SPEED_MOVE;
 }
 
-void Enemy::SubLife(int32_t num, int32_t num2)
+void Enemy::SubLife(int32_t subLife, int32_t effectNum)
 {
-	life_ -= num;
-	EffectManager::GetInstance()->BurstGenerate({ pos_.x,pos_.y + 4,pos_.z }, num2, { 1,0,0,1 });
+	life_ -= subLife;
+	EffectManager::GetInstance()->BurstGenerate({ pos_.x,pos_.y + 4,pos_.z }, effectNum, { 1,0,0,1 });
+	if (life_ <= 0) {
+		isDead_ = true;
+	}
+}
+
+void Enemy::UpdateDebuff()
+{
+	if (isDebuff()) {
+		if (debuff_.isFire) {
+			if (debuff_.fireTime % (3 * 60) == 0) {
+				life_ -= 5;
+			}
+
+			if (--debuff_.fireTime < 0) {
+				debuff_.isFire = false;
+			}
+		}
+		if (debuff_.isThunder) {
+			if (--debuff_.thunderTime < 0) {
+				debuff_.isThunder = false;
+			}
+		}
+	}
+	else {
+		obj_->SetColor({1,1,1,1});
+	}
+
 	if (life_ <= 0) {
 		isDead_ = true;
 	}

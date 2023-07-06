@@ -59,6 +59,9 @@ private:
 	bool isDead_;
 	//Á‚¦‚é‚Ü‚Å‚ÌŠÔŠÇ—
 	int32_t time_;
+	//Á‚¦‚é‚ÌAlpha
+	float alpha_;
+	
 
 	//“–‚½‚Á‚½ƒtƒ‰ƒO
 	bool isHit_;
