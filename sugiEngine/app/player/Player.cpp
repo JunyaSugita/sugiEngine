@@ -51,7 +51,7 @@ void Player::Draw()
 
 bool Player::GetIsCanAction()
 {
-	if (isAttack_ || isSpell_) {
+	if (isAttack_ || isSpell_ || SpellManager::GetInstance()->GetIsUseSpell()) {
 		return false;
 	}
 	return true;
@@ -69,7 +69,7 @@ void Player::Move()
 
 	//ˆÚ“®‘¬“x’á‰ºˆ—
 	float slow = 1;
-	if (!GetIsCanAction() || SpellManager::GetInstance()->GetIsUseSpell()) {
+	if (!GetIsCanAction()) {
 		slow = SPEED_SLOW;
 	}
 
