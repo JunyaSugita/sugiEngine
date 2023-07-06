@@ -102,6 +102,7 @@ void GameScene::Update()
 #pragma endregion
 
 #pragma region ImGui
+#ifdef _DEBUG
 	{
 		//Begin("PostEffect");
 		//if (Button("Clear", { 100,30 })) {
@@ -156,6 +157,7 @@ void GameScene::Update()
 		End();
 	}
 
+#endif
 #pragma endregion
 
 }
