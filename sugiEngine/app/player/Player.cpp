@@ -164,7 +164,18 @@ void Player::CameraMove()
 				presetSpell_ = MAGIC_MISSILE;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
-
+			else if (spellAngle_ >= 144 + RAD && spellAngle_ < 180 + RAD || spellAngle_ >= 0 && spellAngle_ < 36) {
+				presetSpell_ = ICE_BOLT;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
+			else if (spellAngle_ >= 36 && spellAngle_ < 108) {
+				presetSpell_ = FIRE_BALL;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
+			else if (spellAngle_ >= 108 && spellAngle_ < RAD) {
+				presetSpell_ = FIRE_BALL;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
 		}
 	}
 
@@ -203,6 +214,9 @@ void Player::Attack()
 			break;
 		case MAGIC_MISSILE:
 			spellM->ChargeMagicMissile();
+			break;
+		case ICE_BOLT:
+			spellM->ChargeIceBolt();
 			break;
 
 		default:

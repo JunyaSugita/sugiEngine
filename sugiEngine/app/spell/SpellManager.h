@@ -1,10 +1,12 @@
 #pragma once
 #include "FireBall.h"
 #include "MagicMissile.h"
+#include "IceBolt.h"
 
 enum MAGIC {
 	FIRE_BALL,
 	MAGIC_MISSILE,
+	ICE_BOLT,
 };
 
 
@@ -12,6 +14,7 @@ enum DEBUFF
 {
 	FIRE,
 	THUNDER,
+	ICE,
 };
 
 class SpellManager {
@@ -38,6 +41,9 @@ public:
 	void ChargeMagicMissile();
 	void FireMagicMissile();
 
+	void ChargeIceBolt();
+	void FireIceBolt();
+
 	void ResetChargeTime() {
 		chargeTime_ = 0;
 	}
@@ -63,6 +69,14 @@ public:
 		return magicMissilesList_;
 	}
 
+	std::vector<IceBolt*> GetIceBoltsCol() {
+		iceBoltsList_.clear();
+		for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
+			iceBoltsList_.push_back(iceBolt.get());
+		}
+		return iceBoltsList_;
+	}
+
 	bool GetIsUseSpell();
 
 public:
@@ -72,6 +86,9 @@ public:
 	//マジックミサイル
 	const float TIME_CHARGE_MAGICMISSILE = 2.5f * 60;
 	const float TIME_FIRE_MAGICMISSILE = 2.0f * 60;
+	//アイスボルト
+	const float TIME_CHARGE_ICEBOLT = 1.5f * 60;
+	const float TIME_FIRE_ICEBOLT = 0.3f * 60;
 private:
 	float maxCharge_;
 	float chargeTime_;
@@ -79,10 +96,14 @@ private:
 
 	bool isUseFireBall_;
 	bool isUseMagicMissile_;
+	bool isUseIceBolt_;
 
 	std::list<std::unique_ptr<FireBall>> fireBalls_;
 	std::vector<FireBall*> fireBallsList_;
 
 	std::list<std::unique_ptr<MagicMissile>> magicMissiles_;
 	std::vector<MagicMissile*> magicMissilesList_;
+
+	std::list<std::unique_ptr<IceBolt>> iceBolts_;
+	std::vector<IceBolt*> iceBoltsList_;
 };

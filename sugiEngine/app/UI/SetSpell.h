@@ -24,6 +24,7 @@ private:
 
 	uint32_t fireBallTex_;
 	uint32_t magicMissileTex_;
+	uint32_t iceBoltTex_;
 	uint32_t comingSoonTex_;
 
 	Sprite spell1Sprite_;

@@ -21,11 +21,15 @@ void SpellManager::Initialize()
 {
 	FireBall::OneTimeInitialize();
 	MagicMissile::OneTimeInitialize();
+	IceBolt::OneTimeInitialize();
 	for (unique_ptr<FireBall>& fireBall : fireBalls_) {
 		fireBall->SetIsDead();
 	}
 	for (unique_ptr<MagicMissile>& magicMissile : magicMissiles_) {
 		magicMissile->SetIsDead();
+	}
+	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
+		iceBolt->SetIsDead();
 	}
 
 	maxCharge_ = 0;
@@ -33,6 +37,7 @@ void SpellManager::Initialize()
 	useTime_ = 0;
 	isUseFireBall_ = false;
 	isUseMagicMissile_ = false;
+	isUseIceBolt_ = false;
 }
 
 void SpellManager::Update()
@@ -50,6 +55,9 @@ void SpellManager::Update()
 	magicMissiles_.remove_if([](unique_ptr<MagicMissile>& magicMissile) {
 		return magicMissile->GetIsDead();
 	});
+	iceBolts_.remove_if([](unique_ptr<IceBolt>& iceBolt) {
+		return iceBolt->GetIsDead();
+	});
 #pragma endregion
 
 #pragma region 魔法のアップデート
@@ -60,6 +68,9 @@ void SpellManager::Update()
 	if (isUseMagicMissile_) {
 		FireMagicMissile();
 	}
+	if (isUseIceBolt_) {
+		FireIceBolt();
+	}
 
 	//各魔法のUpdate
 	for (unique_ptr<FireBall>& fireBall : fireBalls_) {
@@ -67,6 +78,9 @@ void SpellManager::Update()
 	}
 	for (unique_ptr<MagicMissile>& magicMissile : magicMissiles_) {
 		magicMissile->Update();
+	}
+	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
+		iceBolt->Update();
 	}
 #pragma endregion
 }
@@ -78,6 +92,9 @@ void SpellManager::Draw()
 	}
 	for (unique_ptr<MagicMissile>& magicMissile : magicMissiles_) {
 		magicMissile->Draw();
+	}
+	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
+		iceBolt->Draw();
 	}
 }
 
@@ -160,6 +177,44 @@ void SpellManager::FireMagicMissile()
 
 }
 
+void SpellManager::ChargeIceBolt()
+{
+	maxCharge_ = TIME_CHARGE_ICEBOLT;
+
+	if (chargeTime_ < maxCharge_) {
+		chargeTime_++;
+	}
+
+	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+		if (int(chargeTime_ / TIME_CHARGE_ICEBOLT)) {
+			isUseIceBolt_ = true;
+			useTime_ = TIME_FIRE_ICEBOLT;
+		}
+		chargeTime_ = 0;
+	}
+	Player::GetInstance()->SetIsSpell(false);
+}
+
+void SpellManager::FireIceBolt()
+{
+	Camera* camera = Camera::GetInstance();
+
+	maxCharge_ = TIME_FIRE_ICEBOLT;
+
+	if (int(useTime_) == 1) {
+		unique_ptr<IceBolt> newSpell = make_unique<IceBolt>();
+		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
+		newSpell->Fire();
+
+		iceBolts_.push_back(move(newSpell));
+	}
+	if (--useTime_ <= 0) {
+		useTime_ = 0;
+		isUseIceBolt_ = false;
+		Player::GetInstance()->SetIsSpell(false);
+	}
+}
+
 float SpellManager::ChargePercent()
 {
 	if (maxCharge_ == 0.0f) {
@@ -174,7 +229,7 @@ float SpellManager::ChargePercent()
 
 bool SpellManager::GetIsUseSpell()
 {
-	if (isUseFireBall_ || isUseMagicMissile_) {
+	if (isUseFireBall_ || isUseMagicMissile_ || isUseIceBolt_) {
 		return true;
 	}
 	return false;
