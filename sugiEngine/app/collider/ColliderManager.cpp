@@ -101,29 +101,32 @@ void ColliderManager::Update()
 						}
 					}
 				}
-				//一番近いやつにダメージ
+				
+				//近いやつがいたら
 				if (hitTemp1 != -1) {
+					//一番近いやつにダメージ
 					enemysCol[hitTemp1]->SetIsHit(15, 5);
 					enemysCol[hitTemp1]->SetDebuff(THUNDER, 1);
-				}
 
-				//2体目の伝播
-				int32_t hitTemp2 = -1;
-				lenTemp = 30;
-				for (int k = 0; k < enemysCol.size(); k++) {
+					//2体目の伝播
+					int32_t hitTemp2 = -1;
+					lenTemp = 30;
+					for (int k = 0; k < enemysCol.size(); k++) {
 
-					if (i != k && hitTemp1 != k) {
-						float length = (enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
-						if (lenTemp > length) {
-							lenTemp = length;
-							hitTemp2 = k;
+						if (i != k && hitTemp1 != k) {
+							float length = (enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
+							if (lenTemp > length) {
+								lenTemp = length;
+								hitTemp2 = k;
+							}
 						}
 					}
-				}
-				//一番近いやつにダメージ
-				if (hitTemp2 != -1) {
-					enemysCol[hitTemp2]->SetIsHit(15, 5);
-					enemysCol[hitTemp2]->SetDebuff(THUNDER, 1);
+					//近いやつがいたら
+					if (hitTemp2 != -1) {
+						//一番近いやつにダメージ
+						enemysCol[hitTemp2]->SetIsHit(15, 5);
+						enemysCol[hitTemp2]->SetDebuff(THUNDER, 1);
+					}
 				}
 			}
 		}
