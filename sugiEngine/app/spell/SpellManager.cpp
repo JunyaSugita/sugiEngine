@@ -52,19 +52,6 @@ void SpellManager::Update()
 	Input* input = Input::GetInstance();
 #pragma endregion
 
-#pragma region 魔法の削除
-	//消すフラグの立った魔法の削除
-	fireBalls_.remove_if([](unique_ptr<FireBall>& fireBall) {
-		return fireBall->GetIsDead();
-	});
-	magicMissiles_.remove_if([](unique_ptr<MagicMissile>& magicMissile) {
-		return magicMissile->GetIsDead();
-	});
-	iceBolts_.remove_if([](unique_ptr<IceBolt>& iceBolt) {
-		return iceBolt->GetIsDead();
-	});
-#pragma endregion
-
 #pragma region 魔法のアップデート
 	//各魔法の発射
 	if (isUseFireBall_) {
@@ -75,6 +62,9 @@ void SpellManager::Update()
 	}
 	if (isUseIceBolt_) {
 		FireIceBolt();
+	}
+	if (isUseChainLightning_) {
+		FireChainLightning();
 	}
 
 	//各魔法のUpdate
@@ -87,6 +77,25 @@ void SpellManager::Update()
 	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 		iceBolt->Update();
 	}
+	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
+		chainLightning->Update();
+	}
+#pragma endregion
+
+#pragma region 魔法の削除
+	//消すフラグの立った魔法の削除
+	fireBalls_.remove_if([](unique_ptr<FireBall>& fireBall) {
+		return fireBall->GetIsDead();
+		});
+	magicMissiles_.remove_if([](unique_ptr<MagicMissile>& magicMissile) {
+		return magicMissile->GetIsDead();
+		});
+	iceBolts_.remove_if([](unique_ptr<IceBolt>& iceBolt) {
+		return iceBolt->GetIsDead();
+		});
+	chainLightnings_.remove_if([](unique_ptr<ChainLightning>& chainLightning) {
+		return chainLightning->GetIsDead();
+		});
 #pragma endregion
 }
 
@@ -100,6 +109,9 @@ void SpellManager::Draw()
 	}
 	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 		iceBolt->Draw();
+	}
+	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
+		chainLightning->Draw();
 	}
 }
 

@@ -19,7 +19,7 @@ public:
 	void Update();
 	void Draw();
 
-	void PopEnemy(Vector3 pos = Vector3(0,0,0));
+	void PopEnemy(Vector3 pos = Vector3(0,-1,0));
 	void ResetIsHit();
 
 	std::vector<Enemy*> GetEnemysList() {

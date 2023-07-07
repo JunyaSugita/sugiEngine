@@ -26,7 +26,7 @@ void SetSpell::Initialize()
 	fireBallTex_ = Sprite::LoadTexture("fireBallIcon.png");
 	magicMissileTex_ = Sprite::LoadTexture("magicMissileIcon.png");
 	iceBoltTex_ = Sprite::LoadTexture("iceBolt.png");
-	chainLightningTex_ = Sprite::LoadTexture("iceBolt.png");
+	chainLightningTex_ = Sprite::LoadTexture("chainLightning.png");
 	comingSoonTex_ = Sprite::LoadTexture("comingSoonIcon.png");
 
 	spell1Sprite_.Initialize(fireBallTex_);
@@ -76,7 +76,7 @@ void SetSpell::Update()
 		useSpellSprite_.SetTexture(iceBoltTex_);
 		break;
 	case CHAIN_LIGHTNING:
-		useSpellSprite_.SetTexture(iceBoltTex_);
+		useSpellSprite_.SetTexture(chainLightningTex_);
 		break;
 	default:
 		break;
