@@ -22,6 +22,7 @@ void SpellManager::Initialize()
 	FireBall::OneTimeInitialize();
 	MagicMissile::OneTimeInitialize();
 	IceBolt::OneTimeInitialize();
+	ChainLightning::OneTimeInitialize();
 	for (unique_ptr<FireBall>& fireBall : fireBalls_) {
 		fireBall->SetIsDead();
 	}
@@ -31,6 +32,9 @@ void SpellManager::Initialize()
 	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 		iceBolt->SetIsDead();
 	}
+	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
+		chainLightning->SetIsDead();
+	}
 
 	maxCharge_ = 0;
 	chargeTime_ = 0;
@@ -38,6 +42,7 @@ void SpellManager::Initialize()
 	isUseFireBall_ = false;
 	isUseMagicMissile_ = false;
 	isUseIceBolt_ = false;
+	isUseChainLightning_ = false;
 }
 
 void SpellManager::Update()
@@ -45,19 +50,6 @@ void SpellManager::Update()
 #pragma region インスタンス呼び出し
 	//インスタンス呼び出し
 	Input* input = Input::GetInstance();
-#pragma endregion
-
-#pragma region 魔法の削除
-	//消すフラグの立った魔法の削除
-	fireBalls_.remove_if([](unique_ptr<FireBall>& fireBall) {
-		return fireBall->GetIsDead();
-	});
-	magicMissiles_.remove_if([](unique_ptr<MagicMissile>& magicMissile) {
-		return magicMissile->GetIsDead();
-	});
-	iceBolts_.remove_if([](unique_ptr<IceBolt>& iceBolt) {
-		return iceBolt->GetIsDead();
-	});
 #pragma endregion
 
 #pragma region 魔法のアップデート
@@ -71,6 +63,9 @@ void SpellManager::Update()
 	if (isUseIceBolt_) {
 		FireIceBolt();
 	}
+	if (isUseChainLightning_) {
+		FireChainLightning();
+	}
 
 	//各魔法のUpdate
 	for (unique_ptr<FireBall>& fireBall : fireBalls_) {
@@ -82,6 +77,25 @@ void SpellManager::Update()
 	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 		iceBolt->Update();
 	}
+	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
+		chainLightning->Update();
+	}
+#pragma endregion
+
+#pragma region 魔法の削除
+	//消すフラグの立った魔法の削除
+	fireBalls_.remove_if([](unique_ptr<FireBall>& fireBall) {
+		return fireBall->GetIsDead();
+		});
+	magicMissiles_.remove_if([](unique_ptr<MagicMissile>& magicMissile) {
+		return magicMissile->GetIsDead();
+		});
+	iceBolts_.remove_if([](unique_ptr<IceBolt>& iceBolt) {
+		return iceBolt->GetIsDead();
+		});
+	chainLightnings_.remove_if([](unique_ptr<ChainLightning>& chainLightning) {
+		return chainLightning->GetIsDead();
+		});
 #pragma endregion
 }
 
@@ -95,6 +109,9 @@ void SpellManager::Draw()
 	}
 	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 		iceBolt->Draw();
+	}
+	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
+		chainLightning->Draw();
 	}
 }
 
@@ -215,6 +232,45 @@ void SpellManager::FireIceBolt()
 	}
 }
 
+void SpellManager::ChargeChainLightning()
+{
+	maxCharge_ = TIME_CHARGE_CHAINLIGHTNING;
+
+	if (chargeTime_ < maxCharge_) {
+		chargeTime_++;
+	}
+
+	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+		if (int(chargeTime_ / TIME_CHARGE_CHAINLIGHTNING)) {
+			isUseChainLightning_ = true;
+			useTime_ = TIME_FIRE_CHAINLIGHTNING;
+		}
+		chargeTime_ = 0;
+	}
+	Player::GetInstance()->SetIsSpell(false);
+}
+
+void SpellManager::FireChainLightning()
+{
+	Camera* camera = Camera::GetInstance();
+
+	maxCharge_ = TIME_FIRE_CHAINLIGHTNING;
+
+	if (int(useTime_) == 1) {
+		unique_ptr<ChainLightning> newSpell = make_unique<ChainLightning>();
+		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
+		newSpell->Fire();
+
+		chainLightnings_.push_back(move(newSpell));
+	}
+	if (--useTime_ <= 0) {
+		useTime_ = 0;
+		isUseChainLightning_ = false;
+		Player::GetInstance()->SetIsSpell(false);
+	}
+
+}
+
 float SpellManager::ChargePercent()
 {
 	if (maxCharge_ == 0.0f) {
@@ -229,7 +285,7 @@ float SpellManager::ChargePercent()
 
 bool SpellManager::GetIsUseSpell()
 {
-	if (isUseFireBall_ || isUseMagicMissile_ || isUseIceBolt_) {
+	if (isUseFireBall_ || isUseMagicMissile_ || isUseIceBolt_ || isUseChainLightning_) {
 		return true;
 	}
 	return false;

@@ -69,27 +69,33 @@ void EnemyManager::Draw()
 
 void EnemyManager::PopEnemy(Vector3 pos)
 {
-	//ƒ‰ƒ“ƒ_ƒ€
-	random_device seed_gen;
-	mt19937_64 engine(seed_gen());
-	uniform_real_distribution<float> rand(0.0f, 3.9f);
-
 	unique_ptr<Enemy> newEnemy = make_unique<Enemy>();
-	switch (int(rand(engine)))
-	{
-	case 1:
-		newEnemy->Initialize({40,0,40});
-		break;
-	case 2:
-		newEnemy->Initialize({ -40,0,40 });
-		break;
-	case 3:
-		newEnemy->Initialize({ 40,0,-40 });
-		break;
 
-	default:
-		newEnemy->Initialize({ -40,0,-40 });
-		break;
+	if (pos.y == -1) {
+		//ƒ‰ƒ“ƒ_ƒ€
+		random_device seed_gen;
+		mt19937_64 engine(seed_gen());
+		uniform_real_distribution<float> rand(0.0f, 3.9f);
+
+		switch (int(rand(engine)))
+		{
+		case 1:
+			newEnemy->Initialize({ 40,0,40 });
+			break;
+		case 2:
+			newEnemy->Initialize({ -40,0,40 });
+			break;
+		case 3:
+			newEnemy->Initialize({ 40,0,-40 });
+			break;
+
+		default:
+			newEnemy->Initialize({ -40,0,-40 });
+			break;
+		}
+	}
+	else {
+		newEnemy->Initialize(pos);
 	}
 
 	enemys_.push_back(move(newEnemy));

@@ -267,6 +267,11 @@ void Enemy::UpdateDebuff()
 				debuff_.isThunder = false;
 			}
 		}
+		if (debuff_.isIce) {
+			if (--debuff_.iceTime < 0) {
+				debuff_.isIce = false;
+			}
+		}
 	}
 	else {
 		obj_->SetColor({1,1,1,1});

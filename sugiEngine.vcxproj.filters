@@ -258,6 +258,9 @@
     <ClCompile Include="sugiEngine\app\spell\IceBolt.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\ChainLightning.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -408,6 +411,9 @@
       <Filter>ヘッダー ファイル\app\UI</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\spell\IceBolt.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\ChainLightning.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
   </ItemGroup>

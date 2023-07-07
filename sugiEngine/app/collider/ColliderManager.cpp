@@ -68,9 +68,63 @@ void ColliderManager::Update()
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = 0; j < iceBoltsCol.size(); j++) {
 			if (ChackHitBox(enemysCol[i]->GetBoxCol(), iceBoltsCol[j]->GetBoxCol())) {
-				enemysCol[i]->SetIsHit(15, 5);
+				enemysCol[i]->SetIsHit(10, 5);
 				enemysCol[i]->SetDebuff(ICE, 8);
 				iceBoltsCol[j]->SetIsHit();
+			}
+		}
+	}
+
+#pragma endregion
+
+#pragma region チェインライトニングの判定
+	//チェインライトニング
+	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
+
+	for (int i = 0; i < enemysCol.size(); i++) {
+		for (int j = 0; j < chainLightningsCol.size(); j++) {
+			if (ChackHitBox(enemysCol[i]->GetBoxCol(), chainLightningsCol[j]->GetBoxCol())) {
+				enemysCol[i]->SetIsHit(15, 5);
+				enemysCol[i]->SetDebuff(THUNDER, 1);
+				chainLightningsCol[j]->SetIsHit();
+
+				//1体目の伝播
+				int32_t hitTemp1 = -1;
+				float lenTemp = 30;
+				for (int k = 0; k < enemysCol.size(); k++) {
+					
+					if (i != k) {
+						float length = (enemysCol[i]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
+						if (lenTemp > length) {
+							lenTemp = length;
+							hitTemp1 = k;
+						}
+					}
+				}
+				//一番近いやつにダメージ
+				if (hitTemp1 != -1) {
+					enemysCol[hitTemp1]->SetIsHit(15, 5);
+					enemysCol[hitTemp1]->SetDebuff(THUNDER, 1);
+				}
+
+				//2体目の伝播
+				int32_t hitTemp2 = -1;
+				lenTemp = 30;
+				for (int k = 0; k < enemysCol.size(); k++) {
+
+					if (i != k && hitTemp1 != k) {
+						float length = (enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
+						if (lenTemp > length) {
+							lenTemp = length;
+							hitTemp2 = k;
+						}
+					}
+				}
+				//一番近いやつにダメージ
+				if (hitTemp2 != -1) {
+					enemysCol[hitTemp2]->SetIsHit(15, 5);
+					enemysCol[hitTemp2]->SetDebuff(THUNDER, 1);
+				}
 			}
 		}
 	}
@@ -88,5 +142,23 @@ bool ColliderManager::ChackHitBox(BoxCol a, BoxCol b)
 		}
 	}
 
+	return false;
+}
+
+bool ColliderManager::ChakeHitEnemyToChainLightning()
+{
+	//敵の判定
+	vector<Enemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+
+	//チェインライトニング
+	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
+
+	for (int i = 0; i < enemysCol.size(); i++) {
+		for (int j = 0; j < chainLightningsCol.size(); j++) {
+			if (ChackHitBox(enemysCol[i]->GetBoxCol(), chainLightningsCol[j]->GetBoxCol())) {
+				return true;
+			}
+		}
+	}
 	return false;
 }

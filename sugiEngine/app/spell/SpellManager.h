@@ -2,11 +2,13 @@
 #include "FireBall.h"
 #include "MagicMissile.h"
 #include "IceBolt.h"
+#include "ChainLightning.h"
 
 enum MAGIC {
 	FIRE_BALL,
 	MAGIC_MISSILE,
 	ICE_BOLT,
+	CHAIN_LIGHTNING,
 };
 
 
@@ -44,6 +46,9 @@ public:
 	void ChargeIceBolt();
 	void FireIceBolt();
 
+	void ChargeChainLightning();
+	void FireChainLightning();
+
 	void ResetChargeTime() {
 		chargeTime_ = 0;
 	}
@@ -77,6 +82,14 @@ public:
 		return iceBoltsList_;
 	}
 
+	std::vector<ChainLightning*> GetChainLightningsCol() {
+		chainLightningsList_.clear();
+		for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
+			chainLightningsList_.push_back(chainLightning.get());
+		}
+		return chainLightningsList_;
+	}
+
 	bool GetIsUseSpell();
 
 public:
@@ -89,6 +102,10 @@ public:
 	//アイスボルト
 	const float TIME_CHARGE_ICEBOLT = 1.5f * 60;
 	const float TIME_FIRE_ICEBOLT = 0.3f * 60;
+	//チェインライトニング
+	const float TIME_CHARGE_CHAINLIGHTNING = 4.0f * 60;
+	const float TIME_FIRE_CHAINLIGHTNING = 0.3f * 60;
+
 private:
 	float maxCharge_;
 	float chargeTime_;
@@ -97,6 +114,7 @@ private:
 	bool isUseFireBall_;
 	bool isUseMagicMissile_;
 	bool isUseIceBolt_;
+	bool isUseChainLightning_;
 
 	std::list<std::unique_ptr<FireBall>> fireBalls_;
 	std::vector<FireBall*> fireBallsList_;
@@ -106,4 +124,7 @@ private:
 
 	std::list<std::unique_ptr<IceBolt>> iceBolts_;
 	std::vector<IceBolt*> iceBoltsList_;
+
+	std::list<std::unique_ptr<ChainLightning>> chainLightnings_;
+	std::vector<ChainLightning*> chainLightningsList_;
 };

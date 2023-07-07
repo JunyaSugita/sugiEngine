@@ -32,8 +32,11 @@ public:
 		isShowHitBox_ = (isShowHitBox_ + 1) % 2;
 	}
 
+	bool ChakeHitEnemyToChainLightning();
+
 private:
 	bool ChackHitBox(BoxCol a, BoxCol b);
+
 
 private:
 	//“–‚½‚è”»’è•\Ž¦‚Ìƒtƒ‰ƒO

@@ -69,9 +69,17 @@ void GameScene::Update()
 	if (input->TriggerKey(DIK_R)) {
 		Initialize();
 	}
-	if (input->TriggerKey(DIK_P)) {
+	if (input->TriggerKey(DIK_P) || input->TriggerButton(XINPUT_GAMEPAD_Y)) {
 		enemyM->PopEnemy();
 	}
+	if (input->TriggerKey(DIK_L) || input->TriggerButton(XINPUT_GAMEPAD_X)) {
+		enemyM->PopEnemy({ -10,0,0 });
+		enemyM->PopEnemy({ -5,0,3 });
+		enemyM->PopEnemy({ 0,0,0 });
+		enemyM->PopEnemy({ 5,0,3 });
+		enemyM->PopEnemy({ 10,0,0 });
+	}
+
 	if (input->TriggerKey(DIK_O)) {
 		colM->ChangeIsShowHitBox();
 	}
@@ -84,6 +92,10 @@ void GameScene::Update()
 	if (input->TriggerKey(DIK_3)) {
 		player->SetPresetSpell(ICE_BOLT);
 	}
+
+	//if (enemyM->GetEnemyCount() < 5) {
+	//	enemyM->PopEnemy();
+	//}
 
 #pragma endregion
 
@@ -98,9 +110,7 @@ void GameScene::Update()
 	uiM->Update();
 	colM->Update();
 
-	if (enemyM->GetEnemyCount() < 5) {
-		enemyM->PopEnemy();
-	}
+
 
 #pragma endregion
 
