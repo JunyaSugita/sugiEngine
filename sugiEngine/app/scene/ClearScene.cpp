@@ -91,6 +91,10 @@ void ClearScene::ObjDraw()
 {
 }
 
+void ClearScene::ParticleDraw()
+{
+}
+
 void ClearScene::SpriteDraw()
 {
 

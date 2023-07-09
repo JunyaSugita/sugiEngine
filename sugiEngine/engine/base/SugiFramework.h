@@ -30,6 +30,7 @@
 #include "FbxLoader.h"
 #include "Fbx.h"
 #include "PostEffect.h"
+#include "Particle.h"
 
 class SugiFramework {
 public:

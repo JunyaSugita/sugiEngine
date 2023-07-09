@@ -96,8 +96,8 @@ PSOutput main(VSOutput input)
 		}
 	}
 
-    output.target0 = float4(1 - (shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
-    output.target1 = float4((shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
+    output.target0 = float4((shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
+    output.target1 = float4(1 - (shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
 
 	float4 col = output.target1;
 	float grayScale = col.r * 0.299f + col.g * 0.587f + col.b * 0.114f;

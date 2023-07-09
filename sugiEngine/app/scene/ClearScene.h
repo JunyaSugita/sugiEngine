@@ -17,6 +17,7 @@ public:
 	void BackSpriteDraw() override;
 	void Draw() override;
 	void ObjDraw() override;
+	void ParticleDraw() override;
 	void SpriteDraw() override;
 	void Finalize() override;
 

@@ -44,6 +44,9 @@ void GameScene::Initialize()
 	//“–‚½‚è”»’è
 	ColliderManager::GetInstance()->Initialize();
 
+	particle_ = make_unique<Particle>();
+	particle_->Initialize(Particle::LoadTexture("white1x1.png"));
+	particle_->SetSize(1000, 1000);
 }
 
 void GameScene::Update()
@@ -193,6 +196,11 @@ void GameScene::ObjDraw()
 	EnemyManager::GetInstance()->Draw();
 	EffectManager::GetInstance()->Draw();
 	SpellManager::GetInstance()->Draw();
+}
+
+void GameScene::ParticleDraw()
+{
+	particle_->Draw();
 }
 
 void GameScene::SpriteDraw()
