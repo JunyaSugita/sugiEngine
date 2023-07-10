@@ -45,8 +45,9 @@ void GameScene::Initialize()
 	ColliderManager::GetInstance()->Initialize();
 
 	particle_ = make_unique<Particle>();
-	particle_->Initialize(Particle::LoadTexture("white1x1.png"));
-	particle_->SetSize(10, 10);
+	particle_->Initialize(Particle::LoadTexture("tex1.png"));
+	particle_->SetSize(100, 100);
+	particle_->SetPos(0, 5);
 }
 
 void GameScene::Update()

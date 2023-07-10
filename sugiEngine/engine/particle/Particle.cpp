@@ -23,11 +23,12 @@ void Particle::StaticInitialize(ID3D12Device* device)
 	sDevice = device;
 
 	ComPtr<ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> gsBlob = nullptr;
 	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SpriteVS.hlsl", // シェーダファイル名
+		L"Resources/Shaders/ParticleVS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -47,9 +48,31 @@ void Particle::StaticInitialize(ID3D12Device* device)
 		OutputDebugStringA(error.c_str());
 		assert(0);
 	}
+	// ジオメトリシェーダの読み込みとコンパイル
+	result = D3DCompileFromFile(
+		L"Resources/Shaders/ParticleGS.hlsl", // シェーダファイル名
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+		"main", "gs_5_0", // エントリーポイント名、シェーダーモデル指定
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+		0,
+		&gsBlob, &errorBlob);
+	// エラーなら
+	if (FAILED(result)) {
+		// errorBlobからエラー内容をstring型にコピー
+		std::string error;
+		error.resize(errorBlob->GetBufferSize());
+		std::copy_n((char*)errorBlob->GetBufferPointer(),
+			errorBlob->GetBufferSize(),
+			error.begin());
+		error += "\n";
+		// エラー内容を出力ウィンドウに表示
+		OutputDebugStringA(error.c_str());
+		assert(0);
+	}
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SpritePS.hlsl", // シェーダファイル名
+		L"Resources/Shaders/ParticlePS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -76,11 +99,6 @@ void Particle::StaticInitialize(ID3D12Device* device)
 		"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 		D3D12_APPEND_ALIGNED_ELEMENT,
 		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-	},
-	{//uv座標
-		"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT, 0,
-		D3D12_APPEND_ALIGNED_ELEMENT,
-		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
 	}
 	};
 
@@ -89,6 +107,8 @@ void Particle::StaticInitialize(ID3D12Device* device)
 	// シェーダーの設定
 	pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
+	pipelineDesc.GS.pShaderBytecode = gsBlob->GetBufferPointer();
+	pipelineDesc.GS.BytecodeLength = gsBlob->GetBufferSize();
 	pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
 
@@ -125,7 +145,7 @@ void Particle::StaticInitialize(ID3D12Device* device)
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
 	pipelineDesc.InputLayout.NumElements = _countof(inputLayout);
 	// 図形の形状設定
-	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
 	// その他の設定
 	pipelineDesc.NumRenderTargets = 2; // 描画対象は1つ
@@ -231,7 +251,7 @@ void Particle::PreDraw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootSignature(sRootSignature.Get());
 
 	// プリミティブ形状の設定コマンド
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // 三角形リスト
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }
 
 void Particle::PostDraw()
@@ -341,13 +361,10 @@ void Particle::Initialize(uint32_t texNum)
 	textureNum_ = texNum;
 	AdjustTextureSize();
 
-	vertices_[0] = { {  0.0f,textureSize_.y,0.0f},{0.0f,1.0f} };	//左下
-	vertices_[1] = { {  0.0f,  0.0f,0.0f},{0.0f,0.0f} };	//左上
-	vertices_[2] = { {textureSize_.x,textureSize_.y,0.0f},{1.0f,1.0f} };	//右下
-	vertices_[3] = { {textureSize_.x,  0.0f,0.0f},{1.0f,0.0f} };	//右上
+	vertices_ = {{0.0f,0.0f,0.0f}};	//左下
 	size_ = textureSize_;
 
-	uint32_t sizeVB = static_cast<uint32_t>(sizeof(vertices_[0]) * _countof(vertices_));
+	uint32_t sizeVB = static_cast<uint32_t>(sizeof(vertices_));
 
 	// 頂点バッファの設定
 	heapProp_.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
@@ -375,9 +392,7 @@ void Particle::Initialize(uint32_t texNum)
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int32_t i = 0; i < _countof(vertices_); i++) {
-		vertMap[i] = vertices_[i]; // 座標をコピー
-	}
+	vertMap[0] = vertices_; // 座標をコピー
 	// 繋がりを解除
 	vertBuff_->Unmap(0, nullptr);
 
@@ -386,7 +401,7 @@ void Particle::Initialize(uint32_t texNum)
 	// 頂点バッファのサイズ
 	vbView_.SizeInBytes = sizeVB;
 	// 頂点1つ分のデータサイズ
-	vbView_.StrideInBytes = sizeof(vertices_[0]);
+	vbView_.StrideInBytes = sizeof(vertices_);
 
 
 	//ヒープ設定
@@ -493,7 +508,7 @@ void Particle::Draw()
 
 	if (isView_ == true) {
 		// 描画コマンド
-		sCmdList->DrawInstanced(4, 1, 0, 0); // 全ての頂点を使って描画
+		sCmdList->DrawInstanced(1, 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -569,10 +584,7 @@ void Particle::SetUpVertex() {
 		bottom *= -1;
 	}
 
-	vertices_[0].pos = { left,bottom,0.0f };	//左下
-	vertices_[1].pos = { left,   top,0.0f };	//左上
-	vertices_[2].pos = { right,bottom,0.0f };	//右下
-	vertices_[3].pos = { right,   top,0.0f };	//右上
+	vertices_.pos = { 0.0f,0.0f,0.0f };
 
 	//ID3D12Resource* textureBuffer = textureBuffers_[textureIndex].Get();
 	if (sTextureBuffers[textureNum_]) {
@@ -583,12 +595,6 @@ void Particle::SetUpVertex() {
 		float tex_right = (textureLeftTop_.x + textureSize_.x) / resDesc.Width;
 		float tex_top = textureLeftTop_.y / resDesc.Height;
 		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
-
-		//UV
-		vertices_[0].uv = { tex_left,tex_bottom };	//左下
-		vertices_[1].uv = { tex_left,tex_top };	//左上
-		vertices_[2].uv = { tex_right,tex_bottom };	//右下
-		vertices_[3].uv = { tex_right,tex_top };	//右上
 	}
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
@@ -596,9 +602,7 @@ void Particle::SetUpVertex() {
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int32_t i = 0; i < _countof(vertices_); i++) {
-		vertMap[i] = vertices_[i]; // 座標をコピー
-	}
+	vertMap[0] = vertices_; // 座標をコピー
 	// 繋がりを解除
 	vertBuff_->Unmap(0, nullptr);
 

@@ -1,9 +1,8 @@
 #include "Particle.hlsli"
 
-VSOutput main(float4 pos : POSITION, float2 uv : TEXCOORD)
+VSOutput main(float4 pos : POSITION)
 {
 	VSOutput output;	//ピクセルシェーダに渡す値
-	output.svpos = mul(mul(viewproj, world), pos);
-	output.uv = uv;
+	output.pos = mul(mul(viewproj, world), pos);
 	return output;
 }

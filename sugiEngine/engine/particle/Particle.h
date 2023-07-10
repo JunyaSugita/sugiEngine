@@ -16,7 +16,6 @@ public:
 
 	struct VertexSp {
 		XMFLOAT3 pos;
-		XMFLOAT2 uv;
 	};
 
 	struct ConstBuffB1 {
@@ -105,7 +104,7 @@ protected:
 	bool isFlipX_ = false;
 	bool isFlipY_ = false;
 	bool isView_ = true;
-	VertexSp vertices_[4];
+	VertexSp vertices_;
 	D3D12_VERTEX_BUFFER_VIEW vbView_;
 	ComPtr<ID3D12Resource> constBuffMaterial_;
 	uint32_t textureNum_;
