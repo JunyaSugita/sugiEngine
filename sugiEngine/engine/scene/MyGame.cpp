@@ -75,6 +75,11 @@ void MyGame::GameDraw()
 	GameManager::GetInstance()->ObjDraw();
 	Object3d::PostDraw();
 
+	//particleモデル
+	Particle::PreDraw(dxCom_->GetCommandList());
+	GameManager::GetInstance()->ParticleDraw();
+	Particle::PostDraw();
+
 	//スプライト
 	Sprite::PreDraw(dxCom_->GetCommandList());
 	//GameManager::GetInstance()->SpriteDraw();

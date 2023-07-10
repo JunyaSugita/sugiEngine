@@ -121,6 +121,12 @@
     <Filter Include="ヘッダー ファイル\app\collider">
       <UniqueIdentifier>{20c6474a-7b5d-4df7-934b-1be5131a72ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\engine\particle">
+      <UniqueIdentifier>{5d56968c-5432-427c-93e8-228cf59d2e52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\particle">
+      <UniqueIdentifier>{4273a141-bd1d-46c0-94c2-6ed71c8d7f54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sugiEngine\main.cpp">
@@ -260,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="sugiEngine\app\spell\ChainLightning.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\particle\Particle.cpp">
+      <Filter>ソース ファイル\engine\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +425,9 @@
     <ClInclude Include="sugiEngine\app\spell\ChainLightning.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
+    <ClInclude Include="sugiEngine\engine\particle\Particle.h">
+      <Filter>ヘッダー ファイル\engine\particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli">
@@ -431,6 +443,9 @@
       <Filter>リソース ファイル</Filter>
     </None>
     <None Include="Resources\Shaders\PostEffect.hlsli">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\Shaders\Particle.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
@@ -463,6 +478,15 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\PostEffectVS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticlePS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleVS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

@@ -60,6 +60,10 @@ void TitleScene::ObjDraw()
 {
 }
 
+void TitleScene::ParticleDraw()
+{
+}
+
 void TitleScene::SpriteDraw()
 {
 

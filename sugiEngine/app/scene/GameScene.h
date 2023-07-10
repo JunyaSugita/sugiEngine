@@ -9,6 +9,7 @@
 #include "LightGroup.h"
 #include "ImGuiManager.h"
 #include "FBX.h"
+#include "Particle.h"
 
 class GameScene : public ISceneManager
 {
@@ -18,6 +19,7 @@ public:
 	void BackSpriteDraw() override;
 	void Draw() override;
 	void ObjDraw() override;
+	void ParticleDraw() override;
 	void SpriteDraw() override;
 	void Finalize() override;
 
@@ -26,5 +28,7 @@ public:
 private:
 	//ƒ‰ƒCƒgŠÖ˜A
 	unique_ptr<LightGroup> lightGroup_ = nullptr;
+
+	unique_ptr<Particle> particle_;
 };
 

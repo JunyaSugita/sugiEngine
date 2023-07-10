@@ -34,6 +34,11 @@ void GameManager::ObjDraw()
 	scene_->ObjDraw();
 }
 
+void GameManager::ParticleDraw()
+{
+	scene_->ParticleDraw();
+}
+
 void GameManager::SpriteDraw()
 {
 	scene_->SpriteDraw();

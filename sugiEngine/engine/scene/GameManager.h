@@ -22,6 +22,7 @@ public:
 	void BackSpriteDraw();
 	void Draw();
 	void ObjDraw();
+	void ParticleDraw();
 	void SpriteDraw();
 	void Finalize();
 	

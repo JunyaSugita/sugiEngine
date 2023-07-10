@@ -44,6 +44,10 @@ void GameScene::Initialize()
 	//“–‚½‚è”»’è
 	ColliderManager::GetInstance()->Initialize();
 
+	particle_ = make_unique<Particle>();
+	particle_->Initialize(Particle::LoadTexture("tex1.png"));
+	particle_->SetSize(100, 100);
+	particle_->SetPos(0, 5);
 }
 
 void GameScene::Update()
@@ -109,7 +113,7 @@ void GameScene::Update()
 	spellM->Update();
 	uiM->Update();
 	colM->Update();
-
+	particle_->Update();
 
 
 #pragma endregion
@@ -193,6 +197,11 @@ void GameScene::ObjDraw()
 	EnemyManager::GetInstance()->Draw();
 	EffectManager::GetInstance()->Draw();
 	SpellManager::GetInstance()->Draw();
+}
+
+void GameScene::ParticleDraw()
+{
+	particle_->Draw();
 }
 
 void GameScene::SpriteDraw()
