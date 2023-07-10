@@ -46,7 +46,7 @@ void GameScene::Initialize()
 
 	particle_ = make_unique<Particle>();
 	particle_->Initialize(Particle::LoadTexture("white1x1.png"));
-	particle_->SetSize(1000, 1000);
+	particle_->SetSize(10, 10);
 }
 
 void GameScene::Update()
@@ -112,7 +112,7 @@ void GameScene::Update()
 	spellM->Update();
 	uiM->Update();
 	colM->Update();
-
+	particle_->Update();
 
 
 #pragma endregion

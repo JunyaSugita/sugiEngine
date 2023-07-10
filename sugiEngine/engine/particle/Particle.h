@@ -19,6 +19,12 @@ public:
 		XMFLOAT2 uv;
 	};
 
+	struct ConstBuffB1 {
+		XMMATRIX viewproj;
+		XMMATRIX world;
+		XMFLOAT3 cameraPos;
+	};
+
 public:
 	static void StaticInitialize(ID3D12Device* device);
 
@@ -51,6 +57,7 @@ private:
 
 public:
 	void Initialize(uint32_t texNum);
+	void Update();
 	void Draw();
 
 	void SetPos(float x, float y);
@@ -88,13 +95,13 @@ protected:
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	ID3D12Resource* constBuffTransform_ = nullptr;
 	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
-	ConstBufferDataTransform* constMapTransform_ = nullptr;
+	ConstBuffB1* constMapTransform_ = nullptr;
 	WorldTransform worldTransform_;
-	Vector2 pos_;
+	Vector3 pos_;
 	float rotate_;
 	XMFLOAT4 color_ = { 1,1,1,1 };
 	Vector2 size_ = { 100.0f,100.0f };
-	Vector2 anchorPoint_ = { 0.0f,0.0f };
+	Vector2 anchorPoint_ = { 0.5f,0.5f };
 	bool isFlipX_ = false;
 	bool isFlipY_ = false;
 	bool isView_ = true;

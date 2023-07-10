@@ -2,6 +2,7 @@
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <array>
+#include "Camera.h"
 
 using namespace Microsoft::WRL;
 using namespace std;
@@ -187,6 +188,12 @@ void Particle::StaticInitialize(ID3D12Device* device)
 	assert(SUCCEEDED(result));
 	// パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = sRootSignature.Get();
+
+	//デプスステンシルステートの設定
+	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;	//小さければ合格
+	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 
 	// パイプランステートの生成
 	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&sPipelineState));
@@ -388,7 +395,7 @@ void Particle::Initialize(uint32_t texNum)
 	//リソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;	//256バイトアライメント
+	cbResourceDesc.Width = (sizeof(ConstBuffB1) + 0xff) & ~0xff;	//256バイトアライメント
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
@@ -433,10 +440,14 @@ void Particle::Initialize(uint32_t texNum)
 			0, 0, 0, 1)
 	);
 	matTransform.SetRotZ(rotate_);
-	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
+	matTransform.SetPos(Vector3(pos_.x, pos_.y, pos_.z));
 	matTransform.SetWorldMat();
 
-	constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
+	//constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
+	Camera* camera = Camera::GetInstance();
+	constMapTransform_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
+	constMapTransform_->world = ConvertToXMMATRIX(matTransform.GetMatWorld());
+	constMapTransform_->cameraPos = *camera->GetEyeXM();
 
 	//定数バッファ
 	result = sDevice->CreateCommittedResource(
@@ -454,6 +465,11 @@ void Particle::Initialize(uint32_t texNum)
 
 	constMapMaterial_->color = color_;
 
+	SetUpVertex();
+}
+
+void Particle::Update()
+{
 	SetUpVertex();
 }
 
@@ -593,7 +609,10 @@ void Particle::SetUpVertex() {
 	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
 	matTransform.SetWorldMat();
 
-	constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
+	Camera* camera = Camera::GetInstance();
+	constMapTransform_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
+	constMapTransform_->world = ConvertToXMMATRIX(matTransform.GetMatWorld());
+	constMapTransform_->cameraPos = *camera->GetEyeXM();
 
 	constMapMaterial_->color = color_;
 

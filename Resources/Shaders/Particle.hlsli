@@ -4,8 +4,10 @@ cbuffer ConstBufferDataMaterial : register(b0) {
 }
 
 //3D変換行列
-cbuffer ConstBufferDataTransform : register(b1) {
-	matrix mat;
+cbuffer ConstBuffB1 : register(b1) {
+	matrix viewproj;
+	matrix world;
+	float3 cameraPos;
 }
 
 //頂点シェーダーの出力構造体
