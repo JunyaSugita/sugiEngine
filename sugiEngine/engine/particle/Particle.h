@@ -4,6 +4,7 @@
 #include "GrovalSetting.h"
 #include "WorldTransform.h"
 #include "Vector2.h"
+#include <forward_list>
 
 #include <DirectXMath.h>
 
@@ -60,7 +61,7 @@ protected:
 	static uint32_t sIncrementSize;
 	static uint32_t sTextureIndex;
 
-	static const uint32_t vertexCount = 30;
+	static const uint32_t vertexCount = 1024;
 
 private:
 	void AdjustTextureSize();
@@ -99,6 +100,7 @@ public:
 
 	void SetTextureSize(float x, float y);
 
+	void Add(int life, XMFLOAT3 pos, XMFLOAT3 velo, XMFLOAT3 accel);
 protected:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ÉqÅ[Évê›íË
 	D3D12_RESOURCE_DESC resDesc_{};
@@ -122,6 +124,8 @@ protected:
 
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	Vector2 textureSize_ = { 100.0f,100.0f };
+
+	std::forward_list<PARTICLE> particles_;
 };
 
 

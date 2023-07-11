@@ -361,7 +361,6 @@ void Particle::Initialize(uint32_t texNum)
 	textureNum_ = texNum;
 	AdjustTextureSize();
 
-	//vertices_[vertexCount] = {{0.0f,0.0f,0.0f}};	//ç∂â∫
 	size_ = textureSize_;
 
 	uint32_t sizeVB = static_cast<uint32_t>(sizeof(vertices_[0]) * _countof(vertices_));
@@ -570,6 +569,16 @@ void Particle::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
+void Particle::Add(int life, XMFLOAT3 pos, XMFLOAT3 velo, XMFLOAT3 accel)
+{
+	particles_.emplace_front();
+	PARTICLE& p = particles_.front();
+	p.position = pos;
+	p.velocity = velo;
+	p.accel = accel;
+	p.num_frame = life;
+}
+
 void Particle::SetUpVertex() {
 
 	HRESULT result;
@@ -586,10 +595,6 @@ void Particle::SetUpVertex() {
 	if (isFlipY_ == true) {
 		top *= -1;
 		bottom *= -1;
-	}
-
-	for (int i = 0; i < vertexCount; i++) {
-		vertices_[i].pos = { 0.0f,0.4f * i,0.0f };
 	}
 
 	//ID3D12Resource* textureBuffer = textureBuffers_[textureIndex].Get();
