@@ -99,6 +99,11 @@ void Particle::StaticInitialize(ID3D12Device* device)
 		"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 		D3D12_APPEND_ALIGNED_ELEMENT,
 		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+	},
+	{//xyz座標
+		"TEXCOORD", 0, DXGI_FORMAT_R32_FLOAT, 0,
+		D3D12_APPEND_ALIGNED_ELEMENT,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 	}
 	};
 
@@ -463,9 +468,7 @@ void Particle::Initialize(uint32_t texNum)
 
 	//constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
 	Camera* camera = Camera::GetInstance();
-	constMapTransform_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
-	constMapTransform_->world = ConvertToXMMATRIX(matTransform.GetMatWorld());
-	constMapTransform_->cameraPos = *camera->GetEyeXM();
+	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection() * matTransform.GetMatWorld());
 
 	//定数バッファ
 	result = sDevice->CreateCommittedResource(
@@ -488,6 +491,37 @@ void Particle::Initialize(uint32_t texNum)
 
 void Particle::Update()
 {
+	HRESULT result;
+
+	particles_.remove_if([](PARTICLE& x) {return x.frame >= x.num_frame; });
+
+	for (std::forward_list<PARTICLE>::iterator it = particles_.begin(); it != particles_.end(); it++) {
+		it->frame++;
+		float f = (float)it->frame / it->num_frame;
+		//スケールの線形補間
+		it->scale = (it->e_scale - it->s_scale) * f;
+		it->scale += it->s_scale;
+
+		it->velocity = it->velocity + it->accel;
+		it->position = it->position + it->velocity;
+	}
+
+	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	VertexSp* vertMap = nullptr;
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result));
+	// 全頂点に対して
+	for (std::forward_list<PARTICLE>::iterator it = particles_.begin(); it != particles_.end();it++) {
+		vertMap->pos.x = it->position.x;
+		vertMap->pos.y = it->position.y;
+		vertMap->pos.z = it->position.z;
+		vertMap->scale = it->scale;
+
+		vertMap++;
+	}
+	// 繋がりを解除
+	vertBuff_->Unmap(0, nullptr);
+
 	SetUpVertex();
 }
 
@@ -511,7 +545,7 @@ void Particle::Draw()
 
 	if (isView_ == true) {
 		// 描画コマンド
-		sCmdList->DrawInstanced(vertexCount, 1, 0, 0); // 全ての頂点を使って描画
+		sCmdList->DrawInstanced((UINT)std::distance(particles_.begin(),particles_.end()), 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -569,20 +603,20 @@ void Particle::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void Particle::Add(int life, XMFLOAT3 pos, XMFLOAT3 velo, XMFLOAT3 accel)
+void Particle::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, float start_scale, float end_scale)
 {
 	particles_.emplace_front();
 	PARTICLE& p = particles_.front();
 	p.position = pos;
+	p.scale = start_scale;
+	p.s_scale = start_scale;
+	p.e_scale = end_scale;
 	p.velocity = velo;
 	p.accel = accel;
 	p.num_frame = life;
 }
 
 void Particle::SetUpVertex() {
-
-	HRESULT result;
-
 	float left = (0.0f - anchorPoint_.x) * size_.x;
 	float right = (1.0f - anchorPoint_.x) * size_.x;
 	float top = (0.0f - anchorPoint_.y) * size_.y;
@@ -608,32 +642,36 @@ void Particle::SetUpVertex() {
 		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
 	}
 
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	VertexSp* vertMap = nullptr;
-	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (int i = 0; i < vertexCount; i++) {
-		vertMap[i] = vertices_[i]; // 座標をコピー
-	}
-	// 繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
-
 	//ワールド変換行列
 	WorldTransform matTransform;
 	matTransform.GetMatWorld().Initialize();
 	matTransform.SetScale({ 10,10,10 });
 	matTransform.SetRotZ(rotate_);
 	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
-	matTransform.isBillboard = false;
 	matTransform.SetWorldMat();
 
-	//ビルボード
 	Camera* camera = Camera::GetInstance();
+	XMMATRIX matBillboard;
 
-	constMapTransform_->viewproj = ConvertToXMMATRIX(camera->GetMatView()) * ConvertToXMMATRIX(camera->GetMatProjection());
-	constMapTransform_->world = ConvertToXMMATRIX(matTransform.GetMatWorld());
-	constMapTransform_->cameraPos = *camera->GetEyeXM();
+	matBillboard = XMMatrixIdentity();
+	XMVECTOR cameraTarget = { camera->GetTarget().x,camera->GetTarget().y,camera->GetTarget().z,0 };
+	XMVECTOR cameraPos = { camera->GetEye().x,camera->GetEye().y,camera->GetEye().z,0 };
+
+	XMVECTOR cameraAxisZ = XMVectorSubtract(cameraTarget, cameraPos);
+	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
+	XMVECTOR cameraAxisX = XMVector3Cross({ 0,1,0 }, cameraAxisZ);
+	cameraAxisX = XMVector3Normalize(cameraAxisX);
+	XMVECTOR cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
+
+	matBillboard.r[0] = cameraAxisX;
+	matBillboard.r[1] = cameraAxisY;
+	matBillboard.r[2] = cameraAxisZ;
+	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
+
+	//ビルボード
+
+	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
+	constMapTransform_->billboard = matBillboard;
 
 	constMapMaterial_->color = color_;
 

@@ -9,11 +9,12 @@
 #include <DirectXMath.h>
 
 struct PARTICLE {
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-
-	XMFLOAT3 position = {};
-	XMFLOAT3 velocity = {};
-	XMFLOAT3 accel = {};
+	Vector3 position = {};
+	float scale = 1.0f;
+	float s_scale = 1.0f;
+	float e_scale = 1.0f;
+	Vector3 velocity = {};
+	Vector3 accel = {};
 	int32_t frame = 0;
 	int32_t num_frame = 0;
 };
@@ -26,12 +27,12 @@ public:
 
 	struct VertexSp {
 		XMFLOAT3 pos;
+		float scale;
 	};
 
 	struct ConstBuffB1 {
-		XMMATRIX viewproj;
-		XMMATRIX world;
-		XMFLOAT3 cameraPos;
+		XMMATRIX mat;
+		XMMATRIX billboard;
 	};
 
 public:
@@ -100,7 +101,7 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-	void Add(int life, XMFLOAT3 pos, XMFLOAT3 velo, XMFLOAT3 accel);
+	void Add(int life, Vector3 pos, Vector3 velo, Vector3 accel,float start_scale,float end_scale);
 protected:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ÉqÅ[Évê›íË
 	D3D12_RESOURCE_DESC resDesc_{};

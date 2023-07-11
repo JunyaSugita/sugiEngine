@@ -4,10 +4,10 @@ static const uint vnum = 4;
 
 static const float4 offset_array[vnum] =
 {
-    float4(-5.0f,-5.0f, 0, 0),
-    float4(-5.0f, 5.0f, 0, 0),
-    float4( 5.0f,-5.0f, 0, 0),
-    float4( 5.0f, 5.0f, 0, 0)
+    float4(-1.0f,-1.0f, 0, 0),
+    float4(-1.0f, 1.0f, 0, 0),
+    float4( 1.0f,-1.0f, 0, 0),
+    float4( 1.0f, 1.0f, 0, 0)
 };
 
 static const float2 uv_array[vnum] =
@@ -28,9 +28,11 @@ void main(
     
     for (uint i = 0; i < vnum; i++)
     {
-        element.svpos = input[0].pos + offset_array[i];
+        float4 offset = mul(billboard, offset_array[i] * input[0].scale);
+        
+        element.svpos = input[0].pos + offset;
     
-        element.svpos = mul(mul(viewproj, world), element.svpos);
+        element.svpos = mul(mat, element.svpos);
         element.uv = uv_array[i];
         output.Append(element);
     }

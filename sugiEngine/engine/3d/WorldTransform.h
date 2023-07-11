@@ -142,9 +142,5 @@ public:
 
 	//親のオブジェクトへのポインタ
 	WorldTransform* parent_ = nullptr;
-
-	XMMATRIX matBillboard;
-
-	bool isBillboard = false;
 };
 
