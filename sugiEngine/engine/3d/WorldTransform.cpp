@@ -1,4 +1,5 @@
 #include "WorldTransform.h"
+#include "Camera.h"
 
 void WorldTransform::SetMatScale(Matrix4& matScale, const Vector3& scale) {
 	matScale.m[0][0] = scale.x;
@@ -105,6 +106,22 @@ void WorldTransform::SetWorldMat() {
 	Matrix4 matRotY;
 	SetMatRot(matRotY, rot_, 'y');
 
+	Camera* camera = Camera::GetInstance();
+	matBillboard = XMMatrixIdentity();
+	XMVECTOR cameraTarget = { camera->GetTarget().x,camera->GetTarget().y,camera->GetTarget().z,0 };
+	XMVECTOR cameraPos = { camera->GetEye().x,camera->GetEye().y,camera->GetEye().z,0 };
+
+	XMVECTOR cameraAxisZ = XMVectorSubtract(cameraTarget, cameraPos);
+	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
+	XMVECTOR cameraAxisX = XMVector3Cross({ 0,1,0 }, cameraAxisZ);
+	cameraAxisX = XMVector3Normalize(cameraAxisX);
+	XMVECTOR cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
+
+	matBillboard.r[0] = cameraAxisX;
+	matBillboard.r[1] = cameraAxisY;
+	matBillboard.r[2] = cameraAxisZ;
+	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
+
 	Matrix4 matRot = matRotZ * matRotX * matRotY;
 
 	//’PˆÊs—ñ‚ð‘ã“ü
@@ -118,8 +135,12 @@ void WorldTransform::SetWorldMat() {
 			}
 		}
 	}
-
-	matWorld_ *= matScale * matRot * matTrans;
+	if (isBillboard) {
+		matWorld_ *= matScale * matRot * ConvertToMatrix4(matBillboard) * matTrans;
+	}
+	else {
+		matWorld_ *= matScale * matRot * matTrans;
+	}
 
 	if (parent_ != nullptr) {
 		matWorld_ *= parent_->matWorld_;

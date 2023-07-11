@@ -51,6 +51,8 @@ protected:
 	static uint32_t sIncrementSize;
 	static uint32_t sTextureIndex;
 
+	static const uint32_t vertexCount = 30;
+
 private:
 	void AdjustTextureSize();
 
@@ -104,7 +106,7 @@ protected:
 	bool isFlipX_ = false;
 	bool isFlipY_ = false;
 	bool isView_ = true;
-	VertexSp vertices_;
+	VertexSp vertices_[vertexCount];
 	D3D12_VERTEX_BUFFER_VIEW vbView_;
 	ComPtr<ID3D12Resource> constBuffMaterial_;
 	uint32_t textureNum_;

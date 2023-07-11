@@ -361,10 +361,10 @@ void Particle::Initialize(uint32_t texNum)
 	textureNum_ = texNum;
 	AdjustTextureSize();
 
-	vertices_ = {{0.0f,0.0f,0.0f}};	//左下
+	//vertices_[vertexCount] = {{0.0f,0.0f,0.0f}};	//左下
 	size_ = textureSize_;
 
-	uint32_t sizeVB = static_cast<uint32_t>(sizeof(vertices_));
+	uint32_t sizeVB = static_cast<uint32_t>(sizeof(vertices_[0]) * _countof(vertices_));
 
 	// 頂点バッファの設定
 	heapProp_.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
@@ -392,7 +392,9 @@ void Particle::Initialize(uint32_t texNum)
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	vertMap[0] = vertices_; // 座標をコピー
+	for (int i = 0; i < vertexCount; i++) {
+		vertMap[i] = vertices_[i]; // 座標をコピー
+	}
 	// 繋がりを解除
 	vertBuff_->Unmap(0, nullptr);
 
@@ -401,7 +403,7 @@ void Particle::Initialize(uint32_t texNum)
 	// 頂点バッファのサイズ
 	vbView_.SizeInBytes = sizeVB;
 	// 頂点1つ分のデータサイズ
-	vbView_.StrideInBytes = sizeof(vertices_);
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
 
 	//ヒープ設定
@@ -454,6 +456,8 @@ void Particle::Initialize(uint32_t texNum)
 			0, 0, 1, 0,
 			0, 0, 0, 1)
 	);
+
+
 	matTransform.SetRotZ(rotate_);
 	matTransform.SetPos(Vector3(pos_.x, pos_.y, pos_.z));
 	matTransform.SetWorldMat();
@@ -508,7 +512,7 @@ void Particle::Draw()
 
 	if (isView_ == true) {
 		// 描画コマンド
-		sCmdList->DrawInstanced(1, 1, 0, 0); // 全ての頂点を使って描画
+		sCmdList->DrawInstanced(vertexCount, 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -584,7 +588,9 @@ void Particle::SetUpVertex() {
 		bottom *= -1;
 	}
 
-	vertices_.pos = { 0.0f,0.0f,0.0f };
+	for (int i = 0; i < vertexCount; i++) {
+		vertices_[i].pos = { 0.0f,0.4f * i,0.0f };
+	}
 
 	//ID3D12Resource* textureBuffer = textureBuffers_[textureIndex].Get();
 	if (sTextureBuffers[textureNum_]) {
@@ -602,19 +608,25 @@ void Particle::SetUpVertex() {
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	vertMap[0] = vertices_; // 座標をコピー
+	for (int i = 0; i < vertexCount; i++) {
+		vertMap[i] = vertices_[i]; // 座標をコピー
+	}
 	// 繋がりを解除
 	vertBuff_->Unmap(0, nullptr);
 
 	//ワールド変換行列
 	WorldTransform matTransform;
 	matTransform.GetMatWorld().Initialize();
+	matTransform.SetScale({ 10,10,10 });
 	matTransform.SetRotZ(rotate_);
 	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
+	matTransform.isBillboard = false;
 	matTransform.SetWorldMat();
 
+	//ビルボード
 	Camera* camera = Camera::GetInstance();
-	constMapTransform_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
+
+	constMapTransform_->viewproj = ConvertToXMMATRIX(camera->GetMatView()) * ConvertToXMMATRIX(camera->GetMatProjection());
 	constMapTransform_->world = ConvertToXMMATRIX(matTransform.GetMatWorld());
 	constMapTransform_->cameraPos = *camera->GetEyeXM();
 
