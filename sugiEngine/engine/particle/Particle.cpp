@@ -133,8 +133,8 @@ void Particle::StaticInitialize(ID3D12Device* device)
 
 	//半透明合成
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
-	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;		//ソースのアルファ値
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-1ソースのアルファ値
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;		//ソースのアルファ値
+	blenddesc.DestBlend = D3D12_BLEND_ONE;//1.0f-1ソースのアルファ値
 
 	// ブレンドステートの設定
 	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
@@ -211,7 +211,7 @@ void Particle::StaticInitialize(ID3D12Device* device)
 
 	//デプスステンシルステートの設定
 	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
-	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み許可
 	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;	//小さければ合格
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 

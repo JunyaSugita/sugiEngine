@@ -6,7 +6,16 @@
 #include "Vector2.h"
 
 #include <DirectXMath.h>
-using namespace DirectX;
+
+struct PARTICLE {
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+
+	XMFLOAT3 position = {};
+	XMFLOAT3 velocity = {};
+	XMFLOAT3 accel = {};
+	int32_t frame = 0;
+	int32_t num_frame = 0;
+};
 
 class Particle
 {
