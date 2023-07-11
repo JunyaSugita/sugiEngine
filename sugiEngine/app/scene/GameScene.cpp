@@ -45,7 +45,7 @@ void GameScene::Initialize()
 	ColliderManager::GetInstance()->Initialize();
 
 	particle_ = make_unique<Particle>();
-	particle_->Initialize(Particle::LoadTexture("tex1.png"));
+	particle_->Initialize(Particle::LoadTexture("effect1.png"));
 	particle_->SetSize(100, 100);
 	particle_->SetPos(0, 5);
 }
@@ -77,12 +77,14 @@ void GameScene::Update()
 		enemyM->PopEnemy();
 	}
 	if (input->TriggerKey(DIK_L) || input->TriggerButton(XINPUT_GAMEPAD_X)) {
-		enemyM->PopEnemy({ -10,0,0 });
-		enemyM->PopEnemy({ -5,0,3 });
-		enemyM->PopEnemy({ 0,0,0 });
-		enemyM->PopEnemy({ 5,0,3 });
-		enemyM->PopEnemy({ 10,0,0 });
+		//enemyM->PopEnemy({ -10,0,0 });
+		//enemyM->PopEnemy({ -5,0,3 });
+		//enemyM->PopEnemy({ 0,0,0 });
+		//enemyM->PopEnemy({ 5,0,3 });
+		//enemyM->PopEnemy({ 10,0,0 });
 	}
+
+	particle_->Add(60, { 0,200,0 }, { 0,-1,0 }, { 0,-0.1f,0 },10,10);
 
 	if (input->TriggerKey(DIK_O)) {
 		colM->ChangeIsShowHitBox();
@@ -96,6 +98,7 @@ void GameScene::Update()
 	if (input->TriggerKey(DIK_3)) {
 		player->SetPresetSpell(ICE_BOLT);
 	}
+	
 
 	//if (enemyM->GetEnemyCount() < 5) {
 	//	enemyM->PopEnemy();

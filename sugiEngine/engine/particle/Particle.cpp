@@ -99,6 +99,11 @@ void Particle::StaticInitialize(ID3D12Device* device)
 		"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 		D3D12_APPEND_ALIGNED_ELEMENT,
 		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+	},
+	{//xyz座標
+		"TEXCOORD", 0, DXGI_FORMAT_R32_FLOAT, 0,
+		D3D12_APPEND_ALIGNED_ELEMENT,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 	}
 	};
 
@@ -133,8 +138,8 @@ void Particle::StaticInitialize(ID3D12Device* device)
 
 	//半透明合成
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
-	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;		//ソースのアルファ値
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-1ソースのアルファ値
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;		//ソースのアルファ値
+	blenddesc.DestBlend = D3D12_BLEND_ONE;//1.0f-1ソースのアルファ値
 
 	// ブレンドステートの設定
 	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
@@ -211,7 +216,7 @@ void Particle::StaticInitialize(ID3D12Device* device)
 
 	//デプスステンシルステートの設定
 	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
-	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み許可
 	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;	//小さければ合格
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 
@@ -361,10 +366,9 @@ void Particle::Initialize(uint32_t texNum)
 	textureNum_ = texNum;
 	AdjustTextureSize();
 
-	vertices_ = {{0.0f,0.0f,0.0f}};	//左下
 	size_ = textureSize_;
 
-	uint32_t sizeVB = static_cast<uint32_t>(sizeof(vertices_));
+	uint32_t sizeVB = static_cast<uint32_t>(sizeof(vertices_[0]) * _countof(vertices_));
 
 	// 頂点バッファの設定
 	heapProp_.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
@@ -392,7 +396,9 @@ void Particle::Initialize(uint32_t texNum)
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	vertMap[0] = vertices_; // 座標をコピー
+	for (int i = 0; i < vertexCount; i++) {
+		vertMap[i] = vertices_[i]; // 座標をコピー
+	}
 	// 繋がりを解除
 	vertBuff_->Unmap(0, nullptr);
 
@@ -401,7 +407,7 @@ void Particle::Initialize(uint32_t texNum)
 	// 頂点バッファのサイズ
 	vbView_.SizeInBytes = sizeVB;
 	// 頂点1つ分のデータサイズ
-	vbView_.StrideInBytes = sizeof(vertices_);
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
 
 	//ヒープ設定
@@ -454,15 +460,15 @@ void Particle::Initialize(uint32_t texNum)
 			0, 0, 1, 0,
 			0, 0, 0, 1)
 	);
+
+
 	matTransform.SetRotZ(rotate_);
 	matTransform.SetPos(Vector3(pos_.x, pos_.y, pos_.z));
 	matTransform.SetWorldMat();
 
 	//constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
 	Camera* camera = Camera::GetInstance();
-	constMapTransform_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
-	constMapTransform_->world = ConvertToXMMATRIX(matTransform.GetMatWorld());
-	constMapTransform_->cameraPos = *camera->GetEyeXM();
+	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection() * matTransform.GetMatWorld());
 
 	//定数バッファ
 	result = sDevice->CreateCommittedResource(
@@ -485,6 +491,37 @@ void Particle::Initialize(uint32_t texNum)
 
 void Particle::Update()
 {
+	HRESULT result;
+
+	particles_.remove_if([](PARTICLE& x) {return x.frame >= x.num_frame; });
+
+	for (std::forward_list<PARTICLE>::iterator it = particles_.begin(); it != particles_.end(); it++) {
+		it->frame++;
+		float f = (float)it->frame / it->num_frame;
+		//スケールの線形補間
+		it->scale = (it->e_scale - it->s_scale) * f;
+		it->scale += it->s_scale;
+
+		it->velocity = it->velocity + it->accel;
+		it->position = it->position + it->velocity;
+	}
+
+	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	VertexSp* vertMap = nullptr;
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result));
+	// 全頂点に対して
+	for (std::forward_list<PARTICLE>::iterator it = particles_.begin(); it != particles_.end();it++) {
+		vertMap->pos.x = it->position.x;
+		vertMap->pos.y = it->position.y;
+		vertMap->pos.z = it->position.z;
+		vertMap->scale = it->scale;
+
+		vertMap++;
+	}
+	// 繋がりを解除
+	vertBuff_->Unmap(0, nullptr);
+
 	SetUpVertex();
 }
 
@@ -508,7 +545,7 @@ void Particle::Draw()
 
 	if (isView_ == true) {
 		// 描画コマンド
-		sCmdList->DrawInstanced(1, 1, 0, 0); // 全ての頂点を使って描画
+		sCmdList->DrawInstanced((UINT)std::distance(particles_.begin(),particles_.end()), 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -566,10 +603,20 @@ void Particle::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
+void Particle::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, float start_scale, float end_scale)
+{
+	particles_.emplace_front();
+	PARTICLE& p = particles_.front();
+	p.position = pos;
+	p.scale = start_scale;
+	p.s_scale = start_scale;
+	p.e_scale = end_scale;
+	p.velocity = velo;
+	p.accel = accel;
+	p.num_frame = life;
+}
+
 void Particle::SetUpVertex() {
-
-	HRESULT result;
-
 	float left = (0.0f - anchorPoint_.x) * size_.x;
 	float right = (1.0f - anchorPoint_.x) * size_.x;
 	float top = (0.0f - anchorPoint_.y) * size_.y;
@@ -584,8 +631,6 @@ void Particle::SetUpVertex() {
 		bottom *= -1;
 	}
 
-	vertices_.pos = { 0.0f,0.0f,0.0f };
-
 	//ID3D12Resource* textureBuffer = textureBuffers_[textureIndex].Get();
 	if (sTextureBuffers[textureNum_]) {
 
@@ -597,26 +642,36 @@ void Particle::SetUpVertex() {
 		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
 	}
 
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	VertexSp* vertMap = nullptr;
-	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	vertMap[0] = vertices_; // 座標をコピー
-	// 繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
-
 	//ワールド変換行列
 	WorldTransform matTransform;
 	matTransform.GetMatWorld().Initialize();
+	matTransform.SetScale({ 10,10,10 });
 	matTransform.SetRotZ(rotate_);
 	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
 	matTransform.SetWorldMat();
 
 	Camera* camera = Camera::GetInstance();
-	constMapTransform_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
-	constMapTransform_->world = ConvertToXMMATRIX(matTransform.GetMatWorld());
-	constMapTransform_->cameraPos = *camera->GetEyeXM();
+	XMMATRIX matBillboard;
+
+	matBillboard = XMMatrixIdentity();
+	XMVECTOR cameraTarget = { camera->GetTarget().x,camera->GetTarget().y,camera->GetTarget().z,0 };
+	XMVECTOR cameraPos = { camera->GetEye().x,camera->GetEye().y,camera->GetEye().z,0 };
+
+	XMVECTOR cameraAxisZ = XMVectorSubtract(cameraTarget, cameraPos);
+	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
+	XMVECTOR cameraAxisX = XMVector3Cross({ 0,1,0 }, cameraAxisZ);
+	cameraAxisX = XMVector3Normalize(cameraAxisX);
+	XMVECTOR cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
+
+	matBillboard.r[0] = cameraAxisX;
+	matBillboard.r[1] = cameraAxisY;
+	matBillboard.r[2] = cameraAxisZ;
+	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
+
+	//ビルボード
+
+	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
+	constMapTransform_->billboard = matBillboard;
 
 	constMapMaterial_->color = color_;
 

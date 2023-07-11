@@ -4,9 +4,20 @@
 #include "GrovalSetting.h"
 #include "WorldTransform.h"
 #include "Vector2.h"
+#include <forward_list>
 
 #include <DirectXMath.h>
-using namespace DirectX;
+
+struct PARTICLE {
+	Vector3 position = {};
+	float scale = 1.0f;
+	float s_scale = 1.0f;
+	float e_scale = 1.0f;
+	Vector3 velocity = {};
+	Vector3 accel = {};
+	int32_t frame = 0;
+	int32_t num_frame = 0;
+};
 
 class Particle
 {
@@ -16,12 +27,12 @@ public:
 
 	struct VertexSp {
 		XMFLOAT3 pos;
+		float scale;
 	};
 
 	struct ConstBuffB1 {
-		XMMATRIX viewproj;
-		XMMATRIX world;
-		XMFLOAT3 cameraPos;
+		XMMATRIX mat;
+		XMMATRIX billboard;
 	};
 
 public:
@@ -50,6 +61,8 @@ protected:
 	static ComPtr<ID3D12DescriptorHeap> sSrvHeap;
 	static uint32_t sIncrementSize;
 	static uint32_t sTextureIndex;
+
+	static const uint32_t vertexCount = 1024;
 
 private:
 	void AdjustTextureSize();
@@ -88,6 +101,7 @@ public:
 
 	void SetTextureSize(float x, float y);
 
+	void Add(int life, Vector3 pos, Vector3 velo, Vector3 accel,float start_scale,float end_scale);
 protected:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ÉqÅ[Évê›íË
 	D3D12_RESOURCE_DESC resDesc_{};
@@ -104,13 +118,15 @@ protected:
 	bool isFlipX_ = false;
 	bool isFlipY_ = false;
 	bool isView_ = true;
-	VertexSp vertices_;
+	VertexSp vertices_[vertexCount];
 	D3D12_VERTEX_BUFFER_VIEW vbView_;
 	ComPtr<ID3D12Resource> constBuffMaterial_;
 	uint32_t textureNum_;
 
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	Vector2 textureSize_ = { 100.0f,100.0f };
+
+	std::forward_list<PARTICLE> particles_;
 };
 
 

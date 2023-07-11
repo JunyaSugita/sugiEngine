@@ -142,6 +142,5 @@ public:
 
 	//親のオブジェクトへのポインタ
 	WorldTransform* parent_ = nullptr;
-
 };
 
