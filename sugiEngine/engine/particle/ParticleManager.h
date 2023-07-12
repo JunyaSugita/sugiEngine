@@ -3,7 +3,7 @@
 #include "DXCommon.h"
 #include "GrovalSetting.h"
 #include "WorldTransform.h"
-#include "Vector2.h"
+#include "SugiMath.h"
 #include <forward_list>
 
 #include <DirectXMath.h>
@@ -17,6 +17,7 @@ struct Particle {
 	Vector3 accel = {};
 	int32_t frame = 0;
 	int32_t num_frame = 0;
+	Vector4 color = {0,1,0,1};
 };
 
 class ParticleManager
@@ -28,6 +29,7 @@ public:
 	struct VertexSp {
 		XMFLOAT3 pos;
 		float scale;
+		XMFLOAT4 color;
 	};
 
 	struct ConstBuffB1 {
@@ -107,7 +109,6 @@ protected:
 	D3D12_RESOURCE_DESC resDesc_{};
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	ID3D12Resource* constBuffTransform_ = nullptr;
-	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
 	ConstBuffB1* constMapTransform_ = nullptr;
 	WorldTransform worldTransform_;
 	Vector3 pos_;
@@ -120,7 +121,6 @@ protected:
 	bool isView_ = true;
 	VertexSp vertices_[vertexCount];
 	D3D12_VERTEX_BUFFER_VIEW vbView_;
-	ComPtr<ID3D12Resource> constBuffMaterial_;
 	uint32_t textureNum_;
 
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };

@@ -100,8 +100,13 @@ void ParticleManager::StaticInitialize(ID3D12Device* device)
 		D3D12_APPEND_ALIGNED_ELEMENT,
 		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 	},
-	{//xyz座標
+	{//uv座標
 		"TEXCOORD", 0, DXGI_FORMAT_R32_FLOAT, 0,
+		D3D12_APPEND_ALIGNED_ELEMENT,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+	},
+	{//uv座標
+		"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,
 		D3D12_APPEND_ALIGNED_ELEMENT,
 		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 	}
@@ -470,22 +475,6 @@ void ParticleManager::Initialize(uint32_t texNum)
 	Camera* camera = Camera::GetInstance();
 	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection() * matTransform.GetMatWorld());
 
-	//定数バッファ
-	result = sDevice->CreateCommittedResource(
-		&cbHeapProp,	//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffMaterial_)
-	);
-	assert(SUCCEEDED(result));
-
-	result = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial_);	//マッピング
-	assert(SUCCEEDED(result));
-
-	constMapMaterial_->color = color_;
-
 	SetUpVertex();
 }
 
@@ -516,6 +505,10 @@ void ParticleManager::Update()
 		vertMap->pos.y = it->position.y;
 		vertMap->pos.z = it->position.z;
 		vertMap->scale = it->scale;
+		vertMap->color.x = it->color.x;
+		vertMap->color.y = it->color.y;
+		vertMap->color.z = it->color.z;
+		vertMap->color.w = it->color.w;
 
 		vertMap++;
 	}
@@ -529,8 +522,6 @@ void ParticleManager::Draw()
 {
 	// 頂点バッファビューの設定コマンド
 	sCmdList->IASetVertexBuffers(0, 1, &vbView_);
-	//定数バッファビュー(CBV)の設定コマンド
-	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { sSrvHeap.Get() };
 	sCmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
@@ -672,9 +663,6 @@ void ParticleManager::SetUpVertex() {
 
 	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
 	constMapTransform_->billboard = matBillboard;
-
-	constMapMaterial_->color = color_;
-
 }
 
 void ParticleManager::AdjustTextureSize()
