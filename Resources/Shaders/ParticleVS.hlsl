@@ -3,7 +3,7 @@
 VSOutput main(float4 pos : POSITION,float scale : TEXCOORD)
 {
 	VSOutput output;	//ピクセルシェーダに渡す値
-	output.pos = mul(mat, pos);
+	output.pos = pos;
     output.scale = scale;
 	return output;
 }

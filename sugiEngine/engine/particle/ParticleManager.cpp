@@ -1,4 +1,4 @@
-#include "Particle.h"
+#include "ParticleManager.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <array>
@@ -7,17 +7,17 @@
 using namespace Microsoft::WRL;
 using namespace std;
 
-ComPtr<ID3D12Device> Particle::sDevice = nullptr;
-ComPtr<ID3D12PipelineState> Particle::sPipelineState = nullptr;
-ComPtr<ID3D12RootSignature> Particle::sRootSignature;
-ComPtr<ID3D12GraphicsCommandList> Particle::sCmdList;
-std::array<ComPtr<ID3D12Resource>, Particle::MAX_SRV_COUNT> Particle::sTextureBuffers;
-const size_t Particle::MAX_SRV_COUNT;
-ComPtr<ID3D12DescriptorHeap> Particle::sSrvHeap;
-uint32_t Particle::sIncrementSize;
-uint32_t Particle::sTextureIndex = 0;
+ComPtr<ID3D12Device> ParticleManager::sDevice = nullptr;
+ComPtr<ID3D12PipelineState> ParticleManager::sPipelineState = nullptr;
+ComPtr<ID3D12RootSignature> ParticleManager::sRootSignature;
+ComPtr<ID3D12GraphicsCommandList> ParticleManager::sCmdList;
+std::array<ComPtr<ID3D12Resource>, ParticleManager::MAX_SRV_COUNT> ParticleManager::sTextureBuffers;
+const size_t ParticleManager::MAX_SRV_COUNT;
+ComPtr<ID3D12DescriptorHeap> ParticleManager::sSrvHeap;
+uint32_t ParticleManager::sIncrementSize;
+uint32_t ParticleManager::sTextureIndex = 0;
 
-void Particle::StaticInitialize(ID3D12Device* device)
+void ParticleManager::StaticInitialize(ID3D12Device* device)
 {
 	HRESULT result;
 	sDevice = device;
@@ -248,9 +248,9 @@ void Particle::StaticInitialize(ID3D12Device* device)
 	assert(SUCCEEDED(result));
 }
 
-void Particle::PreDraw(ID3D12GraphicsCommandList* cmdList)
+void ParticleManager::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
-	Particle::sCmdList = cmdList;
+	ParticleManager::sCmdList = cmdList;
 	// パイプラインステートとルートシグネチャの設定コマンド
 	cmdList->SetPipelineState(sPipelineState.Get());
 	cmdList->SetGraphicsRootSignature(sRootSignature.Get());
@@ -259,12 +259,12 @@ void Particle::PreDraw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }
 
-void Particle::PostDraw()
+void ParticleManager::PostDraw()
 {
-	Particle::sCmdList = nullptr;
+	ParticleManager::sCmdList = nullptr;
 }
 
-uint32_t Particle::LoadTexture(const string& textureName) {
+uint32_t ParticleManager::LoadTexture(const string& textureName) {
 	HRESULT result;
 
 	TexMetadata metadata{};
@@ -360,7 +360,7 @@ uint32_t Particle::LoadTexture(const string& textureName) {
 	return sTextureIndex - 1;
 }
 
-void Particle::Initialize(uint32_t texNum)
+void ParticleManager::Initialize(uint32_t texNum)
 {
 	HRESULT result;
 	textureNum_ = texNum;
@@ -425,7 +425,7 @@ void Particle::Initialize(uint32_t texNum)
 
 
 	//定数バッファの生成
-	result = Particle::sDevice->CreateCommittedResource(
+	result = ParticleManager::sDevice->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -489,13 +489,13 @@ void Particle::Initialize(uint32_t texNum)
 	SetUpVertex();
 }
 
-void Particle::Update()
+void ParticleManager::Update()
 {
 	HRESULT result;
 
-	particles_.remove_if([](PARTICLE& x) {return x.frame >= x.num_frame; });
+	particles_.remove_if([](Particle& x) {return x.frame >= x.num_frame; });
 
-	for (std::forward_list<PARTICLE>::iterator it = particles_.begin(); it != particles_.end(); it++) {
+	for (std::forward_list<Particle>::iterator it = particles_.begin(); it != particles_.end(); it++) {
 		it->frame++;
 		float f = (float)it->frame / it->num_frame;
 		//スケールの線形補間
@@ -511,7 +511,7 @@ void Particle::Update()
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (std::forward_list<PARTICLE>::iterator it = particles_.begin(); it != particles_.end();it++) {
+	for (std::forward_list<Particle>::iterator it = particles_.begin(); it != particles_.end();it++) {
 		vertMap->pos.x = it->position.x;
 		vertMap->pos.y = it->position.y;
 		vertMap->pos.z = it->position.z;
@@ -525,7 +525,7 @@ void Particle::Update()
 	SetUpVertex();
 }
 
-void Particle::Draw()
+void ParticleManager::Draw()
 {
 	// 頂点バッファビューの設定コマンド
 	sCmdList->IASetVertexBuffers(0, 1, &vbView_);
@@ -549,20 +549,20 @@ void Particle::Draw()
 	}
 }
 
-void Particle::SetPos(float x, float y) {
+void ParticleManager::SetPos(float x, float y) {
 	pos_.x = x;
 	pos_.y = y;
 
 	SetUpVertex();
 }
 
-void Particle::SetRotate(float r) {
+void ParticleManager::SetRotate(float r) {
 	rotate_ = r;
 
 	SetUpVertex();
 }
 
-void Particle::SetColor(float x, float y, float z, float w) {
+void ParticleManager::SetColor(float x, float y, float z, float w) {
 	color_.x = x;
 	color_.y = y;
 	color_.z = z;
@@ -571,42 +571,42 @@ void Particle::SetColor(float x, float y, float z, float w) {
 	SetUpVertex();
 }
 
-void Particle::SetSize(float x, float y) {
+void ParticleManager::SetSize(float x, float y) {
 	size_.x = x;
 	size_.y = y;
 
 	SetUpVertex();
 }
 
-void Particle::SetAnchorPoint(float x, float y) {
+void ParticleManager::SetAnchorPoint(float x, float y) {
 	anchorPoint_.x = x;
 	anchorPoint_.y = y;
 
 	SetUpVertex();
 }
 
-void Particle::SetFlipX(bool isFlip) {
+void ParticleManager::SetFlipX(bool isFlip) {
 	isFlipX_ = isFlip;
 
 	SetUpVertex();
 }
-void Particle::SetFlipY(bool isFlip) {
+void ParticleManager::SetFlipY(bool isFlip) {
 	isFlipY_ = isFlip;
 
 	SetUpVertex();
 }
 
-void Particle::SetTextureSize(float x, float y) {
+void ParticleManager::SetTextureSize(float x, float y) {
 	textureSize_.x = x;
 	textureSize_.y = y;
 
 	SetUpVertex();
 }
 
-void Particle::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, float start_scale, float end_scale)
+void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, float start_scale, float end_scale)
 {
 	particles_.emplace_front();
-	PARTICLE& p = particles_.front();
+	Particle& p = particles_.front();
 	p.position = pos;
 	p.scale = start_scale;
 	p.s_scale = start_scale;
@@ -616,7 +616,7 @@ void Particle::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, float sta
 	p.num_frame = life;
 }
 
-void Particle::SetUpVertex() {
+void ParticleManager::SetUpVertex() {
 	float left = (0.0f - anchorPoint_.x) * size_.x;
 	float right = (1.0f - anchorPoint_.x) * size_.x;
 	float top = (0.0f - anchorPoint_.y) * size_.y;
@@ -677,7 +677,7 @@ void Particle::SetUpVertex() {
 
 }
 
-void Particle::AdjustTextureSize()
+void ParticleManager::AdjustTextureSize()
 {
 	D3D12_RESOURCE_DESC resDesc = sTextureBuffers[textureNum_]->GetDesc();
 
