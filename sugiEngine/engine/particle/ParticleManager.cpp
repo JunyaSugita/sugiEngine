@@ -17,6 +17,21 @@ ComPtr<ID3D12DescriptorHeap> ParticleManager::sSrvHeap;
 uint32_t ParticleManager::sIncrementSize;
 uint32_t ParticleManager::sTextureIndex = 0;
 
+ParticleManager::ParticleManager()
+{
+}
+
+ParticleManager::~ParticleManager()
+{
+}
+
+ParticleManager* ParticleManager::GetInstance()
+{
+	static ParticleManager instance;
+
+	return &instance;
+}
+
 void ParticleManager::StaticInitialize(ID3D12Device* device)
 {
 	HRESULT result;
@@ -594,7 +609,7 @@ void ParticleManager::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, float start_scale, float end_scale)
+void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, float start_scale, float end_scale, Vector4 color)
 {
 	particles_.emplace_front();
 	Particle& p = particles_.front();
@@ -605,6 +620,7 @@ void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, fl
 	p.velocity = velo;
 	p.accel = accel;
 	p.num_frame = life;
+	p.color = color;
 }
 
 void ParticleManager::SetUpVertex() {

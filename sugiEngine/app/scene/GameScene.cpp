@@ -44,10 +44,11 @@ void GameScene::Initialize()
 	//“–‚½‚è”»’è
 	ColliderManager::GetInstance()->Initialize();
 
-	particle_ = make_unique<ParticleManager>();
-	particle_->Initialize(ParticleManager::LoadTexture("effect1.png"));
-	particle_->SetSize(100, 100);
-	particle_->SetPos(0, 5);
+	ParticleManager* particleM = ParticleManager::GetInstance();
+	particleM->Initialize(ParticleManager::LoadTexture("effect1.png"));
+
+	particleE_ = make_unique<ParticleEditer>();
+	particleE_->Initialize();
 }
 
 void GameScene::Update()
@@ -61,6 +62,7 @@ void GameScene::Update()
 	SpellManager* spellM = SpellManager::GetInstance();
 	UIManager* uiM = UIManager::GetInstance();
 	ColliderManager* colM = ColliderManager::GetInstance();
+	ParticleManager* particleM = ParticleManager::GetInstance();
 
 #pragma endregion
 
@@ -83,8 +85,6 @@ void GameScene::Update()
 		//enemyM->PopEnemy({ 5,0,3 });
 		//enemyM->PopEnemy({ 10,0,0 });
 	}
-
-	particle_->Add(60, { 0,5,0 }, { 0,-1,0 }, { 0,0,0 },1,1);
 
 	if (input->TriggerKey(DIK_O)) {
 		colM->ChangeIsShowHitBox();
@@ -116,8 +116,8 @@ void GameScene::Update()
 	spellM->Update();
 	uiM->Update();
 	colM->Update();
-	particle_->Update();
-
+	particleM->Update();
+	particleE_->Update();
 
 #pragma endregion
 
@@ -204,7 +204,7 @@ void GameScene::ObjDraw()
 
 void GameScene::ParticleDraw()
 {
-	particle_->Draw();
+	ParticleManager::GetInstance()->Draw();
 }
 
 void GameScene::SpriteDraw()
