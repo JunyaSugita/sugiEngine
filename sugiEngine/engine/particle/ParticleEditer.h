@@ -6,12 +6,22 @@ public:
 	void Initialize();
 	void Update();
 
+	void PopParticle(uint8_t num);
+
+	bool GetIsEdit(uint8_t num) {
+		return isEdit_[num];
+	}
+
+public:
+	static const uint8_t particleNum = 3;
+
 private:
-	bool isEdit = false;
-	int32_t life_;
-	float scale_[2];
-	float color_[4];
-	float pos_[3];
-	float move_[3];
-	float gravity_[3];
+	bool isEdit_[particleNum];
+	int32_t life_[particleNum];
+	float scale_[particleNum][2];
+	float color_[particleNum][4];
+	float pos_[particleNum][3];
+	float move_[particleNum][3];
+	float moveRand_[particleNum][3];
+	float gravity_[particleNum][3];
 };
