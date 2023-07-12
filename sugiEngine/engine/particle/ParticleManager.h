@@ -3,12 +3,12 @@
 #include "DXCommon.h"
 #include "GrovalSetting.h"
 #include "WorldTransform.h"
-#include "Vector2.h"
+#include "SugiMath.h"
 #include <forward_list>
 
 #include <DirectXMath.h>
 
-struct PARTICLE {
+struct Particle {
 	Vector3 position = {};
 	float scale = 1.0f;
 	float s_scale = 1.0f;
@@ -17,9 +17,10 @@ struct PARTICLE {
 	Vector3 accel = {};
 	int32_t frame = 0;
 	int32_t num_frame = 0;
+	Vector4 color = {0,1,0,1};
 };
 
-class Particle
+class ParticleManager
 {
 public:
 	//エイリアステンプレート
@@ -28,6 +29,7 @@ public:
 	struct VertexSp {
 		XMFLOAT3 pos;
 		float scale;
+		XMFLOAT4 color;
 	};
 
 	struct ConstBuffB1 {
@@ -107,7 +109,6 @@ protected:
 	D3D12_RESOURCE_DESC resDesc_{};
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	ID3D12Resource* constBuffTransform_ = nullptr;
-	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
 	ConstBuffB1* constMapTransform_ = nullptr;
 	WorldTransform worldTransform_;
 	Vector3 pos_;
@@ -120,13 +121,12 @@ protected:
 	bool isView_ = true;
 	VertexSp vertices_[vertexCount];
 	D3D12_VERTEX_BUFFER_VIEW vbView_;
-	ComPtr<ID3D12Resource> constBuffMaterial_;
 	uint32_t textureNum_;
 
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	Vector2 textureSize_ = { 100.0f,100.0f };
 
-	std::forward_list<PARTICLE> particles_;
+	std::forward_list<Particle> particles_;
 };
 
 

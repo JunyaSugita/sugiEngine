@@ -44,8 +44,8 @@ void GameScene::Initialize()
 	//“–‚½‚è”»’è
 	ColliderManager::GetInstance()->Initialize();
 
-	particle_ = make_unique<Particle>();
-	particle_->Initialize(Particle::LoadTexture("effect1.png"));
+	particle_ = make_unique<ParticleManager>();
+	particle_->Initialize(ParticleManager::LoadTexture("effect1.png"));
 	particle_->SetSize(100, 100);
 	particle_->SetPos(0, 5);
 }
@@ -84,7 +84,7 @@ void GameScene::Update()
 		//enemyM->PopEnemy({ 10,0,0 });
 	}
 
-	particle_->Add(60, { 0,200,0 }, { 0,-1,0 }, { 0,-0.1f,0 },10,10);
+	particle_->Add(60, { 0,5,0 }, { 0,-1,0 }, { 0,0,0 },1,1);
 
 	if (input->TriggerKey(DIK_O)) {
 		colM->ChangeIsShowHitBox();
