@@ -196,10 +196,12 @@ void GameScene::Draw()
 void GameScene::ObjDraw()
 {
 	GroundManager::GetInstance()->Draw();
-	Player::GetInstance()->Draw();
-	EnemyManager::GetInstance()->Draw();
-	EffectManager::GetInstance()->Draw();
-	SpellManager::GetInstance()->Draw();
+	if (!particleE_->GetIsEdit(0)) {
+		Player::GetInstance()->Draw();
+		EnemyManager::GetInstance()->Draw();
+		EffectManager::GetInstance()->Draw();
+		SpellManager::GetInstance()->Draw();
+	}
 }
 
 void GameScene::ParticleDraw()
@@ -209,7 +211,9 @@ void GameScene::ParticleDraw()
 
 void GameScene::SpriteDraw()
 {
-	UIManager::GetInstance()->Draw();
+	if (!particleE_->GetIsEdit(0)) {
+		UIManager::GetInstance()->Draw();
+	}
 }
 
 void GameScene::Finalize()
