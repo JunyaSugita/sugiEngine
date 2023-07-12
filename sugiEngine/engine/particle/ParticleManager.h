@@ -22,6 +22,19 @@ struct Particle {
 
 class ParticleManager
 {
+private:
+	ParticleManager();
+	~ParticleManager();
+
+public:
+	//コピーコンストラクタ無効
+	ParticleManager(const ParticleManager& obj) = delete;
+	//代入演算子を無効
+	ParticleManager& operator=(const ParticleManager& obj) = delete;
+
+	static ParticleManager* GetInstance();
+
+
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -103,7 +116,7 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-	void Add(int life, Vector3 pos, Vector3 velo, Vector3 accel,float start_scale,float end_scale);
+	void Add(int life, Vector3 pos, Vector3 velo, Vector3 accel,float start_scale,float end_scale,Vector4 color);
 protected:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ヒープ設定
 	D3D12_RESOURCE_DESC resDesc_{};

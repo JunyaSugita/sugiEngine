@@ -1,4 +1,5 @@
 #include "FireBall.h"
+#include "ParticleManager.h"
 std::unique_ptr<Model> FireBall::sModel_;
 std::unique_ptr<Model> FireBall::sColModel_;
 
@@ -39,8 +40,13 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 
 void FireBall::Update()
 {
+	ParticleManager* particleM = ParticleManager::GetInstance();
+
 	if (--time_ <= 0) {
 		isDead_ = true;
+	}
+	else {
+		particleM->Add(30, pos_, { 0,0,0 }, { 0,0,0 }, 1, 0, { 0.1f,0,0,0 });
 	}
 
 	if (!isHit_) {

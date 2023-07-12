@@ -270,6 +270,9 @@
     <ClCompile Include="sugiEngine\engine\particle\ParticleManager.cpp">
       <Filter>ソース ファイル\engine\particle</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\engine\particle\ParticleEditer.cpp">
+      <Filter>ソース ファイル\engine\particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -426,6 +429,9 @@
       <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\particle\ParticleManager.h">
+      <Filter>ヘッダー ファイル\engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\particle\ParticleEditer.h">
       <Filter>ヘッダー ファイル\engine\particle</Filter>
     </ClInclude>
   </ItemGroup>
