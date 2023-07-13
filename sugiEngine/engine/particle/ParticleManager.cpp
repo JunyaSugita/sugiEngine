@@ -3,6 +3,9 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #include <array>
 #include "Camera.h"
+#include "ParticleEditer.h"
+#include "SpellManager.h"
+#include <random>
 
 using namespace Microsoft::WRL;
 using namespace std;
@@ -491,6 +494,8 @@ void ParticleManager::Initialize(uint32_t texNum)
 	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection() * matTransform.GetMatWorld());
 
 	SetUpVertex();
+
+	LoadParticleData();
 }
 
 void ParticleManager::Update()
@@ -506,7 +511,10 @@ void ParticleManager::Update()
 		it->scale = (it->e_scale - it->s_scale) * f;
 		it->scale += it->s_scale;
 
-		it->velocity = it->velocity + it->accel;
+		it->velocity = it->velocity + it->gravity;
+		it->velocity.x *= it->accel.x;
+		it->velocity.y *= it->accel.y;
+		it->velocity.z *= it->accel.z;
 		it->position = it->position + it->velocity;
 	}
 
@@ -515,7 +523,7 @@ void ParticleManager::Update()
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (std::forward_list<Particle>::iterator it = particles_.begin(); it != particles_.end();it++) {
+	for (std::forward_list<Particle>::iterator it = particles_.begin(); it != particles_.end(); it++) {
 		vertMap->pos.x = it->position.x;
 		vertMap->pos.y = it->position.y;
 		vertMap->pos.z = it->position.z;
@@ -551,7 +559,7 @@ void ParticleManager::Draw()
 
 	if (isView_ == true) {
 		// 描画コマンド
-		sCmdList->DrawInstanced((UINT)std::distance(particles_.begin(),particles_.end()), 1, 0, 0); // 全ての頂点を使って描画
+		sCmdList->DrawInstanced((UINT)std::distance(particles_.begin(), particles_.end()), 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -609,7 +617,7 @@ void ParticleManager::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, float start_scale, float end_scale, Vector4 color)
+void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
 {
 	particles_.emplace_front();
 	Particle& p = particles_.front();
@@ -619,8 +627,108 @@ void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, fl
 	p.e_scale = end_scale;
 	p.velocity = velo;
 	p.accel = accel;
+	p.gravity = gravity;
 	p.num_frame = life;
 	p.color = color;
+}
+
+void ParticleManager::Add(Vector3 pos, EditFile data)
+{
+	//ランダム
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+
+	for (int i = 0; i < data.num; i++) {
+		std::uniform_real_distribution<float> x(-data.moveRand.x, data.moveRand.x);
+		std::uniform_real_distribution<float> y(-data.moveRand.y, data.moveRand.y);
+		std::uniform_real_distribution<float> z(-data.moveRand.z, data.moveRand.z);
+
+		particles_.emplace_front();
+		Particle& p = particles_.front();
+		p.position = pos + data.pos;
+		p.scale = data.scale.x;
+		p.s_scale = data.scale.x;
+		p.e_scale = data.scale.y;
+		p.velocity.x = data.move.x + x(engine);
+		p.velocity.y = data.move.y + y(engine);
+		p.velocity.z = data.move.z + z(engine);
+		p.accel = data.acceleration;
+		p.gravity = data.gravity;
+		p.num_frame = data.life;
+		p.color = data.color;
+	}
+	if (data.add1) {
+		for (int i = 0; i < data.num1; i++) {
+			std::uniform_real_distribution<float> x(-data.moveRand1.x, data.moveRand1.x);
+			std::uniform_real_distribution<float> y(-data.moveRand1.y, data.moveRand1.y);
+			std::uniform_real_distribution<float> z(-data.moveRand1.z, data.moveRand1.z);
+
+			particles_.emplace_front();
+			Particle& p1 = particles_.front();
+			p1.position = pos + data.pos1;
+			p1.scale = data.scale1.x;
+			p1.s_scale = data.scale1.x;
+			p1.e_scale = data.scale1.y;
+			p1.velocity.x = data.move1.x + x(engine);
+			p1.velocity.y = data.move1.y + y(engine);
+			p1.velocity.z = data.move1.z + z(engine);
+			p1.accel = data.acceleration1;
+			p1.gravity = data.gravity1;
+			p1.num_frame = data.life1;
+			p1.color = data.color1;
+		}
+		if (data.add2) {
+			for (int i = 0; i < data.num2; i++) {
+				std::uniform_real_distribution<float> x(-data.moveRand2.x, data.moveRand2.x);
+				std::uniform_real_distribution<float> y(-data.moveRand2.y, data.moveRand2.y);
+				std::uniform_real_distribution<float> z(-data.moveRand2.z, data.moveRand2.z);
+
+				particles_.emplace_front();
+				Particle& p2 = particles_.front();
+				p2.position = pos + data.pos2;
+				p2.scale = data.scale2.x;
+				p2.s_scale = data.scale2.x;
+				p2.e_scale = data.scale2.y;
+				p2.velocity.x = data.move2.x + x(engine);
+				p2.velocity.y = data.move2.y + y(engine);
+				p2.velocity.z = data.move2.z + z(engine);
+				p2.accel = data.acceleration2;
+				p2.gravity = data.gravity2;
+				p2.num_frame = data.life2;
+				p2.color = data.color2;
+			}
+		}
+	}
+}
+
+void ParticleManager::LoadParticleData()
+{
+	FILE* saveFile_;
+
+	fopen_s(&saveFile_, "fire.dat", "rb");
+
+	if (saveFile_ == NULL) {
+		return;
+	}
+
+	fread(&particleData_[FIRE_BALL], sizeof(particleData_[FIRE_BALL]), 1, saveFile_);
+
+	fclose(saveFile_);
+
+	fopen_s(&saveFile_, "explode.dat", "rb");
+
+	if (saveFile_ == NULL) {
+		return;
+	}
+
+	fread(&particleData_[1], sizeof(particleData_[1]), 1, saveFile_);
+
+	fclose(saveFile_);
+}
+
+void ParticleManager::AddFromFile(uint8_t num, Vector3 pos)
+{
+	Add(pos, particleData_[num]);
 }
 
 void ParticleManager::SetUpVertex() {

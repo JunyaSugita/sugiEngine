@@ -1,5 +1,6 @@
 #include "FireBall.h"
 #include "ParticleManager.h"
+#include "SpellManager.h"
 std::unique_ptr<Model> FireBall::sModel_;
 std::unique_ptr<Model> FireBall::sColModel_;
 
@@ -46,7 +47,7 @@ void FireBall::Update()
 		isDead_ = true;
 	}
 	else {
-		particleM->Add(30, pos_, { 0,0,0 }, { 0,0,0 }, 1, 0, { 0.1f,0,0,0 });
+		particleM->AddFromFile(FIRE_BALL, pos_);
 	}
 
 	if (!isHit_) {
@@ -66,7 +67,7 @@ void FireBall::Update()
 
 void FireBall::Draw()
 {
-	obj_->Draw();
+	//obj_->Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
 		colObj_->Draw();
 	}
@@ -109,6 +110,7 @@ void FireBall::Explode()
 	scale_ *= 1.2f;
 	alpha_ -= 0.03f;
 	obj_->SetColor({ 1,0,0,alpha_ });
+	ParticleManager::GetInstance()->AddFromFile(1, pos_);
 	if (scale_.x >= 10.0f) {
 		isDead_ = true;
 	}
