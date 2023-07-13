@@ -5,6 +5,7 @@
 #include "WorldTransform.h"
 #include "SugiMath.h"
 #include <forward_list>
+#include "ParticleEditer.h"
 
 #include <DirectXMath.h>
 
@@ -14,7 +15,8 @@ struct Particle {
 	float s_scale = 1.0f;
 	float e_scale = 1.0f;
 	Vector3 velocity = {};
-	Vector3 accel = {};
+	Vector3 accel = {1,1,1};
+	Vector3 gravity = {};
 	int32_t frame = 0;
 	int32_t num_frame = 0;
 	Vector4 color = {0,1,0,1};
@@ -77,7 +79,7 @@ protected:
 	static uint32_t sIncrementSize;
 	static uint32_t sTextureIndex;
 
-	static const uint32_t vertexCount = 1024;
+	static const uint32_t vertexCount = 2048;
 
 private:
 	void AdjustTextureSize();
@@ -116,7 +118,12 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-	void Add(int life, Vector3 pos, Vector3 velo, Vector3 accel,float start_scale,float end_scale,Vector4 color);
+	void Add(int life, Vector3 pos, Vector3 velo,Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector4 color);
+	void Add(Vector3 pos, EditFile data);
+	
+	void LoadParticleData();
+
+	void AddFromFile(uint8_t num, Vector3 pos);
 protected:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ÉqÅ[Évê›íË
 	D3D12_RESOURCE_DESC resDesc_{};
@@ -140,6 +147,8 @@ protected:
 	Vector2 textureSize_ = { 100.0f,100.0f };
 
 	std::forward_list<Particle> particles_;
+
+	EditFile particleData_[10];
 };
 
 
