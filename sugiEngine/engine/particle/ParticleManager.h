@@ -5,7 +5,7 @@
 #include "WorldTransform.h"
 #include "SugiMath.h"
 #include <forward_list>
-#include "ParticleEditer.h"
+#include "ParticleEditor.h"
 
 #include <DirectXMath.h>
 

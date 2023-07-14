@@ -3,7 +3,7 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #include <array>
 #include "Camera.h"
-#include "ParticleEditer.h"
+#include "ParticleEditor.h"
 #include "SpellManager.h"
 #include <random>
 
@@ -639,63 +639,87 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 	std::mt19937_64 engine(seed_gen());
 
 	for (int i = 0; i < data.num; i++) {
-		std::uniform_real_distribution<float> x(-data.moveRand.x, data.moveRand.x);
-		std::uniform_real_distribution<float> y(-data.moveRand.y, data.moveRand.y);
-		std::uniform_real_distribution<float> z(-data.moveRand.z, data.moveRand.z);
+		std::uniform_real_distribution<float> xp(-data.posRand.x, data.posRand.x);
+		std::uniform_real_distribution<float> yp(-data.posRand.y, data.posRand.y);
+		std::uniform_real_distribution<float> zp(-data.posRand.z, data.posRand.z);
+
+		std::uniform_real_distribution<float> xv(-data.moveRand.x, data.moveRand.x);
+		std::uniform_real_distribution<float> yv(-data.moveRand.y, data.moveRand.y);
+		std::uniform_real_distribution<float> zv(-data.moveRand.z, data.moveRand.z);
+
+		std::uniform_real_distribution<float> l(-float(data.lifeRand + 0.99f), float(data.lifeRand + 0.99f));
 
 		particles_.emplace_front();
 		Particle& p = particles_.front();
-		p.position = pos + data.pos;
+		p.position.x = pos.x + data.pos.x + xp(engine);
+		p.position.y = pos.y + data.pos.y + yp(engine);
+		p.position.z = pos.z + data.pos.z + zp(engine);
 		p.scale = data.scale.x;
 		p.s_scale = data.scale.x;
 		p.e_scale = data.scale.y;
-		p.velocity.x = data.move.x + x(engine);
-		p.velocity.y = data.move.y + y(engine);
-		p.velocity.z = data.move.z + z(engine);
+		p.velocity.x = data.move.x + xv(engine);
+		p.velocity.y = data.move.y + yv(engine);
+		p.velocity.z = data.move.z + zv(engine);
 		p.accel = data.acceleration;
 		p.gravity = data.gravity;
-		p.num_frame = data.life;
+		p.num_frame = data.life + uint32_t(l(engine));
 		p.color = data.color;
 	}
 	if (data.add1) {
 		for (int i = 0; i < data.num1; i++) {
-			std::uniform_real_distribution<float> x(-data.moveRand1.x, data.moveRand1.x);
-			std::uniform_real_distribution<float> y(-data.moveRand1.y, data.moveRand1.y);
-			std::uniform_real_distribution<float> z(-data.moveRand1.z, data.moveRand1.z);
+			std::uniform_real_distribution<float> xp(-data.posRand1.x, data.posRand1.x);
+			std::uniform_real_distribution<float> yp(-data.posRand1.y, data.posRand1.y);
+			std::uniform_real_distribution<float> zp(-data.posRand1.z, data.posRand1.z);
+
+			std::uniform_real_distribution<float> xv(-data.moveRand1.x, data.moveRand1.x);
+			std::uniform_real_distribution<float> yv(-data.moveRand1.y, data.moveRand1.y);
+			std::uniform_real_distribution<float> zv(-data.moveRand1.z, data.moveRand1.z);
+
+			std::uniform_real_distribution<float> l(-float(data.lifeRand1 + 0.99f), float(data.lifeRand1 + 0.99f));
 
 			particles_.emplace_front();
-			Particle& p1 = particles_.front();
-			p1.position = pos + data.pos1;
-			p1.scale = data.scale1.x;
-			p1.s_scale = data.scale1.x;
-			p1.e_scale = data.scale1.y;
-			p1.velocity.x = data.move1.x + x(engine);
-			p1.velocity.y = data.move1.y + y(engine);
-			p1.velocity.z = data.move1.z + z(engine);
-			p1.accel = data.acceleration1;
-			p1.gravity = data.gravity1;
-			p1.num_frame = data.life1;
-			p1.color = data.color1;
+			Particle& p = particles_.front();
+			p.position.x = pos.x + data.pos1.x + xp(engine);
+			p.position.y = pos.y + data.pos1.y + yp(engine);
+			p.position.z = pos.z + data.pos1.z + zp(engine);
+			p.scale = data.scale1.x;
+			p.s_scale = data.scale1.x;
+			p.e_scale = data.scale1.y;
+			p.velocity.x = data.move1.x + xv(engine);
+			p.velocity.y = data.move1.y + yv(engine);
+			p.velocity.z = data.move1.z + zv(engine);
+			p.accel = data.acceleration1;
+			p.gravity = data.gravity1;
+			p.num_frame = data.life1 + uint32_t(l(engine));
+			p.color = data.color1;
 		}
 		if (data.add2) {
 			for (int i = 0; i < data.num2; i++) {
-				std::uniform_real_distribution<float> x(-data.moveRand2.x, data.moveRand2.x);
-				std::uniform_real_distribution<float> y(-data.moveRand2.y, data.moveRand2.y);
-				std::uniform_real_distribution<float> z(-data.moveRand2.z, data.moveRand2.z);
+				std::uniform_real_distribution<float> xp(-data.posRand2.x, data.posRand2.x);
+				std::uniform_real_distribution<float> yp(-data.posRand2.y, data.posRand2.y);
+				std::uniform_real_distribution<float> zp(-data.posRand2.z, data.posRand2.z);
+
+				std::uniform_real_distribution<float> xv(-data.moveRand2.x, data.moveRand2.x);
+				std::uniform_real_distribution<float> yv(-data.moveRand2.y, data.moveRand2.y);
+				std::uniform_real_distribution<float> zv(-data.moveRand2.z, data.moveRand2.z);
+
+				std::uniform_real_distribution<float> l(-float(data.lifeRand2 + 0.99f), float(data.lifeRand2 + 0.99f));
 
 				particles_.emplace_front();
-				Particle& p2 = particles_.front();
-				p2.position = pos + data.pos2;
-				p2.scale = data.scale2.x;
-				p2.s_scale = data.scale2.x;
-				p2.e_scale = data.scale2.y;
-				p2.velocity.x = data.move2.x + x(engine);
-				p2.velocity.y = data.move2.y + y(engine);
-				p2.velocity.z = data.move2.z + z(engine);
-				p2.accel = data.acceleration2;
-				p2.gravity = data.gravity2;
-				p2.num_frame = data.life2;
-				p2.color = data.color2;
+				Particle& p = particles_.front();
+				p.position.x = pos.x + data.pos2.x + xp(engine);
+				p.position.y = pos.y + data.pos2.y + yp(engine);
+				p.position.z = pos.z + data.pos2.z + zp(engine);
+				p.scale = data.scale2.x;
+				p.s_scale = data.scale2.x;
+				p.e_scale = data.scale2.y;
+				p.velocity.x = data.move2.x + xv(engine);
+				p.velocity.y = data.move2.y + yv(engine);
+				p.velocity.z = data.move2.z + zv(engine);
+				p.accel = data.acceleration2;
+				p.gravity = data.gravity2;
+				p.num_frame = data.life2 + uint32_t(l(engine));
+				p.color = data.color2;
 			}
 		}
 	}

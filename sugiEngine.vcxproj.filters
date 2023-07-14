@@ -270,7 +270,7 @@
     <ClCompile Include="sugiEngine\engine\particle\ParticleManager.cpp">
       <Filter>ソース ファイル\engine\particle</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\engine\particle\ParticleEditer.cpp">
+    <ClCompile Include="sugiEngine\engine\particle\ParticleEditor.cpp">
       <Filter>ソース ファイル\engine\particle</Filter>
     </ClCompile>
   </ItemGroup>
@@ -431,7 +431,7 @@
     <ClInclude Include="sugiEngine\engine\particle\ParticleManager.h">
       <Filter>ヘッダー ファイル\engine\particle</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\engine\particle\ParticleEditer.h">
+    <ClInclude Include="sugiEngine\engine\particle\ParticleEditor.h">
       <Filter>ヘッダー ファイル\engine\particle</Filter>
     </ClInclude>
   </ItemGroup>

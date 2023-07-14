@@ -47,7 +47,7 @@ void GameScene::Initialize()
 	ParticleManager* particleM = ParticleManager::GetInstance();
 	particleM->Initialize(ParticleManager::LoadTexture("effect1.png"));
 
-	particleE_ = make_unique<ParticleEditer>();
+	particleE_ = make_unique<ParticleEditor>();
 	particleE_->Initialize();
 }
 
