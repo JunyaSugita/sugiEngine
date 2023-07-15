@@ -1,5 +1,6 @@
 #include "IceBolt.h"
 #include "Player.h"
+#include "ParticleManager.h"
 std::unique_ptr<Model> IceBolt::sModel_;
 std::unique_ptr<Model> IceBolt::sColModel_;
 
@@ -50,6 +51,9 @@ void IceBolt::Update()
 
 	if (isHit_) {
 		isDead_ = true;
+	}
+	else {
+		ParticleManager::GetInstance()->AddFromFile(P_ICE,pos_);
 	}
 
 	SetCol();
