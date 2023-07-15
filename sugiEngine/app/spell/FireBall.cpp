@@ -1,5 +1,5 @@
 #include "FireBall.h"
-#include "ParticleManager.h"
+#include "CircleParticle.h"
 #include "SpellManager.h"
 std::unique_ptr<Model> FireBall::sModel_;
 std::unique_ptr<Model> FireBall::sColModel_;
@@ -41,7 +41,7 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 
 void FireBall::Update()
 {
-	ParticleManager* particleM = ParticleManager::GetInstance();
+	CircleParticle* particleM = CircleParticle::GetInstance();
 
 	if (--time_ <= 0) {
 		isDead_ = true;
@@ -110,7 +110,7 @@ void FireBall::Explode()
 	scale_ *= 1.2f;
 	alpha_ -= 0.03f;
 	obj_->SetColor({ 1,0,0,alpha_ });
-	ParticleManager::GetInstance()->AddFromFile(1, pos_);
+	CircleParticle::GetInstance()->AddFromFile(1, pos_);
 	if (scale_.x >= 10.0f) {
 		isDead_ = true;
 	}

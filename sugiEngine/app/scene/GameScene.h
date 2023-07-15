@@ -9,7 +9,7 @@
 #include "LightGroup.h"
 #include "ImGuiManager.h"
 #include "FBX.h"
-#include "ParticleManager.h"
+#include "CircleParticle.h"
 #include "ParticleEditor.h"
 
 class GameScene : public ISceneManager

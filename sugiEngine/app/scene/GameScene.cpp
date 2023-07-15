@@ -44,8 +44,8 @@ void GameScene::Initialize()
 	//“–‚½‚è”»’è
 	ColliderManager::GetInstance()->Initialize();
 
-	ParticleManager* particleM = ParticleManager::GetInstance();
-	particleM->Initialize(ParticleManager::LoadTexture("effect1.png"));
+	CircleParticle* particleM = CircleParticle::GetInstance();
+	particleM->Initialize();
 
 	particleE_ = make_unique<ParticleEditor>();
 	particleE_->Initialize();
@@ -62,7 +62,7 @@ void GameScene::Update()
 	SpellManager* spellM = SpellManager::GetInstance();
 	UIManager* uiM = UIManager::GetInstance();
 	ColliderManager* colM = ColliderManager::GetInstance();
-	ParticleManager* particleM = ParticleManager::GetInstance();
+	CircleParticle* particleM = CircleParticle::GetInstance();
 
 #pragma endregion
 
@@ -206,7 +206,7 @@ void GameScene::ObjDraw()
 
 void GameScene::ParticleDraw()
 {
-	ParticleManager::GetInstance()->Draw();
+	CircleParticle::GetInstance()->Draw();
 }
 
 void GameScene::SpriteDraw()

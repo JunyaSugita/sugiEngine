@@ -125,7 +125,7 @@
     <ClCompile Include="sugiEngine\engine\io\FbxLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\particle\ParticleEditor.cpp" />
-    <ClCompile Include="sugiEngine\engine\particle\ParticleManager.cpp" />
+    <ClCompile Include="sugiEngine\engine\particle\CircleParticle.cpp" />
     <ClCompile Include="sugiEngine\engine\scene\GameManager.cpp" />
     <ClCompile Include="sugiEngine\app\scene\GameScene.cpp" />
     <ClCompile Include="sugiEngine\engine\2d\ImGuiManager.cpp" />
@@ -177,7 +177,7 @@
     <ClInclude Include="sugiEngine\engine\effect\EffectManager.h" />
     <ClInclude Include="sugiEngine\engine\math\SugiMath.h" />
     <ClInclude Include="sugiEngine\engine\particle\ParticleEditor.h" />
-    <ClInclude Include="sugiEngine\engine\particle\ParticleManager.h" />
+    <ClInclude Include="sugiEngine\engine\particle\CircleParticle.h" />
     <ClInclude Include="sugiEngine\engine\scene\GameManager.h" />
     <ClInclude Include="sugiEngine\app\scene\GameScene.h" />
     <ClInclude Include="sugiEngine\engine\base\GrovalSetting.h" />

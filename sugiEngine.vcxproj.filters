@@ -267,7 +267,7 @@
     <ClCompile Include="sugiEngine\app\spell\ChainLightning.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\engine\particle\ParticleManager.cpp">
+    <ClCompile Include="sugiEngine\engine\particle\CircleParticle.cpp">
       <Filter>ソース ファイル\engine\particle</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\particle\ParticleEditor.cpp">
@@ -428,7 +428,7 @@
     <ClInclude Include="sugiEngine\app\spell\ChainLightning.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\engine\particle\ParticleManager.h">
+    <ClInclude Include="sugiEngine\engine\particle\CircleParticle.h">
       <Filter>ヘッダー ファイル\engine\particle</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\particle\ParticleEditor.h">

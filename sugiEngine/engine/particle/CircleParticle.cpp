@@ -1,4 +1,4 @@
-#include "ParticleManager.h"
+#include "CircleParticle.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <array>
@@ -10,32 +10,32 @@
 using namespace Microsoft::WRL;
 using namespace std;
 
-ComPtr<ID3D12Device> ParticleManager::sDevice = nullptr;
-ComPtr<ID3D12PipelineState> ParticleManager::sPipelineState = nullptr;
-ComPtr<ID3D12RootSignature> ParticleManager::sRootSignature;
-ComPtr<ID3D12GraphicsCommandList> ParticleManager::sCmdList;
-std::array<ComPtr<ID3D12Resource>, ParticleManager::MAX_SRV_COUNT> ParticleManager::sTextureBuffers;
-const size_t ParticleManager::MAX_SRV_COUNT;
-ComPtr<ID3D12DescriptorHeap> ParticleManager::sSrvHeap;
-uint32_t ParticleManager::sIncrementSize;
-uint32_t ParticleManager::sTextureIndex = 0;
+ComPtr<ID3D12Device> CircleParticle::sDevice = nullptr;
+ComPtr<ID3D12PipelineState> CircleParticle::sPipelineState = nullptr;
+ComPtr<ID3D12RootSignature> CircleParticle::sRootSignature;
+ComPtr<ID3D12GraphicsCommandList> CircleParticle::sCmdList;
+std::array<ComPtr<ID3D12Resource>, CircleParticle::MAX_SRV_COUNT> CircleParticle::sTextureBuffers;
+const size_t CircleParticle::MAX_SRV_COUNT;
+ComPtr<ID3D12DescriptorHeap> CircleParticle::sSrvHeap;
+uint32_t CircleParticle::sIncrementSize;
+uint32_t CircleParticle::sTextureIndex = 0;
 
-ParticleManager::ParticleManager()
+CircleParticle::CircleParticle()
 {
 }
 
-ParticleManager::~ParticleManager()
+CircleParticle::~CircleParticle()
 {
 }
 
-ParticleManager* ParticleManager::GetInstance()
+CircleParticle* CircleParticle::GetInstance()
 {
-	static ParticleManager instance;
+	static CircleParticle instance;
 
 	return &instance;
 }
 
-void ParticleManager::StaticInitialize(ID3D12Device* device)
+void CircleParticle::StaticInitialize(ID3D12Device* device)
 {
 	HRESULT result;
 	sDevice = device;
@@ -271,9 +271,9 @@ void ParticleManager::StaticInitialize(ID3D12Device* device)
 	assert(SUCCEEDED(result));
 }
 
-void ParticleManager::PreDraw(ID3D12GraphicsCommandList* cmdList)
+void CircleParticle::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
-	ParticleManager::sCmdList = cmdList;
+	CircleParticle::sCmdList = cmdList;
 	// パイプラインステートとルートシグネチャの設定コマンド
 	cmdList->SetPipelineState(sPipelineState.Get());
 	cmdList->SetGraphicsRootSignature(sRootSignature.Get());
@@ -282,17 +282,17 @@ void ParticleManager::PreDraw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }
 
-void ParticleManager::PostDraw()
+void CircleParticle::PostDraw()
 {
-	ParticleManager::sCmdList = nullptr;
+	CircleParticle::sCmdList = nullptr;
 }
 
-uint32_t ParticleManager::LoadTexture(const string& textureName) {
+uint32_t CircleParticle::LoadTexture() {
 	HRESULT result;
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
-	string fileName = "Resources/" + textureName;
+	string fileName = "Resources/effect1.png";
 	//ユニコード文字列に変換する
 	wchar_t wfilepath[128];
 	MultiByteToWideChar(CP_ACP, 0, fileName.c_str(), -1, wfilepath, _countof(wfilepath));
@@ -383,10 +383,11 @@ uint32_t ParticleManager::LoadTexture(const string& textureName) {
 	return sTextureIndex - 1;
 }
 
-void ParticleManager::Initialize(uint32_t texNum)
+void CircleParticle::Initialize()
 {
 	HRESULT result;
-	textureNum_ = texNum;
+	LoadTexture();
+	textureNum_ = 0;
 	AdjustTextureSize();
 
 	size_ = textureSize_;
@@ -448,7 +449,7 @@ void ParticleManager::Initialize(uint32_t texNum)
 
 
 	//定数バッファの生成
-	result = ParticleManager::sDevice->CreateCommittedResource(
+	result = CircleParticle::sDevice->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -498,7 +499,7 @@ void ParticleManager::Initialize(uint32_t texNum)
 	LoadParticleData();
 }
 
-void ParticleManager::Update()
+void CircleParticle::Update()
 {
 	HRESULT result;
 
@@ -541,7 +542,7 @@ void ParticleManager::Update()
 	SetUpVertex();
 }
 
-void ParticleManager::Draw()
+void CircleParticle::Draw()
 {
 	// 頂点バッファビューの設定コマンド
 	sCmdList->IASetVertexBuffers(0, 1, &vbView_);
@@ -563,20 +564,20 @@ void ParticleManager::Draw()
 	}
 }
 
-void ParticleManager::SetPos(float x, float y) {
+void CircleParticle::SetPos(float x, float y) {
 	pos_.x = x;
 	pos_.y = y;
 
 	SetUpVertex();
 }
 
-void ParticleManager::SetRotate(float r) {
+void CircleParticle::SetRotate(float r) {
 	rotate_ = r;
 
 	SetUpVertex();
 }
 
-void ParticleManager::SetColor(float x, float y, float z, float w) {
+void CircleParticle::SetColor(float x, float y, float z, float w) {
 	color_.x = x;
 	color_.y = y;
 	color_.z = z;
@@ -585,39 +586,39 @@ void ParticleManager::SetColor(float x, float y, float z, float w) {
 	SetUpVertex();
 }
 
-void ParticleManager::SetSize(float x, float y) {
+void CircleParticle::SetSize(float x, float y) {
 	size_.x = x;
 	size_.y = y;
 
 	SetUpVertex();
 }
 
-void ParticleManager::SetAnchorPoint(float x, float y) {
+void CircleParticle::SetAnchorPoint(float x, float y) {
 	anchorPoint_.x = x;
 	anchorPoint_.y = y;
 
 	SetUpVertex();
 }
 
-void ParticleManager::SetFlipX(bool isFlip) {
+void CircleParticle::SetFlipX(bool isFlip) {
 	isFlipX_ = isFlip;
 
 	SetUpVertex();
 }
-void ParticleManager::SetFlipY(bool isFlip) {
+void CircleParticle::SetFlipY(bool isFlip) {
 	isFlipY_ = isFlip;
 
 	SetUpVertex();
 }
 
-void ParticleManager::SetTextureSize(float x, float y) {
+void CircleParticle::SetTextureSize(float x, float y) {
 	textureSize_.x = x;
 	textureSize_.y = y;
 
 	SetUpVertex();
 }
 
-void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
+void CircleParticle::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
 {
 	particles_.emplace_front();
 	Particle& p = particles_.front();
@@ -632,7 +633,7 @@ void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, Ve
 	p.color = color;
 }
 
-void ParticleManager::Add(Vector3 pos, EditFile data)
+void CircleParticle::Add(Vector3 pos, EditFile data)
 {
 	//ランダム
 	std::random_device seed_gen;
@@ -725,7 +726,7 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 	}
 }
 
-void ParticleManager::LoadParticleData()
+void CircleParticle::LoadParticleData()
 {
 	FILE* saveFile_;
 
@@ -750,12 +751,12 @@ void ParticleManager::LoadParticleData()
 	fclose(saveFile_);
 }
 
-void ParticleManager::AddFromFile(uint8_t num, Vector3 pos)
+void CircleParticle::AddFromFile(uint8_t num, Vector3 pos)
 {
 	Add(pos, particleData_[num]);
 }
 
-void ParticleManager::SetUpVertex() {
+void CircleParticle::SetUpVertex() {
 	float left = (0.0f - anchorPoint_.x) * size_.x;
 	float right = (1.0f - anchorPoint_.x) * size_.x;
 	float top = (0.0f - anchorPoint_.y) * size_.y;
@@ -813,7 +814,7 @@ void ParticleManager::SetUpVertex() {
 	constMapTransform_->billboard = matBillboard;
 }
 
-void ParticleManager::AdjustTextureSize()
+void CircleParticle::AdjustTextureSize()
 {
 	D3D12_RESOURCE_DESC resDesc = sTextureBuffers[textureNum_]->GetDesc();
 

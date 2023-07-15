@@ -22,19 +22,19 @@ struct Particle {
 	Vector4 color = {0,1,0,1};
 };
 
-class ParticleManager
+class CircleParticle
 {
 private:
-	ParticleManager();
-	~ParticleManager();
+	CircleParticle();
+	~CircleParticle();
 
 public:
 	//コピーコンストラクタ無効
-	ParticleManager(const ParticleManager& obj) = delete;
+	CircleParticle(const CircleParticle& obj) = delete;
 	//代入演算子を無効
-	ParticleManager& operator=(const ParticleManager& obj) = delete;
+	CircleParticle& operator=(const CircleParticle& obj) = delete;
 
-	static ParticleManager* GetInstance();
+	static CircleParticle* GetInstance();
 
 
 public:
@@ -59,7 +59,7 @@ public:
 
 	static void PostDraw();
 
-	static uint32_t LoadTexture(const std::string& textureName);
+	static uint32_t LoadTexture();
 
 protected:
 	//デバイス
@@ -85,7 +85,7 @@ private:
 	void AdjustTextureSize();
 
 public:
-	void Initialize(uint32_t texNum);
+	void Initialize();
 	void Update();
 	void Draw();
 
@@ -107,10 +107,6 @@ public:
 	}
 
 	void SetUpVertex();
-
-	void SetTexture(uint32_t texNum) {
-		textureNum_ = texNum;
-	};
 
 	Vector2 GetTextureSize() {
 		return textureSize_;
