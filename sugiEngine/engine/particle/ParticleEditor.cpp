@@ -53,7 +53,7 @@ void ParticleEditor::Update()
 		if (Button("Load", { 100,30 })) {
 			Load();
 		}
-		InputInt("texNum",&texNum_[0]);
+		InputInt("texNum", &texNum_[0]);
 		InputInt("num", &num_[0]);
 		InputInt("life", &life_[0]);
 		InputInt("lifeRand", &lifeRand_[0]);
@@ -140,8 +140,10 @@ void ParticleEditor::PopParticle(uint8_t num)
 void ParticleEditor::Save()
 {
 	Write();
-	
-	fopen_s(&saveFile_, text_, "wb");
+
+	std::string temp = text_;
+	temp = "Resources/ParticleData/" + temp + ".dat";
+	fopen_s(&saveFile_, temp.c_str(), "wb");
 
 	fwrite(&editData_, sizeof(editData_), 1, saveFile_);
 
@@ -150,8 +152,9 @@ void ParticleEditor::Save()
 
 void ParticleEditor::Load()
 {
-	fopen_s(&saveFile_, text_, "rb");
-
+	std::string temp = text_;
+	temp = "Resources/ParticleData/" + temp + ".dat";
+	fopen_s(&saveFile_, temp.c_str(), "rb");
 	if (saveFile_ == NULL) {
 		return;
 	}

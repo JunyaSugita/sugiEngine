@@ -22,6 +22,11 @@ struct Particle {
 	Vector4 color = {0,1,0,1};
 };
 
+enum ParticleName {
+	P_FIRE_BALL,
+	P_FIRE_BALL_EXPLODE,
+};
+
 class CircleParticle
 {
 private:
