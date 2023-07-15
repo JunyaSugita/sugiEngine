@@ -840,20 +840,28 @@ void CircleParticle::LoadParticleData()
 {
 	FILE* saveFile_;
 
-	fopen_s(&saveFile_, "fire.dat", "rb");
+	fopen_s(&saveFile_, "Resource/particleData/fire.dat", "rb");
 
 	if (saveFile_ == NULL) {
-		return;
+		//ファイル2重チェック
+		fopen_s(&saveFile_, "fire.dat", "rb");
+		if (saveFile_ == NULL) {
+			return;
+		}
 	}
 
 	fread(&particleData_[FIRE_BALL], sizeof(particleData_[FIRE_BALL]), 1, saveFile_);
 
 	fclose(saveFile_);
 
-	fopen_s(&saveFile_, "explode.dat", "rb");
+	fopen_s(&saveFile_, "Resource/particleData/explode.dat", "rb");
 
 	if (saveFile_ == NULL) {
-		return;
+		//ファイル2重チェック
+		fopen_s(&saveFile_, "explode.dat", "rb");
+		if (saveFile_ == NULL) {
+			return;
+		}
 	}
 
 	fread(&particleData_[1], sizeof(particleData_[1]), 1, saveFile_);
