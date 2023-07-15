@@ -27,19 +27,19 @@ enum ParticleName {
 	P_FIRE_BALL_EXPLODE,
 };
 
-class CircleParticle
+class ParticleManager
 {
 private:
-	CircleParticle();
-	~CircleParticle();
+	ParticleManager();
+	~ParticleManager();
 
 public:
 	//コピーコンストラクタ無効
-	CircleParticle(const CircleParticle& obj) = delete;
+	ParticleManager(const ParticleManager& obj) = delete;
 	//代入演算子を無効
-	CircleParticle& operator=(const CircleParticle& obj) = delete;
+	ParticleManager& operator=(const ParticleManager& obj) = delete;
 
-	static CircleParticle* GetInstance();
+	static ParticleManager* GetInstance();
 
 
 public:
