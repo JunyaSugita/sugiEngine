@@ -25,6 +25,7 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 
 	vec_ = vec.normalize();
 
+	//プレイヤーの少し前に出す
 	pos_ = pos + vec_ * 3;
 
 	boxCol_.pos = pos;
