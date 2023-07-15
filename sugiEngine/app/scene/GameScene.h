@@ -10,7 +10,7 @@
 #include "ImGuiManager.h"
 #include "FBX.h"
 #include "ParticleManager.h"
-#include "ParticleEditer.h"
+#include "ParticleEditor.h"
 
 class GameScene : public ISceneManager
 {
@@ -30,6 +30,6 @@ private:
 	//ƒ‰ƒCƒgŠÖ˜A
 	unique_ptr<LightGroup> lightGroup_ = nullptr;
 
-	unique_ptr<ParticleEditer> particleE_ = nullptr;
+	unique_ptr<ParticleEditor> particleE_ = nullptr;
 };
 

@@ -5,7 +5,7 @@
 #include "WorldTransform.h"
 #include "SugiMath.h"
 #include <forward_list>
-#include "ParticleEditer.h"
+#include "ParticleEditor.h"
 
 #include <DirectXMath.h>
 
@@ -20,6 +20,11 @@ struct Particle {
 	int32_t frame = 0;
 	int32_t num_frame = 0;
 	Vector4 color = {0,1,0,1};
+};
+
+enum ParticleName {
+	P_FIRE_BALL,
+	P_FIRE_BALL_EXPLODE,
 };
 
 class ParticleManager
@@ -59,7 +64,7 @@ public:
 
 	static void PostDraw();
 
-	static uint32_t LoadTexture(const std::string& textureName);
+	static uint32_t LoadTexture(std::string file);
 
 protected:
 	//デバイス
@@ -85,7 +90,7 @@ private:
 	void AdjustTextureSize();
 
 public:
-	void Initialize(uint32_t texNum);
+	void Initialize();
 	void Update();
 	void Draw();
 
@@ -108,17 +113,14 @@ public:
 
 	void SetUpVertex();
 
-	void SetTexture(uint32_t texNum) {
-		textureNum_ = texNum;
-	};
-
 	Vector2 GetTextureSize() {
 		return textureSize_;
 	}
 
 	void SetTextureSize(float x, float y);
 
-	void Add(int life, Vector3 pos, Vector3 velo,Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector4 color);
+	void AddCircle(int life, Vector3 pos, Vector3 velo,Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector4 color);
+	void AddIce(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color);
 	void Add(Vector3 pos, EditFile data);
 	
 	void LoadParticleData();
@@ -146,7 +148,8 @@ protected:
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	Vector2 textureSize_ = { 100.0f,100.0f };
 
-	std::forward_list<Particle> particles_;
+	std::forward_list<Particle> circleParticles_;
+	std::forward_list<Particle> iceParticles_;
 
 	EditFile particleData_[10];
 };

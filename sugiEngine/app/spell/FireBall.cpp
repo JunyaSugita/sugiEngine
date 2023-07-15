@@ -1,6 +1,5 @@
 #include "FireBall.h"
 #include "ParticleManager.h"
-#include "SpellManager.h"
 std::unique_ptr<Model> FireBall::sModel_;
 std::unique_ptr<Model> FireBall::sColModel_;
 
@@ -20,11 +19,14 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 	colObj_->SetModel(sColModel_.get());
 
 
-	pos_ = pos;
+	
 	rot_ = { 0,0,0 };
 	scale_ = { 1,1,1 };
 
 	vec_ = vec.normalize();
+
+	//プレイヤーの少し前に出す
+	pos_ = pos + vec_ * 3;
 
 	boxCol_.pos = pos;
 	boxCol_.width = 1;
@@ -46,15 +48,13 @@ void FireBall::Update()
 	if (--time_ <= 0) {
 		isDead_ = true;
 	}
-	else {
-		particleM->AddFromFile(FIRE_BALL, pos_);
-	}
 
 	if (!isHit_) {
 		pos_ += vec_ * SPEED_MOVE;
 		if (pos_.y <= 0) {
 			isHit_ = true;
 		}
+		particleM->AddFromFile(P_FIRE_BALL, pos_);
 	}
 	else if (isHit_) {
 		Explode();
@@ -110,7 +110,7 @@ void FireBall::Explode()
 	scale_ *= 1.2f;
 	alpha_ -= 0.03f;
 	obj_->SetColor({ 1,0,0,alpha_ });
-	ParticleManager::GetInstance()->AddFromFile(1, pos_);
+	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL_EXPLODE, pos_);
 	if (scale_.x >= 10.0f) {
 		isDead_ = true;
 	}

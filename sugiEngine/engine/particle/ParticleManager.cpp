@@ -3,7 +3,7 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #include <array>
 #include "Camera.h"
-#include "ParticleEditer.h"
+#include "ParticleEditor.h"
 #include "SpellManager.h"
 #include <random>
 
@@ -287,12 +287,12 @@ void ParticleManager::PostDraw()
 	ParticleManager::sCmdList = nullptr;
 }
 
-uint32_t ParticleManager::LoadTexture(const string& textureName) {
+uint32_t ParticleManager::LoadTexture(string file) {
 	HRESULT result;
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
-	string fileName = "Resources/" + textureName;
+	string fileName = "Resources/" + file;
 	//ユニコード文字列に変換する
 	wchar_t wfilepath[128];
 	MultiByteToWideChar(CP_ACP, 0, fileName.c_str(), -1, wfilepath, _countof(wfilepath));
@@ -383,10 +383,12 @@ uint32_t ParticleManager::LoadTexture(const string& textureName) {
 	return sTextureIndex - 1;
 }
 
-void ParticleManager::Initialize(uint32_t texNum)
+void ParticleManager::Initialize()
 {
 	HRESULT result;
-	textureNum_ = texNum;
+	LoadTexture("effectCircle.png");
+	LoadTexture("effectIce.png");
+	textureNum_ = 0;
 	AdjustTextureSize();
 
 	size_ = textureSize_;
@@ -502,9 +504,24 @@ void ParticleManager::Update()
 {
 	HRESULT result;
 
-	particles_.remove_if([](Particle& x) {return x.frame >= x.num_frame; });
+	circleParticles_.remove_if([](Particle& x) {return x.frame >= x.num_frame; });
+	iceParticles_.remove_if([](Particle& x) {return x.frame >= x.num_frame; });
 
-	for (std::forward_list<Particle>::iterator it = particles_.begin(); it != particles_.end(); it++) {
+	for (std::forward_list<Particle>::iterator it = circleParticles_.begin(); it != circleParticles_.end(); it++) {
+		it->frame++;
+		float f = (float)it->frame / it->num_frame;
+		//スケールの線形補間
+		it->scale = (it->e_scale - it->s_scale) * f;
+		it->scale += it->s_scale;
+
+		it->velocity = it->velocity + it->gravity;
+		it->velocity.x *= it->accel.x;
+		it->velocity.y *= it->accel.y;
+		it->velocity.z *= it->accel.z;
+		it->position = it->position + it->velocity;
+	}
+
+	for (std::forward_list<Particle>::iterator it = iceParticles_.begin(); it != iceParticles_.end(); it++) {
 		it->frame++;
 		float f = (float)it->frame / it->num_frame;
 		//スケールの線形補間
@@ -523,7 +540,20 @@ void ParticleManager::Update()
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (std::forward_list<Particle>::iterator it = particles_.begin(); it != particles_.end(); it++) {
+	for (std::forward_list<Particle>::iterator it = circleParticles_.begin(); it != circleParticles_.end(); it++) {
+		vertMap->pos.x = it->position.x;
+		vertMap->pos.y = it->position.y;
+		vertMap->pos.z = it->position.z;
+		vertMap->scale = it->scale;
+		vertMap->color.x = it->color.x;
+		vertMap->color.y = it->color.y;
+		vertMap->color.z = it->color.z;
+		vertMap->color.w = it->color.w;
+
+		vertMap++;
+	}
+
+	for (std::forward_list<Particle>::iterator it = iceParticles_.begin(); it != iceParticles_.end(); it++) {
 		vertMap->pos.x = it->position.x;
 		vertMap->pos.y = it->position.y;
 		vertMap->pos.z = it->position.z;
@@ -550,8 +580,7 @@ void ParticleManager::Draw()
 	sCmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	//SRVヒープの先頭ハンドルを取得(SRVを指すはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = sSrvHeap->GetGPUDescriptorHandleForHeapStart();
-	//描画するテクスチャの指定
-	srvGpuHandle.ptr += sIncrementSize * textureNum_;
+
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	sCmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 	//定数バッファビュー(CBV)の設定コマンド
@@ -559,7 +588,17 @@ void ParticleManager::Draw()
 
 	if (isView_ == true) {
 		// 描画コマンド
-		sCmdList->DrawInstanced((UINT)std::distance(particles_.begin(), particles_.end()), 1, 0, 0); // 全ての頂点を使って描画
+		sCmdList->DrawInstanced((UINT)std::distance(circleParticles_.begin(), circleParticles_.end()), 1, 0, 0); // 全ての頂点を使って描画
+	}
+
+	//描画するテクスチャの指定
+	srvGpuHandle.ptr += sIncrementSize;
+	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+	sCmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+
+	if (isView_ == true) {
+		// 描画コマンド
+		sCmdList->DrawInstanced((UINT)std::distance(iceParticles_.begin(), iceParticles_.end()), 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -617,10 +656,25 @@ void ParticleManager::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void ParticleManager::Add(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
+void ParticleManager::AddCircle(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
 {
-	particles_.emplace_front();
-	Particle& p = particles_.front();
+	circleParticles_.emplace_front();
+	Particle& p = circleParticles_.front();
+	p.position = pos;
+	p.scale = start_scale;
+	p.s_scale = start_scale;
+	p.e_scale = end_scale;
+	p.velocity = velo;
+	p.accel = accel;
+	p.gravity = gravity;
+	p.num_frame = life;
+	p.color = color;
+}
+
+void ParticleManager::AddIce(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
+{
+	iceParticles_.emplace_front();
+	Particle& p = iceParticles_.front();
 	p.position = pos;
 	p.scale = start_scale;
 	p.s_scale = start_scale;
@@ -639,63 +693,144 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 	std::mt19937_64 engine(seed_gen());
 
 	for (int i = 0; i < data.num; i++) {
-		std::uniform_real_distribution<float> x(-data.moveRand.x, data.moveRand.x);
-		std::uniform_real_distribution<float> y(-data.moveRand.y, data.moveRand.y);
-		std::uniform_real_distribution<float> z(-data.moveRand.z, data.moveRand.z);
+		std::uniform_real_distribution<float> xp(-data.posRand.x, data.posRand.x);
+		std::uniform_real_distribution<float> yp(-data.posRand.y, data.posRand.y);
+		std::uniform_real_distribution<float> zp(-data.posRand.z, data.posRand.z);
 
-		particles_.emplace_front();
-		Particle& p = particles_.front();
-		p.position = pos + data.pos;
-		p.scale = data.scale.x;
-		p.s_scale = data.scale.x;
-		p.e_scale = data.scale.y;
-		p.velocity.x = data.move.x + x(engine);
-		p.velocity.y = data.move.y + y(engine);
-		p.velocity.z = data.move.z + z(engine);
-		p.accel = data.acceleration;
-		p.gravity = data.gravity;
-		p.num_frame = data.life;
-		p.color = data.color;
+		std::uniform_real_distribution<float> xv(-data.moveRand.x, data.moveRand.x);
+		std::uniform_real_distribution<float> yv(-data.moveRand.y, data.moveRand.y);
+		std::uniform_real_distribution<float> zv(-data.moveRand.z, data.moveRand.z);
+
+		std::uniform_real_distribution<float> l(-float(data.lifeRand + 0.99f), float(data.lifeRand + 0.99f));
+
+		if (data.texNum == 0) {
+			circleParticles_.emplace_front();
+			Particle& p = circleParticles_.front();
+			p.position.x = pos.x + data.pos.x + xp(engine);
+			p.position.y = pos.y + data.pos.y + yp(engine);
+			p.position.z = pos.z + data.pos.z + zp(engine);
+			p.scale = data.scale.x;
+			p.s_scale = data.scale.x;
+			p.e_scale = data.scale.y;
+			p.velocity.x = data.move.x + xv(engine);
+			p.velocity.y = data.move.y + yv(engine);
+			p.velocity.z = data.move.z + zv(engine);
+			p.accel = data.acceleration;
+			p.gravity = data.gravity;
+			p.num_frame = data.life + uint32_t(l(engine));
+			p.color = data.color;
+		}
+		if (data.texNum == 1) {
+			iceParticles_.emplace_front();
+			Particle& p = iceParticles_.front();
+			p.position.x = pos.x + data.pos.x + xp(engine);
+			p.position.y = pos.y + data.pos.y + yp(engine);
+			p.position.z = pos.z + data.pos.z + zp(engine);
+			p.scale = data.scale.x;
+			p.s_scale = data.scale.x;
+			p.e_scale = data.scale.y;
+			p.velocity.x = data.move.x + xv(engine);
+			p.velocity.y = data.move.y + yv(engine);
+			p.velocity.z = data.move.z + zv(engine);
+			p.accel = data.acceleration;
+			p.gravity = data.gravity;
+			p.num_frame = data.life + uint32_t(l(engine));
+			p.color = data.color;
+		}
 	}
 	if (data.add1) {
 		for (int i = 0; i < data.num1; i++) {
-			std::uniform_real_distribution<float> x(-data.moveRand1.x, data.moveRand1.x);
-			std::uniform_real_distribution<float> y(-data.moveRand1.y, data.moveRand1.y);
-			std::uniform_real_distribution<float> z(-data.moveRand1.z, data.moveRand1.z);
+			std::uniform_real_distribution<float> xp(-data.posRand1.x, data.posRand1.x);
+			std::uniform_real_distribution<float> yp(-data.posRand1.y, data.posRand1.y);
+			std::uniform_real_distribution<float> zp(-data.posRand1.z, data.posRand1.z);
 
-			particles_.emplace_front();
-			Particle& p1 = particles_.front();
-			p1.position = pos + data.pos1;
-			p1.scale = data.scale1.x;
-			p1.s_scale = data.scale1.x;
-			p1.e_scale = data.scale1.y;
-			p1.velocity.x = data.move1.x + x(engine);
-			p1.velocity.y = data.move1.y + y(engine);
-			p1.velocity.z = data.move1.z + z(engine);
-			p1.accel = data.acceleration1;
-			p1.gravity = data.gravity1;
-			p1.num_frame = data.life1;
-			p1.color = data.color1;
+			std::uniform_real_distribution<float> xv(-data.moveRand1.x, data.moveRand1.x);
+			std::uniform_real_distribution<float> yv(-data.moveRand1.y, data.moveRand1.y);
+			std::uniform_real_distribution<float> zv(-data.moveRand1.z, data.moveRand1.z);
+
+			std::uniform_real_distribution<float> l(-float(data.lifeRand1 + 0.99f), float(data.lifeRand1 + 0.99f));
+
+			if (data.texNum1 == 0) {
+				circleParticles_.emplace_front();
+				Particle& p = circleParticles_.front();
+				p.position.x = pos.x + data.pos1.x + xp(engine);
+				p.position.y = pos.y + data.pos1.y + yp(engine);
+				p.position.z = pos.z + data.pos1.z + zp(engine);
+				p.scale = data.scale1.x;
+				p.s_scale = data.scale1.x;
+				p.e_scale = data.scale1.y;
+				p.velocity.x = data.move1.x + xv(engine);
+				p.velocity.y = data.move1.y + yv(engine);
+				p.velocity.z = data.move1.z + zv(engine);
+				p.accel = data.acceleration1;
+				p.gravity = data.gravity1;
+				p.num_frame = data.life1 + uint32_t(l(engine));
+				p.color = data.color1;
+			}
+			if (data.texNum1 == 1) {
+				iceParticles_.emplace_front();
+				Particle& p = iceParticles_.front();
+				p.position.x = pos.x + data.pos1.x + xp(engine);
+				p.position.y = pos.y + data.pos1.y + yp(engine);
+				p.position.z = pos.z + data.pos1.z + zp(engine);
+				p.scale = data.scale1.x;
+				p.s_scale = data.scale1.x;
+				p.e_scale = data.scale1.y;
+				p.velocity.x = data.move1.x + xv(engine);
+				p.velocity.y = data.move1.y + yv(engine);
+				p.velocity.z = data.move1.z + zv(engine);
+				p.accel = data.acceleration1;
+				p.gravity = data.gravity1;
+				p.num_frame = data.life1 + uint32_t(l(engine));
+				p.color = data.color1;
+			}
 		}
 		if (data.add2) {
 			for (int i = 0; i < data.num2; i++) {
-				std::uniform_real_distribution<float> x(-data.moveRand2.x, data.moveRand2.x);
-				std::uniform_real_distribution<float> y(-data.moveRand2.y, data.moveRand2.y);
-				std::uniform_real_distribution<float> z(-data.moveRand2.z, data.moveRand2.z);
+				std::uniform_real_distribution<float> xp(-data.posRand2.x, data.posRand2.x);
+				std::uniform_real_distribution<float> yp(-data.posRand2.y, data.posRand2.y);
+				std::uniform_real_distribution<float> zp(-data.posRand2.z, data.posRand2.z);
 
-				particles_.emplace_front();
-				Particle& p2 = particles_.front();
-				p2.position = pos + data.pos2;
-				p2.scale = data.scale2.x;
-				p2.s_scale = data.scale2.x;
-				p2.e_scale = data.scale2.y;
-				p2.velocity.x = data.move2.x + x(engine);
-				p2.velocity.y = data.move2.y + y(engine);
-				p2.velocity.z = data.move2.z + z(engine);
-				p2.accel = data.acceleration2;
-				p2.gravity = data.gravity2;
-				p2.num_frame = data.life2;
-				p2.color = data.color2;
+				std::uniform_real_distribution<float> xv(-data.moveRand2.x, data.moveRand2.x);
+				std::uniform_real_distribution<float> yv(-data.moveRand2.y, data.moveRand2.y);
+				std::uniform_real_distribution<float> zv(-data.moveRand2.z, data.moveRand2.z);
+
+				std::uniform_real_distribution<float> l(-float(data.lifeRand2 + 0.99f), float(data.lifeRand2 + 0.99f));
+
+				if (data.texNum2 == 0) {
+					circleParticles_.emplace_front();
+					Particle& p = circleParticles_.front();
+					p.position.x = pos.x + data.pos2.x + xp(engine);
+					p.position.y = pos.y + data.pos2.y + yp(engine);
+					p.position.z = pos.z + data.pos2.z + zp(engine);
+					p.scale = data.scale2.x;
+					p.s_scale = data.scale2.x;
+					p.e_scale = data.scale2.y;
+					p.velocity.x = data.move2.x + xv(engine);
+					p.velocity.y = data.move2.y + yv(engine);
+					p.velocity.z = data.move2.z + zv(engine);
+					p.accel = data.acceleration2;
+					p.gravity = data.gravity2;
+					p.num_frame = data.life2 + uint32_t(l(engine));
+					p.color = data.color2;
+				}
+				if (data.texNum2 == 1) {
+					iceParticles_.emplace_front();
+					Particle& p = iceParticles_.front();
+					p.position.x = pos.x + data.pos2.x + xp(engine);
+					p.position.y = pos.y + data.pos2.y + yp(engine);
+					p.position.z = pos.z + data.pos2.z + zp(engine);
+					p.scale = data.scale2.x;
+					p.s_scale = data.scale2.x;
+					p.e_scale = data.scale2.y;
+					p.velocity.x = data.move2.x + xv(engine);
+					p.velocity.y = data.move2.y + yv(engine);
+					p.velocity.z = data.move2.z + zv(engine);
+					p.accel = data.acceleration2;
+					p.gravity = data.gravity2;
+					p.num_frame = data.life2 + uint32_t(l(engine));
+					p.color = data.color2;
+				}
 			}
 		}
 	}
@@ -705,23 +840,23 @@ void ParticleManager::LoadParticleData()
 {
 	FILE* saveFile_;
 
-	fopen_s(&saveFile_, "fire.dat", "rb");
+	fopen_s(&saveFile_, "Resources/particleData/fire.dat", "rb");
 
 	if (saveFile_ == NULL) {
 		return;
 	}
 
-	fread(&particleData_[FIRE_BALL], sizeof(particleData_[FIRE_BALL]), 1, saveFile_);
+	fread(&particleData_[P_FIRE_BALL], sizeof(particleData_[0]), 1, saveFile_);
 
 	fclose(saveFile_);
 
-	fopen_s(&saveFile_, "explode.dat", "rb");
+	fopen_s(&saveFile_, "Resources/particleData/explode.dat", "rb");
 
 	if (saveFile_ == NULL) {
 		return;
 	}
 
-	fread(&particleData_[1], sizeof(particleData_[1]), 1, saveFile_);
+	fread(&particleData_[P_FIRE_BALL_EXPLODE], sizeof(particleData_[0]), 1, saveFile_);
 
 	fclose(saveFile_);
 }
