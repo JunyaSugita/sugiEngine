@@ -59,7 +59,7 @@ public:
 
 	static void PostDraw();
 
-	static uint32_t LoadTexture();
+	static uint32_t LoadTexture(std::string file);
 
 protected:
 	//デバイス
@@ -114,7 +114,8 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-	void Add(int life, Vector3 pos, Vector3 velo,Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector4 color);
+	void AddCircle(int life, Vector3 pos, Vector3 velo,Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector4 color);
+	void AddIce(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color);
 	void Add(Vector3 pos, EditFile data);
 	
 	void LoadParticleData();
@@ -142,7 +143,8 @@ protected:
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	Vector2 textureSize_ = { 100.0f,100.0f };
 
-	std::forward_list<Particle> particles_;
+	std::forward_list<Particle> circleParticles_;
+	std::forward_list<Particle> iceParticles_;
 
 	EditFile particleData_[10];
 };
