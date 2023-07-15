@@ -840,24 +840,28 @@ void ParticleManager::LoadParticleData()
 {
 	FILE* saveFile_;
 
+	//ファイアボール
 	fopen_s(&saveFile_, "Resources/particleData/fire.dat", "rb");
-
 	if (saveFile_ == NULL) {
 		return;
 	}
-
 	fread(&particleData_[P_FIRE_BALL], sizeof(particleData_[0]), 1, saveFile_);
-
 	fclose(saveFile_);
 
+	//爆発
 	fopen_s(&saveFile_, "Resources/particleData/explode.dat", "rb");
-
 	if (saveFile_ == NULL) {
 		return;
 	}
-
 	fread(&particleData_[P_FIRE_BALL_EXPLODE], sizeof(particleData_[0]), 1, saveFile_);
+	fclose(saveFile_);
 
+	//アイスボルト
+	fopen_s(&saveFile_, "Resources/particleData/ice.dat", "rb");
+	if (saveFile_ == NULL) {
+		return;
+	}
+	fread(&particleData_[P_ICE], sizeof(particleData_[0]), 1, saveFile_);
 	fclose(saveFile_);
 }
 

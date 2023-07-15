@@ -25,6 +25,7 @@ struct Particle {
 enum ParticleName {
 	P_FIRE_BALL,
 	P_FIRE_BALL_EXPLODE,
+	P_ICE,
 };
 
 class ParticleManager
