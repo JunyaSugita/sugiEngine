@@ -181,6 +181,9 @@ public:
 		return matProjection_;
 	}
 
+	//カメラシェイク
+	void SetShake(float num);
+
 
 private:
 	static const int32_t MAX_NUM = 10;
@@ -201,4 +204,7 @@ private:
 	Matrix4 matView_;
 
 	int32_t activeNum_ = 0;
+
+	//カメラシェイク
+	float shake_;
 };
