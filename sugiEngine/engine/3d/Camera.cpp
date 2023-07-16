@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include <random>
 
 Camera::Camera()
 {
@@ -46,12 +47,35 @@ void Camera::Initialize()
 	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(GetEyeXM()), XMLoadFloat3(GetTargetXM()), XMLoadFloat3(GetUpXM()));
 	//matrix4に変換
 	matView_ = ConvertToMatrix4(xmmatView);
+
+	shake_ = 0;
 }
 
 void Camera::Update()
 {
+	//カメラシェイク処理
+	if (shake_ > 0) {
+		std::random_device seed_gen;
+		std::mt19937_64 engine(seed_gen());
+
+		std::uniform_real_distribution<float> x(-shake_, shake_);
+		std::uniform_real_distribution<float> y(-shake_, shake_);
+		std::uniform_real_distribution<float> z(-shake_, shake_);
+
+		eye_[activeNum_].x += x(engine);
+		eye_[activeNum_].y += y(engine);
+		eye_[activeNum_].z += z(engine);
+
+		shake_ -= 0.005f;
+	}
+
 	XMMATRIX xmmatView;
 	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(GetEyeXM()), XMLoadFloat3(GetTargetXM()), XMLoadFloat3(GetUpXM()));
 	//matrix4に変換
 	matView_ = ConvertToMatrix4(xmmatView);
+}
+
+void Camera::SetShake(float num)
+{
+	shake_ = num;
 }
