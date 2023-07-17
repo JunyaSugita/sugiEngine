@@ -1,5 +1,6 @@
 #include "ChainLightning.h"
 #include "ColliderManager.h"
+#include "ParticleManager.h"
 
 std::unique_ptr<Model> ChainLightning::sModel_;
 std::unique_ptr<Model> ChainLightning::sColModel_;
@@ -54,14 +55,20 @@ void ChainLightning::Update()
 	//else if (isHit_) {
 	//	Explode();
 	//}
+	if (!isDead_) {
+		for (int i = 0; i < 50; i++) {
+			pos_ += vec_ * SPEED_MOVE;
+			SetCol();
+			WorldTransUpdate();
 
-	for (int i = 0; i < 50;i++) {
-		pos_ += vec_ * SPEED_MOVE;
-		SetCol();
-		WorldTransUpdate();
+			ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, pos_);
 
-		if (ColliderManager::GetInstance()->ChakeHitEnemyToChainLightning()) {
-			break;
+			if (ColliderManager::GetInstance()->CheckHitEnemyToChainLightning()) {
+				break;
+			}
+			if (pos_.y <= 0) {
+				break;
+			}
 		}
 	}
 }

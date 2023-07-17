@@ -103,7 +103,7 @@ public:
 	const float TIME_CHARGE_ICEBOLT = 1.5f * 60;
 	const float TIME_FIRE_ICEBOLT = 0.3f * 60;
 	//チェインライトニング
-	const float TIME_CHARGE_CHAINLIGHTNING = 4.0f * 60;
+	const float TIME_CHARGE_CHAINLIGHTNING = 2.0f * 60;
 	const float TIME_FIRE_CHAINLIGHTNING = 0.3f * 60;
 
 private:

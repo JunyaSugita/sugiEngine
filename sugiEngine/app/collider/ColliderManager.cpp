@@ -1,6 +1,8 @@
 #include "ColliderManager.h"
 #include "SpellManager.h"
 #include "EnemyManager.h"
+#include "ParticleManager.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -35,9 +37,9 @@ void ColliderManager::Update()
 
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = 0; j < fireBallsCol.size(); j++) {
-			if (ChackHitBox(enemysCol[i]->GetBoxCol(), fireBallsCol[j]->GetBoxCol())) {
-				enemysCol[i]->SetIsHit(1,1);
-				enemysCol[i]->SetDebuff(FIRE,10);
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), fireBallsCol[j]->GetBoxCol())) {
+				enemysCol[i]->SetIsHit(1, 1);
+				enemysCol[i]->SetDebuff(FIRE, 10);
 				fireBallsCol[j]->SetIsHit();
 			}
 		}
@@ -51,9 +53,9 @@ void ColliderManager::Update()
 
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = 0; j < magicMissilesCol.size(); j++) {
-			if (ChackHitBox(enemysCol[i]->GetBoxCol(), magicMissilesCol[j]->GetBoxCol())) {
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), magicMissilesCol[j]->GetBoxCol())) {
 				enemysCol[i]->SetIsHit(5, 5);
-				enemysCol[i]->SetDebuff(THUNDER,5);
+				enemysCol[i]->SetDebuff(THUNDER, 5);
 				magicMissilesCol[j]->SetIsHit();
 			}
 		}
@@ -67,7 +69,7 @@ void ColliderManager::Update()
 
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = 0; j < iceBoltsCol.size(); j++) {
-			if (ChackHitBox(enemysCol[i]->GetBoxCol(), iceBoltsCol[j]->GetBoxCol())) {
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), iceBoltsCol[j]->GetBoxCol())) {
 				enemysCol[i]->SetIsHit(10, 5);
 				enemysCol[i]->SetDebuff(ICE, 8);
 				iceBoltsCol[j]->SetIsHit();
@@ -83,7 +85,7 @@ void ColliderManager::Update()
 
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = 0; j < chainLightningsCol.size(); j++) {
-			if (ChackHitBox(enemysCol[i]->GetBoxCol(), chainLightningsCol[j]->GetBoxCol())) {
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), chainLightningsCol[j]->GetBoxCol())) {
 				enemysCol[i]->SetIsHit(15, 5);
 				enemysCol[i]->SetDebuff(THUNDER, 1);
 				chainLightningsCol[j]->SetIsHit();
@@ -92,7 +94,7 @@ void ColliderManager::Update()
 				int32_t hitTemp1 = -1;
 				float lenTemp = 30;
 				for (int k = 0; k < enemysCol.size(); k++) {
-					
+
 					if (i != k) {
 						float length = (enemysCol[i]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
 						if (lenTemp > length) {
@@ -101,12 +103,19 @@ void ColliderManager::Update()
 						}
 					}
 				}
-				
+
 				//近いやつがいたら
 				if (hitTemp1 != -1) {
 					//一番近いやつにダメージ
 					enemysCol[hitTemp1]->SetIsHit(15, 5);
 					enemysCol[hitTemp1]->SetDebuff(THUNDER, 1);
+					//そこまでのパーティクル
+					Vector3 tempVec = enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[i]->GetBoxCol().pos;
+					Vector3 nowPos = enemysCol[i]->GetBoxCol().pos;
+					for (int l = 0; l < 20; l++) {
+						nowPos += tempVec / 20;
+						ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, nowPos);
+					}
 
 					//2体目の伝播
 					int32_t hitTemp2 = -1;
@@ -126,7 +135,67 @@ void ColliderManager::Update()
 						//一番近いやつにダメージ
 						enemysCol[hitTemp2]->SetIsHit(15, 5);
 						enemysCol[hitTemp2]->SetDebuff(THUNDER, 1);
+
+						//そこまでのパーティクル
+						Vector3 tempVec = enemysCol[hitTemp2]->GetBoxCol().pos - enemysCol[hitTemp1]->GetBoxCol().pos;
+						Vector3 nowPos = enemysCol[hitTemp1]->GetBoxCol().pos;
+						for (int l = 0; l < 20; l++) {
+							nowPos += tempVec / 20;
+							ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, nowPos);
+						}
 					}
+				}
+			}
+		}
+	}
+
+#pragma endregion
+
+#pragma region プレイヤーと敵の判定
+	Player* player = Player::GetInstance();
+
+	for (int i = 0; i < enemysCol.size(); i++) {
+		if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
+			enemysCol[i]->SetIsStop();
+
+			//if (enemysCol[i]->GetBoxCol().pos.x <= player->GetBoxCol().pos.x) {
+			//	enemysCol[i]->AddColX(-0.1f);
+			//}
+			//else if (enemysCol[i]->GetBoxCol().pos.x > player->GetBoxCol().pos.x) {
+			//	enemysCol[i]->AddColX(0.1f);
+			//}
+
+			//if (enemysCol[i]->GetBoxCol().pos.z <= player->GetBoxCol().pos.z) {
+			//	enemysCol[i]->AddColZ(-0.1f);
+			//}
+			//else if (enemysCol[i]->GetBoxCol().pos.z > player->GetBoxCol().pos.z) {
+			//	enemysCol[i]->AddColZ(0.1f);
+			//}
+		}
+	}
+
+#pragma endregion 
+
+#pragma region 敵同士の当たり判定
+	for (int i = 0; i < enemysCol.size(); i++) {
+		for (int j = i + 1; j < enemysCol.size(); j++) {
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+				if (enemysCol[i]->GetBoxCol().pos.x <= enemysCol[j]->GetBoxCol().pos.x) {
+					enemysCol[i]->AddColX(-0.01f);
+					enemysCol[j]->AddColX(0.01f);
+				}
+				else if (enemysCol[i]->GetBoxCol().pos.x > enemysCol[j]->GetBoxCol().pos.x) {
+					enemysCol[i]->AddColX(0.01f);
+					enemysCol[j]->AddColX(-0.01f);
+				}
+
+				if (enemysCol[i]->GetBoxCol().pos.z <= enemysCol[j]->GetBoxCol().pos.z) {
+					enemysCol[i]->AddColZ(-0.01f);
+					enemysCol[j]->AddColZ(0.01f);
+				}
+				else if (enemysCol[i]->GetBoxCol().pos.z > enemysCol[j]->GetBoxCol().pos.z) {
+					enemysCol[i]->AddColZ(0.01f);
+					enemysCol[j]->AddColZ(-0.01f);
 				}
 			}
 		}
@@ -135,7 +204,7 @@ void ColliderManager::Update()
 #pragma endregion
 }
 
-bool ColliderManager::ChackHitBox(BoxCol a, BoxCol b)
+bool ColliderManager::CheckHitBox(BoxCol a, BoxCol b)
 {
 	if (a.pos.x + a.width >= b.pos.x - b.width && b.pos.x + b.width >= a.pos.x - a.width) {
 		if (a.pos.z + a.width >= b.pos.z - b.width && b.pos.z + b.width >= a.pos.z - a.width) {
@@ -148,7 +217,7 @@ bool ColliderManager::ChackHitBox(BoxCol a, BoxCol b)
 	return false;
 }
 
-bool ColliderManager::ChakeHitEnemyToChainLightning()
+bool ColliderManager::CheckHitEnemyToChainLightning()
 {
 	//敵の判定
 	vector<Enemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
@@ -158,7 +227,7 @@ bool ColliderManager::ChakeHitEnemyToChainLightning()
 
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = 0; j < chainLightningsCol.size(); j++) {
-			if (ChackHitBox(enemysCol[i]->GetBoxCol(), chainLightningsCol[j]->GetBoxCol())) {
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), chainLightningsCol[j]->GetBoxCol())) {
 				return true;
 			}
 		}

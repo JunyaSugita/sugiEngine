@@ -76,6 +76,10 @@ public:
 		return presetSpell_;
 	}
 
+	BoxCol GetBoxCol() {
+		return boxCol_;
+	}
+
 private:
 	void Move();
 	void CameraMove();
@@ -109,6 +113,9 @@ private:
 	//‘•”õŽô•¶
 	uint32_t presetSpell_;
 	float spellAngle_;
+
+	//“–‚½‚è”»’è
+	BoxCol boxCol_;
 };
 
 float Radian(float r);

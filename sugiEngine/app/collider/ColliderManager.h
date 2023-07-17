@@ -32,10 +32,10 @@ public:
 		isShowHitBox_ = (isShowHitBox_ + 1) % 2;
 	}
 
-	bool ChakeHitEnemyToChainLightning();
+	bool CheckHitEnemyToChainLightning();
 
 private:
-	bool ChackHitBox(BoxCol a, BoxCol b);
+	bool CheckHitBox(BoxCol a, BoxCol b);
 
 
 private:

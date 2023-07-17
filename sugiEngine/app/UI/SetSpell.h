@@ -27,6 +27,7 @@ private:
 	uint32_t iceBoltTex_;
 	uint32_t chainLightningTex_;
 	uint32_t comingSoonTex_;
+	uint32_t selectHiLightTex_;
 
 	Sprite spell1Sprite_;
 	Sprite spell2Sprite_;
@@ -35,4 +36,6 @@ private:
 	Sprite spell5Sprite_;
 
 	Sprite useSpellSprite_;
+
+	Sprite selectHiLightSp_;
 };

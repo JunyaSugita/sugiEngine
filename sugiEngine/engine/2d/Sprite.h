@@ -55,6 +55,9 @@ public:
 	void Draw();
 
 	void SetPos(float x, float y);
+	Vector2 GetPos() {
+		return pos_;
+	};
 
 	void SetRotate(float r);
 

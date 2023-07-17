@@ -26,6 +26,8 @@ enum ParticleName {
 	P_FIRE_BALL,
 	P_FIRE_BALL_EXPLODE,
 	P_ICE,
+	P_MAGIC_MISSILE,
+	P_LIGHTNING,
 };
 
 class ParticleManager
