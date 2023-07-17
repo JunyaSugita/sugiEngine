@@ -25,6 +25,20 @@ public:
 		return pos_;
 	}
 
+
+	void SetCol(Vector3 vec) {
+		boxCol_.pos = vec;
+	}
+	void AddCol(Vector3 vec) {
+		boxCol_.pos += vec;
+	}
+	void AddColX(float x) {
+		boxCol_.pos.x += x;
+	}
+	void AddColZ(float z) {
+		boxCol_.pos.z += z;
+	}
+
 	bool GetIsDead() {
 		return isDead_;
 	}
@@ -44,6 +58,10 @@ public:
 
 	bool isDebuff();
 	bool isCanMove();
+
+	void SetIsStop() {
+		isStop_ = true;
+	}
 
 private:
 	void SetCol();
@@ -110,4 +128,7 @@ private:
 	WorldTransform colWorldTrans_;
 	//“–‚½‚è”»’è‚Ìƒ‚ƒfƒ‹ŠÖŒW
 	std::unique_ptr<Object3d> colObj_;
+
+	//‘«‚ðŽ~‚ß‚é‚©
+	bool isStop_;
 };

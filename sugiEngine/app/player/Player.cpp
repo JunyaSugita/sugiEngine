@@ -31,6 +31,10 @@ void Player::Initialize()
 	presetSpell_ = FIRE_BALL;
 	spellAngle_ = 0;
 
+	boxCol_.pos = pos_;
+	boxCol_.height = 2.2f;
+	boxCol_.width = 2.0f;
+
 	PlayerWeapon::GetInstance()->Initialize();
 }
 
@@ -38,10 +42,12 @@ void Player::Update()
 {
 	Move();
 	WorldTransUpdate();
-	CameraMove();
+
 
 	//UŒ‚
 	Attack();
+
+	CameraMove();
 }
 
 void Player::Draw()
@@ -97,6 +103,9 @@ void Player::Move()
 	if (input->GetLSteckX()) {
 		pos_ += moveX * SPEED_MOVE * stickX * slow;
 	}
+
+	//“–‚½‚è”»’èˆÚ“®
+	boxCol_.pos = pos_;
 }
 
 void Player::CameraMove()

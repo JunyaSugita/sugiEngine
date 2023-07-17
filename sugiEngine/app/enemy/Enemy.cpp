@@ -45,6 +45,8 @@ void Enemy::Initialize(Vector3 pos)
 
 	isHit_ = false;
 	life_ = MAX_HP;
+
+	isStop_ = false;
 }
 
 void Enemy::Update()
@@ -225,20 +227,19 @@ void Enemy::GetPlayer()
 	Player* player = Player::GetInstance()->GetInstance();
 
 	toPlayer = Vector2((player->GetPos() - pos_).x, (player->GetPos() - pos_).z);
-
-	//ÉvÉåÉCÉÑÅ[Ç…ãﬂÇ√Ç¢ÇΩÇÁéÄÇ 
-	if (toPlayer.length() <= 1.5f) {
-		isDead_ = true;
-		player->SubLife();
-	}
 }
 
 void Enemy::Move()
 {
-	toPlayer.normalize();
+	if (!isStop_) {
+		toPlayer.normalize();
 
-	pos_.x += toPlayer.x * SPEED_MOVE * GetSlow();
-	pos_.z += toPlayer.y * SPEED_MOVE * GetSlow();
+		pos_.x += toPlayer.x * SPEED_MOVE * GetSlow();
+		pos_.z += toPlayer.y * SPEED_MOVE * GetSlow();
+	}
+	else {
+		isStop_ = false;
+	}
 }
 
 void Enemy::SubLife(int32_t subLife, int32_t effectNum)
