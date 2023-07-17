@@ -1,4 +1,5 @@
 #include "MagicMissile.h"
+#include "ParticleManager.h"
 std::unique_ptr<Model> MagicMissile::sModel_;
 std::unique_ptr<Model> MagicMissile::sColModel_;
 
@@ -42,6 +43,7 @@ void MagicMissile::Update()
 
 	if (!isHit_) {
 		pos_ += vec_ * SPEED_MOVE;
+		ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE,pos_);
 		if (pos_.y <= 0) {
 			isHit_ = true;
 		}

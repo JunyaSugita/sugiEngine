@@ -863,6 +863,22 @@ void ParticleManager::LoadParticleData()
 	}
 	fread(&particleData_[P_ICE], sizeof(particleData_[0]), 1, saveFile_);
 	fclose(saveFile_);
+
+	//マジックミサイル
+	fopen_s(&saveFile_, "Resources/particleData/magicMissile.dat", "rb");
+	if (saveFile_ == NULL) {
+		return;
+	}
+	fread(&particleData_[P_MAGIC_MISSILE], sizeof(particleData_[0]), 1, saveFile_);
+	fclose(saveFile_);
+
+	//マジックミサイル
+	fopen_s(&saveFile_, "Resources/particleData/lightning.dat", "rb");
+	if (saveFile_ == NULL) {
+		return;
+	}
+	fread(&particleData_[P_LIGHTNING], sizeof(particleData_[0]), 1, saveFile_);
+	fclose(saveFile_);
 }
 
 void ParticleManager::AddFromFile(uint8_t num, Vector3 pos)
