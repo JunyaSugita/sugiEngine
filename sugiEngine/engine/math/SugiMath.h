@@ -3,6 +3,7 @@
 #include "Vector3.h"
 #include "Vector2.h"
 #include "Matrix4.h"
+#include "Easing.h"
 
 const float PI = 3.14159265f;
 const float RAD = 180.0f;

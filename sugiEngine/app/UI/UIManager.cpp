@@ -3,6 +3,7 @@
 #include "SpellCharge.h"
 #include "SetSpell.h"
 #include "Tutorial.h"
+#include "sceneChange.h"
 
 UIManager::UIManager()
 {
@@ -25,6 +26,7 @@ void UIManager::Initialize()
 	SpellCharge::GetInstance()->Initialize();
 	SetSpell::GetInstance()->Initialize();
 	Tutorial::GetInstance()->Initialize();
+	sceneChange::GetInstance()->Initialize();
 }
 
 void UIManager::Update()
@@ -33,6 +35,7 @@ void UIManager::Update()
 	SpellCharge::GetInstance()->Update();
 	SetSpell::GetInstance()->Update();
 	Tutorial::GetInstance()->Update();
+	sceneChange::GetInstance()->Update();
 }
 
 void UIManager::Draw()
@@ -41,4 +44,6 @@ void UIManager::Draw()
 	SpellCharge::GetInstance()->Draw();
 	SetSpell::GetInstance()->Draw();
 	Tutorial::GetInstance()->Draw();
+
+	sceneChange::GetInstance()->Draw();
 }

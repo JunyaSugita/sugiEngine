@@ -1,6 +1,8 @@
 #include "TitleScene.h"
 #include "Input.h"
 #include "ParticleManager.h"
+#include "sceneChange.h"
+#include "UIManager.h"
 
 void TitleScene::Initialize()
 {
@@ -12,6 +14,7 @@ void TitleScene::Initialize()
 	Camera::GetInstance()->SetTarget({ 0,0,0 });
 
 	ParticleManager::GetInstance()->Initialize();
+	UIManager::GetInstance()->Initialize();
 }
 
 void TitleScene::Update()
@@ -25,17 +28,23 @@ void TitleScene::Update()
 	//ƒ‰ƒCƒg
 	lightGroup_->Update();
 
-	if (input->PushKey(DIK_2) || input->PushButton(XINPUT_GAMEPAD_A)) {
-		ParticleManager::GetInstance()->Clear();
-		
+
+
+	if (input->TriggerKey(DIK_2) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
+		sceneChange::GetInstance()->Start();
 	}
-	else if (input->ReleaseKey(DIK_2) || input->ReleaseButton(XINPUT_GAMEPAD_A)) {
+
+	UIManager::GetInstance()->Update();
+
+	if (sceneChange::GetInstance()->GetTimer() >= 1.0f) {
+		ParticleManager::GetInstance()->Clear();
 		GameManager::GetInstance()->SetGameScene();
 	}
 
 	if (input->TriggerKey(DIK_3)) {
 		GameManager::GetInstance()->SetClearScene();
 	}
+
 }
 
 void TitleScene::BackSpriteDraw()
@@ -59,7 +68,7 @@ void TitleScene::ParticleDraw()
 
 void TitleScene::SpriteDraw()
 {
-
+	UIManager::GetInstance()->Draw();
 }
 
 void TitleScene::Finalize()
