@@ -595,6 +595,8 @@ void ParticleManager::Draw()
 	srvGpuHandle.ptr += sIncrementSize;
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	sCmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	//定数バッファビュー(CBV)の設定コマンド
+	sCmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
 	if (isView_ == true) {
 		// 描画コマンド
@@ -884,6 +886,12 @@ void ParticleManager::LoadParticleData()
 void ParticleManager::AddFromFile(uint8_t num, Vector3 pos)
 {
 	Add(pos, particleData_[num]);
+}
+
+void ParticleManager::Clear()
+{
+	circleParticles_.clear();
+	iceParticles_.clear();
 }
 
 void ParticleManager::SetUpVertex() {

@@ -68,36 +68,34 @@ void GameScene::Update()
 
 #pragma region デバッグ用
 	if (!particleE_->GetIsEdit(0)) {
-		//if (input->TriggerKey(DIK_1)) {
-		//	GameManager::GetInstance()->SetTitleScene();
-		//}
+
 
 		if (input->TriggerKey(DIK_R)) {
 			Initialize();
 		}
-		if (input->TriggerKey(DIK_P) || input->TriggerButton(XINPUT_GAMEPAD_Y)) {
+		if (input->TriggerButton(XINPUT_GAMEPAD_Y)) {
 			enemyM->PopEnemy();
 		}
-		if (input->TriggerKey(DIK_L) || input->TriggerButton(XINPUT_GAMEPAD_X)) {
-			//enemyM->PopEnemy({ -10,0,0 });
-			//enemyM->PopEnemy({ -5,0,3 });
-			//enemyM->PopEnemy({ 0,0,0 });
-			//enemyM->PopEnemy({ 5,0,3 });
-			//enemyM->PopEnemy({ 10,0,0 });
+		if (input->TriggerButton(XINPUT_GAMEPAD_X)) {
+			enemyM->PopEnemy({ -10,0,0 });
+			enemyM->PopEnemy({ -5,0,3 });
+			enemyM->PopEnemy({ 0,0,0 });
+			enemyM->PopEnemy({ 5,0,3 });
+			enemyM->PopEnemy({ 10,0,0 });
 		}
 
-		if (input->TriggerKey(DIK_O)) {
-			colM->ChangeIsShowHitBox();
-		}
-		if (input->TriggerKey(DIK_1)) {
-			player->SetPresetSpell(FIRE_BALL);
-		}
-		if (input->TriggerKey(DIK_2)) {
-			player->SetPresetSpell(MAGIC_MISSILE);
-		}
-		if (input->TriggerKey(DIK_3)) {
-			player->SetPresetSpell(ICE_BOLT);
-		}
+		//if (input->TriggerKey(DIK_O)) {
+		//	colM->ChangeIsShowHitBox();
+		//}
+		//if (input->TriggerKey(DIK_1)) {
+		//	player->SetPresetSpell(FIRE_BALL);
+		//}
+		//if (input->TriggerKey(DIK_2)) {
+		//	player->SetPresetSpell(MAGIC_MISSILE);
+		//}
+		//if (input->TriggerKey(DIK_3)) {
+		//	player->SetPresetSpell(ICE_BOLT);
+		//}
 
 
 		//if (enemyM->GetEnemyCount() < 5) {
@@ -168,14 +166,8 @@ void GameScene::Update()
 		if (Button("ShowHitBox", { 150,30 })) {
 			colM->ChangeIsShowHitBox();
 		}
-		if (Button("SetSpell FireBall", { 150,30 })) {
-			player->SetPresetSpell(FIRE_BALL);
-		}
-		if (Button("SetSpell MagicMissile", { 150,30 })) {
-			player->SetPresetSpell(MAGIC_MISSILE);
-		}
-		if (Button("SetSpell IceBolt", { 150,30 })) {
-			player->SetPresetSpell(ICE_BOLT);
+		if (Button("particleClear", { 150,30 })) {
+			ParticleManager::GetInstance()->Clear();
 		}
 		End();
 	}
@@ -183,6 +175,10 @@ void GameScene::Update()
 #endif
 #pragma endregion
 
+	if (input->TriggerKey(DIK_P)) {
+		ParticleManager::GetInstance()->Clear();
+		GameManager::GetInstance()->SetTitleScene();
+	}
 }
 
 void GameScene::BackSpriteDraw()
