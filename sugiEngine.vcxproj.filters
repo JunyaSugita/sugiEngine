@@ -273,6 +273,12 @@
     <ClCompile Include="sugiEngine\engine\particle\ParticleEditor.cpp">
       <Filter>ソース ファイル\engine\particle</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\engine\math\Easing.cpp">
+      <Filter>ソース ファイル\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\UI\sceneChange.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -433,6 +439,12 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\particle\ParticleManager.h">
       <Filter>ヘッダー ファイル\engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\math\Easing.h">
+      <Filter>ヘッダー ファイル\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\UI\sceneChange.h">
+      <Filter>ヘッダー ファイル\app\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

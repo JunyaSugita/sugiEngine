@@ -498,6 +498,8 @@ void ParticleManager::Initialize()
 	SetUpVertex();
 
 	LoadParticleData();
+
+	Clear();
 }
 
 void ParticleManager::Update()
