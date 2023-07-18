@@ -13,9 +13,6 @@
 #include "Vector3.h"
 #include "Matrix4.h"
 #include "WorldTransform.h"
-#pragma comment(lib, "d3d12.lib")
-#pragma comment(lib, "dxgi.lib")
-#pragma comment(lib, "d3dcompiler.lib")
 
 #include "GrovalSetting.h"
 #include "WinApp.h"

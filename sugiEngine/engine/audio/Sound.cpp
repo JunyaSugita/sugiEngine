@@ -1,6 +1,9 @@
 #include "Sound.h"
 #include <assert.h>
 
+#pragma comment(lib,"xaudio2.lib")
+
+
 using namespace Microsoft::WRL;
 using namespace std;
 

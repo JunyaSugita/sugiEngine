@@ -129,6 +129,8 @@ public:
 	void LoadParticleData();
 
 	void AddFromFile(uint8_t num, Vector3 pos);
+
+	void Clear();
 protected:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ÉqÅ[Évê›íË
 	D3D12_RESOURCE_DESC resDesc_{};
