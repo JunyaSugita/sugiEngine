@@ -24,13 +24,23 @@ PlayerWeapon* PlayerWeapon::GetInstance()
 
 void PlayerWeapon::Initialize()
 {
-	model_ = move(Model::LoadFromObj("box"));
+	model_ = move(Model::LoadFromObj("weapon"));
+	orbModel_ = move(Model::LoadFromObj("sphere",true));
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(model_.get());
+	orbObj_ = move(Object3d::Create());
+	orbObj_->SetModel(orbModel_.get());
+	orbObj_->SetColor({0,1,1,0.2f});
 	
-	pos_ = { 0,4,-50 };
+	pos_ = { 0,3.5f,-50 };
 	rot_ = { 30,0,0 };
-	scale_ = { 0.1f,1,0.1f };
+	scale_ = { 1,1,1 };
+
+	orbPos_ = { 0,1.7f,0 };
+	orbRot_ = { 0,0,0 };
+	orbScale_ = { 0.3f,0.3f,0.3f };
+
+	orbTrans_.parent_ = &worldTrans_;
 
 	hitModel_ = move(Model::LoadFromObj("sphere",true));
 	hitObj_ = move(Object3d::Create());
@@ -70,6 +80,7 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 void PlayerWeapon::Draw()
 {
 	obj_->Draw();
+	orbObj_->Draw();
 
 	if (isAt_) {
 		//hitObj_->Draw();
@@ -82,7 +93,7 @@ void PlayerWeapon::NormalMove()
 
 	pos_ = player->GetPos();
 	pos_.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
-	pos_.y = 4;
+	pos_.y = 3.5f;
 	pos_.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
 	rot_ = { 30,player->GetCameraAngle().x,0 };
 
@@ -121,7 +132,7 @@ void PlayerWeapon::ChargeMove()
 
 	pos_ = player->GetPos();
 	pos_.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
-	pos_.y = 4;
+	pos_.y = 3.5f;
 	pos_.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
 	rot_ = { 30 + float(sin(Radian(spellM->ChargePercent() * 1000))* 15),player->GetCameraAngle().x,0 + float(cos(Radian(spellM->ChargePercent() * 1000)) * 15) };
 }
@@ -134,7 +145,7 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 
 	pos_ = player->GetPos();
 	pos_.x += float(sin(Radian(player->GetCameraAngle().x)) * 2);
-	pos_.y = 4 + (nowTime / 30);
+	pos_.y = 3.5f + (nowTime / 30);
 	pos_.z += float(cos(Radian(player->GetCameraAngle().x)) * 2);
 	rot_ = { 120 - nowTime * 4,player->GetCameraAngle().x - 5,0 };
 	if (isAttackOn) {
@@ -168,6 +179,10 @@ void PlayerWeapon::WorldTransUpdate()
 	worldTrans_.SetRot(rot_);
 	worldTrans_.SetScale(scale_);
 
+	orbTrans_.SetPos(orbPos_);
+	orbTrans_.SetRot(orbRot_);
+	orbTrans_.SetScale(orbScale_);
+
 	hitWorldTrans_.SetPos(hitPos_);
 	hitWorldTrans_.SetRot(hitRot_);
 	hitWorldTrans_.SetScale(hitScale_);
@@ -179,6 +194,9 @@ void PlayerWeapon::SetWorldTrans()
 {
 	obj_->SetWorldTransform(worldTrans_);
 	obj_->Update();
+
+	orbObj_->SetWorldTransform(orbTrans_);
+	orbObj_->Update();
 
 	hitObj_->SetWorldTransform(hitWorldTrans_);
 	hitObj_->Update();
