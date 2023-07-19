@@ -30,8 +30,7 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 	pos_ = pos + vec_ * 3;
 
 	boxCol_.pos = pos;
-	boxCol_.width = 1;
-	boxCol_.height = 1;
+	boxCol_.size = { 1,1,1 };
 
 	WorldTransUpdate();
 
@@ -85,8 +84,7 @@ void FireBall::Fire()
 void FireBall::SetCol()
 {
 	boxCol_.pos = pos_;
-	boxCol_.width = scale_.x;
-	boxCol_.height = scale_.y;
+	boxCol_.size = { scale_.x,scale_.y,scale_.x };
 }
 
 void FireBall::WorldTransUpdate()
@@ -96,7 +94,7 @@ void FireBall::WorldTransUpdate()
 	worldTrans_.SetScale(scale_);
 
 	colWorldTrans_.SetPos(boxCol_.pos);
-	colWorldTrans_.SetScale({ boxCol_.width,boxCol_.height,boxCol_.width });
+	colWorldTrans_.SetScale(boxCol_.size);
 
 	SetWorldTrans();
 }

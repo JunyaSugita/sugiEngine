@@ -25,8 +25,7 @@ void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 	vec_ = vec.normalize();
 
 	boxCol_.pos = pos;
-	boxCol_.width = 0.1f;
-	boxCol_.height = 0.1f;
+	boxCol_.size = { 0.1f,0.1f,0.1f };
 
 	WorldTransUpdate();
 
@@ -82,7 +81,7 @@ void MagicMissile::WorldTransUpdate()
 	worldTrans_.SetScale(scale_);
 
 	colWorldTrans_.SetPos(boxCol_.pos);
-	colWorldTrans_.SetScale({ boxCol_.width,boxCol_.height,boxCol_.width });
+	colWorldTrans_.SetScale(boxCol_.size);
 
 	SetWorldTrans();
 }
