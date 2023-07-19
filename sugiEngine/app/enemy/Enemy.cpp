@@ -31,8 +31,7 @@ void Enemy::Initialize(Vector3 pos)
 	scale_ = { 1,1,1 };
 
 	boxCol_.pos = pos;
-	boxCol_.height = 2.2f;
-	boxCol_.width = 1.0f;
+	boxCol_.size = { 1.0f,2.2f,1.0f };
 
 	isDead_ = false;
 
@@ -173,7 +172,7 @@ void Enemy::WorldTransUpdate()
 	eyeWorldTrans_.SetScale(eyeScale_);
 
 	colWorldTrans_.SetPos(boxCol_.pos);
-	colWorldTrans_.SetScale({ boxCol_.width,boxCol_.height,boxCol_.width });
+	colWorldTrans_.SetScale(boxCol_.size);
 
 	SetWorldTrans();
 }

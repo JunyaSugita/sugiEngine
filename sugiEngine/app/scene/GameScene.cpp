@@ -10,6 +10,7 @@
 #include "SpellManager.h"
 #include "UIManager.h"
 #include "ColliderManager.h"
+#include "Fieldmanager.h"
 
 using namespace ImGui;
 
@@ -24,13 +25,16 @@ void GameScene::Initialize()
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
 	Camera::GetInstance()->SetEye(Vector3(0, 1, -10));
 
-	//地面
+	//敵
+	EnemyManager::GetInstance()->Initialize();
+	
+	//グラウンド
 	GroundManager::GetInstance()->Initialize();
+	FieldManager::GetInstance()->Initialize();
 
 	//プレイヤー
 	Player::GetInstance()->Initialize();
-	//敵
-	EnemyManager::GetInstance()->Initialize();
+
 
 	//エフェクト
 	EffectManager::GetInstance()->Initialize();
@@ -58,6 +62,7 @@ void GameScene::Update()
 	Player* player = Player::GetInstance();
 	EnemyManager* enemyM = EnemyManager::GetInstance();
 	GroundManager* groundM = GroundManager::GetInstance();
+	FieldManager* fieldM = FieldManager::GetInstance();
 	EffectManager* effectM = EffectManager::GetInstance();
 	SpellManager* spellM = SpellManager::GetInstance();
 	UIManager* uiM = UIManager::GetInstance();
@@ -108,6 +113,7 @@ void GameScene::Update()
 	//Update呼び出し
 	lightGroup_->Update();
 	groundM->Update();
+	fieldM->Update();
 	player->Update();//プレイヤー
 	enemyM->Update();//敵
 	effectM->Update();
@@ -192,6 +198,7 @@ void GameScene::Draw()
 void GameScene::ObjDraw()
 {
 	GroundManager::GetInstance()->Draw();
+	FieldManager::GetInstance()->Draw();
 	if (!particleE_->GetIsEdit(0)) {
 		Player::GetInstance()->Draw();
 		EnemyManager::GetInstance()->Draw();

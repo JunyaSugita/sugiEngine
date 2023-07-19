@@ -27,8 +27,7 @@ void IceBolt::Initialize(Vector3 pos, Vector3 vec)
 	vec_ = vec.normalize();
 
 	boxCol_.pos = pos;
-	boxCol_.width = 0.5f;
-	boxCol_.height = 0.5f;
+	boxCol_.size = { 0.5f ,0.5f, 0.5f };
 
 	WorldTransUpdate();
 
@@ -53,7 +52,7 @@ void IceBolt::Update()
 		isDead_ = true;
 	}
 	else {
-		ParticleManager::GetInstance()->AddFromFile(P_ICE,pos_);
+		ParticleManager::GetInstance()->AddFromFile(P_ICE, pos_);
 	}
 
 	SetCol();
@@ -77,8 +76,7 @@ void IceBolt::Fire()
 void IceBolt::SetCol()
 {
 	boxCol_.pos = pos_;
-	boxCol_.width = scale_.x;
-	boxCol_.height = scale_.y;
+	boxCol_.size = { scale_.x,scale_.y,scale_.x };
 }
 
 void IceBolt::WorldTransUpdate()
@@ -88,7 +86,7 @@ void IceBolt::WorldTransUpdate()
 	worldTrans_.SetScale(scale_);
 
 	colWorldTrans_.SetPos(boxCol_.pos);
-	colWorldTrans_.SetScale({ boxCol_.width,boxCol_.height,boxCol_.width });
+	colWorldTrans_.SetScale(boxCol_.size);
 
 	SetWorldTrans();
 }

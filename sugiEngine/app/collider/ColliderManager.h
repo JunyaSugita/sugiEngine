@@ -3,8 +3,7 @@
 
 struct BoxCol{
 	Vector3 pos;
-	float width;
-	float height;
+	Vector3 size;
 };
 
 class ColliderManager {

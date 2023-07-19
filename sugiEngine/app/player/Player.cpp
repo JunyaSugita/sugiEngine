@@ -32,8 +32,7 @@ void Player::Initialize()
 	spellAngle_ = 0;
 
 	boxCol_.pos = pos_;
-	boxCol_.height = 2.2f;
-	boxCol_.width = 2.0f;
+	boxCol_.size = {2.0f,2.2f,2.0f};
 
 	PlayerWeapon::GetInstance()->Initialize();
 }

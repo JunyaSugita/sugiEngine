@@ -78,7 +78,7 @@ private:
 
 private:
 	const float SPEED_MOVE = 0.15f;
-	const float SPEED_ANGLE = 1;
+	const float SPEED_ANGLE = 5;
 	const float RADIAN = 180;
 	const Vector2 UP = { 0,-1 };
 	const uint32_t MAX_HP = 25;

@@ -276,8 +276,11 @@
     <ClCompile Include="sugiEngine\engine\math\Easing.cpp">
       <Filter>ソース ファイル\engine\math</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp">
+      <Filter>ソース ファイル\app\ground</Filter>
+    </ClCompile>
     <ClCompile Include="sugiEngine\app\UI\sceneChange.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\app\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\UI\sceneChange.h">
       <Filter>ヘッダー ファイル\app\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\ground\FieldManager.h">
+      <Filter>ヘッダー ファイル\app\ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
