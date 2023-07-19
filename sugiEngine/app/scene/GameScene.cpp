@@ -5,7 +5,6 @@
 
 #include "Player.h"
 #include "EnemyManager.h"
-#include "GroundManager.h"
 #include "EffectManager.h"
 #include "SpellManager.h"
 #include "UIManager.h"
@@ -29,7 +28,6 @@ void GameScene::Initialize()
 	EnemyManager::GetInstance()->Initialize();
 	
 	//グラウンド
-	GroundManager::GetInstance()->Initialize();
 	FieldManager::GetInstance()->Initialize();
 
 	//プレイヤー
@@ -61,7 +59,6 @@ void GameScene::Update()
 	Input* input = Input::GetInstance();
 	Player* player = Player::GetInstance();
 	EnemyManager* enemyM = EnemyManager::GetInstance();
-	GroundManager* groundM = GroundManager::GetInstance();
 	FieldManager* fieldM = FieldManager::GetInstance();
 	EffectManager* effectM = EffectManager::GetInstance();
 	SpellManager* spellM = SpellManager::GetInstance();
@@ -112,7 +109,6 @@ void GameScene::Update()
 #pragma region Update呼び出し
 	//Update呼び出し
 	lightGroup_->Update();
-	groundM->Update();
 	fieldM->Update();
 	player->Update();//プレイヤー
 	enemyM->Update();//敵
@@ -197,9 +193,9 @@ void GameScene::Draw()
 
 void GameScene::ObjDraw()
 {
-	GroundManager::GetInstance()->Draw();
-	FieldManager::GetInstance()->Draw();
 	if (!particleE_->GetIsEdit(0)) {
+		FieldManager::GetInstance()->Draw();
+
 		Player::GetInstance()->Draw();
 		EnemyManager::GetInstance()->Draw();
 		EffectManager::GetInstance()->Draw();

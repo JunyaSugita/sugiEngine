@@ -22,8 +22,12 @@ public:
 	void Update();
 	void Draw();
 
-	vector<BoxCol> GetCol() {
-		return col_;
+	BoxCol GetCol(int num) {
+		return col_[num];
+	}
+
+	size_t GetColSize() {
+		return col_.size();
 	}
 
 private:

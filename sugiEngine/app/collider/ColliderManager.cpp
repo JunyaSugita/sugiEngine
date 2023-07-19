@@ -3,6 +3,7 @@
 #include "EnemyManager.h"
 #include "ParticleManager.h"
 #include "Player.h"
+#include "FieldManager.h"
 
 using namespace std;
 
@@ -30,17 +31,24 @@ void ColliderManager::Update()
 {
 	//敵の判定
 	vector<Enemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+	//マップの判定
+	FieldManager* field = FieldManager::GetInstance();
 
 #pragma region ファイヤーボールの判定
 	//ファイアーボール
 	vector<FireBall*> fireBallsCol = SpellManager::GetInstance()->GetFireBallsCol();
 
-	for (int i = 0; i < enemysCol.size(); i++) {
-		for (int j = 0; j < fireBallsCol.size(); j++) {
-			if (CheckHitBox(enemysCol[i]->GetBoxCol(), fireBallsCol[j]->GetBoxCol())) {
-				enemysCol[i]->SetIsHit(1, 1);
-				enemysCol[i]->SetDebuff(FIRE, 10);
-				fireBallsCol[j]->SetIsHit();
+	for (int i = 0; i < fireBallsCol.size(); i++) {
+		for (int j = 0; j < enemysCol.size(); j++) {
+			if (CheckHitBox(fireBallsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+				fireBallsCol[i]->SetIsHit();
+				enemysCol[j]->SetIsHit(1, 1);
+				enemysCol[j]->SetDebuff(FIRE, 10);
+			}
+		}
+		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
+			if (CheckHitBox(fireBallsCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+				fireBallsCol[i]->SetIsHit();
 			}
 		}
 	}
@@ -51,12 +59,17 @@ void ColliderManager::Update()
 	//マジックミサイル
 	vector<MagicMissile*> magicMissilesCol = SpellManager::GetInstance()->GetMagicMissilesCol();
 
-	for (int i = 0; i < enemysCol.size(); i++) {
-		for (int j = 0; j < magicMissilesCol.size(); j++) {
-			if (CheckHitBox(enemysCol[i]->GetBoxCol(), magicMissilesCol[j]->GetBoxCol())) {
-				enemysCol[i]->SetIsHit(5, 5);
-				enemysCol[i]->SetDebuff(THUNDER, 5);
-				magicMissilesCol[j]->SetIsHit();
+	for (int i = 0; i < magicMissilesCol.size(); i++) {
+		for (int j = 0; j < enemysCol.size(); j++) {
+			if (CheckHitBox(magicMissilesCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+				magicMissilesCol[i]->SetIsHit();
+				enemysCol[j]->SetIsHit(5, 5);
+				enemysCol[j]->SetDebuff(THUNDER, 5);
+			}
+		}
+		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
+			if (CheckHitBox(magicMissilesCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+				magicMissilesCol[i]->SetIsHit();
 			}
 		}
 	}
@@ -67,12 +80,17 @@ void ColliderManager::Update()
 	//アイスボルト
 	vector<IceBolt*> iceBoltsCol = SpellManager::GetInstance()->GetIceBoltsCol();
 
-	for (int i = 0; i < enemysCol.size(); i++) {
-		for (int j = 0; j < iceBoltsCol.size(); j++) {
-			if (CheckHitBox(enemysCol[i]->GetBoxCol(), iceBoltsCol[j]->GetBoxCol())) {
-				enemysCol[i]->SetIsHit(10, 5);
-				enemysCol[i]->SetDebuff(ICE, 8);
-				iceBoltsCol[j]->SetIsHit();
+	for (int i = 0; i < iceBoltsCol.size(); i++) {
+		for (int j = 0; j < enemysCol.size(); j++) {
+			if (CheckHitBox(iceBoltsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+				iceBoltsCol[i]->SetIsHit();
+				enemysCol[j]->SetIsHit(10, 5);
+				enemysCol[j]->SetDebuff(ICE, 8);
+			}
+		}
+		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
+			if (CheckHitBox(iceBoltsCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+				iceBoltsCol[i]->SetIsHit();
 			}
 		}
 	}
@@ -83,20 +101,21 @@ void ColliderManager::Update()
 	//チェインライトニング
 	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
 
-	for (int i = 0; i < enemysCol.size(); i++) {
-		for (int j = 0; j < chainLightningsCol.size(); j++) {
-			if (CheckHitBox(enemysCol[i]->GetBoxCol(), chainLightningsCol[j]->GetBoxCol())) {
-				enemysCol[i]->SetIsHit(15, 5);
-				enemysCol[i]->SetDebuff(THUNDER, 1);
-				chainLightningsCol[j]->SetIsHit();
+
+	for (int i = 0; i < chainLightningsCol.size(); i++) {
+		for (int j = 0; j < enemysCol.size(); j++) {
+			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
+				chainLightningsCol[i]->SetIsHit();
+				enemysCol[j]->SetIsHit(15, 5);
+				enemysCol[j]->SetDebuff(THUNDER, 1);
 
 				//1体目の伝播
 				int32_t hitTemp1 = -1;
 				float lenTemp = 30;
 				for (int k = 0; k < enemysCol.size(); k++) {
 
-					if (i != k) {
-						float length = (enemysCol[i]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
+					if (j != k) {
+						float length = (enemysCol[j]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
 						if (lenTemp > length) {
 							lenTemp = length;
 							hitTemp1 = k;
@@ -110,8 +129,8 @@ void ColliderManager::Update()
 					enemysCol[hitTemp1]->SetIsHit(15, 5);
 					enemysCol[hitTemp1]->SetDebuff(THUNDER, 1);
 					//そこまでのパーティクル
-					Vector3 tempVec = enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[i]->GetBoxCol().pos;
-					Vector3 nowPos = enemysCol[i]->GetBoxCol().pos;
+					Vector3 tempVec = enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[j]->GetBoxCol().pos;
+					Vector3 nowPos = enemysCol[j]->GetBoxCol().pos;
 					for (int l = 0; l < 20; l++) {
 						nowPos += tempVec / 20;
 						ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, nowPos);
@@ -122,7 +141,7 @@ void ColliderManager::Update()
 					lenTemp = 30;
 					for (int k = 0; k < enemysCol.size(); k++) {
 
-						if (i != k && hitTemp1 != k) {
+						if (j != k && hitTemp1 != k) {
 							float length = (enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
 							if (lenTemp > length) {
 								lenTemp = length;
@@ -221,16 +240,25 @@ bool ColliderManager::CheckHitEnemyToChainLightning()
 {
 	//敵の判定
 	vector<Enemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+	FieldManager* field = FieldManager::GetInstance();
 
 	//チェインライトニング
 	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
 
-	for (int i = 0; i < enemysCol.size(); i++) {
-		for (int j = 0; j < chainLightningsCol.size(); j++) {
-			if (CheckHitBox(enemysCol[i]->GetBoxCol(), chainLightningsCol[j]->GetBoxCol())) {
+
+	for (int i = 0; i < chainLightningsCol.size(); i++) {
+		for (int j = 0; j < enemysCol.size(); j++) {
+			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
 				return true;
 			}
 		}
+		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
+			if (CheckHitBox(chainLightningsCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+				return true;
+			}
+		}
+
 	}
+
 	return false;
 }

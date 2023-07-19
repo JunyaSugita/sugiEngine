@@ -101,8 +101,6 @@
     <ClCompile Include="sugiEngine\app\enemy\Enemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\EnemyManager.cpp" />
     <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp" />
-    <ClCompile Include="sugiEngine\app\ground\Ground.cpp" />
-    <ClCompile Include="sugiEngine\app\ground\GroundManager.cpp" />
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
     <ClCompile Include="sugiEngine\app\spell\ChainLightning.cpp" />
@@ -154,8 +152,6 @@
     <ClInclude Include="sugiEngine\app\enemy\Enemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\EnemyManager.h" />
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h" />
-    <ClInclude Include="sugiEngine\app\ground\Ground.h" />
-    <ClInclude Include="sugiEngine\app\ground\GroundManager.h" />
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
     <ClInclude Include="sugiEngine\app\spell\ChainLightning.h" />
