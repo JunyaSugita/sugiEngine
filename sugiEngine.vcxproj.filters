@@ -222,12 +222,6 @@
     <ClCompile Include="sugiEngine\app\enemy\EnemyManager.cpp">
       <Filter>ソース ファイル\app\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\app\ground\Ground.cpp">
-      <Filter>ソース ファイル\app\ground</Filter>
-    </ClCompile>
-    <ClCompile Include="sugiEngine\app\ground\GroundManager.cpp">
-      <Filter>ソース ファイル\app\ground</Filter>
-    </ClCompile>
     <ClCompile Include="sugiEngine\app\player\Player.cpp">
       <Filter>ソース ファイル\app\player</Filter>
     </ClCompile>
@@ -391,12 +385,6 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\enemy\EnemyManager.h">
       <Filter>ヘッダー ファイル\app\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="sugiEngine\app\ground\Ground.h">
-      <Filter>ヘッダー ファイル\app\ground</Filter>
-    </ClInclude>
-    <ClInclude Include="sugiEngine\app\ground\GroundManager.h">
-      <Filter>ヘッダー ファイル\app\ground</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\player\Player.h">
       <Filter>ヘッダー ファイル\app\player</Filter>
