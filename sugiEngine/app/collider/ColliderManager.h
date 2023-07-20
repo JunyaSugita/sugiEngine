@@ -34,6 +34,14 @@ public:
 	bool CheckHitEnemyToChainLightning();
 
 private:
+	bool CheckWayX(BoxCol a, BoxCol b);
+	bool CheckWayY(BoxCol a, BoxCol b);
+	bool CheckWayZ(BoxCol a, BoxCol b);
+
+	bool CheckHitX(BoxCol a, BoxCol b);
+	bool CheckHitY(BoxCol a, BoxCol b);
+	bool CheckHitZ(BoxCol a, BoxCol b);
+
 	bool CheckHitBox(BoxCol a, BoxCol b);
 
 

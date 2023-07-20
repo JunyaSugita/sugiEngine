@@ -16,6 +16,7 @@ void Enemy::OneTimeInitialize()
 
 void Enemy::Initialize(Vector3 pos)
 {
+	//敵ごとに色を変えるので個別にロード
 	model_ = move(Model::LoadFromObj("player"));
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(model_.get());
@@ -32,6 +33,8 @@ void Enemy::Initialize(Vector3 pos)
 
 	boxCol_.pos = pos;
 	boxCol_.size = { 1.0f,2.2f,1.0f };
+	oldBoxCol_.pos = pos;
+	oldBoxCol_.size = { 1.0f,2.2f,1.0f };
 
 	isDead_ = false;
 
@@ -50,6 +53,9 @@ void Enemy::Initialize(Vector3 pos)
 
 void Enemy::Update()
 {
+	//1フレ前の座標を保存
+	oldBoxCol_ = boxCol_;
+
 	//プレイヤー情報の取得
 	GetPlayer();
 
@@ -163,6 +169,8 @@ void Enemy::SetCol()
 
 void Enemy::WorldTransUpdate()
 {
+
+
 	worldTrans_.SetPos(pos_);
 	worldTrans_.SetRot(rot_);
 	worldTrans_.SetScale(scale_);

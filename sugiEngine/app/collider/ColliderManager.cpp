@@ -33,6 +33,8 @@ void ColliderManager::Update()
 	vector<Enemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
 	//マップの判定
 	FieldManager* field = FieldManager::GetInstance();
+	//プレイヤー
+	Player* player = Player::GetInstance();
 
 #pragma region ファイヤーボールの判定
 	//ファイアーボール
@@ -171,25 +173,10 @@ void ColliderManager::Update()
 #pragma endregion
 
 #pragma region プレイヤーと敵の判定
-	Player* player = Player::GetInstance();
 
 	for (int i = 0; i < enemysCol.size(); i++) {
 		if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
 			enemysCol[i]->SetIsStop();
-
-			//if (enemysCol[i]->GetBoxCol().pos.x <= player->GetBoxCol().pos.x) {
-			//	enemysCol[i]->AddColX(-0.1f);
-			//}
-			//else if (enemysCol[i]->GetBoxCol().pos.x > player->GetBoxCol().pos.x) {
-			//	enemysCol[i]->AddColX(0.1f);
-			//}
-
-			//if (enemysCol[i]->GetBoxCol().pos.z <= player->GetBoxCol().pos.z) {
-			//	enemysCol[i]->AddColZ(-0.1f);
-			//}
-			//else if (enemysCol[i]->GetBoxCol().pos.z > player->GetBoxCol().pos.z) {
-			//	enemysCol[i]->AddColZ(0.1f);
-			//}
 		}
 	}
 
@@ -221,13 +208,112 @@ void ColliderManager::Update()
 	}
 
 #pragma endregion
+
+#pragma region 敵と壁の判定
+	for (int i = 0; i < enemysCol.size(); i++) {
+		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+				if (CheckHitX(enemysCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+					if (!CheckHitX(enemysCol[i]->GetOldBoxCol(), field->GetInstance()->GetCol(j))) {
+						enemysCol[i]->SetColX(enemysCol[i]->GetOldBoxCol().pos.x);
+					}
+				}
+				if (CheckHitY(enemysCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+					if (!CheckHitY(enemysCol[i]->GetOldBoxCol(), field->GetInstance()->GetCol(j))) {
+						enemysCol[i]->SetColY(enemysCol[i]->GetOldBoxCol().pos.y);
+					}
+				}
+				if (CheckHitZ(enemysCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+					if (!CheckHitZ(enemysCol[i]->GetOldBoxCol(), field->GetInstance()->GetCol(j))) {
+						enemysCol[i]->SetColZ(enemysCol[i]->GetOldBoxCol().pos.z);
+					}
+				}
+				enemysCol[i]->ResetShake();
+				enemysCol[i]->WorldTransUpdate();
+			}
+		}
+	}
+#pragma endregion
+
+#pragma region プレイヤーと壁の判定
+	for (int i = 0; i < field->GetInstance()->GetColSize(); i++) {
+		if (CheckHitBox(player->GetBoxCol(), field->GetInstance()->GetCol(i))) {
+			if (CheckHitX(player->GetBoxCol(), field->GetInstance()->GetCol(i))) {
+				if (!CheckHitX(player->GetOldBoxCol(), field->GetInstance()->GetCol(i))) {
+					player->SetPosX(player->GetOldBoxCol().pos.x);
+				}
+			}
+			if (CheckHitY(player->GetBoxCol(), field->GetInstance()->GetCol(i))) {
+				if (!CheckHitY(player->GetOldBoxCol(), field->GetInstance()->GetCol(i))) {
+					player->SetPosY(player->GetOldBoxCol().pos.y);
+				}
+			}
+			if (CheckHitZ(player->GetBoxCol(), field->GetInstance()->GetCol(i))) {
+				if (!CheckHitZ(player->GetOldBoxCol(), field->GetInstance()->GetCol(i))) {
+					player->SetPosZ(player->GetOldBoxCol().pos.z);
+				}
+			}
+			player->WorldTransUpdate();
+		}
+	}
+#pragma endregion
 }
+
+bool ColliderManager::CheckWayX(BoxCol a, BoxCol b)
+{
+	if (a.pos.x >= b.pos.x) {
+		return true;
+	}
+	return false;
+}
+
+bool ColliderManager::CheckWayY(BoxCol a, BoxCol b)
+{
+	if (a.pos.y >= b.pos.y) {
+		return true;
+	}
+	return false;
+}
+
+bool ColliderManager::CheckWayZ(BoxCol a, BoxCol b)
+{
+	if (a.pos.z >= b.pos.z) {
+		return true;
+	}
+	return false;
+}
+
+
+bool ColliderManager::CheckHitX(BoxCol a, BoxCol b)
+{
+	if (a.pos.x + a.size.x >= b.pos.x - b.size.x && b.pos.x + b.size.x >= a.pos.x - a.size.x) {
+		return true;
+	}
+	return false;
+}
+
+bool ColliderManager::CheckHitY(BoxCol a, BoxCol b)
+{
+	if (a.pos.y + a.size.y >= b.pos.y - b.size.y && b.pos.y + b.size.y >= a.pos.y - a.size.y) {
+		return true;
+	}
+	return false;
+}
+
+bool ColliderManager::CheckHitZ(BoxCol a, BoxCol b)
+{
+	if (a.pos.z + a.size.z >= b.pos.z - b.size.z && b.pos.z + b.size.z >= a.pos.z - a.size.z) {
+		return true;
+	}
+	return false;
+}
+
 
 bool ColliderManager::CheckHitBox(BoxCol a, BoxCol b)
 {
-	if (a.pos.x + a.size.x >= b.pos.x - b.size.x && b.pos.x + b.size.x >= a.pos.x - a.size.x) {
-		if (a.pos.z + a.size.z >= b.pos.z - b.size.z && b.pos.z + b.size.z >= a.pos.z - a.size.z) {
-			if (a.pos.y + a.size.y >= b.pos.y - b.size.y && b.pos.y + b.size.y >= a.pos.y - a.size.y) {
+	if (CheckHitX(a, b)) {
+		if (CheckHitY(a, b)) {
+			if (CheckHitZ(a, b)) {
 				return true;
 			}
 		}
@@ -262,3 +348,4 @@ bool ColliderManager::CheckHitEnemyToChainLightning()
 
 	return false;
 }
+

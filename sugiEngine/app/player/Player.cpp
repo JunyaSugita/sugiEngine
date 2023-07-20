@@ -33,15 +33,19 @@ void Player::Initialize()
 
 	boxCol_.pos = pos_;
 	boxCol_.size = {2.0f,2.2f,2.0f};
+	oldBoxCol_.pos = pos_;
+	oldBoxCol_.size = { 2.0f,2.2f,2.0f };
 
 	PlayerWeapon::GetInstance()->Initialize();
 }
 
 void Player::Update()
 {
+	//1ƒtƒŒ[ƒ€‘O‚Ìî•ñ‚ğ•Û‘¶
+	oldBoxCol_.pos = pos_;
+
 	Move();
 	WorldTransUpdate();
-
 
 	//UŒ‚
 	Attack();
