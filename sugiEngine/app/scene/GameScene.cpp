@@ -51,6 +51,8 @@ void GameScene::Initialize()
 
 	particleE_ = make_unique<ParticleEditor>();
 	particleE_->Initialize();
+
+	clearChecker_.Initialize();
 }
 
 void GameScene::Update()
@@ -177,6 +179,8 @@ void GameScene::Update()
 #endif
 #pragma endregion
 
+	clearChecker_.Update();
+
 	if (input->TriggerKey(DIK_P)) {
 		ParticleManager::GetInstance()->Clear();
 		GameManager::GetInstance()->SetTitleScene();
@@ -212,6 +216,7 @@ void GameScene::SpriteDraw()
 {
 	if (!particleE_->GetIsEdit(0)) {
 		UIManager::GetInstance()->Draw();
+		clearChecker_.Draw();
 	}
 }
 

@@ -55,9 +55,9 @@ void EnemyManager::Update()
 		}
 	}
 
-	//Begin("EnemyState");
-	//Text("RemainingEnemies %d",enemyCount);
-	//End();
+	Begin("EnemyState");
+	Text("RemainingEnemies %d",enemyCount_);
+	End();
 }
 
 void EnemyManager::Draw()
@@ -97,7 +97,7 @@ void EnemyManager::PopEnemy(Vector3 pos)
 	else {
 		newEnemy->Initialize(pos);
 	}
-
+	enemyCount_++;
 	enemys_.push_back(move(newEnemy));
 }
 

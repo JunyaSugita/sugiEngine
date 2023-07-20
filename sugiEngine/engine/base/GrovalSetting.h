@@ -1,5 +1,5 @@
 #pragma once
-#include "Matrix4.h"
+#include "SugiMath.h"
 
 static const uint16_t WIN_WIDTH = 1280;
 static const uint16_t WIN_HEIGHT = 720;
