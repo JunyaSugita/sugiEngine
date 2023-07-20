@@ -7,7 +7,7 @@ ID3D12Device* Model::sDevice = nullptr;
 
 unique_ptr <Model> Model::LoadFromObj(const string& modelname, bool smoothing)
 {
-	unique_ptr <Model> model = make_unique<Model>();
+	unique_ptr<Model> model = make_unique<Model>();
 
 	model->InitializeDescriptorHeap();
 
@@ -15,7 +15,7 @@ unique_ptr <Model> Model::LoadFromObj(const string& modelname, bool smoothing)
 
 	model->CreateBuffers();
 
-	return model;
+	return move(model);
 }
 
 void Model::LoadMaterial(const string& directoryPath, const string& filename)

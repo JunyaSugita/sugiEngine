@@ -169,8 +169,6 @@ void PlayerWeapon::AttackCol()
 	hitPos_.x += float(sin(Radian(player->GetCameraAngle().x)) * ATTACK_LENGTH);
 	hitPos_.y = 0;
 	hitPos_.z += float(cos(Radian(player->GetCameraAngle().x)) * ATTACK_LENGTH);
-
-	WorldTransUpdate();
 }
 
 void PlayerWeapon::WorldTransUpdate()

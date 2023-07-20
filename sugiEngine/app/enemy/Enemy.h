@@ -29,6 +29,15 @@ public:
 	void SetCol(Vector3 vec) {
 		boxCol_.pos = vec;
 	}
+	void SetColX(float x) {
+		boxCol_.pos.x = x;
+	}
+	void SetColY(float y) {
+		boxCol_.pos.y = y;
+	}
+	void SetColZ(float z) {
+		boxCol_.pos.z = z;
+	}
 	void AddCol(Vector3 vec) {
 		boxCol_.pos += vec;
 	}
@@ -55,6 +64,9 @@ public:
 	BoxCol GetBoxCol() {
 		return boxCol_;
 	}
+	BoxCol GetOldBoxCol() {
+		return oldBoxCol_;
+	}
 
 	bool isDebuff();
 	bool isCanMove();
@@ -63,9 +75,11 @@ public:
 		isStop_ = true;
 	}
 
+	void WorldTransUpdate();
+	void ResetShake();
 private:
 	void SetCol();
-	void WorldTransUpdate();
+	
 	void SetWorldTrans();
 	void SetAngleToPlayer();
 	void GetPlayer();
@@ -73,7 +87,7 @@ private:
 	void SubLife(int32_t subLife, int32_t effectNum);
 	void UpdateDebuff();
 	void SetShake();
-	void ResetShake();
+
 	float GetSlow();
 
 private:
@@ -95,6 +109,7 @@ private:
 
 	//“–‚½‚è”»’è
 	BoxCol boxCol_;
+	BoxCol oldBoxCol_;
 
 	//‘Ì—Í
 	int32_t life_;

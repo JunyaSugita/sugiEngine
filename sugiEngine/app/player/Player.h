@@ -24,16 +24,16 @@ public:
 	Vector3 GetPos() {
 		return pos_;
 	}
-	Vector3 SetPos(const Vector3& pos) {
+	void SetPos(const Vector3& pos) {
 		pos_ = pos;
 	}
-	Vector3 SetPosX(float pos) {
+	void SetPosX(float pos) {
 		pos_.x = pos;
 	}
-	Vector3 SetPosY(float pos) {
+	void SetPosY(float pos) {
 		pos_.y = pos;
 	}
-	Vector3 SetPosZ(float pos) {
+	void SetPosZ(float pos) {
 		pos_.z = pos;
 	}
 
@@ -80,11 +80,17 @@ public:
 		return boxCol_;
 	}
 
+	BoxCol GetOldBoxCol() {
+		return oldBoxCol_;
+	}
+
+	void WorldTransUpdate();
+
 private:
 	void Move();
 	void CameraMove();
 	void Attack();
-	void WorldTransUpdate();
+	
 
 public:
 	const Vector3 CAMERA_EYE = { 0.0f,5.0f,0.0f };//ÉvÉåÉCÉÑÅ[ÇÃñ⁄ê¸í≤êÆ
@@ -116,6 +122,7 @@ private:
 
 	//ìñÇΩÇËîªíË
 	BoxCol boxCol_;
+	BoxCol oldBoxCol_;
 };
 
 float Radian(float r);
