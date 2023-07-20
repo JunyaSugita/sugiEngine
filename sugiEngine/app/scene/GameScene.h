@@ -11,6 +11,7 @@
 #include "FBX.h"
 #include "ParticleManager.h"
 #include "ParticleEditor.h"
+#include "ClearChecker.h"
 
 class GameScene : public ISceneManager
 {
@@ -31,5 +32,7 @@ private:
 	unique_ptr<LightGroup> lightGroup_ = nullptr;
 
 	unique_ptr<ParticleEditor> particleE_ = nullptr;
+
+	ClearChecker clearChecker_;
 };
 

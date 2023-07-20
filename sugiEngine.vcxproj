@@ -58,7 +58,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -83,7 +83,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -108,6 +108,7 @@
     <ClCompile Include="sugiEngine\app\spell\IceBolt.cpp" />
     <ClCompile Include="sugiEngine\app\spell\MagicMissile.cpp" />
     <ClCompile Include="sugiEngine\app\spell\SpellManager.cpp" />
+    <ClCompile Include="sugiEngine\app\system\ClearChecker.cpp" />
     <ClCompile Include="sugiEngine\app\UI\Closshair.cpp" />
     <ClCompile Include="sugiEngine\app\UI\sceneChange.cpp" />
     <ClCompile Include="sugiEngine\app\UI\SetSpell.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="sugiEngine\engine\2d\ImGuiManager.cpp" />
     <ClCompile Include="sugiEngine\engine\io\Input.cpp" />
     <ClCompile Include="sugiEngine\engine\light\LightGroup.cpp" />
+    <ClCompile Include="sugiEngine\engine\UI\Gauge.cpp" />
     <ClCompile Include="sugiEngine\main.cpp" />
     <ClCompile Include="sugiEngine\engine\math\Matrix4.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Model.cpp" />
@@ -159,6 +161,7 @@
     <ClInclude Include="sugiEngine\app\spell\IceBolt.h" />
     <ClInclude Include="sugiEngine\app\spell\MagicMissile.h" />
     <ClInclude Include="sugiEngine\app\spell\SpellManager.h" />
+    <ClInclude Include="sugiEngine\app\system\ClearChecker.h" />
     <ClInclude Include="sugiEngine\app\UI\Closshair.h" />
     <ClInclude Include="sugiEngine\app\UI\sceneChange.h" />
     <ClInclude Include="sugiEngine\app\UI\SetSpell.h" />
@@ -202,6 +205,7 @@
     <ClInclude Include="sugiEngine\engine\math\Vector4.h" />
     <ClInclude Include="sugiEngine\engine\base\WinApp.h" />
     <ClInclude Include="sugiEngine\engine\3d\WorldTransform.h" />
+    <ClInclude Include="sugiEngine\engine\UI\Gauge.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

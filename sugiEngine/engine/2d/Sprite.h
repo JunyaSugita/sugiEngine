@@ -64,6 +64,8 @@ public:
 	void SetColor(float x, float y, float z, float w);
 
 	void SetSize(float x, float y);
+	void SetSizeX(float x);
+	void SetSizeY(float y);
 
 	void SetAnchorPoint(float x,float y);
 

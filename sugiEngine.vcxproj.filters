@@ -127,6 +127,18 @@
     <Filter Include="ソース ファイル\engine\particle">
       <UniqueIdentifier>{4273a141-bd1d-46c0-94c2-6ed71c8d7f54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\app\system">
+      <UniqueIdentifier>{3129696b-6535-4bd9-9576-6cf8feee75bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\system">
+      <UniqueIdentifier>{a3148923-1399-4d33-9207-1b3c09d74fa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine\UI">
+      <UniqueIdentifier>{67cc743d-ad25-418b-827d-66cd553e8770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\UI">
+      <UniqueIdentifier>{1765b929-94b2-4cb3-92b3-06668306f9f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sugiEngine\main.cpp">
@@ -275,6 +287,12 @@
     </ClCompile>
     <ClCompile Include="sugiEngine\app\UI\sceneChange.cpp">
       <Filter>ソース ファイル\app\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\system\ClearChecker.cpp">
+      <Filter>ソース ファイル\app\system</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\UI\Gauge.cpp">
+      <Filter>ソース ファイル\engine\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -439,6 +457,12 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h">
       <Filter>ヘッダー ファイル\app\ground</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\system\ClearChecker.h">
+      <Filter>ヘッダー ファイル\app\system</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\UI\Gauge.h">
+      <Filter>ヘッダー ファイル\engine\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

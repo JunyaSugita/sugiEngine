@@ -510,6 +510,20 @@ void Sprite::SetSize(float x, float y) {
 	SetUpVertex();
 }
 
+void Sprite::SetSizeX(float x)
+{
+	size_.x = x;
+
+	SetUpVertex();
+}
+
+void Sprite::SetSizeY(float y)
+{
+	size_.y = y;
+
+	SetUpVertex();
+}
+
 void Sprite::SetAnchorPoint(float x, float y) {
 	anchorPoint_.x = x;
 	anchorPoint_.y = y;
