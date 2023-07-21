@@ -28,17 +28,17 @@ void sceneChange::Initialize()
 
 void sceneChange::Update()
 {
-	pos_.y = -WIN_HEIGHT + EaseOut(timer_, WIN_HEIGHT);
+	pos_.y = -WIN_HEIGHT + EaseOut(easeTimer_, WIN_HEIGHT);
 
 	if (isSceneChange_) {
-		timer_ += SPEED_TIMER;
+		easeTimer_ += SPEED_TIMER;
 
-		if (timer_ >= 1.0f) {
+		if (easeTimer_ >= 1.0f) {
 			isSceneChange_ = false;
 		}
 	}
-	else if (timer_ > 0) {
-		timer_ -= SPEED_TIMER;
+	else if (easeTimer_ > 0) {
+		easeTimer_ -= SPEED_TIMER;
 	}
 
 	sceneSp_.SetPos(pos_.x, pos_.y);

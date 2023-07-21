@@ -79,6 +79,7 @@ void GameScene::Update()
 		}
 		if (input->TriggerButton(XINPUT_GAMEPAD_Y)) {
 			enemyM->PopEnemy();
+			clearChecker_.Initialize();
 		}
 		if (input->TriggerButton(XINPUT_GAMEPAD_X)) {
 			enemyM->PopEnemy({ -10,0,0 });
@@ -86,6 +87,7 @@ void GameScene::Update()
 			enemyM->PopEnemy({ 0,0,0 });
 			enemyM->PopEnemy({ 5,0,3 });
 			enemyM->PopEnemy({ 10,0,0 });
+			clearChecker_.Initialize();
 		}
 
 		//if (input->TriggerKey(DIK_O)) {
