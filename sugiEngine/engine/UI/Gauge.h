@@ -16,10 +16,15 @@ private:
 	Vector2 showSize_;
 
 	Sprite maxSp_;
+	Sprite easingSp_;
 	Sprite nowSp_;
 
 	int32_t maxTex_;
 	int32_t nowTex_;
 
-	float timer_;
+	float easeTimer_;
+
+	const int32_t TIME_STOPER = int32_t(0.3f * 60);
+	int32_t stopTimer_;
+	float oldNow_;
 };

@@ -44,7 +44,7 @@ void EnemyManager::Update()
 	for (unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update();
 
-		enemyCount_++;
+		enemyCount_ += enemy->GetLife();
 		//ƒvƒŒƒCƒ„[‚ªUŒ‚’†‚È‚ç
 		if (weapon->GetIsAt()) {
 			//“–‚½‚è”»’èŒŸõ
@@ -97,7 +97,7 @@ void EnemyManager::PopEnemy(Vector3 pos)
 	else {
 		newEnemy->Initialize(pos);
 	}
-	enemyCount_++;
+	enemyCount_ += newEnemy->GetLife();
 	enemys_.push_back(move(newEnemy));
 }
 

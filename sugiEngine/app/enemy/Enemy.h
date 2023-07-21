@@ -77,6 +77,10 @@ public:
 
 	void WorldTransUpdate();
 	void ResetShake();
+
+	uint32_t GetLife() {
+		return life_;
+	}
 private:
 	void SetCol();
 	

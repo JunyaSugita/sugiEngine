@@ -83,5 +83,5 @@ private:
 	std::unique_ptr <Model> hitModel_;
 	std::unique_ptr <Object3d> hitObj_;
 
-	float timer_ = 0;
+	float easeTimer_ = 0;
 };

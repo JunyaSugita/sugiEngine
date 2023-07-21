@@ -23,7 +23,7 @@ public:
 	}
 
 	float GetTimer() {
-		return timer_;
+		return easeTimer_;
 	}
 
 public:
@@ -37,5 +37,5 @@ private:
 
 	bool isSceneChange_ = false;
 
-	float timer_ = 0;
+	float easeTimer_ = 0;
 };

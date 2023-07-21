@@ -71,7 +71,7 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 	//UŒ‚‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í’ÊíŽ‚¿
 	else {
 		NormalMove();
-		timer_ = 20;
+		easeTimer_ = 20;
 	}
 
 	WorldTransUpdate();
@@ -104,10 +104,10 @@ void PlayerWeapon::SpellMove()
 	Player* player = Player::GetInstance();
 	SpellManager* spellM = SpellManager::GetInstance();
 
-	if (--timer_ > 0) {
+	if (--easeTimer_ > 0) {
 		Player* player = Player::GetInstance();
 
-		float nowTime = timer_;
+		float nowTime = easeTimer_;
 
 		pos_ = player->GetPos();
 		pos_.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
