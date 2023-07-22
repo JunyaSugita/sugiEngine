@@ -1,6 +1,6 @@
 #include "Gauge.h"
 
-void Gauge::Set(Vector2 pos, Vector2 size)
+void Gauge::Set(Vector2 pos, Vector2 size, Vector3 color)
 {
 	maxTex_ = Sprite::LoadTexture("ChargeGauge.png");
 	nowTex_ = Sprite::LoadTexture("white1x1.png");
@@ -24,7 +24,7 @@ void Gauge::Set(Vector2 pos, Vector2 size)
 	easingSp_.SetSize(size_.x, size_.y);
 	nowSp_.SetSize(size_.x, size_.y);
 
-	nowSp_.SetColor(0.6f, 0, 0, 1);
+	nowSp_.SetColor(color.x, color.y, color.z, 1);
 
 	easeTimer_ = 1;
 	stopTimer_ = TIME_STOPER;

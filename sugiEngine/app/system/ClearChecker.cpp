@@ -1,11 +1,15 @@
 #include "ClearChecker.h"
 #include "EnemyManager.h"
 #include "GameManager.h"
+#include "PostEffect.h"
+#include "UIManager.h"
 
 void ClearChecker::Initialize()
 {
 	maxEnemy_ = nowEnemy_ = EnemyManager::GetInstance()->GetEnemyCount();
-	gauge_.Set({ WIN_WIDTH / 2,100 }, {500,50});
+	gauge_.Set({ WIN_WIDTH / 2,100 }, {800,50},{0.6f,0,0});
+
+	blur_ = 0;
 }
 
 void ClearChecker::Update()
@@ -16,7 +20,15 @@ void ClearChecker::Update()
 
 
 	if (nowEnemy_ <= 0) {
-		
+		if (blur_ < 5) {
+			blur_ += 0.025f;
+			if (blur_ >= 1) {
+				PostEffect::SetBlur((int32_t)blur_);
+			}
+		}
+		else {
+			UIManager::GetInstance()->SetClear();
+		}
 	}
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "Sprite.h"
 
 class UIManager {
 private:
@@ -16,4 +17,13 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+
+	void SetClear();
+	void SetGameOver();
+private:
+	Sprite stateSp_;
+	float stateAlpha_;
+
+	int32_t clearTex_;
+	int32_t gameOverTex_;
 };

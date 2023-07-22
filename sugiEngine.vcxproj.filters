@@ -294,6 +294,9 @@
     <ClCompile Include="sugiEngine\engine\UI\Gauge.cpp">
       <Filter>ソース ファイル\engine\UI</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\system\GameOver.cpp">
+      <Filter>ソース ファイル\app\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -463,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\UI\Gauge.h">
       <Filter>ヘッダー ファイル\engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\system\GameOver.h">
+      <Filter>ヘッダー ファイル\app\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

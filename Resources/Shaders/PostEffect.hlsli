@@ -11,6 +11,7 @@ cbuffer ConstBufferDataTransform : register(b1) {
 //3D•ÏŠ·s—ñ
 cbuffer ConstBufferDataEffect : register(b2) {
 	int blur;
+    int Isigma;
 	int invertColor;
 	int border;
 	int gray;
