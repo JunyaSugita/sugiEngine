@@ -5,7 +5,7 @@
 class Gauge {
 public:
 
-	void Set(Vector2 pos, Vector2 size);
+	void Set(Vector2 pos, Vector2 size,Vector3 color);
 	void Update(float max, float now);
 	void Draw();
 

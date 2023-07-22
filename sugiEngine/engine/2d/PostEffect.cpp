@@ -8,6 +8,7 @@ using namespace std;
 
 const float PostEffect::CLEAR_COLOR[4] = { 0.0f,0.0f,0.0f,0.0f };
 bool PostEffect::sIsBlur = false;
+int32_t PostEffect::sSigma = 5;
 bool PostEffect::sIsInvertColor = false;
 bool PostEffect::sIsBorder = false;
 bool PostEffect::sIsGray = false;
@@ -781,6 +782,7 @@ void PostEffect::SetUp()
 	assert(SUCCEEDED(result));
 
 	constMapEffect_->blur = sIsBlur;
+	constMapEffect_->sigma = sSigma;
 	constMapEffect_->invertColor = sIsInvertColor;
 	constMapEffect_->border = sIsBorder;
 	constMapEffect_->gray = sIsGray;

@@ -14,7 +14,7 @@ float4 main(VSOutput input) : SV_TARGET
 {
 	if (blur) {
 		float totalWeight = 0;
-		float sigma = 0.005f;
+		float sigma = 0.001f * Isigma;
 		float stepWidth = 0.001f;
 		float4 col = float4(0, 0, 0, 0);
 		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {

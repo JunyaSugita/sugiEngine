@@ -19,6 +19,7 @@ public:
 
 	struct ConstBufferDataEffect {
 		uint32_t blur;
+		int32_t sigma;
 		uint32_t invertColor;
 		uint32_t border;
 		uint32_t gray;
@@ -51,9 +52,10 @@ public:
 		sIsDirty = true;
 	}
 
-	static void SetBlur() {
+	static void SetBlur(int32_t sigma = 5) {
 		SetClear();
 		sIsBlur = true;
+		sSigma = sigma;
 	}
 	static void SetInvertColor() {
 		SetClear();
@@ -93,6 +95,7 @@ public:
 	static const size_t MAX_SRV_COUNT = 2056;
 
 	static bool sIsBlur;
+	static int32_t sSigma;
 	static bool sIsInvertColor;
 	static bool sIsBorder;
 	static bool sIsGray;

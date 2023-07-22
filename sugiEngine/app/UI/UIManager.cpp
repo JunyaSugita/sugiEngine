@@ -27,6 +27,15 @@ void UIManager::Initialize()
 	SetSpell::GetInstance()->Initialize();
 	Tutorial::GetInstance()->Initialize();
 	sceneChange::GetInstance()->Initialize();
+
+	clearTex_ = Sprite::LoadTexture("gameClear.png");
+	gameOverTex_ = Sprite::LoadTexture("gameOver.png");
+
+	stateSp_.Initialize(clearTex_);
+	stateSp_.SetAnchorPoint(0.5f,0.5f);
+	stateSp_.SetPos(WIN_WIDTH / 2,WIN_HEIGHT / 2);
+	stateAlpha_ = 0;
+	stateSp_.SetColor(1,1,1, stateAlpha_);
 }
 
 void UIManager::Update()
@@ -36,6 +45,8 @@ void UIManager::Update()
 	SetSpell::GetInstance()->Update();
 	Tutorial::GetInstance()->Update();
 	sceneChange::GetInstance()->Update();
+
+	stateSp_.SetColor(1, 1, 1, stateAlpha_);
 }
 
 void UIManager::Draw()
@@ -46,4 +57,18 @@ void UIManager::Draw()
 	Tutorial::GetInstance()->Draw();
 
 	sceneChange::GetInstance()->Draw();
+
+	stateSp_.Draw();
+}
+
+void UIManager::SetClear()
+{
+	stateSp_.SetTexture(clearTex_);
+	stateAlpha_ += 0.025f;
+}
+
+void UIManager::SetGameOver()
+{
+	stateSp_.SetTexture(gameOverTex_);
+	stateAlpha_ += 0.025f;
 }

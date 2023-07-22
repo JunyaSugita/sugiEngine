@@ -2,16 +2,17 @@
 #include "GrovalSetting.h"
 #include "Gauge.h"
 
-class ClearChecker {
+class GameOver {
 public:
 	void Initialize();
 	void Update();
 	void Draw();
 
 private:
-	int32_t maxEnemy_;
-	int32_t nowEnemy_;
-
 	Gauge gauge_;
+
+	int32_t maxHp_;
+	int32_t nowHp_;
+
 	float blur_;
 };
