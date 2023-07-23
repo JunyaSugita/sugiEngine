@@ -32,9 +32,9 @@ void Player::Initialize()
 	spellAngle_ = 0;
 
 	boxCol_.pos = pos_;
-	boxCol_.size = {2.0f,2.2f,2.0f};
+	boxCol_.size = {2.5f,2.2f,2.5f};
 	oldBoxCol_.pos = pos_;
-	oldBoxCol_.size = { 2.0f,2.2f,2.0f };
+	oldBoxCol_.size = { 2.5f,2.2f,2.5f };
 
 	PlayerWeapon::GetInstance()->Initialize();
 }

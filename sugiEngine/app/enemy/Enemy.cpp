@@ -27,6 +27,12 @@ void Enemy::Initialize(Vector3 pos)
 	colObj_ = move(Object3d::Create());
 	colObj_->SetModel(sColModel_.get());
 
+	armLObj_ = move(Object3d::Create());
+	armLObj_->SetModel(sColModel_.get());
+
+	armRObj_ = move(Object3d::Create());
+	armRObj_->SetModel(sColModel_.get());
+
 	pos_ = pos;
 	rot_ = { 0,90,0 };
 	scale_ = { 1,1,1 };
@@ -43,12 +49,22 @@ void Enemy::Initialize(Vector3 pos)
 	eyeRot_ = { 0,0,0 };
 	eyeScale_ = { 0.3f,0.3f,0.3f };
 
+	armRWorldTrans_.parent_ = &worldTrans_;
+	armLWorldTrans_.parent_ = &worldTrans_;
+	armRPos_ = { 1,3,1 };
+	armLPos_ = { 1,3,-1 };
+	armRot_ = { 0,0,60 };
+	armScale_ = { 1,0.3f,0.3f };
+
 	WorldTransUpdate();
 
 	isHit_ = false;
 	life_ = MAX_HP;
 
 	isStop_ = false;
+
+	attackTimer_ = 0.0f;
+	isAttack_ = false;
 }
 
 void Enemy::Update()
@@ -67,8 +83,13 @@ void Enemy::Update()
 
 	//“®‚¯‚é‚©‚Ç‚¤‚©
 	if (isCanMove()) {
-		//ˆÚ“®
-		Move();
+		if (!isAttack_) {
+			//ˆÚ“®
+			Move();
+		}
+
+		//UŒ‚
+		Attack();
 
 		//ƒvƒŒƒCƒ„[‚Ì•û‚Ö‚ä‚Á‚­‚è‰ñ“]
 		SetAngleToPlayer();
@@ -89,6 +110,8 @@ void Enemy::Draw()
 {
 	obj_->Draw();
 	eyeObj_->Draw();
+	armLObj_->Draw();
+	armRObj_->Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
 		colObj_->Draw();
 	}
@@ -161,6 +184,15 @@ bool Enemy::isCanMove()
 	return true;
 }
 
+void Enemy::SetIsAttack()
+{
+	if (!isAttack_) {
+		attackTimer_ = 1.0f;
+		Player::GetInstance()->SubLife();
+	}
+	isAttack_ = true;
+}
+
 void Enemy::SetCol()
 {
 	boxCol_.pos = pos_;
@@ -169,8 +201,6 @@ void Enemy::SetCol()
 
 void Enemy::WorldTransUpdate()
 {
-
-
 	worldTrans_.SetPos(pos_);
 	worldTrans_.SetRot(rot_);
 	worldTrans_.SetScale(scale_);
@@ -178,6 +208,14 @@ void Enemy::WorldTransUpdate()
 	eyeWorldTrans_.SetPos(eyePos_);
 	eyeWorldTrans_.SetRot(eyeRot_);
 	eyeWorldTrans_.SetScale(eyeScale_);
+
+	armRWorldTrans_.SetPos(armRPos_);
+	armRWorldTrans_.SetRot(armRot_);
+	armRWorldTrans_.SetScale(armScale_);
+
+	armLWorldTrans_.SetPos(armLPos_);
+	armLWorldTrans_.SetRot(armRot_);
+	armLWorldTrans_.SetScale(armScale_);
 
 	colWorldTrans_.SetPos(boxCol_.pos);
 	colWorldTrans_.SetScale(boxCol_.size);
@@ -191,8 +229,13 @@ void Enemy::SetWorldTrans()
 	obj_->Update();
 	eyeObj_->SetWorldTransform(eyeWorldTrans_);
 	eyeObj_->Update();
+	armLObj_->SetWorldTransform(armLWorldTrans_);
+	armLObj_->Update();
+	armRObj_->SetWorldTransform(armRWorldTrans_);
+	armRObj_->Update();
 	colObj_->SetWorldTransform(colWorldTrans_);
 	colObj_->Update();
+
 }
 
 void Enemy::SetAngleToPlayer()
@@ -247,6 +290,17 @@ void Enemy::Move()
 	else {
 		isStop_ = false;
 	}
+}
+
+void Enemy::Attack()
+{
+	if (isAttack_) {
+		attackTimer_ -= 0.025f;
+		if (attackTimer_ <= 0) {
+			isAttack_ = false;
+		}
+	}
+	armRot_.z = 50 - EaseOut(attackTimer_,50);
 }
 
 void Enemy::SubLife(int32_t subLife, int32_t effectNum)

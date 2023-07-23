@@ -81,6 +81,8 @@ public:
 	uint32_t GetLife() {
 		return life_;
 	}
+
+	void SetIsAttack();
 private:
 	void SetCol();
 	
@@ -88,6 +90,7 @@ private:
 	void SetAngleToPlayer();
 	void GetPlayer();
 	void Move();
+	void Attack();
 	void SubLife(int32_t subLife, int32_t effectNum);
 	void UpdateDebuff();
 	void SetShake();
@@ -143,6 +146,16 @@ private:
 	//–Ú‚Ìƒ‚ƒfƒ‹ŠÖŒW
 	std::unique_ptr<Object3d> eyeObj_;
 
+	//˜r
+	WorldTransform armRWorldTrans_;
+	WorldTransform armLWorldTrans_;
+	Vector3 armRPos_;
+	Vector3 armLPos_;
+	Vector3 armRot_;
+	Vector3 armScale_;
+	//˜rƒ‚ƒfƒ‹
+	std::unique_ptr<Object3d> armRObj_;
+	std::unique_ptr<Object3d> armLObj_;
 	//“–‚½‚è”»’è
 	WorldTransform colWorldTrans_;
 	//“–‚½‚è”»’è‚Ìƒ‚ƒfƒ‹ŠÖŒW
@@ -150,4 +163,8 @@ private:
 
 	//‘«‚ğ~‚ß‚é‚©
 	bool isStop_;
+
+	//UŒ‚
+	float attackTimer_;
+	bool isAttack_;
 };

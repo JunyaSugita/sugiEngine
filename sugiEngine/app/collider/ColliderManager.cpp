@@ -177,6 +177,7 @@ void ColliderManager::Update()
 	for (int i = 0; i < enemysCol.size(); i++) {
 		if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
 			enemysCol[i]->SetIsStop();
+			enemysCol[i]->SetIsAttack();
 		}
 	}
 
