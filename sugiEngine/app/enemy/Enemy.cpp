@@ -83,8 +83,10 @@ void Enemy::Update()
 
 	//“®‚¯‚é‚©‚Ç‚¤‚©
 	if (isCanMove()) {
-		//ˆÚ“®
-		Move();
+		if (!isAttack_) {
+			//ˆÚ“®
+			Move();
+		}
 
 		//UŒ‚
 		Attack();
@@ -293,7 +295,7 @@ void Enemy::Move()
 void Enemy::Attack()
 {
 	if (isAttack_) {
-		attackTimer_ -= 0.05f;
+		attackTimer_ -= 0.025f;
 		if (attackTimer_ <= 0) {
 			isAttack_ = false;
 		}
