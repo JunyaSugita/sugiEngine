@@ -54,10 +54,6 @@ void EnemyManager::Update()
 			}
 		}
 	}
-
-	Begin("EnemyState");
-	Text("RemainingEnemies %d",enemyCount_);
-	End();
 }
 
 void EnemyManager::Draw()
