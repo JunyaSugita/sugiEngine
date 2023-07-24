@@ -1,9 +1,9 @@
 cbuffer cbuff0 : register(b0)
 {
-	//matrix mat; // ÇRÇcïœä∑çsóÒ
 	matrix viewproj;
 	matrix world;
 	float3 cameraPos;
+    bool isEffectCross;
 };
 
 cbuffer cbuff1 : register(b1)

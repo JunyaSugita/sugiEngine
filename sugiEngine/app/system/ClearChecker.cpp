@@ -1,7 +1,7 @@
 #include "ClearChecker.h"
 #include "EnemyManager.h"
 #include "GameManager.h"
-#include "PostEffect.h"
+#include "PostEffectSecond.h"
 #include "UIManager.h"
 
 void ClearChecker::Initialize()
@@ -23,7 +23,7 @@ void ClearChecker::Update()
 		if (blur_ < 5) {
 			blur_ += 0.025f;
 			if (blur_ >= 1) {
-				PostEffect::SetBlur((int32_t)blur_);
+				PostEffectSecond::SetBlur((int32_t)blur_);
 			}
 		}
 		else {

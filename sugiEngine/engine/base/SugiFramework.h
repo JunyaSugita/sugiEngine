@@ -27,6 +27,7 @@
 #include "FbxLoader.h"
 #include "Fbx.h"
 #include "PostEffect.h"
+#include "PostEffectSecond.h"
 #include "ParticleManager.h"
 
 class SugiFramework {
@@ -50,4 +51,5 @@ protected:
 	unique_ptr<DXCommon> dxCom_ = nullptr;
 	unique_ptr <Matrix4> matrix4_ = nullptr;
 	unique_ptr <PostEffect> postEffect = nullptr;
+	unique_ptr <PostEffectSecond> postEffect2 = nullptr;
 };

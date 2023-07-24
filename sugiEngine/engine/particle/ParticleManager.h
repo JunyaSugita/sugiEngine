@@ -87,7 +87,7 @@ protected:
 	static uint32_t sIncrementSize;
 	static uint32_t sTextureIndex;
 
-	static const uint32_t vertexCount = 2048;
+	static const uint32_t vertexCount = 2048 * 2;
 
 private:
 	void AdjustTextureSize();

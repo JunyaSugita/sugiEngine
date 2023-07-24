@@ -117,6 +117,7 @@
     <ClCompile Include="sugiEngine\app\UI\Tutorial.cpp" />
     <ClCompile Include="sugiEngine\app\UI\UIManager.cpp" />
     <ClCompile Include="sugiEngine\engine\2d\PostEffect.cpp" />
+    <ClCompile Include="sugiEngine\engine\2d\PostEffectSecond.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Camera.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="sugiEngine\app\UI\Tutorial.h" />
     <ClInclude Include="sugiEngine\app\UI\UIManager.h" />
     <ClInclude Include="sugiEngine\engine\2d\PostEffect.h" />
+    <ClInclude Include="sugiEngine\engine\2d\PostEffectSecond.h" />
     <ClInclude Include="sugiEngine\engine\3d\Camera.h" />
     <ClInclude Include="sugiEngine\engine\3d\Fbx.h" />
     <ClInclude Include="sugiEngine\engine\3d\FbxModel.h" />
@@ -223,6 +225,7 @@
     <None Include="Resources\Shaders\Obj.hlsli" />
     <None Include="Resources\Shaders\Particle.hlsli" />
     <None Include="Resources\Shaders\PostEffect.hlsli" />
+    <None Include="Resources\Shaders\PostEffectSecond.hlsli" />
     <None Include="Resources\Shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +287,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\PostEffectSecondPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\PostEffectSecondVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\PostEffectVS.hlsl">

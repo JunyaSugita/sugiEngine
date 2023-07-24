@@ -297,6 +297,9 @@
     <ClCompile Include="sugiEngine\app\system\GameOver.cpp">
       <Filter>ソース ファイル\app\system</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\engine\2d\PostEffectSecond.cpp">
+      <Filter>ソース ファイル\engine\2d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -470,6 +473,9 @@
     <ClInclude Include="sugiEngine\app\system\GameOver.h">
       <Filter>ヘッダー ファイル\app\system</Filter>
     </ClInclude>
+    <ClInclude Include="sugiEngine\engine\2d\PostEffectSecond.h">
+      <Filter>ヘッダー ファイル\engine\2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli">
@@ -488,6 +494,9 @@
       <Filter>リソース ファイル</Filter>
     </None>
     <None Include="Resources\Shaders\Particle.hlsli">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\Shaders\PostEffectSecond.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
@@ -529,6 +538,12 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\PostEffectSecondPS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\PostEffectSecondVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "EffectManager.h"
+#include "ParticleManager.h"
 
 #include <random>
 
@@ -23,6 +24,7 @@ void Enemy::Initialize(Vector3 pos)
 
 	eyeObj_ = move(Object3d::Create());
 	eyeObj_->SetModel(sEyeModel_.get());
+	eyeObj_->SetEffectCross();
 
 	colObj_ = move(Object3d::Create());
 	colObj_->SetModel(sColModel_.get());
@@ -306,7 +308,7 @@ void Enemy::Attack()
 void Enemy::SubLife(int32_t subLife, int32_t effectNum)
 {
 	life_ -= subLife;
-	EffectManager::GetInstance()->BurstGenerate({ pos_.x,pos_.y + 4,pos_.z }, effectNum, { 1,0,0,1 });
+	//EffectManager::GetInstance()->BurstGenerate({ pos_.x,pos_.y + 4,pos_.z }, effectNum, { 1,0,0,1 });
 	if (life_ <= 0) {
 		isDead_ = true;
 	}
@@ -316,9 +318,11 @@ void Enemy::UpdateDebuff()
 {
 	if (isDebuff()) {
 		if (debuff_.isFire) {
+			//ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, colObj_->GetPos());
 			if (debuff_.fireTime % (3 * 60) == 0) {
 				Enemy::SubLife(5, 10);
 			}
+
 
 			if (--debuff_.fireTime < 0) {
 				debuff_.isFire = false;
