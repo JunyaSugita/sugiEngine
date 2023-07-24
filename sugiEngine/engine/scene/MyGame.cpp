@@ -41,8 +41,12 @@ void MyGame::Draw()
 	GameDraw();
 	postEffect->PostDrawScene(dxCom_->GetCommandList());
 
-	SugiFramework::dxCom_->PreDraw();
+	postEffect2->PreDrawScene(dxCom_->GetCommandList());
 	postEffect->Draw(dxCom_->GetCommandList());
+	postEffect2->PostDrawScene(dxCom_->GetCommandList());
+
+	SugiFramework::dxCom_->PreDraw();
+	postEffect2->Draw(dxCom_->GetCommandList());
 
 	//スプライト
 	Sprite::PreDraw(dxCom_->GetCommandList());

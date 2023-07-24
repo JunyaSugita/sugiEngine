@@ -21,6 +21,7 @@ struct ConstBufferDataB0 {
 	XMMATRIX viewproj;
 	XMMATRIX world;
 	XMFLOAT3 cameraPos;
+	bool effectCloss;
 };
 
 class Object3d
@@ -69,6 +70,10 @@ public:
 	static void SetLight(LightGroup* lightGroup) {
 		lightGroup_ = lightGroup;
 	}
+
+	void SetEffectCross() {
+		effectCloss_ = true;
+	}
 private:
 	//デバイス
 	static ID3D12Device* sDevice;
@@ -90,5 +95,7 @@ private:
 	Model* model_ = nullptr;
 	XMFLOAT4 color_ = {1,1,1,1};
 	static LightGroup* lightGroup_;
+
+	bool effectCloss_;
 };
 

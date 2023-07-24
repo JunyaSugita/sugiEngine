@@ -332,7 +332,7 @@ bool Object3d::Initialize()
 	worldTransform_.SetPos(Vector3(0.0f, 0.0f, 0.0f));
 	worldTransform_.SetWorldMat();
 
-	//constMapTransform->mat = worldTransform.matWorld * matView * matProjecsion;
+	effectCloss_ = false;
 
 	return true;
 }
@@ -346,6 +346,7 @@ void Object3d::Update()
 	constMap_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
 	constMap_->world = ConvertToXMMATRIX(worldTransform_.GetMatWorld());
 	constMap_->cameraPos = *camera->GetEyeXM();
+	constMap_->effectCloss = effectCloss_;
 }
 
 void Object3d::Scale(const Vector3& scale)

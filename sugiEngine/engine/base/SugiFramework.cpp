@@ -37,10 +37,13 @@ void SugiFramework::Initialize()
 #pragma endregion
 
 	//PostEffect
-	postEffect = make_unique <PostEffect>();
 	uint32_t postNum = Sprite::LoadTexture("white1x1.png");
 
+	postEffect = make_unique <PostEffect>();
 	postEffect->Initialize(dxCom_->GetDevice());
+
+	postEffect2 = make_unique <PostEffectSecond>();
+	postEffect2->Initialize(dxCom_->GetDevice());
 }
 
 void SugiFramework::Finalize()

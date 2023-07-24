@@ -1,4 +1,4 @@
-#include "PostEffect.hlsli"
+#include "PostEffectSecond.hlsli"
 
 Texture2D<float4> tex0 : register(t0);
 Texture2D<float4> tex1 : register(t1);
@@ -200,8 +200,6 @@ float4 main(VSOutput input) : SV_TARGET
         col2 += tex1.Sample(smp, input.uv + float2(i, -i)) * weight;
         totalWeight2 += weight;
     }
-    col1 *= 5;
-    col2 *= 5;
     col1 += col2;
 
     col1 += float4((tex0.Sample(smp, input.uv) * color));
