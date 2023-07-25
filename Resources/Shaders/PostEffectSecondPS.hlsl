@@ -180,28 +180,5 @@ float4 main(VSOutput input) : SV_TARGET
 		return col1;
 	}
 
-    float sigma = 0.03f;
-    float stepWidth = 0.005f;
-    float4 col1 = float4(0, 0, 0, 1);
-    float totalWeight1 = 0;
-    float4 col2 = float4(0, 0, 0, 1);
-    float totalWeight2 = 0;
-    for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth)
-    {
-        float d = distance(input.uv, input.uv + float2(i, i));
-        float weight = exp(-(d * d) / (2 * sigma * sigma));
-        col1 += tex1.Sample(smp, input.uv + float2(i, i)) * weight;
-        totalWeight1 += weight;
-    }
-    for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth)
-    {
-        float d = distance(input.uv, input.uv + float2(i, -i));
-        float weight = exp(-(d * d) / (2 * sigma * sigma));
-        col2 += tex1.Sample(smp, input.uv + float2(i, -i)) * weight;
-        totalWeight2 += weight;
-    }
-    col1 += col2;
-
-    col1 += float4((tex0.Sample(smp, input.uv) * color));
-    return col1;
+    return float4((tex0.Sample(smp, input.uv) * color));
 }

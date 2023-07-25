@@ -128,7 +128,7 @@ void GameScene::Update()
 
 #pragma region ImGui
 #ifdef _DEBUG
-	{
+	/*{
 		Begin("PostEffect");
 		if (Button("Clear", { 100,30 })) {
 			PostEffect::SetClear();
@@ -177,7 +177,7 @@ void GameScene::Update()
 			ParticleManager::GetInstance()->Clear();
 		}
 		End();
-	}
+	}*/
 
 #endif
 #pragma endregion
