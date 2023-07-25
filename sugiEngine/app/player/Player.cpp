@@ -22,7 +22,7 @@ Player* Player::GetInstance()
 
 void Player::Initialize()
 {
-	pos_ = { 0,0,-50 };
+	pos_ = { 0,0,-40 };
 	rot_ = { 0,0,0 };
 	scale_ = { 1,1,1 };
 	cameraAngle_ = { 0,0 };
@@ -140,7 +140,7 @@ void Player::CameraMove()
 	float stickX = float(input->GetRSteckX()) / 32768.0f;
 	float stickY = float(input->GetRSteckY()) / 32768.0f;
 
-	if (input->GetLTrigger() < 50) {
+	if (input->GetLTrigger() < 50 && !(input->TriggerKey(DIK_1) || input->TriggerKey(DIK_2) || input->TriggerKey(DIK_3) || input->TriggerKey(DIK_4) || input->TriggerKey(DIK_5))) {
 		if (input->GetRSteckX()) {
 			cameraAngle_.x += SPEED_CAMERA * stickX;
 		}
@@ -161,30 +161,30 @@ void Player::CameraMove()
 	else {
 		Vector2 len = Vector2(input->GetRSteckX(), input->GetRSteckY());
 		float length = len.length();
-		if (len.length() > 20000) {
+		if (len.length() > 20000 || input->TriggerKey(DIK_1) || input->TriggerKey(DIK_2) || input->TriggerKey(DIK_3) || input->TriggerKey(DIK_4) || input->TriggerKey(DIK_5)) {
 			len.normalize();
 			if (input->GetRSteckX() != 0 && input->GetRSteckY() != 0) {
 				spellAngle_ = (atan2(len.cross({ 0,-1 }), -len.dot({ 0,-1 })) / PI * -RAD - (RAD / 2)) + RAD / 2 * 3;
 			}
 
 			//スティックを倒した方向の呪文に変える
-			if (spellAngle_ >= RAD && spellAngle_ < 72 + RAD) {
+			if (spellAngle_ >= RAD && spellAngle_ < 72 + RAD || input->TriggerKey(DIK_1)) {
 				presetSpell_ = FIRE_BALL;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
-			else if (spellAngle_ >= 72 + RAD && spellAngle_ < 144 + RAD) {
+			else if (spellAngle_ >= 72 + RAD && spellAngle_ < 144 + RAD || input->TriggerKey(DIK_2)) {
 				presetSpell_ = MAGIC_MISSILE;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
-			else if (spellAngle_ >= 144 + RAD && spellAngle_ < 180 + RAD || spellAngle_ >= 0 && spellAngle_ < 36) {
+			else if (spellAngle_ >= 144 + RAD && spellAngle_ < 180 + RAD || spellAngle_ >= 0 && spellAngle_ < 36 || input->TriggerKey(DIK_3)) {
 				presetSpell_ = ICE_BOLT;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
-			else if (spellAngle_ >= 36 && spellAngle_ < 108) {
+			else if (spellAngle_ >= 36 && spellAngle_ < 108 || input->TriggerKey(DIK_4)) {
 				presetSpell_ = CHAIN_LIGHTNING;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
-			else if (spellAngle_ >= 108 && spellAngle_ < RAD) {
+			else if (spellAngle_ >= 108 && spellAngle_ < RAD || input->TriggerKey(DIK_5)) {
 				presetSpell_ = FIRE_BALL;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}

@@ -318,7 +318,7 @@ void Enemy::UpdateDebuff()
 {
 	if (isDebuff()) {
 		if (debuff_.isFire) {
-			//ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, colObj_->GetPos());
+			ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, colObj_->GetPos());
 			if (debuff_.fireTime % (3 * 60) == 0) {
 				Enemy::SubLife(5, 10);
 			}
