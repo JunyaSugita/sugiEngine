@@ -14,6 +14,7 @@ void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 	obj_ = move(Object3d::Create());
 	obj_->SetModel(sModel_.get());
 	obj_->SetColor({ 1,0,1,1 });
+	obj_->SetEffectCross();
 
 	colObj_ = move(Object3d::Create());
 	colObj_->SetModel(sColModel_.get());
