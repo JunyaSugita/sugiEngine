@@ -22,6 +22,7 @@ void FieldManager::Initialize()
 	levelData_ = JsonLoader::LoadJson("level");
 
 	boxModel_ = move(Model::LoadFromObj("box"));
+	groundModel_ = move(Model::LoadFromObj("ground"));
 
 	objNum_ = 0;
 	for (auto& objectData : levelData_->obj) {
@@ -29,12 +30,34 @@ void FieldManager::Initialize()
 			//モデルを指定して3Dオブジェクトを生成
 			object_[objNum_] = make_unique<Object3d>();
 			object_[objNum_]->Initialize();
-			object_[objNum_]->SetModel(boxModel_.get());
+			object_[objNum_]->SetModel(groundModel_.get());
 
 			//obj情報
 			WorldTransform worldTransform;
 			worldTransform.SetPos(objectData.pos);
 			worldTransform.SetRot({0,0,0});
+			worldTransform.SetScale(objectData.scale);
+
+			object_[objNum_]->SetWorldTransform(worldTransform);
+			object_[objNum_]->Update();
+
+			BoxCol temp;
+			temp.pos = objectData.pos;
+			temp.size = objectData.scale;
+			col_.push_back(temp);
+
+			objNum_++;
+		}
+		if (objectData.filename == "ground") {
+			//モデルを指定して3Dオブジェクトを生成
+			object_[objNum_] = make_unique<Object3d>();
+			object_[objNum_]->Initialize();
+			object_[objNum_]->SetModel(groundModel_.get());
+
+			//obj情報
+			WorldTransform worldTransform;
+			worldTransform.SetPos(objectData.pos);
+			worldTransform.SetRot({ 0,0,0 });
 			worldTransform.SetScale(objectData.scale);
 
 			object_[objNum_]->SetWorldTransform(worldTransform);
