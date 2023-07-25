@@ -28,6 +28,7 @@ enum ParticleName {
 	P_ICE,
 	P_MAGIC_MISSILE,
 	P_LIGHTNING,
+	P_WEAPON,
 };
 
 class ParticleManager

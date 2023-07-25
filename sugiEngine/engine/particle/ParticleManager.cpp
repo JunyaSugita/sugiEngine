@@ -883,6 +883,14 @@ void ParticleManager::LoadParticleData()
 	}
 	fread(&particleData_[P_LIGHTNING], sizeof(particleData_[0]), 1, saveFile_);
 	fclose(saveFile_);
+
+	//ïêäÌ
+	fopen_s(&saveFile_, "Resources/particleData/weapon.dat", "rb");
+	if (saveFile_ == NULL) {
+		return;
+	}
+	fread(&particleData_[P_WEAPON], sizeof(particleData_[0]), 1, saveFile_);
+	fclose(saveFile_);
 }
 
 void ParticleManager::AddFromFile(uint8_t num, Vector3 pos)

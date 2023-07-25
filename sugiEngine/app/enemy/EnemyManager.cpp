@@ -48,7 +48,7 @@ void EnemyManager::Update()
 		//ƒvƒŒƒCƒ„[‚ªUŒ‚’†‚È‚ç
 		if (weapon->GetIsAt()) {
 			//“–‚½‚è”»’èŒŸõ
-			if ((enemy->GetPos() - weapon->GetHitPos()).length() < weapon->ATTACK_LENGTH) {
+			if ((enemy->GetPos() - weapon->GetHitPos()).length() < weapon->ATTACK_RADIUS) {
 				//“–‚½‚Á‚½”»’è‚ð“G‚É—^‚¦‚é
 				enemy->SetIsHit(10,20);
 			}

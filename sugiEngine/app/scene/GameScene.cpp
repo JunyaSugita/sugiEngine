@@ -74,7 +74,10 @@ void GameScene::Update()
 #pragma region デバッグ用
 	if (!particleE_->GetIsEdit(0)) {
 
-
+		if (input->TriggerKey(DIK_P)) {
+			ParticleManager::GetInstance()->Clear();
+			GameManager::GetInstance()->SetTitleScene();
+		}
 		if (input->TriggerKey(DIK_R)) {
 			Initialize();
 		}
@@ -184,11 +187,6 @@ void GameScene::Update()
 
 	clearChecker_.Update();
 	gameOver_.Update();
-
-	if (input->TriggerKey(DIK_P)) {
-		ParticleManager::GetInstance()->Clear();
-		GameManager::GetInstance()->SetTitleScene();
-	}
 }
 
 void GameScene::BackSpriteDraw()

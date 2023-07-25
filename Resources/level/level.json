@@ -7,8 +7,8 @@
             "transform": {
                 "translation": [
                     0.0,
-                    -11.0,
-                    1.0
+                    -50.0,
+                    10.0
                 ],
                 "rotation": [
                     0.0,
@@ -16,9 +16,9 @@
                     0.0
                 ],
                 "scaling": [
-                    10.0,
+                    50.0,
                     0.5,
-                    1.0
+                    10.0
                 ]
             },
             "file_name": "box"
@@ -117,8 +117,8 @@
             "transform": {
                 "translation": [
                     0.0,
-                    11.0,
-                    1.0
+                    50.0,
+                    10.0
                 ],
                 "rotation": [
                     0.0,
@@ -126,9 +126,9 @@
                     0.0
                 ],
                 "scaling": [
-                    10.0,
+                    50.0,
                     0.5,
-                    1.0
+                    10.0
                 ]
             },
             "file_name": "box"
@@ -201,94 +201,6 @@
         },
         {
             "type": "MESH",
-            "name": "Cube.009",
-            "transform": {
-                "translation": [
-                    50.0,
-                    0.0,
-                    10.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.5,
-                    30.0,
-                    10.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.010",
-            "transform": {
-                "translation": [
-                    -20.0,
-                    0.0,
-                    10.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.5,
-                    30.0,
-                    10.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.011",
-            "transform": {
-                "translation": [
-                    15.0,
-                    30.0,
-                    10.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    35.0,
-                    0.5,
-                    10.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.012",
-            "transform": {
-                "translation": [
-                    15.0,
-                    -30.0,
-                    10.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    35.0,
-                    0.5,
-                    10.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
             "name": "Cube.013",
             "transform": {
                 "translation": [
@@ -314,9 +226,9 @@
             "name": "Cube.014",
             "transform": {
                 "translation": [
-                    10.0,
+                    50.0,
                     0.0,
-                    1.0
+                    10.0
                 ],
                 "rotation": [
                     0.0,
@@ -325,8 +237,8 @@
                 ],
                 "scaling": [
                     0.5,
-                    10.0,
-                    1.0
+                    50.0,
+                    10.0
                 ]
             },
             "file_name": "box"
@@ -336,9 +248,9 @@
             "name": "Cube.015",
             "transform": {
                 "translation": [
-                    -10.0,
+                    -50.0,
                     0.0,
-                    1.0
+                    10.0
                 ],
                 "rotation": [
                     0.0,
@@ -347,7 +259,161 @@
                 ],
                 "scaling": [
                     0.5,
+                    50.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.016",
+            "transform": {
+                "translation": [
+                    -20.0,
+                    20.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.017",
+            "transform": {
+                "translation": [
+                    -20.0,
+                    -20.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.018",
+            "transform": {
+                "translation": [
+                    30.0,
+                    -30.0,
+                    1.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    1.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.019",
+            "transform": {
+                "translation": [
+                    30.0,
+                    30.0,
+                    1.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
                     10.0,
+                    1.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.020",
+            "transform": {
+                "translation": [
+                    30.0,
+                    -30.0,
+                    3.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    2.0,
+                    2.0,
+                    1.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.021",
+            "transform": {
+                "translation": [
+                    30.0,
+                    30.0,
+                    3.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.022",
+            "transform": {
+                "translation": [
+                    30.0,
+                    30.0,
+                    1.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    1.0,
                     1.0
                 ]
             },
