@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "EnemyManager.h"
 #include "SpellManager.h"
+#include "ParticleManager.h"
 
 using namespace ImGui;
 
@@ -107,11 +108,11 @@ void PlayerWeapon::SpellMove()
 	if (--easeTimer_ > 0) {
 		Player* player = Player::GetInstance();
 
-		float nowTime = easeTimer_;
+		float nowTime = easeTimer_ / 19;
 
 		pos_ = player->GetPos();
 		pos_.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
-		pos_.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f + (nowTime / 10));
+		pos_.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f + EaseOut(nowTime,2));
 		pos_.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
 		rot_ = { (player->GetCameraAngle().y + 90) * -1,player->GetCameraAngle().x,0 };
 	}
@@ -143,11 +144,16 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 
 	float nowTime = player->GetTime();
 
+	float easeTime = nowTime / 45.0f;
+	if (easeTime >= 1.0f) {
+		easeTime = 1.0f;
+	}
+
 	pos_ = player->GetPos();
 	pos_.x += float(sin(Radian(player->GetCameraAngle().x)) * 2);
-	pos_.y = 3.5f + (nowTime / 30);
+	pos_.y = EaseOut(easeTime,6);
 	pos_.z += float(cos(Radian(player->GetCameraAngle().x)) * 2);
-	rot_ = { 120 - nowTime * 4,player->GetCameraAngle().x - 5,0 };
+	rot_ = { 130 - EaseIn(easeTime,130),player->GetCameraAngle().x - 5,0 };
 	if (isAttackOn) {
 		//obj_->SetColor({ 1,0,0,1 });
 		isAt_ = true;
@@ -158,6 +164,9 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 		isAt_ = false;
 		EnemyManager::GetInstance()->ResetIsHit();
 	}
+
+	WorldTransUpdate();
+	ParticleManager::GetInstance()->AddFromFile(P_WEAPON, pos_);
 }
 
 void PlayerWeapon::AttackCol()
