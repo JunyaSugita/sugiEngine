@@ -60,7 +60,7 @@ void Tutorial::Update()
 		break;
 	case 3:
 		sprite_.SetTexture(tex4_);
-		if (Player::GetInstance()->GetPresetSpell() == MAGIC_MISSILE) {
+		if (Player::GetInstance()->GetPresetSpell() != FIRE_BALL) {
 			isNext_ = true;
 		}
 
