@@ -8,7 +8,6 @@
 #include <string>
 #include <DirectXMath.h>
 #include <DirectXTex.h>
-using namespace DirectX;
 
 class WorldTransform {
 private:

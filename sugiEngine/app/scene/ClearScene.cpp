@@ -1,5 +1,7 @@
 #include "ClearScene.h"
 
+using namespace std;
+
 void ClearScene::Initialize()
 {
 	// レベルデータの読み込み

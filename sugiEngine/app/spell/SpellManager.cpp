@@ -2,6 +2,8 @@
 #include "Input.h"
 #include "Player.h"
 
+using namespace std;
+
 SpellManager::SpellManager()
 {
 }

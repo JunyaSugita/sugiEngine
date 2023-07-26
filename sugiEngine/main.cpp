@@ -3,7 +3,7 @@
 
 //windowsのエントリーポイント
 int32_t WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int32_t) {
-	unique_ptr<SugiFramework> game = make_unique<MyGame>();
+	std::unique_ptr<SugiFramework> game = std::make_unique<MyGame>();
 
 	game->Run();
 

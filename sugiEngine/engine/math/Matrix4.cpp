@@ -1,5 +1,7 @@
 #include "Matrix4.h"
 
+using namespace DirectX;
+
 Matrix4::Matrix4() {
 	for (int32_t i = 0; i < 4; i++) {
 		for (int32_t j = 0; j < 4; j++) {

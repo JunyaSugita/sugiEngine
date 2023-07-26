@@ -24,7 +24,7 @@ public:
 
 	std::vector<Enemy*> GetEnemysList() {
 		enemysList_.clear();
-		for (unique_ptr<Enemy>& enemy : enemys_) {
+		for (std::unique_ptr<Enemy>& enemy : enemys_) {
 			enemysList_.push_back(enemy.get());
 		}
 		return enemysList_;

@@ -13,8 +13,8 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	struct VertexSp {
-		XMFLOAT3 pos;
-		XMFLOAT2 uv;
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT2 uv;
 	};
 
 	struct ConstBufferDataEffect {
@@ -127,7 +127,7 @@ private:
 	WorldTransform worldTransform_;
 	Vector2 pos_ = { 0,0 };
 	float rotate_ = 0; //ŒÊ“x–@
-	XMFLOAT4 color_ = { 1,1,1,1 };
+	DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
 	Vector2 size_ = { WIN_WIDTH,WIN_HEIGHT };
 	Vector2 anchorPoint_ = { 0,0 };	//0.0f ~ 1.0f
 	bool isFlipX_ = false;

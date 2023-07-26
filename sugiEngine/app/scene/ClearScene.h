@@ -37,6 +37,6 @@ private:
 	
 	int32_t playerNum_;
 
-	unique_ptr<LightGroup> lightGroup_ = nullptr;
+	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 };
 

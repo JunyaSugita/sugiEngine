@@ -1,6 +1,8 @@
 #include "Camera.h"
 #include <random>
 
+using namespace DirectX;
+
 Camera::Camera()
 {
 }

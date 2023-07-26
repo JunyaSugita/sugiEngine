@@ -6,11 +6,10 @@
 #include "Vector2.h"
 
 #include <DirectXMath.h>
-using namespace DirectX;
 
 struct VertexSp {
-	XMFLOAT3 pos;
-	XMFLOAT2 uv;
+	DirectX::XMFLOAT3 pos;
+	DirectX::XMFLOAT2 uv;
 };
 
 class Sprite
@@ -98,7 +97,7 @@ protected:
 	WorldTransform worldTransform_;
 	Vector2 pos_;
 	float rotate_;
-	XMFLOAT4 color_ = {1,1,1,1};
+	DirectX::XMFLOAT4 color_ = {1,1,1,1};
 	Vector2 size_ = { 100.0f,100.0f };
 	Vector2 anchorPoint_ = {0.0f,0.0f};
 	bool isFlipX_ = false;

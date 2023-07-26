@@ -30,9 +30,9 @@ public:
 
 private:
 	//ƒ‰ƒCƒgŠÖ˜A
-	unique_ptr<LightGroup> lightGroup_ = nullptr;
+	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 
-	unique_ptr<ParticleEditor> particleE_ = nullptr;
+	std::unique_ptr<ParticleEditor> particleE_ = nullptr;
 
 	ClearChecker clearChecker_;
 	GameOver gameOver_;

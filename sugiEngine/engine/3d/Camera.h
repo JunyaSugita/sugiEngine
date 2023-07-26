@@ -55,7 +55,7 @@ public:
 		}
 		return eye_[num];
 	}
-	const XMFLOAT3* GetEyeXM(int32_t num = -1) {
+	const DirectX::XMFLOAT3* GetEyeXM(int32_t num = -1) {
 		if (num == -1) {
 			eyeXM_.x = eye_[activeNum_].x;
 			eyeXM_.y = eye_[activeNum_].y;
@@ -129,7 +129,7 @@ public:
 		return target_[num];
 	}
 
-	const XMFLOAT3* GetTargetXM(int32_t num = -1) {
+	const DirectX::XMFLOAT3* GetTargetXM(int32_t num = -1) {
 		if (num == -1) {
 			targetXM_.x = target_[activeNum_].x;
 			targetXM_.y = target_[activeNum_].y;
@@ -158,7 +158,7 @@ public:
 		}
 		return up_[num];
 	}
-	const XMFLOAT3* GetUpXM(int32_t num = -1) {
+	const DirectX::XMFLOAT3* GetUpXM(int32_t num = -1) {
 		if (num == -1) {
 			upXM_.x = up_[activeNum_].x;
 			upXM_.y = up_[activeNum_].y;
@@ -191,14 +191,14 @@ private:
 	Vector3 eye_[MAX_NUM];	//視点座標
 	Vector3 target_[MAX_NUM];	//注視点座標
 	Vector3 up_[MAX_NUM];		//上方向ベクトル
-	XMFLOAT3 eyeXM_;
-	XMFLOAT3 targetXM_;
-	XMFLOAT3 upXM_;
+	DirectX::XMFLOAT3 eyeXM_;
+	DirectX::XMFLOAT3 targetXM_;
+	DirectX::XMFLOAT3 upXM_;
 
 	//並行投影行列
-	XMMATRIX ortho_;
+	DirectX::XMMATRIX ortho_;
 	//透視投影変換行列の計算
-	XMMATRIX perspective_;
+	DirectX::XMMATRIX perspective_;
 
 	Matrix4 matProjection_;
 	Matrix4 matView_;

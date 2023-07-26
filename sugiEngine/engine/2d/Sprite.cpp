@@ -5,6 +5,7 @@
 
 using namespace Microsoft::WRL;
 using namespace std;
+using namespace DirectX;
 
 ComPtr<ID3D12Device> Sprite::sDevice = nullptr;
 ComPtr<ID3D12PipelineState> Sprite::sPipelineState = nullptr;

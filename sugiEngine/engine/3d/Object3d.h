@@ -13,14 +13,12 @@
 #include "LightGroup.h"
 #include "Camera.h"
 
-using namespace std;
-
 //定数バッファ用データ構造体B0
 struct ConstBufferDataB0 {
 	//Matrix4 mat;
-	XMMATRIX viewproj;
-	XMMATRIX world;
-	XMFLOAT3 cameraPos;
+	DirectX::XMMATRIX viewproj;
+	DirectX::XMMATRIX world;
+	DirectX::XMFLOAT3 cameraPos;
 	bool effectCloss;
 };
 
@@ -93,7 +91,7 @@ private:
 	WorldTransform worldTransform_;
 
 	Model* model_ = nullptr;
-	XMFLOAT4 color_ = {1,1,1,1};
+	DirectX::XMFLOAT4 color_ = {1,1,1,1};
 	static LightGroup* lightGroup_;
 
 	bool effectCloss_;

@@ -15,19 +15,19 @@ class Model
 public:
 	//頂点データ構造体
 	struct Vertex {
-		XMFLOAT3 pos;	//xyz
-		XMFLOAT3 normal;//法線ベクトル
-		XMFLOAT2 uv;	//uv座標
+		DirectX::XMFLOAT3 pos;	//xyz
+		DirectX::XMFLOAT3 normal;//法線ベクトル
+		DirectX::XMFLOAT2 uv;	//uv座標
 	};
 
 	//マテリアル
 	struct Material {
 		std::string name;	//マテリアル名
-		XMFLOAT3 ambient;	//アンビエント影響度
-		XMFLOAT3 diffuse;	//ディフューズ影響度
-		XMFLOAT3 specular;	//スペキュラー影響度
+		DirectX::XMFLOAT3 ambient;	//アンビエント影響度
+		DirectX::XMFLOAT3 diffuse;	//ディフューズ影響度
+		DirectX::XMFLOAT3 specular;	//スペキュラー影響度
 		float alpha;		//アルファ
-		XMFLOAT4 color;
+		DirectX::XMFLOAT4 color;
 		std::string textureFilename;	//テクスチャファイル名
 		//コンストラクタ
 		Material() {
@@ -41,13 +41,13 @@ public:
 
 	//定数バッファ用データ構造体B1
 	struct ConstBufferDataB1 {
-		XMFLOAT3 ambient;	//アンビエント係数
+		DirectX::XMFLOAT3 ambient;	//アンビエント係数
 		float pad1;			//パディング
-		XMFLOAT3 diffuse;	//ディフューズ係数
+		DirectX::XMFLOAT3 diffuse;	//ディフューズ係数
 		float pad2;			//パディング
-		XMFLOAT3 specular;	//スペキュラー係数
+		DirectX::XMFLOAT3 specular;	//スペキュラー係数
 		float alpha;		//アルファ
-		XMFLOAT4 color;
+		DirectX::XMFLOAT4 color;
 	};
 
 
@@ -75,7 +75,7 @@ public:
 
 	void CreateBuffers();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootparamIndexMaterial,const XMFLOAT4& color);
+	void Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootparamIndexMaterial,const DirectX::XMFLOAT4& color);
 
 	inline size_t GetVertexCount() {
 		return vertices_.size();

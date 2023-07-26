@@ -7,6 +7,7 @@
 
 using namespace Microsoft::WRL;
 using namespace std;
+using namespace DirectX;
 
 /// <summary>
 /// Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ô

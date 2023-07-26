@@ -5,6 +5,7 @@
 #include "Input.h"
 
 using namespace std;
+using namespace DirectX;
 
 const float PostEffectSecond::CLEAR_COLOR[4] = { 0.0f,0.0f,0.0f,0.0f };
 bool PostEffectSecond::sIsBlur = false;

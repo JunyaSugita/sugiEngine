@@ -60,7 +60,7 @@ public:
 
 	std::vector<FireBall*> GetFireBallsCol() {
 		fireBallsList_.clear();
-		for (unique_ptr<FireBall>& fireBall : fireBalls_) {
+		for (std::unique_ptr<FireBall>& fireBall : fireBalls_) {
 			fireBallsList_.push_back(fireBall.get());
 		}
 		return fireBallsList_;
@@ -68,7 +68,7 @@ public:
 
 	std::vector<MagicMissile*> GetMagicMissilesCol() {
 		magicMissilesList_.clear();
-		for (unique_ptr<MagicMissile>& magicMissile : magicMissiles_) {
+		for (std::unique_ptr<MagicMissile>& magicMissile : magicMissiles_) {
 			magicMissilesList_.push_back(magicMissile.get());
 		}
 		return magicMissilesList_;
@@ -76,7 +76,7 @@ public:
 
 	std::vector<IceBolt*> GetIceBoltsCol() {
 		iceBoltsList_.clear();
-		for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
+		for (std::unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 			iceBoltsList_.push_back(iceBolt.get());
 		}
 		return iceBoltsList_;
@@ -84,7 +84,7 @@ public:
 
 	std::vector<ChainLightning*> GetChainLightningsCol() {
 		chainLightningsList_.clear();
-		for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
+		for (std::unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
 			chainLightningsList_.push_back(chainLightning.get());
 		}
 		return chainLightningsList_;

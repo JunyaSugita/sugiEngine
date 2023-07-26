@@ -1,5 +1,7 @@
 #include "WorldTransform.h"
 
+using namespace DirectX;
+
 void WorldTransform::SetMatScale(Matrix4& matScale, const Vector3& scale) {
 	matScale.m[0][0] = scale.x;
 	matScale.m[1][1] = scale.y;

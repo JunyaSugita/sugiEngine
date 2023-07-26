@@ -1,6 +1,8 @@
 #include "FieldManager.h"
 #include "EnemyManager.h"
 
+using namespace std;
+
 FieldManager::FieldManager()
 {
 }

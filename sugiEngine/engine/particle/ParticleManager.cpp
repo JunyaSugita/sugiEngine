@@ -9,6 +9,7 @@
 
 using namespace Microsoft::WRL;
 using namespace std;
+using namespace DirectX;
 
 ComPtr<ID3D12Device> ParticleManager::sDevice = nullptr;
 ComPtr<ID3D12PipelineState> ParticleManager::sPipelineState = nullptr;

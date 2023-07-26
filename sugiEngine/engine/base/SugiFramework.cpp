@@ -3,6 +3,8 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+using namespace std;
+
 void SugiFramework::Initialize()
 {
 	winApp_ = make_unique<WinApp>();

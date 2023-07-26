@@ -1,6 +1,5 @@
 #pragma once
 #include <DirectXMath.h>
-using namespace DirectX;
 
 class Matrix4 {
 public:
@@ -23,5 +22,5 @@ public:
 	Matrix4 operator*(const Matrix4& m2)const;
 };
 
-Matrix4 ConvertToMatrix4(const XMMATRIX& xmmatrix);
-XMMATRIX ConvertToXMMATRIX(const Matrix4& matrix4);
+Matrix4 ConvertToMatrix4(const DirectX::XMMATRIX& xmmatrix);
+DirectX::XMMATRIX ConvertToXMMATRIX(const Matrix4& matrix4);

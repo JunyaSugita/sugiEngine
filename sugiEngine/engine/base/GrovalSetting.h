@@ -8,7 +8,7 @@ static const uint8_t MULTI_RENDAR_TARGET_NUM = 8;
 
 //定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDataMaterial {
-	XMFLOAT4 color;	//色(RGBA)
+	DirectX::XMFLOAT4 color;	//色(RGBA)
 };
 
 //定数バッファ用データ構造体(3D変換行列)

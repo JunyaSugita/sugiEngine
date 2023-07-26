@@ -51,14 +51,14 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	struct VertexSp {
-		XMFLOAT3 pos;
+		DirectX::XMFLOAT3 pos;
 		float scale;
-		XMFLOAT4 color;
+		DirectX::XMFLOAT4 color;
 	};
 
 	struct ConstBuffB1 {
-		XMMATRIX mat;
-		XMMATRIX billboard;
+		DirectX::XMMATRIX mat;
+		DirectX::XMMATRIX billboard;
 	};
 
 public:
@@ -141,7 +141,7 @@ protected:
 	WorldTransform worldTransform_;
 	Vector3 pos_;
 	float rotate_;
-	XMFLOAT4 color_ = { 1,1,1,1 };
+	DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
 	Vector2 size_ = { 100.0f,100.0f };
 	Vector2 anchorPoint_ = { 0.5f,0.5f };
 	bool isFlipX_ = false;

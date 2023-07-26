@@ -24,6 +24,6 @@ private:
 	std::unique_ptr<Object3d> sphereObj_[2];
 	WorldTransform sphereWorldTransform_[2];
 
-	unique_ptr<LightGroup> lightGroup_ = nullptr;
+	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 };
 

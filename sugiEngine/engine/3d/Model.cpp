@@ -2,6 +2,7 @@
 #include "DirectXTex.h"
 
 using namespace std;
+using namespace DirectX;
 
 ID3D12Device* Model::sDevice = nullptr;
 
