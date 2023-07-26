@@ -3,6 +3,7 @@ cbuffer cbuff0 : register(b0)
 	matrix viewproj;
 	matrix world;
 	float3 cameraPos;
+    bool isSimple;
     bool isEffectCross;
 };
 

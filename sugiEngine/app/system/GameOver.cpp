@@ -9,6 +9,7 @@ void GameOver::Initialize()
 	gauge_.Set({ WIN_WIDTH / 2,700 }, { 500,50 }, {0.2f,0.8f,0.2f});
 
 	blur_ = 0;
+	PostEffectSecond::SetBlur((int32_t)blur_);
 }
 
 void GameOver::Update()

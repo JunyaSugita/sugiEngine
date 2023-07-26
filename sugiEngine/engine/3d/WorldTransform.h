@@ -129,6 +129,14 @@ public:
 	Matrix4 GetMatWorld() {
 		return matWorld_;
 	}
+	Vector3 GetMatPos() {
+		Vector3 temp;
+		temp.x = matWorld_.m[3][0];
+		temp.y = matWorld_.m[3][1];
+		temp.z = matWorld_.m[3][2];
+
+		return temp;
+	}
 
 public:
 	//ƒAƒtƒBƒ“•ÏŠ·î•ñ

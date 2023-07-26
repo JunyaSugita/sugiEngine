@@ -83,6 +83,10 @@ public:
 	}
 
 	void SetIsAttack();
+
+	static void SetIsDebugStop() {
+		sIsDebugStop_ = (sIsDebugStop_ + 1) % 2;
+	}
 private:
 	void SetCol();
 	
@@ -107,6 +111,7 @@ private:
 private:
 	static std::unique_ptr<Model> sEyeModel_;
 	static std::unique_ptr<Model> sColModel_;
+	static bool sIsDebugStop_;
 private:
 	//–{‘Ì
 	WorldTransform worldTrans_;

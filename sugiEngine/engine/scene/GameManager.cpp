@@ -5,7 +5,7 @@
 
 GameManager::GameManager()
 {
-	scene_ = std::make_unique<GameScene>();
+	scene_ = std::make_unique<TitleScene>();
 	scene_->Initialize();
 }
 
@@ -32,6 +32,11 @@ void GameManager::Draw()
 void GameManager::ObjDraw()
 {
 	scene_->ObjDraw();
+}
+
+void GameManager::ObjDraw2()
+{
+	scene_->ObjDraw2();
 }
 
 void GameManager::ParticleDraw()

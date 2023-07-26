@@ -76,6 +76,7 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 	}
 
 	WorldTransUpdate();
+	//ParticleManager::GetInstance()->AddFromFile(P_WEAPON_FIRE, orbTrans_.GetMatPos());
 }
 
 void PlayerWeapon::Draw()
@@ -166,7 +167,7 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 	}
 
 	WorldTransUpdate();
-	ParticleManager::GetInstance()->AddFromFile(P_WEAPON, pos_);
+	ParticleManager::GetInstance()->AddFromFile(P_WEAPON, orbTrans_.GetMatPos());
 }
 
 void PlayerWeapon::AttackCol()

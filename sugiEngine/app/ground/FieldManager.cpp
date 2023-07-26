@@ -64,6 +64,7 @@ void FieldManager::Initialize()
 
 			object_[objNum_]->SetWorldTransform(worldTransform);
 			object_[objNum_]->Update();
+			object_[objNum_]->SetColor({ 1,1,1,0.5f });
 
 			BoxCol temp;
 			temp.pos = objectData.pos;

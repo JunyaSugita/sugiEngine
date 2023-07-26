@@ -892,6 +892,22 @@ void ParticleManager::LoadParticleData()
 	}
 	fread(&particleData_[P_WEAPON], sizeof(particleData_[0]), 1, saveFile_);
 	fclose(saveFile_);
+
+	//武器(火属性)
+	fopen_s(&saveFile_, "Resources/particleData/fireWeapon.dat", "rb");
+	if (saveFile_ == NULL) {
+		return;
+	}
+	fread(&particleData_[P_WEAPON_FIRE], sizeof(particleData_[0]), 1, saveFile_);
+	fclose(saveFile_);
+
+	//デバフ　ファイア
+	fopen_s(&saveFile_, "Resources/particleData/debuffFire.dat", "rb");
+	if (saveFile_ == NULL) {
+		return;
+	}
+	fread(&particleData_[P_DEBUFF_FIRE], sizeof(particleData_[0]), 1, saveFile_);
+	fclose(saveFile_);
 }
 
 void ParticleManager::AddFromFile(uint8_t num, Vector3 pos)
