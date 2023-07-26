@@ -132,56 +132,57 @@ void GameScene::Update()
 
 #pragma region ImGui
 #ifdef _DEBUG
-	/*{
-		Begin("PostEffect");
-		if (Button("Clear", { 100,30 })) {
-			PostEffect::SetClear();
-		}
-		if (Button("Blur", { 100,30 })) {
-			PostEffect::SetBlur();
-		}
-		if (Button("InvertColor", { 100,30 })) {
-			PostEffect::SetInvertColor();
-		}
-		if (Button("Border", { 100,30 })) {
-			PostEffect::SetBorder();
-		}
-		if (Button("Gray", { 100,30 })) {
-			PostEffect::SetGray();
-		}
-		if (Button("Bloom", { 100,30 })) {
-			PostEffect::SetBloom();
-		}
-		if (Button("Closs4", { 100,30 })) {
-			PostEffect::SetCloss4();
-		}
-		if (Button("Closs6", { 100,30 })) {
-			PostEffect::SetCloss6();
-		}
-		if (Button("Closs8", { 100,30 })) {
-			PostEffect::SetCloss8();
-		}
-		End();
+	{
+		//Begin("PostEffect");
+		//if (Button("Clear", { 100,30 })) {
+		//	PostEffect::SetClear();
+		//}
+		//if (Button("Blur", { 100,30 })) {
+		//	PostEffect::SetBlur();
+		//}
+		//if (Button("InvertColor", { 100,30 })) {
+		//	PostEffect::SetInvertColor();
+		//}
+		//if (Button("Border", { 100,30 })) {
+		//	PostEffect::SetBorder();
+		//}
+		//if (Button("Gray", { 100,30 })) {
+		//	PostEffect::SetGray();
+		//}
+		//if (Button("Bloom", { 100,30 })) {
+		//	PostEffect::SetBloom();
+		//}
+		//if (Button("Closs4", { 100,30 })) {
+		//	PostEffect::SetCloss4();
+		//}
+		//if (Button("Closs6", { 100,30 })) {
+		//	PostEffect::SetCloss6();
+		//}
+		//if (Button("Closs8", { 100,30 })) {
+		//	PostEffect::SetCloss8();
+		//}
+		//End();
 
-		Begin("PlayerState");
-		Text("Life %d", player->GetLife());
-		End();
-
-		Begin("DebugButton");
-		if (Button("Reset", { 150,30 })) {
-			Initialize();
-		}
-		if (Button("EnemyPop", { 150,30 })) {
-			enemyM->PopEnemy();
-		}
-		if (Button("ShowHitBox", { 150,30 })) {
-			colM->ChangeIsShowHitBox();
-		}
-		if (Button("particleClear", { 150,30 })) {
-			ParticleManager::GetInstance()->Clear();
+		Begin("EnemyDebug");
+		if (Button("stop", { 150,30 })) {
+			Enemy::SetIsDebugStop();
 		}
 		End();
-	}*/
+		//Begin("DebugButton");
+		//if (Button("Reset", { 150,30 })) {
+		//	Initialize();
+		//}
+		//if (Button("EnemyPop", { 150,30 })) {
+		//	enemyM->PopEnemy();
+		//}
+		//if (Button("ShowHitBox", { 150,30 })) {
+		//	colM->ChangeIsShowHitBox();
+		//}
+		//if (Button("particleClear", { 150,30 })) {
+		//	ParticleManager::GetInstance()->Clear();
+		//}
+		//End();
+	}
 
 #endif
 #pragma endregion
@@ -203,10 +204,16 @@ void GameScene::ObjDraw()
 	if (!particleE_->GetIsEdit(0)) {
 		FieldManager::GetInstance()->Draw();
 
-		Player::GetInstance()->Draw();
 		EnemyManager::GetInstance()->Draw();
 		EffectManager::GetInstance()->Draw();
 		SpellManager::GetInstance()->Draw();
+	}
+}
+
+void GameScene::ObjDraw2()
+{
+	if (!particleE_->GetIsEdit(0)) {
+		Player::GetInstance()->Draw();
 	}
 }
 

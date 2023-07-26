@@ -8,11 +8,13 @@
 
 std::unique_ptr<Model> Enemy::sEyeModel_;
 std::unique_ptr<Model> Enemy::sColModel_;
+bool Enemy::sIsDebugStop_;
 
 void Enemy::OneTimeInitialize()
 {
 	sEyeModel_ = move(Model::LoadFromObj("sphere", true));
 	sColModel_ = move(Model::LoadFromObj("box"));
+	sIsDebugStop_ = true;
 }
 
 void Enemy::Initialize(Vector3 pos)
@@ -85,7 +87,7 @@ void Enemy::Update()
 
 	//“®‚¯‚é‚©‚Ç‚¤‚©
 	if (isCanMove()) {
-		if (!isAttack_) {
+		if (!isAttack_ && !sIsDebugStop_) {
 			//ˆÚ“®
 			Move();
 		}
@@ -318,7 +320,7 @@ void Enemy::UpdateDebuff()
 {
 	if (isDebuff()) {
 		if (debuff_.isFire) {
-			ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, colObj_->GetPos());
+			ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, colObj_->GetPos());
 			if (debuff_.fireTime % (3 * 60) == 0) {
 				Enemy::SubLife(5, 10);
 			}

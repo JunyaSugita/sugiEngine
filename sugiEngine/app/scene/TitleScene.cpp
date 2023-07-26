@@ -61,6 +61,10 @@ void TitleScene::ObjDraw()
 {
 }
 
+void TitleScene::ObjDraw2()
+{
+}
+
 void TitleScene::ParticleDraw()
 {
 	ParticleManager::GetInstance()->Draw();

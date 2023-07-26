@@ -333,6 +333,7 @@ bool Object3d::Initialize()
 	worldTransform_.SetPos(Vector3(0.0f, 0.0f, 0.0f));
 	worldTransform_.SetWorldMat();
 
+	isSimple_ = false;
 	effectCloss_ = false;
 
 	return true;
@@ -347,6 +348,7 @@ void Object3d::Update()
 	constMap_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
 	constMap_->world = ConvertToXMMATRIX(worldTransform_.GetMatWorld());
 	constMap_->cameraPos = *camera->GetEyeXM();
+	constMap_->simple = isSimple_;
 	constMap_->effectCloss = effectCloss_;
 }
 

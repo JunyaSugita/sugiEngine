@@ -19,6 +19,7 @@ struct ConstBufferDataB0 {
 	DirectX::XMMATRIX viewproj;
 	DirectX::XMMATRIX world;
 	DirectX::XMFLOAT3 cameraPos;
+	bool simple;
 	bool effectCloss;
 };
 
@@ -69,6 +70,9 @@ public:
 		lightGroup_ = lightGroup;
 	}
 
+	void SetIsSimple() {
+		isSimple_ = true;
+	}
 	void SetEffectCross() {
 		effectCloss_ = true;
 	}
@@ -94,6 +98,7 @@ private:
 	DirectX::XMFLOAT4 color_ = {1,1,1,1};
 	static LightGroup* lightGroup_;
 
+	bool isSimple_;
 	bool effectCloss_;
 };
 

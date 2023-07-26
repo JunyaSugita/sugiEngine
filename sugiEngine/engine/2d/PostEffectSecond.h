@@ -53,6 +53,10 @@ public:
 	}
 
 	static void SetBlur(int32_t sigma = 5) {
+		if (sigma <= 0) {
+			SetClear();
+			return;
+		}
 		SetClear();
 		sIsBlur = true;
 		sSigma = sigma;

@@ -24,6 +24,8 @@ void sceneChange::Initialize()
 	sceneSp_.Initialize(sceneTex_);
 	sceneSp_.SetSize(WIN_WIDTH,WIN_HEIGHT);
 	sceneSp_.SetPos(pos_.x,pos_.y);
+
+	easeTimer_ = 0;
 }
 
 void sceneChange::Update()

@@ -47,8 +47,8 @@ private:
 
 public:
 	const float SPEED_MOVE = 0.5f;
-	const float ATTACK_RADIUS = 2.0f;
-	const float ATTACK_LENGTH = 2;
+	const float ATTACK_RADIUS = 3.0f;
+	const float ATTACK_LENGTH = 5;
 
 private:
 	//–{‘Ì

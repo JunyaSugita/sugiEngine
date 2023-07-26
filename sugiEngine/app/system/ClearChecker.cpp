@@ -10,6 +10,7 @@ void ClearChecker::Initialize()
 	gauge_.Set({ WIN_WIDTH / 2,100 }, {800,50},{0.6f,0,0});
 
 	blur_ = 0;
+	//PostEffectSecond::SetBlur((int32_t)blur_);
 }
 
 void ClearChecker::Update()
