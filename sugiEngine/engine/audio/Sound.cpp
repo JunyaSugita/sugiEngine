@@ -120,37 +120,24 @@ void Sound::PlayWave(const string& filename, bool isLoop)
 	sourceVoices_.insert(std::make_pair(filename, pSourceVoice));
 }
 
-void Sound::ReSetPlayWave(const std::string& filename, bool isLoop)
+void Sound::RePlayWave(const std::string& filename, bool isLoop)
 {
-	HRESULT result;
-
 	//重複チェック
 	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
 		StopWave(filename);
 	};
 
-	map<string, SoundData>::iterator it = soundDatas_.find(filename);
-	assert(it != soundDatas_.end());
+	PlayWave(filename);
+}
 
-	SoundData& soundData = it->second;
-
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	result = xAudio2_->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
-	assert(SUCCEEDED(result));
-
-	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData.pBuffer;
-	buf.AudioBytes = soundData.bufferSize;
-	buf.Flags = XAUDIO2_END_OF_STREAM;
-	if (isLoop) {
-		buf.LoopCount = XAUDIO2_LOOP_INFINITE;
-	}
-
-	result = pSourceVoice->SubmitSourceBuffer(&buf);
-	result = pSourceVoice->Start();
-
-
-	sourceVoices_.insert(std::make_pair(filename, pSourceVoice));
+void Sound::TogglePlayWave(const std::string& filename, bool isLoop)
+{
+	//重複チェック
+	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
+		StopWave(filename);
+		return;
+	};
+	PlayWave(filename);
 }
 
 void Sound::StopWave(const string& filename)
