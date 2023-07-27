@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "ParticleManager.h"
 #include "sceneChange.h"
-#include "UIManager.h"
 
 void TitleScene::Initialize()
 {
@@ -14,7 +13,7 @@ void TitleScene::Initialize()
 	Camera::GetInstance()->SetTarget({ 0,0,0 });
 
 	ParticleManager::GetInstance()->Initialize();
-	UIManager::GetInstance()->Initialize();
+	SceneChange::GetInstance()->Initialize();
 
 	sound_.Initialize();
 	sound_.LoadWave("Alarm01");
@@ -31,13 +30,11 @@ void TitleScene::Update()
 	//ƒ‰ƒCƒg
 	lightGroup_->Update();
 
-
+	SceneChange::GetInstance()->Update();
 
 	if (input->TriggerKey(DIK_2) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
 		SceneChange::GetInstance()->Start();
 	}
-
-	UIManager::GetInstance()->Update();
 
 	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
 		ParticleManager::GetInstance()->Clear();

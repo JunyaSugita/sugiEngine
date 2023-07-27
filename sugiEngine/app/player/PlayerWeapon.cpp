@@ -8,14 +8,6 @@
 
 using namespace ImGui;
 
-PlayerWeapon::PlayerWeapon()
-{
-}
-
-PlayerWeapon::~PlayerWeapon()
-{
-}
-
 PlayerWeapon* PlayerWeapon::GetInstance()
 {
 	static PlayerWeapon instance;

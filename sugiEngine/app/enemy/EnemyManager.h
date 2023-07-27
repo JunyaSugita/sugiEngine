@@ -3,8 +3,8 @@
 
 class EnemyManager final{
 private:
-	EnemyManager();
-	~EnemyManager();
+	EnemyManager() = default;
+	~EnemyManager() = default;
 
 public:
 	//コピーコンストラクタ無効

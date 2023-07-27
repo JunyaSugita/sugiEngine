@@ -1,10 +1,10 @@
 #pragma once
 #include "Sprite.h"
 
-class Tutorial {
+class Tutorial final{
 private:
-	Tutorial();
-	~Tutorial();
+	Tutorial() = default;
+	~Tutorial() = default;
 public:
 	//コピーコンストラクタ無効
 	Tutorial(const Tutorial& obj) = delete;

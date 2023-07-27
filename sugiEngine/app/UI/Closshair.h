@@ -2,10 +2,10 @@
 #include "Sprite.h"
 #include "GrovalSetting.h"
 
-class Closshair {
+class Closshair final{
 private:
-	Closshair();
-	~Closshair();
+	Closshair() = default;
+	~Closshair() = default;
 public:
 	//コピーコンストラクタ無効
 	Closshair(const Closshair& obj) = delete;

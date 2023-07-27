@@ -2,14 +2,6 @@
 #include "Input.h"
 #include "Player.h"
 
-SetSpell::SetSpell()
-{
-}
-
-SetSpell::~SetSpell()
-{
-}
-
 SetSpell* SetSpell::GetInstance()
 {
 	static SetSpell instance;

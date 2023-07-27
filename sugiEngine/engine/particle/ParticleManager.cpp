@@ -21,14 +21,6 @@ ComPtr<ID3D12DescriptorHeap> ParticleManager::sSrvHeap;
 uint32_t ParticleManager::sIncrementSize;
 uint32_t ParticleManager::sTextureIndex = 0;
 
-ParticleManager::ParticleManager()
-{
-}
-
-ParticleManager::~ParticleManager()
-{
-}
-
 ParticleManager* ParticleManager::GetInstance()
 {
 	static ParticleManager instance;

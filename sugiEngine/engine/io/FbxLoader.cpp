@@ -143,7 +143,7 @@ void FbxLoader::ParseMesh(FbxModel* model, FbxNode* fbxNode)
 	ParseMeshVertices(model, fbxMesh);
 	ParseMeshFaces(model, fbxMesh);
 	ParseMaterial(model, fbxNode);
-	ParseSkin(model,fbxMesh);
+	ParseSkin(model, fbxMesh);
 }
 
 void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh)

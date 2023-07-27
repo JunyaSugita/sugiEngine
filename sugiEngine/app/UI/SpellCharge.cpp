@@ -1,14 +1,6 @@
 #include "SpellCharge.h"
 #include "Player.h"
 
-SpellCharge::SpellCharge()
-{
-}
-
-SpellCharge::~SpellCharge()
-{
-}
-
 SpellCharge* SpellCharge::GetInstance()
 {
 	static SpellCharge instance;

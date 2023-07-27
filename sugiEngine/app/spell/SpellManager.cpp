@@ -4,14 +4,6 @@
 
 using namespace std;
 
-SpellManager::SpellManager()
-{
-}
-
-SpellManager::~SpellManager()
-{
-}
-
 SpellManager* SpellManager::GetInstance()
 {
 	static SpellManager instance;

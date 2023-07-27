@@ -21,10 +21,10 @@ enum DEBUFF
 	ICE,
 };
 
-class SpellManager {
+class SpellManager final{
 private:
-	SpellManager();
-	~SpellManager();
+	SpellManager() = default;
+	~SpellManager() = default;
 
 public:
 	//コピーコンストラクタ無効

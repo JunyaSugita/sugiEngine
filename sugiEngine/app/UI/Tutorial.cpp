@@ -3,14 +3,6 @@
 #include "SpellManager.h"
 #include "Player.h"
 
-Tutorial::Tutorial()
-{
-}
-
-Tutorial::~Tutorial()
-{
-}
-
 Tutorial* Tutorial::GetInstance()
 {
 	static Tutorial instance;

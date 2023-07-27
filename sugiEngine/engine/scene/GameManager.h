@@ -3,11 +3,11 @@
 #include <memory>
 #include "Camera.h"
 
-class GameManager
+class GameManager final
 {
 private:
 	GameManager();
-	~GameManager();
+	~GameManager() = default;
 
 public:
 	//コピーコンストラクタ無効

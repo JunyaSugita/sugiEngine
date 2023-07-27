@@ -4,10 +4,10 @@
 #include "JsonLoader.h"
 #include "ColliderManager.h"
 
-class FieldManager {
+class FieldManager final{
 private:
-	FieldManager();
-	~FieldManager();
+	FieldManager() = default;
+	~FieldManager() = default;
 
 public:
 	//コピーコンストラクタ無効

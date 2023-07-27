@@ -6,7 +6,6 @@ using namespace Microsoft::WRL;
 using namespace DirectX;
 
 ID3D12Device* Fbx::device_ = nullptr;
-Camera* Fbx::camera_ = nullptr;
 ComPtr<ID3D12RootSignature> Fbx::sRootSignature;
 ComPtr<ID3D12PipelineState> Fbx::sPipelineState;
 ID3D12GraphicsCommandList* Fbx::sCmdList = nullptr;

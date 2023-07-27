@@ -5,14 +5,6 @@
 #include "PlayerWeapon.h"
 #include "SpellManager.h"
 
-Player::Player()
-{
-}
-
-Player::~Player()
-{
-}
-
 Player* Player::GetInstance()
 {
 	static Player instance;

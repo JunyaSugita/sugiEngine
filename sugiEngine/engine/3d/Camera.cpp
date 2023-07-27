@@ -3,15 +3,6 @@
 
 using namespace DirectX;
 
-Camera::Camera()
-{
-}
-
-
-Camera::~Camera()
-{
-}
-
 Camera* Camera::GetInstance()
 {
 	static Camera instance;

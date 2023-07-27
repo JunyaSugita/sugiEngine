@@ -1,10 +1,10 @@
 #pragma once
 #include "Sprite.h"
 
-class UIManager {
+class UIManager final{
 private:
-	UIManager();
-	~UIManager();
+	UIManager() = default;
+	~UIManager() = default;
 public:
 	//コピーコンストラクタ無効
 	UIManager(const UIManager& obj) = delete;

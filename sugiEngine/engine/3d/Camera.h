@@ -4,8 +4,8 @@
 
 class Camera final {
 private:
-	Camera();
-	~Camera();
+	Camera() = default;
+	~Camera() = default;
 
 public:
 	//コピーコンストラクタ無効

@@ -5,14 +5,6 @@
 #include "Tutorial.h"
 #include "sceneChange.h"
 
-UIManager::UIManager()
-{
-}
-
-UIManager::~UIManager()
-{
-}
-
 UIManager* UIManager::GetInstance()
 {
 	static UIManager instance;

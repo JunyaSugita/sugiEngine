@@ -7,14 +7,6 @@
 using namespace std;
 using namespace ImGui;
 
-EnemyManager::EnemyManager()
-{
-}
-
-EnemyManager::~EnemyManager()
-{
-}
-
 EnemyManager* EnemyManager::GetInstance()
 {
 	static EnemyManager instance;

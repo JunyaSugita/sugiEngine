@@ -6,8 +6,8 @@
 
 class PlayerWeapon final {
 private:
-	PlayerWeapon();
-	~PlayerWeapon();
+	PlayerWeapon() = default;
+	~PlayerWeapon() = default;
 
 public:
 	//コピーコンストラクタ無効

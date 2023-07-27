@@ -1,10 +1,10 @@
 #pragma once
 #include "Sprite.h"
 
-class SceneChange {
+class SceneChange final{
 private:
-	SceneChange();
-	~SceneChange();
+	SceneChange() = default;
+	~SceneChange() = default;
 public:
 	//コピーコンストラクタ無効
 	SceneChange(const SceneChange& obj) = delete;

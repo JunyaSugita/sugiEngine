@@ -16,8 +16,8 @@
 
 class Input final{
 private:
-	Input();
-	~Input();
+	Input() = default;
+	~Input() = default;
 
 public:
 	//コピーコンストラクタ無効

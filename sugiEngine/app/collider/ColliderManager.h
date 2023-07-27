@@ -6,10 +6,10 @@ struct BoxCol{
 	Vector3 size;
 };
 
-class ColliderManager {
+class ColliderManager final{
 private:
-	ColliderManager();
-	~ColliderManager();
+	ColliderManager() = default;
+	~ColliderManager() = default;
 
 public:
 	//コピーコンストラクタ無効

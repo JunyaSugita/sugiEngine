@@ -1,10 +1,10 @@
 #pragma once
 #include "Sprite.h"
 
-class SpellCharge {
+class SpellCharge final{
 private:
-	SpellCharge();
-	~SpellCharge();
+	SpellCharge() = default;
+	~SpellCharge() = default;
 public:
 	//コピーコンストラクタ無効
 	SpellCharge(const SpellCharge& obj) = delete;

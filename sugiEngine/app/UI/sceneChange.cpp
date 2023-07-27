@@ -2,14 +2,6 @@
 #include "GrovalSetting.h"
 #include "SugiMath.h"
 
-SceneChange::SceneChange()
-{
-}
-
-SceneChange::~SceneChange()
-{
-}
-
 SceneChange* SceneChange::GetInstance()
 {
 	static SceneChange instance;

@@ -40,9 +40,6 @@ public:
 	static void SetDevice(ID3D12Device* device) {
 		device_ = device;
 	}
-	static void SetCamera(Camera* camera) {
-		camera_ = camera;
-	}
 
 	static void CreateGraphicsPipeline();
 
@@ -74,7 +71,6 @@ public:
 
 private:
 	static ID3D12Device* device_;
-	static Camera* camera_;
 
 	ComPtr<ID3D12Resource> constBuffTransform_;
 

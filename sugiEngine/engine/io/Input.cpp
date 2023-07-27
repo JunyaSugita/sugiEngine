@@ -4,14 +4,6 @@
 #pragma comment(lib,"dxguid.lib")
 #pragma comment (lib, "xinput.lib")
 
-Input::Input()
-{
-}
-
-Input::~Input()
-{
-}
-
 Input* Input::GetInstance()
 {
 	static Input instance;

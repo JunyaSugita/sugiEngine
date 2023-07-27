@@ -33,11 +33,11 @@ enum ParticleName {
 	P_DEBUFF_FIRE,
 };
 
-class ParticleManager
+class ParticleManager final
 {
 private:
-	ParticleManager();
-	~ParticleManager();
+	ParticleManager() = default;
+	~ParticleManager() = default;
 
 public:
 	//コピーコンストラクタ無効

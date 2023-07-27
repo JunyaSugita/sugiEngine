@@ -5,11 +5,11 @@
 #include "Vector3.h"
 #include "Burst.h"
 
-class EffectManager
+class EffectManager final
 {
 private:
-	EffectManager();
-	~EffectManager();
+	EffectManager() = default;
+	~EffectManager() = default;
 
 public:
 	//コピーコンストラクタ無効

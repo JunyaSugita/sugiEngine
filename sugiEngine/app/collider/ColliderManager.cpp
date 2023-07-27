@@ -7,14 +7,6 @@
 
 using namespace std;
 
-ColliderManager::ColliderManager()
-{
-}
-
-ColliderManager::~ColliderManager()
-{
-}
-
 ColliderManager* ColliderManager::GetInstance()
 {
 	static ColliderManager instance;
