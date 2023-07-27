@@ -49,7 +49,7 @@ void TitleScene::Update()
 	}
 
 	if (input->TriggerKey(DIK_7)) {
-		sound_.ReSetPlayWave("Alarm01",true);
+		sound_.RePlayWave("Alarm01",true);
 	}
 	if (input->TriggerKey(DIK_8)) {
 		sound_.StopWave("Alarm01");
