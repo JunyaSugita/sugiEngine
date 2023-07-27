@@ -86,6 +86,9 @@ void SetSpell::Update()
 		useSpellSprite_.SetTexture(chainLightningTex_);
 		selectHiLightSp_.SetPos(spell4Sprite_.GetPos().x, spell4Sprite_.GetPos().y);
 		break;
+	case ENCHANT_FIRE:
+		useSpellSprite_.SetTexture(comingSoonTex_);
+		selectHiLightSp_.SetPos(spell5Sprite_.GetPos().x, spell5Sprite_.GetPos().y);
 	default:
 		break;
 	}

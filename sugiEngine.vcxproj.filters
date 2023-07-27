@@ -285,7 +285,7 @@
     <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp">
       <Filter>ソース ファイル\app\ground</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\app\UI\sceneChange.cpp">
+    <ClCompile Include="sugiEngine\app\UI\SceneChange.cpp">
       <Filter>ソース ファイル\app\UI</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\app\system\ClearChecker.cpp">
@@ -299,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\2d\PostEffectSecond.cpp">
       <Filter>ソース ファイル\engine\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\EnchantFire.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -458,7 +461,7 @@
     <ClInclude Include="sugiEngine\engine\math\Easing.h">
       <Filter>ヘッダー ファイル\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\app\UI\sceneChange.h">
+    <ClInclude Include="sugiEngine\app\UI\SceneChange.h">
       <Filter>ヘッダー ファイル\app\UI</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h">
@@ -475,6 +478,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\2d\PostEffectSecond.h">
       <Filter>ヘッダー ファイル\engine\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\EnchantFire.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,12 +3,14 @@
 #include "MagicMissile.h"
 #include "IceBolt.h"
 #include "ChainLightning.h"
+#include "EnchantFire.h"
 
 enum MAGIC {
 	FIRE_BALL,
 	MAGIC_MISSILE,
 	ICE_BOLT,
 	CHAIN_LIGHTNING,
+	ENCHANT_FIRE,
 };
 
 
@@ -48,6 +50,9 @@ public:
 
 	void ChargeChainLightning();
 	void FireChainLightning();
+
+	void ChargeEnchantFire();
+	void FireEnchantFire();
 
 	void ResetChargeTime() {
 		chargeTime_ = 0;
@@ -90,6 +95,10 @@ public:
 		return chainLightningsList_;
 	}
 
+	bool GetActiveEnchantFire() {
+		return enchantFire_->GetActive();
+	}
+
 	bool GetIsUseSpell();
 
 public:
@@ -97,14 +106,17 @@ public:
 	const float TIME_CHARGE_FIREBALL = 1.0f * 60;
 	const float TIME_FIRE_FIREBALL = 0.3f * 60;
 	//マジックミサイル
-	const float TIME_CHARGE_MAGICMISSILE = 2.5f * 60;
+	const float TIME_CHARGE_MAGICMISSILE = 1.0f * 60;
 	const float TIME_FIRE_MAGICMISSILE = 2.0f * 60;
 	//アイスボルト
-	const float TIME_CHARGE_ICEBOLT = 1.5f * 60;
+	const float TIME_CHARGE_ICEBOLT = 1.2f * 60;
 	const float TIME_FIRE_ICEBOLT = 0.3f * 60;
 	//チェインライトニング
-	const float TIME_CHARGE_CHAINLIGHTNING = 2.0f * 60;
+	const float TIME_CHARGE_CHAINLIGHTNING = 1.8f * 60;
 	const float TIME_FIRE_CHAINLIGHTNING = 0.3f * 60;
+	//エンチャントファイア
+	const float TIME_CHARGE_ENCHANTFIRE = 3.0f * 60;
+	const float TIME_FIRE_ENCHANTFIRE = 0.5f * 60;
 
 private:
 	float maxCharge_;
@@ -115,6 +127,7 @@ private:
 	bool isUseMagicMissile_;
 	bool isUseIceBolt_;
 	bool isUseChainLightning_;
+	bool isUseEnchantFire_;
 
 	std::list<std::unique_ptr<FireBall>> fireBalls_;
 	std::vector<FireBall*> fireBallsList_;
@@ -127,4 +140,6 @@ private:
 
 	std::list<std::unique_ptr<ChainLightning>> chainLightnings_;
 	std::vector<ChainLightning*> chainLightningsList_;
+
+	std::unique_ptr<EnchantFire> enchantFire_;
 };

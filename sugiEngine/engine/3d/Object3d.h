@@ -19,8 +19,8 @@ struct ConstBufferDataB0 {
 	DirectX::XMMATRIX viewproj;
 	DirectX::XMMATRIX world;
 	DirectX::XMFLOAT3 cameraPos;
-	bool simple;
-	bool effectCloss;
+	int32_t simple;
+	int32_t effectCloss;
 };
 
 class Object3d

@@ -31,7 +31,8 @@ void PlayerWeapon::Initialize()
 	obj_->SetModel(model_.get());
 	orbObj_ = move(Object3d::Create());
 	orbObj_->SetModel(orbModel_.get());
-	orbObj_->SetColor({0,1,1,0.2f});
+	orbObj_->SetColor({0,1,1,0.5f});
+	orbObj_->SetIsSimple();
 	
 	pos_ = { 0,3.5f,-50 };
 	rot_ = { 30,0,0 };
@@ -76,7 +77,9 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 	}
 
 	WorldTransUpdate();
-	//ParticleManager::GetInstance()->AddFromFile(P_WEAPON_FIRE, orbTrans_.GetMatPos());
+	if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
+		ParticleManager::GetInstance()->AddFromFile(P_WEAPON_FIRE, orbTrans_.GetMatPos());
+	}
 }
 
 void PlayerWeapon::Draw()

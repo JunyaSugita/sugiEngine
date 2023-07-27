@@ -108,12 +108,22 @@ PSOutput main(VSOutput input)
     }
     
 
-    if (isEffectCross)
-    {
-        output.target1 = float4((shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
-    }
-    
-    output.target0 = float4((shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
 
+    if (isSimple)
+    {
+        if (isEffectCross)
+        {
+            output.target1 = texcolor * m_color;
+        }
+        output.target0 = texcolor * m_color;
+    }
+    else
+    {
+        if (isEffectCross)
+        {
+            output.target1 = float4((shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
+        }
+        output.target0 = float4((shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
+    }
     return output;
 }
