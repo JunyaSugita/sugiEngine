@@ -40,7 +40,9 @@ public:
 	void LoadWave(const std::string& filename);
 	void Unload(SoundData* soundData);
 	void PlayWave(const std::string& filename,bool isLoop = false);
+	void ReSetPlayWave(const std::string& filename, bool isLoop = false);
 	void StopWave(const std::string& filename);
+	void SetVolume(const std::string& filename, float vol);
 	void Finalize();
 
 private:

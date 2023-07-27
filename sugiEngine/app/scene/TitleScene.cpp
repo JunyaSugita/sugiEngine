@@ -48,11 +48,17 @@ void TitleScene::Update()
 		GameManager::GetInstance()->SetClearScene();
 	}
 
+	if (input->TriggerKey(DIK_7)) {
+		sound_.ReSetPlayWave("Alarm01",true);
+	}
+	if (input->TriggerKey(DIK_8)) {
+		sound_.StopWave("Alarm01");
+	}
 	if (input->TriggerKey(DIK_9)) {
-		sound_.PlayWave("Alarm01");
+		sound_.SetVolume("Alarm01",0);
 	}
 	if (input->TriggerKey(DIK_0)) {
-		sound_.StopWave("Alarm01");
+		sound_.SetVolume("Alarm01", 1);
 	}
 }
 
