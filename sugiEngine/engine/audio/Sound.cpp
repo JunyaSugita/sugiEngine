@@ -91,6 +91,11 @@ void Sound::PlayWave(const string& filename, bool isLoop)
 {
 	HRESULT result;
 
+	//重複チェック
+	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
+		return;
+	};
+
 	map<string, SoundData>::iterator it = soundDatas_.find(filename);
 	assert(it != soundDatas_.end());
 
@@ -115,6 +120,26 @@ void Sound::PlayWave(const string& filename, bool isLoop)
 	sourceVoices_.insert(std::make_pair(filename, pSourceVoice));
 }
 
+void Sound::RePlayWave(const std::string& filename, bool isLoop)
+{
+	//重複チェック
+	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
+		StopWave(filename);
+	};
+
+	PlayWave(filename);
+}
+
+void Sound::TogglePlayWave(const std::string& filename, bool isLoop)
+{
+	//重複チェック
+	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
+		StopWave(filename);
+		return;
+	};
+	PlayWave(filename);
+}
+
 void Sound::StopWave(const string& filename)
 {
 	HRESULT result;
@@ -124,6 +149,18 @@ void Sound::StopWave(const string& filename)
 
 	result = it->second->Stop();
 	sourceVoices_.erase(it);
+}
+
+void Sound::SetVolume(const string& filename,float vol)
+{
+	HRESULT result;
+
+	map<string, IXAudio2SourceVoice*>::iterator it = sourceVoices_.find(filename);
+	if (it == sourceVoices_.end()) {
+		return;
+	}
+
+	result = it->second->SetVolume(vol);
 }
 
 void Sound::Finalize()

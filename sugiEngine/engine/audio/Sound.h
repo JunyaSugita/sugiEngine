@@ -39,8 +39,11 @@ public:
 	void Initialize(const std::string& directoryPath = "Resources/", const std::string& extension  = ".wav");
 	void LoadWave(const std::string& filename);
 	void Unload(SoundData* soundData);
-	void PlayWave(const std::string& filename,bool isLoop = false);
+	void PlayWave(const std::string& filename,bool isLoop = false);	//Šù‚ÉÄ¶’†‚È‚ç–Â‚ç‚³‚È‚¢
+	void RePlayWave(const std::string& filename, bool isLoop = false);//Šù‚ÉÄ¶’†‚È‚çÅ‰‚©‚ç–Â‚ç‚·
+	void TogglePlayWave(const std::string& filename, bool isLoop = false);//Šù‚ÉÄ¶’†‚È‚ç~‚ß‚é
 	void StopWave(const std::string& filename);
+	void SetVolume(const std::string& filename, float vol);
 	void Finalize();
 
 private:
