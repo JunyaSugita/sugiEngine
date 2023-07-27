@@ -225,9 +225,10 @@ void GameScene::ParticleDraw()
 void GameScene::SpriteDraw()
 {
 	if (!particleE_->GetIsEdit(0)) {
-		UIManager::GetInstance()->Draw();
+
 		clearChecker_.Draw();
 		gameOver_.Draw();
+		UIManager::GetInstance()->Draw();
 	}
 }
 

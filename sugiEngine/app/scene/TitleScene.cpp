@@ -15,6 +15,9 @@ void TitleScene::Initialize()
 
 	ParticleManager::GetInstance()->Initialize();
 	UIManager::GetInstance()->Initialize();
+
+	sound_.Initialize();
+	sound_.LoadWave("Alarm01");
 }
 
 void TitleScene::Update()
@@ -31,12 +34,12 @@ void TitleScene::Update()
 
 
 	if (input->TriggerKey(DIK_2) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
-		sceneChange::GetInstance()->Start();
+		SceneChange::GetInstance()->Start();
 	}
 
 	UIManager::GetInstance()->Update();
 
-	if (sceneChange::GetInstance()->GetTimer() >= 1.0f) {
+	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
 		ParticleManager::GetInstance()->Clear();
 		GameManager::GetInstance()->SetGameScene();
 	}
@@ -45,6 +48,12 @@ void TitleScene::Update()
 		GameManager::GetInstance()->SetClearScene();
 	}
 
+	if (input->TriggerKey(DIK_9)) {
+		sound_.PlayWave("Alarm01");
+	}
+	if (input->TriggerKey(DIK_0)) {
+		sound_.StopWave("Alarm01");
+	}
 }
 
 void TitleScene::BackSpriteDraw()
@@ -72,9 +81,10 @@ void TitleScene::ParticleDraw()
 
 void TitleScene::SpriteDraw()
 {
-	UIManager::GetInstance()->Draw();
+	SceneChange::GetInstance()->Draw();
 }
 
 void TitleScene::Finalize()
 {
+	sound_.Finalize();
 }
