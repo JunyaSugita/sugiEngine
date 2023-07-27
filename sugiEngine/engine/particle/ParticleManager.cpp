@@ -886,7 +886,7 @@ void ParticleManager::LoadParticleData()
 	fclose(saveFile_);
 
 	//•Ší(‰Î‘®«)
-	fopen_s(&saveFile_, "Resources/particleData/fireWeapon.dat", "rb");
+	fopen_s(&saveFile_, "Resources/particleData/weaponFire.dat", "rb");
 	if (saveFile_ == NULL) {
 		return;
 	}
