@@ -47,19 +47,6 @@ void TitleScene::Update()
 	if (input->TriggerKey(DIK_3)) {
 		GameManager::GetInstance()->SetClearScene();
 	}
-
-	if (input->TriggerKey(DIK_7)) {
-		sound_.RePlayWave("Alarm01",true);
-	}
-	if (input->TriggerKey(DIK_8)) {
-		sound_.StopWave("Alarm01");
-	}
-	if (input->TriggerKey(DIK_9)) {
-		sound_.SetVolume("Alarm01",0);
-	}
-	if (input->TriggerKey(DIK_0)) {
-		sound_.SetVolume("Alarm01", 1);
-	}
 }
 
 void TitleScene::BackSpriteDraw()
