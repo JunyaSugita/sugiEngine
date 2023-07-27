@@ -20,11 +20,11 @@ void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 	colObj_ = move(Object3d::Create());
 	colObj_->SetModel(sColModel_.get());
 
-	pos_ = pos;
 	rot_ = { 0,0,0 };
 	scale_ = { 0.5f,0.5f,0.5f };
 
 	vec_ = vec.normalize();
+	pos_ = pos + vec * 3;
 
 	boxCol_.pos = pos;
 	boxCol_.size = { 0.1f,0.1f,0.1f };

@@ -110,7 +110,7 @@ void PlayerWeapon::SpellMove()
 		pos_.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
 		pos_.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f + EaseOut(nowTime,2));
 		pos_.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
-		rot_ = { (player->GetCameraAngle().y + 90) * -1,player->GetCameraAngle().x,0 };
+		rot_ = { (player->GetCameraAngle().y - 90) * -1,player->GetCameraAngle().x,0 };
 	}
 	else {
 
@@ -118,7 +118,7 @@ void PlayerWeapon::SpellMove()
 		pos_.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
 		pos_.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f);
 		pos_.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
-		rot_ = { (player->GetCameraAngle().y + 90) * -1,player->GetCameraAngle().x,0 };
+		rot_ = { (player->GetCameraAngle().y - 90) * -1,player->GetCameraAngle().x,0 };
 	}
 }
 
