@@ -39,12 +39,18 @@ public:
 	void Initialize(const std::string& directoryPath = "Resources/", const std::string& extension  = ".wav");
 	void LoadWave(const std::string& filename);
 	void Unload(SoundData* soundData);
-	void PlayWave(std::string filename);
+	void PlayWave(const std::string& filename,bool isLoop = false);	//既に再生中なら鳴らさない
+	void RePlayWave(const std::string& filename, bool isLoop = false);//既に再生中なら最初から鳴らす
+	void TogglePlayWave(const std::string& filename, bool isLoop = false);//既に再生中なら止める
+	void StopWave(const std::string& filename);
+	void SetVolume(const std::string& filename, float vol);
 	void Finalize();
 
 private:
 	ComPtr<IXAudio2> xAudio2_;
 	std::map<std::string, SoundData> soundDatas_;
+	std::map <std::string, IXAudio2SourceVoice*> sourceVoices_;
+	//std::map<>
 	//サウンド格納ディレクトリ
 	std::string directoryPath_;
 	std::string extension_;

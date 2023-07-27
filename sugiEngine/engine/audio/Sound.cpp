@@ -82,16 +82,19 @@ void Sound::LoadWave(const std::string& filename)
 
 void Sound::Unload(SoundData* soundData)
 {
-	//delete[] soundData->pBuffer;
-
 	soundData->pBuffer = 0;
 	soundData->bufferSize = 0;
 	soundData->wfex = {};
 }
 
-void Sound::PlayWave(std::string filename)
+void Sound::PlayWave(const string& filename, bool isLoop)
 {
 	HRESULT result;
+
+	//重複チェック
+	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
+		return;
+	};
 
 	map<string, SoundData>::iterator it = soundDatas_.find(filename);
 	assert(it != soundDatas_.end());
@@ -106,9 +109,58 @@ void Sound::PlayWave(std::string filename)
 	buf.pAudioData = soundData.pBuffer;
 	buf.AudioBytes = soundData.bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
+	if (isLoop) {
+		buf.LoopCount = XAUDIO2_LOOP_INFINITE;
+	}
 
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
 	result = pSourceVoice->Start();
+
+
+	sourceVoices_.insert(std::make_pair(filename, pSourceVoice));
+}
+
+void Sound::RePlayWave(const std::string& filename, bool isLoop)
+{
+	//重複チェック
+	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
+		StopWave(filename);
+	};
+
+	PlayWave(filename);
+}
+
+void Sound::TogglePlayWave(const std::string& filename, bool isLoop)
+{
+	//重複チェック
+	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
+		StopWave(filename);
+		return;
+	};
+	PlayWave(filename);
+}
+
+void Sound::StopWave(const string& filename)
+{
+	HRESULT result;
+
+	map<string, IXAudio2SourceVoice*>::iterator it = sourceVoices_.find(filename);
+	assert(it != sourceVoices_.end());
+
+	result = it->second->Stop();
+	sourceVoices_.erase(it);
+}
+
+void Sound::SetVolume(const string& filename,float vol)
+{
+	HRESULT result;
+
+	map<string, IXAudio2SourceVoice*>::iterator it = sourceVoices_.find(filename);
+	if (it == sourceVoices_.end()) {
+		return;
+	}
+
+	result = it->second->SetVolume(vol);
 }
 
 void Sound::Finalize()
@@ -116,10 +168,4 @@ void Sound::Finalize()
 	xAudio2_.Reset();
 
 	soundDatas_.clear();
-
-	//map<string, SoundData>::iterator it = soundDatas_.begin();
-
-	//for (; it != soundDatas_.end(); ++it) {
-	//	Unload(&it->second);
-	//}
 }

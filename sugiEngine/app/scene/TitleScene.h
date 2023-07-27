@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Input.h"
 #include "GameManager.h"
+#include "Sound.h"
 
 class TitleScene : public ISceneManager
 {
@@ -26,5 +27,7 @@ private:
 	WorldTransform sphereWorldTransform_[2];
 
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
+
+	Sound sound_;
 };
 

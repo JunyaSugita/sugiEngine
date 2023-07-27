@@ -104,6 +104,7 @@
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
     <ClCompile Include="sugiEngine\app\spell\ChainLightning.cpp" />
+    <ClCompile Include="sugiEngine\app\spell\EnchantFire.cpp" />
     <ClCompile Include="sugiEngine\app\spell\FireBall.cpp" />
     <ClCompile Include="sugiEngine\app\spell\IceBolt.cpp" />
     <ClCompile Include="sugiEngine\app\spell\MagicMissile.cpp" />
@@ -111,7 +112,7 @@
     <ClCompile Include="sugiEngine\app\system\ClearChecker.cpp" />
     <ClCompile Include="sugiEngine\app\system\GameOver.cpp" />
     <ClCompile Include="sugiEngine\app\UI\Closshair.cpp" />
-    <ClCompile Include="sugiEngine\app\UI\sceneChange.cpp" />
+    <ClCompile Include="sugiEngine\app\UI\SceneChange.cpp" />
     <ClCompile Include="sugiEngine\app\UI\SetSpell.cpp" />
     <ClCompile Include="sugiEngine\app\UI\SpellCharge.cpp" />
     <ClCompile Include="sugiEngine\app\UI\Tutorial.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
     <ClInclude Include="sugiEngine\app\spell\ChainLightning.h" />
+    <ClInclude Include="sugiEngine\app\spell\EnchantFire.h" />
     <ClInclude Include="sugiEngine\app\spell\FireBall.h" />
     <ClInclude Include="sugiEngine\app\spell\IceBolt.h" />
     <ClInclude Include="sugiEngine\app\spell\MagicMissile.h" />
@@ -166,7 +168,7 @@
     <ClInclude Include="sugiEngine\app\system\ClearChecker.h" />
     <ClInclude Include="sugiEngine\app\system\GameOver.h" />
     <ClInclude Include="sugiEngine\app\UI\Closshair.h" />
-    <ClInclude Include="sugiEngine\app\UI\sceneChange.h" />
+    <ClInclude Include="sugiEngine\app\UI\SceneChange.h" />
     <ClInclude Include="sugiEngine\app\UI\SetSpell.h" />
     <ClInclude Include="sugiEngine\app\UI\SpellCharge.h" />
     <ClInclude Include="sugiEngine\app\UI\Tutorial.h" />

@@ -50,7 +50,13 @@ void EnemyManager::Update()
 			//“–‚½‚è”»’èŒŸõ
 			if ((enemy->GetPos() - weapon->GetHitPos()).length() < weapon->ATTACK_RADIUS) {
 				//“–‚½‚Á‚½”»’è‚ð“G‚É—^‚¦‚é
-				enemy->SetIsHit(10,20);
+				if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
+					enemy->SetIsHit(10, 20);
+					enemy->SetDebuff(FIRE,3);
+				}
+				else {
+					enemy->SetIsHit(5, 20);
+				}
 			}
 		}
 	}
