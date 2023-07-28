@@ -5,14 +5,6 @@
 #include "Tutorial.h"
 #include "sceneChange.h"
 
-UIManager::UIManager()
-{
-}
-
-UIManager::~UIManager()
-{
-}
-
 UIManager* UIManager::GetInstance()
 {
 	static UIManager instance;
@@ -26,7 +18,7 @@ void UIManager::Initialize()
 	SpellCharge::GetInstance()->Initialize();
 	SetSpell::GetInstance()->Initialize();
 	Tutorial::GetInstance()->Initialize();
-	sceneChange::GetInstance()->Initialize();
+	SceneChange::GetInstance()->Initialize();
 
 	clearTex_ = Sprite::LoadTexture("gameClear.png");
 	gameOverTex_ = Sprite::LoadTexture("gameOver.png");
@@ -44,7 +36,7 @@ void UIManager::Update()
 	SpellCharge::GetInstance()->Update();
 	SetSpell::GetInstance()->Update();
 	Tutorial::GetInstance()->Update();
-	sceneChange::GetInstance()->Update();
+	SceneChange::GetInstance()->Update();
 
 	stateSp_.SetColor(1, 1, 1, stateAlpha_);
 }
@@ -55,10 +47,9 @@ void UIManager::Draw()
 	SpellCharge::GetInstance()->Draw();
 	SetSpell::GetInstance()->Draw();
 	Tutorial::GetInstance()->Draw();
-
-	sceneChange::GetInstance()->Draw();
-
 	stateSp_.Draw();
+
+	SceneChange::GetInstance()->Draw();
 }
 
 void UIManager::SetClear()

@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "ParticleManager.h"
 #include "sceneChange.h"
-#include "UIManager.h"
 
 void TitleScene::Initialize()
 {
@@ -14,7 +13,10 @@ void TitleScene::Initialize()
 	Camera::GetInstance()->SetTarget({ 0,0,0 });
 
 	ParticleManager::GetInstance()->Initialize();
-	UIManager::GetInstance()->Initialize();
+	SceneChange::GetInstance()->Initialize();
+
+	sound_.Initialize();
+	sound_.LoadWave("Alarm01");
 }
 
 void TitleScene::Update()
@@ -28,15 +30,13 @@ void TitleScene::Update()
 	//ƒ‰ƒCƒg
 	lightGroup_->Update();
 
-
+	SceneChange::GetInstance()->Update();
 
 	if (input->TriggerKey(DIK_2) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
-		sceneChange::GetInstance()->Start();
+		SceneChange::GetInstance()->Start();
 	}
 
-	UIManager::GetInstance()->Update();
-
-	if (sceneChange::GetInstance()->GetTimer() >= 1.0f) {
+	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
 		ParticleManager::GetInstance()->Clear();
 		GameManager::GetInstance()->SetGameScene();
 	}
@@ -44,7 +44,6 @@ void TitleScene::Update()
 	if (input->TriggerKey(DIK_3)) {
 		GameManager::GetInstance()->SetClearScene();
 	}
-
 }
 
 void TitleScene::BackSpriteDraw()
@@ -72,9 +71,10 @@ void TitleScene::ParticleDraw()
 
 void TitleScene::SpriteDraw()
 {
-	UIManager::GetInstance()->Draw();
+	SceneChange::GetInstance()->Draw();
 }
 
 void TitleScene::Finalize()
 {
+	sound_.Finalize();
 }

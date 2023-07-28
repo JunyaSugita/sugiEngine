@@ -8,11 +8,6 @@ GameManager::GameManager()
 	scene_ = std::make_unique<TitleScene>();
 	scene_->Initialize();
 }
-
-GameManager::~GameManager()
-{
-}
-
 void GameManager::Update()
 {
 	//ŠeƒV[ƒ“‚Ìˆ—

@@ -1,14 +1,6 @@
 #include "Closshair.h"
 #include "Input.h"
 
-Closshair::Closshair()
-{
-}
-
-Closshair::~Closshair()
-{
-}
-
 Closshair* Closshair::GetInstance()
 {
 	static Closshair instance;

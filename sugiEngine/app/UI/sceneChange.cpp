@@ -1,34 +1,24 @@
-#include "sceneChange.h"
+#include "SceneChange.h"
 #include "GrovalSetting.h"
 #include "SugiMath.h"
 
-sceneChange::sceneChange()
+SceneChange* SceneChange::GetInstance()
 {
-}
-
-sceneChange::~sceneChange()
-{
-}
-
-sceneChange* sceneChange::GetInstance()
-{
-	static sceneChange instance;
+	static SceneChange instance;
 
 	return &instance;
 }
 
-void sceneChange::Initialize()
+void SceneChange::Initialize()
 {
 	sceneTex_ = Sprite::LoadTexture("white1x1.png");
 
 	sceneSp_.Initialize(sceneTex_);
 	sceneSp_.SetSize(WIN_WIDTH,WIN_HEIGHT);
 	sceneSp_.SetPos(pos_.x,pos_.y);
-
-	easeTimer_ = 0;
 }
 
-void sceneChange::Update()
+void SceneChange::Update()
 {
 	pos_.y = -WIN_HEIGHT + EaseOut(easeTimer_, WIN_HEIGHT);
 
@@ -46,7 +36,7 @@ void sceneChange::Update()
 	sceneSp_.SetPos(pos_.x, pos_.y);
 }
 
-void sceneChange::Draw()
+void SceneChange::Draw()
 {
 	sceneSp_.Draw();
 }

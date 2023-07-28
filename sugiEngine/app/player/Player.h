@@ -5,8 +5,8 @@
 
 class Player final{
 private:
-	Player();
-	~Player();
+	Player() = default;
+	~Player() = default;
 public:
 	//コピーコンストラクタ無効
 	Player(const Player& obj) = delete;

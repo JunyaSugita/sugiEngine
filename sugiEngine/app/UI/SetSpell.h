@@ -1,10 +1,10 @@
 #pragma once
 #include "Sprite.h"
 
-class SetSpell {
+class SetSpell final{
 private:
-	SetSpell();
-	~SetSpell();
+	SetSpell() = default;
+	~SetSpell() = default;
 public:
 	//コピーコンストラクタ無効
 	SetSpell(const SetSpell& obj) = delete;

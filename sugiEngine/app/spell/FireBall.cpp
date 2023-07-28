@@ -19,8 +19,6 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 	colObj_ = move(Object3d::Create());
 	colObj_->SetModel(sColModel_.get());
 
-
-	
 	rot_ = { 0,0,0 };
 	scale_ = { 1,1,1 };
 

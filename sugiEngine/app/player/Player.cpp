@@ -5,14 +5,6 @@
 #include "PlayerWeapon.h"
 #include "SpellManager.h"
 
-Player::Player()
-{
-}
-
-Player::~Player()
-{
-}
-
 Player* Player::GetInstance()
 {
 	static Player instance;
@@ -185,7 +177,7 @@ void Player::CameraMove()
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
 			else if (spellAngle_ >= 108 && spellAngle_ < RAD || input->TriggerKey(DIK_5)) {
-				presetSpell_ = FIRE_BALL;
+				presetSpell_ = ENCHANT_FIRE;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
 		}
@@ -232,6 +224,9 @@ void Player::Attack()
 			break;
 		case CHAIN_LIGHTNING:
 			spellM->ChargeChainLightning();
+			break;
+		case ENCHANT_FIRE:
+			spellM->ChargeEnchantFire();
 			break;
 		default:
 			break;

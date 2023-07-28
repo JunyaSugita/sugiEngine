@@ -8,7 +8,7 @@
 #include <string>
 #include "FbxModel.h"
 
-class FbxLoader
+class FbxLoader final
 {
 public:
 	/// <summary>

@@ -1,13 +1,5 @@
 #include "EffectManager.h"
 
-EffectManager::EffectManager()
-{
-}
-
-EffectManager::~EffectManager()
-{
-}
-
 EffectManager* EffectManager::GetInstance()
 {
 	static EffectManager instance;

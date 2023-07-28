@@ -6,8 +6,8 @@
 class ImGuiManager final
 {
 private:
-	ImGuiManager();
-	~ImGuiManager();
+	ImGuiManager() = default;
+	~ImGuiManager() = default;
 
 public:
 	//コピーコンストラクタ無効

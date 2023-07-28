@@ -3,14 +3,6 @@
 
 using namespace std;
 
-FieldManager::FieldManager()
-{
-}
-
-FieldManager::~FieldManager()
-{
-}
-
 FieldManager* FieldManager::GetInstance()
 {
 	static FieldManager instance;

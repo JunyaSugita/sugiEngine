@@ -7,14 +7,6 @@
 
 using namespace std;
 
-ColliderManager::ColliderManager()
-{
-}
-
-ColliderManager::~ColliderManager()
-{
-}
-
 ColliderManager* ColliderManager::GetInstance()
 {
 	static ColliderManager instance;
@@ -65,8 +57,7 @@ void ColliderManager::Update()
 		for (int j = 0; j < enemysCol.size(); j++) {
 			if (CheckHitBox(magicMissilesCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
 				magicMissilesCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(5, 5);
-				enemysCol[j]->SetDebuff(THUNDER, 5);
+				enemysCol[j]->SetIsHit(8, 5);
 			}
 		}
 		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
@@ -86,8 +77,8 @@ void ColliderManager::Update()
 		for (int j = 0; j < enemysCol.size(); j++) {
 			if (CheckHitBox(iceBoltsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
 				iceBoltsCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(10, 5);
-				enemysCol[j]->SetDebuff(ICE, 8);
+				enemysCol[j]->SetIsHit(20, 5);
+				enemysCol[j]->SetDebuff(ICE, 12);
 			}
 		}
 		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
