@@ -4,6 +4,8 @@
 #include "EnemyManager.h"
 #include "PlayerWeapon.h"
 #include "SpellManager.h"
+#include "UIManager.h"
+#include "GameManager.h"
 
 Player* Player::GetInstance()
 {
@@ -29,10 +31,26 @@ void Player::Initialize()
 	oldBoxCol_.size = { 2.5f,2.2f,2.5f };
 
 	PlayerWeapon::GetInstance()->Initialize();
+
+	damageTex_ = Sprite::LoadTexture("damage.png");
+	damageSp_.Initialize(damageTex_);
+	damageSp_.SetColor(1,1,1,0);
+	damageAlpha_ = 0;
 }
 
 void Player::Update()
 {
+	//被弾演出
+	if (damageAlpha_ > 0) {
+		damageAlpha_ -= 0.01f;
+		damageSp_.SetColor(1, 1, 1, damageAlpha_);
+	}
+
+	//ゲーム終了orゲームオーバーで動けなくする
+	if (UIManager::GetInstance()->GetStateAlpha_() != 0 || life_ <= 0) {
+		return;
+	}
+
 	//1フレーム前の情報を保存
 	oldBoxCol_.pos = pos_;
 
@@ -43,11 +61,27 @@ void Player::Update()
 	Attack();
 
 	CameraMove();
+
+
 }
 
 void Player::Draw()
 {
 	PlayerWeapon::GetInstance()->Draw();
+}
+
+void Player::SpDraw()
+{
+	damageSp_.Draw();
+}
+
+void Player::SubLife()
+{
+	if (life_ > 0) {
+		life_--;
+		damageAlpha_ = 1.0f;
+		Camera::GetInstance()->SetShake(0.05f);
+	}
 }
 
 bool Player::GetIsCanAction()

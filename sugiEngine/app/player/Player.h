@@ -2,6 +2,7 @@
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include "SpellManager.h"
+#include "Sprite.h"
 
 class Player final{
 private:
@@ -19,6 +20,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+	void SpDraw();
 
 	//pos
 	Vector3 GetPos() {
@@ -41,9 +43,7 @@ public:
 	uint32_t GetLife() {
 		return life_;
 	}
-	void SubLife() {
-		life_--;
-	}
+	void SubLife();
 
 	//worldTrans
 	WorldTransform& GetWorldTrans() {
@@ -123,6 +123,11 @@ private:
 	//当たり判定
 	BoxCol boxCol_;
 	BoxCol oldBoxCol_;
+
+	//ダメージ演出
+	int32_t damageTex_;
+	Sprite damageSp_;
+	float damageAlpha_;
 };
 
 float Radian(float r);

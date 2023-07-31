@@ -350,6 +350,8 @@ void Object3d::Update()
 	constMap_->cameraPos = *camera->GetEyeXM();
 	constMap_->simple = isSimple_;
 	constMap_->effectCloss = effectCloss_;
+
+	model_->SetColor(color_);
 }
 
 void Object3d::Scale(const Vector3& scale)
@@ -380,7 +382,7 @@ void Object3d::Draw()
 	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffB0_->GetGPUVirtualAddress());
 
 	lightGroup_->Draw(sCmdList, 3);
-	model_->Draw(sCmdList, 1, color_);
+	model_->Draw(sCmdList, 1);
 }
 
 std::unique_ptr<Object3d> Object3d::Create()

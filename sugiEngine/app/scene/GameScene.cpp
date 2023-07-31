@@ -107,11 +107,6 @@ void GameScene::Update()
 		//if (input->TriggerKey(DIK_3)) {
 		//	player->SetPresetSpell(ICE_BOLT);
 		//}
-
-
-		//if (enemyM->GetEnemyCount() < 5) {
-		//	enemyM->PopEnemy();
-		//}
 	}
 #pragma endregion
 
@@ -168,20 +163,21 @@ void GameScene::Update()
 			Enemy::SetIsDebugStop();
 		}
 		End();
-		//Begin("DebugButton");
-		//if (Button("Reset", { 150,30 })) {
-		//	Initialize();
-		//}
-		//if (Button("EnemyPop", { 150,30 })) {
-		//	enemyM->PopEnemy();
-		//}
-		//if (Button("ShowHitBox", { 150,30 })) {
-		//	colM->ChangeIsShowHitBox();
-		//}
-		//if (Button("particleClear", { 150,30 })) {
-		//	ParticleManager::GetInstance()->Clear();
-		//}
-		//End();
+
+		Begin("DebugButton");
+		if (Button("Reset", { 150,30 })) {
+			Initialize();
+		}
+		if (Button("EnemyPop", { 150,30 })) {
+			enemyM->PopEnemy();
+		}
+		if (Button("ShowHitBox", { 150,30 })) {
+			colM->ChangeIsShowHitBox();
+		}
+		if (Button("particleClear", { 150,30 })) {
+			ParticleManager::GetInstance()->Clear();
+		}
+		End();
 	}
 
 #endif
@@ -189,6 +185,16 @@ void GameScene::Update()
 
 	clearChecker_.Update();
 	gameOver_.Update();
+
+	//ƒV[ƒ“‘JˆÚˆ—
+	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_A)) {
+		if (player->GetLife() > 0) {
+			GameManager::GetInstance()->SetTitleScene();
+		}
+		else {
+			Initialize();
+		}
+	}
 }
 
 void GameScene::BackSpriteDraw()
@@ -226,6 +232,7 @@ void GameScene::SpriteDraw()
 {
 	if (!particleE_->GetIsEdit(0)) {
 
+		Player::GetInstance()->SpDraw();
 		clearChecker_.Draw();
 		gameOver_.Draw();
 		UIManager::GetInstance()->Draw();

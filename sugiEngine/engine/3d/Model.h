@@ -75,7 +75,7 @@ public:
 
 	void CreateBuffers();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootparamIndexMaterial,const DirectX::XMFLOAT4& color);
+	void Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootparamIndexMaterial);
 
 	inline size_t GetVertexCount() {
 		return vertices_.size();
@@ -83,6 +83,8 @@ public:
 
 	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
 	void CalculateSmoothedVertexNormals();
+
+	void SetColor(const DirectX::XMFLOAT4& color);
 
 private:
 	static ID3D12Device* sDevice;

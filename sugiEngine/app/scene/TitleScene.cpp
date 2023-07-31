@@ -17,32 +17,62 @@ void TitleScene::Initialize()
 
 	sound_.Initialize();
 	sound_.LoadWave("Alarm01");
+
+	titleTex_ = Sprite::LoadTexture("title.png");
+	titleSp_.Initialize(titleTex_);
+
+	model_ = move(Model::LoadFromObj("weapon"));
+	orbModel_ = move(Model::LoadFromObj("sphere", true));
+	obj_ = move(Object3d::Create());
+	obj_->SetModel(model_.get());
+	orbObj_ = move(Object3d::Create());
+	orbObj_->SetModel(orbModel_.get());
+	orbObj_->SetColor({ 0,1,1,0.5f });
+	orbObj_->SetIsSimple();
+
+	pos_ = { 0,46,-48 };
+	rot_ = { 30,0,0 };
+	scale_ = { 1,1,1 };
+
+	orbPos_ = { 0,1.7f,0 };
+	orbRot_ = { 0,0,0 };
+	orbScale_ = { 0.3f,0.3f,0.3f };
+
+	orbTrans_.parent_ = &worldTrans_;
+
+	worldTrans_.SetPos(pos_);
+	worldTrans_.SetRot(rot_);
+	worldTrans_.SetScale(scale_);
+
+	orbTrans_.SetPos(orbPos_);
+	orbTrans_.SetRot(orbRot_);
+	orbTrans_.SetScale(orbScale_);
+
+	obj_->SetWorldTransform(worldTrans_);
+	obj_->Update();
+
+	orbObj_->SetWorldTransform(orbTrans_);
+	orbObj_->Update();
 }
 
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
 
-	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, { 5,0,0 });
-	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, { 0,0,0 });
-	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, { -5,0,0 });
+	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, {0,0.5f,0});
 	ParticleManager::GetInstance()->Update();
 	//ƒ‰ƒCƒg
 	lightGroup_->Update();
 
 	SceneChange::GetInstance()->Update();
 
-	if (input->TriggerKey(DIK_2) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
+	if (input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
 		SceneChange::GetInstance()->Start();
 	}
 
 	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
 		ParticleManager::GetInstance()->Clear();
 		GameManager::GetInstance()->SetGameScene();
-	}
-
-	if (input->TriggerKey(DIK_3)) {
-		GameManager::GetInstance()->SetClearScene();
 	}
 }
 
@@ -58,10 +88,12 @@ void TitleScene::Draw()
 
 void TitleScene::ObjDraw()
 {
+	obj_->Draw();
 }
 
 void TitleScene::ObjDraw2()
 {
+	orbObj_->Draw();
 }
 
 void TitleScene::ParticleDraw()
@@ -71,6 +103,9 @@ void TitleScene::ParticleDraw()
 
 void TitleScene::SpriteDraw()
 {
+	titleSp_.Draw();
+
+	//â‘ÎÅŒã
 	SceneChange::GetInstance()->Draw();
 }
 

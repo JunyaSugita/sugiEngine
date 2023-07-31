@@ -19,6 +19,8 @@ void SetSpell::Initialize()
 	magicMissileTex_ = Sprite::LoadTexture("magicMissileIcon.png");
 	iceBoltTex_ = Sprite::LoadTexture("iceBolt.png");
 	chainLightningTex_ = Sprite::LoadTexture("chainLightning.png");
+	enchantFireTex_ = Sprite::LoadTexture("enchantFireIcon.png");
+
 	comingSoonTex_ = Sprite::LoadTexture("comingSoonIcon.png");
 	selectHiLightTex_ = Sprite::LoadTexture("white1x1.png");
 
@@ -42,7 +44,7 @@ void SetSpell::Initialize()
 	spell4Sprite_.SetPos(400, 450);
 	spell4Sprite_.SetColor(1, 1, 1, 0.5f);
 
-	spell5Sprite_.Initialize(comingSoonTex_);
+	spell5Sprite_.Initialize(enchantFireTex_);
 	spell5Sprite_.SetAnchorPoint(0.5f, 0.5f);
 	spell5Sprite_.SetPos(500, 170);
 	spell5Sprite_.SetColor(1, 1, 1, 0.5f);
@@ -79,7 +81,7 @@ void SetSpell::Update()
 		selectHiLightSp_.SetPos(spell4Sprite_.GetPos().x, spell4Sprite_.GetPos().y);
 		break;
 	case ENCHANT_FIRE:
-		useSpellSprite_.SetTexture(comingSoonTex_);
+		useSpellSprite_.SetTexture(enchantFireTex_);
 		selectHiLightSp_.SetPos(spell5Sprite_.GetPos().x, spell5Sprite_.GetPos().y);
 	default:
 		break;

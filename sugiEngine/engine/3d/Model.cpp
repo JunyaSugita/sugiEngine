@@ -296,13 +296,10 @@ void Model::CreateBuffers()
 	constMap1_->diffuse = material_.diffuse;
 	constMap1_->specular = material_.specular;
 	constMap1_->alpha = material_.alpha;
-	constMap1_->color = { 1,1,1,1 };
 }
 
-void Model::Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootparamIndexMaterial,const XMFLOAT4& color)
+void Model::Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootparamIndexMaterial)
 {
-	constMap1_->color = color;
-
 	// 頂点バッファビューの設定コマンド
 	cmdList->IASetVertexBuffers(0, 1, &vbView_);
 
@@ -343,6 +340,11 @@ void Model::CalculateSmoothedVertexNormals()
 			vertices_[index].normal = { normal.m128_f32[0],normal.m128_f32[1], normal.m128_f32[2] };
 		}
 	}
+}
+
+void Model::SetColor(const XMFLOAT4& color)
+{
+	constMap1_->color = color;
 }
 
 void Model::LoatFromObjInternal(const std::string& modelname, bool smoothing) {

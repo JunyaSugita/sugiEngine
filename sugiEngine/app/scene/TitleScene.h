@@ -29,5 +29,26 @@ private:
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 
 	Sound sound_;
+
+	int32_t titleTex_;
+	Sprite titleSp_;
+
+	//本体
+	WorldTransform worldTrans_;
+	Vector3 pos_;
+	Vector3 rot_;
+	Vector3 scale_;
+
+	//上のオーブ
+	WorldTransform orbTrans_;
+	Vector3 orbPos_;
+	Vector3 orbRot_;
+	Vector3 orbScale_;
+
+	std::unique_ptr <Model> model_;
+	std::unique_ptr <Object3d> obj_;
+
+	std::unique_ptr <Model> orbModel_;
+	std::unique_ptr <Object3d> orbObj_;
 };
 

@@ -51,14 +51,14 @@ void FireBall::Update()
 		pos_ += vec_ * SPEED_MOVE;
 		if (pos_.y <= 0) {
 			isHit_ = true;
-			float temp = (Player::GetInstance()->GetPos() - pos_).length();
-			temp = (100 - temp) / 750;
-			Camera::GetInstance()->SetShake(temp);
 		}
 		particleM->AddFromFile(P_FIRE_BALL, pos_);
 	}
 	else if (isHit_) {
 		Explode();
+		float temp = (Player::GetInstance()->GetPos() - pos_).length();
+		temp = (80 - temp) / 750;
+		Camera::GetInstance()->SetShake(temp);
 	}
 
 	SetCol();

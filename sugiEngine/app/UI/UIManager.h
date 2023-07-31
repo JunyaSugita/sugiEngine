@@ -20,6 +20,9 @@ public:
 
 	void SetClear();
 	void SetGameOver();
+	float GetStateAlpha_() {
+		return stateAlpha_;
+	}
 private:
 	Sprite stateSp_;
 	float stateAlpha_;

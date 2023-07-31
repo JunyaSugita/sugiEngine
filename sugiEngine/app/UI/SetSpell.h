@@ -26,6 +26,7 @@ private:
 	uint32_t magicMissileTex_;
 	uint32_t iceBoltTex_;
 	uint32_t chainLightningTex_;
+	uint32_t enchantFireTex_;
 	uint32_t comingSoonTex_;
 	uint32_t selectHiLightTex_;
 
