@@ -1,6 +1,7 @@
 #include "SetSpell.h"
 #include "Input.h"
 #include "Player.h"
+#include "UIManager.h"
 
 SetSpell* SetSpell::GetInstance()
 {
@@ -90,7 +91,7 @@ void SetSpell::Update()
 
 void SetSpell::Draw()
 {
-	if (Input::GetInstance()->GetLTrigger() > 50) {
+	if (Input::GetInstance()->GetLTrigger() > 50 && UIManager::GetInstance()->GetStateAlpha_() == 0 && Player::GetInstance()->GetLife() > 0) {
 		sprite_.Draw();
 		selectHiLightSp_.Draw();
 		spell1Sprite_.Draw();

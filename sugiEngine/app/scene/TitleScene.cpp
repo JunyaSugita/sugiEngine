@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "ParticleManager.h"
 #include "sceneChange.h"
+#include "Tutorial.h"
 
 void TitleScene::Initialize()
 {
@@ -53,6 +54,8 @@ void TitleScene::Initialize()
 
 	orbObj_->SetWorldTransform(orbTrans_);
 	orbObj_->Update();
+
+	Tutorial::GetInstance()->SetIsTutorial(true);
 }
 
 void TitleScene::Update()

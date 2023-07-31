@@ -10,6 +10,7 @@
 #include "UIManager.h"
 #include "ColliderManager.h"
 #include "Fieldmanager.h"
+#include "Tutorial.h"
 
 using namespace ImGui;
 using namespace std;
@@ -183,16 +184,30 @@ void GameScene::Update()
 #endif
 #pragma endregion
 
+	if (Tutorial::GetInstance()->GetIsTutorial() && EnemyManager::GetInstance()->GetEnemyCount() <= 0) {
+		enemyM->PopEnemy({ -10,0,0 });
+		enemyM->PopEnemy({ -5,0,3 });
+		enemyM->PopEnemy({ 0,0,0 });
+		enemyM->PopEnemy({ 5,0,3 });
+		enemyM->PopEnemy({ 10,0,0 });
+		clearChecker_.Initialize();
+	}
+
 	clearChecker_.Update();
 	gameOver_.Update();
 
 	//ƒV[ƒ“‘JˆÚˆ—
+	if (Tutorial::GetInstance()->GetIsTutorial() && Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_A)) {
+		Tutorial::GetInstance()->SetIsTutorial(false);
+		GameManager::GetInstance()->SetGameScene();
+	}
+
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_A)) {
 		if (player->GetLife() > 0) {
 			GameManager::GetInstance()->SetTitleScene();
 		}
 		else {
-			Initialize();
+			GameManager::GetInstance()->SetGameScene();
 		}
 	}
 }

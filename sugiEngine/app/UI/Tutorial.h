@@ -18,17 +18,28 @@ public:
 	void Update();
 	void Draw();
 
-
+	bool GetIsTutorial() {
+		return isTutorial_;
+	}
+	void SetIsTutorial(bool is) {
+		isTutorial_ = is;
+	}
 private:
 	uint32_t tex_;
 	uint32_t tex2_;
 	uint32_t tex3_;
 	uint32_t tex4_;
 	uint32_t tex5_;
+	uint32_t texStart_;
 
 	Sprite sprite_;
+	Sprite sprite2_;
 
 	int32_t time_;
 	uint8_t number_;
 	bool isNext_;
+
+	bool isTutorial_ = true;
+
+	float ease_;
 };

@@ -46,7 +46,7 @@ void UIManager::Draw()
 	Closshair::GetInstance()->Draw();
 	SpellCharge::GetInstance()->Draw();
 	SetSpell::GetInstance()->Draw();
-	//Tutorial::GetInstance()->Draw();
+	Tutorial::GetInstance()->Draw();
 	stateSp_.Draw();
 
 

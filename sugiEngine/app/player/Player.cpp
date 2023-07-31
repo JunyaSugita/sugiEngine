@@ -6,6 +6,7 @@
 #include "SpellManager.h"
 #include "UIManager.h"
 #include "GameManager.h"
+#include "Tutorial.h"
 
 Player* Player::GetInstance()
 {
@@ -61,8 +62,6 @@ void Player::Update()
 	Attack();
 
 	CameraMove();
-
-
 }
 
 void Player::Draw()
@@ -77,8 +76,10 @@ void Player::SpDraw()
 
 void Player::SubLife()
 {
-	if (life_ > 0) {
-		life_--;
+	if (life_ > 0 ) {
+		if (!Tutorial::GetInstance()->GetIsTutorial()) {
+			life_--;
+		}
 		damageAlpha_ = 1.0f;
 		Camera::GetInstance()->SetShake(0.05f);
 	}
