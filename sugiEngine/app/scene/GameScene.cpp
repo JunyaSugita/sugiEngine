@@ -215,6 +215,7 @@ void GameScene::Update()
 			GameManager::GetInstance()->SetTitleScene();
 		}
 		else {
+			Tutorial::GetInstance()->SetIsReturn(true);
 			GameManager::GetInstance()->SetTitleScene();
 		}
 	}

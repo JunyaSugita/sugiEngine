@@ -18,8 +18,10 @@ void TitleScene::Initialize()
 
 	sound_.Initialize();
 	sound_.LoadWave("BGM");
-	sound_.PlayWave("BGM", true);
-	sound_.SetVolume("BGM", 0.3f);
+	if (!Tutorial::GetInstance()->GetIsReturn()) {
+		sound_.PlayWave("BGM", true);
+		sound_.SetVolume("BGM", 0.3f);
+	}
 
 	titleTex_ = Sprite::LoadTexture("title.png");
 	titleSp_.Initialize(titleTex_);
@@ -61,8 +63,6 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
-
-
 
 	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, {0,0.5f,0});
 	ParticleManager::GetInstance()->Update();
