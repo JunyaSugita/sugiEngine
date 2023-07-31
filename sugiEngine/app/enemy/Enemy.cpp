@@ -3,6 +3,7 @@
 #include "ImGuiManager.h"
 #include "EffectManager.h"
 #include "ParticleManager.h"
+#include "Tutorial.h"
 
 #include <random>
 
@@ -14,7 +15,6 @@ void Enemy::OneTimeInitialize()
 {
 	sEyeModel_ = move(Model::LoadFromObj("sphere", true));
 	sColModel_ = move(Model::LoadFromObj("box"));
-	sIsDebugStop_ = true;
 }
 
 void Enemy::Initialize(Vector3 pos)
@@ -69,6 +69,12 @@ void Enemy::Initialize(Vector3 pos)
 
 	attackTimer_ = 0.0f;
 	isAttack_ = false;
+	if (Tutorial::GetInstance()->GetIsTutorial()) {
+		sIsDebugStop_ = true;
+	}
+	else {
+		sIsDebugStop_ = true;
+	}
 }
 
 void Enemy::Update()

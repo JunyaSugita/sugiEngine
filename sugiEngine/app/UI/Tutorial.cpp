@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "SpellManager.h"
 #include "Player.h"
+#include "GameManager.h"
 
 Tutorial* Tutorial::GetInstance()
 {
@@ -17,18 +18,27 @@ void Tutorial::Initialize()
 	tex3_ = Sprite::LoadTexture("tutorial3.png");
 	tex4_ = Sprite::LoadTexture("tutorial4.png");
 	tex5_ = Sprite::LoadTexture("tutorial5.png");
+	texStart_ = Sprite::LoadTexture("start.png");
 
 	sprite_.Initialize(tex_);
 	sprite_.SetSize(300, 120);
+	sprite_.SetPos(0,250);
+	sprite2_.Initialize(texStart_);
+	sprite2_.SetSize(450, 90);
+	sprite2_.SetPos(0, 320);
 
 	time_ = 60;
 	number_ = 0;
 	isNext_ = false;
+	ease_ = 0;
 }
 
 void Tutorial::Update()
 {
 	Input* input = Input::GetInstance();
+
+	sprite_.SetPos(0, 250 + sinf(ease_+= 0.01f) * 20);
+	sprite2_.SetPos(-50, 380 + sinf(ease_ += 0.01f) * 20);
 
 	switch (number_)
 	{
@@ -69,7 +79,7 @@ void Tutorial::Update()
 		time_--;
 		if (time_ < 0) {
 			number_++;
-			time_ = 60;
+			time_ = 100;
 			isNext_ = false;
 		}
 	}
@@ -77,5 +87,8 @@ void Tutorial::Update()
 
 void Tutorial::Draw()
 {
-	sprite_.Draw();
+	if (isTutorial_) {
+		sprite_.Draw();
+		sprite2_.Draw();
+	}
 }
