@@ -55,7 +55,7 @@ void TitleScene::Initialize()
 	orbObj_->SetWorldTransform(orbTrans_);
 	orbObj_->Update();
 
-	Tutorial::GetInstance()->SetIsTutorial(true);
+	//Tutorial::GetInstance()->SetIsTutorial(true);
 }
 
 void TitleScene::Update()

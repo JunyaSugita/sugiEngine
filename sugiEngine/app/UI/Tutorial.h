@@ -39,7 +39,7 @@ private:
 	uint8_t number_;
 	bool isNext_;
 
-	bool isTutorial_ = true;
+	bool isTutorial_ = false;
 
 	float ease_;
 };

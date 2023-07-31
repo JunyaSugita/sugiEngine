@@ -73,7 +73,7 @@ void Enemy::Initialize(Vector3 pos)
 		sIsDebugStop_ = true;
 	}
 	else {
-		sIsDebugStop_ = false;
+		sIsDebugStop_ = true;
 	}
 }
 
