@@ -56,7 +56,7 @@ public:
 	static void SetDevice(ID3D12Device* device) {
 		sDevice = device;
 	}
-
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1_;
 private:
 	void LoatFromObjInternal(const std::string& modelname, bool smoothing = false);
 
@@ -103,7 +103,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff_;
 	D3D12_VERTEX_BUFFER_VIEW vbView_;
 	D3D12_INDEX_BUFFER_VIEW ibView_;
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1_;
+
 	ConstBufferDataB1* constMap1_ = nullptr;
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 };

@@ -24,6 +24,13 @@ public:
 	void SetIsTutorial(bool is) {
 		isTutorial_ = is;
 	}
+
+	bool GetIsReturn() {
+		return isReturn_;
+	}
+	void SetIsReturn(bool is) {
+		isReturn_ = is;
+	}
 private:
 	uint32_t tex_;
 	uint32_t tex2_;
@@ -39,7 +46,8 @@ private:
 	uint8_t number_;
 	bool isNext_;
 
-	bool isTutorial_ = false;
+	bool isTutorial_ = true;
+	bool isReturn_ = false;
 
 	float ease_;
 };

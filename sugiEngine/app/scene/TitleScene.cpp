@@ -17,7 +17,9 @@ void TitleScene::Initialize()
 	SceneChange::GetInstance()->Initialize();
 
 	sound_.Initialize();
-	sound_.LoadWave("Alarm01");
+	sound_.LoadWave("BGM");
+	sound_.PlayWave("BGM", true);
+	sound_.SetVolume("BGM", 0.3f);
 
 	titleTex_ = Sprite::LoadTexture("title.png");
 	titleSp_.Initialize(titleTex_);
@@ -54,13 +56,13 @@ void TitleScene::Initialize()
 
 	orbObj_->SetWorldTransform(orbTrans_);
 	orbObj_->Update();
-
-	//Tutorial::GetInstance()->SetIsTutorial(true);
 }
 
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
+
+
 
 	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, {0,0.5f,0});
 	ParticleManager::GetInstance()->Update();
@@ -75,6 +77,10 @@ void TitleScene::Update()
 
 	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
 		ParticleManager::GetInstance()->Clear();
+		GameManager::GetInstance()->SetGameScene();
+	}
+	else if (Tutorial::GetInstance()->GetIsReturn()) {
+		Tutorial::GetInstance()->SetIsReturn(false);
 		GameManager::GetInstance()->SetGameScene();
 	}
 }

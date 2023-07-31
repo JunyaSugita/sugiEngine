@@ -377,6 +377,9 @@ void Object3d::Draw()
 	if (model_ == nullptr) {
 		return;
 	}
+	if (this->model_->constBuffB1_ == nullptr) {
+		return;
+	}
 
 	//定数バッファビュー(CBV)の設定コマンド
 	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffB0_->GetGPUVirtualAddress());

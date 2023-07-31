@@ -37,5 +37,7 @@ private:
 
 	ClearChecker clearChecker_;
 	GameOver gameOver_;
+
+	Sound sound_;
 };
 

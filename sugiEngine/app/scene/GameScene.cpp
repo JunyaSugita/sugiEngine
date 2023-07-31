@@ -56,6 +56,11 @@ void GameScene::Initialize()
 
 	clearChecker_.Initialize();
 	gameOver_.Initialize();
+
+	sound_.Initialize();
+	sound_.LoadWave("mainBGM");
+	sound_.PlayWave("mainBGM", true);
+	sound_.SetVolume("mainBGM", 0.1f);
 }
 
 void GameScene::Update()
@@ -74,6 +79,7 @@ void GameScene::Update()
 #pragma endregion
 
 #pragma region デバッグ用
+#ifdef _DEBUG
 	if (!particleE_->GetIsEdit(0)) {
 
 		if (input->TriggerKey(DIK_P)) {
@@ -109,6 +115,7 @@ void GameScene::Update()
 		//	player->SetPresetSpell(ICE_BOLT);
 		//}
 	}
+#endif
 #pragma endregion
 
 #pragma region Update呼び出し
@@ -199,7 +206,8 @@ void GameScene::Update()
 	//シーン遷移処理
 	if (Tutorial::GetInstance()->GetIsTutorial() && Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_A)) {
 		Tutorial::GetInstance()->SetIsTutorial(false);
-		GameManager::GetInstance()->SetGameScene();
+		Tutorial::GetInstance()->SetIsReturn(true);
+		GameManager::GetInstance()->SetTitleScene();
 	}
 
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_A)) {
@@ -207,7 +215,7 @@ void GameScene::Update()
 			GameManager::GetInstance()->SetTitleScene();
 		}
 		else {
-			GameManager::GetInstance()->SetGameScene();
+			GameManager::GetInstance()->SetTitleScene();
 		}
 	}
 }
