@@ -31,6 +31,10 @@ public:
 		return col_.size();
 	}
 
+	int32_t GetNavePointNum() {
+		return navePointNum_;
+	}
+
 private:
 	LevelData* levelData_;
 
@@ -40,5 +44,6 @@ private:
 
 	std::vector<BoxCol> col_;
 
-	int32_t objNum_ = 0;
+	int32_t objNum_;
+	int32_t navePointNum_;
 };
