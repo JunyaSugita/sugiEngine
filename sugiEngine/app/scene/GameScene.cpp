@@ -11,6 +11,7 @@
 #include "ColliderManager.h"
 #include "Fieldmanager.h"
 #include "Tutorial.h"
+#include "LoadOut.h"
 
 using namespace ImGui;
 using namespace std;
@@ -61,6 +62,8 @@ void GameScene::Initialize()
 	sound_.LoadWave("mainBGM");
 	sound_.PlayWave("mainBGM", true);
 	sound_.SetVolume("mainBGM", 0.1f);
+
+	LoadOut::GetInstance()->Initialize();
 }
 
 void GameScene::Update()
@@ -130,6 +133,7 @@ void GameScene::Update()
 	colM->Update();
 	particleM->Update();
 	particleE_->Update();
+	LoadOut::GetInstance()->Update();
 
 #pragma endregion
 
@@ -204,13 +208,13 @@ void GameScene::Update()
 	gameOver_.Update();
 
 	//ƒV[ƒ“‘JˆÚˆ—
-	if (Tutorial::GetInstance()->GetIsTutorial() && Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_A)) {
+	if (Tutorial::GetInstance()->GetIsTutorial() && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		Tutorial::GetInstance()->SetIsTutorial(false);
 		Tutorial::GetInstance()->SetIsReturn(true);
 		GameManager::GetInstance()->SetTitleScene();
 	}
 
-	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_A)) {
+	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		if (player->GetLife() > 0) {
 			GameManager::GetInstance()->SetTitleScene();
 		}
@@ -256,9 +260,11 @@ void GameScene::SpriteDraw()
 {
 	if (!particleE_->GetIsEdit(0)) {
 
-		Player::GetInstance()->SpDraw();
-		clearChecker_.Draw();
-		gameOver_.Draw();
+		if (!LoadOut::GetInstance()->GetIsActive()) {
+			Player::GetInstance()->SpDraw();
+			clearChecker_.Draw();
+			gameOver_.Draw();
+		}
 		UIManager::GetInstance()->Draw();
 	}
 }

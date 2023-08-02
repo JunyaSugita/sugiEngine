@@ -111,6 +111,7 @@
     <ClCompile Include="sugiEngine\app\spell\SpellManager.cpp" />
     <ClCompile Include="sugiEngine\app\system\ClearChecker.cpp" />
     <ClCompile Include="sugiEngine\app\system\GameOver.cpp" />
+    <ClCompile Include="sugiEngine\app\system\LoadOut.cpp" />
     <ClCompile Include="sugiEngine\app\UI\Closshair.cpp" />
     <ClCompile Include="sugiEngine\app\UI\SceneChange.cpp" />
     <ClCompile Include="sugiEngine\app\UI\SetSpell.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="sugiEngine\app\spell\SpellManager.h" />
     <ClInclude Include="sugiEngine\app\system\ClearChecker.h" />
     <ClInclude Include="sugiEngine\app\system\GameOver.h" />
+    <ClInclude Include="sugiEngine\app\system\LoadOut.h" />
     <ClInclude Include="sugiEngine\app\UI\Closshair.h" />
     <ClInclude Include="sugiEngine\app\UI\SceneChange.h" />
     <ClInclude Include="sugiEngine\app\UI\SetSpell.h" />

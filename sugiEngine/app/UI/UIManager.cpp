@@ -4,6 +4,7 @@
 #include "SetSpell.h"
 #include "Tutorial.h"
 #include "sceneChange.h"
+#include "LoadOut.h"
 
 UIManager* UIManager::GetInstance()
 {
@@ -43,12 +44,14 @@ void UIManager::Update()
 
 void UIManager::Draw()
 {
-	Closshair::GetInstance()->Draw();
-	SpellCharge::GetInstance()->Draw();
-	SetSpell::GetInstance()->Draw();
-	Tutorial::GetInstance()->Draw();
-	stateSp_.Draw();
-
+	if (!LoadOut::GetInstance()->GetIsActive()) {
+		Closshair::GetInstance()->Draw();
+		SpellCharge::GetInstance()->Draw();
+		SetSpell::GetInstance()->Draw();
+		Tutorial::GetInstance()->Draw();
+		stateSp_.Draw();
+	}
+	LoadOut::GetInstance()->Draw();
 
 	SceneChange::GetInstance()->Draw();
 }

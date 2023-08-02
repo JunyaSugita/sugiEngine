@@ -54,6 +54,7 @@ public:
 	void Draw();
 
 	void SetPos(float x, float y);
+	void SetPos(const Vector2& pos);
 	Vector2 GetPos() {
 		return pos_;
 	};

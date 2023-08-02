@@ -21,6 +21,9 @@ bool PostEffectSecond::sIsMoveCloss = false;
 
 bool PostEffectSecond::sIsDirty = false;
 
+Vector2 PostEffectSecond::sPos = { 0,0 };
+Vector2 PostEffectSecond::sSize = { WIN_WIDTH,WIN_HEIGHT };
+
 void PostEffectSecond::Initialize(ID3D12Device* device)
 {
 	HRESULT result;
@@ -447,7 +450,7 @@ void PostEffectSecond::Initialize(ID3D12Device* device)
 			0, 0, 0, 1)
 	);
 	matTransform.SetRotZ(rotate_);
-	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
+	matTransform.SetPos(Vector3(sPos.x, sPos.y, 0));
 	matTransform.SetWorldMat();
 
 	constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
@@ -697,10 +700,10 @@ void PostEffectSecond::SetUp()
 {
 	HRESULT result;
 
-	float left = (0.0f - anchorPoint_.x) * size_.x;
-	float right = (1.0f - anchorPoint_.x) * size_.x;
-	float top = (0.0f - anchorPoint_.y) * size_.y;
-	float bottom = (1.0f - anchorPoint_.y) * size_.y;
+	float left = (0.0f - anchorPoint_.x) * sSize.x;
+	float right = (1.0f - anchorPoint_.x) * sSize.x;
+	float top = (0.0f - anchorPoint_.y) * sSize.y;
+	float bottom = (1.0f - anchorPoint_.y) * sSize.y;
 
 	if (isFlipX_ == true) {
 		left *= -1;
@@ -747,7 +750,7 @@ void PostEffectSecond::SetUp()
 	WorldTransform matTransform;
 	matTransform.GetMatWorld().Initialize();
 	matTransform.SetRotZ(rotate_);
-	matTransform.SetPos(Vector3(pos_.x, pos_.y, 0));
+	matTransform.SetPos(Vector3(sPos.x, sPos.y, 0));
 	matTransform.SetWorldMat();
 
 	constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();

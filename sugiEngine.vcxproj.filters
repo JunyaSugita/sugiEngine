@@ -303,6 +303,9 @@
     <ClCompile Include="sugiEngine\app\spell\EnchantFire.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\system\LoadOut.cpp">
+      <Filter>ソース ファイル\app\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -481,6 +484,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\spell\EnchantFire.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\system\LoadOut.h">
+      <Filter>ヘッダー ファイル\app\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

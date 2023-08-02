@@ -18,6 +18,8 @@ public:
 	void Update();
 	void Draw();
 
+	int32_t GetSpellTex(int32_t spellName);
+	void SetSpellTex();
 private:
 	uint32_t tex_;
 	Sprite sprite_;
@@ -30,11 +32,7 @@ private:
 	uint32_t comingSoonTex_;
 	uint32_t selectHiLightTex_;
 
-	Sprite spell1Sprite_;
-	Sprite spell2Sprite_;
-	Sprite spell3Sprite_;
-	Sprite spell4Sprite_;
-	Sprite spell5Sprite_;
+	Sprite spellSprite_[5];
 
 	Sprite useSpellSprite_;
 
