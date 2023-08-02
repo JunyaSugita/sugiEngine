@@ -31,6 +31,11 @@ void UIManager::Initialize()
 	stateSp_.SetColor(1,1,1, stateAlpha_);
 }
 
+void UIManager::GameInitialize()
+{
+	stateAlpha_ = 0;
+}
+
 void UIManager::Update()
 {
 	Closshair::GetInstance()->Update();

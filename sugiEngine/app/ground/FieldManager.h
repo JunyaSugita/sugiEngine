@@ -19,6 +19,7 @@ public:
 
 public:
 	void Initialize();
+	void GameInitialize();
 	void Update();
 	void Draw();
 

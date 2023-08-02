@@ -73,6 +73,62 @@ void FieldManager::Initialize()
 	}
 }
 
+void FieldManager::GameInitialize()
+{
+	objNum_ = 0;
+	for (auto& objectData : levelData_->obj) {
+		if (objectData.filename == "box") {
+			//モデルを指定して3Dオブジェクトを生成
+			object_[objNum_] = make_unique<Object3d>();
+			object_[objNum_]->Initialize();
+			object_[objNum_]->SetModel(groundModel_.get());
+
+			//obj情報
+			WorldTransform worldTransform;
+			worldTransform.SetPos(objectData.pos);
+			worldTransform.SetRot({ 0,0,0 });
+			worldTransform.SetScale(objectData.scale);
+
+			object_[objNum_]->SetWorldTransform(worldTransform);
+			object_[objNum_]->Update();
+
+			BoxCol temp;
+			temp.pos = objectData.pos;
+			temp.size = objectData.scale;
+			col_.push_back(temp);
+
+			objNum_++;
+		}
+		if (objectData.filename == "ground") {
+			//モデルを指定して3Dオブジェクトを生成
+			object_[objNum_] = make_unique<Object3d>();
+			object_[objNum_]->Initialize();
+			object_[objNum_]->SetModel(groundModel_.get());
+
+			//obj情報
+			WorldTransform worldTransform;
+			worldTransform.SetPos(objectData.pos);
+			worldTransform.SetRot({ 0,0,0 });
+			worldTransform.SetScale(objectData.scale);
+
+			object_[objNum_]->SetWorldTransform(worldTransform);
+			object_[objNum_]->Update();
+			object_[objNum_]->SetColor({ 1,1,1,1 });
+			object_[objNum_]->SetIsSimple();
+
+			BoxCol temp;
+			temp.pos = objectData.pos;
+			temp.size = objectData.scale;
+			col_.push_back(temp);
+
+			objNum_++;
+		}
+		if (objectData.filename == "enemy") {
+			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
+		}
+	}
+}
+
 void FieldManager::Update()
 {
 	for (int i = 0; i < objNum_; i++) {

@@ -207,7 +207,6 @@ void ParticleEditor::Write()
 	editData_.acceleration2 = { acceleration_[2][0],acceleration_[2][1],acceleration_[2][2] };
 	editData_.gravity2 = { gravity_[2][0],gravity_[2][1],gravity_[2][2] };
 	editData_.color2 = { color_[2][0],color_[2][1],color_[2][2],color_[2][3] };
-
 }
 
 void ParticleEditor::Read()

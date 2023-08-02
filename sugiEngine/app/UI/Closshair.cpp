@@ -21,7 +21,7 @@ void Closshair::Update()
 	Input* input = Input::GetInstance();
 
 	if (input->GetLTrigger() > 50) {
-		clossSprite_.SetPos(WIN_WIDTH / 2 + input->GetRSteckX() / 500.0f, WIN_HEIGHT / 2 + (input->GetRSteckY() / 500.0f) * -1);
+		clossSprite_.SetPos(WIN_WIDTH / 2 + input->GetRStickX() / 500.0f, WIN_HEIGHT / 2 + (input->GetRStickY() / 500.0f) * -1);
 	}
 	else {
 		clossSprite_.SetPos(WIN_WIDTH / 2, WIN_HEIGHT / 2);

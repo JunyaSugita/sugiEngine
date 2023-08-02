@@ -45,16 +45,16 @@ void Input::Update()
 	ZeroMemory(&state_, sizeof(XINPUT_STATE));
 	DWORD dwResult = XInputGetState(0, &state_);
 
-	if (state_.Gamepad.sThumbLX <  2000 && state_.Gamepad.sThumbLX > -2000) {
+	if (state_.Gamepad.sThumbLX <  DEAD_ZONE && state_.Gamepad.sThumbLX > -DEAD_ZONE) {
 		state_.Gamepad.sThumbLX = 0;
 	}
-	if (state_.Gamepad.sThumbLY <  2000 && state_.Gamepad.sThumbLY > -2000) {
+	if (state_.Gamepad.sThumbLY <  DEAD_ZONE && state_.Gamepad.sThumbLY > -DEAD_ZONE) {
 		state_.Gamepad.sThumbLY = 0;
 	}
-	if (state_.Gamepad.sThumbRX <  2000 && state_.Gamepad.sThumbRX > -2000) {
+	if (state_.Gamepad.sThumbRX <  DEAD_ZONE && state_.Gamepad.sThumbRX > -DEAD_ZONE) {
 		state_.Gamepad.sThumbRX = 0;
 	}
-	if (state_.Gamepad.sThumbRY <  2000 && state_.Gamepad.sThumbRY > -2000) {
+	if (state_.Gamepad.sThumbRY <  DEAD_ZONE && state_.Gamepad.sThumbRY > -DEAD_ZONE) {
 		state_.Gamepad.sThumbRY = 0;
 	}
 }
@@ -108,22 +108,22 @@ bool Input::ReleaseButton(int32_t buttonNum)
 	return false;
 }
 
-SHORT Input::GetLSteckX()
+SHORT Input::GetLStickX()
 {
 	return state_.Gamepad.sThumbLX;
 }
 
-SHORT Input::GetLSteckY()
+SHORT Input::GetLStickY()
 {
 	return state_.Gamepad.sThumbLY;
 }
 
-SHORT Input::GetRSteckX()
+SHORT Input::GetRStickX()
 {
 	return state_.Gamepad.sThumbRX;
 }
 
-SHORT Input::GetRSteckY()
+SHORT Input::GetRStickY()
 {
 	return state_.Gamepad.sThumbRY;
 }
@@ -131,4 +131,60 @@ SHORT Input::GetRSteckY()
 BYTE Input::GetLTrigger()
 {
 	return state_.Gamepad.bLeftTrigger;
+}
+
+bool Input::TriggerLStickRight()
+{
+	if (GetLStickX() > 10000) {
+		if (!isLSRight_) {
+			isLSRight_ = true;
+			return true;
+		}
+	}
+	else {
+		isLSRight_ = false;
+	}
+	return false;
+}
+
+bool Input::TriggerLStickLeft()
+{
+	if (GetLStickX() < -10000) {
+		if (!isLSLeft_) {
+			isLSLeft_ = true;
+			return true;
+		}
+	}
+	else {
+		isLSLeft_ = false;
+	}
+	return false;
+}
+
+bool Input::TriggerLStickUp()
+{
+	if (GetLStickY() > 10000) {
+		if (!isLSUp_) {
+			isLSUp_ = true;
+			return true;
+		}
+	}
+	else {
+		isLSUp_ = false;
+	}
+	return false;
+}
+
+bool Input::TriggerLStickDown()
+{
+	if (GetLStickY() < -10000) {
+		if (!isLSDown_) {
+			isLSDown_ = true;
+			return true;
+		}
+	}
+	else {
+		isLSDown_ = false;
+	}
+	return false;
 }
