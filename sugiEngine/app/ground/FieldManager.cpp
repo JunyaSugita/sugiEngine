@@ -1,5 +1,6 @@
 #include "FieldManager.h"
 #include "EnemyManager.h"
+#include "NavePointManager.h"
 
 using namespace std;
 
@@ -69,7 +70,9 @@ void FieldManager::Initialize()
 		if (objectData.filename == "enemy") {
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
 		}
-
+		if (objectData.filename == "navePoint") {
+			NavePointManager::GetInstance()->Add(objectData.pos);
+		}
 	}
 }
 

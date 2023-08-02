@@ -33,6 +33,10 @@ public:
 
 	bool CheckHitEnemyToChainLightning();
 
+	bool CanMovePlayerVec(Vector3 pos);
+
+	void NavePointScore();
+
 private:
 	bool CheckWayX(BoxCol a, BoxCol b);
 	bool CheckWayY(BoxCol a, BoxCol b);

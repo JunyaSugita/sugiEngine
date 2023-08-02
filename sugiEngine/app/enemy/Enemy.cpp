@@ -4,6 +4,7 @@
 #include "EffectManager.h"
 #include "ParticleManager.h"
 #include "Tutorial.h"
+#include "NavePointManager.h"
 
 #include <random>
 
@@ -291,11 +292,24 @@ void Enemy::GetPlayer()
 
 void Enemy::Move()
 {
+	ColliderManager* colM = ColliderManager::GetInstance();
 	if (!isStop_) {
-		toPlayer.normalize();
+		if (colM->CanMovePlayerVec(pos_)) {
+			toPlayer.normalize();
 
-		pos_.x += toPlayer.x * SPEED_MOVE * GetSlow();
-		pos_.z += toPlayer.y * SPEED_MOVE * GetSlow();
+			pos_.x += toPlayer.x * SPEED_MOVE * GetSlow();
+			pos_.z += toPlayer.y * SPEED_MOVE * GetSlow();
+		}
+		else {
+			for (int i = 0; i < 100; i++) {
+				if (NavePointManager::GetInstance()->GetNavePoint(i).isActive) {
+
+				}
+				else {
+					break;
+				}
+			}
+		}
 	}
 	else {
 		isStop_ = false;

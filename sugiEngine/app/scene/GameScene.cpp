@@ -12,6 +12,7 @@
 #include "Fieldmanager.h"
 #include "Tutorial.h"
 #include "LoadOut.h"
+#include "NavePointManager.h"
 
 using namespace ImGui;
 using namespace std;
@@ -225,6 +226,7 @@ void GameScene::ObjDraw2()
 void GameScene::ParticleDraw()
 {
 	ParticleManager::GetInstance()->Draw();
+	NavePointManager::GetInstance()->Draw();
 }
 
 void GameScene::SpriteDraw()
