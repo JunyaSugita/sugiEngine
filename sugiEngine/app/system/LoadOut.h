@@ -58,8 +58,8 @@ private:
 	int32_t selectMode_;//•ÏXó‹µ
 	bool isDirty_;//•Ï‚¦‚½‚©‚Ç‚¤‚©
 
-	int32_t spellTexNum_[5];
-	Sprite preview_[5];
+	int32_t spellTexNum_[20];
+	Sprite preview_[20];
 	Sprite hiLight_;
 
 	Sprite set_[5];

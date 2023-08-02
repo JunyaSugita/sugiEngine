@@ -27,6 +27,9 @@ void LoadOut::Initialize()
 	spellTexNum_[ICE_BOLT] = Sprite::LoadTexture("iceBolt.png");
 	spellTexNum_[CHAIN_LIGHTNING] = Sprite::LoadTexture("chainLightning.png");
 	spellTexNum_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantFireIcon.png");
+	for (int i = 5; i < 20; i++) {
+		spellTexNum_[i] = Sprite::LoadTexture("comingSoonIcon.png");
+	}
 
 	preview_[FIRE_BALL].Initialize(spellTexNum_[FIRE_BALL]);
 	preview_[FIRE_BALL].SetPos(170, 150);
@@ -43,11 +46,21 @@ void LoadOut::Initialize()
 	preview_[ENCHANT_FIRE].Initialize(spellTexNum_[ENCHANT_FIRE]);
 	preview_[ENCHANT_FIRE].SetPos(650, 150);
 
+	for (int i = 0; i < 20; i++) {
+		preview_[i].Initialize(spellTexNum_[i]);
+	}
+
+	for (int y = 0; y < 4; y++) {
+		for (int x = 0; x < 5; x++) {
+			preview_[y * 5 + x].SetPos(float(170 + x * 120),float(120 + y * 120));
+		}
+	}
+
 	hiLight_.Initialize(Sprite::LoadTexture("white1x1.png"));
 	hiLight_.SetSize(120,120);
 	hiLight_.SetPos(preview_[selectSpell_].GetPos());
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 20; i++) {
 		preview_[i].SetAnchorPoint(0.5f, 0.5f);
 	}
 	hiLight_.SetAnchorPoint(0.5f, 0.5f);
@@ -85,6 +98,18 @@ void LoadOut::Update()
 					selectSpell_ += 5;
 				}
 				selectSpell_--;
+			}
+			if (input->TriggerKey(DIK_S)) {
+				if (selectSpell_ >= 15) {
+					selectSpell_ -= 20;
+				}
+				selectSpell_+= 5	;
+			}
+			if (input->TriggerKey(DIK_W)) {
+				if (selectSpell_ <= 4) {
+					selectSpell_ += 20;
+				}
+				selectSpell_ -= 5;
 			}
 
 			hiLight_.SetPos(preview_[selectSpell_].GetPos());
@@ -134,7 +159,7 @@ void LoadOut::Draw()
 {
 	if (isActive_) {
 		hiLight_.Draw();
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 20; i++) {
 			preview_[i].Draw();
 		}
 		for (int i = 0; i < 5; i++) {
