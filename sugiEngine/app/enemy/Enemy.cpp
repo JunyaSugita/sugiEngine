@@ -4,6 +4,7 @@
 #include "EffectManager.h"
 #include "ParticleManager.h"
 #include "Tutorial.h"
+#include "NavePointManager.h"
 
 #include <random>
 
@@ -291,9 +292,44 @@ void Enemy::GetPlayer()
 
 void Enemy::Move()
 {
-	if (!isStop_) {
-		toPlayer.normalize();
+	ColliderManager* colM = ColliderManager::GetInstance();
+	NavePointManager* navePointM = NavePointManager::GetInstance();
 
+	if (!isStop_) {
+		Vector2 temp;
+		if (colM->CanMovePlayerVec(pos_)) {
+			int a = 0;
+			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
+			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
+		}
+		else if(colM->CanMoveNavePointVec(1,pos_)){
+			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
+			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
+
+			toPlayer = Vector2(temp.x - pos_.x, temp.y - pos_.z);
+		}
+		else if (colM->CanMoveNavePointVec(2, pos_)) {
+			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
+			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
+
+			toPlayer = Vector2(temp.x - pos_.x, temp.y - pos_.z);
+		}
+		else if (colM->CanMoveNavePointVec(3, pos_)) {
+			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
+			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
+
+			toPlayer = Vector2(temp.x - pos_.x, temp.y - pos_.z);
+		}
+		else if (colM->CanMoveNavePointVec(4, pos_)) {
+			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
+			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
+
+			toPlayer = Vector2(temp.x - pos_.x, temp.y - pos_.z);
+		}
+		
+		//ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, { temp.x,0,temp.y });
+
+		toPlayer.normalize();
 		pos_.x += toPlayer.x * SPEED_MOVE * GetSlow();
 		pos_.z += toPlayer.y * SPEED_MOVE * GetSlow();
 	}

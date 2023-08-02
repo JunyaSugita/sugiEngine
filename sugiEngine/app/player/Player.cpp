@@ -161,6 +161,9 @@ void Player::Move()
 
 	//“–‚½‚è”»’èˆÚ“®
 	boxCol_.pos = pos_;
+
+	//navePoint‚Ìd‚Ý‚Ã‚¯
+	ColliderManager::GetInstance()->NavePointScore();
 }
 
 void Player::CameraMove()

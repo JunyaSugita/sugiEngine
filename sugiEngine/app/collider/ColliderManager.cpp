@@ -4,6 +4,7 @@
 #include "ParticleManager.h"
 #include "Player.h"
 #include "FieldManager.h"
+#include "NavePointManager.h"
 
 using namespace std;
 
@@ -40,8 +41,8 @@ void ColliderManager::Update()
 				enemysCol[j]->SetDebuff(FIRE, 10);
 			}
 		}
-		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
-			if (CheckHitBox(fireBallsCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+		for (int j = 0; j < field->GetColSize(); j++) {
+			if (CheckHitBox(fireBallsCol[i]->GetBoxCol(), field->GetCol(j))) {
 				fireBallsCol[i]->SetIsHit();
 			}
 		}
@@ -60,8 +61,8 @@ void ColliderManager::Update()
 				enemysCol[j]->SetIsHit(8, 5);
 			}
 		}
-		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
-			if (CheckHitBox(magicMissilesCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+		for (int j = 0; j < field->GetColSize(); j++) {
+			if (CheckHitBox(magicMissilesCol[i]->GetBoxCol(), field->GetCol(j))) {
 				magicMissilesCol[i]->SetIsHit();
 			}
 		}
@@ -81,8 +82,8 @@ void ColliderManager::Update()
 				enemysCol[j]->SetDebuff(ICE, 12);
 			}
 		}
-		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
-			if (CheckHitBox(iceBoltsCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+		for (int j = 0; j < field->GetColSize(); j++) {
+			if (CheckHitBox(iceBoltsCol[i]->GetBoxCol(), field->GetCol(j))) {
 				iceBoltsCol[i]->SetIsHit();
 			}
 		}
@@ -203,20 +204,20 @@ void ColliderManager::Update()
 
 #pragma region ìGÇ∆ï«ÇÃîªíË
 	for (int i = 0; i < enemysCol.size(); i++) {
-		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
-			if (CheckHitBox(enemysCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
-				if (CheckHitX(enemysCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
-					if (!CheckHitX(enemysCol[i]->GetOldBoxCol(), field->GetInstance()->GetCol(j))) {
+		for (int j = 0; j < field->GetColSize(); j++) {
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
+				if (CheckHitX(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
+					if (!CheckHitX(enemysCol[i]->GetOldBoxCol(), field->GetCol(j))) {
 						enemysCol[i]->SetColX(enemysCol[i]->GetOldBoxCol().pos.x);
 					}
 				}
-				if (CheckHitY(enemysCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
-					if (!CheckHitY(enemysCol[i]->GetOldBoxCol(), field->GetInstance()->GetCol(j))) {
+				if (CheckHitY(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
+					if (!CheckHitY(enemysCol[i]->GetOldBoxCol(), field->GetCol(j))) {
 						enemysCol[i]->SetColY(enemysCol[i]->GetOldBoxCol().pos.y);
 					}
 				}
-				if (CheckHitZ(enemysCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
-					if (!CheckHitZ(enemysCol[i]->GetOldBoxCol(), field->GetInstance()->GetCol(j))) {
+				if (CheckHitZ(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
+					if (!CheckHitZ(enemysCol[i]->GetOldBoxCol(), field->GetCol(j))) {
 						enemysCol[i]->SetColZ(enemysCol[i]->GetOldBoxCol().pos.z);
 					}
 				}
@@ -228,20 +229,20 @@ void ColliderManager::Update()
 #pragma endregion
 
 #pragma region ÉvÉåÉCÉÑÅ[Ç∆ï«ÇÃîªíË
-	for (int i = 0; i < field->GetInstance()->GetColSize(); i++) {
-		if (CheckHitBox(player->GetBoxCol(), field->GetInstance()->GetCol(i))) {
-			if (CheckHitX(player->GetBoxCol(), field->GetInstance()->GetCol(i))) {
-				if (!CheckHitX(player->GetOldBoxCol(), field->GetInstance()->GetCol(i))) {
+	for (int i = 0; i < field->GetColSize(); i++) {
+		if (CheckHitBox(player->GetBoxCol(), field->GetCol(i))) {
+			if (CheckHitX(player->GetBoxCol(), field->GetCol(i))) {
+				if (!CheckHitX(player->GetOldBoxCol(), field->GetCol(i))) {
 					player->SetPosX(player->GetOldBoxCol().pos.x);
 				}
 			}
-			if (CheckHitY(player->GetBoxCol(), field->GetInstance()->GetCol(i))) {
-				if (!CheckHitY(player->GetOldBoxCol(), field->GetInstance()->GetCol(i))) {
+			if (CheckHitY(player->GetBoxCol(), field->GetCol(i))) {
+				if (!CheckHitY(player->GetOldBoxCol(), field->GetCol(i))) {
 					player->SetPosY(player->GetOldBoxCol().pos.y);
 				}
 			}
-			if (CheckHitZ(player->GetBoxCol(), field->GetInstance()->GetCol(i))) {
-				if (!CheckHitZ(player->GetOldBoxCol(), field->GetInstance()->GetCol(i))) {
+			if (CheckHitZ(player->GetBoxCol(), field->GetCol(i))) {
+				if (!CheckHitZ(player->GetOldBoxCol(), field->GetCol(i))) {
 					player->SetPosZ(player->GetOldBoxCol().pos.z);
 				}
 			}
@@ -330,8 +331,8 @@ bool ColliderManager::CheckHitEnemyToChainLightning()
 				return true;
 			}
 		}
-		for (int j = 0; j < field->GetInstance()->GetColSize(); j++) {
-			if (CheckHitBox(chainLightningsCol[i]->GetBoxCol(), field->GetInstance()->GetCol(j))) {
+		for (int j = 0; j < field->GetColSize(); j++) {
+			if (CheckHitBox(chainLightningsCol[i]->GetBoxCol(), field->GetCol(j))) {
 				return true;
 			}
 		}
@@ -339,5 +340,265 @@ bool ColliderManager::CheckHitEnemyToChainLightning()
 	}
 
 	return false;
+}
+
+bool ColliderManager::CanMovePlayerVec(Vector3 pos)
+{
+	FieldManager* field = FieldManager::GetInstance();
+
+	Vector3 playerPos = Player::GetInstance()->GetBoxCol().pos;
+	playerPos.y = 1;
+	Vector3 myPos = pos;
+	myPos.y = 1;
+
+	Vector3 vecN;
+	Vector3 vec = vecN = playerPos - myPos;
+	vecN.normalize();
+
+	if (vecN.x == 0) {
+		vecN.x = 0.0001f;
+	}
+	int32_t num = int32_t(vec.x / vecN.x);
+
+	for (int j = 0; j < num; j++) {
+		myPos += vecN;
+		for (int i = 0; i < field->GetColSize(); i++) {
+			if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+bool ColliderManager::CanMoveNavePointVec(int32_t num, Vector3 pos)
+{
+	FieldManager* field = FieldManager::GetInstance();
+	NavePointManager* navePointM = NavePointManager::GetInstance();
+	Player* player = Player::GetInstance();
+	a = -1;
+
+	for (int k = 0; k < field->GetNavePointNum(); k++) {
+		if (navePointM->GetNavePoint(k).score != num) {
+			continue;
+		}
+		bool isHit_ = false;
+
+		Vector3 playerPos = navePointM->GetNavePoint(k).pos;
+		playerPos.y = 1;
+		Vector3 myPos = pos;
+		myPos.y = 1;
+
+		Vector3 vecN;
+		Vector3 vec = vecN = playerPos - myPos;
+		vecN.normalize();
+
+		if (vecN.x == 0) {
+			vecN.x = 0.0001f;
+		}
+		int32_t num = int32_t(vec.x / vecN.x);
+
+		for (int j = 0; j < num; j++) {
+			myPos += vecN;
+			for (int i = 0; i < field->GetColSize(); i++) {
+				if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+					isHit_ = true;
+					break;
+				}
+			}
+			if (isHit_) {
+				break;
+			}
+		}
+		if (!isHit_) {
+			if (a != -1) {
+				if ((player->GetBoxCol().pos - navePointM->GetNavePoint(k).pos).length() > (player->GetBoxCol().pos - navePointM->GetNavePoint(a).pos).length()) {
+					continue;
+				}
+			}
+			a = k;
+		}
+	}
+	if (a == -1) {
+		return false;
+	}
+	return true;
+}
+
+int32_t ColliderManager::GetMoveNavePointVec()
+{
+	return a;
+}
+
+void ColliderManager::NavePointScore()
+{
+	FieldManager* field = FieldManager::GetInstance();
+	NavePointManager* navePointM = NavePointManager::GetInstance();
+
+	for (int k = 0; k < field->GetNavePointNum(); k++) {
+		bool isHit = false;
+		Vector3 playerPos = Player::GetInstance()->GetBoxCol().pos;
+		playerPos.y = 0.3f;
+		Vector3 myPos = navePointM->GetNavePoint(k).pos;
+		myPos.y = 0.3f;
+
+		Vector3 vecN;
+		Vector3 vec = vecN = playerPos - myPos;
+		vecN.normalize();
+
+		if (vecN.x == 0) {
+			vecN.x = 0.0001f;
+		}
+		int32_t num = int32_t(vec.x / vecN.x);
+
+		for (int j = 0; j < num; j++) {
+			myPos += vecN;
+			for (int i = 0; i < field->GetColSize(); i++) {
+				if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+					isHit = true;
+					break;
+				}
+			}
+			if (isHit) {
+				break;
+			}
+		}
+
+		if (!isHit) {
+			navePointM->SetNaveScore(k, 1);
+		}
+		else {
+			navePointM->SetNaveScore(k, 99);
+		}
+	}
+
+	for (int l = 0; l < field->GetNavePointNum();l++) {
+		if (navePointM->GetNavePoint(l).score != 1) {
+			continue;
+		}
+		for (int k = 0; k < field->GetNavePointNum(); k++) {
+			if (navePointM->GetNavePoint(k).score != 99) {
+				continue;
+			}
+
+			bool isHit = false;
+			Vector3 navePos = navePointM->GetNavePoint(l).pos;
+			navePos.y = 0.3f;
+			Vector3 myPos = navePointM->GetNavePoint(k).pos;
+			myPos.y = 0.3f;
+
+			Vector3 vecN;
+			Vector3 vec = vecN = navePos - myPos;
+			vecN.normalize();
+
+			if (vecN.x == 0) {
+				vecN.x = 0.0001f;
+			}
+			int32_t num = int32_t(vec.x / vecN.x);
+
+			for (int j = 0; j < num; j++) {
+				myPos += vecN;
+				for (int i = 0; i < field->GetColSize(); i++) {
+					if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+						isHit = true;
+						break;
+					}
+				}
+				if (isHit) {
+					break;
+				}
+			}
+
+			if (!isHit) {
+				navePointM->SetNaveScore(k, 2);
+			}
+		}
+	}
+
+	for (int l = 0; l < field->GetNavePointNum(); l++) {
+		if (navePointM->GetNavePoint(l).score != 2) {
+			continue;
+		}
+		for (int k = 0; k < field->GetNavePointNum(); k++) {
+			if (navePointM->GetNavePoint(k).score != 99) {
+				continue;
+			}
+
+			bool isHit = false;
+			Vector3 navePos = navePointM->GetNavePoint(l).pos;
+			navePos.y = 0.3f;
+			Vector3 myPos = navePointM->GetNavePoint(k).pos;
+			myPos.y = 0.3f;
+
+			Vector3 vecN;
+			Vector3 vec = vecN = navePos - myPos;
+			vecN.normalize();
+
+			if (vecN.x == 0) {
+				vecN.x = 0.0001f;
+			}
+			int32_t num = int32_t(vec.x / vecN.x);
+
+			for (int j = 0; j < num; j++) {
+				myPos += vecN;
+				for (int i = 0; i < field->GetColSize(); i++) {
+					if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+						isHit = true;
+						break;
+					}
+				}
+				if (isHit) {
+					break;
+				}
+			}
+
+			if (!isHit) {
+				navePointM->SetNaveScore(k, 3);
+			}
+		}
+	}
+
+	for (int l = 0; l < field->GetNavePointNum(); l++) {
+		if (navePointM->GetNavePoint(l).score != 3) {
+			continue;
+		}
+		for (int k = 0; k < field->GetNavePointNum(); k++) {
+			if (navePointM->GetNavePoint(k).score != 99) {
+				continue;
+			}
+
+			bool isHit = false;
+			Vector3 navePos = navePointM->GetNavePoint(l).pos;
+			navePos.y = 0.3f;
+			Vector3 myPos = navePointM->GetNavePoint(k).pos;
+			myPos.y = 0.3f;
+
+			Vector3 vecN;
+			Vector3 vec = vecN = navePos - myPos;
+			vecN.normalize();
+
+			if (vecN.x == 0) {
+				vecN.x = 0.0001f;
+			}
+			int32_t num = int32_t(vec.x / vecN.x);
+
+			for (int j = 0; j < num; j++) {
+				myPos += vecN;
+				for (int i = 0; i < field->GetColSize(); i++) {
+					if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+						isHit = true;
+						break;
+					}
+				}
+				if (isHit) {
+					break;
+				}
+			}
+
+			if (!isHit) {
+				navePointM->SetNaveScore(k, 4);
+			}
+		}
+	}
 }
 

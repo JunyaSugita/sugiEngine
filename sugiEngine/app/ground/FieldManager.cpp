@@ -1,5 +1,6 @@
 #include "FieldManager.h"
 #include "EnemyManager.h"
+#include "NavePointManager.h"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ void FieldManager::Initialize()
 	groundModel_ = move(Model::LoadFromObj("ground"));
 
 	objNum_ = 0;
+	navePointNum_ = 0;
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
 			//モデルを指定して3Dオブジェクトを生成
@@ -69,13 +71,17 @@ void FieldManager::Initialize()
 		if (objectData.filename == "enemy") {
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
 		}
-
+		if (objectData.filename == "navePoint") {
+			NavePointManager::GetInstance()->Add(objectData.pos);
+			navePointNum_++;
+		}
 	}
 }
 
 void FieldManager::GameInitialize()
 {
 	objNum_ = 0;
+	navePointNum_ = 0;
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
 			//モデルを指定して3Dオブジェクトを生成
@@ -125,6 +131,7 @@ void FieldManager::GameInitialize()
 		}
 		if (objectData.filename == "enemy") {
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
+			navePointNum_++;
 		}
 	}
 }
