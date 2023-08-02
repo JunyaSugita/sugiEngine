@@ -24,7 +24,7 @@ void Player::Initialize()
 	cameraAngle_ = { 0,0 };
 	life_ = 10;
 	isAttack_ = false;
-	presetSpell_ = FIRE_BALL;
+	presetSpell_ = 0;
 	spellAngle_ = 0;
 
 	boxCol_.pos = pos_;
@@ -37,6 +37,26 @@ void Player::Initialize()
 	damageTex_ = Sprite::LoadTexture("damage.png");
 	damageSp_.Initialize(damageTex_);
 	damageSp_.SetColor(1,1,1,0);
+	damageAlpha_ = 0;
+}
+
+void Player::GameInitialize()
+{
+	pos_ = { 0,0,-40 };
+	rot_ = { 0,0,0 };
+	scale_ = { 1,1,1 };
+	cameraAngle_ = { 0,0 };
+	life_ = 10;
+	isAttack_ = false;
+	presetSpell_ = 0;
+	spellAngle_ = 0;
+
+	boxCol_.pos = pos_;
+	boxCol_.size = { 2.5f,2.2f,2.5f };
+	oldBoxCol_.pos = pos_;
+	oldBoxCol_.size = { 2.5f,2.2f,2.5f };
+
+	damageSp_.SetColor(1, 1, 1, 0);
 	damageAlpha_ = 0;
 }
 
@@ -128,14 +148,14 @@ void Player::Move()
 		pos_ += moveX * SPEED_MOVE * slow;
 	}
 
-	float stickX = float(input->GetLSteckX()) / 32768.0f;
-	float stickY = float(input->GetLSteckY()) / 32768.0f;
+	float stickX = float(input->GetLStickX()) / 32768.0f;
+	float stickY = float(input->GetLStickY()) / 32768.0f;
 
 	//ˆÚ“®
-	if (input->GetLSteckY()) {
+	if (input->GetLStickY()) {
 		pos_ += moveZ * SPEED_MOVE * stickY * slow;
 	}
-	if (input->GetLSteckX()) {
+	if (input->GetLStickX()) {
 		pos_ += moveX * SPEED_MOVE * stickX * slow;
 	}
 
@@ -169,15 +189,15 @@ void Player::CameraMove()
 		}
 	}
 
-	float stickX = float(input->GetRSteckX()) / 32768.0f;
-	float stickY = float(input->GetRSteckY()) / 32768.0f;
+	float stickX = float(input->GetRStickX()) / 32768.0f;
+	float stickY = float(input->GetRStickY()) / 32768.0f;
 
 	if (input->GetLTrigger() < 50 && !(input->TriggerKey(DIK_1) || input->TriggerKey(DIK_2) || input->TriggerKey(DIK_3) || input->TriggerKey(DIK_4) || input->TriggerKey(DIK_5))) {
-		if (input->GetRSteckX()) {
+		if (input->GetRStickX()) {
 			cameraAngle_.x += SPEED_CAMERA * stickX;
 		}
 
-		if (input->GetRSteckY()) {
+		if (input->GetRStickY()) {
 			cameraAngle_.y += SPEED_CAMERA * stickY;
 
 			//Å‘å’lÝ’è
@@ -191,11 +211,11 @@ void Player::CameraMove()
 		}
 	}
 	else {
-		Vector2 len = Vector2(input->GetRSteckX(), input->GetRSteckY());
+		Vector2 len = Vector2(input->GetRStickX(), input->GetRStickY());
 		float length = len.length();
 		if (len.length() > 20000 || input->TriggerKey(DIK_1) || input->TriggerKey(DIK_2) || input->TriggerKey(DIK_3) || input->TriggerKey(DIK_4) || input->TriggerKey(DIK_5)) {
 			len.normalize();
-			if (input->GetRSteckX() != 0 && input->GetRSteckY() != 0) {
+			if (input->GetRStickX() != 0 && input->GetRStickY() != 0) {
 				spellAngle_ = (atan2(len.cross({ 0,-1 }), -len.dot({ 0,-1 })) / PI * -RAD - (RAD / 2)) + RAD / 2 * 3;
 			}
 

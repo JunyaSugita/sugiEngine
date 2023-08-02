@@ -30,6 +30,9 @@ public:
 	void SetIsActive(bool is) {
 		isActive_ = is;
 	}
+	void ToggleIsActive() {
+		isActive_ = (isActive_ + 1) % 2;
+	}
 
 	bool GetIsDirty() {
 		return isDirty_;

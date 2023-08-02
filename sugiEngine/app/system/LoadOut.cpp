@@ -11,7 +11,7 @@ LoadOut* LoadOut::GetInstance()
 
 void LoadOut::Initialize()
 {
-	isActive_ = true;
+	isActive_ = false;
 	setSpell_[0] = FIRE_BALL;
 	setSpell_[1] = MAGIC_MISSILE;
 	setSpell_[2] = ICE_BOLT;
@@ -87,25 +87,25 @@ void LoadOut::Update()
 		//modeごとの異なる処理
 		if (selectMode_ == SELECT_SPELL) {
 			//セットしたい呪文を選択させる
-			if (input->TriggerKey(DIK_D)) {
+			if (input->TriggerKey(DIK_D) || input->TriggerLStickRight()) {
 				if (selectSpell_ % 5 == 4) {
 					selectSpell_ -= 5;
 				}
 				selectSpell_++;
 			}
-			if (input->TriggerKey(DIK_A)) {
+			if (input->TriggerKey(DIK_A) || input->TriggerLStickLeft()) {
 				if (selectSpell_ % 5 == 0) {
 					selectSpell_ += 5;
 				}
 				selectSpell_--;
 			}
-			if (input->TriggerKey(DIK_S)) {
+			if (input->TriggerKey(DIK_S) || input->TriggerLStickDown()) {
 				if (selectSpell_ >= 15) {
 					selectSpell_ -= 20;
 				}
 				selectSpell_+= 5	;
 			}
-			if (input->TriggerKey(DIK_W)) {
+			if (input->TriggerKey(DIK_W) || input->TriggerLStickUp()) {
 				if (selectSpell_ <= 4) {
 					selectSpell_ += 20;
 				}
@@ -114,7 +114,7 @@ void LoadOut::Update()
 
 			hiLight_.SetPos(preview_[selectSpell_].GetPos());
 
-			if (input->TriggerKey(DIK_SPACE)) {
+			if (input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
 				selectMode_ = SELECT_NUM;
 			}
 			if (input->TriggerKey(DIK_0) || input->TriggerButton(XINPUT_GAMEPAD_B)) {
@@ -123,13 +123,13 @@ void LoadOut::Update()
 		}
 		else if (selectMode_ == SELECT_NUM) {
 			//セットしたい呪文をどこに入れるか選択させる
-			if (input->TriggerKey(DIK_D)) {
+			if (input->TriggerKey(DIK_D) || input->TriggerLStickRight()) {
 				if (selectNum_ % 5 == 4) {
 					selectNum_ -= 5;
 				}
 				selectNum_++;
 			}
-			if (input->TriggerKey(DIK_A)) {
+			if (input->TriggerKey(DIK_A) || input->TriggerLStickLeft()) {
 				if (selectNum_ % 5 == 0) {
 					selectNum_ += 5;
 				}
@@ -138,7 +138,7 @@ void LoadOut::Update()
 
 			hiLight_.SetPos(set_[selectNum_].GetPos());
 
-			if (input->TriggerKey(DIK_SPACE)) {
+			if (input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
 				SetSpell(selectNum_,selectSpell_);
 				set_[selectNum_].SetTexture(spellTexNum_[selectSpell_]);
 				selectMode_ = SELECT_SPELL;
@@ -147,7 +147,6 @@ void LoadOut::Update()
 				selectMode_ = SELECT_SPELL;
 			}
 		}
-
 	}
 	else {
 		PostEffectSecond::SetPos({ 0,0 });

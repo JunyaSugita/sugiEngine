@@ -23,6 +23,19 @@ void EnemyManager::Initialize()
 	enemyCount_ = 0;
 }
 
+void EnemyManager::GameInitialize()
+{
+	for (unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->SetIsDead();
+	}
+	//Á‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½“G‚Ìíœ
+	enemys_.remove_if([](unique_ptr<Enemy>& enemy) {
+		return enemy->GetIsDead();
+	});
+
+	enemyCount_ = 0;
+}
+
 void EnemyManager::Update()
 {
 	PlayerWeapon* weapon = PlayerWeapon::GetInstance();

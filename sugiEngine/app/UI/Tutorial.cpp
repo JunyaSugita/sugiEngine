@@ -43,7 +43,7 @@ void Tutorial::Update()
 	switch (number_)
 	{
 	case 0:
-		if (input->GetRSteckX() != 0 || input->GetRSteckY() != 0) {
+		if (input->GetRStickX() != 0 || input->GetRStickY() != 0) {
 			isNext_ = true;
 		}
 		break;

@@ -40,15 +40,22 @@ public:
 	bool TriggerButton(int32_t buttonNum);
 	bool ReleaseButton(int32_t buttonNum);
 
-	SHORT GetLSteckX();
-	SHORT GetLSteckY();
-	SHORT GetRSteckX();
-	SHORT GetRSteckY();
+	SHORT GetLStickX();
+	SHORT GetLStickY();
+	SHORT GetRStickX();
+	SHORT GetRStickY();
 	BYTE GetLTrigger();
+
+	bool TriggerLStickRight();
+	bool TriggerLStickLeft();
+	bool TriggerLStickUp();
+	bool TriggerLStickDown();
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 private:
+	const int32_t DEAD_ZONE = 2000;
+
 	ComPtr<IDirectInput8> directInput_;
 	ComPtr<IDirectInputDevice8> keyboard_;
 	BYTE key_[256] = {};
@@ -58,5 +65,10 @@ private:
 
 	XINPUT_STATE state_ = {};
 	XINPUT_STATE oldState_ = {};
+
+	bool isLSRight_ = false;
+	bool isLSLeft_ = false;
+	bool isLSUp_ = false;
+	bool isLSDown_ = false;
 };
 

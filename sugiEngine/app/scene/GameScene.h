@@ -27,7 +27,8 @@ public:
 	void SpriteDraw() override;
 	void Finalize() override;
 
-public:
+private:
+	void GameInitialize();
 
 private:
 	//ƒ‰ƒCƒgŠÖ˜A

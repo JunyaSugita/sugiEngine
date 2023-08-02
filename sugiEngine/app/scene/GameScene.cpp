@@ -60,10 +60,22 @@ void GameScene::Initialize()
 
 	sound_.Initialize();
 	sound_.LoadWave("mainBGM");
-	sound_.PlayWave("mainBGM", true);
+	sound_.RePlayWave("mainBGM", true);
 	sound_.SetVolume("mainBGM", 0.1f);
 
 	LoadOut::GetInstance()->Initialize();
+}
+
+void GameScene::GameInitialize()
+{
+	EnemyManager::GetInstance()->GameInitialize();
+	FieldManager::GetInstance()->GameInitialize();
+	Player::GetInstance()->GameInitialize();
+
+	clearChecker_.Initialize();
+	gameOver_.Initialize();
+	UIManager::GetInstance()->GameInitialize();
+	sound_.RePlayWave("mainBGM", true);
 }
 
 void GameScene::Update()
@@ -78,6 +90,7 @@ void GameScene::Update()
 	UIManager* uiM = UIManager::GetInstance();
 	ColliderManager* colM = ColliderManager::GetInstance();
 	ParticleManager* particleM = ParticleManager::GetInstance();
+	LoadOut* loadOut = LoadOut::GetInstance();
 
 #pragma endregion
 
@@ -104,19 +117,6 @@ void GameScene::Update()
 			enemyM->PopEnemy({ 10,0,0 });
 			clearChecker_.Initialize();
 		}
-
-		//if (input->TriggerKey(DIK_O)) {
-		//	colM->ChangeIsShowHitBox();
-		//}
-		//if (input->TriggerKey(DIK_1)) {
-		//	player->SetPresetSpell(FIRE_BALL);
-		//}
-		//if (input->TriggerKey(DIK_2)) {
-		//	player->SetPresetSpell(MAGIC_MISSILE);
-		//}
-		//if (input->TriggerKey(DIK_3)) {
-		//	player->SetPresetSpell(ICE_BOLT);
-		//}
 	}
 #endif
 #pragma endregion
@@ -133,43 +133,13 @@ void GameScene::Update()
 	colM->Update();
 	particleM->Update();
 	particleE_->Update();
-	LoadOut::GetInstance()->Update();
+	loadOut->Update();
 
 #pragma endregion
 
 #pragma region ImGui
 #ifdef _DEBUG
 	{
-		//Begin("PostEffect");
-		//if (Button("Clear", { 100,30 })) {
-		//	PostEffect::SetClear();
-		//}
-		//if (Button("Blur", { 100,30 })) {
-		//	PostEffect::SetBlur();
-		//}
-		//if (Button("InvertColor", { 100,30 })) {
-		//	PostEffect::SetInvertColor();
-		//}
-		//if (Button("Border", { 100,30 })) {
-		//	PostEffect::SetBorder();
-		//}
-		//if (Button("Gray", { 100,30 })) {
-		//	PostEffect::SetGray();
-		//}
-		//if (Button("Bloom", { 100,30 })) {
-		//	PostEffect::SetBloom();
-		//}
-		//if (Button("Closs4", { 100,30 })) {
-		//	PostEffect::SetCloss4();
-		//}
-		//if (Button("Closs6", { 100,30 })) {
-		//	PostEffect::SetCloss6();
-		//}
-		//if (Button("Closs8", { 100,30 })) {
-		//	PostEffect::SetCloss8();
-		//}
-		//End();
-
 		Begin("EnemyDebug");
 		if (Button("stop", { 150,30 })) {
 			Enemy::SetIsDebugStop();
@@ -208,10 +178,12 @@ void GameScene::Update()
 	gameOver_.Update();
 
 	//ƒV[ƒ“‘JˆÚˆ—
-	if (Tutorial::GetInstance()->GetIsTutorial() && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
+	if (Tutorial::GetInstance()->GetIsTutorial() && !loadOut->GetIsActive() && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		Tutorial::GetInstance()->SetIsTutorial(false);
-		Tutorial::GetInstance()->SetIsReturn(true);
-		GameManager::GetInstance()->SetTitleScene();
+		GameInitialize();
+	}
+	else if (Tutorial::GetInstance()->GetIsTutorial()&&input->TriggerButton(XINPUT_GAMEPAD_START)) {
+		loadOut->ToggleIsActive();
 	}
 
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
@@ -219,8 +191,7 @@ void GameScene::Update()
 			GameManager::GetInstance()->SetTitleScene();
 		}
 		else {
-			Tutorial::GetInstance()->SetIsReturn(true);
-			GameManager::GetInstance()->SetTitleScene();
+			GameInitialize();
 		}
 	}
 }
