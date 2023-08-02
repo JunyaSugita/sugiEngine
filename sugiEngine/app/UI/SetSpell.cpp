@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Player.h"
 #include "UIManager.h"
+#include "LoadOut.h"
 
 SetSpell* SetSpell::GetInstance()
 {
@@ -25,30 +26,30 @@ void SetSpell::Initialize()
 	comingSoonTex_ = Sprite::LoadTexture("comingSoonIcon.png");
 	selectHiLightTex_ = Sprite::LoadTexture("white1x1.png");
 
-	spell1Sprite_.Initialize(fireBallTex_);
-	spell1Sprite_.SetAnchorPoint(0.5f, 0.5f);
-	spell1Sprite_.SetPos(780, 170);
-	spell1Sprite_.SetColor(1, 1, 1, 0.5f);
+	spellSprite_[0].Initialize(fireBallTex_);
+	spellSprite_[0].SetAnchorPoint(0.5f, 0.5f);
+	spellSprite_[0].SetPos(780, 170);
+	spellSprite_[0].SetColor(1, 1, 1, 0.5f);
 
-	spell2Sprite_.Initialize(magicMissileTex_);
-	spell2Sprite_.SetAnchorPoint(0.5f, 0.5f);
-	spell2Sprite_.SetPos(850, 450);
-	spell2Sprite_.SetColor(1, 1, 1, 0.5f);
+	spellSprite_[1].Initialize(magicMissileTex_);
+	spellSprite_[1].SetAnchorPoint(0.5f, 0.5f);
+	spellSprite_[1].SetPos(850, 450);
+	spellSprite_[1].SetColor(1, 1, 1, 0.5f);
 
-	spell3Sprite_.Initialize(iceBoltTex_);
-	spell3Sprite_.SetAnchorPoint(0.5f, 0.5f);
-	spell3Sprite_.SetPos(WIN_WIDTH / 2, 600);
-	spell3Sprite_.SetColor(1, 1, 1, 0.5f);
+	spellSprite_[2].Initialize(iceBoltTex_);
+	spellSprite_[2].SetAnchorPoint(0.5f, 0.5f);
+	spellSprite_[2].SetPos(WIN_WIDTH / 2, 600);
+	spellSprite_[2].SetColor(1, 1, 1, 0.5f);
 
-	spell4Sprite_.Initialize(chainLightningTex_);
-	spell4Sprite_.SetAnchorPoint(0.5f, 0.5f);
-	spell4Sprite_.SetPos(400, 450);
-	spell4Sprite_.SetColor(1, 1, 1, 0.5f);
+	spellSprite_[3].Initialize(chainLightningTex_);
+	spellSprite_[3].SetAnchorPoint(0.5f, 0.5f);
+	spellSprite_[3].SetPos(400, 450);
+	spellSprite_[3].SetColor(1, 1, 1, 0.5f);
 
-	spell5Sprite_.Initialize(enchantFireTex_);
-	spell5Sprite_.SetAnchorPoint(0.5f, 0.5f);
-	spell5Sprite_.SetPos(500, 170);
-	spell5Sprite_.SetColor(1, 1, 1, 0.5f);
+	spellSprite_[4].Initialize(enchantFireTex_);
+	spellSprite_[4].SetAnchorPoint(0.5f, 0.5f);
+	spellSprite_[4].SetPos(500, 170);
+	spellSprite_[4].SetColor(1, 1, 1, 0.5f);
 
 	useSpellSprite_.Initialize(fireBallTex_);
 	useSpellSprite_.SetAnchorPoint(0.5f, 0.5f);
@@ -63,42 +64,63 @@ void SetSpell::Initialize()
 
 void SetSpell::Update()
 {
-	switch (Player::GetInstance()->GetPresetSpell())
-	{
-	case FIRE_BALL:
-		useSpellSprite_.SetTexture(fireBallTex_);
-		selectHiLightSp_.SetPos(spell1Sprite_.GetPos().x, spell1Sprite_.GetPos().y);
-		break;
-	case MAGIC_MISSILE:
-		useSpellSprite_.SetTexture(magicMissileTex_);
-		selectHiLightSp_.SetPos(spell2Sprite_.GetPos().x, spell2Sprite_.GetPos().y);
-		break;
-	case ICE:
-		useSpellSprite_.SetTexture(iceBoltTex_);
-		selectHiLightSp_.SetPos(spell3Sprite_.GetPos().x, spell3Sprite_.GetPos().y);
-		break;
-	case CHAIN_LIGHTNING:
-		useSpellSprite_.SetTexture(chainLightningTex_);
-		selectHiLightSp_.SetPos(spell4Sprite_.GetPos().x, spell4Sprite_.GetPos().y);
-		break;
-	case ENCHANT_FIRE:
-		useSpellSprite_.SetTexture(enchantFireTex_);
-		selectHiLightSp_.SetPos(spell5Sprite_.GetPos().x, spell5Sprite_.GetPos().y);
-	default:
-		break;
-	}
+	LoadOut* loadOut = LoadOut::GetInstance();
+
+	//ロードアウト変更時にアイコン変更
+	SetSpellTex();
+
+	//現在装備している魔法の右下表示の変更と変更ビューのハイライト
+	useSpellSprite_.SetTexture(GetSpellTex(loadOut->GetSpell(Player::GetInstance()->GetPresetSpell())));
+	selectHiLightSp_.SetPos(spellSprite_[Player::GetInstance()->GetPresetSpell()].GetPos().x, spellSprite_[Player::GetInstance()->GetPresetSpell()].GetPos().y);
 }
 
 void SetSpell::Draw()
 {
-	if (Input::GetInstance()->GetLTrigger() > 50 && UIManager::GetInstance()->GetStateAlpha_() == 0 && Player::GetInstance()->GetLife() > 0) {
+	if ((Input::GetInstance()->GetLTrigger() > 50 || Input::GetInstance()->PushKey(DIK_TAB) || LoadOut::GetInstance()->GetSelectMode() == SELECT_NUM) && UIManager::GetInstance()->GetStateAlpha_() == 0 && Player::GetInstance()->GetLife() > 0) {
 		sprite_.Draw();
 		selectHiLightSp_.Draw();
-		spell1Sprite_.Draw();
-		spell2Sprite_.Draw();
-		spell3Sprite_.Draw();
-		spell4Sprite_.Draw();
-		spell5Sprite_.Draw();
+		spellSprite_[0].Draw();
+		spellSprite_[1].Draw();
+		spellSprite_[2].Draw();
+		spellSprite_[3].Draw();
+		spellSprite_[4].Draw();
 	}
 	useSpellSprite_.Draw();
+}
+
+int32_t SetSpell::GetSpellTex(int32_t spellName)
+{
+	switch (spellName)
+	{
+	case FIRE_BALL:
+		return fireBallTex_;
+		
+	case MAGIC_MISSILE:
+		return magicMissileTex_;
+
+	case ICE_BOLT:
+		return iceBoltTex_;
+
+	case CHAIN_LIGHTNING:
+		return chainLightningTex_;
+
+	case ENCHANT_FIRE:
+		return enchantFireTex_;
+
+	default:
+		break;
+	}
+	return 0;
+}
+
+void SetSpell::SetSpellTex()
+{
+	LoadOut* loadOut = LoadOut::GetInstance();
+
+	if (loadOut->GetIsDirty()) {
+		for (int i = 0; i < 5; i++) {
+			spellSprite_[i].SetTexture(GetSpellTex(loadOut->GetSpell(i)));
+		}
+		loadOut->SetIsDirty(false);
+	}
 }

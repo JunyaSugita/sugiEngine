@@ -7,6 +7,7 @@
 #include "UIManager.h"
 #include "GameManager.h"
 #include "Tutorial.h"
+#include "LoadOut.h"
 
 Player* Player::GetInstance()
 {
@@ -49,6 +50,10 @@ void Player::Update()
 
 	//ゲーム終了orゲームオーバーで動けなくする
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 || life_ <= 0) {
+		return;
+	}
+	//ロードアウト変更中も動けなくする
+	if (LoadOut::GetInstance()->GetIsActive()) {
 		return;
 	}
 
@@ -195,26 +200,49 @@ void Player::CameraMove()
 			}
 
 			//スティックを倒した方向の呪文に変える
-			if (spellAngle_ >= RAD && spellAngle_ < 72 + RAD || input->TriggerKey(DIK_1)) {
-				presetSpell_ = FIRE_BALL;
+			if (spellAngle_ >= RAD && spellAngle_ < 72 + RAD) {
+				presetSpell_ = 0;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
-			else if (spellAngle_ >= 72 + RAD && spellAngle_ < 144 + RAD || input->TriggerKey(DIK_2)) {
-				presetSpell_ = MAGIC_MISSILE;
+			else if (spellAngle_ >= 72 + RAD && spellAngle_ < 144 + RAD) {
+				presetSpell_ = 1;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
-			else if (spellAngle_ >= 144 + RAD && spellAngle_ < 180 + RAD || spellAngle_ >= 0 && spellAngle_ < 36 || input->TriggerKey(DIK_3)) {
-				presetSpell_ = ICE_BOLT;
+			else if (spellAngle_ >= 144 + RAD && spellAngle_ < 180 + RAD || spellAngle_ >= 0 && spellAngle_ < 36) {
+				presetSpell_ = 2;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
-			else if (spellAngle_ >= 36 && spellAngle_ < 108 || input->TriggerKey(DIK_4)) {
-				presetSpell_ = CHAIN_LIGHTNING;
+			else if (spellAngle_ >= 36 && spellAngle_ < 108) {
+				presetSpell_ = 3;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
-			else if (spellAngle_ >= 108 && spellAngle_ < RAD || input->TriggerKey(DIK_5)) {
-				presetSpell_ = ENCHANT_FIRE;
+			else if (spellAngle_ >= 108 && spellAngle_ < RAD) {
+				presetSpell_ = 4;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
+
+			//キー対応
+			if (input->TriggerKey(DIK_1)) {
+				presetSpell_ = 0;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
+			else if (input->TriggerKey(DIK_2)) {
+				presetSpell_ = 1;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
+			else if (input->TriggerKey(DIK_3)) {
+				presetSpell_ = 2;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
+			else if (input->TriggerKey(DIK_4)) {
+				presetSpell_ = 3;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
+			else if (input->TriggerKey(DIK_5)) {
+				presetSpell_ = 4;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
+
 		}
 	}
 
@@ -246,7 +274,7 @@ void Player::Attack()
 	}
 	//呪文詠唱
 	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) && !spellM->GetIsUseSpell()) {
-		switch (presetSpell_)
+		switch (LoadOut::GetInstance()->GetSpell(presetSpell_))
 		{
 		case FIRE_BALL:
 			spellM->ChargeFireBall();

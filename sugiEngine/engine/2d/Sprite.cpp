@@ -489,6 +489,13 @@ void Sprite::SetPos(float x, float y) {
 	SetUpVertex();
 }
 
+void Sprite::SetPos(const Vector2& pos)
+{
+	pos_ = pos;
+
+	SetUpVertex();
+}
+
 void Sprite::SetRotate(float r) {
 	rotate_ = r;
 

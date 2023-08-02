@@ -94,6 +94,15 @@ public:
 		sIsMoveCloss = true;
 	}
 
+	static void SetPos(Vector2 pos) {
+		sPos = pos;
+		sIsDirty = true;
+	}
+	static void SetSize(Vector2 size) {
+		sSize = size;
+		sIsDirty = true;
+	}
+
 public:
 	static const float CLEAR_COLOR[4];
 	static const size_t MAX_SRV_COUNT = 2056;
@@ -110,6 +119,9 @@ public:
 	static bool sIsMoveCloss;
 
 	static bool sIsDirty;
+
+	static Vector2 sPos;
+	static Vector2 sSize;
 private:
 	ComPtr<ID3D12Resource> texBuff_[MULTI_RENDAR_TARGET_NUM];
 	ComPtr<ID3D12DescriptorHeap>descHeapSRV_;
@@ -129,10 +141,8 @@ private:
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
 	ConstBufferDataEffect* constMapEffect_ = nullptr;
 	WorldTransform worldTransform_;
-	Vector2 pos_ = { 0,0 };
 	float rotate_ = 0; //ŒÊ“x–@
 	DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
-	Vector2 size_ = { WIN_WIDTH,WIN_HEIGHT };
 	Vector2 anchorPoint_ = { 0,0 };	//0.0f ~ 1.0f
 	bool isFlipX_ = false;
 	bool isFlipY_ = false;
