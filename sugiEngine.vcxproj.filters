@@ -309,6 +309,9 @@
     <ClCompile Include="sugiEngine\engine\io\NavePointManager.cpp">
       <Filter>ソース ファイル\engine\io</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp">
+      <Filter>ソース ファイル\app\enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -493,6 +496,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\io\NavePointManager.h">
       <Filter>ヘッダー ファイル\engine\io</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\enemy\BaseEnemy.h">
+      <Filter>ヘッダー ファイル\app\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

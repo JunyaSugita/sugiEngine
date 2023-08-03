@@ -98,6 +98,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="sugiEngine\app\collider\ColliderManager.cpp" />
+    <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\Enemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\EnemyManager.cpp" />
     <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\app\collider\ColliderManager.h" />
+    <ClInclude Include="sugiEngine\app\enemy\BaseEnemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\Enemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\EnemyManager.h" />
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h" />
