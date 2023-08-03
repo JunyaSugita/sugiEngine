@@ -1,146 +1,26 @@
 #pragma once
-#include "Sugimath.h"
-#include "WorldTransform.h"
-#include "Model.h"
-#include "Object3d.h"
-#include "ColliderManager.h"
+#include "BaseEnemy.h"
 
-struct DebuffM {
-	bool isFire;
-	int32_t fireTime;
-	bool isThunder;
-	int32_t thunderTime;
-	bool isIce;
-	int32_t iceTime;
-};
-
-class Enemy{
+class Enemy : public BaseEnemy{
 public:
-	static void OneTimeInitialize();
-	void Initialize(Vector3 pos = Vector3(0,0,0));
-	void Update();
-	void Draw();
+	static void StaticInitialize();
+	void Initialize(Vector3 pos) override;
+	void Draw() override;
+	void WorldTransUpdate() override;
 
-	Vector3 GetPos() {
-		return pos_;
-	}
-
-
-	void SetCol(Vector3 vec) {
-		boxCol_.pos = vec;
-	}
-	void SetColX(float x) {
-		boxCol_.pos.x = x;
-	}
-	void SetColY(float y) {
-		boxCol_.pos.y = y;
-	}
-	void SetColZ(float z) {
-		boxCol_.pos.z = z;
-	}
-	void AddCol(Vector3 vec) {
-		boxCol_.pos += vec;
-	}
-	void AddColX(float x) {
-		boxCol_.pos.x += x;
-	}
-	void AddColZ(float z) {
-		boxCol_.pos.z += z;
-	}
-
-	bool GetIsDead() {
-		return isDead_;
-	}
-	void SetIsDead() {
-		isDead_ = true;
-	}
-
-	void SetIsHit(int32_t subLife = 1, int32_t effectNum = 0);
-	void SetDebuff(uint8_t debuff,uint32_t time);
-	void ResetIsHit() {
-		isHit_ = false;
-	}
-
-	BoxCol GetBoxCol() {
-		return boxCol_;
-	}
-	BoxCol GetOldBoxCol() {
-		return oldBoxCol_;
-	}
-
-	bool isDebuff();
-	bool isCanMove();
-
-	void SetIsStop() {
-		isStop_ = true;
-	}
-
-	void WorldTransUpdate();
-	void ResetShake();
-
-	uint32_t GetLife() {
-		return life_;
-	}
-
-	void SetIsAttack();
-
-	static void SetIsDebugStop() {
-		sIsDebugStop_ = (sIsDebugStop_ + 1) % 2;
-	}
 private:
-	void SetCol();
+	void SetWorldTrans() override;
+	void Move() override;
+	void Attack() override;
 	
-	void SetWorldTrans();
-	void SetAngleToPlayer();
-	void GetPlayer();
-	void Move();
-	void Attack();
-	void SubLife(int32_t subLife, int32_t effectNum);
-	void UpdateDebuff();
-	void SetShake();
-
-	float GetSlow();
-
 private:
 	const float SPEED_MOVE = 0.15f;
 	const float SPEED_ANGLE = 5;
-	const float RADIAN = 180;
-	const Vector2 UP = { 0,-1 };
 	const uint32_t MAX_HP = 25;
+	const float HEIGHT_COL = 2.2f;
 
 private:
 	static std::unique_ptr<Model> sEyeModel_;
-	static std::unique_ptr<Model> sColModel_;
-	static bool sIsDebugStop_;
-private:
-	//本体
-	WorldTransform worldTrans_;
-	Vector3 pos_;
-	Vector3 rot_;
-	Vector3 scale_;
-
-	//当たり判定
-	BoxCol boxCol_;
-	BoxCol oldBoxCol_;
-
-	//体力
-	int32_t life_;
-
-	//死んだかどうか
-	bool isDead_;
-
-	//プレイヤーとの距離を記録
-	Vector2 toPlayer;
-
-	//多段ヒットの回避フラグ
-	bool isHit_;
-
-	//デバフ
-	DebuffM debuff_;
-
-	//本体のモデル関係
-	std::unique_ptr<Model> model_;
-	std::unique_ptr<Object3d> obj_;
 
 	//目
 	WorldTransform eyeWorldTrans_;
@@ -161,15 +41,4 @@ private:
 	//腕モデル
 	std::unique_ptr<Object3d> armRObj_;
 	std::unique_ptr<Object3d> armLObj_;
-	//当たり判定
-	WorldTransform colWorldTrans_;
-	//当たり判定のモデル関係
-	std::unique_ptr<Object3d> colObj_;
-
-	//足を止めるか
-	bool isStop_;
-
-	//攻撃
-	float attackTimer_;
-	bool isAttack_;
 };

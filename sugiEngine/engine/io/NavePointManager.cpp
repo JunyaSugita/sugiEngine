@@ -12,19 +12,14 @@ NavePointManager* NavePointManager::GetInstance()
 void NavePointManager::Draw()
 {
 	for (int i = 0; i < FieldManager::GetInstance()->GetNavePointNum(); i++) {
-		if (navePoint_[i].isActive) {
-			if (navePoint_[i].score == 1) {
-				//ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, navePoint_[i].pos);
-			}
-			else if (navePoint_[i].score == 2) {
-				//ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, navePoint_[i].pos);
-			}
-			else if (navePoint_[i].score == 3) {
-				//ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, navePoint_[i].pos);
-			}
+		if (navePoint_[i].score == 1) {
+			ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, navePoint_[i].pos);
 		}
-		else {
-			return;
+		else if (navePoint_[i].score == 2) {
+			ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, navePoint_[i].pos);
+		}
+		else if (navePoint_[i].score == 3) {
+			ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, navePoint_[i].pos);
 		}
 	}
 }

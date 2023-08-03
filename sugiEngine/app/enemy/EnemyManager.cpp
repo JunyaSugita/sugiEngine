@@ -16,8 +16,11 @@ EnemyManager* EnemyManager::GetInstance()
 
 void EnemyManager::Initialize()
 {
-	Enemy::OneTimeInitialize();
-	for (unique_ptr<Enemy>& enemy : enemys_) {
+	BaseEnemy::StaticInitialize();
+	Enemy::StaticInitialize();
+
+
+	for (unique_ptr<BaseEnemy>& enemy : enemys_) {
 		enemy->SetIsDead();
 	}
 	enemyCount_ = 0;
@@ -25,11 +28,11 @@ void EnemyManager::Initialize()
 
 void EnemyManager::GameInitialize()
 {
-	for (unique_ptr<Enemy>& enemy : enemys_) {
+	for (unique_ptr<BaseEnemy>& enemy : enemys_) {
 		enemy->SetIsDead();
 	}
 	//消すフラグの立った敵の削除
-	enemys_.remove_if([](unique_ptr<Enemy>& enemy) {
+	enemys_.remove_if([](unique_ptr<BaseEnemy>& enemy) {
 		return enemy->GetIsDead();
 	});
 
@@ -41,12 +44,12 @@ void EnemyManager::Update()
 	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
 
 	//消すフラグの立った敵の削除
-	enemys_.remove_if([](unique_ptr<Enemy>& enemy) {
+	enemys_.remove_if([](unique_ptr<BaseEnemy>& enemy) {
 		return enemy->GetIsDead();
 	});
 
 	enemyCount_ = 0;
-	for (unique_ptr<Enemy>& enemy : enemys_) {
+	for (unique_ptr<BaseEnemy>& enemy : enemys_) {
 		enemy->Update();
 
 		enemyCount_ += enemy->GetLife();
@@ -69,48 +72,31 @@ void EnemyManager::Update()
 
 void EnemyManager::Draw()
 {
-	for (unique_ptr<Enemy>& enemy : enemys_) {
+	for (unique_ptr<BaseEnemy>& enemy : enemys_) {
 		enemy->Draw();
 	}
 }
 
 void EnemyManager::PopEnemy(Vector3 pos)
 {
-	unique_ptr<Enemy> newEnemy = make_unique<Enemy>();
-
-	if (pos.y == -1) {
-		//ランダム
-		random_device seed_gen;
-		mt19937_64 engine(seed_gen());
-		uniform_real_distribution<float> rand(0.0f, 3.9f);
-
-		switch (int(rand(engine)))
-		{
-		case 1:
-			newEnemy->Initialize({ 40,0,40 });
-			break;
-		case 2:
-			newEnemy->Initialize({ -40,0,40 });
-			break;
-		case 3:
-			newEnemy->Initialize({ 40,0,-40 });
-			break;
-
-		default:
-			newEnemy->Initialize({ -40,0,-40 });
-			break;
-		}
-	}
-	else {
-		newEnemy->Initialize(pos);
-	}
+	unique_ptr<BaseEnemy> newEnemy = make_unique<Enemy>();
+	newEnemy->Initialize(pos);
 	enemyCount_ += newEnemy->GetLife();
 	enemys_.push_back(move(newEnemy));
 }
 
 void EnemyManager::ResetIsHit()
 {
-	for (unique_ptr<Enemy>& enemy : enemys_) {
+	for (unique_ptr<BaseEnemy>& enemy : enemys_) {
 		enemy->ResetIsHit();
 	}
+}
+
+std::vector<BaseEnemy*> EnemyManager::GetEnemysList()
+{
+	enemysList_.clear();
+	for (std::unique_ptr<BaseEnemy>& enemy : enemys_) {
+		enemysList_.push_back(enemy.get());
+	}
+	return enemysList_;
 }
