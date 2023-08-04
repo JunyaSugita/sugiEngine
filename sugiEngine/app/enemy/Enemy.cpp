@@ -302,25 +302,7 @@ void Enemy::Move()
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 		}
-		else if(colM->CanMoveNavePointVec(1,pos_)){
-			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
-			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
-
-			toPlayer = Vector2(temp.x - pos_.x, temp.y - pos_.z);
-		}
-		else if (colM->CanMoveNavePointVec(2, pos_)) {
-			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
-			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
-
-			toPlayer = Vector2(temp.x - pos_.x, temp.y - pos_.z);
-		}
-		else if (colM->CanMoveNavePointVec(3, pos_)) {
-			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
-			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
-
-			toPlayer = Vector2(temp.x - pos_.x, temp.y - pos_.z);
-		}
-		else if (colM->CanMoveNavePointVec(4, pos_)) {
+		else if(colM->CanMoveNavePointVec(pos_)){
 			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
 			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
 
