@@ -152,7 +152,7 @@ void GameScene::Update()
 			Initialize();
 		}
 		if (Button("EnemyPop", { 150,30 })) {
-			enemyM->PopEnemy();
+			enemyM->PopEnemy({0,0,0});
 		}
 		if (Button("ShowHitBox", { 150,30 })) {
 			colM->ChangeIsShowHitBox();

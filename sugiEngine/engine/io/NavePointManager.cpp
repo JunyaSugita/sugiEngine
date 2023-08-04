@@ -23,9 +23,6 @@ void NavePointManager::Draw()
 				ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, navePoint_[i].pos);
 			}
 		}
-		else {
-			return;
-		}
 	}
 }
 

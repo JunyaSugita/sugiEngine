@@ -20,24 +20,18 @@ public:
 	void Update();
 	void Draw();
 
-	void PopEnemy(Vector3 pos = Vector3(0,-1,0));
+	void PopEnemy(Vector3 pos);
 	void ResetIsHit();
 
-	std::vector<Enemy*> GetEnemysList() {
-		enemysList_.clear();
-		for (std::unique_ptr<Enemy>& enemy : enemys_) {
-			enemysList_.push_back(enemy.get());
-		}
-		return enemysList_;
-	}
+	std::vector<BaseEnemy*> GetEnemysList();
 
 	uint32_t GetEnemyCount() {
 		return enemyCount_;
 	}
 
 private:
-	std::list<std::unique_ptr<Enemy>> enemys_;
-	std::vector<Enemy*> enemysList_;
+	std::list<std::unique_ptr<BaseEnemy>> enemys_;
+	std::vector<BaseEnemy*> enemysList_;
 
 	uint32_t enemyCount_;
 };

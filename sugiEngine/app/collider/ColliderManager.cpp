@@ -23,7 +23,7 @@ void ColliderManager::Initialize()
 void ColliderManager::Update()
 {
 	//敵の判定
-	vector<Enemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
 	//マップの判定
 	FieldManager* field = FieldManager::GetInstance();
 	//プレイヤー
@@ -318,7 +318,7 @@ bool ColliderManager::CheckHitBox(BoxCol a, BoxCol b)
 bool ColliderManager::CheckHitEnemyToChainLightning()
 {
 	//敵の判定
-	vector<Enemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
 	FieldManager* field = FieldManager::GetInstance();
 
 	//チェインライトニング
@@ -381,13 +381,13 @@ bool ColliderManager::CanMoveNavePointVec(Vector3 pos)
 	for (int k = 0; k < field->GetNavePointNum(); k++) {
 		bool isHit_ = false;
 
-		Vector3 playerPos = navePointM->GetNavePoint(k).pos;
-		playerPos.y = 1;
+		Vector3 navePoint = navePointM->GetNavePoint(k).pos;
+		navePoint.y = 1;
 		Vector3 myPos = pos;
 		myPos.y = 1;
 
 		Vector3 vecN;
-		Vector3 vec = vecN = playerPos - myPos;
+		Vector3 vec = vecN = navePoint - myPos;
 		vecN.normalize();
 
 		if (vecN.x == 0) {
