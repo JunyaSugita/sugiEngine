@@ -34,7 +34,7 @@ public:
 	bool CheckHitEnemyToChainLightning();
 
 	bool CanMovePlayerVec(Vector3 pos);
-	bool CanMoveNavePointVec(int32_t num,Vector3 pos);
+	bool CanMoveNavePointVec(Vector3 pos);
 	int32_t GetMoveNavePointVec();
 
 	void NavePointScore();

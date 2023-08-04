@@ -68,7 +68,7 @@ void Enemy::WorldTransUpdate()
 	armLWorldTrans_.SetRot(armRot_);
 	armLWorldTrans_.SetScale(armScale_);
 
-	//必ず最後に記述
+	//窶｢K窶堋ｸﾂ催�ﾅ津｣窶堙俄ｹLﾂ述
 	BaseEnemy::WorldTransUpdate();
 }
 
@@ -95,19 +95,7 @@ void Enemy::Move()
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 		}
-		else if(colM->CanMoveNavePointVec(1,pos_)){
-			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
-			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
-		}
-		else if (colM->CanMoveNavePointVec(2, pos_)) {
-			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
-			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
-		}
-		else if (colM->CanMoveNavePointVec(3, pos_)) {
-			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
-			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
-		}
-		else if (colM->CanMoveNavePointVec(4, pos_)) {
+		else if(colM->CanMoveNavePointVec(pos_)){
 			temp.x = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.x;
 			temp.y = navePointM->GetNavePoint(colM->GetMoveNavePointVec()).pos.z;
 		}

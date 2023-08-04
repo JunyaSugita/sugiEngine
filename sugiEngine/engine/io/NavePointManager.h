@@ -4,7 +4,7 @@
 struct NavePoint {
 	Vector3 pos = Vector3();
 	bool isActive = false;
-	int32_t score = 99;
+	float score = 99999;
 };
 
 class NavePointManager {
@@ -29,7 +29,7 @@ public:
 		return navePoint_[num];
 	}
 
-	void SetNaveScore(int32_t num, int32_t score) {
+	void SetNaveScore(int32_t num, float score) {
 		navePoint_[num].score = score;
 	}
 
