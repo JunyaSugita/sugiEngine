@@ -163,7 +163,7 @@ void Player::Move()
 	boxCol_.pos = pos_;
 
 	//navePoint‚Ìd‚Ý‚Ã‚¯
-	ColliderManager::GetInstance()->NavePointScore();
+	ColliderManager::GetInstance()->SetNavePointScore();
 }
 
 void Player::CameraMove()

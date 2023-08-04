@@ -19,7 +19,7 @@ void NavePointManager::Draw()
 			else if (navePoint_[i].score < 50) {
 				ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, navePoint_[i].pos);
 			}
-			else if (navePoint_[i].score < 100) {
+			else if (navePoint_[i].score != 99999) {
 				ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, navePoint_[i].pos);
 			}
 		}
