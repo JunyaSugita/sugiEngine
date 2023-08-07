@@ -312,6 +312,12 @@
     <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp">
       <Filter>ソース ファイル\app\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\enemy\Slime.cpp">
+      <Filter>ソース ファイル\app\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\3d\ModelManager.cpp">
+      <Filter>ソース ファイル\engine\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -499,6 +505,15 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\enemy\BaseEnemy.h">
       <Filter>ヘッダー ファイル\app\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\enemy\Slime.h">
+      <Filter>ヘッダー ファイル\app\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\3d\BaseObj.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\3d\ModelManager.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
