@@ -5,13 +5,16 @@
 #include "ParticleManager.h"
 #include "Tutorial.h"
 #include "NavePointManager.h"
+#include "ModelManager.h"
 
 std::unique_ptr<Model> Enemy::sEyeModel_;
 
 void Enemy::StaticInitialize()
 {
-	sModel_ = move(Model::LoadFromObj("player"));	
-	sEyeModel_ = move(Model::LoadFromObj("sphere", true));
+	ModelManager::GetInstance()->Load("player");
+	sModel_ = ModelManager::GetInstance()->Get("player");
+	ModelManager::GetInstance()->Load("sphere", true);
+	sEyeModel_ = ModelManager::GetInstance()->Get("sphere");
 }
 
 void Enemy::Initialize(Vector3 pos)

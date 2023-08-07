@@ -101,6 +101,7 @@
     <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\Enemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\EnemyManager.cpp" />
+    <ClCompile Include="sugiEngine\app\enemy\Slime.cpp" />
     <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp" />
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="sugiEngine\engine\3d\Camera.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp" />
+    <ClCompile Include="sugiEngine\engine\3d\ModelManager.cpp" />
     <ClCompile Include="sugiEngine\engine\effect\Burst.cpp" />
     <ClCompile Include="sugiEngine\app\scene\ClearScene.cpp" />
     <ClCompile Include="sugiEngine\engine\base\DXCommon.cpp" />
@@ -160,6 +162,7 @@
     <ClInclude Include="sugiEngine\app\enemy\BaseEnemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\Enemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\EnemyManager.h" />
+    <ClInclude Include="sugiEngine\app\enemy\Slime.h" />
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h" />
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
@@ -180,9 +183,11 @@
     <ClInclude Include="sugiEngine\app\UI\UIManager.h" />
     <ClInclude Include="sugiEngine\engine\2d\PostEffect.h" />
     <ClInclude Include="sugiEngine\engine\2d\PostEffectSecond.h" />
+    <ClInclude Include="sugiEngine\engine\3d\BaseObj.h" />
     <ClInclude Include="sugiEngine\engine\3d\Camera.h" />
     <ClInclude Include="sugiEngine\engine\3d\Fbx.h" />
     <ClInclude Include="sugiEngine\engine\3d\FbxModel.h" />
+    <ClInclude Include="sugiEngine\engine\3d\ModelManager.h" />
     <ClInclude Include="sugiEngine\engine\effect\Burst.h" />
     <ClInclude Include="sugiEngine\engine\io\FbxLoader.h" />
     <ClInclude Include="sugiEngine\engine\io\JsonLoader.h" />
