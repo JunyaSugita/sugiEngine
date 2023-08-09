@@ -1,12 +1,11 @@
 #pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"
-#include "Object3d.h"
+#include "BaseObj.h"
 #include "ColliderManager.h"
 
 class FireBall {
 public:
-	static void OneTimeInitialize();
 	void Initialize(Vector3 pos, Vector3 vec);
 	void Update();
 	void Draw();
@@ -34,20 +33,12 @@ private:
 	void SetWorldTrans();
 
 	void Explode();
-
-private:
-	static std::unique_ptr<Model> sModel_;
-	static std::unique_ptr<Model> sColModel_;
-
 public:
 	const float SPEED_MOVE = 1.0f;	//魔法のスピード
 	const int32_t TIME_ALIVE = 10 * 60;	//魔法が消えるまでの時間
 
 private:
-	WorldTransform worldTrans_;
-	Vector3 pos_;
-	Vector3 rot_;
-	Vector3 scale_;
+	BaseObj obj_;
 
 	//当たり判定
 	BoxCol boxCol_;
@@ -62,11 +53,8 @@ private:
 	//消える時のAlpha
 	float alpha_;
 	
-
 	//当たったフラグ
 	bool isHit_;
-
-	std::unique_ptr<Object3d> obj_;
 
 	//当たり判定
 	WorldTransform colWorldTrans_;

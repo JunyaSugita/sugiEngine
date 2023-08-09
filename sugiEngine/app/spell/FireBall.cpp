@@ -1,31 +1,23 @@
 #include "FireBall.h"
 #include "ParticleManager.h"
 #include "Player.h"
-std::unique_ptr<Model> FireBall::sModel_;
-std::unique_ptr<Model> FireBall::sColModel_;
-
-void FireBall::OneTimeInitialize()
-{
-	sModel_ = move(Model::LoadFromObj("sphere", true));
-	sColModel_ = move(Model::LoadFromObj("box"));
-}
+#include "ModelManager.h"
 
 void FireBall::Initialize(Vector3 pos, Vector3 vec)
 {
-	obj_ = move(Object3d::Create());
-	obj_->SetModel(sModel_.get());
-	obj_->SetColor({ 1,0,0,1 });
+	obj_.Initialize("sphere");
+	obj_.obj->SetColor({ 1,0,0,1 });
 
 	colObj_ = move(Object3d::Create());
-	colObj_->SetModel(sColModel_.get());
+	colObj_->SetModel(ModelManager::GetInstance()->Get("box"));
 
-	rot_ = { 0,0,0 };
-	scale_ = { 1,1,1 };
+	obj_.rot = { 0,0,0 };
+	obj_.scale = { 1,1,1 };
 
 	vec_ = vec.normalize();
 
 	//プレイヤーの少し前に出す
-	pos_ = pos + vec_ * 3;
+	obj_.pos = pos + vec_ * 3;
 
 	boxCol_.pos = pos;
 	boxCol_.size = { 1,1,1 };
@@ -48,15 +40,15 @@ void FireBall::Update()
 	}
 
 	if (!isHit_) {
-		pos_ += vec_ * SPEED_MOVE;
-		if (pos_.y <= 0) {
+		obj_.pos += vec_ * SPEED_MOVE;
+		if (obj_.pos.y <= 0) {
 			isHit_ = true;
 		}
-		particleM->AddFromFile(P_FIRE_BALL, pos_);
+		particleM->AddFromFile(P_FIRE_BALL, obj_.pos);
 	}
 	else if (isHit_) {
 		Explode();
-		float temp = (Player::GetInstance()->GetPos() - pos_).length();
+		float temp = (Player::GetInstance()->GetPos() - obj_.pos).length();
 		temp = (80 - temp) / 750;
 		Camera::GetInstance()->SetShake(temp);
 	}
@@ -81,15 +73,13 @@ void FireBall::Fire()
 
 void FireBall::SetCol()
 {
-	boxCol_.pos = pos_;
-	boxCol_.size = { scale_.x,scale_.y,scale_.x };
+	boxCol_.pos = obj_.pos;
+	boxCol_.size = { obj_.scale.x,obj_.scale.y, obj_.scale.x };
 }
 
 void FireBall::WorldTransUpdate()
 {
-	worldTrans_.SetPos(pos_);
-	worldTrans_.SetRot(rot_);
-	worldTrans_.SetScale(scale_);
+	obj_.Update();
 
 	colWorldTrans_.SetPos(boxCol_.pos);
 	colWorldTrans_.SetScale(boxCol_.size);
@@ -99,19 +89,17 @@ void FireBall::WorldTransUpdate()
 
 void FireBall::SetWorldTrans()
 {
-	obj_->SetWorldTransform(worldTrans_);
-	obj_->Update();
 	colObj_->SetWorldTransform(colWorldTrans_);
 	colObj_->Update();
 }
 
 void FireBall::Explode()
 {
-	scale_ *= 1.2f;
+	obj_.scale *= 1.2f;
 	alpha_ -= 0.03f;
-	obj_->SetColor({ 1,0,0,alpha_ });
-	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL_EXPLODE, pos_);
-	if (scale_.x >= 10.0f) {
+	obj_.obj->SetColor({ 1,0,0,alpha_ });
+	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL_EXPLODE, obj_.pos);
+	if (obj_.scale.x >= 10.0f) {
 		isDead_ = true;
 	}
 }

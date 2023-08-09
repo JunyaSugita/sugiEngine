@@ -9,7 +9,6 @@ public:
 	void WorldTransUpdate() override;
 
 private:
-	void SetWorldTrans() override;
 	void Move() override;
 	void Attack() override;
 

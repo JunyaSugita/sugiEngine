@@ -1,6 +1,6 @@
 #pragma once
 #include "Model.h"
-#include "Object3d.h"
+#include "BaseObj.h"
 #include "JsonLoader.h"
 #include "ColliderManager.h"
 
@@ -39,8 +39,9 @@ private:
 	LevelData* levelData_;
 
 	std::unique_ptr<Model> boxModel_;
-	std::unique_ptr<Model> groundModel_;
-	std::unique_ptr<Object3d> object_[100];
+	//std::unique_ptr<Model> groundModel_;
+	//std::unique_ptr<Object3d> object_[100];
+	BaseObj obj_[100];
 
 	std::vector<BoxCol> col_;
 

@@ -13,10 +13,6 @@ SpellManager* SpellManager::GetInstance()
 
 void SpellManager::Initialize()
 {
-	FireBall::OneTimeInitialize();
-	MagicMissile::OneTimeInitialize();
-	IceBolt::OneTimeInitialize();
-	ChainLightning::OneTimeInitialize();
 	for (unique_ptr<FireBall>& fireBall : fireBalls_) {
 		fireBall->SetIsDead();
 	}

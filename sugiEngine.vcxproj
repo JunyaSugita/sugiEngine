@@ -122,6 +122,8 @@
     <ClCompile Include="sugiEngine\app\UI\UIManager.cpp" />
     <ClCompile Include="sugiEngine\engine\2d\PostEffect.cpp" />
     <ClCompile Include="sugiEngine\engine\2d\PostEffectSecond.cpp" />
+    <ClCompile Include="sugiEngine\engine\3d\BaseCol.cpp" />
+    <ClCompile Include="sugiEngine\engine\3d\BaseObj.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Camera.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp" />
@@ -183,6 +185,7 @@
     <ClInclude Include="sugiEngine\app\UI\UIManager.h" />
     <ClInclude Include="sugiEngine\engine\2d\PostEffect.h" />
     <ClInclude Include="sugiEngine\engine\2d\PostEffectSecond.h" />
+    <ClInclude Include="sugiEngine\engine\3d\BaseCol.h" />
     <ClInclude Include="sugiEngine\engine\3d\BaseObj.h" />
     <ClInclude Include="sugiEngine\engine\3d\Camera.h" />
     <ClInclude Include="sugiEngine\engine\3d\Fbx.h" />

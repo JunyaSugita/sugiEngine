@@ -9,12 +9,22 @@ ModelManager* ModelManager::GetInstance()
 	return &instance;
 }
 
-unique_ptr<Model> ModelManager::Get(std::string filename)
+void ModelManager::Initialize()
 {
-	map<string, unique_ptr<Model>>::iterator it = objects_.find(filename);
+	Load("player");
+	Load("box");
+	Load("sphere", true);
+	Load("weapon");
+	Load("ground");
+	Load("eye",true);
+}
+
+Model* ModelManager::Get(std::string filename)
+{
+	map<string, Model*>::iterator it = objects_.find(filename);
 	assert(it != objects_.end());
 
-	return move(it->second);
+	return it->second;
 }
 
 void ModelManager::Load(std::string filename,bool is)

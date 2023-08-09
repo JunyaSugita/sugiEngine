@@ -1,28 +1,20 @@
 #include "IceBolt.h"
 #include "Player.h"
 #include "ParticleManager.h"
-std::unique_ptr<Model> IceBolt::sModel_;
-std::unique_ptr<Model> IceBolt::sColModel_;
-
-void IceBolt::OneTimeInitialize()
-{
-	sModel_ = move(Model::LoadFromObj("sphere", true));
-	sColModel_ = move(Model::LoadFromObj("box"));
-}
+#include "ModelManager.h"
 
 void IceBolt::Initialize(Vector3 pos, Vector3 vec)
 {
-	obj_ = move(Object3d::Create());
-	obj_->SetModel(sModel_.get());
-	obj_->SetColor({ 0,0.5f,1,1 });
+	obj_.Initialize("sphere");
+	obj_.obj->SetColor({ 0,0.5f,1,1 });
 
 	colObj_ = move(Object3d::Create());
-	colObj_->SetModel(sColModel_.get());
+	colObj_->SetModel(ModelManager::GetInstance()->Get("box"));
 
 
-	pos_ = pos;
-	rot_ = { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 };
-	scale_ = { 0.5f,0.5f,2.0f };
+	obj_.pos = pos;
+	obj_.rot = { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 };
+	obj_.scale = { 0.5f,0.5f,2.0f };
 
 	vec_ = vec.normalize();
 
@@ -44,15 +36,15 @@ void IceBolt::Update()
 		isDead_ = true;
 	}
 
-	if (pos_.y > 0) {
-		pos_ += vec_ * SPEED_MOVE;
+	if (obj_.pos.y > 0) {
+		obj_.pos += vec_ * SPEED_MOVE;
 	}
 
 	if (isHit_) {
 		isDead_ = true;
 	}
 	else {
-		ParticleManager::GetInstance()->AddFromFile(P_ICE, pos_);
+		ParticleManager::GetInstance()->AddFromFile(P_ICE, obj_.pos);
 	}
 
 	SetCol();
@@ -62,7 +54,7 @@ void IceBolt::Update()
 
 void IceBolt::Draw()
 {
-	obj_->Draw();
+	obj_.Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
 		colObj_->Draw();
 	}
@@ -75,26 +67,16 @@ void IceBolt::Fire()
 
 void IceBolt::SetCol()
 {
-	boxCol_.pos = pos_;
-	boxCol_.size = { scale_.x,scale_.y,scale_.x };
+	boxCol_.pos = obj_.pos;
+	boxCol_.size = { obj_.scale.x,obj_.scale.y,obj_.scale.x };
 }
 
 void IceBolt::WorldTransUpdate()
 {
-	worldTrans_.SetPos(pos_);
-	worldTrans_.SetRot(rot_);
-	worldTrans_.SetScale(scale_);
+	obj_.Update();
 
 	colWorldTrans_.SetPos(boxCol_.pos);
 	colWorldTrans_.SetScale(boxCol_.size);
-
-	SetWorldTrans();
-}
-
-void IceBolt::SetWorldTrans()
-{
-	obj_->SetWorldTransform(worldTrans_);
-	obj_->Update();
 	colObj_->SetWorldTransform(colWorldTrans_);
 	colObj_->Update();
 }

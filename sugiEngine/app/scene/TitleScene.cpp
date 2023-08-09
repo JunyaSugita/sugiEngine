@@ -3,6 +3,7 @@
 #include "ParticleManager.h"
 #include "sceneChange.h"
 #include "Tutorial.h"
+#include "ModelManager.h"
 
 void TitleScene::Initialize()
 {
@@ -26,38 +27,24 @@ void TitleScene::Initialize()
 	titleTex_ = Sprite::LoadTexture("title.png");
 	titleSp_.Initialize(titleTex_);
 
-	model_ = move(Model::LoadFromObj("weapon"));
-	orbModel_ = move(Model::LoadFromObj("sphere", true));
-	obj_ = move(Object3d::Create());
-	obj_->SetModel(model_.get());
-	orbObj_ = move(Object3d::Create());
-	orbObj_->SetModel(orbModel_.get());
-	orbObj_->SetColor({ 0,1,1,0.5f });
-	orbObj_->SetIsSimple();
+	//武器の設定
+	obj_.Initialize("weapon");
+	obj_.pos = { 0,46,-48 };
+	obj_.rot = { 30,0,0 };
+	obj_.scale = { 1,1,1 };
+	//更新
+	obj_.Update();
 
-	pos_ = { 0,46,-48 };
-	rot_ = { 30,0,0 };
-	scale_ = { 1,1,1 };
-
-	orbPos_ = { 0,1.7f,0 };
-	orbRot_ = { 0,0,0 };
-	orbScale_ = { 0.3f,0.3f,0.3f };
-
-	orbTrans_.parent_ = &worldTrans_;
-
-	worldTrans_.SetPos(pos_);
-	worldTrans_.SetRot(rot_);
-	worldTrans_.SetScale(scale_);
-
-	orbTrans_.SetPos(orbPos_);
-	orbTrans_.SetRot(orbRot_);
-	orbTrans_.SetScale(orbScale_);
-
-	obj_->SetWorldTransform(worldTrans_);
-	obj_->Update();
-
-	orbObj_->SetWorldTransform(orbTrans_);
-	orbObj_->Update();
+	//オーブの設定
+	orbObj_.Initialize("sphere");
+	orbObj_.obj->SetColor({ 0,1,1,0.5f });
+	orbObj_.obj->SetIsSimple();
+	orbObj_.pos = { 0,1.7f,0 };
+	orbObj_.rot = { 0,0,0 };
+	orbObj_.scale = { 0.3f,0.3f,0.3f };
+	orbObj_.worldTrans.parent_ = &obj_.worldTrans;
+	//更新
+	orbObj_.Update();
 }
 
 void TitleScene::Update()
@@ -97,12 +84,12 @@ void TitleScene::Draw()
 
 void TitleScene::ObjDraw()
 {
-	obj_->Draw();
+	obj_.Draw();
 }
 
 void TitleScene::ObjDraw2()
 {
-	orbObj_->Draw();
+	orbObj_.Draw();
 }
 
 void TitleScene::ParticleDraw()
