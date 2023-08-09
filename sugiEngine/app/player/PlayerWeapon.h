@@ -1,8 +1,7 @@
 #pragma once
 #include "SugiMath.h"
-#include "Model.h"
-#include "Object3d.h"
 #include "WorldTransform.h"
+#include "BaseObj.h"
 
 class PlayerWeapon final {
 private:
@@ -29,7 +28,7 @@ public:
 	void AttackCol();	//zは半径
 
 	Vector3 GetPos() {
-		return pos_;
+		return obj_.pos;
 	}
 
 
@@ -43,7 +42,6 @@ public:
 
 private:
 	void WorldTransUpdate();
-	void SetWorldTrans();
 
 public:
 	const float SPEED_MOVE = 0.5f;
@@ -52,26 +50,13 @@ public:
 
 private:
 	//本体
-	WorldTransform worldTrans_;
-	Vector3 pos_;
-	Vector3 rot_;
-	Vector3 scale_;
+	BaseObj obj_;
 
 	//上のオーブ
-	WorldTransform orbTrans_;
-	Vector3 orbPos_;
-	Vector3 orbRot_;
-	Vector3 orbScale_;
+	BaseObj orbObj_;
 
 	//攻撃判定
 	bool isAt_;
-
-	//本体のモデル関係
-	std::unique_ptr <Model> model_;
-	std::unique_ptr <Object3d> obj_;
-
-	std::unique_ptr <Model> orbModel_;
-	std::unique_ptr <Object3d> orbObj_;
 
 	//当たり判定
 	WorldTransform hitWorldTrans_;

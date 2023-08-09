@@ -1,29 +1,20 @@
 #include "ChainLightning.h"
 #include "ColliderManager.h"
 #include "ParticleManager.h"
-
-std::unique_ptr<Model> ChainLightning::sModel_;
-std::unique_ptr<Model> ChainLightning::sColModel_;
-
-void ChainLightning::OneTimeInitialize()
-{
-	sModel_ = move(Model::LoadFromObj("sphere", true));
-	sColModel_ = move(Model::LoadFromObj("box"));
-}
+#include "ModelManager.h"
 
 void ChainLightning::Initialize(Vector3 pos, Vector3 vec)
 {
-	obj_ = move(Object3d::Create());
-	obj_->SetModel(sModel_.get());
-	obj_->SetColor({ 1,0,0,1 });
+	obj_.Initialize("sphere");
+	obj_.obj->SetColor({ 1,0,0,1 });
 
 	colObj_ = move(Object3d::Create());
-	colObj_->SetModel(sColModel_.get());
+	colObj_->SetModel(ModelManager::GetInstance()->Get("box"));
 
 
-	pos_ = pos;
-	rot_ = { 0,0,0 };
-	scale_ = { 1,1,1 };
+	obj_.pos = pos;
+	obj_.rot = { 0,0,0 };
+	obj_.scale = { 1,1,1 };
 
 	vec_ = vec.normalize();
 
@@ -45,27 +36,18 @@ void ChainLightning::Update()
 		isDead_ = true;
 	}
 
-	//if (!isHit_) {
-	//	pos_ += vec_ * SPEED_MOVE;
-	//	if (pos_.y <= 0) {
-	//		isHit_ = true;
-	//	}
-	//}
-	//else if (isHit_) {
-	//	Explode();
-	//}
 	if (!isDead_) {
 		for (int i = 0; i < 50; i++) {
-			pos_ += vec_ * SPEED_MOVE;
+			obj_.pos += vec_ * SPEED_MOVE;
 			SetCol();
 			WorldTransUpdate();
 
-			ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, pos_);
+			ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, obj_.pos);
 
 			if (ColliderManager::GetInstance()->CheckHitEnemyToChainLightning()) {
 				break;
 			}
-			if (pos_.y <= 0) {
+			if (obj_.pos.y <= 0) {
 				break;
 			}
 		}
@@ -74,7 +56,7 @@ void ChainLightning::Update()
 
 void ChainLightning::Draw()
 {
-	obj_->Draw();
+	obj_.Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
 		colObj_->Draw();
 	}
@@ -87,36 +69,16 @@ void ChainLightning::Fire()
 
 void ChainLightning::SetCol()
 {
-	boxCol_.pos = pos_;
-	boxCol_.size = { scale_.x,scale_.y, scale_.x };
+	boxCol_.pos = obj_.pos;
+	boxCol_.size = { obj_.scale.x,obj_.scale.y, obj_.scale.x };
 }
 
 void ChainLightning::WorldTransUpdate()
 {
-	worldTrans_.SetPos(pos_);
-	worldTrans_.SetRot(rot_);
-	worldTrans_.SetScale(scale_);
+	obj_.Update();
 
 	colWorldTrans_.SetPos(boxCol_.pos);
 	colWorldTrans_.SetScale(boxCol_.size);
-
-	SetWorldTrans();
-}
-
-void ChainLightning::SetWorldTrans()
-{
-	obj_->SetWorldTransform(worldTrans_);
-	obj_->Update();
 	colObj_->SetWorldTransform(colWorldTrans_);
 	colObj_->Update();
-}
-
-void ChainLightning::Explode()
-{
-	scale_ *= 1.2f;
-	alpha_ -= 0.03f;
-	obj_->SetColor({ 1,0,0,alpha_ });
-	if (scale_.x >= 10.0f) {
-		isDead_ = true;
-	}
 }

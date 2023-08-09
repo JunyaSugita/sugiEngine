@@ -6,9 +6,9 @@ using namespace DirectX;
 
 ID3D12Device* Model::sDevice = nullptr;
 
-unique_ptr <Model> Model::LoadFromObj(const string& modelname, bool smoothing)
+Model* Model::LoadFromObj(const string& modelname, bool smoothing)
 {
-	unique_ptr<Model> model = make_unique<Model>();
+	Model* model = new Model;
 
 	model->InitializeDescriptorHeap();
 
@@ -16,7 +16,7 @@ unique_ptr <Model> Model::LoadFromObj(const string& modelname, bool smoothing)
 
 	model->CreateBuffers();
 
-	return move(model);
+	return model;
 }
 
 void Model::LoadMaterial(const string& directoryPath, const string& filename)

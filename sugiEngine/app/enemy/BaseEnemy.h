@@ -1,8 +1,7 @@
 #pragma once
 #include "GrovalSetting.h"
 #include "WorldTransform.h"
-#include "Model.h"
-#include "Object3d.h"
+#include "BaseObj.h"
 #include "ColliderManager.h"
 
 struct DebuffM {
@@ -25,7 +24,7 @@ public:
 #pragma region inlineŒQ
 	//inlineŒQ
 	Vector3 GetPos() {
-		return pos_;
+		return obj_.pos;
 	}
 	void SetCol(Vector3 vec) {
 		boxCol_.pos = vec;
@@ -112,7 +111,6 @@ public:
 	void SetIsAttack();
 
 protected:
-	virtual void SetWorldTrans();
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
 
@@ -149,10 +147,7 @@ protected:
 	static std::unique_ptr<Model> sModel_;
 
 	//–{‘Ì
-	WorldTransform worldTrans_;
-	Vector3 pos_;
-	Vector3 rot_;
-	Vector3 scale_;
+	BaseObj obj_;
 
 	//“–‚½‚è”»’è
 	BoxCol boxCol_;
@@ -173,10 +168,6 @@ protected:
 
 	//ƒfƒoƒt
 	DebuffM debuff_;
-
-	//–{‘Ì‚Ìƒ‚ƒfƒ‹ŠÖŒW
-	std::unique_ptr<Object3d> obj_;
-
 	
 	//“–‚½‚è”»’è
 	WorldTransform colWorldTrans_;

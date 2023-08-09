@@ -1,6 +1,7 @@
 #include "FieldManager.h"
 #include "EnemyManager.h"
 #include "NavePointManager.h"
+#include "ModelManager.h"
 
 using namespace std;
 
@@ -16,26 +17,19 @@ void FieldManager::Initialize()
 	// レベルデータの読み込み
 	levelData_ = JsonLoader::LoadJson("level");
 
-	boxModel_ = move(Model::LoadFromObj("box"));
-	groundModel_ = move(Model::LoadFromObj("ground"));
-
 	objNum_ = 0;
 	navePointNum_ = 0;
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
 			//モデルを指定して3Dオブジェクトを生成
-			object_[objNum_] = make_unique<Object3d>();
-			object_[objNum_]->Initialize();
-			object_[objNum_]->SetModel(groundModel_.get());
+			obj_[objNum_].Initialize("ground");
 
 			//obj情報
-			WorldTransform worldTransform;
-			worldTransform.SetPos(objectData.pos);
-			worldTransform.SetRot({0,0,0});
-			worldTransform.SetScale(objectData.scale);
-
-			object_[objNum_]->SetWorldTransform(worldTransform);
-			object_[objNum_]->Update();
+			obj_[objNum_].pos = objectData.pos;
+			obj_[objNum_].rot = { 0,0,0 };
+			obj_[objNum_].scale = objectData.scale;
+			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
+			obj_[objNum_].obj->SetIsSimple();
 
 			BoxCol temp;
 			temp.pos = objectData.pos;
@@ -46,20 +40,14 @@ void FieldManager::Initialize()
 		}
 		if (objectData.filename == "ground") {
 			//モデルを指定して3Dオブジェクトを生成
-			object_[objNum_] = make_unique<Object3d>();
-			object_[objNum_]->Initialize();
-			object_[objNum_]->SetModel(groundModel_.get());
+			obj_[objNum_].Initialize("ground");
 
 			//obj情報
-			WorldTransform worldTransform;
-			worldTransform.SetPos(objectData.pos);
-			worldTransform.SetRot({ 0,0,0 });
-			worldTransform.SetScale(objectData.scale);
-
-			object_[objNum_]->SetWorldTransform(worldTransform);
-			object_[objNum_]->Update();
-			object_[objNum_]->SetColor({ 1,1,1,1 });
-			object_[objNum_]->SetIsSimple();
+			obj_[objNum_].pos = objectData.pos;
+			obj_[objNum_].rot = { 0,0,0 };
+			obj_[objNum_].scale = objectData.scale;
+			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
+			obj_[objNum_].obj->SetIsSimple();
 
 			BoxCol temp;
 			temp.pos = objectData.pos;
@@ -85,18 +73,14 @@ void FieldManager::GameInitialize()
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
 			//モデルを指定して3Dオブジェクトを生成
-			object_[objNum_] = make_unique<Object3d>();
-			object_[objNum_]->Initialize();
-			object_[objNum_]->SetModel(groundModel_.get());
+			obj_[objNum_].Initialize("ground");
 
 			//obj情報
-			WorldTransform worldTransform;
-			worldTransform.SetPos(objectData.pos);
-			worldTransform.SetRot({ 0,0,0 });
-			worldTransform.SetScale(objectData.scale);
-
-			object_[objNum_]->SetWorldTransform(worldTransform);
-			object_[objNum_]->Update();
+			obj_[objNum_].pos = objectData.pos;
+			obj_[objNum_].rot = { 0,0,0 };
+			obj_[objNum_].scale = objectData.scale;
+			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
+			obj_[objNum_].obj->SetIsSimple();
 
 			BoxCol temp;
 			temp.pos = objectData.pos;
@@ -107,20 +91,14 @@ void FieldManager::GameInitialize()
 		}
 		if (objectData.filename == "ground") {
 			//モデルを指定して3Dオブジェクトを生成
-			object_[objNum_] = make_unique<Object3d>();
-			object_[objNum_]->Initialize();
-			object_[objNum_]->SetModel(groundModel_.get());
+			obj_[objNum_].Initialize("ground");
 
 			//obj情報
-			WorldTransform worldTransform;
-			worldTransform.SetPos(objectData.pos);
-			worldTransform.SetRot({ 0,0,0 });
-			worldTransform.SetScale(objectData.scale);
-
-			object_[objNum_]->SetWorldTransform(worldTransform);
-			object_[objNum_]->Update();
-			object_[objNum_]->SetColor({ 1,1,1,1 });
-			object_[objNum_]->SetIsSimple();
+			obj_[objNum_].pos = objectData.pos;
+			obj_[objNum_].rot = { 0,0,0 };
+			obj_[objNum_].scale = objectData.scale;
+			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
+			obj_[objNum_].obj->SetIsSimple();
 
 			BoxCol temp;
 			temp.pos = objectData.pos;
@@ -133,19 +111,23 @@ void FieldManager::GameInitialize()
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
 			navePointNum_++;
 		}
+		if (objectData.filename == "navePoint") {
+			NavePointManager::GetInstance()->Add(objectData.pos);
+			navePointNum_++;
+		}
 	}
 }
 
 void FieldManager::Update()
 {
 	for (int i = 0; i < objNum_; i++) {
-		object_[i]->Update();
+		obj_[i].Update();
 	}
 }
 
 void FieldManager::Draw()
 {
 	for (int i = 0; i < objNum_; i++) {
-		object_[i]->Draw();
+		obj_[i].Draw();
 	}
 }

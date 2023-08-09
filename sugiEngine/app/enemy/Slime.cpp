@@ -16,10 +16,6 @@ void Slime::WorldTransUpdate()
 {
 }
 
-void Slime::SetWorldTrans()
-{
-}
-
 void Slime::Move()
 {
 }

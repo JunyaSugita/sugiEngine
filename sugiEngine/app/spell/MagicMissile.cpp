@@ -1,30 +1,22 @@
 #include "MagicMissile.h"
 #include "ParticleManager.h"
-std::unique_ptr<Model> MagicMissile::sModel_;
-std::unique_ptr<Model> MagicMissile::sColModel_;
-
-void MagicMissile::OneTimeInitialize()
-{
-	sModel_ = move(Model::LoadFromObj("sphere", true));
-	sColModel_ = move(Model::LoadFromObj("box"));
-}
+#include "ModelManager.h"
 
 void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 {
-	obj_ = move(Object3d::Create());
-	obj_->SetModel(sModel_.get());
-	obj_->SetColor({ 1,0,1,1 });
-	obj_->SetEffectCross();
-	obj_->SetIsSimple();
+	obj_.Initialize("sphere");
+	obj_.obj->SetColor({ 1,0,1,1 });
+	obj_.obj->SetEffectCross();
+	obj_.obj->SetIsSimple();
 
 	colObj_ = move(Object3d::Create());
-	colObj_->SetModel(sColModel_.get());
+	colObj_->SetModel(ModelManager::GetInstance()->Get("box"));
 
-	rot_ = { 0,0,0 };
-	scale_ = { 0.5f,0.5f,0.5f };
+	obj_.rot = { 0,0,0 };
+	obj_.scale = { 0.5f,0.5f,0.5f };
 
 	vec_ = vec.normalize();
-	pos_ = pos + vec * 3;
+	obj_.pos = pos + vec * 3;
 
 	boxCol_.pos = pos;
 	boxCol_.size = { 0.1f,0.1f,0.1f };
@@ -43,9 +35,9 @@ void MagicMissile::Update()
 	}
 
 	if (!isHit_) {
-		pos_ += vec_ * SPEED_MOVE;
-		ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE,pos_);
-		if (pos_.y <= 0) {
+		obj_.pos += vec_ * SPEED_MOVE;
+		ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, obj_.pos);
+		if (obj_.pos.y <= 0) {
 			isHit_ = true;
 		}
 	}
@@ -60,7 +52,7 @@ void MagicMissile::Update()
 
 void MagicMissile::Draw()
 {
-	obj_->Draw();
+	obj_.Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
 		colObj_->Draw();
 	}
@@ -73,25 +65,15 @@ void MagicMissile::Fire()
 
 void MagicMissile::SetCol()
 {
-	boxCol_.pos = pos_;
+	boxCol_.pos = obj_.pos;
 }
 
 void MagicMissile::WorldTransUpdate()
 {
-	worldTrans_.SetPos(pos_);
-	worldTrans_.SetRot(rot_);
-	worldTrans_.SetScale(scale_);
+	obj_.Update();
 
 	colWorldTrans_.SetPos(boxCol_.pos);
 	colWorldTrans_.SetScale(boxCol_.size);
-
-	SetWorldTrans();
-}
-
-void MagicMissile::SetWorldTrans()
-{
-	obj_->SetWorldTransform(worldTrans_);
-	obj_->Update();
 	colObj_->SetWorldTransform(colWorldTrans_);
 	colObj_->Update();
 }

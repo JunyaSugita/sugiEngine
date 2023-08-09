@@ -7,8 +7,8 @@ void ClearScene::Initialize()
 	// レベルデータの読み込み
 	levelData_ = JsonLoader::LoadJson("level");
 
-	sphereModel_ = move(Model::LoadFromObj("sphere", true));
-	playerModel_ = move(Model::LoadFromObj("player"));
+	//sphereModel_ = move(Model::LoadFromObj("sphere", true));
+	//playerModel_ = move(Model::LoadFromObj("player"));
 	models_.insert(std::make_pair("sphere", sphereModel_.get()));
 	models_.insert(std::make_pair("player", playerModel_.get()));
 

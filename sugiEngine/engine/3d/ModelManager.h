@@ -16,9 +16,10 @@ public:
 	static ModelManager* GetInstance();
 
 public:
-	std::unique_ptr<Model> Get(std::string filename);
+	void Initialize();
+	Model* Get(std::string filename);
 	void Load(std::string filename,bool is = false);
 
 private:
-	std::map<std::string,std::unique_ptr<Model>> objects_;
+	std::map<std::string,Model*> objects_;
 };

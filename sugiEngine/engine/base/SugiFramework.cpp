@@ -3,6 +3,8 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include "ModelManager.h"
+
 using namespace std;
 
 void SugiFramework::Initialize()
@@ -36,6 +38,7 @@ void SugiFramework::Initialize()
 	Fbx::CreateGraphicsPipeline();
 	Sprite::StaticInitialize(dxCom_->GetDevice());
 	LightGroup::StaticInitialize(dxCom_->GetDevice());
+	ModelManager::GetInstance()->Initialize();
 #pragma endregion
 
 	//PostEffect

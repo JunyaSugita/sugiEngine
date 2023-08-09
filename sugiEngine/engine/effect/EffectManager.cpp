@@ -9,7 +9,7 @@ EffectManager* EffectManager::GetInstance()
 
 void EffectManager::Initialize()
 {
-	Burst::OneTimeInitialize();
+	
 }
 
 void EffectManager::Update()

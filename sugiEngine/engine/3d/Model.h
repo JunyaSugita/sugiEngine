@@ -52,7 +52,7 @@ public:
 
 
 public:
-	static std::unique_ptr <Model> LoadFromObj(const std::string& modelname,bool smoothing = false);
+	static Model* LoadFromObj(const std::string& modelname,bool smoothing = false);
 	static void SetDevice(ID3D12Device* device) {
 		sDevice = device;
 	}

@@ -5,6 +5,7 @@
 #include "EnemyManager.h"
 #include "SpellManager.h"
 #include "ParticleManager.h"
+#include "ModelManager.h"
 
 using namespace ImGui;
 
@@ -17,28 +18,21 @@ PlayerWeapon* PlayerWeapon::GetInstance()
 
 void PlayerWeapon::Initialize()
 {
-	model_ = move(Model::LoadFromObj("weapon"));
-	orbModel_ = move(Model::LoadFromObj("sphere",true));
-	obj_ = move(Object3d::Create());
-	obj_->SetModel(model_.get());
-	orbObj_ = move(Object3d::Create());
-	orbObj_->SetModel(orbModel_.get());
-	orbObj_->SetColor({0,1,1,0.5f});
-	orbObj_->SetIsSimple();
-	
-	pos_ = { 0,3.5f,-50 };
-	rot_ = { 30,0,0 };
-	scale_ = { 1,1,1 };
+	obj_.Initialize("weapon");
+	obj_.pos = { 0,3.5f,-50 };
+	obj_.rot = { 30,0,0 };
+	obj_.scale = { 1,1,1 };
 
-	orbPos_ = { 0,1.7f,0 };
-	orbRot_ = { 0,0,0 };
-	orbScale_ = { 0.3f,0.3f,0.3f };
+	orbObj_.Initialize("sphere");
+	orbObj_.obj->SetColor({0,1,1,0.5f});
+	orbObj_.obj->SetIsSimple();
+	orbObj_.pos = { 0,1.7f,0 };
+	orbObj_.rot = { 0,0,0 };
+	orbObj_.scale = { 0.3f,0.3f,0.3f };
+	orbObj_.worldTrans.parent_ = &obj_.worldTrans;
 
-	orbTrans_.parent_ = &worldTrans_;
-
-	hitModel_ = move(Model::LoadFromObj("sphere",true));
 	hitObj_ = move(Object3d::Create());
-	hitObj_->SetModel(hitModel_.get());
+	hitObj_->SetModel(ModelManager::GetInstance()->Get("box"));
 
 	hitPos_ = { 0,0,0 };
 	hitRot_ = { 0,0,0 };
@@ -47,6 +41,7 @@ void PlayerWeapon::Initialize()
 	WorldTransUpdate();
 
 	isAt_ = false;
+
 }
 
 void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
@@ -70,14 +65,14 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 
 	WorldTransUpdate();
 	if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
-		ParticleManager::GetInstance()->AddFromFile(P_WEAPON_FIRE, orbTrans_.GetMatPos());
+		ParticleManager::GetInstance()->AddFromFile(P_WEAPON_FIRE, orbObj_.worldTrans.GetMatPos());
 	}
 }
 
 void PlayerWeapon::Draw()
 {
-	obj_->Draw();
-	orbObj_->Draw();
+	obj_.Draw();
+	orbObj_.Draw();
 
 	if (isAt_) {
 		//hitObj_->Draw();
@@ -88,11 +83,11 @@ void PlayerWeapon::NormalMove()
 {
 	Player* player = Player::GetInstance();
 
-	pos_ = player->GetPos();
-	pos_.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
-	pos_.y = 3.5f;
-	pos_.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
-	rot_ = { 30,player->GetCameraAngle().x,0 };
+	obj_.pos = player->GetPos();
+	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
+	obj_.pos.y = 3.5f;
+	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
+	obj_.rot = { 30,player->GetCameraAngle().x,0 };
 
 }
 
@@ -106,19 +101,19 @@ void PlayerWeapon::SpellMove()
 
 		float nowTime = easeTimer_ / 19;
 
-		pos_ = player->GetPos();
-		pos_.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
-		pos_.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f + EaseOut(nowTime,2));
-		pos_.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
-		rot_ = { (player->GetCameraAngle().y - 90) * -1,player->GetCameraAngle().x,0 };
+		obj_.pos = player->GetPos();
+		obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
+		obj_.pos.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f + EaseOut(nowTime,2));
+		obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
+		obj_.rot = { (player->GetCameraAngle().y - 90) * -1,player->GetCameraAngle().x,0 };
 	}
 	else {
 
-		pos_ = player->GetPos();
-		pos_.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
-		pos_.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f);
-		pos_.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
-		rot_ = { (player->GetCameraAngle().y - 90) * -1,player->GetCameraAngle().x,0 };
+		obj_.pos = player->GetPos();
+		obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
+		obj_.pos.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f);
+		obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
+		obj_.rot = { (player->GetCameraAngle().y - 90) * -1,player->GetCameraAngle().x,0 };
 	}
 }
 
@@ -127,11 +122,11 @@ void PlayerWeapon::ChargeMove()
 	Player* player = Player::GetInstance();
 	SpellManager* spellM = SpellManager::GetInstance();
 
-	pos_ = player->GetPos();
-	pos_.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
-	pos_.y = 3.5f;
-	pos_.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
-	rot_ = { 30 + float(sin(Radian(spellM->ChargePercent() * 1000))* 15),player->GetCameraAngle().x,0 + float(cos(Radian(spellM->ChargePercent() * 1000)) * 15) };
+	obj_.pos = player->GetPos();
+	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
+	obj_.pos.y = 3.5f;
+	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
+	obj_.rot = { 30 + float(sin(Radian(spellM->ChargePercent() * 1000))* 15),player->GetCameraAngle().x,0 + float(cos(Radian(spellM->ChargePercent() * 1000)) * 15) };
 }
 
 void PlayerWeapon::AttackMove(bool isAttackOn)
@@ -145,24 +140,24 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 		easeTime = 1.0f;
 	}
 
-	pos_ = player->GetPos();
-	pos_.x += float(sin(Radian(player->GetCameraAngle().x)) * 2);
-	pos_.y = EaseOut(easeTime,6);
-	pos_.z += float(cos(Radian(player->GetCameraAngle().x)) * 2);
-	rot_ = { 130 - EaseIn(easeTime,130),player->GetCameraAngle().x - 5,0 };
+	obj_.pos = player->GetPos();
+	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x)) * 2);
+	obj_.pos.y = EaseOut(easeTime,6);
+	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x)) * 2);
+	obj_.rot = { 130 - EaseIn(easeTime,130),player->GetCameraAngle().x - 5,0 };
 	if (isAttackOn) {
 		//obj_->SetColor({ 1,0,0,1 });
 		isAt_ = true;
 		AttackCol();
 	}
 	else {
-		obj_->SetColor({ 1,1,1,1 });
+		obj_.obj->SetColor({ 1,1,1,1 });
 		isAt_ = false;
 		EnemyManager::GetInstance()->ResetIsHit();
 	}
 
 	WorldTransUpdate();
-	ParticleManager::GetInstance()->AddFromFile(P_WEAPON, orbTrans_.GetMatPos());
+	ParticleManager::GetInstance()->AddFromFile(P_WEAPON, orbObj_.worldTrans.GetMatPos());
 }
 
 void PlayerWeapon::AttackCol()
@@ -178,30 +173,13 @@ void PlayerWeapon::AttackCol()
 
 void PlayerWeapon::WorldTransUpdate()
 {
-	worldTrans_.SetPos(pos_);
-	worldTrans_.SetRot(rot_);
-	worldTrans_.SetScale(scale_);
-
-	orbTrans_.SetPos(orbPos_);
-	orbTrans_.SetRot(orbRot_);
-	orbTrans_.SetScale(orbScale_);
-
 	hitWorldTrans_.SetPos(hitPos_);
 	hitWorldTrans_.SetRot(hitRot_);
 	hitWorldTrans_.SetScale(hitScale_);
 
-	SetWorldTrans();
-}
-
-void PlayerWeapon::SetWorldTrans()
-{
-	obj_->SetWorldTransform(worldTrans_);
-	obj_->Update();
-
-	orbObj_->SetWorldTransform(orbTrans_);
-	orbObj_->Update();
-
 	hitObj_->SetWorldTransform(hitWorldTrans_);
 	hitObj_->Update();
-}
 
+	obj_.Update();
+	orbObj_.Update();
+}

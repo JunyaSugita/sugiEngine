@@ -5,6 +5,7 @@
 #include "ParticleManager.h"
 #include "Tutorial.h"
 #include "Enemy.h"
+#include "ModelManager.h"
 
 #include <random>
 
@@ -14,21 +15,20 @@ bool BaseEnemy::sIsDebugStop_ = true;
 
 void BaseEnemy::StaticInitialize()
 {
-	sColModel_ = move(Model::LoadFromObj("box"));
+	//sColModel_ = move(Model::LoadFromObj("box"));
 }
 
 void BaseEnemy::Initialize(Vector3 pos)
 {
 	//モデルデータは先に派生クラスで読み込む
-	obj_ = move(Object3d::Create());
-	obj_->SetModel(sModel_.get());
+	obj_.Initialize("player");
 	colObj_ = move(Object3d::Create());
-	colObj_->SetModel(sColModel_.get());
+	colObj_->SetModel(ModelManager::GetInstance()->Get("box"));
 
 	//位置
-	pos_ = pos;
-	rot_ = { 0,90,0 };
-	scale_ = { 1,1,1 };
+	obj_.pos = pos;
+	obj_.rot = { 0,90,0 };
+	obj_.scale = { 1,1,1 };
 
 	//当たり判定
 	boxCol_.pos = pos;
@@ -90,7 +90,7 @@ void BaseEnemy::Update()
 
 void BaseEnemy::Draw()
 {
-	obj_->Draw();
+	obj_.Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
 		colObj_->Draw();
 	}
@@ -98,14 +98,12 @@ void BaseEnemy::Draw()
 
 void BaseEnemy::WorldTransUpdate()
 {
-	worldTrans_.SetPos(pos_);
-	worldTrans_.SetRot(rot_);
-	worldTrans_.SetScale(scale_);
-
 	colWorldTrans_.SetPos(boxCol_.pos);
 	colWorldTrans_.SetScale(boxCol_.size);
 
-	SetWorldTrans();
+	colObj_->SetWorldTransform(colWorldTrans_);
+	colObj_->Update();
+	obj_.Update();
 }
 
 void BaseEnemy::SetDebuff(uint8_t debuff, uint32_t time)
@@ -130,16 +128,16 @@ void BaseEnemy::SetDebuff(uint8_t debuff, uint32_t time)
 
 
 	if (debuff_.isFire) {
-		obj_->SetColor({ 1, 0, 0, 1 });
+		obj_.obj->SetColor({ 1, 0, 0, 1 });
 	}
 	else if (debuff_.isThunder) {
-		obj_->SetColor({ 1, 0, 1, 1 });
+		obj_.obj->SetColor({ 1, 0, 1, 1 });
 	}
 	else if (debuff_.isIce) {
-		obj_->SetColor({ 0, 0.3f, 1, 1 });
+		obj_.obj->SetColor({ 0, 0.3f, 1, 1 });
 	}
 	else {
-		obj_->SetColor({ 1, 1, 1, 1 });
+		obj_.obj->SetColor({ 1, 1, 1, 1 });
 	}
 }
 
@@ -177,8 +175,8 @@ bool BaseEnemy::isCanMove()
 
 void BaseEnemy::ResetShake()
 {
-	pos_.x = boxCol_.pos.x;
-	pos_.z = boxCol_.pos.z;
+	obj_.pos.x = boxCol_.pos.x;
+	obj_.pos.z = boxCol_.pos.z;
 }
 
 void BaseEnemy::SetIsAttack()
@@ -190,43 +188,35 @@ void BaseEnemy::SetIsAttack()
 	isAttack_ = true;
 }
 
-void BaseEnemy::SetWorldTrans()
-{
-	obj_->SetWorldTransform(worldTrans_);
-	obj_->Update();
-	colObj_->SetWorldTransform(colWorldTrans_);
-	colObj_->Update();
-}
-
 void BaseEnemy::SetAngleToPlayer()
 {
 	//インスタンス取得
 	Player* player = Player::GetInstance()->GetInstance();
 
 	//プレイヤーの向きを計算して単位化
-	Vector2 len = Vector2((player->GetPos() - pos_).x, (player->GetPos() - pos_).z);
+	Vector2 len = Vector2((player->GetPos() - obj_.pos).x, (player->GetPos() - obj_.pos).z);
 	len.normalize();
 
 	//プレイヤーの方にゆっくり向く
 	float angle_ = atan2(len.cross(UP), -len.dot(UP)) / PI * -RADIAN - (RADIAN / 2);
-	while (rot_.y - angle_ > RADIAN || rot_.y - angle_ < -RADIAN) {
-		if (rot_.y - angle_ > RADIAN) {
-			rot_.y -= RADIAN * 2;
+	while (obj_.rot.y - angle_ > RADIAN || obj_.rot.y - angle_ < -RADIAN) {
+		if (obj_.rot.y - angle_ > RADIAN) {
+			obj_.rot.y -= RADIAN * 2;
 		}
-		if (rot_.y - angle_ < -RADIAN) {
-			rot_.y += RADIAN * 2;
+		if (obj_.rot.y - angle_ < -RADIAN) {
+			obj_.rot.y += RADIAN * 2;
 		}
 	}
-	if (rot_.y - angle_ < 0) {
-		rot_.y += angleSpeed_ * GetSlow();
-		if (rot_.y - angle_ > 0) {
-			rot_.y = angle_;
+	if (obj_.rot.y - angle_ < 0) {
+		obj_.rot.y += angleSpeed_ * GetSlow();
+		if (obj_.rot.y - angle_ > 0) {
+			obj_.rot.y = angle_;
 		}
 	}
 	else {
-		rot_.y -= angleSpeed_ * GetSlow();
-		if (rot_.y - angle_ < 0) {
-			rot_.y = angle_;
+		obj_.rot.y -= angleSpeed_ * GetSlow();
+		if (obj_.rot.y - angle_ < 0) {
+			obj_.rot.y = angle_;
 		}
 	}
 }
@@ -242,7 +232,7 @@ float BaseEnemy::GetSlow()
 void BaseEnemy::SubLife(int32_t subLife, int32_t effectNum)
 {
 	life_ -= subLife;
-	EffectManager::GetInstance()->BurstGenerate({ pos_.x,pos_.y + 4,pos_.z }, effectNum, { 1,0,0,1 });
+	EffectManager::GetInstance()->BurstGenerate({ obj_.pos.x,obj_.pos.y + 4,obj_.pos.z }, effectNum, { 1,0,0,1 });
 	if (life_ <= 0) {
 		isDead_ = true;
 	}
@@ -274,7 +264,7 @@ void BaseEnemy::UpdateDebuff()
 		}
 	}
 	else {
-		obj_->SetColor({ 1,1,1,1 });
+		obj_.obj->SetColor({ 1,1,1,1 });
 	}
 }
 
@@ -285,7 +275,7 @@ void BaseEnemy::SetShake()
 	std::mt19937_64 engine(seed_gen());
 
 	//カメラとの距離でシェイクの大きさを変える
-	Vector3 len = Camera::GetInstance()->GetEye() - pos_;
+	Vector3 len = Camera::GetInstance()->GetEye() - obj_.pos;
 	float maxShake = len.length() / 100;
 	if (maxShake > 0.5f) {
 		maxShake = 0.5f;
@@ -294,12 +284,12 @@ void BaseEnemy::SetShake()
 	std::uniform_real_distribution<float> x(-maxShake, maxShake);
 	std::uniform_real_distribution<float> z(-maxShake, maxShake);
 
-	pos_.x += x(engine);
-	pos_.z += z(engine);
+	obj_.pos.x += x(engine);
+	obj_.pos.z += z(engine);
 }
 
 void BaseEnemy::SetCol()
 {
-	boxCol_.pos = pos_;
+	boxCol_.pos = obj_.pos;
 	boxCol_.pos.y += height_;
 }
