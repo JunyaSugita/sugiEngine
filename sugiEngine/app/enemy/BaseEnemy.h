@@ -2,7 +2,7 @@
 #include "GrovalSetting.h"
 #include "WorldTransform.h"
 #include "BaseObj.h"
-#include "ColliderManager.h"
+#include "BaseCol.h"
 
 struct DebuffM {
 	bool isFire;
@@ -26,25 +26,25 @@ public:
 		return obj_.pos;
 	}
 	void SetCol(Vector3 vec) {
-		boxCol_.pos = vec;
+		col_.col.pos = vec;
 	}
 	void SetColX(float x) {
-		boxCol_.pos.x = x;
+		col_.col.pos.x = x;
 	}
 	void SetColY(float y) {
-		boxCol_.pos.y = y;
+		col_.col.pos.y = y;
 	}
 	void SetColZ(float z) {
-		boxCol_.pos.z = z;
+		col_.col.pos.z = z;
 	}
 	void AddCol(Vector3 vec) {
-		boxCol_.pos += vec;
+		col_.col.pos += vec;
 	}
 	void AddColX(float x) {
-		boxCol_.pos.x += x;
+		col_.col.pos.x += x;
 	}
 	void AddColZ(float z) {
-		boxCol_.pos.z += z;
+		col_.col.pos.z += z;
 	}
 	bool GetIsDead() {
 		return isDead_;
@@ -56,10 +56,10 @@ public:
 		isHit_ = false;
 	}
 	BoxCol GetBoxCol() {
-		return boxCol_;
+		return col_.col;
 	}
 	BoxCol GetOldBoxCol() {
-		return oldBoxCol_;
+		return col_.oldCol;
 	}
 	void SetIsStop() {
 		isStop_ = true;
@@ -146,8 +146,7 @@ protected:
 	BaseObj obj_;
 
 	//“–‚½‚è”»’è
-	BoxCol boxCol_;
-	BoxCol oldBoxCol_;
+	BaseCol col_;
 	float height_;
 
 	//‘Ì—Í
@@ -164,11 +163,6 @@ protected:
 
 	//ƒfƒoƒt
 	DebuffM debuff_;
-	
-	//“–‚½‚è”»’è
-	WorldTransform colWorldTrans_;
-	//“–‚½‚è”»’è‚Ìƒ‚ƒfƒ‹ŠÖŒW
-	std::unique_ptr<Object3d> colObj_;
 
 	//‘«‚ðŽ~‚ß‚é‚©
 	bool isStop_;

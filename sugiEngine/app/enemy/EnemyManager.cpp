@@ -16,10 +16,6 @@ EnemyManager* EnemyManager::GetInstance()
 
 void EnemyManager::Initialize()
 {
-	BaseEnemy::StaticInitialize();
-	Enemy::StaticInitialize();
-
-
 	for (unique_ptr<BaseEnemy>& enemy : enemys_) {
 		enemy->SetIsDead();
 	}

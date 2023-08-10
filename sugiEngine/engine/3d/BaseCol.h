@@ -15,5 +15,7 @@ public:
 	BoxCol col;
 	BoxCol oldCol;
 	Vector3 gap;
-	BaseObj colObj;
+
+private:
+	BaseObj colObj_;
 };

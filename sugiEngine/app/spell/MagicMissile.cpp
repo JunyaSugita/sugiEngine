@@ -8,18 +8,15 @@ void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 	obj_.obj->SetColor({ 1,0,1,1 });
 	obj_.obj->SetEffectCross();
 	obj_.obj->SetIsSimple();
-
-	colObj_ = move(Object3d::Create());
-	colObj_->SetModel(ModelManager::GetInstance()->Get("box"));
-
-	obj_.rot = { 0,0,0 };
 	obj_.scale = { 0.5f,0.5f,0.5f };
-
-	vec_ = vec.normalize();
 	obj_.pos = pos + vec * 3;
 
-	boxCol_.pos = pos;
-	boxCol_.size = { 0.1f,0.1f,0.1f };
+	col_.Initialize();
+
+	vec_ = vec.normalize();
+	
+	col_.col.pos = pos;
+	col_.col.size = { 0.5f,0.5f,0.5f };
 
 	WorldTransUpdate();
 
@@ -54,7 +51,7 @@ void MagicMissile::Draw()
 {
 	obj_.Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		colObj_->Draw();
+		col_.Draw();
 	}
 }
 
@@ -65,17 +62,13 @@ void MagicMissile::Fire()
 
 void MagicMissile::SetCol()
 {
-	boxCol_.pos = obj_.pos;
+	col_.SetCol(obj_.pos);
 }
 
 void MagicMissile::WorldTransUpdate()
 {
 	obj_.Update();
-
-	colWorldTrans_.SetPos(boxCol_.pos);
-	colWorldTrans_.SetScale(boxCol_.size);
-	colObj_->SetWorldTransform(colWorldTrans_);
-	colObj_->Update();
+	col_.Update();
 }
 
 void MagicMissile::Explode()

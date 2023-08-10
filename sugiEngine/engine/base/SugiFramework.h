@@ -20,6 +20,7 @@
 #include"Input.h"
 #include "Sprite.h"
 #include "Model.h"
+#include "Object3d.h"
 #include "GameManager.h"
 #include "LightGroup.h"
 #include "ImGuiManager.h"
