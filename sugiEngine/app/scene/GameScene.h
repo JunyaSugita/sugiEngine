@@ -1,7 +1,6 @@
 #pragma once
 #include "ISceneManager.h"
 #include "Model.h"
-#include "Object3d.h"
 #include "Sprite.h"
 #include "Input.h"
 #include "GameManager.h"

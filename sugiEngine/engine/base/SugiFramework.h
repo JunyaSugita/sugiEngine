@@ -18,7 +18,6 @@
 #include "WinApp.h"
 #include "DXCommon.h"
 #include"Input.h"
-#include "Object3d.h"
 #include "Sprite.h"
 #include "Model.h"
 #include "GameManager.h"

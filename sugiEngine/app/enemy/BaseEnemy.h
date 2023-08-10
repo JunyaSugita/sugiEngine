@@ -15,7 +15,6 @@ struct DebuffM {
 
 class BaseEnemy {
 public:
-	static void StaticInitialize();
 	virtual void Initialize(Vector3 pos);
 	virtual void Update();
 	virtual void Draw();
@@ -142,9 +141,6 @@ protected:
 protected:
 	const Vector2 UP = { 0,-1 };
 	const float RADIAN = 180;
-
-	static std::unique_ptr<Model> sColModel_;
-	static std::unique_ptr<Model> sModel_;
 
 	//–{‘Ì
 	BaseObj obj_;

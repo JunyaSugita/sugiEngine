@@ -1,6 +1,5 @@
 #pragma once
 #include "Model.h"
-#include "Object3d.h"
 #include <list>
 #include "Vector3.h"
 #include "Burst.h"

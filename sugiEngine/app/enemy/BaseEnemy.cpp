@@ -9,14 +9,7 @@
 
 #include <random>
 
-std::unique_ptr<Model> BaseEnemy::sColModel_;
-std::unique_ptr<Model> BaseEnemy::sModel_;
 bool BaseEnemy::sIsDebugStop_ = true;
-
-void BaseEnemy::StaticInitialize()
-{
-	//sColModel_ = move(Model::LoadFromObj("box"));
-}
 
 void BaseEnemy::Initialize(Vector3 pos)
 {
