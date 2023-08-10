@@ -2,7 +2,7 @@
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include "BaseObj.h"
-#include "ColliderManager.h"
+#include "BaseCol.h"
 
 class ChainLightning {
 public:
@@ -24,7 +24,7 @@ public:
 	}
 
 	BoxCol GetBoxCol() {
-		return boxCol_;
+		return col_.col;
 	}
 
 private:
@@ -39,7 +39,7 @@ private:
 	BaseObj obj_;
 
 	//当たり判定
-	BoxCol boxCol_;
+	BaseCol col_;
 
 	//進行方向
 	Vector3 vec_;
@@ -53,9 +53,4 @@ private:
 
 	//当たったフラグ
 	bool isHit_;
-
-	//当たり判定
-	WorldTransform colWorldTrans_;
-	//当たり判定のモデル関係
-	std::unique_ptr<Object3d> colObj_;
 };

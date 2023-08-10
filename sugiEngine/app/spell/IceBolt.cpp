@@ -8,8 +8,7 @@ void IceBolt::Initialize(Vector3 pos, Vector3 vec)
 	obj_.Initialize("sphere");
 	obj_.obj->SetColor({ 0,0.5f,1,1 });
 
-	colObj_ = move(Object3d::Create());
-	colObj_->SetModel(ModelManager::GetInstance()->Get("box"));
+	col_.Initialize();
 
 
 	obj_.pos = pos;
@@ -18,8 +17,8 @@ void IceBolt::Initialize(Vector3 pos, Vector3 vec)
 
 	vec_ = vec.normalize();
 
-	boxCol_.pos = pos;
-	boxCol_.size = { 0.5f ,0.5f, 0.5f };
+	col_.col.pos = pos;
+	col_.col.size = { 0.5f ,0.5f, 0.5f };
 
 	WorldTransUpdate();
 
@@ -56,7 +55,7 @@ void IceBolt::Draw()
 {
 	obj_.Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		colObj_->Draw();
+		col_.Draw();
 	}
 }
 
@@ -67,16 +66,12 @@ void IceBolt::Fire()
 
 void IceBolt::SetCol()
 {
-	boxCol_.pos = obj_.pos;
-	boxCol_.size = { obj_.scale.x,obj_.scale.y,obj_.scale.x };
+	col_.SetCol(obj_.pos);
+	col_.col.size = { obj_.scale.x,obj_.scale.y,obj_.scale.x };
 }
 
 void IceBolt::WorldTransUpdate()
 {
 	obj_.Update();
-
-	colWorldTrans_.SetPos(boxCol_.pos);
-	colWorldTrans_.SetScale(boxCol_.size);
-	colObj_->SetWorldTransform(colWorldTrans_);
-	colObj_->Update();
+	col_.Update();
 }

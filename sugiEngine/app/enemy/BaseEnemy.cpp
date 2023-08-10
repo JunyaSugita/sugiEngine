@@ -15,8 +15,7 @@ void BaseEnemy::Initialize(Vector3 pos)
 {
 	//モデルデータは先に派生クラスで読み込む
 	obj_.Initialize("player");
-	colObj_ = move(Object3d::Create());
-	colObj_->SetModel(ModelManager::GetInstance()->Get("box"));
+	col_.Initialize();
 
 	//位置
 	obj_.pos = pos;
@@ -24,10 +23,9 @@ void BaseEnemy::Initialize(Vector3 pos)
 	obj_.scale = { 1,1,1 };
 
 	//当たり判定
-	boxCol_.pos = pos;
-	boxCol_.size = { 1.0f,height_,1.0f };
-	oldBoxCol_.pos = pos;
-	oldBoxCol_.size = { 1.0f,height_,1.0f };
+	col_.col.pos = pos;
+	col_.col.size = { 1.0f,height_,1.0f };
+	col_.gap = {0,height_,0};
 
 	//フラグ
 	isDead_ = false;
@@ -48,7 +46,7 @@ void BaseEnemy::Initialize(Vector3 pos)
 void BaseEnemy::Update()
 {
 	//1フレ前の座標を保存
-	oldBoxCol_ = boxCol_;
+	col_.SetOldCol();
 
 	//シェイクを戻す
 	ResetShake();
@@ -85,18 +83,14 @@ void BaseEnemy::Draw()
 {
 	obj_.Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		colObj_->Draw();
+		col_.Draw();
 	}
 }
 
 void BaseEnemy::WorldTransUpdate()
 {
-	colWorldTrans_.SetPos(boxCol_.pos);
-	colWorldTrans_.SetScale(boxCol_.size);
-
-	colObj_->SetWorldTransform(colWorldTrans_);
-	colObj_->Update();
 	obj_.Update();
+	col_.Update();
 }
 
 void BaseEnemy::SetDebuff(uint8_t debuff, uint32_t time)
@@ -168,8 +162,8 @@ bool BaseEnemy::isCanMove()
 
 void BaseEnemy::ResetShake()
 {
-	obj_.pos.x = boxCol_.pos.x;
-	obj_.pos.z = boxCol_.pos.z;
+	obj_.pos.x = col_.col.pos.x;
+	obj_.pos.z = col_.col.pos.z;
 }
 
 void BaseEnemy::SetIsAttack()
@@ -235,7 +229,7 @@ void BaseEnemy::UpdateDebuff()
 {
 	if (isDebuff()) {
 		if (debuff_.isFire) {
-			ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, colObj_->GetPos());
+			ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.col.pos);
 			if (debuff_.fireTime % 40 == 1) {
 				SubLife(1, 0);
 			}
@@ -283,6 +277,5 @@ void BaseEnemy::SetShake()
 
 void BaseEnemy::SetCol()
 {
-	boxCol_.pos = obj_.pos;
-	boxCol_.pos.y += height_;
+	col_.SetCol(obj_.pos);
 }
