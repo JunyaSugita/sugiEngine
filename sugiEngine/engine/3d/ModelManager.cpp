@@ -17,6 +17,8 @@ void ModelManager::Initialize()
 	Load("weapon");
 	Load("ground");
 	Load("eye",true);
+	Load("slime",true);
+	Load("effect");
 }
 
 Model* ModelManager::Get(std::string filename)

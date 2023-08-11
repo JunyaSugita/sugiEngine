@@ -4,7 +4,7 @@
 
 void Burst::Initialize(const Vector3& pos,Vector4 color,float range,float pow) {
 
-	obj_.Initialize("box");
+	obj_.Initialize("effect");
 	obj_.obj->SetColor(color);
 
 	//ƒ‰ƒ“ƒ_ƒ€

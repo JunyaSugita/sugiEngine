@@ -15,7 +15,7 @@ struct DebuffM {
 
 class BaseEnemy {
 public:
-	virtual void Initialize(Vector3 pos);
+	virtual void Initialize(std::string name,Vector3 pos);
 	virtual void Update();
 	virtual void Draw();
 	virtual void WorldTransUpdate();

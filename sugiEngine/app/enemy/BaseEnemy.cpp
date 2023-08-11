@@ -11,10 +11,10 @@
 
 bool BaseEnemy::sIsDebugStop_ = true;
 
-void BaseEnemy::Initialize(Vector3 pos)
+void BaseEnemy::Initialize(std::string name, Vector3 pos)
 {
 	//モデルデータは先に派生クラスで読み込む
-	obj_.Initialize("player");
+	obj_.Initialize(name);
 	col_.Initialize();
 
 	//位置
@@ -111,20 +111,6 @@ void BaseEnemy::SetDebuff(uint8_t debuff, uint32_t time)
 		break;
 	default:
 		break;
-	}
-
-
-	if (debuff_.isFire) {
-		obj_.obj->SetColor({ 1, 0, 0, 1 });
-	}
-	else if (debuff_.isThunder) {
-		obj_.obj->SetColor({ 1, 0, 1, 1 });
-	}
-	else if (debuff_.isIce) {
-		obj_.obj->SetColor({ 0, 0.3f, 1, 1 });
-	}
-	else {
-		obj_.obj->SetColor({ 1, 1, 1, 1 });
 	}
 }
 
@@ -249,9 +235,6 @@ void BaseEnemy::UpdateDebuff()
 				debuff_.isIce = false;
 			}
 		}
-	}
-	else {
-		obj_.obj->SetColor({ 1,1,1,1 });
 	}
 }
 

@@ -9,7 +9,7 @@
 
 std::unique_ptr<Model> Enemy::sEyeModel_;
 
-void Enemy::Initialize(Vector3 pos)
+void Enemy::Initialize(std::string name, Vector3 pos)
 {
 	eyeObj_.Initialize("eye");
 	eyeObj_.obj->SetEffectCross();
@@ -35,7 +35,7 @@ void Enemy::Initialize(Vector3 pos)
 	angleSpeed_ = SPEED_ANGLE;
 	height_ = HEIGHT_COL;
 
-	BaseEnemy::Initialize(pos);
+	BaseEnemy::Initialize(name,pos);
 	WorldTransUpdate();
 }
 
@@ -53,7 +53,6 @@ void Enemy::WorldTransUpdate()
 	armL_.Update();
 	armR_.Update();
 
-	//
 	BaseEnemy::WorldTransUpdate();
 }
 

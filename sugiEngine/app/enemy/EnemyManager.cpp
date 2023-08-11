@@ -3,6 +3,7 @@
 #include <random>
 #include "ImGuiManager.h"
 #include "SpellManager.h"
+#include "Slime.h"
 
 using namespace std;
 using namespace ImGui;
@@ -76,7 +77,15 @@ void EnemyManager::Draw()
 void EnemyManager::PopEnemy(Vector3 pos)
 {
 	unique_ptr<BaseEnemy> newEnemy = make_unique<Enemy>();
-	newEnemy->Initialize(pos);
+	newEnemy->Initialize("player",pos);
+	enemyCount_ += newEnemy->GetLife();
+	enemys_.push_back(move(newEnemy));
+}
+
+void EnemyManager::PopSlime(Vector3 pos)
+{
+	unique_ptr<BaseEnemy> newEnemy = make_unique<Slime>();
+	newEnemy->Initialize("slime", pos);
 	enemyCount_ += newEnemy->GetLife();
 	enemys_.push_back(move(newEnemy));
 }
