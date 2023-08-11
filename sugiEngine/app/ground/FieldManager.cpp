@@ -59,6 +59,9 @@ void FieldManager::Initialize()
 		if (objectData.filename == "enemy") {
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
 		}
+		if (objectData.filename == "slime") {
+			EnemyManager::GetInstance()->PopSlime(objectData.pos);
+		}
 		if (objectData.filename == "navePoint") {
 			NavePointManager::GetInstance()->Add(objectData.pos);
 			navePointNum_++;
@@ -109,7 +112,9 @@ void FieldManager::GameInitialize()
 		}
 		if (objectData.filename == "enemy") {
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
-			navePointNum_++;
+		}
+		if (objectData.filename == "slime") {
+			EnemyManager::GetInstance()->PopSlime(objectData.pos);
 		}
 		if (objectData.filename == "navePoint") {
 			NavePointManager::GetInstance()->Add(objectData.pos);

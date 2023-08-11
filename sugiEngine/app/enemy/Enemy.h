@@ -4,7 +4,7 @@
 
 class Enemy : public BaseEnemy{
 public:
-	void Initialize(Vector3 pos) override;
+	void Initialize(std::string name,Vector3 pos) override;
 	void Draw() override;
 	void WorldTransUpdate() override;
 
