@@ -29,6 +29,8 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 
 	//フラグ
 	isDead_ = false;
+	isDown_ = false;
+	downTimer_ = TIME_DOWN;
 	isHit_ = false;
 	isStop_ = false;
 	isAttack_ = false;
@@ -45,6 +47,12 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 
 void BaseEnemy::Update()
 {
+	if (isDown_) {
+		Down();
+
+		return;
+	}
+
 	//1フレ前の座標を保存
 	col_.SetOldCol();
 
@@ -205,9 +213,12 @@ float BaseEnemy::GetSlow()
 void BaseEnemy::SubLife(int32_t subLife, int32_t effectNum)
 {
 	life_ -= subLife;
+	if (life_ < 0) {
+		life_ = 0;
+	}
 	EffectManager::GetInstance()->BurstGenerate({ obj_.pos.x,obj_.pos.y + 4,obj_.pos.z }, effectNum, { 1,0,0,1 });
 	if (life_ <= 0) {
-		isDead_ = true;
+		isDown_ = true;
 	}
 }
 
@@ -261,4 +272,17 @@ void BaseEnemy::SetShake()
 void BaseEnemy::SetCol()
 {
 	col_.SetCol(obj_.pos);
+}
+
+void BaseEnemy::Down()
+{
+	if (--downTimer_ <= 0) {
+		isDead_ = true;
+	}
+
+	if (downTimer_ < 30) {
+		obj_.pos.y -= 0.1f;
+	}
+
+	WorldTransUpdate();
 }

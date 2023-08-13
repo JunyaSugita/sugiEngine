@@ -61,4 +61,30 @@ void Slime::Move()
 
 void Slime::Attack()
 {
+	if (isAttack_) {
+		attackTimer_ -= 0.025f;
+
+		timer_ += 0.1f;
+		obj_.scale.x = 1 + sinf(timer_) * 0.5f;
+		obj_.scale.y = 1 + cosf(timer_) * 0.5f;
+		obj_.scale.z = 1 + sinf(timer_) * 0.5f;
+
+		if (attackTimer_ <= 0) {
+			isAttack_ = false;
+		}
+	}
+}
+
+void Slime::Down()
+{
+	if (obj_.scale.y > 0.1f) {
+		obj_.scale.y -= 0.1f;
+	}
+	if (obj_.scale.x < 10) {
+		obj_.scale.x += 0.5f;
+		obj_.scale.z += 0.5f;
+	}
+
+	//ÅŒã
+	BaseEnemy::Down();
 }

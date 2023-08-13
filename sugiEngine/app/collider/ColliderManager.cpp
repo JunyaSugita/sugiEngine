@@ -167,9 +167,11 @@ void ColliderManager::Update()
 #pragma region ƒvƒŒƒCƒ„[‚Æ“G‚Ì”»’è
 
 	for (int i = 0; i < enemysCol.size(); i++) {
-		if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
-			enemysCol[i]->SetIsStop();
-			enemysCol[i]->SetIsAttack();
+		if (!enemysCol[i]->GetIsDown()) {
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
+				enemysCol[i]->SetIsStop();
+				enemysCol[i]->SetIsAttack();
+			}
 		}
 	}
 
@@ -178,23 +180,25 @@ void ColliderManager::Update()
 #pragma region “G“¯m‚Ì“–‚½‚è”»’è
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = i + 1; j < enemysCol.size(); j++) {
-			if (CheckHitBox(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
-				if (enemysCol[i]->GetBoxCol().pos.x <= enemysCol[j]->GetBoxCol().pos.x) {
-					enemysCol[i]->AddColX(-0.01f);
-					enemysCol[j]->AddColX(0.01f);
-				}
-				else if (enemysCol[i]->GetBoxCol().pos.x > enemysCol[j]->GetBoxCol().pos.x) {
-					enemysCol[i]->AddColX(0.01f);
-					enemysCol[j]->AddColX(-0.01f);
-				}
+			if (!enemysCol[i]->GetIsDown() && !enemysCol[j]->GetIsDown()) {
+				if (CheckHitBox(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+					if (enemysCol[i]->GetBoxCol().pos.x <= enemysCol[j]->GetBoxCol().pos.x) {
+						enemysCol[i]->AddColX(-0.01f);
+						enemysCol[j]->AddColX(0.01f);
+					}
+					else if (enemysCol[i]->GetBoxCol().pos.x > enemysCol[j]->GetBoxCol().pos.x) {
+						enemysCol[i]->AddColX(0.01f);
+						enemysCol[j]->AddColX(-0.01f);
+					}
 
-				if (enemysCol[i]->GetBoxCol().pos.z <= enemysCol[j]->GetBoxCol().pos.z) {
-					enemysCol[i]->AddColZ(-0.01f);
-					enemysCol[j]->AddColZ(0.01f);
-				}
-				else if (enemysCol[i]->GetBoxCol().pos.z > enemysCol[j]->GetBoxCol().pos.z) {
-					enemysCol[i]->AddColZ(0.01f);
-					enemysCol[j]->AddColZ(-0.01f);
+					if (enemysCol[i]->GetBoxCol().pos.z <= enemysCol[j]->GetBoxCol().pos.z) {
+						enemysCol[i]->AddColZ(-0.01f);
+						enemysCol[j]->AddColZ(0.01f);
+					}
+					else if (enemysCol[i]->GetBoxCol().pos.z > enemysCol[j]->GetBoxCol().pos.z) {
+						enemysCol[i]->AddColZ(0.01f);
+						enemysCol[j]->AddColZ(-0.01f);
+					}
 				}
 			}
 		}

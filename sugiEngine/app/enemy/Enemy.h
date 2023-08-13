@@ -11,6 +11,7 @@ public:
 private:
 	void Move() override;
 	void Attack() override;
+	void Down() override;
 	
 private:
 	const float SPEED_MOVE = 0.15f;

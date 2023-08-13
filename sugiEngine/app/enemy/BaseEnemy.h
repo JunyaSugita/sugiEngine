@@ -49,6 +49,9 @@ public:
 	bool GetIsDead() {
 		return isDead_;
 	}
+	bool GetIsDown() {
+		return isDown_;
+	}
 	void SetIsDead() {
 		isDead_ = true;
 	}
@@ -112,6 +115,8 @@ public:
 protected:
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
+	//死んだ時の反応
+	virtual void Down();
 
 	// プレイヤーの方向を向く
 	void SetAngleToPlayer();
@@ -138,9 +143,12 @@ protected:
 	//自身のコリジョンを設定
 	void SetCol();
 
+
+
 protected:
 	const Vector2 UP = { 0,-1 };
 	const float RADIAN = 180;
+	const int32_t TIME_DOWN = 60 * 5;
 
 	//本体
 	BaseObj obj_;
@@ -154,6 +162,8 @@ protected:
 
 	//死んだかどうか
 	bool isDead_;
+	bool isDown_;
+	int32_t downTimer_;
 
 	//プレイヤーとの距離を記録
 	Vector2 toPlayer;
