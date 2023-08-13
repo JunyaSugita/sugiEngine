@@ -154,6 +154,9 @@ void GameScene::Update()
 		if (Button("EnemyPop", { 150,30 })) {
 			enemyM->PopEnemy({0,0,0});
 		}
+		if (Button("SlimePop", { 150,30 })) {
+			enemyM->PopSlime({ 0,0,0 });
+		}
 		if (Button("ShowHitBox", { 150,30 })) {
 			colM->ChangeIsShowHitBox();
 		}

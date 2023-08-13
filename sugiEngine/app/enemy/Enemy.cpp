@@ -1,4 +1,3 @@
-#include "Enemy.h"
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "EffectManager.h"
@@ -6,6 +5,7 @@
 #include "Tutorial.h"
 #include "NavePointManager.h"
 #include "ModelManager.h"
+#include "Enemy.h"
 
 std::unique_ptr<Model> Enemy::sEyeModel_;
 
@@ -29,13 +29,13 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	armR_.pos = { 1,3,1 };
 	armR_.rot = { 0,0,60 };
 	armR_.scale = { 1,0.3f,0.3f };
-	
+
 
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
 	height_ = HEIGHT_COL;
 
-	BaseEnemy::Initialize(name,pos);
+	BaseEnemy::Initialize(name, pos);
 	WorldTransUpdate();
 }
 
@@ -90,6 +90,15 @@ void Enemy::Attack()
 			isAttack_ = false;
 		}
 	}
-	armL_.rot.z = 50 - EaseOut(attackTimer_,50);
+	armL_.rot.z = 50 - EaseOut(attackTimer_, 50);
 	armR_.rot.z = 50 - EaseOut(attackTimer_, 50);
+}
+
+void Enemy::Down()
+{
+	if (obj_.rot.z < 90) {
+		obj_.rot.z += 5;
+	}
+	//ÅŒã
+	BaseEnemy::Down();
 }
