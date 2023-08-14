@@ -29,9 +29,9 @@ void ColliderManager::Update()
 	//プレイヤー
 	Player* player = Player::GetInstance();
 
-#pragma region ファイヤーボールの判定
-	//ファイアーボール
-	vector<FireBall*> fireBallsCol = SpellManager::GetInstance()->GetFireBallsCol();
+#pragma region 呪文の判定
+	//呪文の判定
+	vector<BaseSpell*> fireBallsCol = SpellManager::GetInstance()->GetSpellsCol();
 
 	for (int i = 0; i < fireBallsCol.size(); i++) {
 		for (int j = 0; j < enemysCol.size(); j++) {
@@ -44,26 +44,6 @@ void ColliderManager::Update()
 		for (int j = 0; j < field->GetColSize(); j++) {
 			if (CheckHitBox(fireBallsCol[i]->GetBoxCol(), field->GetCol(j))) {
 				fireBallsCol[i]->SetIsHit();
-			}
-		}
-	}
-
-#pragma endregion
-
-#pragma region マジックミサイルの判定
-	//マジックミサイル
-	vector<MagicMissile*> magicMissilesCol = SpellManager::GetInstance()->GetMagicMissilesCol();
-
-	for (int i = 0; i < magicMissilesCol.size(); i++) {
-		for (int j = 0; j < enemysCol.size(); j++) {
-			if (CheckHitBox(magicMissilesCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
-				magicMissilesCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(8, 5);
-			}
-		}
-		for (int j = 0; j < field->GetColSize(); j++) {
-			if (CheckHitBox(magicMissilesCol[i]->GetBoxCol(), field->GetCol(j))) {
-				magicMissilesCol[i]->SetIsHit();
 			}
 		}
 	}

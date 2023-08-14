@@ -105,6 +105,7 @@
     <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp" />
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
+    <ClCompile Include="sugiEngine\app\spell\BaseSpell.cpp" />
     <ClCompile Include="sugiEngine\app\spell\ChainLightning.cpp" />
     <ClCompile Include="sugiEngine\app\spell\EnchantFire.cpp" />
     <ClCompile Include="sugiEngine\app\spell\FireBall.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h" />
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
+    <ClInclude Include="sugiEngine\app\spell\BaseSpell.h" />
     <ClInclude Include="sugiEngine\app\spell\ChainLightning.h" />
     <ClInclude Include="sugiEngine\app\spell\EnchantFire.h" />
     <ClInclude Include="sugiEngine\app\spell\FireBall.h" />

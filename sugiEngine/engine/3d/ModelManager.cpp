@@ -16,12 +16,13 @@ void ModelManager::Initialize()
 	Load("sphere", true);
 	Load("weapon");
 	Load("ground");
-	Load("eye",true);
+	LoadSphere("eye");
 	Load("slime",true);
 	Load("effect");
+	LoadSphere("orb");
 }
 
-Model* ModelManager::Get(std::string filename)
+Model* ModelManager::Get(string filename)
 {
 	map<string, Model*>::iterator it = objects_.find(filename);
 	assert(it != objects_.end());
@@ -29,12 +30,22 @@ Model* ModelManager::Get(std::string filename)
 	return it->second;
 }
 
-void ModelManager::Load(std::string filename,bool is)
+void ModelManager::Load(string filename,bool is)
 {
 	//重複チェック
 	if (objects_.find(filename) != objects_.end()) {
 		return;
 	};
 
-	objects_.insert(std::make_pair(filename, Model::LoadFromObj(filename,is)));
+	objects_.insert(make_pair(filename, Model::LoadFromObj(filename,is)));
+}
+
+void ModelManager::LoadSphere(string filename)
+{
+	//重複チェック
+	if (objects_.find(filename) != objects_.end()) {
+		return;
+	};
+
+	objects_.insert(make_pair(filename, Model::LoadFromObj("sphere", true)));
 }

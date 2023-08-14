@@ -13,11 +13,8 @@ SpellManager* SpellManager::GetInstance()
 
 void SpellManager::Initialize()
 {
-	for (unique_ptr<FireBall>& fireBall : fireBalls_) {
+	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->SetIsDead();
-	}
-	for (unique_ptr<MagicMissile>& magicMissile : magicMissiles_) {
-		magicMissile->SetIsDead();
 	}
 	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 		iceBolt->SetIsDead();
@@ -63,11 +60,8 @@ void SpellManager::Update()
 	}
 
 	//各魔法のUpdate
-	for (unique_ptr<FireBall>& fireBall : fireBalls_) {
+	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->Update();
-	}
-	for (unique_ptr<MagicMissile>& magicMissile : magicMissiles_) {
-		magicMissile->Update();
 	}
 	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 		iceBolt->Update();
@@ -81,12 +75,9 @@ void SpellManager::Update()
 
 #pragma region 魔法の削除
 	//消すフラグの立った魔法の削除
-	fireBalls_.remove_if([](unique_ptr<FireBall>& fireBall) {
+	spells_.remove_if([](unique_ptr<BaseSpell>& fireBall) {
 		return fireBall->GetIsDead();
-		});
-	magicMissiles_.remove_if([](unique_ptr<MagicMissile>& magicMissile) {
-		return magicMissile->GetIsDead();
-		});
+	});
 	iceBolts_.remove_if([](unique_ptr<IceBolt>& iceBolt) {
 		return iceBolt->GetIsDead();
 		});
@@ -98,11 +89,8 @@ void SpellManager::Update()
 
 void SpellManager::Draw()
 {
-	for (unique_ptr<FireBall>& fireBall : fireBalls_) {
+	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->Draw();
-	}
-	for (unique_ptr<MagicMissile>& magicMissile : magicMissiles_) {
-		magicMissile->Draw();
 	}
 	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
 		iceBolt->Draw();
@@ -138,11 +126,11 @@ void SpellManager::FireFireBall()
 	maxCharge_ = TIME_FIRE_FIREBALL;
 
 	if (int(useTime_) == 1) {
-		unique_ptr<FireBall> newSpell = make_unique<FireBall>();
+		unique_ptr<BaseSpell> newSpell = make_unique<FireBall>();
 		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
 
-		fireBalls_.push_back(move(newSpell));
+		spells_.push_back(move(newSpell));
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;
@@ -177,11 +165,11 @@ void SpellManager::FireMagicMissile()
 	maxCharge_ = TIME_FIRE_MAGICMISSILE;
 
 	if (int(useTime_) % 20 == 1) {
-		unique_ptr<MagicMissile> newSpell = make_unique<MagicMissile>();
+		unique_ptr<BaseSpell> newSpell = make_unique<MagicMissile>();
 		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
 
-		magicMissiles_.push_back(move(newSpell));
+		spells_.push_back(move(newSpell));
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;

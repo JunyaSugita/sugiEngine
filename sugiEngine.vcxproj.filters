@@ -324,6 +324,9 @@
     <ClCompile Include="sugiEngine\engine\3d\BaseCol.cpp">
       <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\BaseSpell.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -523,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\3d\BaseCol.h">
       <Filter>ヘッダー ファイル\engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\BaseSpell.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
