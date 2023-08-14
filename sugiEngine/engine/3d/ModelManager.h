@@ -19,6 +19,7 @@ public:
 	void Initialize();
 	Model* Get(std::string filename);
 	void Load(std::string filename,bool is = false);
+	void LoadSphere(std::string filename);
 
 private:
 	std::map<std::string,Model*> objects_;

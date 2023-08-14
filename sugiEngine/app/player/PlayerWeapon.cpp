@@ -23,7 +23,7 @@ void PlayerWeapon::Initialize()
 	obj_.rot = { 30,0,0 };
 	obj_.scale = { 1,1,1 };
 
-	orbObj_.Initialize("sphere");
+	orbObj_.Initialize("orb");
 	orbObj_.obj->SetColor({0,1,1,0.5f});
 	orbObj_.obj->SetIsSimple();
 	orbObj_.pos = { 0,1.7f,0 };

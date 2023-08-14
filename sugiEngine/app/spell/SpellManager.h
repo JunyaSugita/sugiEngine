@@ -1,4 +1,5 @@
 #pragma once
+#include "BaseSpell.h"
 #include "FireBall.h"
 #include "MagicMissile.h"
 #include "IceBolt.h"
@@ -63,20 +64,12 @@ public:
 		return useTime_ / maxCharge_;
 	}
 
-	std::vector<FireBall*> GetFireBallsCol() {
-		fireBallsList_.clear();
-		for (std::unique_ptr<FireBall>& fireBall : fireBalls_) {
-			fireBallsList_.push_back(fireBall.get());
+	std::vector<BaseSpell*> GetSpellsCol() {
+		spellsList_.clear();
+		for (std::unique_ptr<BaseSpell>& spell : spells_) {
+			spellsList_.push_back(spell.get());
 		}
-		return fireBallsList_;
-	}
-
-	std::vector<MagicMissile*> GetMagicMissilesCol() {
-		magicMissilesList_.clear();
-		for (std::unique_ptr<MagicMissile>& magicMissile : magicMissiles_) {
-			magicMissilesList_.push_back(magicMissile.get());
-		}
-		return magicMissilesList_;
+		return spellsList_;
 	}
 
 	std::vector<IceBolt*> GetIceBoltsCol() {
@@ -129,11 +122,8 @@ private:
 	bool isUseChainLightning_;
 	bool isUseEnchantFire_;
 
-	std::list<std::unique_ptr<FireBall>> fireBalls_;
-	std::vector<FireBall*> fireBallsList_;
-
-	std::list<std::unique_ptr<MagicMissile>> magicMissiles_;
-	std::vector<MagicMissile*> magicMissilesList_;
+	std::list<std::unique_ptr<BaseSpell>> spells_;
+	std::vector<BaseSpell*> spellsList_;
 
 	std::list<std::unique_ptr<IceBolt>> iceBolts_;
 	std::vector<IceBolt*> iceBoltsList_;
