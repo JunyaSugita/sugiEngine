@@ -9,6 +9,13 @@ enum SpellType {
 	BUFF
 };
 
+enum DebuffType {
+	D_NONE,
+	D_FIRE,
+	D_SLOW,
+	D_STAN,
+};
+
 class BaseSpell {
 public:
 	virtual void Initialize(Vector3 pos, Vector3 vec = Vector3());
@@ -33,6 +40,12 @@ public:
 	BoxCol GetBoxCol() {
 		return col_.col;
 	}
+	int32_t GetDamage() {
+		return damage_;
+	}
+	int32_t GetDebuff() {
+		return debuffType_;
+	}
 
 protected:
 	//位置や実体
@@ -51,4 +64,9 @@ protected:
 	float moveSpeed_ = 0;
 	//呪文のタイプ
 	int32_t spellType_;
+
+	//ダメージ(回復)
+	int32_t damage_ = 0;
+	//デバフ
+	int32_t debuffType_ = D_NONE;
 };

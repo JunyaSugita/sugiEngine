@@ -1,25 +1,25 @@
 #include "EnchantFire.h"
 
-void EnchantFire::Initialize()
+void EnchantFire::Initialize(Vector3 pos, Vector3 vec)
 {
-	timer_ = 0;
+	time_ = 0;
 }
 
 void EnchantFire::Update()
 {
 	if (GetActive()) {
-		timer_--;
+		time_--;
 	}
 }
 
 void EnchantFire::Fire()
 {
-	timer_ = TIME_ALIVE;
+	time_ = TIME_ALIVE;
 }
 
 bool EnchantFire::GetActive()
 {
-	if (timer_) {
+	if (time_) {
 		return true;
 	}
 	return false;

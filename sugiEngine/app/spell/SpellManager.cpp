@@ -16,9 +16,6 @@ void SpellManager::Initialize()
 	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->SetIsDead();
 	}
-	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
-		iceBolt->SetIsDead();
-	}
 	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
 		chainLightning->SetIsDead();
 	}
@@ -63,9 +60,6 @@ void SpellManager::Update()
 	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->Update();
 	}
-	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
-		iceBolt->Update();
-	}
 	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
 		chainLightning->Update();
 	}
@@ -78,9 +72,6 @@ void SpellManager::Update()
 	spells_.remove_if([](unique_ptr<BaseSpell>& fireBall) {
 		return fireBall->GetIsDead();
 	});
-	iceBolts_.remove_if([](unique_ptr<IceBolt>& iceBolt) {
-		return iceBolt->GetIsDead();
-		});
 	chainLightnings_.remove_if([](unique_ptr<ChainLightning>& chainLightning) {
 		return chainLightning->GetIsDead();
 		});
@@ -91,9 +82,6 @@ void SpellManager::Draw()
 {
 	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->Draw();
-	}
-	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
-		iceBolt->Draw();
 	}
 	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
 		chainLightning->Draw();
@@ -204,11 +192,11 @@ void SpellManager::FireIceBolt()
 	maxCharge_ = TIME_FIRE_ICEBOLT;
 
 	if (int(useTime_) == 1) {
-		unique_ptr<IceBolt> newSpell = make_unique<IceBolt>();
+		unique_ptr<BaseSpell> newSpell = make_unique<IceBolt>();
 		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
 
-		iceBolts_.push_back(move(newSpell));
+		spells_.push_back(move(newSpell));
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;

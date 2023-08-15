@@ -325,7 +325,7 @@
       <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\app\spell\BaseSpell.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

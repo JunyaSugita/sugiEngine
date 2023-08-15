@@ -14,14 +14,6 @@ enum MAGIC {
 	ENCHANT_FIRE,
 };
 
-
-enum DEBUFF
-{
-	FIRE,
-	THUNDER,
-	ICE,
-};
-
 class SpellManager final{
 private:
 	SpellManager() = default;
@@ -72,14 +64,6 @@ public:
 		return spellsList_;
 	}
 
-	std::vector<IceBolt*> GetIceBoltsCol() {
-		iceBoltsList_.clear();
-		for (std::unique_ptr<IceBolt>& iceBolt : iceBolts_) {
-			iceBoltsList_.push_back(iceBolt.get());
-		}
-		return iceBoltsList_;
-	}
-
 	std::vector<ChainLightning*> GetChainLightningsCol() {
 		chainLightningsList_.clear();
 		for (std::unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
@@ -124,9 +108,6 @@ private:
 
 	std::list<std::unique_ptr<BaseSpell>> spells_;
 	std::vector<BaseSpell*> spellsList_;
-
-	std::list<std::unique_ptr<IceBolt>> iceBolts_;
-	std::vector<IceBolt*> iceBoltsList_;
 
 	std::list<std::unique_ptr<ChainLightning>> chainLightnings_;
 	std::vector<ChainLightning*> chainLightningsList_;

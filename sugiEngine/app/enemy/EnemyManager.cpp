@@ -57,7 +57,7 @@ void EnemyManager::Update()
 				//“–‚½‚Á‚½”»’è‚ð“G‚É—^‚¦‚é
 				if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
 					enemy->SetIsHit(10, 20);
-					enemy->SetDebuff(FIRE,3);
+					enemy->SetDebuff(D_FIRE,3);
 				}
 				else {
 					enemy->SetIsHit(5, 20);
