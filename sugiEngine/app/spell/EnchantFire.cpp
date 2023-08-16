@@ -1,25 +1,31 @@
 #include "EnchantFire.h"
+#include "SpellManager.h"
 
-void EnchantFire::Initialize()
+void EnchantFire::Initialize(Vector3 pos, Vector3 vec)
 {
-	timer_ = 0;
+	time_ = TIME_ALIVE;
+	spellType_ = BUFF;
+	damage_ = 0;
+	debuffType_ = D_NONE;
 }
 
 void EnchantFire::Update()
 {
-	if (GetActive()) {
-		timer_--;
+	SpellManager::GetInstance()->SetEnchantFire();
+
+	if (--time_ <= 0) {
+		isDead_ = true;
 	}
 }
 
 void EnchantFire::Fire()
 {
-	timer_ = TIME_ALIVE;
+	time_ = TIME_ALIVE;
 }
 
 bool EnchantFire::GetActive()
 {
-	if (timer_) {
+	if (time_) {
 		return true;
 	}
 	return false;

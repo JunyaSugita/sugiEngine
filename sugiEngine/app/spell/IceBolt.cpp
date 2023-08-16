@@ -5,10 +5,8 @@
 
 void IceBolt::Initialize(Vector3 pos, Vector3 vec)
 {
-	obj_.Initialize("sphere");
+	BaseSpell::Initialize(pos,vec);
 	obj_.obj->SetColor({ 0,0.5f,1,1 });
-
-	col_.Initialize();
 
 
 	obj_.pos = pos;
@@ -22,56 +20,18 @@ void IceBolt::Initialize(Vector3 pos, Vector3 vec)
 
 	WorldTransUpdate();
 
-	isDead_ = true;
+	moveSpeed_ = SPEED_MOVE;
 	time_ = TIME_ALIVE;
-	isHit_ = false;
-
-	alpha_ = 1.0f;
+	spellType_ = SHOT;
+	damage_ = 15;
+	debuffType_ = D_SLOW;
 }
 
 void IceBolt::Update()
 {
-	if (--time_ <= 0) {
-		isDead_ = true;
-	}
-
-	if (obj_.pos.y > 0) {
-		obj_.pos += vec_ * SPEED_MOVE;
-	}
-
-	if (isHit_) {
-		isDead_ = true;
-	}
-	else {
+	if (!isHit_) {
 		ParticleManager::GetInstance()->AddFromFile(P_ICE, obj_.pos);
 	}
 
-	SetCol();
-
-	WorldTransUpdate();
-}
-
-void IceBolt::Draw()
-{
-	obj_.Draw();
-	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		col_.Draw();
-	}
-}
-
-void IceBolt::Fire()
-{
-	isDead_ = false;
-}
-
-void IceBolt::SetCol()
-{
-	col_.SetCol(obj_.pos);
-	col_.col.size = { obj_.scale.x,obj_.scale.y,obj_.scale.x };
-}
-
-void IceBolt::WorldTransUpdate()
-{
-	obj_.Update();
-	col_.Update();
+	BaseSpell::Update();
 }

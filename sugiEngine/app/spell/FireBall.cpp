@@ -14,6 +14,8 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 	moveSpeed_ = SPEED_MOVE;
 	time_ = TIME_ALIVE;
 	spellType_ = SHOT;
+	damage_ = 1;
+	debuffType_ = D_FIRE;
 }
 
 void FireBall::Update()

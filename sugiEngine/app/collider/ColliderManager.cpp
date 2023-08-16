@@ -31,40 +31,24 @@ void ColliderManager::Update()
 
 #pragma region 呪文の判定
 	//呪文の判定
-	vector<BaseSpell*> fireBallsCol = SpellManager::GetInstance()->GetSpellsCol();
+	vector<BaseSpell*> spellsCol = SpellManager::GetInstance()->GetSpellsCol();
 
-	for (int i = 0; i < fireBallsCol.size(); i++) {
+	for (int i = 0; i < spellsCol.size(); i++) {
+		//当たり判定を行わない呪文は弾く
+		if (!spellsCol[i]->GetIsCalcCol()) {
+			continue;
+		}
+
 		for (int j = 0; j < enemysCol.size(); j++) {
-			if (CheckHitBox(fireBallsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
-				fireBallsCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(1, 1);
-				enemysCol[j]->SetDebuff(FIRE, 10);
+			if (CheckHitBox(spellsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+				spellsCol[i]->SetIsHit();
+				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage(), 1);
+				enemysCol[j]->SetDebuff(spellsCol[i]->GetDamage(), 10);
 			}
 		}
 		for (int j = 0; j < field->GetColSize(); j++) {
-			if (CheckHitBox(fireBallsCol[i]->GetBoxCol(), field->GetCol(j))) {
-				fireBallsCol[i]->SetIsHit();
-			}
-		}
-	}
-
-#pragma endregion
-
-#pragma region アイスボルトの判定
-	//アイスボルト
-	vector<IceBolt*> iceBoltsCol = SpellManager::GetInstance()->GetIceBoltsCol();
-
-	for (int i = 0; i < iceBoltsCol.size(); i++) {
-		for (int j = 0; j < enemysCol.size(); j++) {
-			if (CheckHitBox(iceBoltsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
-				iceBoltsCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(20, 5);
-				enemysCol[j]->SetDebuff(ICE, 12);
-			}
-		}
-		for (int j = 0; j < field->GetColSize(); j++) {
-			if (CheckHitBox(iceBoltsCol[i]->GetBoxCol(), field->GetCol(j))) {
-				iceBoltsCol[i]->SetIsHit();
+			if (CheckHitBox(spellsCol[i]->GetBoxCol(), field->GetCol(j))) {
+				spellsCol[i]->SetIsHit();
 			}
 		}
 	}
@@ -81,7 +65,7 @@ void ColliderManager::Update()
 			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
 				chainLightningsCol[i]->SetIsHit();
 				enemysCol[j]->SetIsHit(15, 5);
-				enemysCol[j]->SetDebuff(THUNDER, 1);
+				enemysCol[j]->SetDebuff(D_STAN, 1);
 
 				//1体目の伝播
 				int32_t hitTemp1 = -1;
@@ -101,7 +85,7 @@ void ColliderManager::Update()
 				if (hitTemp1 != -1) {
 					//一番近いやつにダメージ
 					enemysCol[hitTemp1]->SetIsHit(15, 5);
-					enemysCol[hitTemp1]->SetDebuff(THUNDER, 1);
+					enemysCol[hitTemp1]->SetDebuff(D_STAN, 1);
 					//そこまでのパーティクル
 					Vector3 tempVec = enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[j]->GetBoxCol().pos;
 					Vector3 nowPos = enemysCol[j]->GetBoxCol().pos;
@@ -127,7 +111,7 @@ void ColliderManager::Update()
 					if (hitTemp2 != -1) {
 						//一番近いやつにダメージ
 						enemysCol[hitTemp2]->SetIsHit(15, 5);
-						enemysCol[hitTemp2]->SetDebuff(THUNDER, 1);
+						enemysCol[hitTemp2]->SetDebuff(D_STAN, 1);
 
 						//そこまでのパーティクル
 						Vector3 tempVec = enemysCol[hitTemp2]->GetBoxCol().pos - enemysCol[hitTemp1]->GetBoxCol().pos;

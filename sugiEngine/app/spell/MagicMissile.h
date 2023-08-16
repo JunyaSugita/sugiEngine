@@ -4,7 +4,7 @@
 
 class MagicMissile : public BaseSpell{
 public:
-	void Initialize(Vector3 pos, Vector3 vec = Vector3()) override;
+	void Initialize(Vector3 pos, Vector3 vec) override;
 	void Update()override;
 
 public:

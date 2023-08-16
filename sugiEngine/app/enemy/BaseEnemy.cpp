@@ -105,15 +105,15 @@ void BaseEnemy::SetDebuff(uint8_t debuff, uint32_t time)
 {
 	switch (debuff)
 	{
-	case FIRE:
+	case D_FIRE:
 		debuff_.isFire = true;
 		debuff_.fireTime = time * 60;
 		break;
-	case THUNDER:
+	case D_STAN:
 		debuff_.isThunder = true;
 		debuff_.thunderTime = time * 60;
 		break;
-	case ICE:
+	case D_SLOW:
 		debuff_.isIce = true;
 		debuff_.iceTime = time * 60;
 		break;

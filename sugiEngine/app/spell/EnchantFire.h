@@ -1,17 +1,15 @@
 #pragma once
 #include "GrovalSetting.h"
+#include "BaseSpell.h"
 
-class EnchantFire {
+class EnchantFire : public BaseSpell{
 public:
-	void Initialize();
-	void Update();
+	void Initialize(Vector3 pos, Vector3 vec)override;
+	void Update()override;
+	void Fire()override;
 
-	void Fire();
 	bool GetActive();
 
 public:
 	const int32_t TIME_ALIVE = 15 * 60;	//–‚–@‚ªÁ‚¦‚é‚Ü‚Å‚ÌŠÔ
-
-private:
-	int32_t timer_;
 };

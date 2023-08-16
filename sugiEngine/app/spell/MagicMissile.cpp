@@ -17,6 +17,8 @@ void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 	time_ = TIME_ALIVE;
 	moveSpeed_ = SPEED_MOVE;
 	spellType_ = SHOT;
+	damage_ = 5;
+	debuffType_ = D_NONE;
 }
 
 void MagicMissile::Update()

@@ -16,14 +16,9 @@ void SpellManager::Initialize()
 	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->SetIsDead();
 	}
-	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
-		iceBolt->SetIsDead();
-	}
 	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
 		chainLightning->SetIsDead();
 	}
-	enchantFire_ = make_unique<EnchantFire>();
-	enchantFire_->Initialize();
 
 	maxCharge_ = 0;
 	chargeTime_ = 0;
@@ -32,6 +27,8 @@ void SpellManager::Initialize()
 	isUseMagicMissile_ = false;
 	isUseIceBolt_ = false;
 	isUseChainLightning_ = false;
+	isUseEnchantFire_ = false;
+	isUseFlame_ = false;
 }
 
 void SpellManager::Update()
@@ -39,6 +36,11 @@ void SpellManager::Update()
 #pragma region インスタンス呼び出し
 	//インスタンス呼び出し
 	Input* input = Input::GetInstance();
+#pragma endregion
+
+#pragma region 状態のリセット
+	isModeEnchantFire_ = false;
+	
 #pragma endregion
 
 #pragma region 魔法のアップデート
@@ -58,18 +60,17 @@ void SpellManager::Update()
 	if (isUseEnchantFire_) {
 		FireEnchantFire();
 	}
+	if (isUseFlame_) {
+		FireFlame();
+	}
 
 	//各魔法のUpdate
 	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->Update();
 	}
-	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
-		iceBolt->Update();
-	}
 	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
 		chainLightning->Update();
 	}
-	enchantFire_->Update();
 
 #pragma endregion
 
@@ -78,9 +79,6 @@ void SpellManager::Update()
 	spells_.remove_if([](unique_ptr<BaseSpell>& fireBall) {
 		return fireBall->GetIsDead();
 	});
-	iceBolts_.remove_if([](unique_ptr<IceBolt>& iceBolt) {
-		return iceBolt->GetIsDead();
-		});
 	chainLightnings_.remove_if([](unique_ptr<ChainLightning>& chainLightning) {
 		return chainLightning->GetIsDead();
 		});
@@ -91,9 +89,6 @@ void SpellManager::Draw()
 {
 	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->Draw();
-	}
-	for (unique_ptr<IceBolt>& iceBolt : iceBolts_) {
-		iceBolt->Draw();
 	}
 	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
 		chainLightning->Draw();
@@ -204,11 +199,11 @@ void SpellManager::FireIceBolt()
 	maxCharge_ = TIME_FIRE_ICEBOLT;
 
 	if (int(useTime_) == 1) {
-		unique_ptr<IceBolt> newSpell = make_unique<IceBolt>();
+		unique_ptr<BaseSpell> newSpell = make_unique<IceBolt>();
 		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
 
-		iceBolts_.push_back(move(newSpell));
+		spells_.push_back(move(newSpell));
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;
@@ -279,7 +274,11 @@ void SpellManager::FireEnchantFire()
 	maxCharge_ = TIME_FIRE_ENCHANTFIRE;
 
 	if (int(useTime_) == 1) {
-		enchantFire_->Fire();
+		unique_ptr<BaseSpell> newSpell = make_unique<EnchantFire>();
+		newSpell->Initialize({0,0,0});
+		newSpell->Fire();
+
+		spells_.push_back(move(newSpell));
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;
@@ -287,6 +286,44 @@ void SpellManager::FireEnchantFire()
 		Player::GetInstance()->SetIsSpell(false);
 	}
 
+}
+
+void SpellManager::ChargeFlame()
+{
+	maxCharge_ = TIME_CHARGE_FLAME;
+
+	if (chargeTime_ < maxCharge_) {
+		chargeTime_++;
+	}
+
+	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+		if (int(chargeTime_ / TIME_CHARGE_FLAME)) {
+			isUseFlame_ = true;
+			useTime_ = TIME_FIRE_FLAME;
+		}
+		chargeTime_ = 0;
+	}
+	Player::GetInstance()->SetIsSpell(false);
+}
+
+void SpellManager::FireFlame()
+{
+	Camera* camera = Camera::GetInstance();
+
+	maxCharge_ = TIME_FIRE_FLAME;
+
+	if (int(useTime_) % 5 == 1) {
+		unique_ptr<BaseSpell> newSpell = make_unique<Flame>();
+		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
+		newSpell->Fire();
+
+		spells_.push_back(move(newSpell));
+	}
+	if (--useTime_ <= 0) {
+		useTime_ = 0;
+		isUseFlame_ = false;
+		Player::GetInstance()->SetIsSpell(false);
+	}
 }
 
 float SpellManager::ChargePercent()
@@ -303,7 +340,7 @@ float SpellManager::ChargePercent()
 
 bool SpellManager::GetIsUseSpell()
 {
-	if (isUseFireBall_ || isUseMagicMissile_ || isUseIceBolt_ || isUseChainLightning_ || isUseEnchantFire_) {
+	if (isUseFireBall_ || isUseMagicMissile_ || isUseIceBolt_ || isUseChainLightning_ || isUseEnchantFire_ || isUseFlame_) {
 		return true;
 	}
 	return false;
