@@ -32,12 +32,7 @@ void BaseSpell::Update()
 		else {
 			Explode();
 		}
-
 	}
-	else if (spellType_ == BUFF) {
-
-	}
-
 
 	if (--time_ <= 0) {
 		isDead_ = true;
@@ -79,4 +74,13 @@ void BaseSpell::Fire()
 void BaseSpell::Explode()
 {
 	isDead_ = true;
+}
+
+bool BaseSpell::GetIsCalcCol()
+{
+	//“–‚½‚è”»’è‚ðs‚í‚È‚¢
+	if (spellType_ == BUFF) {
+		return false;
+	}
+	return true;
 }

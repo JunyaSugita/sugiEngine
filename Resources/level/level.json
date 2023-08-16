@@ -17,7 +17,7 @@
                 ],
                 "scaling": [
                     50.0,
-                    0.5,
+                    1.0,
                     10.0
                 ]
             },
@@ -83,7 +83,7 @@
                 ],
                 "scaling": [
                     50.0,
-                    0.5,
+                    1.0,
                     10.0
                 ]
             },
@@ -148,7 +148,7 @@
                     0.0
                 ],
                 "scaling": [
-                    0.5,
+                    1.0,
                     50.0,
                     10.0
                 ]
@@ -170,7 +170,7 @@
                     0.0
                 ],
                 "scaling": [
-                    0.5,
+                    1.0,
                     50.0,
                     10.0
                 ]
@@ -993,6 +993,28 @@
         },
         {
             "type": "MESH",
+            "name": "Cube.004",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "enemy"
+        },
+        {
+            "type": "MESH",
             "name": "Cube.006",
             "transform": {
                 "translation": [
@@ -1078,72 +1100,6 @@
                 ]
             },
             "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.024",
-            "transform": {
-                "translation": [
-                    0.0,
-                    20.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "slime"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.025",
-            "transform": {
-                "translation": [
-                    0.0,
-                    -20.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "slime"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.026",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "slime"
         }
     ]
 }

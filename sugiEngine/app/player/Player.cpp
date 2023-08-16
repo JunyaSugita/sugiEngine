@@ -265,6 +265,10 @@ void Player::CameraMove()
 				presetSpell_ = 4;
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
+			else if (input->TriggerKey(DIK_6)) {
+				presetSpell_ = 5;
+				SpellManager::GetInstance()->ResetChargeTime();
+			}
 
 		}
 	}
@@ -314,6 +318,8 @@ void Player::Attack()
 		case ENCHANT_FIRE:
 			spellM->ChargeEnchantFire();
 			break;
+		case FLAME:
+			spellM->ChargeFlame();
 		default:
 			break;
 		}

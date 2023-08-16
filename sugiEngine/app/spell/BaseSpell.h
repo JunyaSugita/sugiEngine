@@ -46,6 +46,7 @@ public:
 	int32_t GetDebuff() {
 		return debuffType_;
 	}
+	bool GetIsCalcCol();
 
 protected:
 	//ˆÊ’u‚âŽÀ‘Ì

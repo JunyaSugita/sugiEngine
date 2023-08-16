@@ -5,6 +5,7 @@
 #include "IceBolt.h"
 #include "ChainLightning.h"
 #include "EnchantFire.h"
+#include "Flame.h"
 
 enum MAGIC {
 	FIRE_BALL,
@@ -12,6 +13,7 @@ enum MAGIC {
 	ICE_BOLT,
 	CHAIN_LIGHTNING,
 	ENCHANT_FIRE,
+	FLAME,
 };
 
 class SpellManager final{
@@ -47,6 +49,9 @@ public:
 	void ChargeEnchantFire();
 	void FireEnchantFire();
 
+	void ChargeFlame();
+	void FireFlame();
+
 	void ResetChargeTime() {
 		chargeTime_ = 0;
 	}
@@ -72,8 +77,11 @@ public:
 		return chainLightningsList_;
 	}
 
+	void SetEnchantFire() {
+		isModeEnchantFire_ = true;
+	}
 	bool GetActiveEnchantFire() {
-		return enchantFire_->GetActive();
+		return isModeEnchantFire_;
 	}
 
 	bool GetIsUseSpell();
@@ -94,6 +102,9 @@ public:
 	//エンチャントファイア
 	const float TIME_CHARGE_ENCHANTFIRE = 3.0f * 60;
 	const float TIME_FIRE_ENCHANTFIRE = 0.5f * 60;
+	//火炎放射
+	const float TIME_CHARGE_FLAME = 2.0f * 60;
+	const float TIME_FIRE_FLAME = 3.0f * 60;
 
 private:
 	float maxCharge_;
@@ -105,6 +116,7 @@ private:
 	bool isUseIceBolt_;
 	bool isUseChainLightning_;
 	bool isUseEnchantFire_;
+	bool isUseFlame_;
 
 	std::list<std::unique_ptr<BaseSpell>> spells_;
 	std::vector<BaseSpell*> spellsList_;
@@ -112,5 +124,5 @@ private:
 	std::list<std::unique_ptr<ChainLightning>> chainLightnings_;
 	std::vector<ChainLightning*> chainLightningsList_;
 
-	std::unique_ptr<EnchantFire> enchantFire_;
+	bool isModeEnchantFire_;
 };

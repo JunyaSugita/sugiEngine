@@ -327,6 +327,9 @@
     <ClCompile Include="sugiEngine\app\spell\BaseSpell.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\Flame.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -528,6 +531,9 @@
       <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\spell\BaseSpell.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\Flame.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
   </ItemGroup>

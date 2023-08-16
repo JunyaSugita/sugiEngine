@@ -34,6 +34,11 @@ void ColliderManager::Update()
 	vector<BaseSpell*> spellsCol = SpellManager::GetInstance()->GetSpellsCol();
 
 	for (int i = 0; i < spellsCol.size(); i++) {
+		//“–‚½‚è”»’è‚ðs‚í‚È‚¢Žô•¶‚Í’e‚­
+		if (!spellsCol[i]->GetIsCalcCol()) {
+			continue;
+		}
+
 		for (int j = 0; j < enemysCol.size(); j++) {
 			if (CheckHitBox(spellsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
 				spellsCol[i]->SetIsHit();

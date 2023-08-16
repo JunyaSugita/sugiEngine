@@ -17,6 +17,7 @@ void LoadOut::Initialize()
 	setSpell_[2] = ICE_BOLT;
 	setSpell_[3] = CHAIN_LIGHTNING;
 	setSpell_[4] = ENCHANT_FIRE;
+	setSpell_[5] = FLAME;
 
 	selectSpell_ = 0;
 	selectNum_ = 0;
@@ -27,24 +28,25 @@ void LoadOut::Initialize()
 	spellTexNum_[ICE_BOLT] = Sprite::LoadTexture("iceBolt.png");
 	spellTexNum_[CHAIN_LIGHTNING] = Sprite::LoadTexture("chainLightning.png");
 	spellTexNum_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantFireIcon.png");
-	for (int i = 5; i < 20; i++) {
+	spellTexNum_[FLAME] = Sprite::LoadTexture("fireBallIcon.png");
+	for (int i = 6; i < 20; i++) {
 		spellTexNum_[i] = Sprite::LoadTexture("comingSoonIcon.png");
 	}
 
-	preview_[FIRE_BALL].Initialize(spellTexNum_[FIRE_BALL]);
-	preview_[FIRE_BALL].SetPos(170, 150);
+	//preview_[FIRE_BALL].Initialize(spellTexNum_[FIRE_BALL]);
+	//preview_[FIRE_BALL].SetPos(170, 150);
 
-	preview_[MAGIC_MISSILE].Initialize(spellTexNum_[MAGIC_MISSILE]);
-	preview_[MAGIC_MISSILE].SetPos(290, 150);
+	//preview_[MAGIC_MISSILE].Initialize(spellTexNum_[MAGIC_MISSILE]);
+	//preview_[MAGIC_MISSILE].SetPos(290, 150);
 
-	preview_[ICE_BOLT].Initialize(spellTexNum_[ICE_BOLT]);
-	preview_[ICE_BOLT].SetPos(410, 150);
+	//preview_[ICE_BOLT].Initialize(spellTexNum_[ICE_BOLT]);
+	//preview_[ICE_BOLT].SetPos(410, 150);
 
-	preview_[CHAIN_LIGHTNING].Initialize(spellTexNum_[CHAIN_LIGHTNING]);
-	preview_[CHAIN_LIGHTNING].SetPos(530, 150);
+	//preview_[CHAIN_LIGHTNING].Initialize(spellTexNum_[CHAIN_LIGHTNING]);
+	//preview_[CHAIN_LIGHTNING].SetPos(530, 150);
 
-	preview_[ENCHANT_FIRE].Initialize(spellTexNum_[ENCHANT_FIRE]);
-	preview_[ENCHANT_FIRE].SetPos(650, 150);
+	//preview_[ENCHANT_FIRE].Initialize(spellTexNum_[ENCHANT_FIRE]);
+	//preview_[ENCHANT_FIRE].SetPos(650, 150);
 
 	for (int i = 0; i < 20; i++) {
 		preview_[i].Initialize(spellTexNum_[i]);
