@@ -8,7 +8,6 @@ void IceBolt::Initialize(Vector3 pos, Vector3 vec)
 	BaseSpell::Initialize(pos,vec);
 	obj_.obj->SetColor({ 0,0.5f,1,1 });
 
-
 	obj_.pos = pos;
 	obj_.rot = { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 };
 	obj_.scale = { 0.5f,0.5f,2.0f };

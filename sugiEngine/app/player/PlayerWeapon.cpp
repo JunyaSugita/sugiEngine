@@ -26,6 +26,7 @@ void PlayerWeapon::Initialize()
 	orbObj_.Initialize("orb");
 	orbObj_.obj->SetColor({0,1,1,0.5f});
 	orbObj_.obj->SetIsSimple();
+
 	orbObj_.pos = { 0,1.7f,0 };
 	orbObj_.rot = { 0,0,0 };
 	orbObj_.scale = { 0.3f,0.3f,0.3f };

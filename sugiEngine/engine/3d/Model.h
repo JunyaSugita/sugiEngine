@@ -47,7 +47,6 @@ public:
 		float pad2;			//パディング
 		DirectX::XMFLOAT3 specular;	//スペキュラー係数
 		float alpha;		//アルファ
-		DirectX::XMFLOAT4 color;
 	};
 
 
@@ -83,8 +82,6 @@ public:
 
 	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
 	void CalculateSmoothedVertexNormals();
-
-	void SetColor(const DirectX::XMFLOAT4& color);
 
 private:
 	static ID3D12Device* sDevice;

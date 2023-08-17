@@ -30,6 +30,16 @@ void FieldManager::Initialize()
 			obj_[objNum_].scale = objectData.scale;
 			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
 			obj_[objNum_].obj->SetIsSimple();
+			float tilY = 0;
+			if (objectData.scale.x > objectData.scale.y) {
+				tilY = objectData.scale.x;
+			}
+			else {
+				
+				tilY = objectData.scale.z;
+			}
+
+			obj_[objNum_].obj->SetTiling({ objectData.scale.y,tilY });
 
 			BoxCol temp;
 			temp.pos = objectData.pos;
@@ -48,6 +58,7 @@ void FieldManager::Initialize()
 			obj_[objNum_].scale = objectData.scale;
 			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
 			obj_[objNum_].obj->SetIsSimple();
+			obj_[objNum_].obj->SetTiling({ 50,50 });
 
 			BoxCol temp;
 			temp.pos = objectData.pos;

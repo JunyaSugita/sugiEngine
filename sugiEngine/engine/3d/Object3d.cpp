@@ -333,8 +333,11 @@ bool Object3d::Initialize()
 	worldTransform_.SetPos(Vector3(0.0f, 0.0f, 0.0f));
 	worldTransform_.SetWorldMat();
 
+	color_ = { 1,1,1,1 };
+	tiling_ = { 1,1 };
 	isSimple_ = false;
 	effectCloss_ = false;
+	isBloom_ = false;
 
 	return true;
 }
@@ -348,10 +351,11 @@ void Object3d::Update()
 	constMap_->viewproj = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
 	constMap_->world = ConvertToXMMATRIX(worldTransform_.GetMatWorld());
 	constMap_->cameraPos = *camera->GetEyeXM();
+	constMap_->color = color_;
+	constMap_->tiling = tiling_;
 	constMap_->simple = isSimple_;
 	constMap_->effectCloss = effectCloss_;
-
-	model_->SetColor(color_);
+	constMap_->bloom = isBloom_;
 }
 
 void Object3d::Scale(const Vector3& scale)

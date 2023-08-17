@@ -21,6 +21,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	obj_.pos = pos;
 	obj_.rot = { 0,90,0 };
 	obj_.scale = { 1,1,1 };
+	obj_.obj->SetIsSimple();
 
 	//“–‚½‚è”»’è
 	col_.col.pos = pos;
