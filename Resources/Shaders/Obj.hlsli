@@ -3,8 +3,15 @@ cbuffer cbuff0 : register(b0)
 	matrix viewproj;
 	matrix world;
 	float3 cameraPos;
-    bool isSimple;
-    bool isEffectCross;
+    float pad1;
+    float4 color;
+    float2 tiling;
+    float2 pad2;
+    int isSimple;
+    float3 pad3;
+    int isEffectCross;
+    float3 pad4;
+    int isBloom;
 };
 
 cbuffer cbuff1 : register(b1)
@@ -13,7 +20,6 @@ cbuffer cbuff1 : register(b1)
 	float3 m_diffuse  : packoffset(c1); // ディフューズ係数
 	float3 m_specular : packoffset(c2); // スペキュラー係数
 	float m_alpha : packoffset(c2.w);	// アルファ
-    float4 m_color : packoffset(c3);
 };
 
 //平行光
@@ -70,7 +76,6 @@ struct VSOutput
 	float4 svpos : SV_POSITION;	// システム用頂点座標
 	float4 worldpos : POSITION; // ワールド座標
 	float3 normal :NORMAL; // 法線ベクトル
-	//float4 color : COLOR;
 
 	float2 uv  :TEXCOORD; // uv値
 };

@@ -87,11 +87,24 @@ public:
 
 	void WorldTransUpdate();
 
+	//回復
+	void AddHealNum(int32_t num) {
+		healingLife_ += num;
+	}
+	int32_t GetHeal() {
+		return healingLife_;
+	}
+
+	//無敵
+	void SetInvincible() {
+		isInvincible_ = (isInvincible_ + 1) % 2;
+	}
+
 private:
 	void Move();
 	void CameraMove();
 	void Attack();
-	
+	void HealLife();
 
 public:
 	const Vector3 CAMERA_EYE = { 0.0f,5.0f,0.0f };//プレイヤーの目線調整
@@ -101,6 +114,7 @@ public:
 	const float TIME_ATTACK_START_NORMAL = 0.3f * 60.0f;//通常攻撃開始から攻撃判定が出るまでの時間
 	const float TIME_ATTACK_END_NORMAL = 0.75f * 60.0f;//通常攻撃開始から攻撃判定が無くなるまでの時間
 	const float TIME_ATTACK_NORMAL = 0.8f * 60.0f;	//通常攻撃開始から終了までのスピード
+	const int32_t MAX_LIFE = 10000;
 
 private:
 	WorldTransform worldTrans_;
@@ -112,6 +126,8 @@ private:
 	Vector3 rightVec_;//右ベクトル
 
 	int32_t life_;//体力
+	int32_t healingLife_;	//ポーションの回復
+	int32_t exLife_;	//呪文の回復
 
 	bool isAttack_;//攻撃フラグ
 	bool isSpell_;//魔法フラグ
@@ -129,6 +145,9 @@ private:
 	int32_t damageTex_;
 	Sprite damageSp_;
 	float damageAlpha_;
+
+	//無敵
+	bool isInvincible_;
 };
 
 float Radian(float r);

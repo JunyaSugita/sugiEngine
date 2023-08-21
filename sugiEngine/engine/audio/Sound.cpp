@@ -9,6 +9,8 @@ using namespace std;
 
 void Sound::Initialize(const std::string& directoryPath, const std::string& extension)
 {
+	Finalize();
+
 	HRESULT result;
 	IXAudio2MasteringVoice* masterVoice;
 
@@ -127,7 +129,7 @@ void Sound::RePlayWave(const std::string& filename, bool isLoop)
 		StopWave(filename);
 	};
 
-	PlayWave(filename);
+	PlayWave(filename,isLoop);
 }
 
 void Sound::TogglePlayWave(const std::string& filename, bool isLoop)
@@ -137,7 +139,7 @@ void Sound::TogglePlayWave(const std::string& filename, bool isLoop)
 		StopWave(filename);
 		return;
 	};
-	PlayWave(filename);
+	PlayWave(filename, isLoop);
 }
 
 void Sound::StopWave(const string& filename)
@@ -166,6 +168,6 @@ void Sound::SetVolume(const string& filename,float vol)
 void Sound::Finalize()
 {
 	xAudio2_.Reset();
-
+	sourceVoices_.clear();
 	soundDatas_.clear();
 }

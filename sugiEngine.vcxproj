@@ -103,6 +103,7 @@
     <ClCompile Include="sugiEngine\app\enemy\EnemyManager.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\Slime.cpp" />
     <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp" />
+    <ClCompile Include="sugiEngine\app\player\ItemManager.cpp" />
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
     <ClCompile Include="sugiEngine\app\spell\BaseSpell.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\ModelManager.cpp" />
+    <ClCompile Include="sugiEngine\engine\effect\Bolt.cpp" />
     <ClCompile Include="sugiEngine\engine\effect\Burst.cpp" />
     <ClCompile Include="sugiEngine\app\scene\ClearScene.cpp" />
     <ClCompile Include="sugiEngine\engine\base\DXCommon.cpp" />
@@ -168,6 +170,7 @@
     <ClInclude Include="sugiEngine\app\enemy\EnemyManager.h" />
     <ClInclude Include="sugiEngine\app\enemy\Slime.h" />
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h" />
+    <ClInclude Include="sugiEngine\app\player\ItemManager.h" />
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
     <ClInclude Include="sugiEngine\app\spell\BaseSpell.h" />
@@ -195,6 +198,7 @@
     <ClInclude Include="sugiEngine\engine\3d\Fbx.h" />
     <ClInclude Include="sugiEngine\engine\3d\FbxModel.h" />
     <ClInclude Include="sugiEngine\engine\3d\ModelManager.h" />
+    <ClInclude Include="sugiEngine\engine\effect\Bolt.h" />
     <ClInclude Include="sugiEngine\engine\effect\Burst.h" />
     <ClInclude Include="sugiEngine\engine\io\FbxLoader.h" />
     <ClInclude Include="sugiEngine\engine\io\JsonLoader.h" />

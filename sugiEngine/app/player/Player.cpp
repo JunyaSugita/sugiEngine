@@ -8,6 +8,7 @@
 #include "GameManager.h"
 #include "Tutorial.h"
 #include "LoadOut.h"
+#include "ItemManager.h"
 
 Player* Player::GetInstance()
 {
@@ -22,7 +23,7 @@ void Player::Initialize()
 	rot_ = { 0,0,0 };
 	scale_ = { 1,1,1 };
 	cameraAngle_ = { 0,0 };
-	life_ = 10;
+	life_ = MAX_LIFE;
 	isAttack_ = false;
 	presetSpell_ = 0;
 	spellAngle_ = 0;
@@ -33,11 +34,14 @@ void Player::Initialize()
 	oldBoxCol_.size = { 2.5f,2.2f,2.5f };
 
 	PlayerWeapon::GetInstance()->Initialize();
+	ItemManager::GetInstance()->Initialize();
 
 	damageTex_ = Sprite::LoadTexture("damage.png");
 	damageSp_.Initialize(damageTex_);
 	damageSp_.SetColor(1,1,1,0);
 	damageAlpha_ = 0;
+
+	isInvincible_ = false;
 }
 
 void Player::GameInitialize()
@@ -46,7 +50,7 @@ void Player::GameInitialize()
 	rot_ = { 0,0,0 };
 	scale_ = { 1,1,1 };
 	cameraAngle_ = { 0,0 };
-	life_ = 10;
+	life_ = MAX_LIFE;
 	isAttack_ = false;
 	presetSpell_ = 0;
 	spellAngle_ = 0;
@@ -58,6 +62,7 @@ void Player::GameInitialize()
 
 	damageSp_.SetColor(1, 1, 1, 0);
 	damageAlpha_ = 0;
+
 }
 
 void Player::Update()
@@ -91,7 +96,12 @@ void Player::Update()
 
 void Player::Draw()
 {
-	PlayerWeapon::GetInstance()->Draw();
+	if (ItemManager::GetInstance()->GetIsUse()) {
+		ItemManager::GetInstance()->Draw();
+	}
+	else {
+		PlayerWeapon::GetInstance()->Draw();
+	}
 }
 
 void Player::SpDraw()
@@ -101,9 +111,9 @@ void Player::SpDraw()
 
 void Player::SubLife()
 {
-	if (life_ > 0 ) {
-		if (!Tutorial::GetInstance()->GetIsTutorial()) {
-			life_--;
+	if (life_ > 0) {
+		if (!Tutorial::GetInstance()->GetIsTutorial() || isInvincible_) {
+			life_-= 1000;
 		}
 		damageAlpha_ = 1.0f;
 		Camera::GetInstance()->SetShake(0.05f);
@@ -112,7 +122,7 @@ void Player::SubLife()
 
 bool Player::GetIsCanAction()
 {
-	if (isAttack_ || isSpell_ || SpellManager::GetInstance()->GetIsUseSpell()) {
+	if (isAttack_ || isSpell_ || SpellManager::GetInstance()->GetIsUseSpell() || ItemManager::GetInstance()->GetIsUse()) {
 		return false;
 	}
 	return true;
@@ -164,6 +174,9 @@ void Player::Move()
 
 	//navePointの重みづけ
 	ColliderManager::GetInstance()->SetNavePointScore();
+
+	//ポーションヒール
+	HealLife();
 }
 
 void Player::CameraMove()
@@ -347,6 +360,24 @@ void Player::Attack()
 	}
 
 	weapon->Update(isAttack_, isAttackOn);
+
+	//何もしていない時のみ
+	if (GetIsCanAction()) {
+		ItemManager::GetInstance()->Use();
+	}
+	//いつでも
+	ItemManager::GetInstance()->Update();
+	ItemManager::GetInstance()->ChangeItem();
+}
+
+void Player::HealLife()
+{
+	if (healingLife_ > 0) {
+		healingLife_--;
+		if (life_ < MAX_LIFE) {
+			life_++;
+		}
+	}
 }
 
 void Player::WorldTransUpdate()

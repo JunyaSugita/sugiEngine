@@ -342,11 +342,6 @@ void Model::CalculateSmoothedVertexNormals()
 	}
 }
 
-void Model::SetColor(const XMFLOAT4& color)
-{
-	constMap1_->color = color;
-}
-
 void Model::LoatFromObjInternal(const std::string& modelname, bool smoothing) {
 	//ファイルストリーム
 	ifstream file;

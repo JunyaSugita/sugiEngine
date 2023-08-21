@@ -34,6 +34,7 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
 	height_ = HEIGHT_COL;
+	alpha_ = 1.0f;
 
 	BaseEnemy::Initialize(name, pos);
 	WorldTransUpdate();
@@ -99,6 +100,11 @@ void Enemy::Down()
 	if (obj_.rot.z < 90) {
 		obj_.rot.z += 5;
 	}
+	alpha_ -= 0.005f;
+	obj_.obj->SetColor({1,1,1,alpha_});
+	eyeObj_.obj->SetColor({ 1,1,1,alpha_ });
+	armL_.obj->SetColor({ 1,1,1,alpha_ });
+	armR_.obj->SetColor({ 1,1,1,alpha_ });
 	//ç≈å„
 	BaseEnemy::Down();
 }

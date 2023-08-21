@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "FieldManager.h"
 #include "NavePointManager.h"
+#include "EffectManager.h"
 
 using namespace std;
 
@@ -87,12 +88,7 @@ void ColliderManager::Update()
 					enemysCol[hitTemp1]->SetIsHit(15, 5);
 					enemysCol[hitTemp1]->SetDebuff(D_STAN, 1);
 					//そこまでのパーティクル
-					Vector3 tempVec = enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[j]->GetBoxCol().pos;
-					Vector3 nowPos = enemysCol[j]->GetBoxCol().pos;
-					for (int l = 0; l < 20; l++) {
-						nowPos += tempVec / 20;
-						ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, nowPos);
-					}
+					EffectManager::GetInstance()->BoltGenerate(enemysCol[j]->GetBoxCol().pos, enemysCol[hitTemp1]->GetBoxCol().pos,{0,0,0},{0.5f,0.5f,1,0.5f});
 
 					//2体目の伝播
 					int32_t hitTemp2 = -1;
@@ -114,12 +110,7 @@ void ColliderManager::Update()
 						enemysCol[hitTemp2]->SetDebuff(D_STAN, 1);
 
 						//そこまでのパーティクル
-						Vector3 tempVec = enemysCol[hitTemp2]->GetBoxCol().pos - enemysCol[hitTemp1]->GetBoxCol().pos;
-						Vector3 nowPos = enemysCol[hitTemp1]->GetBoxCol().pos;
-						for (int l = 0; l < 20; l++) {
-							nowPos += tempVec / 20;
-							ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, nowPos);
-						}
+						EffectManager::GetInstance()->BoltGenerate(enemysCol[hitTemp1]->GetBoxCol().pos, enemysCol[hitTemp2]->GetBoxCol().pos, { 0,0,0 }, { 0.5f,0.5f,1,0.5f });
 					}
 				}
 			}

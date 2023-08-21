@@ -15,12 +15,18 @@
 
 //定数バッファ用データ構造体B0
 struct ConstBufferDataB0 {
-	//Matrix4 mat;
 	DirectX::XMMATRIX viewproj;
 	DirectX::XMMATRIX world;
 	DirectX::XMFLOAT3 cameraPos;
-	int32_t simple;
-	int32_t effectCloss;
+	float pad1;
+	DirectX::XMFLOAT4 color;
+	DirectX::XMFLOAT2 tiling;
+	DirectX::XMFLOAT2 pad2;
+	float simple;
+	DirectX::XMFLOAT3 pad3;
+	float effectCloss;
+	DirectX::XMFLOAT3 pad4;
+	float bloom;
 };
 
 class Object3d
@@ -61,6 +67,10 @@ public:
 		color_.z = color.z;
 		color_.w = color.w;
 	}
+	void SetTiling(const Vector2& uv) {
+		tiling_.x = uv.x;
+		tiling_.y = uv.y;
+	}
 
 	Vector3 GetPos() {
 		return worldTransform_.GetPos();
@@ -75,6 +85,9 @@ public:
 	}
 	void SetEffectCross() {
 		effectCloss_ = true;
+	}
+	void SetIsBloom() {
+		isBloom_ = true;
 	}
 private:
 	//デバイス
@@ -95,10 +108,12 @@ private:
 	WorldTransform worldTransform_;
 
 	Model* model_ = nullptr;
-	DirectX::XMFLOAT4 color_ = {1,1,1,1};
+	DirectX::XMFLOAT4 color_;
+	DirectX::XMFLOAT2 tiling_;
 	static LightGroup* lightGroup_;
 
 	bool isSimple_;
 	bool effectCloss_;
+	bool isBloom_;
 };
 

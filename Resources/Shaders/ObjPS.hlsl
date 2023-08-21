@@ -18,8 +18,9 @@ struct PSOutput
 PSOutput main(VSOutput input)
 {
     PSOutput output;
+   
 	//テクスチャマッピング
-    float4 texcolor = tex.Sample(smp, input.uv);
+    float4 texcolor = tex.Sample(smp, input.uv * tiling);
 	//光沢度
     const float shininess = 4.0f;
 	//頂点から視点のベクトル
@@ -29,7 +30,7 @@ PSOutput main(VSOutput input)
 	//シェーディングによる色
     float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
-    if (!isSimple)
+    if (!isSimple || !isBloom)
     {
 	    //平行光
         for (int i = 0; i < DIRLIGHT_NUM; i++)
@@ -113,17 +114,25 @@ PSOutput main(VSOutput input)
     {
         if (isEffectCross)
         {
-            output.target1 = texcolor * m_color;
+            output.target1 = texcolor * color;
         }
-        output.target0 = texcolor * m_color;
+        if (isBloom)
+        {
+            output.target2 = texcolor * color;
+        }
+        output.target0 = texcolor * color;
     }
     else
     {
         if (isEffectCross)
         {
-            output.target1 = float4((shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
+            output.target1 = float4((shadecolor * texcolor).rgb * color.rgb, color.w);
         }
-        output.target0 = float4((shadecolor * texcolor).rgb * m_color.rgb, m_color.w);
+        if (isBloom)
+        {
+            output.target2 = float4((shadecolor * texcolor).rgb * color.rgb, color.w);
+        }
+            output.target0 = float4((shadecolor * texcolor).rgb * color.rgb, color.w);
     }
     return output;
 }
