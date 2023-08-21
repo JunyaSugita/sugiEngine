@@ -69,8 +69,14 @@ void Enemy::Move()
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 		}
 		else {
-			temp.x = navePointM->GetNavePoint(colM->CanMoveNavePointVec(obj_.pos)).pos.x;
-			temp.y = navePointM->GetNavePoint(colM->CanMoveNavePointVec(obj_.pos)).pos.z;
+			int32_t point = colM->CanMoveNavePointVec(obj_.pos);
+			if (point == -1) {
+				//ナビポイントが見つからなければ移動しない
+				return;
+			}
+
+			temp.x = navePointM->GetNavePoint(point).pos.x;
+			temp.y = navePointM->GetNavePoint(point).pos.z;
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);
@@ -100,7 +106,7 @@ void Enemy::Down()
 	if (obj_.rot.z < 90) {
 		obj_.rot.z += 5;
 	}
-	alpha_ -= 0.005f;
+	//alpha_ -= 0.005f;
 	obj_.obj->SetColor({1,1,1,alpha_});
 	eyeObj_.obj->SetColor({ 1,1,1,alpha_ });
 	armL_.obj->SetColor({ 1,1,1,alpha_ });

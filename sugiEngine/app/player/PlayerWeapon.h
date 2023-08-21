@@ -24,6 +24,7 @@ public:
 	void NormalMove();
 	void SpellMove();
 	void ChargeMove();
+	void ItemMove();
 	void AttackMove(bool isAttackOn);
 	void AttackCol();	//z‚Í”¼Œa
 
@@ -69,4 +70,11 @@ private:
 	std::unique_ptr <Object3d> hitObj_;
 
 	float easeTimer_ = 0;
+
+	//ƒq[ƒ‹‚ÌˆÊ’uˆÚ“®
+	float healY;
+	float healRot;
+
+	//•Ší‚Ìæ‚èo‚µ
+	float y = 0;
 };

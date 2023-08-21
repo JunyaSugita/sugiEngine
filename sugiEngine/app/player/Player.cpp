@@ -19,29 +19,15 @@ Player* Player::GetInstance()
 
 void Player::Initialize()
 {
-	pos_ = { 0,0,-40 };
-	rot_ = { 0,0,0 };
-	scale_ = { 1,1,1 };
-	cameraAngle_ = { 0,0 };
-	life_ = MAX_LIFE;
-	isAttack_ = false;
-	presetSpell_ = 0;
-	spellAngle_ = 0;
-
-	boxCol_.pos = pos_;
-	boxCol_.size = {2.5f,2.2f,2.5f};
-	oldBoxCol_.pos = pos_;
-	oldBoxCol_.size = { 2.5f,2.2f,2.5f };
-
 	PlayerWeapon::GetInstance()->Initialize();
 	ItemManager::GetInstance()->Initialize();
 
 	damageTex_ = Sprite::LoadTexture("damage.png");
 	damageSp_.Initialize(damageTex_);
-	damageSp_.SetColor(1,1,1,0);
-	damageAlpha_ = 0;
 
 	isInvincible_ = false;
+	
+	GameInitialize();
 }
 
 void Player::GameInitialize()
@@ -62,7 +48,7 @@ void Player::GameInitialize()
 
 	damageSp_.SetColor(1, 1, 1, 0);
 	damageAlpha_ = 0;
-
+	naveTimer_ = 10000;
 }
 
 void Player::Update()
@@ -99,9 +85,7 @@ void Player::Draw()
 	if (ItemManager::GetInstance()->GetIsUse()) {
 		ItemManager::GetInstance()->Draw();
 	}
-	else {
-		PlayerWeapon::GetInstance()->Draw();
-	}
+	PlayerWeapon::GetInstance()->Draw();
 }
 
 void Player::SpDraw()
@@ -173,7 +157,10 @@ void Player::Move()
 	boxCol_.pos = pos_;
 
 	//navePointの重みづけ
-	ColliderManager::GetInstance()->SetNavePointScore();
+	if (++naveTimer_ > TIME_NAVE) {
+		ColliderManager::GetInstance()->SetNavePointScore();
+		naveTimer_ = 0;
+	}
 
 	//ポーションヒール
 	HealLife();

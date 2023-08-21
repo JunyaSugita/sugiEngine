@@ -6,6 +6,7 @@
 #include "SpellManager.h"
 #include "ParticleManager.h"
 #include "ModelManager.h"
+#include "ItemManager.h"
 
 using namespace ImGui;
 
@@ -43,6 +44,8 @@ void PlayerWeapon::Initialize()
 
 	isAt_ = false;
 
+	healY = 0;
+	healRot = 0;
 }
 
 void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
@@ -50,13 +53,19 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 	//UŒ‚’†‚Í•Ší‚ðU‚é
 	if (isAttack) {
 		AttackMove(isAttackOn);
-		
+		y = 3;
 	}
 	else if (SpellManager::GetInstance()->GetIsUseSpell()) {
 		SpellMove();
+		y = 3;
 	}
 	else if (SpellManager::GetInstance()->ChargePercent() != 0.0f) {
 		ChargeMove();
+		y = 3;
+	}
+	else if (ItemManager::GetInstance()->GetIsUse()) {
+		ItemMove();
+		y = 3;
 	}
 	//UŒ‚‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í’ÊíŽ‚¿
 	else {
@@ -72,11 +81,9 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 
 void PlayerWeapon::Draw()
 {
-	obj_.Draw();
-	orbObj_.Draw();
-
-	if (isAt_) {
-		//hitObj_->Draw();
+	if (healY < 5) {
+		obj_.Draw();
+		orbObj_.Draw();
 	}
 }
 
@@ -86,10 +93,17 @@ void PlayerWeapon::NormalMove()
 
 	obj_.pos = player->GetPos();
 	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
-	obj_.pos.y = 3.5f;
+	obj_.pos.y = 3.5f - y;
 	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
 	obj_.rot = { 30,player->GetCameraAngle().x,0 };
 
+	healY = 0;
+	healRot = 0;
+
+	//•ŠíŽ‚¿ã‚°
+	if (y > 0) {
+		y -= 0.1f;
+	}
 }
 
 void PlayerWeapon::SpellMove()
@@ -130,6 +144,20 @@ void PlayerWeapon::ChargeMove()
 	obj_.rot = { 30 + float(sin(Radian(spellM->ChargePercent() * 1000))* 15),player->GetCameraAngle().x,0 + float(cos(Radian(spellM->ChargePercent() * 1000)) * 15) };
 }
 
+void PlayerWeapon::ItemMove()
+{
+	Player* player = Player::GetInstance();
+
+	obj_.pos = player->GetPos();
+	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
+	obj_.pos.y = 3.5f + healY;
+	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
+	obj_.rot = { 30 - healRot,player->GetCameraAngle().x,0 };
+
+	healY += 0.1f;
+	healRot += 3.0f;
+}
+
 void PlayerWeapon::AttackMove(bool isAttackOn)
 {
 	Player* player = Player::GetInstance();
@@ -147,12 +175,10 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x)) * 2);
 	obj_.rot = { 130 - EaseIn(easeTime,130),player->GetCameraAngle().x - 5,0 };
 	if (isAttackOn) {
-		//obj_->SetColor({ 1,0,0,1 });
 		isAt_ = true;
 		AttackCol();
 	}
 	else {
-		obj_.obj->SetColor({ 1,1,1,1 });
 		isAt_ = false;
 		EnemyManager::GetInstance()->ResetIsHit();
 	}

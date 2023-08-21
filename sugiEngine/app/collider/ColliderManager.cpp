@@ -428,7 +428,7 @@ void ColliderManager::SetNavePointScore()
 		}
 	}
 
-	for (int m = 0; m < 4; m++) {
+	for (int m = 0; m < 2; m++) {
 		//2‰ñ–ÚˆÈ~
 		for (int l = 0; l < field->GetNavePointNum(); l++) {
 			//‚Ü‚¾İ’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎI‚í‚é

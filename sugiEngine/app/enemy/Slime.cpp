@@ -84,7 +84,7 @@ void Slime::Down()
 		obj_.scale.x += 0.5f;
 		obj_.scale.z += 0.5f;
 	}
-	obj_.obj->SetColor({1,0,0,1});
+	//obj_.obj->SetColor({1,0,0,1});
 
 	//ç≈å„
 	BaseEnemy::Down();

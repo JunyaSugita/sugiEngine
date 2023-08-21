@@ -1,5 +1,6 @@
 #pragma once
 #include "GrovalSetting.h"
+#include 
 
 enum Item {
 	HEAL_LV1,
@@ -43,4 +44,6 @@ private:
 	bool isUse_;
 	float timer_;
 	int32_t itemType_;
+
+	BaseObj obj_;
 };

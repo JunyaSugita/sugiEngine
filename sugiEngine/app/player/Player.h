@@ -108,13 +108,15 @@ private:
 
 public:
 	const Vector3 CAMERA_EYE = { 0.0f,5.0f,0.0f };//プレイヤーの目線調整
-	const float SPEED_MOVE = 0.3f;	//プレイヤーのスピード
+	const float SPEED_MOVE = 0.5f;	//プレイヤーのスピード
 	const float SPEED_SLOW = 0.5f;	//プレイヤーがslow状態でのスピードの倍率
 	const float SPEED_CAMERA = 3.0f;	//カメラのスピード
 	const float TIME_ATTACK_START_NORMAL = 0.3f * 60.0f;//通常攻撃開始から攻撃判定が出るまでの時間
 	const float TIME_ATTACK_END_NORMAL = 0.75f * 60.0f;//通常攻撃開始から攻撃判定が無くなるまでの時間
 	const float TIME_ATTACK_NORMAL = 0.8f * 60.0f;	//通常攻撃開始から終了までのスピード
+	const float TIME_NAVE = 1.0f * 60;
 	const int32_t MAX_LIFE = 10000;
+	const float MAX_Y = 3.0f;
 
 private:
 	WorldTransform worldTrans_;
@@ -148,6 +150,9 @@ private:
 
 	//無敵
 	bool isInvincible_;
+
+	//navePointのタイミング
+	float naveTimer_;
 };
 
 float Radian(float r);
