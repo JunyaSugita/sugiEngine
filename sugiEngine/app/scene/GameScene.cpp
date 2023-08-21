@@ -77,6 +77,7 @@ void GameScene::GameInitialize()
 	gameOver_.Initialize();
 	UIManager::GetInstance()->GameInitialize();
 	sound_.RePlayWave("mainBGM", true);
+	sound_.SetVolume("mainBGM", 0.1f);
 }
 
 void GameScene::Update()
@@ -162,6 +163,9 @@ void GameScene::Update()
 		}
 		if (Button("particleClear", { 150,30 })) {
 			ParticleManager::GetInstance()->Clear();
+		}
+		if (Button("PlayerInvincible", { 150,30 })) {
+			Player::GetInstance()->SetInvincible();
 		}
 		End();
 	}

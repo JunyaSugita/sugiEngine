@@ -15,7 +15,7 @@ void GameOver::Initialize()
 void GameOver::Update()
 {
 	nowHp_ = Player::GetInstance()->GetLife();
-	gauge_.Update((float)maxHp_, (float)nowHp_);
+	gauge_.Update((float)maxHp_, (float)nowHp_,(float)Player::GetInstance()->GetHeal());
 
 	if (nowHp_ <= 0) {
 		if (blur_ < 5) {

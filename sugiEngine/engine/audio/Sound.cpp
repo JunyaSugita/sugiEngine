@@ -9,6 +9,8 @@ using namespace std;
 
 void Sound::Initialize(const std::string& directoryPath, const std::string& extension)
 {
+	Finalize();
+
 	HRESULT result;
 	IXAudio2MasteringVoice* masterVoice;
 
@@ -166,6 +168,6 @@ void Sound::SetVolume(const string& filename,float vol)
 void Sound::Finalize()
 {
 	xAudio2_.Reset();
-
+	sourceVoices_.clear();
 	soundDatas_.clear();
 }

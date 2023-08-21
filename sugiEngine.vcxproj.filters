@@ -330,6 +330,12 @@
     <ClCompile Include="sugiEngine\app\spell\Flame.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\engine\effect\Bolt.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\player\ItemManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -535,6 +541,12 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\spell\Flame.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\effect\Bolt.h">
+      <Filter>ヘッダー ファイル\engine\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\player\ItemManager.h">
+      <Filter>ヘッダー ファイル\app\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
