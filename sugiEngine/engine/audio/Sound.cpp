@@ -129,7 +129,7 @@ void Sound::RePlayWave(const std::string& filename, bool isLoop)
 		StopWave(filename);
 	};
 
-	PlayWave(filename);
+	PlayWave(filename,isLoop);
 }
 
 void Sound::TogglePlayWave(const std::string& filename, bool isLoop)
@@ -139,7 +139,7 @@ void Sound::TogglePlayWave(const std::string& filename, bool isLoop)
 		StopWave(filename);
 		return;
 	};
-	PlayWave(filename);
+	PlayWave(filename, isLoop);
 }
 
 void Sound::StopWave(const string& filename)
