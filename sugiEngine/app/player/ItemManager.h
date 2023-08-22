@@ -1,6 +1,6 @@
 #pragma once
 #include "GrovalSetting.h"
-#include 
+#include "BaseObj.h"
 
 enum Item {
 	HEAL_LV1,
