@@ -354,7 +354,7 @@ void Player::Attack()
 	}
 	//‚¢‚Â‚Å‚à
 	ItemManager::GetInstance()->Update();
-	ItemManager::GetInstance()->ChangeItem();
+	//ItemManager::GetInstance()->ChangeItem();
 }
 
 void Player::HealLife()

@@ -14,6 +14,10 @@ void ItemManager::Initialize()
 	isUse_ = false;
 	timer_ = 0.0f;
 	itemType_ = HEAL_LV1;
+	for (int i = 0; i < END_ITEM;i++) {
+		haveItem_[i] = 0;
+	}
+	haveItem_[HEAL_LV1] = 3;
 }
 
 void ItemManager::Update()
@@ -35,8 +39,23 @@ void ItemManager::Draw()
 
 void ItemManager::Use()
 {
-	if (Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_DPAD_UP)) {
-		isUse_ = true;
+	Player* player = Player::GetInstance();
+	if (Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_DPAD_UP) && haveItem_[itemType_] > 0) {
+		switch (itemType_)
+		{
+		case HEAL_LV1:
+		case HEAL_LV2:
+		case HEAL_LV3:
+			if (player->GetMaxLife() > player->GetLife()) {
+				isUse_ = true;
+			}
+			break;
+
+		case PROTECT_LV1:
+		case PROTECT_LV2:
+			isUse_ = true;
+			break;
+		}
 	}
 }
 
@@ -59,6 +78,7 @@ void ItemManager::EffectActive()
 	default:
 		break;
 	}
+	haveItem_[itemType_]--;
 	Cancel();
 }
 
@@ -67,12 +87,12 @@ void ItemManager::ChangeItem()
 	if (Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_DPAD_LEFT)) {
 		itemType_--;
 		if (itemType_ < 0) {
-			itemType_ = ITEM_END - 1;
+			itemType_ = END_ITEM - 1;
 		}
 	}
 	if (Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_DPAD_RIGHT)) {
 		itemType_++;
-		if (itemType_ >= ITEM_END) {
+		if (itemType_ >= END_ITEM) {
 			itemType_ = 0;
 		}
 	}

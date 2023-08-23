@@ -10,7 +10,6 @@
 #include "FBX.h"
 #include "ParticleManager.h"
 #include "ParticleEditor.h"
-#include "ClearChecker.h"
 #include "GameOver.h"
 
 class GameScene : public ISceneManager
@@ -35,7 +34,6 @@ private:
 
 	std::unique_ptr<ParticleEditor> particleE_ = nullptr;
 
-	ClearChecker clearChecker_;
 	GameOver gameOver_;
 
 	Sound sound_;

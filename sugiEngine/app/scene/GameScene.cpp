@@ -13,6 +13,7 @@
 #include "Tutorial.h"
 #include "LoadOut.h"
 #include "NavePointManager.h"
+#include "ClearChecker.h"
 
 using namespace ImGui;
 using namespace std;
@@ -31,12 +32,13 @@ void GameScene::Initialize()
 	//敵
 	EnemyManager::GetInstance()->Initialize();
 	
+	//クリアの判定
+	ClearChecker::GetInstance()->Initialize();
 	//グラウンド
 	FieldManager::GetInstance()->Initialize();
 
 	//プレイヤー
 	Player::GetInstance()->Initialize();
-
 
 	//エフェクト
 	EffectManager::GetInstance()->Initialize();
@@ -56,7 +58,6 @@ void GameScene::Initialize()
 	particleE_ = make_unique<ParticleEditor>();
 	particleE_->Initialize();
 
-	clearChecker_.Initialize();
 	gameOver_.Initialize();
 
 	sound_.Initialize();
@@ -73,7 +74,7 @@ void GameScene::GameInitialize()
 	FieldManager::GetInstance()->GameInitialize();
 	Player::GetInstance()->GameInitialize();
 
-	clearChecker_.Initialize();
+	ClearChecker::GetInstance()->Initialize();
 	gameOver_.Initialize();
 	UIManager::GetInstance()->GameInitialize();
 	sound_.RePlayWave("mainBGM", true);
@@ -109,7 +110,7 @@ void GameScene::Update()
 		}
 		if (input->TriggerButton(XINPUT_GAMEPAD_Y)) {
 			player->SubLife();
-			clearChecker_.Initialize();
+			ClearChecker::GetInstance()->Initialize();
 		}
 		if (input->TriggerButton(XINPUT_GAMEPAD_X)) {
 			enemyM->PopEnemy({ -10,0,0 });
@@ -117,7 +118,7 @@ void GameScene::Update()
 			enemyM->PopEnemy({ 0,0,0 });
 			enemyM->PopEnemy({ 5,0,3 });
 			enemyM->PopEnemy({ 10,0,0 });
-			clearChecker_.Initialize();
+			ClearChecker::GetInstance()->Initialize();
 		}
 	}
 #endif
@@ -179,10 +180,9 @@ void GameScene::Update()
 		enemyM->PopEnemy({ 0,0,0 });
 		enemyM->PopEnemy({ 5,0,3 });
 		enemyM->PopEnemy({ 10,0,0 });
-		clearChecker_.Initialize();
 	}
 
-	clearChecker_.Update();
+	ClearChecker::GetInstance()->Update();
 	gameOver_.Update();
 
 	//シーン遷移処理
@@ -225,9 +225,11 @@ void GameScene::ObjDraw()
 
 void GameScene::ObjDraw2()
 {
+
 	if (!particleE_->GetIsEdit(0)) {
 		Player::GetInstance()->Draw();
 	}
+	ClearChecker::GetInstance()->Draw();
 }
 
 void GameScene::ParticleDraw()
@@ -242,7 +244,6 @@ void GameScene::SpriteDraw()
 
 		if (!LoadOut::GetInstance()->GetIsActive()) {
 			Player::GetInstance()->SpDraw();
-			clearChecker_.Draw();
 			gameOver_.Draw();
 		}
 		UIManager::GetInstance()->Draw();

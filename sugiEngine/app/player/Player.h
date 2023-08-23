@@ -41,8 +41,11 @@ public:
 	}
 
 	//life
-	uint32_t GetLife() {
+	int32_t GetLife() {
 		return life_;
+	}
+	int32_t GetMaxLife() {
+		return MAX_LIFE;
 	}
 	void SubLife();
 

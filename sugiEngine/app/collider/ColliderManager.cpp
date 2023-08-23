@@ -6,6 +6,7 @@
 #include "FieldManager.h"
 #include "NavePointManager.h"
 #include "EffectManager.h"
+#include "ClearChecker.h"
 
 using namespace std;
 
@@ -29,6 +30,8 @@ void ColliderManager::Update()
 	FieldManager* field = FieldManager::GetInstance();
 	//プレイヤー
 	Player* player = Player::GetInstance();
+	//ゴール
+	ClearChecker* clear = ClearChecker::GetInstance();
 
 #pragma region 呪文の判定
 	//呪文の判定
@@ -207,6 +210,12 @@ void ColliderManager::Update()
 			}
 			player->WorldTransUpdate();
 		}
+	}
+#pragma endregion
+
+#pragma region プレイヤーとゴールの判定
+	if (CheckHitBox(player->GetBoxCol(), clear->GetCol())) {
+		clear->SetClear();
 	}
 #pragma endregion
 }

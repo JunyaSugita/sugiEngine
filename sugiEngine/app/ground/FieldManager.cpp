@@ -2,6 +2,7 @@
 #include "EnemyManager.h"
 #include "NavePointManager.h"
 #include "ModelManager.h"
+#include "ClearChecker.h"
 
 using namespace std;
 
@@ -77,6 +78,9 @@ void FieldManager::Initialize()
 			NavePointManager::GetInstance()->Add(objectData.pos);
 			navePointNum_++;
 		}
+		if (objectData.filename == "goal") {
+			ClearChecker::GetInstance()->SetGoal(objectData.pos);
+		}
 	}
 }
 
@@ -141,6 +145,9 @@ void FieldManager::GameInitialize()
 		if (objectData.filename == "navePoint") {
 			NavePointManager::GetInstance()->Add(objectData.pos);
 			navePointNum_++;
+		}
+		if (objectData.filename == "goal") {
+			ClearChecker::GetInstance()->SetGoal(objectData.pos);
 		}
 	}
 }
