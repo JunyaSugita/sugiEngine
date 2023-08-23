@@ -8,7 +8,7 @@ enum Item {
 	HEAL_LV3,
 	PROTECT_LV1,
 	PROTECT_LV2,
-	ITEM_END
+	END_ITEM
 };
 
 class ItemManager {
@@ -46,4 +46,6 @@ private:
 	int32_t itemType_;
 
 	BaseObj obj_;
+
+	int32_t haveItem_[END_ITEM];
 };

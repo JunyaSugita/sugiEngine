@@ -4,22 +4,27 @@
 #include "PostEffectSecond.h"
 #include "UIManager.h"
 
+ClearChecker* ClearChecker::GetInstance()
+{
+	static ClearChecker instance;
+
+	return &instance;
+}
+
 void ClearChecker::Initialize()
 {
-	maxEnemy_ = nowEnemy_ = EnemyManager::GetInstance()->GetEnemyCount();
-	gauge_.Set({ WIN_WIDTH / 2,100 }, {800,50},{0.6f,0,0});
+	obj_.Initialize("box");
 
+	col_.Initialize();
+	col_.col.size = { 1,3,1 };
+
+	isClear_ = false;
 	blur_ = 0;
 }
 
 void ClearChecker::Update()
 {
-	nowEnemy_ = EnemyManager::GetInstance()->GetEnemyCount();
-
-	gauge_.Update((float)maxEnemy_, (float)nowEnemy_);
-
-
-	if (nowEnemy_ <= 0) {
+	if (isClear_ == true) {
 		if (blur_ < 5) {
 			blur_ += 0.025f;
 			if (blur_ >= 1) {
@@ -30,9 +35,22 @@ void ClearChecker::Update()
 			UIManager::GetInstance()->SetClear();
 		}
 	}
+
+	obj_.Update();
+	col_.SetCol(obj_.pos);
+	col_.Update();
 }
 
 void ClearChecker::Draw()
 {
-	gauge_.Draw();
+	obj_.Draw();
+	col_.Draw();
+}
+
+void ClearChecker::SetGoal(Vector3 pos)
+{
+	obj_.pos = pos;
+	col_.col.pos = pos;
+	isClear_ = false;
+	blur_ = 0;
 }

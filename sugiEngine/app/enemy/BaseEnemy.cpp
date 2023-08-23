@@ -91,9 +91,7 @@ void BaseEnemy::Update()
 void BaseEnemy::Draw()
 {
 	obj_.Draw();
-	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		col_.Draw();
-	}
+	col_.Draw();
 }
 
 void BaseEnemy::WorldTransUpdate()

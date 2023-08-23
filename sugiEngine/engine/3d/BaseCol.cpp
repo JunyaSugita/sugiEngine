@@ -19,7 +19,9 @@ void BaseCol::Update()
 
 void BaseCol::Draw()
 {
-	colObj_.Draw();
+	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
+		colObj_.Draw();
+	}
 }
 
 void BaseCol::SetCol(Vector3 pos)
