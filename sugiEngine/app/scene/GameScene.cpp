@@ -74,7 +74,7 @@ void GameScene::GameInitialize()
 	FieldManager::GetInstance()->GameInitialize();
 	Player::GetInstance()->GameInitialize();
 
-	ClearChecker::GetInstance()->Initialize();
+	ClearChecker::GetInstance()->GameInitialize();
 	gameOver_.Initialize();
 	UIManager::GetInstance()->GameInitialize();
 	sound_.RePlayWave("mainBGM", true);

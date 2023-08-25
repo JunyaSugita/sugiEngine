@@ -7,7 +7,7 @@
             "transform": {
                 "translation": [
                     0.0,
-                    -50.0,
+                    -20.0,
                     10.0
                 ],
                 "rotation": [
@@ -16,56 +16,12 @@
                     0.0
                 ],
                 "scaling": [
-                    50.0,
+                    20.0,
                     1.0,
                     10.0
                 ]
             },
             "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.001",
-            "transform": {
-                "translation": [
-                    -5.0,
-                    0.0,
-                    10.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    10.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.005",
-            "transform": {
-                "translation": [
-                    -5.0,
-                    -10.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
         },
         {
             "type": "MESH",
@@ -73,7 +29,7 @@
             "transform": {
                 "translation": [
                     0.0,
-                    50.0,
+                    20.0,
                     10.0
                 ],
                 "rotation": [
@@ -82,7 +38,7 @@
                     0.0
                 ],
                 "scaling": [
-                    50.0,
+                    20.0,
                     1.0,
                     10.0
                 ]
@@ -91,54 +47,10 @@
         },
         {
             "type": "MESH",
-            "name": "Cube.008",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    20.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    50.0,
-                    50.0,
-                    1.0
-                ]
-            },
-            "file_name": "ground"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.013",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    -1.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    50.0,
-                    50.0,
-                    1.0
-                ]
-            },
-            "file_name": "ground"
-        },
-        {
-            "type": "MESH",
             "name": "Cube.014",
             "transform": {
                 "translation": [
-                    50.0,
+                    20.0,
                     0.0,
                     10.0
                 ],
@@ -149,7 +61,7 @@
                 ],
                 "scaling": [
                     1.0,
-                    50.0,
+                    20.0,
                     10.0
                 ]
             },
@@ -160,30 +72,8 @@
             "name": "Cube.015",
             "transform": {
                 "translation": [
-                    -50.0,
-                    0.0,
-                    10.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    50.0,
-                    10.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.016",
-            "transform": {
-                "translation": [
                     -20.0,
-                    20.0,
+                    -13.0,
                     10.0
                 ],
                 "rotation": [
@@ -193,319 +83,11 @@
                 ],
                 "scaling": [
                     1.0,
-                    1.0,
+                    7.0,
                     10.0
                 ]
             },
             "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.017",
-            "transform": {
-                "translation": [
-                    -20.0,
-                    -20.0,
-                    10.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    10.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.018",
-            "transform": {
-                "translation": [
-                    30.0,
-                    -30.0,
-                    1.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    5.0,
-                    5.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.019",
-            "transform": {
-                "translation": [
-                    30.0,
-                    30.0,
-                    1.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    10.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.020",
-            "transform": {
-                "translation": [
-                    30.0,
-                    -30.0,
-                    3.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    2.0,
-                    2.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.021",
-            "transform": {
-                "translation": [
-                    30.0,
-                    30.0,
-                    3.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.022",
-            "transform": {
-                "translation": [
-                    -40.0,
-                    29.0,
-                    1.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.009",
-            "transform": {
-                "translation": [
-                    30.0,
-                    30.0,
-                    1.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.010",
-            "transform": {
-                "translation": [
-                    -40.0,
-                    -29.0,
-                    1.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.011",
-            "transform": {
-                "translation": [
-                    -29.0,
-                    -40.0,
-                    1.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    10.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.012",
-            "transform": {
-                "translation": [
-                    -29.0,
-                    40.0,
-                    1.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    10.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球",
-            "transform": {
-                "translation": [
-                    26.548843383789062,
-                    42.22163772583008,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.001",
-            "transform": {
-                "translation": [
-                    32.89871597290039,
-                    17.72345733642578,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.002",
-            "transform": {
-                "translation": [
-                    32.876182556152344,
-                    42.23895263671875,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.003",
-            "transform": {
-                "translation": [
-                    26.74439239501953,
-                    17.728944778442383,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
         },
         {
             "type": "MESH",
@@ -522,8 +104,8 @@
                     0.0
                 ],
                 "scaling": [
-                    50.0,
-                    50.0,
+                    100.0,
+                    100.0,
                     1.0
                 ]
             },
@@ -531,55 +113,11 @@
         },
         {
             "type": "MESH",
-            "name": "ICO球.004",
-            "transform": {
-                "translation": [
-                    42.160919189453125,
-                    32.77739334106445,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.005",
-            "transform": {
-                "translation": [
-                    42.23344802856445,
-                    27.066431045532227,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
             "name": "ICO球.006",
             "transform": {
                 "translation": [
-                    17.702951431274414,
-                    27.37064552307129,
+                    -16.041210174560547,
+                    0.0,
                     0.0
                 ],
                 "rotation": [
@@ -594,498 +132,14 @@
                 ]
             },
             "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.007",
-            "transform": {
-                "translation": [
-                    17.70440101623535,
-                    32.87485122680664,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.008",
-            "transform": {
-                "translation": [
-                    22.40048599243164,
-                    -23.05950927734375,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.009",
-            "transform": {
-                "translation": [
-                    22.40048599243164,
-                    -38.16797637939453,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.010",
-            "transform": {
-                "translation": [
-                    36.96462631225586,
-                    -38.16797637939453,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.011",
-            "transform": {
-                "translation": [
-                    36.96462631225586,
-                    -23.13803482055664,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.012",
-            "transform": {
-                "translation": [
-                    -2.540820598602295,
-                    -2.7665929794311523,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.013",
-            "transform": {
-                "translation": [
-                    -2.540820598602295,
-                    2.8870773315429688,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.014",
-            "transform": {
-                "translation": [
-                    -8.612293243408203,
-                    2.8870773315429688,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.015",
-            "transform": {
-                "translation": [
-                    -8.612293243408203,
-                    -2.870955467224121,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.016",
-            "transform": {
-                "translation": [
-                    -22.920574188232422,
-                    -17.200725555419922,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.017",
-            "transform": {
-                "translation": [
-                    -22.920574188232422,
-                    -23.008852005004883,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.018",
-            "transform": {
-                "translation": [
-                    -17.8359317779541,
-                    -23.008852005004883,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.019",
-            "transform": {
-                "translation": [
-                    -17.8359317779541,
-                    -17.182710647583008,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.020",
-            "transform": {
-                "translation": [
-                    -22.920574188232422,
-                    17.300249099731445,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.021",
-            "transform": {
-                "translation": [
-                    -22.920574188232422,
-                    24.01249885559082,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.022",
-            "transform": {
-                "translation": [
-                    -16.736797332763672,
-                    24.01249885559082,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.023",
-            "transform": {
-                "translation": [
-                    -16.736797332763672,
-                    17.389219284057617,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "navePoint"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.003",
-            "transform": {
-                "translation": [
-                    -5.0,
-                    10.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.004",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.006",
-            "transform": {
-                "translation": [
-                    -30.0,
-                    -25.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
         },
         {
             "type": "MESH",
             "name": "Cube.007",
             "transform": {
                 "translation": [
-                    -30.0,
-                    25.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.023",
-            "transform": {
-                "translation": [
-                    -40.0,
-                    40.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.024",
-            "transform": {
-                "translation": [
-                    -40.0,
-                    -40.0,
+                    -50.0,
+                    0.0,
                     0.0
                 ],
                 "rotation": [
@@ -1106,30 +160,8 @@
             "name": "ICO球.024",
             "transform": {
                 "translation": [
-                    0.0,
-                    20.0,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "slime"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.025",
-            "transform": {
-                "translation": [
-                    0.0,
-                    -20.0,
+                    -93.73435974121094,
+                    -15.925483703613281,
                     0.0
                 ],
                 "rotation": [
@@ -1150,7 +182,7 @@
             "name": "円柱",
             "transform": {
                 "translation": [
-                    -40.0,
+                    -90.0,
                     0.0,
                     0.0
                 ],
@@ -1166,6 +198,226 @@
                 ]
             },
             "file_name": "goal"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.001",
+            "transform": {
+                "translation": [
+                    -20.0,
+                    13.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    7.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.004",
+            "transform": {
+                "translation": [
+                    -40.0,
+                    7.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    20.0,
+                    1.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.005",
+            "transform": {
+                "translation": [
+                    -40.0,
+                    -7.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    20.0,
+                    1.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.008",
+            "transform": {
+                "translation": [
+                    -80.0,
+                    -20.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    20.0,
+                    1.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.009",
+            "transform": {
+                "translation": [
+                    -80.0,
+                    20.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    20.0,
+                    1.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.010",
+            "transform": {
+                "translation": [
+                    -60.0,
+                    -13.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    7.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.011",
+            "transform": {
+                "translation": [
+                    -60.0,
+                    13.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    7.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "ICO球.001",
+            "transform": {
+                "translation": [
+                    -65.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "navePoint"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.012",
+            "transform": {
+                "translation": [
+                    -100.0,
+                    0.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    20.0,
+                    10.0
+                ]
+            },
+            "file_name": "box"
+        },
+        {
+            "type": "MESH",
+            "name": "ICO球.002",
+            "transform": {
+                "translation": [
+                    -93.73435974121094,
+                    13.618867874145508,
+                    0.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "slime"
         }
     ]
 }

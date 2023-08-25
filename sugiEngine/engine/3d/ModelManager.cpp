@@ -20,6 +20,8 @@ void ModelManager::Initialize()
 	Load("slime",true);
 	Load("effect");
 	LoadSphere("orb");
+	Load("goal",true);
+	Load("posion", true);
 }
 
 Model* ModelManager::Get(string filename)
