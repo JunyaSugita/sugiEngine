@@ -9,6 +9,7 @@
 #include "Tutorial.h"
 #include "LoadOut.h"
 #include "ItemManager.h"
+#include "ClearChecker.h"
 
 Player* Player::GetInstance()
 {
@@ -32,7 +33,7 @@ void Player::Initialize()
 
 void Player::GameInitialize()
 {
-	pos_ = { 0,0,-40 };
+	pos_ = { 0,0,0 };
 	rot_ = { 0,0,0 };
 	scale_ = { 1,1,1 };
 	cameraAngle_ = { 0,0 };
@@ -60,7 +61,8 @@ void Player::Update()
 	}
 
 	//ゲーム終了orゲームオーバーで動けなくする
-	if (UIManager::GetInstance()->GetStateAlpha_() != 0 || life_ <= 0) {
+	if (ClearChecker::GetInstance()->GetIsClear() || life_ <= 0) {
+		PlayerWeapon::GetInstance()->Update(false,false);
 		return;
 	}
 	//ロードアウト変更中も動けなくする
@@ -82,14 +84,13 @@ void Player::Update()
 
 void Player::Draw()
 {
-	if (ItemManager::GetInstance()->GetIsUse()) {
-		ItemManager::GetInstance()->Draw();
-	}
+	ItemManager::GetInstance()->Draw();
 	PlayerWeapon::GetInstance()->Draw();
 }
 
 void Player::SpDraw()
 {
+	ItemManager::GetInstance()->DrawSprite();
 	damageSp_.Draw();
 }
 

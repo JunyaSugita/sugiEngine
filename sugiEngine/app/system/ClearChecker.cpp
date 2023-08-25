@@ -13,11 +13,18 @@ ClearChecker* ClearChecker::GetInstance()
 
 void ClearChecker::Initialize()
 {
-	obj_.Initialize("box");
+	obj_.Initialize("goal");
+	obj_.obj->SetColor({ 0,0,1,0.5f });
 
 	col_.Initialize();
 	col_.col.size = { 1,3,1 };
 
+	isClear_ = false;
+	blur_ = 0;
+}
+
+void ClearChecker::GameInitialize()
+{
 	isClear_ = false;
 	blur_ = 0;
 }

@@ -18,6 +18,11 @@ void ItemManager::Initialize()
 		haveItem_[i] = 0;
 	}
 	haveItem_[HEAL_LV1] = 3;
+
+	obj_.Initialize("posion");
+	obj_.obj->SetColor({0.5f,0.2f,0.2f,1});
+
+	gauge_.Set({WIN_WIDTH / 2,525},{300,50},{0.2f,0.5f,0.2f});
 }
 
 void ItemManager::Update()
@@ -26,15 +31,47 @@ void ItemManager::Update()
 		if (++timer_ >= TIME_USE) {
 			EffectActive();
 		}
+		if (objRot_ < 80 && isRot_ == false) {
+			objRot_++;
+		}
+		else{
+			isRot_ = true;
+			if (objRot_ > 0) {
+				objRot_--;
+			}
+		}
 	}
 	else {
 		ChangeItem();
+		objRot_ = 0;
+		isRot_ = false;
 	}
+
+
+	Player* player = Player::GetInstance();
+
+	obj_.pos = player->GetPos();
+	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x)) * 4);
+	obj_.pos.y = 1.0f + sinf(timer_ / 60) * 4;
+	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x)) * 4);
+	obj_.rot = { max(-objRot_ * 2,-110) ,player->GetCameraAngle().x,0};
+
+	obj_.Update();
+	gauge_.Update(TIME_USE,timer_);
 }
 
 void ItemManager::Draw()
 {
+	if (isUse_) {
+		obj_.Draw();
+	}
+}
 
+void ItemManager::DrawSprite()
+{
+	if (isUse_) {
+		gauge_.Draw();
+	}
 }
 
 void ItemManager::Use()

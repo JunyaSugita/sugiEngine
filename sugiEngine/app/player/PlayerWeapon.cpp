@@ -7,6 +7,7 @@
 #include "ParticleManager.h"
 #include "ModelManager.h"
 #include "ItemManager.h"
+#include "ClearChecker.h"
 
 using namespace ImGui;
 
@@ -46,10 +47,19 @@ void PlayerWeapon::Initialize()
 
 	healY = 0;
 	healRot = 0;
+	alpha_ = 1;
 }
 
 void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 {
+	if (ClearChecker::GetInstance()->GetIsClear()) {
+		alpha_ -= 0.02f;
+		obj_.obj->SetColor({ 1,1,1,alpha_ });
+		orbObj_.obj->SetColor({ 0,1,1,alpha_ * 0.5f });
+		WorldTransUpdate();
+		return;
+	}
+
 	//UŒ‚’†‚Í•Ší‚ğU‚é
 	if (isAttack) {
 		AttackMove(isAttackOn);

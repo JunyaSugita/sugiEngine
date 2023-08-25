@@ -77,4 +77,6 @@ private:
 
 	//•Ší‚Ìæ‚èo‚µ
 	float y = 0;
+	
+	float alpha_;
 };

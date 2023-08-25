@@ -1,6 +1,7 @@
 #pragma once
 #include "GrovalSetting.h"
 #include "BaseObj.h"
+#include "Gauge.h"
 
 enum Item {
 	HEAL_LV1,
@@ -27,6 +28,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+	void DrawSprite();
 
 	void Use();
 	void Cancel();
@@ -46,6 +48,10 @@ private:
 	int32_t itemType_;
 
 	BaseObj obj_;
+	bool isRot_;
+	float objRot_;
 
 	int32_t haveItem_[END_ITEM];
+
+	Gauge gauge_;
 };
