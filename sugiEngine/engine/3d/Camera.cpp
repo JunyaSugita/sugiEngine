@@ -67,8 +67,3 @@ void Camera::Update()
 	//matrix4‚É•ÏŠ·
 	matView_ = ConvertToMatrix4(xmmatView);
 }
-
-void Camera::SetShake(float num)
-{
-	shake_ = num;
-}

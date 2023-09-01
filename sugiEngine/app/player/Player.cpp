@@ -67,6 +67,7 @@ void Player::Update()
 	}
 	//ロードアウト変更中も動けなくする
 	if (LoadOut::GetInstance()->GetIsActive()) {
+		CameraMove();
 		return;
 	}
 
@@ -92,6 +93,35 @@ void Player::SpDraw()
 {
 	ItemManager::GetInstance()->DrawSprite();
 	damageSp_.Draw();
+}
+
+void Player::ChargeSpell(int32_t spellNum)
+{
+	SpellManager* spellM = SpellManager::GetInstance();
+
+	switch (LoadOut::GetInstance()->GetSpell(spellNum))
+	{
+	case FIRE_BALL:
+		spellM->ChargeFireBall();
+		break;
+	case MAGIC_MISSILE:
+		spellM->ChargeMagicMissile();
+		break;
+	case ICE_BOLT:
+		spellM->ChargeIceBolt();
+		break;
+	case CHAIN_LIGHTNING:
+		spellM->ChargeChainLightning();
+		break;
+	case ENCHANT_FIRE:
+		spellM->ChargeEnchantFire();
+		break;
+	case FLAME:
+		spellM->ChargeFlame();
+		break;
+	default:
+		break;
+	}
 }
 
 void Player::SubLife()
@@ -302,28 +332,7 @@ void Player::Attack()
 	}
 	//呪文詠唱
 	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) && !spellM->GetIsUseSpell()) {
-		switch (LoadOut::GetInstance()->GetSpell(presetSpell_))
-		{
-		case FIRE_BALL:
-			spellM->ChargeFireBall();
-			break;
-		case MAGIC_MISSILE:
-			spellM->ChargeMagicMissile();
-			break;
-		case ICE_BOLT:
-			spellM->ChargeIceBolt();
-			break;
-		case CHAIN_LIGHTNING:
-			spellM->ChargeChainLightning();
-			break;
-		case ENCHANT_FIRE:
-			spellM->ChargeEnchantFire();
-			break;
-		case FLAME:
-			spellM->ChargeFlame();
-		default:
-			break;
-		}
+		ChargeSpell(presetSpell_);
 
 		isSpell_ = true;
 	}

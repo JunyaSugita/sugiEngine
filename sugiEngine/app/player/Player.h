@@ -22,6 +22,7 @@ public:
 	void Update();
 	void Draw();
 	void SpDraw();
+	void ChargeSpell(int32_t spellNum);
 
 	//pos
 	Vector3 GetPos() {
@@ -139,7 +140,7 @@ private:
 	float attackTime_;//UŒ‚ŠÔ
 
 	//‘•”õô•¶
-	uint32_t presetSpell_;
+	int32_t presetSpell_;
 	float spellAngle_;
 
 	//“–‚½‚è”»’è

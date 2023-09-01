@@ -13,10 +13,10 @@ FieldManager* FieldManager::GetInstance()
 	return &instance;
 }
 
-void FieldManager::Initialize()
+void FieldManager::Initialize(int num)
 {
 	// レベルデータの読み込み
-	levelData_ = JsonLoader::LoadJson("level");
+	SelectStage(num);
 
 	objNum_ = 0;
 	navePointNum_ = 0;
@@ -84,10 +84,13 @@ void FieldManager::Initialize()
 	}
 }
 
-void FieldManager::GameInitialize()
+void FieldManager::GameInitialize(int num)
 {
 	objNum_ = 0;
 	navePointNum_ = 0;
+
+	SelectStage(num);
+
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
 			//モデルを指定して3Dオブジェクトを生成
@@ -163,5 +166,22 @@ void FieldManager::Draw()
 {
 	for (int i = 0; i < objNum_; i++) {
 		obj_[i].Draw();
+	}
+}
+
+void FieldManager::SelectStage(int num)
+{
+	switch (num)
+	{
+	case STAGE_DEF:
+		levelData_ = JsonLoader::LoadJson("level");
+		break;
+
+	case STAGE1:
+		levelData_ = JsonLoader::LoadJson("level");
+		break;
+
+	default:
+		break;
 	}
 }

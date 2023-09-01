@@ -35,7 +35,7 @@ void GameScene::Initialize()
 	//クリアの判定
 	ClearChecker::GetInstance()->Initialize();
 	//グラウンド
-	FieldManager::GetInstance()->Initialize();
+	FieldManager::GetInstance()->Initialize(0);
 
 	//プレイヤー
 	Player::GetInstance()->Initialize();
@@ -71,7 +71,7 @@ void GameScene::Initialize()
 void GameScene::GameInitialize()
 {
 	EnemyManager::GetInstance()->GameInitialize();
-	FieldManager::GetInstance()->GameInitialize();
+	FieldManager::GetInstance()->GameInitialize(1);
 	Player::GetInstance()->GameInitialize();
 
 	ClearChecker::GetInstance()->GameInitialize();

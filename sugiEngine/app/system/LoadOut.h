@@ -48,6 +48,8 @@ public:
 		return selectMode_;
 	}
 
+	void ResetWindow();
+
 private:
 	void SetSpell(int32_t num,int32_t spellName);
 
@@ -66,4 +68,6 @@ private:
 	Sprite hiLight_;
 
 	Sprite set_[5];
+
+	float preWindowTimer_;
 };

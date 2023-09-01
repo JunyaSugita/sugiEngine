@@ -23,35 +23,35 @@ public:
 	//eye
 	void SetEye(const Vector3& eye, int32_t num = -1) {
 		if (num == -1) {
-			eye_[activeNum_] = eye;
+			eye_[0] = eye;
 			return;
 		}
 		eye_[num] = eye;
 	}
 	void SetEyeX(float eye, int32_t num = -1) {
 		if (num == -1) {
-			eye_[activeNum_].x = eye;
+			eye_[0].x = eye;
 			return;
 		}
 		eye_[num].x = eye;
 	}
 	void SetEyeY(float eye, int32_t num = -1) {
 		if (num == -1) {
-			eye_[activeNum_].y = eye;
+			eye_[0].y = eye;
 			return;
 		}
 		eye_[num].y = eye;
 	}
 	void SetEyeZ(float eye, int32_t num = -1) {
 		if (num == -1) {
-			eye_[activeNum_].z = eye;
+			eye_[0].z = eye;
 			return;
 		}
 		eye_[num].z = eye;
 	}
 	Vector3 GetEye(int32_t num = -1) {
 		if (num == -1) {
-			return eye_[activeNum_];
+			return eye_[0];
 		}
 		return eye_[num];
 	}
@@ -72,21 +72,21 @@ public:
 
 	void AddEyeX(float add,int32_t num = -1) {
 		if (num == -1) {
-			eye_[activeNum_].x += add;
+			eye_[0].x += add;
 			return;
 		}
 		eye_[num].x += add;
 	}
 	void AddEyeY(float add, int32_t num = -1) {
 		if (num == -1) {
-			eye_[activeNum_].y += add;
+			eye_[0].y += add;
 			return;
 		}
 		eye_[num].y += add;
 	}
 	void AddEyeZ(float add, int32_t num = -1) {
 		if (num == -1) {
-			eye_[activeNum_].z += add;
+			eye_[0].z += add;
 			return;
 		}
 		eye_[num].z += add;
@@ -95,28 +95,28 @@ public:
 	//target
 	void SetTarget(const Vector3& target,int32_t num = -1) {
 		if (num == -1) {
-			target_[activeNum_] = target;
+			target_[0] = target;
 			return;
 		}
 		target_[num] = target;
 	}
 	void SetTargetX(float target, int32_t num = -1) {
 		if (num == -1) {
-			target_[activeNum_].x = target;
+			target_[0].x = target;
 			return;
 		}
 		target_[num].x = target;
 	}
 	void SetTargetY(float target, int32_t num = -1) {
 		if (num == -1) {
-			target_[activeNum_].y = target;
+			target_[0].y = target;
 			return;
 		}
 		target_[num].y = target;
 	}
 	void SetTargetZ(float target, int32_t num = -1) {
 		if (num == -1) {
-			target_[activeNum_].z = target;
+			target_[0].z = target;
 			return;
 		}
 		target_[num].z = target;
@@ -124,7 +124,7 @@ public:
 	
 	Vector3 GetTarget(int32_t num = -1) {
 		if (num == -1) {
-			return target_[activeNum_];
+			return target_[0];
 		}
 		return target_[num];
 	}
@@ -147,14 +147,14 @@ public:
 	//up
 	void SetUp(const Vector3& up,int32_t num = -1) {
 		if (num == -1) {
-			up_[activeNum_] = up;
+			up_[0] = up;
 			return;
 		}
 		up_[num] = up;
 	}
 	Vector3 GetUp(int32_t num = -1) {
 		if (num == -1) {
-			return up_[activeNum_];
+			return up_[0];
 		}
 		return up_[num];
 	}
@@ -181,8 +181,14 @@ public:
 		return matProjection_;
 	}
 
+	void SetActive(int32_t num) {
+		activeNum_ = num;
+	}
+
 	//カメラシェイク
-	void SetShake(float num);
+	void SetShake(float num) {
+		shake_ = num;
+	};
 
 
 private:
