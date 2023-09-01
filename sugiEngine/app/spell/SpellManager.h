@@ -61,6 +61,10 @@ public:
 		return useTime_ / maxCharge_;
 	}
 
+	float GetMaxCharge() {
+		return maxCharge_;
+	}
+
 	std::vector<BaseSpell*> GetSpellsCol() {
 		spellsList_.clear();
 		for (std::unique_ptr<BaseSpell>& spell : spells_) {

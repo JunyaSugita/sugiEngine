@@ -1,6 +1,11 @@
 #include "LoadOut.h"
 #include "Input.h"
 #include "PostEffectSecond.h"
+#include "EnemyManager.h"
+#include "FieldManager.h"
+#include "Player.h"
+#include "PlayerWeapon.h"
+#include "ParticleManager.h"
 
 LoadOut* LoadOut::GetInstance()
 {
@@ -17,7 +22,6 @@ void LoadOut::Initialize()
 	setSpell_[2] = ICE_BOLT;
 	setSpell_[3] = CHAIN_LIGHTNING;
 	setSpell_[4] = ENCHANT_FIRE;
-	setSpell_[5] = FLAME;
 
 	selectSpell_ = 0;
 	selectNum_ = 0;
@@ -76,15 +80,26 @@ void LoadOut::Initialize()
 	set_[2].SetPos(410, 600);
 	set_[3].SetPos(530, 600);
 	set_[4].SetPos(650, 600);
+
+	preWindowTimer_ = 0;
 }
 
 void LoadOut::Update()
 {
 	Input* input = Input::GetInstance();
+	Camera* camera = Camera::GetInstance();
 
 	if (isActive_) {
+		Player::GetInstance()->GameInitialize();
+
 		PostEffectSecond::SetPos({ 820,50 });
 		PostEffectSecond::SetSize({WIN_WIDTH / 3,WIN_HEIGHT / 3});
+
+		//選択中のスペルを使用する
+		if (++preWindowTimer_ <= SpellManager::GetInstance()->GetMaxCharge() || SpellManager::GetInstance()->GetMaxCharge() == 0) {
+			Player::GetInstance()->ChargeSpell(selectSpell_);
+		}
+		PlayerWeapon::GetInstance()->Update(false, false);
 
 		//modeごとの異なる処理
 		if (selectMode_ == SELECT_SPELL) {
@@ -94,24 +109,28 @@ void LoadOut::Update()
 					selectSpell_ -= 5;
 				}
 				selectSpell_++;
+				ResetWindow();
 			}
 			if (input->TriggerKey(DIK_A) || input->TriggerLStickLeft()) {
 				if (selectSpell_ % 5 == 0) {
 					selectSpell_ += 5;
 				}
 				selectSpell_--;
+				ResetWindow();
 			}
 			if (input->TriggerKey(DIK_S) || input->TriggerLStickDown()) {
 				if (selectSpell_ >= 15) {
 					selectSpell_ -= 20;
 				}
-				selectSpell_+= 5	;
+				selectSpell_+= 5;
+				ResetWindow();
 			}
 			if (input->TriggerKey(DIK_W) || input->TriggerLStickUp()) {
 				if (selectSpell_ <= 4) {
 					selectSpell_ += 20;
 				}
 				selectSpell_ -= 5;
+				ResetWindow();
 			}
 
 			hiLight_.SetPos(preview_[selectSpell_].GetPos());
@@ -167,6 +186,16 @@ void LoadOut::Draw()
 			set_[i].Draw();
 		}
 	}
+}
+
+void LoadOut::ResetWindow()
+{
+	EnemyManager::GetInstance()->GameInitialize();
+	FieldManager::GetInstance()->GameInitialize(0);
+	Player::GetInstance()->GameInitialize();
+	SpellManager::GetInstance()->Initialize();
+	ParticleManager::GetInstance()->Clear();
+	preWindowTimer_ = 0;
 }
 
 void LoadOut::SetSpell(int32_t num, int32_t spellName)

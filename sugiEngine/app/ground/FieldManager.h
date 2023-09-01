@@ -4,6 +4,11 @@
 #include "JsonLoader.h"
 #include "ColliderManager.h"
 
+enum {
+	STAGE_DEF,
+	STAGE1,
+};
+
 class FieldManager final{
 private:
 	FieldManager() = default;
@@ -18,8 +23,8 @@ public:
 	static FieldManager* GetInstance();
 
 public:
-	void Initialize();
-	void GameInitialize();
+	void Initialize(int num);
+	void GameInitialize(int num);
 	void Update();
 	void Draw();
 
@@ -34,6 +39,8 @@ public:
 	int32_t GetNavePointNum() {
 		return navePointNum_;
 	}
+
+	void SelectStage(int num);
 
 private:
 	LevelData* levelData_;
