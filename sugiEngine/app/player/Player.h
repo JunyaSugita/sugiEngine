@@ -103,6 +103,9 @@ public:
 	void SetInvincible() {
 		isInvincible_ = (isInvincible_ + 1) % 2;
 	}
+	bool GetInvincible() {
+		return isInvincible_;
+	}
 
 private:
 	void Move();

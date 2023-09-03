@@ -7,6 +7,7 @@
 enum {
 	STAGE_DEF,
 	STAGE1,
+	STAGE2,
 };
 
 class FieldManager final{
@@ -46,8 +47,6 @@ private:
 	LevelData* levelData_;
 
 	std::unique_ptr<Model> boxModel_;
-	//std::unique_ptr<Model> groundModel_;
-	//std::unique_ptr<Object3d> object_[100];
 	BaseObj obj_[100];
 
 	std::vector<BoxCol> col_;

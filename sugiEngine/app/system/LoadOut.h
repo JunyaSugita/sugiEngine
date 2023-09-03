@@ -22,6 +22,7 @@ public:
 public:
 	void Initialize();
 	void Update();
+	void BackDrawSp();
 	void Draw();
 
 	bool GetIsActive() {
@@ -68,6 +69,9 @@ private:
 	Sprite hiLight_;
 
 	Sprite set_[5];
+	Sprite back_;
+	Sprite SpellExplanation_;
+	int32_t spellExplanTex_[20];
 
 	float preWindowTimer_;
 };

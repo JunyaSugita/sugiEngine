@@ -22,6 +22,21 @@ void ItemManager::Initialize()
 	obj_.Initialize("posion");
 	obj_.obj->SetColor({0.5f,0.2f,0.2f,1});
 
+	itemIcon_.Initialize(Sprite::LoadTexture("healPosionIcon.png"));
+	itemIcon_.SetPos({900,660});
+
+	numberTex_[0] = Sprite::LoadTexture("number1.png");
+	numberTex_[1] = Sprite::LoadTexture("number1.png");
+	numberTex_[2] = Sprite::LoadTexture("number2.png");
+	numberTex_[3] = Sprite::LoadTexture("number3.png");
+
+	itemNum_.Initialize(numberTex_[3]);
+	itemNum_.SetSize(25,25);
+	itemNum_.SetPos({ 925,680 });
+
+	padIcon_.Initialize(Sprite::LoadTexture("PAD_UP_ICON.png"));
+	padIcon_.SetPos({900,610});
+
 	gauge_.Set({WIN_WIDTH / 2,525},{300,50},{0.2f,0.5f,0.2f});
 }
 
@@ -72,6 +87,11 @@ void ItemManager::DrawSprite()
 	if (isUse_) {
 		gauge_.Draw();
 	}
+	if (haveItem_[itemType_]) {
+		padIcon_.Draw();
+		itemIcon_.Draw();
+		itemNum_.Draw();
+	}
 }
 
 void ItemManager::Use()
@@ -116,6 +136,7 @@ void ItemManager::EffectActive()
 		break;
 	}
 	haveItem_[itemType_]--;
+	itemNum_.SetTexture(numberTex_[haveItem_[itemType_]]);
 	Cancel();
 }
 

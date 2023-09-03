@@ -88,6 +88,7 @@ void FieldManager::GameInitialize(int num)
 {
 	objNum_ = 0;
 	navePointNum_ = 0;
+	col_.clear();
 
 	SelectStage(num);
 
@@ -174,11 +175,14 @@ void FieldManager::SelectStage(int num)
 	switch (num)
 	{
 	case STAGE_DEF:
-		levelData_ = JsonLoader::LoadJson("level");
+		levelData_ = JsonLoader::LoadJson("def");
 		break;
 
 	case STAGE1:
 		levelData_ = JsonLoader::LoadJson("level");
+		break;
+	case STAGE2:
+		levelData_ = JsonLoader::LoadJson("level2");
 		break;
 
 	default:

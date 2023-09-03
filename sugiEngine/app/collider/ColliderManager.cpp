@@ -123,12 +123,13 @@ void ColliderManager::Update()
 #pragma endregion
 
 #pragma region ƒvƒŒƒCƒ„[‚Æ“G‚Ì”»’è
-
-	for (int i = 0; i < enemysCol.size(); i++) {
-		if (!enemysCol[i]->GetIsDown()) {
-			if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
-				enemysCol[i]->SetIsStop();
-				enemysCol[i]->SetIsAttack();
+	if (!Player::GetInstance()->GetInvincible()) {
+		for (int i = 0; i < enemysCol.size(); i++) {
+			if (!enemysCol[i]->GetIsDown()) {
+				if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
+					enemysCol[i]->SetIsStop();
+					enemysCol[i]->SetIsAttack();
+				}
 			}
 		}
 	}

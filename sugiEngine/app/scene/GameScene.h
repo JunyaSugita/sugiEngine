@@ -25,6 +25,10 @@ public:
 	void SpriteDraw() override;
 	void Finalize() override;
 
+	void AddStage() {
+		stageNum_++;
+	}
+
 public:
 	void GameInitialize();
 
@@ -37,5 +41,7 @@ private:
 	GameOver gameOver_;
 
 	Sound sound_;
+
+	int32_t stageNum_;
 };
 

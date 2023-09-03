@@ -42,6 +42,10 @@ private:
 	Sprite sprite_;
 	Sprite sprite2_;
 
+	Sprite gotoLoadOut_;
+	Sprite sousa_;
+	Sprite blue_;
+
 	int32_t time_;
 	uint8_t number_;
 	bool isNext_;

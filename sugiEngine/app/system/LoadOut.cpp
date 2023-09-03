@@ -32,7 +32,7 @@ void LoadOut::Initialize()
 	spellTexNum_[ICE_BOLT] = Sprite::LoadTexture("iceBolt.png");
 	spellTexNum_[CHAIN_LIGHTNING] = Sprite::LoadTexture("chainLightning.png");
 	spellTexNum_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantFireIcon.png");
-	spellTexNum_[FLAME] = Sprite::LoadTexture("fireBallIcon.png");
+	spellTexNum_[FLAME] = Sprite::LoadTexture("flame.png");
 	for (int i = 6; i < 20; i++) {
 		spellTexNum_[i] = Sprite::LoadTexture("comingSoonIcon.png");
 	}
@@ -65,6 +65,22 @@ void LoadOut::Initialize()
 	hiLight_.Initialize(Sprite::LoadTexture("white1x1.png"));
 	hiLight_.SetSize(120,120);
 	hiLight_.SetPos(preview_[selectSpell_].GetPos());
+	
+	back_.Initialize(Sprite::LoadTexture("LoadOut.png"));
+
+	int a = Sprite::LoadTexture("Explan.png");
+	for (int i = 0; i < 20; i++) {
+		spellExplanTex_[i] = a;
+	}
+	spellExplanTex_[FIRE_BALL] = Sprite::LoadTexture("fireBallExplan.png");
+	spellExplanTex_[MAGIC_MISSILE] = Sprite::LoadTexture("magicMissileExplan.png");
+	spellExplanTex_[ICE_BOLT] = Sprite::LoadTexture("iceBoltExplan.png");
+	spellExplanTex_[CHAIN_LIGHTNING] = Sprite::LoadTexture("lightningExplan.png");
+	spellExplanTex_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantExplan.png");
+	spellExplanTex_[FLAME] = Sprite::LoadTexture("flameExplan.png");
+
+	SpellExplanation_.Initialize(spellExplanTex_[0]);
+	SpellExplanation_.SetPos({740,300});
 
 	for (int i = 0; i < 20; i++) {
 		preview_[i].SetAnchorPoint(0.5f, 0.5f);
@@ -92,7 +108,7 @@ void LoadOut::Update()
 	if (isActive_) {
 		Player::GetInstance()->GameInitialize();
 
-		PostEffectSecond::SetPos({ 820,50 });
+		PostEffectSecond::SetPos({ 780,50 });
 		PostEffectSecond::SetSize({WIN_WIDTH / 3,WIN_HEIGHT / 3});
 
 		//選択中のスペルを使用する
@@ -132,8 +148,6 @@ void LoadOut::Update()
 				selectSpell_ -= 5;
 				ResetWindow();
 			}
-
-			hiLight_.SetPos(preview_[selectSpell_].GetPos());
 
 			if (input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
 				selectMode_ = SELECT_NUM;
@@ -175,6 +189,13 @@ void LoadOut::Update()
 	}
 }
 
+void LoadOut::BackDrawSp()
+{
+	if (isActive_) {
+		back_.Draw();
+	}
+}
+
 void LoadOut::Draw()
 {
 	if (isActive_) {
@@ -185,6 +206,7 @@ void LoadOut::Draw()
 		for (int i = 0; i < 5; i++) {
 			set_[i].Draw();
 		}
+		SpellExplanation_.Draw();
 	}
 }
 
@@ -196,6 +218,8 @@ void LoadOut::ResetWindow()
 	SpellManager::GetInstance()->Initialize();
 	ParticleManager::GetInstance()->Clear();
 	preWindowTimer_ = 0;
+	hiLight_.SetPos(preview_[selectSpell_].GetPos());
+	SpellExplanation_.SetTexture(spellExplanTex_[selectSpell_]);
 }
 
 void LoadOut::SetSpell(int32_t num, int32_t spellName)

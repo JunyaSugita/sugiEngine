@@ -22,6 +22,7 @@ void SetSpell::Initialize()
 	iceBoltTex_ = Sprite::LoadTexture("iceBolt.png");
 	chainLightningTex_ = Sprite::LoadTexture("chainLightning.png");
 	enchantFireTex_ = Sprite::LoadTexture("enchantFireIcon.png");
+	flameTex_ = Sprite::LoadTexture("flame.png");
 
 	comingSoonTex_ = Sprite::LoadTexture("comingSoonIcon.png");
 	selectHiLightTex_ = Sprite::LoadTexture("white1x1.png");
@@ -106,6 +107,9 @@ int32_t SetSpell::GetSpellTex(int32_t spellName)
 
 	case ENCHANT_FIRE:
 		return enchantFireTex_;
+
+	case FLAME:
+		return flameTex_;
 
 	default:
 		break;

@@ -54,4 +54,9 @@ private:
 	int32_t haveItem_[END_ITEM];
 
 	Gauge gauge_;
+
+	Sprite itemIcon_;
+	Sprite itemNum_;
+	Sprite padIcon_;
+	int numberTex_[4];
 };

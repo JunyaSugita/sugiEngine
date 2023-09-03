@@ -31,14 +31,23 @@ void Tutorial::Initialize()
 	number_ = 0;
 	isNext_ = false;
 	ease_ = 0;
+
+	gotoLoadOut_.Initialize(Sprite::LoadTexture("goToLoadOut.png"));
+	sprite2_.SetSize(360, 72);
+
+	sousa_.Initialize(Sprite::LoadTexture("sousa.png"));
+	sousa_.SetPos({0,620});
+
+	blue_.Initialize(Sprite::LoadTexture("blueTutorial.png"));
 }
 
 void Tutorial::Update()
 {
 	Input* input = Input::GetInstance();
 
-	sprite_.SetPos(0, 250 + sinf(ease_+= 0.01f) * 20);
-	sprite2_.SetPos(-50, 380 + sinf(ease_ += 0.01f) * 20);
+	ease_ += 0.02f;
+	sprite_.SetPos(0, 250 + sinf(ease_) * 20);
+	sprite2_.SetPos(0, 380 + sinf(ease_) * 20);
 
 	switch (number_)
 	{
@@ -90,5 +99,10 @@ void Tutorial::Draw()
 	if (isTutorial_) {
 		sprite_.Draw();
 		sprite2_.Draw();
+		gotoLoadOut_.Draw();
+	}
+	else {
+		blue_.Draw();
+		sousa_.Draw();
 	}
 }

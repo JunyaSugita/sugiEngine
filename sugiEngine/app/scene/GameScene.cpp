@@ -35,7 +35,8 @@ void GameScene::Initialize()
 	//クリアの判定
 	ClearChecker::GetInstance()->Initialize();
 	//グラウンド
-	FieldManager::GetInstance()->Initialize(0);
+	stageNum_ = 0;
+	FieldManager::GetInstance()->Initialize(stageNum_);
 
 	//プレイヤー
 	Player::GetInstance()->Initialize();
@@ -71,7 +72,7 @@ void GameScene::Initialize()
 void GameScene::GameInitialize()
 {
 	EnemyManager::GetInstance()->GameInitialize();
-	FieldManager::GetInstance()->GameInitialize(1);
+	FieldManager::GetInstance()->GameInitialize(stageNum_);
 	Player::GetInstance()->GameInitialize();
 
 	ClearChecker::GetInstance()->GameInitialize();
@@ -175,11 +176,7 @@ void GameScene::Update()
 #pragma endregion
 
 	if (Tutorial::GetInstance()->GetIsTutorial() && EnemyManager::GetInstance()->GetEnemyCount() <= 0) {
-		enemyM->PopEnemy({ -10,0,0 });
-		enemyM->PopEnemy({ -5,0,3 });
-		enemyM->PopEnemy({ 0,0,0 });
-		enemyM->PopEnemy({ 5,0,3 });
-		enemyM->PopEnemy({ 10,0,0 });
+		enemyM->PopEnemy({ 0,0,15 });
 	}
 
 	ClearChecker::GetInstance()->Update();
@@ -188,6 +185,8 @@ void GameScene::Update()
 	//シーン遷移処理
 	if (Tutorial::GetInstance()->GetIsTutorial() && !loadOut->GetIsActive() && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		Tutorial::GetInstance()->SetIsTutorial(false);
+		stageNum_++;
+
 		GameInitialize();
 	}
 	else if (Tutorial::GetInstance()->GetIsTutorial()&&input->TriggerButton(XINPUT_GAMEPAD_START)) {
@@ -196,16 +195,15 @@ void GameScene::Update()
 
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		if (player->GetLife() > 0) {
-			GameManager::GetInstance()->SetTitleScene();
+			stageNum_++;
 		}
-		else {
-			GameInitialize();
-		}
+		GameInitialize();
 	}
 }
 
 void GameScene::BackSpriteDraw()
 {
+	LoadOut::GetInstance()->BackDrawSp();
 }
 
 void GameScene::Draw()

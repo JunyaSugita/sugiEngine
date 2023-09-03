@@ -25,8 +25,6 @@ void Player::Initialize()
 
 	damageTex_ = Sprite::LoadTexture("damage.png");
 	damageSp_.Initialize(damageTex_);
-
-	isInvincible_ = false;
 	
 	GameInitialize();
 }
@@ -36,7 +34,7 @@ void Player::GameInitialize()
 	pos_ = { 0,0,0 };
 	rot_ = { 0,0,0 };
 	scale_ = { 1,1,1 };
-	cameraAngle_ = { 0,0 };
+	cameraAngle_ = { 0,-10 };
 	life_ = MAX_LIFE;
 	isAttack_ = false;
 	presetSpell_ = 0;
@@ -50,6 +48,8 @@ void Player::GameInitialize()
 	damageSp_.SetColor(1, 1, 1, 0);
 	damageAlpha_ = 0;
 	naveTimer_ = 10000;
+
+	isInvincible_ = false;
 }
 
 void Player::Update()
@@ -63,6 +63,7 @@ void Player::Update()
 	//ゲーム終了orゲームオーバーで動けなくする
 	if (ClearChecker::GetInstance()->GetIsClear() || life_ <= 0) {
 		PlayerWeapon::GetInstance()->Update(false,false);
+		isInvincible_ = true;
 		return;
 	}
 	//ロードアウト変更中も動けなくする

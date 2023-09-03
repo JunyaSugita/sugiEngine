@@ -59,6 +59,10 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 		WorldTransUpdate();
 		return;
 	}
+	else {
+		obj_.obj->SetColor({ 1,1,1,1 });
+		orbObj_.obj->SetColor({ 0,1,1,0.5f });
+	}
 
 	//UŒ‚’†‚Í•Ší‚ğU‚é
 	if (isAttack) {
