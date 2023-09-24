@@ -28,6 +28,7 @@ public:
 	void Finalize();
 	
 	void SetTitleScene();
+	void SetStageSelectScene();
 	void SetGameScene();
 	void SetClearScene();
 

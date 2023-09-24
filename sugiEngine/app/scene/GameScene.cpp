@@ -14,6 +14,8 @@
 #include "LoadOut.h"
 #include "NavePointManager.h"
 #include "ClearChecker.h"
+#include "StageSelectManager.h"
+#include "MenuManager.h"
 
 using namespace ImGui;
 using namespace std;
@@ -35,8 +37,18 @@ void GameScene::Initialize()
 	//クリアの判定
 	ClearChecker::GetInstance()->Initialize();
 	//グラウンド
-	stageNum_ = 0;
+	stageNum_ = StageSelectManager::GetInstance()->GetSelectNum();
 	FieldManager::GetInstance()->Initialize(stageNum_);
+
+
+	if (stageNum_ == TUTORIAL || stageNum_ == SET_SPELL_STAGE) {
+		Enemy::SetIsAllStop(true);
+		Tutorial::GetInstance()->SetIsTutorial(true);
+	}
+	else {
+		Enemy::SetIsAllStop(false);
+		Tutorial::GetInstance()->SetIsTutorial(false);
+	}
 
 	//プレイヤー
 	Player::GetInstance()->Initialize();
@@ -67,6 +79,7 @@ void GameScene::Initialize()
 	sound_.SetVolume("mainBGM", 0.1f);
 
 	LoadOut::GetInstance()->Initialize();
+	MenuManager::GetInstance()->Initialize();
 }
 
 void GameScene::GameInitialize()
@@ -138,6 +151,7 @@ void GameScene::Update()
 	particleM->Update();
 	particleE_->Update();
 	loadOut->Update();
+	MenuManager::GetInstance()->Update();
 
 #pragma endregion
 
@@ -146,7 +160,7 @@ void GameScene::Update()
 	{
 		Begin("EnemyDebug");
 		if (Button("stop", { 150,30 })) {
-			Enemy::SetIsDebugStop();
+			Enemy::ToggleIsAllStop();
 		}
 		End();
 
@@ -183,19 +197,17 @@ void GameScene::Update()
 	gameOver_.Update();
 
 	//シーン遷移処理
-	if (Tutorial::GetInstance()->GetIsTutorial() && !loadOut->GetIsActive() && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
-		Tutorial::GetInstance()->SetIsTutorial(false);
-		stageNum_++;
-
-		GameInitialize();
-	}
-	else if (Tutorial::GetInstance()->GetIsTutorial()&&input->TriggerButton(XINPUT_GAMEPAD_START)) {
+	if (StageSelectManager::GetInstance()->GetSelectNum() == SET_SPELL_STAGE && input->TriggerButton(XINPUT_GAMEPAD_Y)) {
 		loadOut->ToggleIsActive();
+	}
+
+	if (input->TriggerButton(XINPUT_GAMEPAD_START)) {
+		MenuManager::GetInstance()->SetGameManu();
 	}
 
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		if (player->GetLife() > 0) {
-			stageNum_++;
+			GameManager::GetInstance()->SetStageSelectScene();
 		}
 		GameInitialize();
 	}
@@ -245,6 +257,8 @@ void GameScene::SpriteDraw()
 			gameOver_.Draw();
 		}
 		UIManager::GetInstance()->Draw();
+
+		MenuManager::GetInstance()->Draw();
 	}
 }
 

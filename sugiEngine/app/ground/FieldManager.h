@@ -4,12 +4,6 @@
 #include "JsonLoader.h"
 #include "ColliderManager.h"
 
-enum {
-	STAGE_DEF,
-	STAGE1,
-	STAGE2,
-};
-
 class FieldManager final{
 private:
 	FieldManager() = default;

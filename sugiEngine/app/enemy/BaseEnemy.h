@@ -74,8 +74,12 @@ public:
 	//デバッグ用
 	
 	// 敵の動きを止めたり動かしたり制御する
-	static void SetIsDebugStop() {
+	static void ToggleIsAllStop() {
 		sIsDebugStop_ = (sIsDebugStop_ + 1) % 2;
+	}
+
+	static void SetIsAllStop(bool is) {
+		sIsDebugStop_ = is;
 	}
 
 #pragma endregion

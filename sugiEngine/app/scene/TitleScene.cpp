@@ -64,7 +64,7 @@ void TitleScene::Update()
 
 	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
 		ParticleManager::GetInstance()->Clear();
-		GameManager::GetInstance()->SetGameScene();
+		GameManager::GetInstance()->SetStageSelectScene();
 	}
 	else if (Tutorial::GetInstance()->GetIsReturn()) {
 		Tutorial::GetInstance()->SetIsReturn(false);

@@ -3,6 +3,7 @@
 #include "NavePointManager.h"
 #include "ModelManager.h"
 #include "ClearChecker.h"
+#include "StageSelectManager.h"
 
 using namespace std;
 
@@ -174,7 +175,7 @@ void FieldManager::SelectStage(int num)
 {
 	switch (num)
 	{
-	case STAGE_DEF:
+	case TUTORIAL:
 		levelData_ = JsonLoader::LoadJson("def");
 		break;
 
@@ -184,7 +185,9 @@ void FieldManager::SelectStage(int num)
 	case STAGE2:
 		levelData_ = JsonLoader::LoadJson("level2");
 		break;
-
+	case SET_SPELL_STAGE:
+		levelData_ = JsonLoader::LoadJson("def");
+		break;
 	default:
 		break;
 	}

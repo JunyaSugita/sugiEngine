@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "TitleScene.h"
+#include "StageSelect.h"
 #include "GameScene.h"
 #include "ClearScene.h"
 
@@ -60,6 +61,13 @@ void GameManager::SetTitleScene()
 {
 	scene_->Finalize();
 	scene_ = std::make_unique<TitleScene>();
+	scene_->Initialize();
+}
+
+void GameManager::SetStageSelectScene()
+{
+	scene_->Finalize();
+	scene_ = std::make_unique<StageSelect>();
 	scene_->Initialize();
 }
 
