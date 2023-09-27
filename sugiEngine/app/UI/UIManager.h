@@ -28,6 +28,8 @@ private:
 	Sprite stateSp_;
 	float stateAlpha_;
 
+	Sprite gotoLoadOut_;
+
 	int32_t clearTex_;
 	int32_t gameOverTex_;
 };

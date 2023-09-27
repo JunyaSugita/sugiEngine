@@ -213,7 +213,7 @@ void LoadOut::Draw()
 void LoadOut::ResetWindow()
 {
 	EnemyManager::GetInstance()->GameInitialize();
-	FieldManager::GetInstance()->GameInitialize(0);
+	FieldManager::GetInstance()->Initialize(0);
 	Player::GetInstance()->GameInitialize();
 	SpellManager::GetInstance()->Initialize();
 	ParticleManager::GetInstance()->Clear();

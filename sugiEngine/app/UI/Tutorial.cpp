@@ -21,19 +21,15 @@ void Tutorial::Initialize()
 	texStart_ = Sprite::LoadTexture("start.png");
 
 	sprite_.Initialize(tex_);
-	sprite_.SetSize(300, 120);
-	sprite_.SetPos(0,250);
+	sprite_.SetPos(0,0);
+	sprite_.SetColor(1,1,1,0.5f);
 	sprite2_.Initialize(texStart_);
-	sprite2_.SetSize(450, 90);
-	sprite2_.SetPos(0, 320);
+	sprite2_.SetPos(0, 200);
+	sprite2_.SetSize(360, 72);
+	sprite2_.SetColor(1, 1, 1, 0.5f);
 
-	time_ = 60;
 	number_ = 0;
 	isNext_ = false;
-	ease_ = 0;
-
-	gotoLoadOut_.Initialize(Sprite::LoadTexture("goToLoadOut.png"));
-	sprite2_.SetSize(360, 72);
 
 	sousa_.Initialize(Sprite::LoadTexture("sousa.png"));
 	sousa_.SetPos({0,620});
@@ -45,33 +41,29 @@ void Tutorial::Update()
 {
 	Input* input = Input::GetInstance();
 
-	ease_ += 0.02f;
-	sprite_.SetPos(0, 250 + sinf(ease_) * 20);
-	sprite2_.SetPos(0, 380 + sinf(ease_) * 20);
-
 	switch (number_)
 	{
 	case 0:
-		if (input->GetRStickX() != 0 || input->GetRStickY() != 0) {
+		if (Player::GetInstance()->GetPos().z <= -20) {
 			isNext_ = true;
 		}
 		break;
 	case 1:
 		sprite_.SetTexture(tex2_);
-		if (input->TriggerButton(XINPUT_GAMEPAD_RIGHT_SHOULDER)) {
+		if (Player::GetInstance()->GetPos().z <= -40) {
 			isNext_ = true;
 		}
 		break;
 	case 2:
 		sprite_.SetTexture(tex3_);
-		if (SpellManager::GetInstance()->GetIsUseSpell()) {
+		if (Player::GetInstance()->GetPos().z <= -100) {
 			isNext_ = true;
 		}
 
 		break;
 	case 3:
 		sprite_.SetTexture(tex4_);
-		if (Player::GetInstance()->GetPresetSpell() != FIRE_BALL) {
+		if (Player::GetInstance()->GetPos().z <= -140) {
 			isNext_ = true;
 		}
 
@@ -85,12 +77,8 @@ void Tutorial::Update()
 	}
 
 	if (isNext_) {
-		time_--;
-		if (time_ < 0) {
-			number_++;
-			time_ = 100;
-			isNext_ = false;
-		}
+		number_++;
+		isNext_ = false;
 	}
 }
 
@@ -99,7 +87,7 @@ void Tutorial::Draw()
 	if (isTutorial_) {
 		sprite_.Draw();
 		sprite2_.Draw();
-		gotoLoadOut_.Draw();
+		
 	}
 	else {
 		blue_.Draw();

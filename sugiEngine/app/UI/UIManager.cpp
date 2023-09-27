@@ -5,6 +5,7 @@
 #include "Tutorial.h"
 #include "sceneChange.h"
 #include "LoadOut.h"
+#include "StageSelectManager.h"
 
 UIManager* UIManager::GetInstance()
 {
@@ -23,6 +24,8 @@ void UIManager::Initialize()
 
 	clearTex_ = Sprite::LoadTexture("gameClear.png");
 	gameOverTex_ = Sprite::LoadTexture("gameOver.png");
+
+	gotoLoadOut_.Initialize(Sprite::LoadTexture("goToLoadOut.png"));
 
 	stateSp_.Initialize(clearTex_);
 	stateSp_.SetAnchorPoint(0.5f,0.5f);
@@ -57,6 +60,10 @@ void UIManager::Draw()
 		stateSp_.Draw();
 	}
 	LoadOut::GetInstance()->Draw();
+
+	if (StageSelectManager::GetInstance()->GetSelectNum() == SET_SPELL_STAGE) {
+		gotoLoadOut_.Draw();
+	}
 
 	SceneChange::GetInstance()->Draw();
 }

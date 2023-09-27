@@ -43,7 +43,12 @@ void GameScene::Initialize()
 
 	if (stageNum_ == TUTORIAL || stageNum_ == SET_SPELL_STAGE) {
 		Enemy::SetIsAllStop(true);
-		Tutorial::GetInstance()->SetIsTutorial(true);
+		if (stageNum_ == TUTORIAL) {
+			Tutorial::GetInstance()->SetIsTutorial(true);
+		}
+		else {
+			Tutorial::GetInstance()->SetIsTutorial(false);
+		}
 	}
 	else {
 		Enemy::SetIsAllStop(false);
@@ -85,7 +90,7 @@ void GameScene::Initialize()
 void GameScene::GameInitialize()
 {
 	EnemyManager::GetInstance()->GameInitialize();
-	FieldManager::GetInstance()->GameInitialize(stageNum_);
+	FieldManager::GetInstance()->Initialize(stageNum_);
 	Player::GetInstance()->GameInitialize();
 
 	ClearChecker::GetInstance()->GameInitialize();
@@ -93,6 +98,7 @@ void GameScene::GameInitialize()
 	UIManager::GetInstance()->GameInitialize();
 	sound_.RePlayWave("mainBGM", true);
 	sound_.SetVolume("mainBGM", 0.1f);
+	MenuManager::GetInstance()->GameInitialize();
 }
 
 void GameScene::Update()
@@ -137,6 +143,11 @@ void GameScene::Update()
 	}
 #endif
 #pragma endregion
+
+	if (MenuManager::GetInstance()->GetIsMenu()) {
+		MenuManager::GetInstance()->Update();
+		return;
+	}
 
 #pragma region UpdateŒÄ‚Ño‚µ
 	//UpdateŒÄ‚Ño‚µ
@@ -201,15 +212,25 @@ void GameScene::Update()
 		loadOut->ToggleIsActive();
 	}
 
-	if (input->TriggerButton(XINPUT_GAMEPAD_START)) {
-		MenuManager::GetInstance()->SetGameManu();
+	if (input->TriggerButton(XINPUT_GAMEPAD_START) || input->TriggerKey(DIK_ESCAPE)) {
+		MenuManager::GetInstance()->SetGameMenu();
 	}
 
+	//InitializeŒn
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		if (player->GetLife() > 0) {
 			GameManager::GetInstance()->SetStageSelectScene();
+			return;
 		}
 		GameInitialize();
+	}
+	if (MenuManager::GetInstance()->GetIsReset()) {
+		GameInitialize();
+	}
+
+	//ƒV[ƒ“Ø‚è‘Ö‚¦Œn
+	if (MenuManager::GetInstance()->GetIsStageSelect()) {
+		GameManager::GetInstance()->SetStageSelectScene();
 	}
 }
 

@@ -10,11 +10,16 @@ StageSelectManager* StageSelectManager::GetInstance()
 
 void StageSelectManager::Initialize()
 {
+	stageTex_[0].Initialize(Sprite::LoadTexture("stageSelect_Tutorial.png"));
+	stageTex_[1].Initialize(Sprite::LoadTexture("stageSelect_stage1.png"));
+	stageTex_[2].Initialize(Sprite::LoadTexture("stageSelect_stage2.png"));
+	stageTex_[3].Initialize(Sprite::LoadTexture("stageSelect_spellSetting.png"));
 	for (int i = 0; i < END_STAGE_ID; i++) {
-		stageTex_[i].Initialize(Sprite::LoadTexture("white1x1.png"));
 		stageTex_[i].SetAnchorPoint(0, 0.5f);
 		texSize_[i] = { 500,100 };
 	}
+	
+	
 	selectNum_ = 0;
 
 	originPos_ = { 100,300 };
@@ -33,11 +38,11 @@ void StageSelectManager::Update()
 	Input* input = Input::GetInstance();
 
 	moveTimer_--;
-	if (input->PushKey(DIK_S) && selectNum_ < END_STAGE_ID - 1 && moveTimer_ <= 0) {
+	if ((input->PushKey(DIK_S) || input->GetLStickY() < -10000) && selectNum_ < END_STAGE_ID - 1 && moveTimer_ <= 0) {
 		selectNum_++;
 		moveTimer_ = TIME_MOVE;
 	}
-	else if (input->PushKey(DIK_W) && selectNum_ > 0 && moveTimer_ <= 0) {
+	else if ((input->PushKey(DIK_W) || input->GetLStickY() > 10000) && selectNum_ > 0 && moveTimer_ <= 0) {
 		selectNum_--;
 		moveTimer_ = TIME_MOVE;
 	}

@@ -1,21 +1,21 @@
-#include "StageSelect.h"
+#include "StageSelectScene.h"
 #include "SceneChange.h"
 #include "StageSelectManager.h"
 #include "Input.h"
 
-void StageSelect::Initialize()
+void StageSelectScene::Initialize()
 {
 	StageSelectManager::GetInstance()->Initialize();
 }
 
-void StageSelect::Update()
+void StageSelectScene::Update()
 {
 	//シーンチェンジ
 	SceneChange::GetInstance()->Update();
 
 	StageSelectManager::GetInstance()->Update();
 
-	if (Input::GetInstance()->PushKey(DIK_SPACE)) {
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE) || Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_A)) {
 		SceneChange::GetInstance()->Start();
 	}
 	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
@@ -23,33 +23,33 @@ void StageSelect::Update()
 	}
 }
 
-void StageSelect::BackSpriteDraw()
+void StageSelectScene::BackSpriteDraw()
 {
 }
 
-void StageSelect::Draw()
+void StageSelectScene::Draw()
 {
 	
 }
 
-void StageSelect::ObjDraw()
+void StageSelectScene::ObjDraw()
 {
 }
 
-void StageSelect::ObjDraw2()
+void StageSelectScene::ObjDraw2()
 {
 }
 
-void StageSelect::ParticleDraw()
+void StageSelectScene::ParticleDraw()
 {
 }
 
-void StageSelect::SpriteDraw()
+void StageSelectScene::SpriteDraw()
 {
 	StageSelectManager::GetInstance()->Draw();
 	SceneChange::GetInstance()->Draw();
 }
 
-void StageSelect::Finalize()
+void StageSelectScene::Finalize()
 {
 }

@@ -21,6 +21,7 @@ void FieldManager::Initialize(int num)
 
 	objNum_ = 0;
 	navePointNum_ = 0;
+	col_.clear();
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
 			//モデルを指定して3Dオブジェクトを生成
@@ -38,78 +39,6 @@ void FieldManager::Initialize(int num)
 			}
 			else {
 				
-				tilY = objectData.scale.z;
-			}
-
-			obj_[objNum_].obj->SetTiling({ objectData.scale.y,tilY });
-
-			BoxCol temp;
-			temp.pos = objectData.pos;
-			temp.size = objectData.scale;
-			col_.push_back(temp);
-
-			objNum_++;
-		}
-		if (objectData.filename == "ground") {
-			//モデルを指定して3Dオブジェクトを生成
-			obj_[objNum_].Initialize("ground");
-
-			//obj情報
-			obj_[objNum_].pos = objectData.pos;
-			obj_[objNum_].rot = { 0,0,0 };
-			obj_[objNum_].scale = objectData.scale;
-			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
-			obj_[objNum_].obj->SetIsSimple();
-			obj_[objNum_].obj->SetTiling({ 50,50 });
-
-			BoxCol temp;
-			temp.pos = objectData.pos;
-			temp.size = objectData.scale;
-			col_.push_back(temp);
-
-			objNum_++;
-		}
-		if (objectData.filename == "enemy") {
-			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
-		}
-		if (objectData.filename == "slime") {
-			EnemyManager::GetInstance()->PopSlime(objectData.pos);
-		}
-		if (objectData.filename == "navePoint") {
-			NavePointManager::GetInstance()->Add(objectData.pos);
-			navePointNum_++;
-		}
-		if (objectData.filename == "goal") {
-			ClearChecker::GetInstance()->SetGoal(objectData.pos);
-		}
-	}
-}
-
-void FieldManager::GameInitialize(int num)
-{
-	objNum_ = 0;
-	navePointNum_ = 0;
-	col_.clear();
-
-	SelectStage(num);
-
-	for (auto& objectData : levelData_->obj) {
-		if (objectData.filename == "box") {
-			//モデルを指定して3Dオブジェクトを生成
-			obj_[objNum_].Initialize("ground");
-
-			//obj情報
-			obj_[objNum_].pos = objectData.pos;
-			obj_[objNum_].rot = { 0,0,0 };
-			obj_[objNum_].scale = objectData.scale;
-			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
-			obj_[objNum_].obj->SetIsSimple();
-			float tilY = 0;
-			if (objectData.scale.x > objectData.scale.y) {
-				tilY = objectData.scale.x;
-			}
-			else {
-
 				tilY = objectData.scale.z;
 			}
 
@@ -176,7 +105,7 @@ void FieldManager::SelectStage(int num)
 	switch (num)
 	{
 	case TUTORIAL:
-		levelData_ = JsonLoader::LoadJson("def");
+		levelData_ = JsonLoader::LoadJson("levelTutorial");
 		break;
 
 	case STAGE1:

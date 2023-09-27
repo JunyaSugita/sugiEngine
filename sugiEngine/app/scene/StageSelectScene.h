@@ -2,7 +2,7 @@
 #include "GameManager.h"
 #include "ISceneManager.h"
 
-class StageSelect : public ISceneManager
+class StageSelectScene : public ISceneManager
 {
 public:
 	void Initialize() override;

@@ -336,14 +336,14 @@
     <ClCompile Include="sugiEngine\app\player\ItemManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\app\scene\StageSelect.cpp">
+    <ClCompile Include="sugiEngine\app\scene\StageSelectScene.cpp">
       <Filter>ソース ファイル\app\scene</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\app\system\StageSelectManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\app\system</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\app\system\MenuManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\app\system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -557,7 +557,7 @@
     <ClInclude Include="sugiEngine\app\player\ItemManager.h">
       <Filter>ヘッダー ファイル\app\player</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\app\scene\StageSelect.h">
+    <ClInclude Include="sugiEngine\app\scene\StageSelectScene.h">
       <Filter>ヘッダー ファイル\app\scene</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\system\StageSelectManager.h">

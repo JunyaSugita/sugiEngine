@@ -106,7 +106,7 @@
     <ClCompile Include="sugiEngine\app\player\ItemManager.cpp" />
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
-    <ClCompile Include="sugiEngine\app\scene\StageSelect.cpp" />
+    <ClCompile Include="sugiEngine\app\scene\StageSelectScene.cpp" />
     <ClCompile Include="sugiEngine\app\spell\BaseSpell.cpp" />
     <ClCompile Include="sugiEngine\app\spell\ChainLightning.cpp" />
     <ClCompile Include="sugiEngine\app\spell\EnchantFire.cpp" />
@@ -176,7 +176,7 @@
     <ClInclude Include="sugiEngine\app\player\ItemManager.h" />
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
-    <ClInclude Include="sugiEngine\app\scene\StageSelect.h" />
+    <ClInclude Include="sugiEngine\app\scene\StageSelectScene.h" />
     <ClInclude Include="sugiEngine\app\spell\BaseSpell.h" />
     <ClInclude Include="sugiEngine\app\spell\ChainLightning.h" />
     <ClInclude Include="sugiEngine\app\spell\EnchantFire.h" />

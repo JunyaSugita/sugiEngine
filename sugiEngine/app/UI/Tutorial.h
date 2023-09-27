@@ -46,12 +46,9 @@ private:
 	Sprite sousa_;
 	Sprite blue_;
 
-	int32_t time_;
 	uint8_t number_;
 	bool isNext_;
 
 	bool isTutorial_ = true;
 	bool isReturn_ = false;
-
-	float ease_;
 };
