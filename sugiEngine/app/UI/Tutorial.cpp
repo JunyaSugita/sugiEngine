@@ -3,6 +3,7 @@
 #include "SpellManager.h"
 #include "Player.h"
 #include "GameManager.h"
+#include "StageSelectManager.h"
 
 Tutorial* Tutorial::GetInstance()
 {
@@ -90,7 +91,9 @@ void Tutorial::Draw()
 		
 	}
 	else {
-		blue_.Draw();
+		if (StageSelectManager::GetInstance()->GetSelectNum() != SET_SPELL_STAGE) {
+			blue_.Draw();
+		}
 		sousa_.Draw();
 	}
 }

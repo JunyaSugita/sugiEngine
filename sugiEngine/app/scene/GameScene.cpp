@@ -40,6 +40,8 @@ void GameScene::Initialize()
 	stageNum_ = StageSelectManager::GetInstance()->GetSelectNum();
 	FieldManager::GetInstance()->Initialize(stageNum_);
 
+	//プレイヤー
+	Player::GetInstance()->Initialize();
 
 	if (stageNum_ == TUTORIAL || stageNum_ == SET_SPELL_STAGE) {
 		Enemy::SetIsAllStop(true);
@@ -54,9 +56,6 @@ void GameScene::Initialize()
 		Enemy::SetIsAllStop(false);
 		Tutorial::GetInstance()->SetIsTutorial(false);
 	}
-
-	//プレイヤー
-	Player::GetInstance()->Initialize();
 
 	//エフェクト
 	EffectManager::GetInstance()->Initialize();
@@ -146,6 +145,15 @@ void GameScene::Update()
 
 	if (MenuManager::GetInstance()->GetIsMenu()) {
 		MenuManager::GetInstance()->Update();
+
+		if (MenuManager::GetInstance()->GetIsReset()) {
+			GameInitialize();
+		}
+
+		//シーン切り替え系
+		if (MenuManager::GetInstance()->GetIsStageSelect()) {
+			GameManager::GetInstance()->SetStageSelectScene();
+		}
 		return;
 	}
 
