@@ -32,9 +32,6 @@ void Tutorial::Initialize()
 	number_ = 0;
 	isNext_ = false;
 
-	sousa_.Initialize(Sprite::LoadTexture("sousa.png"));
-	sousa_.SetPos({0,620});
-
 	blue_.Initialize(Sprite::LoadTexture("blueTutorial.png"));
 }
 
@@ -94,6 +91,5 @@ void Tutorial::Draw()
 		if (StageSelectManager::GetInstance()->GetSelectNum() != SET_SPELL_STAGE) {
 			blue_.Draw();
 		}
-		sousa_.Draw();
 	}
 }

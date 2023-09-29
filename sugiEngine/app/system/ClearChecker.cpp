@@ -3,6 +3,7 @@
 #include "GameManager.h"
 #include "PostEffectSecond.h"
 #include "UIManager.h"
+#include "ParticleManager.h"
 
 ClearChecker* ClearChecker::GetInstance()
 {
@@ -46,6 +47,8 @@ void ClearChecker::Update()
 	obj_.Update();
 	col_.SetCol(obj_.pos);
 	col_.Update();
+
+	ParticleManager::GetInstance()->AddFromFile(P_GOAL, { obj_.pos.x, obj_.pos.y + 3 ,obj_.pos.z });
 }
 
 void ClearChecker::Draw()

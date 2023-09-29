@@ -43,7 +43,6 @@ private:
 	Sprite sprite2_;
 
 	Sprite gotoLoadOut_;
-	Sprite sousa_;
 	Sprite blue_;
 
 	uint8_t number_;

@@ -31,6 +31,8 @@ enum ParticleName {
 	P_WEAPON,
 	P_WEAPON_FIRE,
 	P_DEBUFF_FIRE,
+	P_GOAL,
+	P_END,
 };
 
 class ParticleManager final
@@ -159,7 +161,7 @@ protected:
 	std::forward_list<Particle> circleParticles_;
 	std::forward_list<Particle> iceParticles_;
 
-	EditFile particleData_[10];
+	EditFile particleData_[P_END];
 };
 
 

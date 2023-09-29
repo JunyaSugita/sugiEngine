@@ -225,7 +225,8 @@ void BaseEnemy::UpdateDebuff()
 {
 	if (isDebuff()) {
 		if (debuff_.isFire) {
-			ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.col.pos);
+			ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE
+				, col_.col.pos);
 			if (debuff_.fireTime % 40 == 1) {
 				SubLife(1, 0);
 			}
