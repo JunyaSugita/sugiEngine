@@ -1,5 +1,6 @@
 #include "StageSelectManager.h"
 #include "Input.h"
+#include "SceneChange.h"
 
 StageSelectManager* StageSelectManager::GetInstance()
 {
@@ -38,13 +39,15 @@ void StageSelectManager::Update()
 	Input* input = Input::GetInstance();
 
 	moveTimer_--;
-	if ((input->PushKey(DIK_S) || input->GetLStickY() < -10000) && selectNum_ < END_STAGE_ID - 1 && moveTimer_ <= 0) {
-		selectNum_++;
-		moveTimer_ = TIME_MOVE;
-	}
-	else if ((input->PushKey(DIK_W) || input->GetLStickY() > 10000) && selectNum_ > 0 && moveTimer_ <= 0) {
-		selectNum_--;
-		moveTimer_ = TIME_MOVE;
+	if (!SceneChange::GetInstance()->GetIsSceneChange()) {
+		if ((input->PushKey(DIK_S) || input->GetLStickY() < -10000) && selectNum_ < END_STAGE_ID - 1 && moveTimer_ <= 0) {
+			selectNum_++;
+			moveTimer_ = TIME_MOVE;
+		}
+		else if ((input->PushKey(DIK_W) || input->GetLStickY() > 10000) && selectNum_ > 0 && moveTimer_ <= 0) {
+			selectNum_--;
+			moveTimer_ = TIME_MOVE;
+		}
 	}
 
 	//•\Ž¦‚ð“®‚©‚·

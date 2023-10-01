@@ -22,6 +22,10 @@ public:
 		isSceneChange_ = true;
 	}
 
+	bool GetIsSceneChange() {
+		return isSceneChange_;
+	}
+
 	float GetTimer() {
 		return easeTimer_;
 	}
