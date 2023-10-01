@@ -74,4 +74,6 @@ private:
 	int32_t spellExplanTex_[20];
 
 	float preWindowTimer_;
+
+	bool isFirst_ = false;
 };

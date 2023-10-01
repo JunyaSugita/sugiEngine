@@ -38,4 +38,6 @@ private:
 	Sprite useSpellSprite_;
 
 	Sprite selectHiLightSp_;
+
+	bool isFirst_ = false;
 };

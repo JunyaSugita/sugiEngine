@@ -127,10 +127,6 @@ void GameScene::Update()
 		if (input->TriggerKey(DIK_R)) {
 			Initialize();
 		}
-		if (input->TriggerButton(XINPUT_GAMEPAD_Y)) {
-			player->SubLife();
-			ClearChecker::GetInstance()->Initialize();
-		}
 		if (input->TriggerButton(XINPUT_GAMEPAD_X)) {
 			enemyM->PopEnemy({ -10,0,0 });
 			enemyM->PopEnemy({ -5,0,3 });

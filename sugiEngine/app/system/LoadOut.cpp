@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "PlayerWeapon.h"
 #include "ParticleManager.h"
+#include "StageSelectManager.h"
 
 LoadOut* LoadOut::GetInstance()
 {
@@ -17,11 +18,16 @@ LoadOut* LoadOut::GetInstance()
 void LoadOut::Initialize()
 {
 	isActive_ = false;
-	setSpell_[0] = FIRE_BALL;
-	setSpell_[1] = MAGIC_MISSILE;
-	setSpell_[2] = ICE_BOLT;
-	setSpell_[3] = CHAIN_LIGHTNING;
-	setSpell_[4] = ENCHANT_FIRE;
+
+	//‰‰ñ‚Ì‚Ý‚Ìˆ—
+	if (!isFirst_) {
+		setSpell_[0] = FIRE_BALL;
+		setSpell_[1] = MAGIC_MISSILE;
+		setSpell_[2] = ICE_BOLT;
+		setSpell_[3] = CHAIN_LIGHTNING;
+		setSpell_[4] = ENCHANT_FIRE;
+	}
+	isFirst_ = true;
 
 	selectSpell_ = 0;
 	selectNum_ = 0;
@@ -213,13 +219,14 @@ void LoadOut::Draw()
 void LoadOut::ResetWindow()
 {
 	EnemyManager::GetInstance()->GameInitialize();
-	FieldManager::GetInstance()->Initialize(0);
+	FieldManager::GetInstance()->Initialize(SET_SPELL_STAGE);
 	Player::GetInstance()->GameInitialize();
 	SpellManager::GetInstance()->Initialize();
 	ParticleManager::GetInstance()->Clear();
 	preWindowTimer_ = 0;
 	hiLight_.SetPos(preview_[selectSpell_].GetPos());
 	SpellExplanation_.SetTexture(spellExplanTex_[selectSpell_]);
+	Enemy::SetIsAllStop(true);
 }
 
 void LoadOut::SetSpell(int32_t num, int32_t spellName)
