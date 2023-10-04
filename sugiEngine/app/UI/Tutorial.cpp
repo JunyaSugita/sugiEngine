@@ -31,8 +31,6 @@ void Tutorial::Initialize()
 
 	number_ = 0;
 	isNext_ = false;
-
-	blue_.Initialize(Sprite::LoadTexture("blueTutorial.png"));
 }
 
 void Tutorial::Update()
@@ -86,10 +84,5 @@ void Tutorial::Draw()
 		sprite_.Draw();
 		sprite2_.Draw();
 		
-	}
-	else {
-		if (StageSelectManager::GetInstance()->GetSelectNum() != SET_SPELL_STAGE) {
-			blue_.Draw();
-		}
 	}
 }

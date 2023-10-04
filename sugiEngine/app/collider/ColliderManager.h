@@ -1,3 +1,5 @@
+//当たり判定を管理するマネージャークラス
+
 #pragma once
 #include "SugiMath.h"
 

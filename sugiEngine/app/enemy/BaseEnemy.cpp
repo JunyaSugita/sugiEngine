@@ -36,14 +36,6 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	isStop_ = false;
 	isAttack_ = false;
 	attackTimer_ = 0.0f;
-
-	//チュートリアル
-	if (Tutorial::GetInstance()->GetIsTutorial()) {
-		sIsDebugStop_ = true;
-	}
-	else {
-		sIsDebugStop_ = false;
-	}
 }
 
 void BaseEnemy::Update()
@@ -225,8 +217,7 @@ void BaseEnemy::UpdateDebuff()
 {
 	if (isDebuff()) {
 		if (debuff_.isFire) {
-			ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE
-				, col_.col.pos);
+			ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.col.pos);
 			if (debuff_.fireTime % 40 == 1) {
 				SubLife(1, 0);
 			}

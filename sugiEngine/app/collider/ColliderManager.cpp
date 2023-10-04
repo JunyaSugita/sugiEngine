@@ -1,3 +1,5 @@
+//“–‚½‚è”»’è‚ğŠÇ—‚·‚éƒ}ƒl[ƒWƒƒ[ƒNƒ‰ƒX
+
 #include "ColliderManager.h"
 #include "SpellManager.h"
 #include "EnemyManager.h"
@@ -12,6 +14,7 @@ using namespace std;
 
 ColliderManager* ColliderManager::GetInstance()
 {
+	//ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
 	static ColliderManager instance;
 
 	return &instance;
@@ -19,6 +22,7 @@ ColliderManager* ColliderManager::GetInstance()
 
 void ColliderManager::Initialize()
 {
+	//‰Šú‰»
 	isShowHitBox_ = false;
 }
 
@@ -43,15 +47,21 @@ void ColliderManager::Update()
 			continue;
 		}
 
+		//ô•¶‚Æ“G‚Ì”»’è
 		for (int j = 0; j < enemysCol.size(); j++) {
+			//”»’è
 			if (CheckHitBox(spellsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+				//ô•¶‚ª“G‚É“–‚½‚Á‚Ä‚¢‚é
 				spellsCol[i]->SetIsHit();
 				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage(), 1);
 				enemysCol[j]->SetDebuff(spellsCol[i]->GetDamage(), 10);
 			}
 		}
+		//ô•¶‚Æ•Ç‚â°‚Æ‚Ì”»’è
 		for (int j = 0; j < field->GetColSize(); j++) {
+			//”»’è
 			if (CheckHitBox(spellsCol[i]->GetBoxCol(), field->GetCol(j))) {
+				//ô•¶‚ª•Ç‚â°‚Æ“–‚½‚Á‚Ä‚¢‚é
 				spellsCol[i]->SetIsHit();
 			}
 		}
@@ -63,10 +73,12 @@ void ColliderManager::Update()
 	//ƒ`ƒFƒCƒ“ƒ‰ƒCƒgƒjƒ“ƒO
 	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
 
-
+	//“G‚Æ‚Ì”»’è‚ğæ‚é
 	for (int i = 0; i < chainLightningsCol.size(); i++) {
 		for (int j = 0; j < enemysCol.size(); j++) {
+			//”»’è
 			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
+				//ƒ‰ƒCƒgƒjƒ“ƒO‚Ì”»’èæ‚É“G‚ª‚¢‚½‚Æ‚«
 				chainLightningsCol[i]->SetIsHit();
 				enemysCol[j]->SetIsHit(15, 5);
 				enemysCol[j]->SetDebuff(D_STAN, 1);
@@ -74,10 +86,13 @@ void ColliderManager::Update()
 				//1‘Ì–Ú‚Ì“`”d
 				int32_t hitTemp1 = -1;
 				float lenTemp = 30;
-				for (int k = 0; k < enemysCol.size(); k++) {
 
+				//‹ß‚¢“G‚ğ’T‚·
+				for (int k = 0; k < enemysCol.size(); k++) {
+					//”í‚è–h~
 					if (j != k) {
 						float length = (enemysCol[j]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
+						//‹——£‚ğ”ä‚×‚Ä‹ß‚¢“G‚ğhitTemp1‚É‘ã“ü
 						if (lenTemp > length) {
 							lenTemp = length;
 							hitTemp1 = k;
@@ -96,10 +111,13 @@ void ColliderManager::Update()
 					//2‘Ì–Ú‚Ì“`”d
 					int32_t hitTemp2 = -1;
 					lenTemp = 30;
-					for (int k = 0; k < enemysCol.size(); k++) {
 
+					//‹ß‚¢“G‚ğ’T‚·
+					for (int k = 0; k < enemysCol.size(); k++) {
+						//”í‚è–h~
 						if (j != k && hitTemp1 != k) {
 							float length = (enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
+							//‚æ‚è‹ß‚¢“G‚ğhitTemp2‚É‘ã“ü
 							if (lenTemp > length) {
 								lenTemp = length;
 								hitTemp2 = k;
@@ -123,9 +141,13 @@ void ColliderManager::Update()
 #pragma endregion
 
 #pragma region ƒvƒŒƒCƒ„[‚Æ“G‚Ì”»’è
+	///ƒvƒŒƒCƒ„[‚Æ“G
+	//ƒvƒŒƒCƒ„[‚ª–³“G‚©‚Ç‚¤‚©
 	if (!Player::GetInstance()->GetInvincible()) {
 		for (int i = 0; i < enemysCol.size(); i++) {
+			//“G‚ªƒ_ƒEƒ“‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
 			if (!enemysCol[i]->GetIsDown()) {
+				//”»’è
 				if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
 					enemysCol[i]->SetIsStop();
 					enemysCol[i]->SetIsAttack();

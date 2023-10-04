@@ -44,7 +44,7 @@ void GameScene::Initialize()
 	Player::GetInstance()->Initialize();
 
 	if (stageNum_ == TUTORIAL || stageNum_ == SET_SPELL_STAGE) {
-		Enemy::SetIsAllStop(true);
+		BaseEnemy::SetIsAllStop(true);
 		if (stageNum_ == TUTORIAL) {
 			Tutorial::GetInstance()->SetIsTutorial(true);
 		}
@@ -218,6 +218,13 @@ void GameScene::Update()
 
 	if (input->TriggerButton(XINPUT_GAMEPAD_START) || input->TriggerKey(DIK_ESCAPE)) {
 		MenuManager::GetInstance()->SetGameMenu();
+	}
+
+	//デバッグ関連
+	if (stageNum_ == SET_SPELL_STAGE) {
+		if (enemyM->GetEnemyCount() <= 0) {
+			enemyM->PopEnemy({0,0,15});
+		}
 	}
 
 	//Initialize系
