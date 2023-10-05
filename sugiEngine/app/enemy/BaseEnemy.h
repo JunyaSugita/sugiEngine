@@ -1,3 +1,5 @@
+//敵のベースクラス
+
 #pragma once
 #include "GrovalSetting.h"
 #include "WorldTransform.h"

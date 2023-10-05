@@ -327,15 +327,6 @@
     <ClCompile Include="sugiEngine\app\spell\BaseSpell.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\app\spell\Flame.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="sugiEngine\engine\effect\Bolt.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="sugiEngine\app\player\ItemManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="sugiEngine\app\scene\StageSelectScene.cpp">
       <Filter>ソース ファイル\app\scene</Filter>
     </ClCompile>
@@ -344,6 +335,15 @@
     </ClCompile>
     <ClCompile Include="sugiEngine\app\system\MenuManager.cpp">
       <Filter>ソース ファイル\app\system</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\effect\Bolt.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\Flame.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\player\ItemManager.cpp">
+      <Filter>ソース ファイル\app\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

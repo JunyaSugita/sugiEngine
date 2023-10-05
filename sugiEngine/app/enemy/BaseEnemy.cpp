@@ -1,3 +1,5 @@
+//敵のベースクラス
+
 #include "BaseEnemy.h"
 #include "SpellManager.h"
 #include "Player.h"
