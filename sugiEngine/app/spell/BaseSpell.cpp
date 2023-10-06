@@ -1,4 +1,4 @@
-#include "BaseSpell.h"
+ï»¿#include "BaseSpell.h"
 #include "Player.h"
 #include "ModelManager.h"
 
@@ -10,7 +10,7 @@ void BaseSpell::Initialize(Vector3 pos, Vector3 vec)
 
 	vec_ = vec.normalize();
 
-	//ƒvƒŒƒCƒ„[‚Ì­‚µ‘O‚Éo‚·
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å°‘ã—å‰ã«å‡ºã™
 	obj_.pos = pos + vec_ * 3;
 
 	col_.col.pos = pos;
@@ -21,7 +21,7 @@ void BaseSpell::Initialize(Vector3 pos, Vector3 vec)
 
 void BaseSpell::Update()
 {
-	//UŒ‚‚Ìí—Ş‚É‚æ‚Á‚Ä“®‚«‚ğ•Ï‚¦‚é
+	//æ”»æ’ƒã®ç¨®é¡ã«ã‚ˆã£ã¦å‹•ãã‚’å¤‰ãˆã‚‹
 	if (spellType_ == SHOT) {
 		if (!isHit_) {
 			obj_.pos += vec_ * moveSpeed_;
@@ -78,7 +78,7 @@ void BaseSpell::Explode()
 
 bool BaseSpell::GetIsCalcCol()
 {
-	//“–‚½‚è”»’è‚ğs‚í‚È‚¢
+	//å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã‚ãªã„
 	if (spellType_ == BUFF) {
 		return false;
 	}

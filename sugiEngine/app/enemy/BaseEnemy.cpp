@@ -1,4 +1,4 @@
-//“G‚Ìƒx[ƒXƒNƒ‰ƒX
+ï»¿//æ•µã®ãƒ™ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹
 
 #include "BaseEnemy.h"
 #include "SpellManager.h"
@@ -15,22 +15,22 @@ bool BaseEnemy::sIsDebugStop_ = true;
 
 void BaseEnemy::Initialize(std::string name, Vector3 pos)
 {
-	//ƒ‚ƒfƒ‹ƒf[ƒ^‚Íæ‚É”h¶ƒNƒ‰ƒX‚Å“Ç‚Ýž‚Þ
+	//ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿ã¯å…ˆã«æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã§èª­ã¿è¾¼ã‚€
 	obj_.Initialize(name);
 	col_.Initialize();
 
-	//ˆÊ’u
+	//ä½ç½®
 	obj_.pos = pos;
 	obj_.rot = { 0,90,0 };
 	obj_.scale = { 1,1,1 };
 	obj_.obj->SetIsSimple();
 
-	//“–‚½‚è”»’è
+	//å½“ãŸã‚Šåˆ¤å®š
 	col_.col.pos = pos;
 	col_.col.size = { 1.0f,height_,1.0f };
 	col_.gap = {0,height_,0};
 
-	//ƒtƒ‰ƒO
+	//ãƒ•ãƒ©ã‚°
 	isDead_ = false;
 	isDown_ = false;
 	downTimer_ = TIME_DOWN;
@@ -48,29 +48,29 @@ void BaseEnemy::Update()
 		return;
 	}
 
-	//1ƒtƒŒ‘O‚ÌÀ•W‚ð•Û‘¶
+	//1ãƒ•ãƒ¬å‰ã®åº§æ¨™ã‚’ä¿å­˜
 	col_.SetOldCol();
 
-	//ƒVƒFƒCƒN‚ð–ß‚·
+	//ã‚·ã‚§ã‚¤ã‚¯ã‚’æˆ»ã™
 	ResetShake();
 
-	//ƒfƒoƒt‚Ì“K‰ž
+	//ãƒ‡ãƒãƒ•ã®é©å¿œ
 	UpdateDebuff();
 
-	//“®‚¯‚é‚©‚Ç‚¤‚©
+	//å‹•ã‘ã‚‹ã‹ã©ã†ã‹
 	if (isCanMove()) {
 		if (!isAttack_ && !sIsDebugStop_) {
-			//ˆÚ“®
+			//ç§»å‹•
 			Move();
 		}
 
-		//UŒ‚
+		//æ”»æ’ƒ
 		Attack();
 
-		//ƒvƒŒƒCƒ„[‚Ì•û‚Ö‚ä‚Á‚­‚è‰ñ“]
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–¹ã¸ã‚†ã£ãã‚Šå›žè»¢
 		SetAngleToPlayer();
 
-		//“–‚½‚è”»’èˆÚ“®
+		//å½“ãŸã‚Šåˆ¤å®šç§»å‹•
 		SetCol();
 	}
 	else
@@ -78,7 +78,7 @@ void BaseEnemy::Update()
 		SetShake();
 	}
 
-	//ˆÚ“®‚ð“K‰ž
+	//ç§»å‹•ã‚’é©å¿œ
 	WorldTransUpdate();
 }
 
@@ -117,14 +117,14 @@ void BaseEnemy::SetDebuff(uint8_t debuff, uint32_t time)
 
 void BaseEnemy::SetIsHit(int32_t subLife, int32_t effectNum)
 {
-	//Šù‚É“–‚½‚Á‚Ä‚¢‚½‚ç“–‚½‚ç‚È‚¢
+	//æ—¢ã«å½“ãŸã£ã¦ã„ãŸã‚‰å½“ãŸã‚‰ãªã„
 	if (isHit_) {
 		return;
 	}
 	else {
-		//“–‚½‚Á‚½ƒtƒ‰ƒO‚ð—§‚Ä‚é
+		//å½“ãŸã£ãŸãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 		isHit_ = true;
-		//‘Ì—Í‚ðí‚é
+		//ä½“åŠ›ã‚’å‰Šã‚‹
 		SubLife(subLife, effectNum);
 	}
 }
@@ -164,14 +164,14 @@ void BaseEnemy::SetIsAttack()
 
 void BaseEnemy::SetAngleToPlayer()
 {
-	//ƒCƒ“ƒXƒ^ƒ“ƒXŽæ“¾
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å–å¾—
 	Player* player = Player::GetInstance()->GetInstance();
 
-	//ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ðŒvŽZ‚µ‚Ä’PˆÊ‰»
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã‚’è¨ˆç®—ã—ã¦å˜ä½åŒ–
 	Vector2 len = Vector2((player->GetPos() - obj_.pos).x, (player->GetPos() - obj_.pos).z);
 	len.normalize();
 
-	//ƒvƒŒƒCƒ„[‚Ì•û‚É‚ä‚Á‚­‚èŒü‚­
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–¹ã«ã‚†ã£ãã‚Šå‘ã
 	float angle_ = atan2(len.cross(UP), -len.dot(UP)) / PI * -RADIAN - (RADIAN / 2);
 	while (obj_.rot.y - angle_ > RADIAN || obj_.rot.y - angle_ < -RADIAN) {
 		if (obj_.rot.y - angle_ > RADIAN) {
@@ -244,11 +244,11 @@ void BaseEnemy::UpdateDebuff()
 
 void BaseEnemy::SetShake()
 {
-	//ƒ‰ƒ“ƒ_ƒ€
+	//ãƒ©ãƒ³ãƒ€ãƒ 
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 
-	//ƒJƒƒ‰‚Æ‚Ì‹——£‚ÅƒVƒFƒCƒN‚Ì‘å‚«‚³‚ð•Ï‚¦‚é
+	//ã‚«ãƒ¡ãƒ©ã¨ã®è·é›¢ã§ã‚·ã‚§ã‚¤ã‚¯ã®å¤§ãã•ã‚’å¤‰ãˆã‚‹
 	Vector3 len = Camera::GetInstance()->GetEye() - obj_.pos;
 	float maxShake = len.length() / 100;
 	if (maxShake > 0.5f) {

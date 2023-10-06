@@ -1,4 +1,4 @@
-#include "Fbx.h"
+ï»¿#include "Fbx.h"
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -14,23 +14,23 @@ LightGroup* Fbx::lightGroup_ = nullptr;
 void Fbx::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
-	ComPtr<ID3DBlob> vsBlob; // ’¸“_ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg
-	ComPtr<ID3DBlob> psBlob;    // ƒsƒNƒZƒ‹ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg
-	ComPtr<ID3DBlob> errorBlob; // ƒGƒ‰[ƒIƒuƒWƒFƒNƒg
+	ComPtr<ID3DBlob> vsBlob; // é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	ComPtr<ID3DBlob> psBlob;    // ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	ComPtr<ID3DBlob> errorBlob; // ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 
 	assert(device_);
 
-	// ’¸“_ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+	// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 	result = D3DCompileFromFile(
-		L"Resources/shaders/FBXVS.hlsl",    // ƒVƒF[ƒ_ƒtƒ@ƒCƒ‹–¼
+		L"Resources/shaders/FBXVS.hlsl",    // ã‚·ã‚§ãƒ¼ãƒ€ãƒ•ã‚¡ã‚¤ãƒ«å
 		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // ƒCƒ“ƒNƒ‹[ƒh‰Â”\‚É‚·‚é
-		"main", "vs_5_0",    // ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg–¼AƒVƒF[ƒ_[ƒ‚ƒfƒ‹w’è
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // ƒfƒoƒbƒO—pİ’è
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, // ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰å¯èƒ½ã«ã™ã‚‹
+		"main", "vs_5_0",    // ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆåã€ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ¢ãƒ‡ãƒ«æŒ‡å®š
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // ãƒ‡ãƒãƒƒã‚°ç”¨è¨­å®š
 		0,
 		&vsBlob, &errorBlob);
 	if (FAILED(result)) {
-		// errorBlob‚©‚çƒGƒ‰[“à—e‚ğstringŒ^‚ÉƒRƒs[
+		// errorBlobã‹ã‚‰ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’stringå‹ã«ã‚³ãƒ”ãƒ¼
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
@@ -38,22 +38,22 @@ void Fbx::CreateGraphicsPipeline()
 			errorBlob->GetBufferSize(),
 			errstr.begin());
 		errstr += "\n";
-		// ƒGƒ‰[“à—e‚ğo—ÍƒEƒBƒ“ƒhƒE‚É•\¦
+		// ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’å‡ºåŠ›ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤º
 		OutputDebugStringA(errstr.c_str());
 		exit(1);
 	}
 
-	// ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+	// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 	result = D3DCompileFromFile(
-		L"Resources/shaders/FBXPS.hlsl",    // ƒVƒF[ƒ_ƒtƒ@ƒCƒ‹–¼
+		L"Resources/shaders/FBXPS.hlsl",    // ã‚·ã‚§ãƒ¼ãƒ€ãƒ•ã‚¡ã‚¤ãƒ«å
 		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // ƒCƒ“ƒNƒ‹[ƒh‰Â”\‚É‚·‚é
-		"main", "ps_5_0",    // ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg–¼AƒVƒF[ƒ_[ƒ‚ƒfƒ‹w’è
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // ƒfƒoƒbƒO—pİ’è
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, // ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰å¯èƒ½ã«ã™ã‚‹
+		"main", "ps_5_0",    // ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆåã€ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ¢ãƒ‡ãƒ«æŒ‡å®š
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // ãƒ‡ãƒãƒƒã‚°ç”¨è¨­å®š
 		0,
 		&psBlob, &errorBlob);
 	if (FAILED(result)) {
-		// errorBlob‚©‚çƒGƒ‰[“à—e‚ğstringŒ^‚ÉƒRƒs[
+		// errorBlobã‹ã‚‰ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’stringå‹ã«ã‚³ãƒ”ãƒ¼
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
@@ -61,29 +61,29 @@ void Fbx::CreateGraphicsPipeline()
 			errorBlob->GetBufferSize(),
 			errstr.begin());
 		errstr += "\n";
-		// ƒGƒ‰[“à—e‚ğo—ÍƒEƒBƒ“ƒhƒE‚É•\¦
+		// ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’å‡ºåŠ›ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤º
 		OutputDebugStringA(errstr.c_str());
 		exit(1);
 	}
 
-	// ’¸“_ƒŒƒCƒAƒEƒg
+	// é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{ // xyÀ•W
+		{ // xyåº§æ¨™
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // –@üƒxƒNƒgƒ‹
+		{ // æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 			"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // uvÀ•W
+		{ // uvåº§æ¨™
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ //‰e‹¿‚Ìó‚¯‚éƒ{[ƒ“”Ô†
+		{ //å½±éŸ¿ã®å—ã‘ã‚‹ãƒœãƒ¼ãƒ³ç•ªå·
 			"BONEINDICES",0,DXGI_FORMAT_R32G32B32A32_UINT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
@@ -95,28 +95,28 @@ void Fbx::CreateGraphicsPipeline()
 		}
 	};
 
-	// ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ì—¬‚ê‚ğİ’è
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®æµã‚Œã‚’è¨­å®š
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{};
 	gpipeline.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	gpipeline.VS.BytecodeLength = vsBlob->GetBufferSize();
 	gpipeline.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	gpipeline.PS.BytecodeLength = psBlob->GetBufferSize();
 
-	// ƒTƒ“ƒvƒ‹ƒ}ƒXƒN
-	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // •W€İ’è
-	// ƒ‰ƒXƒ^ƒ‰ƒCƒUƒXƒe[ƒg
-	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_BACK; // ”w–Ê‚ğƒJƒŠƒ“ƒO
-	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ƒ|ƒŠƒSƒ““à“h‚è‚Â‚Ô‚µ
-	gpipeline.RasterizerState.DepthClipEnable = true; // [“xƒNƒŠƒbƒsƒ“ƒO‚ğ—LŒø‚É
+	// ã‚µãƒ³ãƒ—ãƒ«ãƒã‚¹ã‚¯
+	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // æ¨™æº–è¨­å®š
+	// ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ã‚¹ãƒ†ãƒ¼ãƒˆ
+	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_BACK; // èƒŒé¢ã‚’ã‚«ãƒªãƒ³ã‚°
+	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ãƒãƒªã‚´ãƒ³å†…å¡—ã‚Šã¤ã¶ã—
+	gpipeline.RasterizerState.DepthClipEnable = true; // æ·±åº¦ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚°ã‚’æœ‰åŠ¹ã«
 
-	// ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒg
-	gpipeline.DepthStencilState.DepthEnable = true;	//[“xƒeƒXƒg‚ğs‚¤
-	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//‘‚«‚İ‹–‰Â
-	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;	//¬‚³‚¯‚ê‚Î‡Ši
+	// ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆ
+	gpipeline.DepthStencilState.DepthEnable = true;	//æ·±åº¦ãƒ†ã‚¹ãƒˆã‚’è¡Œã†
+	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//æ›¸ãè¾¼ã¿è¨±å¯
+	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;	//å°ã•ã‘ã‚Œã°åˆæ ¼
 
-	// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌƒuƒŒƒ“ƒhİ’è
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ãƒ–ãƒ¬ãƒ³ãƒ‰è¨­å®š
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = gpipeline.BlendState.RenderTarget[0];
-	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;    // RBGA‘S‚Ä‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ğ•`‰æ
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;    // RBGAå…¨ã¦ã®ãƒãƒ£ãƒ³ãƒãƒ«ã‚’æç”»
 	blenddesc.BlendEnable = true;
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
@@ -126,87 +126,87 @@ void Fbx::CreateGraphicsPipeline()
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
 
-	// ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ìİ’è
+	// ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
 	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
 		gpipeline.BlendState.RenderTarget[i] = blenddesc;
 	}
 
-	// [“xƒoƒbƒtƒ@‚ÌƒtƒH[ƒ}ƒbƒg
+	// æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 
-	// ’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+	// é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	gpipeline.InputLayout.pInputElementDescs = inputLayout;
 	gpipeline.InputLayout.NumElements = _countof(inputLayout);
 
-	// }Œ`‚ÌŒ`óİ’èiOŠpŒ`j
+	// å›³å½¢ã®å½¢çŠ¶è¨­å®šï¼ˆä¸‰è§’å½¢ï¼‰
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	gpipeline.NumRenderTargets = MULTI_RENDAR_TARGET_NUM;    // •`‰æ‘ÎÛ‚Í1‚Â
+	gpipeline.NumRenderTargets = MULTI_RENDAR_TARGET_NUM;    // æç”»å¯¾è±¡ã¯1ã¤
 	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
-		gpipeline.RTVFormats[i] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0`255w’è‚ÌRGBA
+		gpipeline.RTVFormats[i] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0ï½255æŒ‡å®šã®RGBA
 	}
-	gpipeline.SampleDesc.Count = 1; // 1ƒsƒNƒZƒ‹‚É‚Â‚«1‰ñƒTƒ“ƒvƒŠƒ“ƒO
+	gpipeline.SampleDesc.Count = 1; // 1ãƒ”ã‚¯ã‚»ãƒ«ã«ã¤ã1å›ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°
 
-	// ƒfƒXƒNƒŠƒvƒ^ƒŒƒ“ƒW
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ¬ãƒ³ã‚¸
 	D3D12_DESCRIPTOR_RANGE descriptorRange{};
 	descriptorRange.NumDescriptors = 1;
 	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	descriptorRange.BaseShaderRegister = 0;
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-	// ƒ‹[ƒgƒpƒ‰ƒ[ƒ^
+	// ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 	D3D12_ROOT_PARAMETER rootParams[5] = {};
-	// CBViÀ•W•ÏŠ·s—ñ—pj
-	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//í—Ş
-	rootParams[0].Descriptor.ShaderRegister = 0;					//’è”ƒoƒbƒtƒ@”Ô†
-	rootParams[0].Descriptor.RegisterSpace = 0;						//ƒfƒtƒHƒ‹ƒg’l
-	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//‘S‚Ä‚ÌƒVƒF[ƒ_[‚©‚çŒ©‚¦‚é
-	// SRViƒeƒNƒXƒ`ƒƒj
-	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//í—Ş
-	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;					//’è”ƒoƒbƒtƒ@”Ô†
-	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//ƒfƒtƒHƒ‹ƒg’l
-	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//‘S‚Ä‚ÌƒVƒF[ƒ_[‚©‚çŒ©‚¦‚é
-	// CBV (ƒXƒLƒjƒ“ƒO—p)
-	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//í—Ş
-	rootParams[2].Descriptor.ShaderRegister = 3;					//’è”ƒoƒbƒtƒ@”Ô†
-	rootParams[2].Descriptor.RegisterSpace = 0;						//ƒfƒtƒHƒ‹ƒg’l
-	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//‘S‚Ä‚ÌƒVƒF[ƒ_[‚©‚çŒ©‚¦‚é
+	// CBVï¼ˆåº§æ¨™å¤‰æ›è¡Œåˆ—ç”¨ï¼‰
+	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//ç¨®é¡
+	rootParams[0].Descriptor.ShaderRegister = 0;					//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç•ªå·
+	rootParams[0].Descriptor.RegisterSpace = 0;						//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//å…¨ã¦ã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰è¦‹ãˆã‚‹
+	// SRVï¼ˆãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼‰
+	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//ç¨®é¡
+	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;					//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç•ªå·
+	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//å…¨ã¦ã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰è¦‹ãˆã‚‹
+	// CBV (ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ç”¨)
+	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//ç¨®é¡
+	rootParams[2].Descriptor.ShaderRegister = 3;					//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç•ªå·
+	rootParams[2].Descriptor.RegisterSpace = 0;						//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//å…¨ã¦ã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰è¦‹ãˆã‚‹
 	//
-	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//í—Ş
-	rootParams[3].Descriptor.ShaderRegister = 1;					//’è”ƒoƒbƒtƒ@”Ô†
-	rootParams[3].Descriptor.RegisterSpace = 0;						//ƒfƒtƒHƒ‹ƒg’l
-	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//‘S‚Ä‚ÌƒVƒF[ƒ_[‚©‚çŒ©‚¦‚é
+	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//ç¨®é¡
+	rootParams[3].Descriptor.ShaderRegister = 1;					//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç•ªå·
+	rootParams[3].Descriptor.RegisterSpace = 0;						//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//å…¨ã¦ã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰è¦‹ãˆã‚‹
 	//
-	rootParams[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//í—Ş
-	rootParams[4].Descriptor.ShaderRegister = 2;					//’è”ƒoƒbƒtƒ@”Ô†
-	rootParams[4].Descriptor.RegisterSpace = 0;						//ƒfƒtƒHƒ‹ƒg’l
-	rootParams[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//‘S‚Ä‚ÌƒVƒF[ƒ_[‚©‚çŒ©‚¦‚é
+	rootParams[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//ç¨®é¡
+	rootParams[4].Descriptor.ShaderRegister = 2;					//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç•ªå·
+	rootParams[4].Descriptor.RegisterSpace = 0;						//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	rootParams[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//å…¨ã¦ã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰è¦‹ãˆã‚‹
 
-	// ƒXƒ^ƒeƒBƒbƒNƒTƒ“ƒvƒ‰[
+	// ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ã‚µãƒ³ãƒ—ãƒ©ãƒ¼
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
-	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//‰¡ŒJ‚è•Ô‚µ(ƒ^ƒCƒŠƒ“ƒO)
-	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//cŒJ‚è•Ô‚µ(ƒ^ƒCƒŠƒ“ƒO)
-	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//‰œs‚«ŒJ‚è•Ô‚µ(ƒ^ƒCƒŠƒ“ƒO)
-	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;	//ƒ{[ƒ_[‚Ì‚Í•
-	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;					//‘S‚ÄƒŠƒjƒA•âŠÔ
-	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;									//ƒ~ƒbƒvƒ}ƒbƒvÅ‘å’l
-	samplerDesc.MinLOD = 0.0f;												//ƒ~ƒbƒvƒ}ƒbƒvÅ¬’l
+	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//æ¨ªç¹°ã‚Šè¿”ã—(ã‚¿ã‚¤ãƒªãƒ³ã‚°)
+	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//ç¸¦ç¹°ã‚Šè¿”ã—(ã‚¿ã‚¤ãƒªãƒ³ã‚°)
+	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//å¥¥è¡Œãç¹°ã‚Šè¿”ã—(ã‚¿ã‚¤ãƒªãƒ³ã‚°)
+	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;	//ãƒœãƒ¼ãƒ€ãƒ¼ã®æ™‚ã¯é»’
+	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;					//å…¨ã¦ãƒªãƒ‹ã‚¢è£œé–“
+	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;									//ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—æœ€å¤§å€¤
+	samplerDesc.MinLOD = 0.0f;												//ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—æœ€å°å€¤
 	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;			//ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚©‚ç‚Ì‚İg—p‰Â”\
+	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;			//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‹ã‚‰ã®ã¿ä½¿ç”¨å¯èƒ½
 
 
-	// ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚Ìİ’è
+	// ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã®è¨­å®š
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	rootSignatureDesc.pParameters = rootParams;	//ƒ‹[ƒgƒpƒ‰ƒ[ƒ^[‚Ìæ“ªƒAƒhƒŒƒX
-	rootSignatureDesc.NumParameters = _countof(rootParams);		//ƒpƒ‰ƒ[ƒ^[”
+	rootSignatureDesc.pParameters = rootParams;	//ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
+	rootSignatureDesc.NumParameters = _countof(rootParams);		//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼æ•°
 	rootSignatureDesc.pStaticSamplers = &samplerDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;
 
 	ComPtr<ID3DBlob> rootSigBlob;
-	// ƒo[ƒWƒ‡ƒ“©“®”»’è‚ÌƒVƒŠƒAƒ‰ƒCƒY
+	// ãƒãƒ¼ã‚¸ãƒ§ãƒ³è‡ªå‹•åˆ¤å®šã®ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚º
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
-	// ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚Ì¶¬
+	// ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã®ç”Ÿæˆ
 	result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(sRootSignature.ReleaseAndGetAddressOf()));
 	if (FAILED(result)) {
 		assert(0);
@@ -214,7 +214,7 @@ void Fbx::CreateGraphicsPipeline()
 
 	gpipeline.pRootSignature = sRootSignature.Get();
 
-	// ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ì¶¬
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®ç”Ÿæˆ
 	result = device_->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(sPipelineState.ReleaseAndGetAddressOf()));
 	if (FAILED(result)) {
 		assert(0);
@@ -225,13 +225,13 @@ void Fbx::Initialize()
 {
 	HRESULT result;
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
-	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPU‚Ö‚Ì“]‘——p
-	//ƒŠƒ\[ƒXİ’è
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPUã¸ã®è»¢é€ç”¨
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;	//256ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg
+	cbResourceDesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;	//256ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
@@ -247,7 +247,7 @@ void Fbx::Initialize()
 		IID_PPV_ARGS(&constBuffTransform_)
 	);
 
-	//ƒXƒLƒjƒ“ƒOî•ñ’è”ƒoƒbƒtƒ@
+	//ã‚¹ã‚­ãƒ‹ãƒ³ã‚°æƒ…å ±å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	cbResourceDesc.Width = (sizeof(ConstBufferDataSkin) + 0xff) & ~0xff;
 
 	result = device_->CreateCommittedResource(
@@ -259,7 +259,7 @@ void Fbx::Initialize()
 		IID_PPV_ARGS(&constBuffSkin_)
 	);
 
-	//ƒXƒLƒ“–³‚µ
+	//ã‚¹ã‚­ãƒ³ç„¡ã—
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin_->Map(0, nullptr, (void**)&constMapSkin);
 	for (int i = 0; i < MAX_BONES; i++) {
@@ -267,7 +267,7 @@ void Fbx::Initialize()
 	}
 	constBuffSkin_->Unmap(0, nullptr);
 
-	//1ƒtƒŒ[ƒ€•ª‚ÌŠÔ‚ğ60FPS‚Åİ’è
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ åˆ†ã®æ™‚é–“ã‚’60FPSã§è¨­å®š
 	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
 
 }
@@ -296,7 +296,7 @@ void Fbx::Update()
 
 	std::vector<FbxModel::Bone>& bones = model_->GetBones();
 
-	//ƒAƒjƒƒVƒ‡ƒ“
+	//ã‚¢ãƒ‹ãƒ¡ã‚·ãƒ§ãƒ³
 	if (isPlay) {
 		currentTime += frameTime;
 		if (currentTime > endTime) {
@@ -310,7 +310,7 @@ void Fbx::Update()
 		XMMATRIX matCurrentPose;
 		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime);
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
-		//‡¬‚µ‚ÄƒXƒLƒjƒ“ƒOs—ñ‚É
+		//åˆæˆã—ã¦ã‚¹ã‚­ãƒ‹ãƒ³ã‚°è¡Œåˆ—ã«
 		constMapSkin->bones[i] = bones[i].invInitializePose * matCurrentPose;
 	}
 	constBuffSkin_->Unmap(0, nullptr);

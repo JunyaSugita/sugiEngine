@@ -1,4 +1,4 @@
-#include "ChainLightning.h"
+﻿#include "ChainLightning.h"
 #include "ColliderManager.h"
 #include "ParticleManager.h"
 #include "ModelManager.h"

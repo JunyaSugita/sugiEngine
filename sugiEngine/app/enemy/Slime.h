@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "BaseEnemy.h"
 
 class Slime : public BaseEnemy {

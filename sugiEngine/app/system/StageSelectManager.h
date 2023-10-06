@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Sprite.h"
 
 enum STAGE_ID {
@@ -15,9 +15,9 @@ private:
 	~StageSelectManager() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	StageSelectManager(const StageSelectManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	StageSelectManager& operator=(const StageSelectManager& obj) = delete;
 
 	static StageSelectManager* GetInstance();

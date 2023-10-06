@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SpellManager.h"
 #include "Sprite.h"
 
@@ -12,9 +12,9 @@ private:
 	LoadOut() = default;
 	~LoadOut() = default;
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	LoadOut(const LoadOut& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	LoadOut& operator=(const LoadOut& obj) = delete;
 
 	static LoadOut* GetInstance();
@@ -55,14 +55,14 @@ private:
 	void SetSpell(int32_t num,int32_t spellName);
 
 private:
-	//‘•”õ‰æ–Ê‚©‚Ç‚¤‚©
+	//è£…å‚™ç”»é¢ã‹ã©ã†ã‹
 	bool isActive_;
 
-	int32_t setSpell_[5];//Še˜g‚Ì•Û—L–‚–@
-	int32_t selectSpell_;//•Ï‚¦‚é–‚–@‚ğ•Û
-	int32_t selectNum_;//•Ï‚¦‚é˜g”Ô
-	int32_t selectMode_;//•ÏXó‹µ
-	bool isDirty_;//•Ï‚¦‚½‚©‚Ç‚¤‚©
+	int32_t setSpell_[5];//å„æ ã®ä¿æœ‰é­”æ³•
+	int32_t selectSpell_;//å¤‰ãˆã‚‹é­”æ³•ã‚’ä¿æŒ
+	int32_t selectNum_;//å¤‰ãˆã‚‹æ ç•ª
+	int32_t selectMode_;//å¤‰æ›´çŠ¶æ³
+	bool isDirty_;//å¤‰ãˆãŸã‹ã©ã†ã‹
 
 	int32_t spellTexNum_[20];
 	Sprite preview_[20];

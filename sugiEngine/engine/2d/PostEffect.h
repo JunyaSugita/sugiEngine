@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Windows.h>
 #include "DXCommon.h"
 #include "GrovalSetting.h"
@@ -9,7 +9,7 @@
 class PostEffect
 {
 public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	struct VertexSp {
@@ -118,7 +118,7 @@ private:
 	ComPtr<ID3D12DescriptorHeap> srvHeap_;
 	ComPtr<ID3D12Device> device_;
 
-	D3D12_HEAP_PROPERTIES heapProp_{}; // ƒq[ƒvİ’è
+	D3D12_HEAP_PROPERTIES heapProp_{}; // ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_RESOURCE_DESC resDesc_{};
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
@@ -126,7 +126,7 @@ private:
 	ConstBufferDataEffect* constMapEffect_ = nullptr;
 	WorldTransform worldTransform_;
 	Vector2 pos_ = { 0,0 };
-	float rotate_ = 0; //ŒÊ“x–@
+	float rotate_ = 0; //å¼§åº¦æ³•
 	DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
 	Vector2 size_ = { WIN_WIDTH,WIN_HEIGHT};
 	Vector2 anchorPoint_ = { 0,0 };	//0.0f ~ 1.0f

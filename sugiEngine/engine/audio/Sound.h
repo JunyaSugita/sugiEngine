@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <xaudio2.h>
 #include <fstream>
 #include <wrl.h>
@@ -21,27 +21,27 @@ struct FormatChunk {
 };
 
 struct SoundData {
-	//”gŒ^ƒtƒH[ƒ}ƒbƒg
+	//æ³¢å‹ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 	WAVEFORMATEX wfex;
-	//ƒoƒbƒtƒ@‚Ìæ“ªƒAƒhƒŒƒX
+	//ãƒãƒƒãƒ•ã‚¡ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 	BYTE* pBuffer;
-	//ƒoƒbƒtƒ@‚ÌƒTƒCƒY
+	//ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º
 	UINT32 bufferSize;
 };
 
 class Sound
 {
 public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public:
 	void Initialize(const std::string& directoryPath = "Resources/", const std::string& extension  = ".wav");
 	void LoadWave(const std::string& filename);
 	void Unload(SoundData* soundData);
-	void PlayWave(const std::string& filename,bool isLoop = false);	//Šù‚ÉÄ¶’†‚È‚ç–Â‚ç‚³‚È‚¢
-	void RePlayWave(const std::string& filename, bool isLoop = false);//Šù‚ÉÄ¶’†‚È‚çÅ‰‚©‚ç–Â‚ç‚·
-	void TogglePlayWave(const std::string& filename, bool isLoop = false);//Šù‚ÉÄ¶’†‚È‚ç~‚ß‚é
+	void PlayWave(const std::string& filename,bool isLoop = false);	//æ—¢ã«å†ç”Ÿä¸­ãªã‚‰é³´ã‚‰ã•ãªã„
+	void RePlayWave(const std::string& filename, bool isLoop = false);//æ—¢ã«å†ç”Ÿä¸­ãªã‚‰æœ€åˆã‹ã‚‰é³´ã‚‰ã™
+	void TogglePlayWave(const std::string& filename, bool isLoop = false);//æ—¢ã«å†ç”Ÿä¸­ãªã‚‰æ­¢ã‚ã‚‹
 	void StopWave(const std::string& filename);
 	void SetVolume(const std::string& filename, float vol);
 	void Finalize();
@@ -51,7 +51,7 @@ private:
 	std::map<std::string, SoundData> soundDatas_;
 	std::map <std::string, IXAudio2SourceVoice*> sourceVoices_;
 	//std::map<>
-	//ƒTƒEƒ“ƒhŠi”[ƒfƒBƒŒƒNƒgƒŠ
+	//ã‚µã‚¦ãƒ³ãƒ‰æ ¼ç´ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 	std::string directoryPath_;
 	std::string extension_;
 };

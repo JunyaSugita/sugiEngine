@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseEnemy.h"
 #include "BaseObj.h"
 
@@ -20,10 +20,10 @@ private:
 	const float HEIGHT_COL = 2.2f;
 
 private:
-	//–Ú
+	//ç›®
 	BaseObj eyeObj_;
 
-	//˜r
+	//è…•
 	BaseObj armL_;
 	BaseObj armR_;
 

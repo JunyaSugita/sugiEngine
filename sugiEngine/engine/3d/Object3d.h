@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Windows.h>
 #include "WorldTransform.h"
 #include "DXCommon.h"
@@ -13,7 +13,7 @@
 #include "LightGroup.h"
 #include "Camera.h"
 
-//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘ÌB0
+//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“B0
 struct ConstBufferDataB0 {
 	DirectX::XMMATRIX viewproj;
 	DirectX::XMMATRIX world;
@@ -32,7 +32,7 @@ struct ConstBufferDataB0 {
 class Object3d
 {
 public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public:
@@ -90,7 +90,7 @@ public:
 		isBloom_ = true;
 	}
 private:
-	//ƒfƒoƒCƒX
+	//ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* sDevice;
 
 	static ID3D12GraphicsCommandList* sCmdList;

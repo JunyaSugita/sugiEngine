@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseSpell.h"
 
 class Flame : public BaseSpell {
@@ -8,7 +8,7 @@ public:
 	void Draw()override;
 
 public:
-	const float SPEED_MOVE = 0.4f;	//–‚–@‚ÌƒXƒs[ƒh
-	const int32_t TIME_ALIVE = 1 * 60;	//–‚–@‚ªÁ‚¦‚é‚Ü‚Å‚ÌŠÔ
+	const float SPEED_MOVE = 0.4f;	//é­”æ³•ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
+	const int32_t TIME_ALIVE = 1 * 60;	//é­”æ³•ãŒæ¶ˆãˆã‚‹ã¾ã§ã®æ™‚é–“
 
 };

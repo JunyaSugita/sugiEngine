@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GrovalSetting.h"
 #include "BaseObj.h"
 #include "Gauge.h"
@@ -17,9 +17,9 @@ private:
 	ItemManager() = default;
 	~ItemManager() = default;
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	ItemManager(const ItemManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	ItemManager& operator=(const ItemManager& obj) = delete;
 
 	static ItemManager* GetInstance();
@@ -35,7 +35,7 @@ public:
 	void EffectActive();
 	void ChangeItem();
 
-	//ƒCƒ“ƒ‰ƒCƒ“ŠÖ”
+	//ã‚¤ãƒ³ãƒ©ã‚¤ãƒ³é–¢æ•°
 	bool GetIsUse() {
 		return isUse_;
 	}

@@ -1,4 +1,4 @@
-#include "SpellCharge.h"
+﻿#include "SpellCharge.h"
 #include "Player.h"
 
 SpellCharge* SpellCharge::GetInstance()

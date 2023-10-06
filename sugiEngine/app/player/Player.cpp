@@ -1,4 +1,4 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "Camera.h"
 #include "Input.h"
 #include "EnemyManager.h"
@@ -54,31 +54,31 @@ void Player::GameInitialize()
 
 void Player::Update()
 {
-	//”í’e‰‰o
+	//è¢«å¼¾æ¼”å‡º
 	if (damageAlpha_ > 0) {
 		damageAlpha_ -= 0.01f;
 		damageSp_.SetColor(1, 1, 1, damageAlpha_);
 	}
 
-	//ƒQ[ƒ€I—¹orƒQ[ƒ€ƒI[ƒo[‚Å“®‚¯‚È‚­‚·‚é
+	//ã‚²ãƒ¼ãƒ çµ‚äº†orã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã§å‹•ã‘ãªãã™ã‚‹
 	if (ClearChecker::GetInstance()->GetIsClear() || life_ <= 0) {
 		PlayerWeapon::GetInstance()->Update(false,false);
 		isInvincible_ = true;
 		return;
 	}
-	//ƒ[ƒhƒAƒEƒg•ÏX’†‚à“®‚¯‚È‚­‚·‚é
+	//ãƒ­ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆå¤‰æ›´ä¸­ã‚‚å‹•ã‘ãªãã™ã‚‹
 	if (LoadOut::GetInstance()->GetIsActive()) {
 		CameraMove();
 		return;
 	}
 
-	//1ƒtƒŒ[ƒ€‘O‚Ìî•ñ‚ğ•Û‘¶
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®æƒ…å ±ã‚’ä¿å­˜
 	oldBoxCol_.pos = pos_;
 
 	Move();
 	WorldTransUpdate();
 
-	//UŒ‚
+	//æ”»æ’ƒ
 	Attack();
 
 	CameraMove();
@@ -146,7 +146,7 @@ bool Player::GetIsCanAction()
 
 void Player::Move()
 {
-	//ƒCƒ“ƒXƒ^ƒ“ƒXæ“¾
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å–å¾—
 	Input* input = Input::GetInstance();
 
 	Vector3 moveZ = { frontVec_.x,0,frontVec_.z };
@@ -154,13 +154,13 @@ void Player::Move()
 	Vector3 moveX = { rightVec_.x,0,rightVec_.z };
 	moveX.normalize();
 
-	//ˆÚ“®‘¬“x’á‰ºˆ—
+	//ç§»å‹•é€Ÿåº¦ä½ä¸‹å‡¦ç†
 	float slow = 1;
 	if (!GetIsCanAction()) {
 		slow = SPEED_SLOW;
 	}
 
-	//ˆÚ“®
+	//ç§»å‹•
 	if (input->PushKey(DIK_W)) {
 		pos_ += moveZ * SPEED_MOVE * slow;
 	}
@@ -177,7 +177,7 @@ void Player::Move()
 	float stickX = float(input->GetLStickX()) / 32768.0f;
 	float stickY = float(input->GetLStickY()) / 32768.0f;
 
-	//ˆÚ“®
+	//ç§»å‹•
 	if (input->GetLStickY()) {
 		pos_ += moveZ * SPEED_MOVE * stickY * slow;
 	}
@@ -185,26 +185,26 @@ void Player::Move()
 		pos_ += moveX * SPEED_MOVE * stickX * slow;
 	}
 
-	//“–‚½‚è”»’èˆÚ“®
+	//å½“ãŸã‚Šåˆ¤å®šç§»å‹•
 	boxCol_.pos = pos_;
 
-	//navePoint‚Ìd‚İ‚Ã‚¯
+	//navePointã®é‡ã¿ã¥ã‘
 	if (++naveTimer_ > TIME_NAVE) {
 		ColliderManager::GetInstance()->SetNavePointScore();
 		naveTimer_ = 0;
 	}
 
-	//ƒ|[ƒVƒ‡ƒ“ƒq[ƒ‹
+	//ãƒãƒ¼ã‚·ãƒ§ãƒ³ãƒ’ãƒ¼ãƒ«
 	HealLife();
 }
 
 void Player::CameraMove()
 {
-	//ƒCƒ“ƒXƒ^ƒ“ƒXæ“¾
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å–å¾—
 	Input* input = Input::GetInstance();
 	Camera* camera = Camera::GetInstance();
 
-	//ƒJƒƒ‰‘€ì
+	//ã‚«ãƒ¡ãƒ©æ“ä½œ
 	if (input->PushKey(DIK_LEFT)) {
 		cameraAngle_.x -= SPEED_CAMERA;
 	}
@@ -212,13 +212,13 @@ void Player::CameraMove()
 		cameraAngle_.x += SPEED_CAMERA;
 	}
 	if (input->PushKey(DIK_UP)) {
-		//Å‘å’lİ’è
+		//æœ€å¤§å€¤è¨­å®š
 		if (cameraAngle_.y <= 90) {
 			cameraAngle_.y += SPEED_CAMERA;
 		}
 	}
 	if (input->PushKey(DIK_DOWN)) {
-		//Å¬’lİ’è
+		//æœ€å°å€¤è¨­å®š
 		if (cameraAngle_.y >= -90) {
 			cameraAngle_.y -= SPEED_CAMERA;
 		}
@@ -235,11 +235,11 @@ void Player::CameraMove()
 		if (input->GetRStickY()) {
 			cameraAngle_.y += SPEED_CAMERA * stickY;
 
-			//Å‘å’lİ’è
+			//æœ€å¤§å€¤è¨­å®š
 			if (cameraAngle_.y > RAD / 2) {
 				cameraAngle_.y = RAD / 2;
 			}
-			//Å¬’lİ’è
+			//æœ€å°å€¤è¨­å®š
 			if (cameraAngle_.y < -RAD / 2) {
 				cameraAngle_.y = -RAD / 2;
 			}
@@ -254,7 +254,7 @@ void Player::CameraMove()
 				spellAngle_ = (atan2(len.cross({ 0,-1 }), -len.dot({ 0,-1 })) / PI * -RAD - (RAD / 2)) + RAD / 2 * 3;
 			}
 
-			//ƒXƒeƒBƒbƒN‚ğ“|‚µ‚½•ûŒü‚Ìô•¶‚É•Ï‚¦‚é
+			//ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’å€’ã—ãŸæ–¹å‘ã®å‘ªæ–‡ã«å¤‰ãˆã‚‹
 			if (spellAngle_ >= RAD && spellAngle_ < 72 + RAD) {
 				presetSpell_ = 0;
 				SpellManager::GetInstance()->ResetChargeTime();
@@ -276,7 +276,7 @@ void Player::CameraMove()
 				SpellManager::GetInstance()->ResetChargeTime();
 			}
 
-			//ƒL[‘Î‰
+			//ã‚­ãƒ¼å¯¾å¿œ
 			if (input->TriggerKey(DIK_1)) {
 				presetSpell_ = 0;
 				SpellManager::GetInstance()->ResetChargeTime();
@@ -312,14 +312,14 @@ void Player::CameraMove()
 	rightVec_.y = float(sin(Radian(cameraAngle_.y)));
 	rightVec_.z = float(cos(Radian(cameraAngle_.x + RAD / 2)));
 
-	//ƒJƒƒ‰‘€ì
-	camera->SetEye(pos_ + CAMERA_EYE);//–Úü‚ÉƒJƒƒ‰‚ğ’²®
-	camera->SetTarget(pos_ + frontVec_ + CAMERA_EYE);//–Úü‚ÉƒJƒƒ‰‚ğ’²®
+	//ã‚«ãƒ¡ãƒ©æ“ä½œ
+	camera->SetEye(pos_ + CAMERA_EYE);//ç›®ç·šã«ã‚«ãƒ¡ãƒ©ã‚’èª¿æ•´
+	camera->SetTarget(pos_ + frontVec_ + CAMERA_EYE);//ç›®ç·šã«ã‚«ãƒ¡ãƒ©ã‚’èª¿æ•´
 }
 
 void Player::Attack()
 {
-	//ƒCƒ“ƒXƒ^ƒ“ƒXæ“¾
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å–å¾—
 	Input* input = Input::GetInstance();
 	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
 	SpellManager* spellM = SpellManager::GetInstance();
@@ -327,11 +327,11 @@ void Player::Attack()
 	bool isAttackOn = false;
 
 	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_RIGHT_SHOULDER)) && GetIsCanAction()) {
-		//UŒ‚ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+		//æ”»æ’ƒãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 		isAttack_ = true;
 		attackTime_ = TIME_ATTACK_NORMAL;
 	}
-	//ô•¶‰r¥
+	//å‘ªæ–‡è© å”±
 	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) && !spellM->GetIsUseSpell()) {
 		ChargeSpell(presetSpell_);
 
@@ -341,29 +341,29 @@ void Player::Attack()
 		isSpell_ = false;
 	}
 
-	//UŒ‚”»’èƒ`ƒFƒbƒN
+	//æ”»æ’ƒåˆ¤å®šãƒã‚§ãƒƒã‚¯
 	if (attackTime_ < TIME_ATTACK_NORMAL - TIME_ATTACK_START_NORMAL && attackTime_ > TIME_ATTACK_NORMAL - TIME_ATTACK_END_NORMAL) {
 		isAttackOn = true;
 	}
-	//UŒ‚I—¹
+	//æ”»æ’ƒçµ‚äº†
 	if (attackTime_ <= 0) {
-		//UŒ‚ƒtƒ‰ƒO‚ğÁ‚·
+		//æ”»æ’ƒãƒ•ãƒ©ã‚°ã‚’æ¶ˆã™
 		isAttack_ = false;
-		//“G‚Ì‘½’iƒqƒbƒg‰ñ”ğƒtƒ‰ƒO‚ğÁ‚·
+		//æ•µã®å¤šæ®µãƒ’ãƒƒãƒˆå›é¿ãƒ•ãƒ©ã‚°ã‚’æ¶ˆã™
 		EnemyManager::GetInstance()->ResetIsHit();
 	}
 	else {
-		//ŠÔ‚ğŒ¸‚ç‚·
+		//æ™‚é–“ã‚’æ¸›ã‚‰ã™
 		attackTime_--;
 	}
 
 	weapon->Update(isAttack_, isAttackOn);
 
-	//‰½‚à‚µ‚Ä‚¢‚È‚¢‚Ì‚İ
+	//ä½•ã‚‚ã—ã¦ã„ãªã„æ™‚ã®ã¿
 	if (GetIsCanAction()) {
 		ItemManager::GetInstance()->Use();
 	}
-	//‚¢‚Â‚Å‚à
+	//ã„ã¤ã§ã‚‚
 	ItemManager::GetInstance()->Update();
 	//ItemManager::GetInstance()->ChangeItem();
 }

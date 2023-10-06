@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Windows.h>
 #include "DXCommon.h"
 #include "GrovalSetting.h"
@@ -15,7 +15,7 @@ struct VertexSp {
 class Sprite
 {
 public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	
@@ -29,16 +29,16 @@ public:
 	static uint32_t LoadTexture(const std::string& textureName);
 
 protected:
-	//ƒfƒoƒCƒX
+	//ãƒ‡ãƒã‚¤ã‚¹
 	static ComPtr<ID3D12Device> sDevice;
 	static ComPtr<ID3D12PipelineState> sPipelineState;
-	// ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	// ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	static ComPtr<ID3D12RootSignature> sRootSignature;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 
 	static ComPtr<ID3D12GraphicsCommandList> sCmdList;
 
-	//SRV‚ÌÅ‘å”
+	//SRVã®æœ€å¤§æ•°
 	static const size_t MAX_SRV_COUNT = 2056;
 	static std::array<ComPtr<ID3D12Resource>, MAX_SRV_COUNT> sTextureBuffers;
 
@@ -89,7 +89,7 @@ public:
 	void SetTextureSize(float x, float y);
 
 protected:
-	D3D12_HEAP_PROPERTIES heapProp_{}; // ƒq[ƒvİ’è
+	D3D12_HEAP_PROPERTIES heapProp_{}; // ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_RESOURCE_DESC resDesc_{};
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	ID3D12Resource* constBuffTransform_ = nullptr;

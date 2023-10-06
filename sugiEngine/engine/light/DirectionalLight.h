@@ -1,4 +1,4 @@
-#include <DirectXMath.h>
+ï»¿#include <DirectXMath.h>
 #include <Windows.h>
 #include <d3d12.h>
 #include <d3dx12.h>
@@ -8,9 +8,9 @@
 class DirectionalLight
 {
 private:
-	// Microsoft::WRL::‚ğÈ—ª
+	// Microsoft::WRL::ã‚’çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -25,7 +25,7 @@ public:
 	};
 
 public:
-	//ƒZƒbƒ^[
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	inline void SetLightDir(const XMVECTOR& lightdir) {
 		lightdir_ = lightdir;
 	};
@@ -37,7 +37,7 @@ public:
 		active_ = active;
 	}
 
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	inline XMVECTOR GetLightDir() {
 		return lightdir_;
 	};
@@ -54,7 +54,7 @@ private:
 	XMVECTOR lightdir_ = { 1,0,0,0 };
 	XMFLOAT3 lightcolor_ = { 1,1,1 };
 
-	//—LŒøƒtƒ‰ƒO
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 	bool active_ = false;
 
 };

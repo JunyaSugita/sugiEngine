@@ -1,4 +1,4 @@
-#include "Easing.h"
+﻿#include "Easing.h"
 #include <DirectXMath.h>
 
 const float PI = 3.14159265f;

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SugiMath.h"
 
 static const uint16_t WIN_WIDTH = 1280;
@@ -6,12 +6,12 @@ static const uint16_t WIN_HEIGHT = 720;
 
 static const uint8_t MULTI_RENDAR_TARGET_NUM = 8;
 
-//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(ƒ}ƒeƒŠƒAƒ‹)
+//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(ãƒãƒ†ãƒªã‚¢ãƒ«)
 struct ConstBufferDataMaterial {
-	DirectX::XMFLOAT4 color;	//F(RGBA)
+	DirectX::XMFLOAT4 color;	//è‰²(RGBA)
 };
 
-//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(3D•ÏŠ·s—ñ)
+//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(3Då¤‰æ›è¡Œåˆ—)
 struct ConstBufferDataTransform {
 	Matrix4 mat;
 };

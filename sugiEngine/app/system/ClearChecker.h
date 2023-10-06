@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GrovalSetting.h"
 #include "Gauge.h"
 #include "BaseObj.h"
@@ -10,9 +10,9 @@ private:
 	~ClearChecker() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	ClearChecker(const ClearChecker& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	ClearChecker& operator=(const ClearChecker& obj) = delete;
 
 	static ClearChecker* GetInstance();

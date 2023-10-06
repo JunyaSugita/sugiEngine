@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <DirectXMath.h>
 #include <vector>
@@ -18,7 +18,7 @@ struct Node
 	DirectX::XMMATRIX transform;
 	DirectX::XMMATRIX globalTransform;
 
-	//eƒm[ƒh
+	//è¦ªãƒãƒ¼ãƒ‰
 	Node* parent = nullptr;
 };
 
@@ -44,31 +44,31 @@ public:
 		XMFLOAT3 pos;
 		XMFLOAT3 normal;
 		XMFLOAT2 uv;
-		uint32_t boneIndex[MAX_BONE_INDICES];	//”Ô†
-		float boneWeight[MAX_BONE_INDICES];	//d‚İ
+		uint32_t boneIndex[MAX_BONE_INDICES];	//ç•ªå·
+		float boneWeight[MAX_BONE_INDICES];	//é‡ã¿
 	};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘ÌB1
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“B1
 	struct ConstBufferDataB1 {
-		XMFLOAT3 ambient;	//ƒAƒ“ƒrƒGƒ“ƒgŒW”
-		float pad1;			//ƒpƒfƒBƒ“ƒO
-		XMFLOAT3 diffuse;	//ƒfƒBƒtƒ…[ƒYŒW”
-		float pad2;			//ƒpƒfƒBƒ“ƒO
-		XMFLOAT3 specular;	//ƒXƒyƒLƒ…ƒ‰[ŒW”
-		float alpha;		//ƒAƒ‹ƒtƒ@
+		XMFLOAT3 ambient;	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆä¿‚æ•°
+		float pad1;			//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		XMFLOAT3 diffuse;	//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºä¿‚æ•°
+		float pad2;			//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		XMFLOAT3 specular;	//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼ä¿‚æ•°
+		float alpha;		//ã‚¢ãƒ«ãƒ•ã‚¡
 		XMFLOAT4 color;
 	};
 
-	//ƒ}ƒeƒŠƒAƒ‹
+	//ãƒãƒ†ãƒªã‚¢ãƒ«
 	struct Material {
-		std::string name;	//ƒ}ƒeƒŠƒAƒ‹–¼
-		XMFLOAT3 ambient;	//ƒAƒ“ƒrƒGƒ“ƒg‰e‹¿“x
-		XMFLOAT3 diffuse;	//ƒfƒBƒtƒ…[ƒY‰e‹¿“x
-		XMFLOAT3 specular;	//ƒXƒyƒLƒ…ƒ‰[‰e‹¿“x
-		float alpha;		//ƒAƒ‹ƒtƒ@
+		std::string name;	//ãƒãƒ†ãƒªã‚¢ãƒ«å
+		XMFLOAT3 ambient;	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆå½±éŸ¿åº¦
+		XMFLOAT3 diffuse;	//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºå½±éŸ¿åº¦
+		XMFLOAT3 specular;	//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼å½±éŸ¿åº¦
+		float alpha;		//ã‚¢ãƒ«ãƒ•ã‚¡
 		XMFLOAT4 color;
-		std::string textureFilename;	//ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹–¼
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		std::string textureFilename;	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«å
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Material() {
 			ambient = { 0.3f,0.3f,0.3f };
 			diffuse = { 0.0f,0.0f,0.0f };
@@ -80,12 +80,12 @@ public:
 
 	struct Bone {
 		string name;
-		//‰Šúp¨‚Ì‹ts—ñ
+		//åˆæœŸå§¿å‹¢ã®é€†è¡Œåˆ—
 		XMMATRIX invInitializePose;
-		//FBX‘¤‚Ìƒ{[ƒ“î•ñ
+		//FBXå´ã®ãƒœãƒ¼ãƒ³æƒ…å ±
 		FbxCluster* fbxCluster;
 
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Bone(const string& name) {
 			this->name = name;
 		}
@@ -114,14 +114,14 @@ public:
 
 private:
 	string name_;
-	//ƒm[ƒh”z—ñ
+	//ãƒãƒ¼ãƒ‰é…åˆ—
 	vector<Node> nodes_;
 
 	Node* meshNode_ = nullptr;
 	vector<VertexPosNormalUvSkin> vertices_;
 	vector<unsigned short> indices_;
 
-	//ƒ}ƒeƒŠƒAƒ‹
+	//ãƒãƒ†ãƒªã‚¢ãƒ«
 	XMFLOAT3 ambient_ = { 1,1,1 };
 	XMFLOAT3 diffuse_ = { 1,1,1 };
 	TexMetadata metadata_ = {};
@@ -138,9 +138,9 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1_;
 	ConstBufferDataB1* constMap1_ = nullptr;
 
-	//ƒ{[ƒ“”z—ñ
+	//ãƒœãƒ¼ãƒ³é…åˆ—
 	std::vector<Bone> bones;
-	//FBXƒV[ƒ“
+	//FBXã‚·ãƒ¼ãƒ³
 	FbxScene* fbxScene = nullptr;
 };
 

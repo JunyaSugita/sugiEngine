@@ -1,4 +1,4 @@
-#include "SugiFramework.h"
+ï»¿#include "SugiFramework.h"
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
@@ -13,24 +13,24 @@ void SugiFramework::Initialize()
 	dxCom_ = make_unique<DXCommon>();
 	matrix4_ = make_unique <Matrix4>();
 
-#pragma region windowsAPI‰Šú‰»ˆ—
+#pragma region windowsAPIåˆæœŸåŒ–å‡¦ç†
 	winApp_->CreateWindowScreen();
-	//ƒRƒ“ƒ\[ƒ‹‚Ö•¶š“ü—Í
+	//ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã¸æ–‡å­—å…¥åŠ›
 	OutputDebugStringA("Hello DirectX\n");
 	OutputDebugStringA("This is sugiEngine\n");
 #pragma endregion
 
-#pragma region DirectX‰Šú‰»ˆ—
-	// DirectX‰Šú‰»ˆ— ‚±‚±‚©‚ç
+#pragma region DirectXåˆæœŸåŒ–å‡¦ç†
+	// DirectXåˆæœŸåŒ–å‡¦ç† ã“ã“ã‹ã‚‰
 	dxCom_->Initialize(winApp_.get());
-	//ƒL[ƒ{[ƒh“ü—Í‚Ì‰Šú‰»
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å…¥åŠ›ã®åˆæœŸåŒ–
 	Input::GetInstance()->Initialize(winApp_.get());
-	//FbxLoder‰Šú‰»
+	//FbxLoderåˆæœŸåŒ–
 	FbxLoader::GetInstance()->Initialize(dxCom_->GetDevice());
 
 #pragma endregion
 
-#pragma region •`‰æ‰Šú‰»ˆ—
+#pragma region æç”»åˆæœŸåŒ–å‡¦ç†
 	Camera::GetInstance()->Initialize();
 	Object3d::StaticInitialize(dxCom_->GetDevice());
 	ParticleManager::StaticInitialize(dxCom_->GetDevice());
@@ -53,39 +53,39 @@ void SugiFramework::Initialize()
 
 void SugiFramework::Finalize()
 {
-	//‰ğ•úˆ—
+	//è§£æ”¾å‡¦ç†
 	FbxLoader::GetInstance()->Finalize();
 
-#pragma region WindowsAPIŒãn––
-	//ÅŒã‚É‚·‚é
+#pragma region WindowsAPIå¾Œå§‹æœ«
+	//æœ€å¾Œã«ã™ã‚‹
 	winApp_->DeleteWindow();
 #pragma endregion
 }
 
 void SugiFramework::Update()
 {
-	//ƒL[ƒ{[ƒh“ü—Í
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å…¥åŠ›
 	Input::GetInstance()->Update();
 }
 
 void SugiFramework::Run()
 {
-	//ƒQ[ƒ€‰Šú‰»
+	//ã‚²ãƒ¼ãƒ åˆæœŸåŒ–
 	Initialize();
 
 	while (true)
 	{
-		//–ˆƒtƒŒ[ƒ€XV
+		//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 		Update();
-		//I—¹ƒŠƒNƒGƒXƒg‚ğæ“¾
+		//çµ‚äº†ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’å–å¾—
 		if (GetIsEnd()) {
 			break;
 		}
-		//•`‰æ
+		//æç”»
 		Draw();
 	}
 
-	//ƒQ[ƒ€‚ÌI—¹
+	//ã‚²ãƒ¼ãƒ ã®çµ‚äº†
 	Finalize();
 }
 

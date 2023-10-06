@@ -1,4 +1,4 @@
-//“–‚½‚è”»’è‚ğŠÇ—‚·‚éƒ}ƒl[ƒWƒƒ[ƒNƒ‰ƒX
+ï»¿//å½“ãŸã‚Šåˆ¤å®šã‚’ç®¡ç†ã™ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚¯ãƒ©ã‚¹
 
 #include "ColliderManager.h"
 #include "SpellManager.h"
@@ -14,7 +14,7 @@ using namespace std;
 
 ColliderManager* ColliderManager::GetInstance()
 {
-	//ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
 	static ColliderManager instance;
 
 	return &instance;
@@ -22,46 +22,46 @@ ColliderManager* ColliderManager::GetInstance()
 
 void ColliderManager::Initialize()
 {
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	isShowHitBox_ = false;
 }
 
 void ColliderManager::Update()
 {
-	//“G‚Ì”»’è
+	//æ•µã®åˆ¤å®š
 	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
-	//ƒ}ƒbƒv‚Ì”»’è
+	//ãƒãƒƒãƒ—ã®åˆ¤å®š
 	FieldManager* field = FieldManager::GetInstance();
-	//ƒvƒŒƒCƒ„[
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	Player* player = Player::GetInstance();
-	//ƒS[ƒ‹
+	//ã‚´ãƒ¼ãƒ«
 	ClearChecker* clear = ClearChecker::GetInstance();
 
-#pragma region ô•¶‚Ì”»’è
-	//ô•¶‚Ì”»’è
+#pragma region å‘ªæ–‡ã®åˆ¤å®š
+	//å‘ªæ–‡ã®åˆ¤å®š
 	vector<BaseSpell*> spellsCol = SpellManager::GetInstance()->GetSpellsCol();
 
 	for (int i = 0; i < spellsCol.size(); i++) {
-		//“–‚½‚è”»’è‚ğs‚í‚È‚¢ô•¶‚Í’e‚­
+		//å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã‚ãªã„å‘ªæ–‡ã¯å¼¾ã
 		if (!spellsCol[i]->GetIsCalcCol()) {
 			continue;
 		}
 
-		//ô•¶‚Æ“G‚Ì”»’è
+		//å‘ªæ–‡ã¨æ•µã®åˆ¤å®š
 		for (int j = 0; j < enemysCol.size(); j++) {
-			//”»’è
+			//åˆ¤å®š
 			if (CheckHitBox(spellsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
-				//ô•¶‚ª“G‚É“–‚½‚Á‚Ä‚¢‚é
+				//å‘ªæ–‡ãŒæ•µã«å½“ãŸã£ã¦ã„ã‚‹æ™‚
 				spellsCol[i]->SetIsHit();
 				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage(), 1);
 				enemysCol[j]->SetDebuff(spellsCol[i]->GetDamage(), 10);
 			}
 		}
-		//ô•¶‚Æ•Ç‚â°‚Æ‚Ì”»’è
+		//å‘ªæ–‡ã¨å£ã‚„åºŠã¨ã®åˆ¤å®š
 		for (int j = 0; j < field->GetColSize(); j++) {
-			//”»’è
+			//åˆ¤å®š
 			if (CheckHitBox(spellsCol[i]->GetBoxCol(), field->GetCol(j))) {
-				//ô•¶‚ª•Ç‚â°‚Æ“–‚½‚Á‚Ä‚¢‚é
+				//å‘ªæ–‡ãŒå£ã‚„åºŠã¨å½“ãŸã£ã¦ã„ã‚‹æ™‚
 				spellsCol[i]->SetIsHit();
 			}
 		}
@@ -69,30 +69,30 @@ void ColliderManager::Update()
 
 #pragma endregion
 
-#pragma region ƒ`ƒFƒCƒ“ƒ‰ƒCƒgƒjƒ“ƒO‚Ì”»’è
-	//ƒ`ƒFƒCƒ“ƒ‰ƒCƒgƒjƒ“ƒO
+#pragma region ãƒã‚§ã‚¤ãƒ³ãƒ©ã‚¤ãƒˆãƒ‹ãƒ³ã‚°ã®åˆ¤å®š
+	//ãƒã‚§ã‚¤ãƒ³ãƒ©ã‚¤ãƒˆãƒ‹ãƒ³ã‚°
 	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
 
-	//“G‚Æ‚Ì”»’è‚ğæ‚é
+	//æ•µã¨ã®åˆ¤å®šã‚’å–ã‚‹
 	for (int i = 0; i < chainLightningsCol.size(); i++) {
 		for (int j = 0; j < enemysCol.size(); j++) {
-			//”»’è
+			//åˆ¤å®š
 			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
-				//ƒ‰ƒCƒgƒjƒ“ƒO‚Ì”»’èæ‚É“G‚ª‚¢‚½‚Æ‚«
+				//ãƒ©ã‚¤ãƒˆãƒ‹ãƒ³ã‚°ã®åˆ¤å®šå…ˆã«æ•µãŒã„ãŸã¨ã
 				chainLightningsCol[i]->SetIsHit();
 				enemysCol[j]->SetIsHit(15, 5);
 				enemysCol[j]->SetDebuff(D_STAN, 1);
 
-				//1‘Ì–Ú‚Ì“`”d
+				//1ä½“ç›®ã®ä¼æ’­
 				int32_t hitTemp1 = -1;
 				float lenTemp = 30;
 
-				//‹ß‚¢“G‚ğ’T‚·
+				//è¿‘ã„æ•µã‚’æ¢ã™
 				for (int k = 0; k < enemysCol.size(); k++) {
-					//”í‚è–h~
+					//è¢«ã‚Šé˜²æ­¢
 					if (j != k) {
 						float length = (enemysCol[j]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
-						//‹——£‚ğ”ä‚×‚Ä‹ß‚¢“G‚ğhitTemp1‚É‘ã“ü
+						//è·é›¢ã‚’æ¯”ã¹ã¦è¿‘ã„æ•µã‚’hitTemp1ã«ä»£å…¥
 						if (lenTemp > length) {
 							lenTemp = length;
 							hitTemp1 = k;
@@ -100,37 +100,37 @@ void ColliderManager::Update()
 					}
 				}
 
-				//‹ß‚¢‚â‚Â‚ª‚¢‚½‚ç
+				//è¿‘ã„ã‚„ã¤ãŒã„ãŸã‚‰
 				if (hitTemp1 != -1) {
-					//ˆê”Ô‹ß‚¢‚â‚Â‚Éƒ_ƒ[ƒW
+					//ä¸€ç•ªè¿‘ã„ã‚„ã¤ã«ãƒ€ãƒ¡ãƒ¼ã‚¸
 					enemysCol[hitTemp1]->SetIsHit(15, 5);
 					enemysCol[hitTemp1]->SetDebuff(D_STAN, 1);
-					//‚»‚±‚Ü‚Å‚Ìƒp[ƒeƒBƒNƒ‹
+					//ãã“ã¾ã§ã®ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
 					EffectManager::GetInstance()->BoltGenerate(enemysCol[j]->GetBoxCol().pos, enemysCol[hitTemp1]->GetBoxCol().pos,{0,0,0},{0.5f,0.5f,1,0.5f});
 
-					//2‘Ì–Ú‚Ì“`”d
+					//2ä½“ç›®ã®ä¼æ’­
 					int32_t hitTemp2 = -1;
 					lenTemp = 30;
 
-					//‹ß‚¢“G‚ğ’T‚·
+					//è¿‘ã„æ•µã‚’æ¢ã™
 					for (int k = 0; k < enemysCol.size(); k++) {
-						//”í‚è–h~
+						//è¢«ã‚Šé˜²æ­¢
 						if (j != k && hitTemp1 != k) {
 							float length = (enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
-							//‚æ‚è‹ß‚¢“G‚ğhitTemp2‚É‘ã“ü
+							//ã‚ˆã‚Šè¿‘ã„æ•µã‚’hitTemp2ã«ä»£å…¥
 							if (lenTemp > length) {
 								lenTemp = length;
 								hitTemp2 = k;
 							}
 						}
 					}
-					//‹ß‚¢‚â‚Â‚ª‚¢‚½‚ç
+					//è¿‘ã„ã‚„ã¤ãŒã„ãŸã‚‰
 					if (hitTemp2 != -1) {
-						//ˆê”Ô‹ß‚¢‚â‚Â‚Éƒ_ƒ[ƒW
+						//ä¸€ç•ªè¿‘ã„ã‚„ã¤ã«ãƒ€ãƒ¡ãƒ¼ã‚¸
 						enemysCol[hitTemp2]->SetIsHit(15, 5);
 						enemysCol[hitTemp2]->SetDebuff(D_STAN, 1);
 
-						//‚»‚±‚Ü‚Å‚Ìƒp[ƒeƒBƒNƒ‹
+						//ãã“ã¾ã§ã®ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
 						EffectManager::GetInstance()->BoltGenerate(enemysCol[hitTemp1]->GetBoxCol().pos, enemysCol[hitTemp2]->GetBoxCol().pos, { 0,0,0 }, { 0.5f,0.5f,1,0.5f });
 					}
 				}
@@ -140,14 +140,14 @@ void ColliderManager::Update()
 
 #pragma endregion
 
-#pragma region ƒvƒŒƒCƒ„[‚Æ“G‚Ì”»’è
-	///ƒvƒŒƒCƒ„[‚Æ“G
-	//ƒvƒŒƒCƒ„[‚ª–³“G‚©‚Ç‚¤‚©
+#pragma region ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨æ•µã®åˆ¤å®š
+	///ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨æ•µ
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç„¡æ•µã‹ã©ã†ã‹
 	if (!Player::GetInstance()->GetInvincible()) {
 		for (int i = 0; i < enemysCol.size(); i++) {
-			//“G‚ªƒ_ƒEƒ“‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
+			//æ•µãŒãƒ€ã‚¦ãƒ³ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹
 			if (!enemysCol[i]->GetIsDown()) {
-				//”»’è
+				//åˆ¤å®š
 				if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
 					enemysCol[i]->SetIsStop();
 					enemysCol[i]->SetIsAttack();
@@ -158,7 +158,7 @@ void ColliderManager::Update()
 
 #pragma endregion 
 
-#pragma region “G“¯m‚Ì“–‚½‚è”»’è
+#pragma region æ•µåŒå£«ã®å½“ãŸã‚Šåˆ¤å®š
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = i + 1; j < enemysCol.size(); j++) {
 			if (!enemysCol[i]->GetIsDown() && !enemysCol[j]->GetIsDown()) {
@@ -187,7 +187,7 @@ void ColliderManager::Update()
 
 #pragma endregion
 
-#pragma region “G‚Æ•Ç‚Ì”»’è
+#pragma region æ•µã¨å£ã®åˆ¤å®š
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = 0; j < field->GetColSize(); j++) {
 			if (CheckHitBox(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
@@ -213,7 +213,7 @@ void ColliderManager::Update()
 	}
 #pragma endregion
 
-#pragma region ƒvƒŒƒCƒ„[‚Æ•Ç‚Ì”»’è
+#pragma region ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨å£ã®åˆ¤å®š
 	for (int i = 0; i < field->GetColSize(); i++) {
 		if (CheckHitBox(player->GetBoxCol(), field->GetCol(i))) {
 			if (CheckHitX(player->GetBoxCol(), field->GetCol(i))) {
@@ -236,7 +236,7 @@ void ColliderManager::Update()
 	}
 #pragma endregion
 
-#pragma region ƒvƒŒƒCƒ„[‚ÆƒS[ƒ‹‚Ì”»’è
+#pragma region ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã‚´ãƒ¼ãƒ«ã®åˆ¤å®š
 	if (CheckHitBox(player->GetBoxCol(), clear->GetCol())) {
 		clear->SetClear();
 	}
@@ -308,11 +308,11 @@ bool ColliderManager::CheckHitBox(BoxCol a, BoxCol b)
 
 bool ColliderManager::CheckHitEnemyToChainLightning()
 {
-	//“G‚Ì”»’è
+	//æ•µã®åˆ¤å®š
 	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
 	FieldManager* field = FieldManager::GetInstance();
 
-	//ƒ`ƒFƒCƒ“ƒ‰ƒCƒgƒjƒ“ƒO
+	//ãƒã‚§ã‚¤ãƒ³ãƒ©ã‚¤ãƒˆãƒ‹ãƒ³ã‚°
 	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
 
 
@@ -425,7 +425,7 @@ void ColliderManager::SetNavePointScore()
 		navePointM->SetNaveScore(i, 99999);
 	}
 
-	//1‰ñ–Ú
+	//1å›ç›®
 	for (int k = 0; k < field->GetNavePointNum(); k++) {
 		bool isHit = false;
 		Vector3 playerPos = Player::GetInstance()->GetBoxCol().pos;
@@ -461,14 +461,14 @@ void ColliderManager::SetNavePointScore()
 	}
 
 	for (int m = 0; m < 2; m++) {
-		//2‰ñ–ÚˆÈ~
+		//2å›ç›®ä»¥é™
 		for (int l = 0; l < field->GetNavePointNum(); l++) {
-			//‚Ü‚¾İ’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎI‚í‚é
+			//ã¾ã è¨­å®šã•ã‚Œã¦ã„ãªã‘ã‚Œã°çµ‚ã‚ã‚‹
 			if (navePointM->GetNavePoint(l).score == 99999) {
 				continue;
 			}
 			for (int k = 0; k < field->GetNavePointNum(); k++) {
-				//İ’è‚³‚ê‚Ä‚¢‚½‚çI‚í‚é
+				//è¨­å®šã•ã‚Œã¦ã„ãŸã‚‰çµ‚ã‚ã‚‹
 				if (navePointM->GetNavePoint(k).score != 99999) {
 					continue;
 				}
@@ -483,7 +483,7 @@ void ColliderManager::SetNavePointScore()
 				Vector3 vec = vecN = naveEndPos - myPos;
 				vecN.normalize();
 
-				//ƒ[ƒœZ‰ñ”ğ
+				//ã‚¼ãƒ­é™¤ç®—å›é¿
 				if (vecN.x == 0) {
 					vecN.x = 0.0001f;
 				}

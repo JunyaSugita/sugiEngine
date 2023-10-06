@@ -1,10 +1,10 @@
-#include "ClearScene.h"
+ï»¿#include "ClearScene.h"
 
 using namespace std;
 
 void ClearScene::Initialize()
 {
-	// ƒŒƒxƒ‹ƒf[ƒ^‚Ì“Ç‚Ýž‚Ý
+	// ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 	levelData_ = JsonLoader::LoadJson("level");
 
 	//sphereModel_ = move(Model::LoadFromObj("sphere", true));
@@ -15,13 +15,13 @@ void ClearScene::Initialize()
 	int32_t objNum = 0;
 
 	for (auto& objectData : levelData_->obj) {
-		//ƒtƒ@ƒCƒ‹‚©‚ç“o˜^Ï‚Ýƒ‚ƒfƒ‹‚ð’Tõ
+		//ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ç™»éŒ²æ¸ˆã¿ãƒ¢ãƒ‡ãƒ«ã‚’æŽ¢ç´¢
 		Model* model = nullptr;
 		decltype(models_)::iterator it = models_.find(objectData.filename);
 		if (it != models_.end()) {
 			model = it->second;
 		}
-		//ƒ‚ƒfƒ‹‚ðŽw’è‚µ‚Ä3DƒIƒuƒWƒFƒNƒg‚ð¶¬
+		//ãƒ¢ãƒ‡ãƒ«ã‚’æŒ‡å®šã—ã¦3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
 		std::unique_ptr<Object3d> newObject = move(Object3d::Create());
 		newObject->SetModel(model);
 
@@ -32,7 +32,7 @@ void ClearScene::Initialize()
 			spawnNum_ = objNum;
 		}
 
-		//objî•ñ
+		//objæƒ…å ±
 		worldTransform_.SetPos(Vector3(objectData.pos));
 		worldTransform_.SetRot(Vector3(objectData.rot));
 		worldTransform_.SetScale(Vector3(objectData.scale));
@@ -45,7 +45,7 @@ void ClearScene::Initialize()
 
 	spawnPoint_ = objects_[spawnNum_]->GetPos();
 
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	lightGroup_ = LightGroup::Create();
 	Object3d::SetLight(lightGroup_.get());
 	lightGroup_->SetCircleShadowActive(0, true);
@@ -72,7 +72,7 @@ void ClearScene::Update()
 		object->Update();
 	}
 
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	lightGroup_->Update();
 
 }

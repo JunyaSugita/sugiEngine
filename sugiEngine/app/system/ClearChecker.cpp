@@ -1,4 +1,4 @@
-#include "ClearChecker.h"
+﻿#include "ClearChecker.h"
 #include "EnemyManager.h"
 #include "GameManager.h"
 #include "PostEffectSecond.h"

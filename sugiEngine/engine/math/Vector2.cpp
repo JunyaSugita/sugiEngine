@@ -1,4 +1,4 @@
-#include "Vector2.h"
+ï»¿#include "Vector2.h"
 #include <cmath>	//sqrt
 
 Vector2::Vector2()
@@ -63,8 +63,8 @@ Vector2& Vector2::operator/=(float s) {
 	return *this;
 }
 
-//Vector2 ƒNƒ‰ƒX‚É‘®‚³‚È‚¢ŠÖ”ŒQ
-//2€‰‰Zq
+//Vector2 ã‚¯ãƒ©ã‚¹ã«å±ã•ãªã„é–¢æ•°ç¾¤
+//2é …æ¼”ç®—å­
 const Vector2 operator+(const Vector2& v1, const Vector2& v2) {
 	Vector2 temp(v1);
 	return temp += v2;

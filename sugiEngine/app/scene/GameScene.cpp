@@ -1,4 +1,4 @@
-#include "GameScene.h"
+ï»¿#include "GameScene.h"
 #include "Input.h"
 #include "FbxLoader.h"
 #include "PostEffect.h"
@@ -22,25 +22,25 @@ using namespace std;
 
 void GameScene::Initialize()
 {
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	lightGroup_ = LightGroup::Create();
 	Object3d::SetLight(lightGroup_.get());
 	Fbx::SetLight(lightGroup_.get());
 
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
 	Camera::GetInstance()->SetEye(Vector3(0, 1, -10));
 
-	//“G
+	//æ•µ
 	EnemyManager::GetInstance()->Initialize();
 	
-	//ƒNƒŠƒA‚Ì”»’è
+	//ã‚¯ãƒªã‚¢ã®åˆ¤å®š
 	ClearChecker::GetInstance()->Initialize();
-	//ƒOƒ‰ƒEƒ“ƒh
+	//ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰
 	stageNum_ = StageSelectManager::GetInstance()->GetSelectNum();
 	FieldManager::GetInstance()->Initialize(stageNum_);
 
-	//ƒvƒŒƒCƒ„[
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	Player::GetInstance()->Initialize();
 
 	if (stageNum_ == TUTORIAL || stageNum_ == SET_SPELL_STAGE) {
@@ -57,16 +57,16 @@ void GameScene::Initialize()
 		Tutorial::GetInstance()->SetIsTutorial(false);
 	}
 
-	//ƒGƒtƒFƒNƒg
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	EffectManager::GetInstance()->Initialize();
 
-	//–‚–@
+	//é­”æ³•
 	SpellManager::GetInstance()->Initialize();
 
 	//UI
 	UIManager::GetInstance()->Initialize();
 
-	//“–‚½‚è”»’è
+	//å½“ãŸã‚Šåˆ¤å®š
 	ColliderManager::GetInstance()->Initialize();
 
 	ParticleManager* particleM = ParticleManager::GetInstance();
@@ -102,7 +102,7 @@ void GameScene::GameInitialize()
 
 void GameScene::Update()
 {
-#pragma region ƒCƒ“ƒXƒ^ƒ“ƒXŒÄ‚Ño‚µ
+#pragma region ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å‘¼ã³å‡ºã—
 	Input* input = Input::GetInstance();
 	Player* player = Player::GetInstance();
 	EnemyManager* enemyM = EnemyManager::GetInstance();
@@ -116,7 +116,7 @@ void GameScene::Update()
 
 #pragma endregion
 
-#pragma region ƒfƒoƒbƒO—p
+#pragma region ãƒ‡ãƒãƒƒã‚°ç”¨
 #ifdef _DEBUG
 	if (!particleE_->GetIsEdit(0)) {
 
@@ -146,19 +146,19 @@ void GameScene::Update()
 			GameInitialize();
 		}
 
-		//ƒV[ƒ“Ø‚è‘Ö‚¦Œn
+		//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆç³»
 		if (MenuManager::GetInstance()->GetIsStageSelect()) {
 			GameManager::GetInstance()->SetStageSelectScene();
 		}
 		return;
 	}
 
-#pragma region UpdateŒÄ‚Ño‚µ
-	//UpdateŒÄ‚Ño‚µ
+#pragma region Updateå‘¼ã³å‡ºã—
+	//Updateå‘¼ã³å‡ºã—
 	lightGroup_->Update();
 	fieldM->Update();
-	player->Update();//ƒvƒŒƒCƒ„[
-	enemyM->Update();//“G
+	player->Update();//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+	enemyM->Update();//æ•µ
 	effectM->Update();
 	spellM->Update();
 	uiM->Update();
@@ -211,7 +211,7 @@ void GameScene::Update()
 	ClearChecker::GetInstance()->Update();
 	gameOver_.Update();
 
-	//ƒV[ƒ“‘JˆÚˆ—
+	//ã‚·ãƒ¼ãƒ³é·ç§»å‡¦ç†
 	if (StageSelectManager::GetInstance()->GetSelectNum() == SET_SPELL_STAGE && input->TriggerButton(XINPUT_GAMEPAD_Y)) {
 		loadOut->ToggleIsActive();
 	}
@@ -220,14 +220,14 @@ void GameScene::Update()
 		MenuManager::GetInstance()->SetGameMenu();
 	}
 
-	//ƒfƒoƒbƒOŠÖ˜A
+	//ãƒ‡ãƒãƒƒã‚°é–¢é€£
 	if (stageNum_ == SET_SPELL_STAGE) {
 		if (enemyM->GetEnemyCount() <= 0) {
 			enemyM->PopEnemy({0,0,15});
 		}
 	}
 
-	//InitializeŒn
+	//Initializeç³»
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		if (player->GetLife() > 0) {
 			GameManager::GetInstance()->SetStageSelectScene();
@@ -239,7 +239,7 @@ void GameScene::Update()
 		GameInitialize();
 	}
 
-	//ƒV[ƒ“Ø‚è‘Ö‚¦Œn
+	//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆç³»
 	if (MenuManager::GetInstance()->GetIsStageSelect()) {
 		GameManager::GetInstance()->SetStageSelectScene();
 	}

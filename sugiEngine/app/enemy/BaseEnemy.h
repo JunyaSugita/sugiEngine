@@ -1,4 +1,4 @@
-//“G‚Ìƒx[ƒXƒNƒ‰ƒX
+ï»¿//æ•µã®ãƒ™ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹
 
 #pragma once
 #include "GrovalSetting.h"
@@ -22,8 +22,8 @@ public:
 	virtual void Draw();
 	virtual void WorldTransUpdate();
 
-#pragma region inlineŒQ
-	//inlineŒQ
+#pragma region inlineç¾¤
+	//inlineç¾¤
 	Vector3 GetPos() {
 		return obj_.pos;
 	}
@@ -73,9 +73,9 @@ public:
 		return life_;
 	}
 
-	//ƒfƒoƒbƒO—p
+	//ãƒ‡ãƒãƒƒã‚°ç”¨
 	
-	// “G‚Ì“®‚«‚ğ~‚ß‚½‚è“®‚©‚µ‚½‚è§Œä‚·‚é
+	// æ•µã®å‹•ãã‚’æ­¢ã‚ãŸã‚Šå‹•ã‹ã—ãŸã‚Šåˆ¶å¾¡ã™ã‚‹
 	static void ToggleIsAllStop() {
 		sIsDebugStop_ = (sIsDebugStop_ + 1) % 2;
 	}
@@ -87,66 +87,66 @@ public:
 #pragma endregion
 
 	/// <summary>
-	/// ƒfƒoƒt‚ğ•t—^
+	/// ãƒ‡ãƒãƒ•ã‚’ä»˜ä¸
 	/// </summary>
-	/// <param name="debuff">ƒfƒoƒt‚Ìí—Ş”Ô†</param>
-	/// <param name="time">ƒfƒoƒt‚ğ“K‰‚·‚éŠÔ/f</param>
+	/// <param name="debuff">ãƒ‡ãƒãƒ•ã®ç¨®é¡ç•ªå·</param>
+	/// <param name="time">ãƒ‡ãƒãƒ•ã‚’é©å¿œã™ã‚‹æ™‚é–“/f</param>
 	void SetDebuff(uint8_t debuff, uint32_t time);
 
 	/// <summary>
-	/// HP‚ğŒ¸‚ç‚µAƒGƒtƒFƒNƒg‚ğo‚·
+	/// HPã‚’æ¸›ã‚‰ã—ã€ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å‡ºã™
 	/// </summary>
-	/// <param name="subLife">hpŒ¸­—Ê</param>
-	/// <param name="effectNum">ƒGƒtƒFƒNƒg‚ğo‚·—Ê</param>
+	/// <param name="subLife">hpæ¸›å°‘é‡</param>
+	/// <param name="effectNum">ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å‡ºã™é‡</param>
 	void SetIsHit(int32_t subLife = 1, int32_t effectNum = 0);
 
 	/// <summary>
-	/// ƒfƒoƒtó‘Ô‚É‚È‚Á‚Ä‚¢‚é‚©
+	/// ãƒ‡ãƒãƒ•çŠ¶æ…‹ã«ãªã£ã¦ã„ã‚‹ã‹
 	/// </summary>
-	/// <returns>ƒfƒoƒtó‘Ô‚É‚È‚Á‚Ä‚¢‚é‚©</returns>
+	/// <returns>ãƒ‡ãƒãƒ•çŠ¶æ…‹ã«ãªã£ã¦ã„ã‚‹ã‹</returns>
 	bool isDebuff();
 
 	/// <summary>
-	/// “®‚¯‚éó‘Ô‚©
+	/// å‹•ã‘ã‚‹çŠ¶æ…‹ã‹
 	/// </summary>
-	/// <returns>“®‚¯‚éó‘Ô‚©</returns>
+	/// <returns>å‹•ã‘ã‚‹çŠ¶æ…‹ã‹</returns>
 	bool isCanMove();
 
-	// ƒVƒFƒCƒN‚ÅˆÚ“®‚µ‚Ä‚¢‚½•ª‚ğ–ß‚·
+	// ã‚·ã‚§ã‚¤ã‚¯ã§ç§»å‹•ã—ã¦ã„ãŸåˆ†ã‚’æˆ»ã™
 	void ResetShake();
 
-	// UŒ‚‚µ‚ÄƒvƒŒƒCƒ„[‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
+	// æ”»æ’ƒã—ã¦ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹
 	void SetIsAttack();
 
 protected:
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
-	//€‚ñ‚¾‚Ì”½‰
+	//æ­»ã‚“ã æ™‚ã®åå¿œ
 	virtual void Down();
 
-	// ƒvƒŒƒCƒ„[‚Ì•ûŒü‚ğŒü‚­
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–¹å‘ã‚’å‘ã
 	void SetAngleToPlayer();
 
 	/// <summary>
-	/// ˆÚ“®‘¬“x”{—¦
+	/// ç§»å‹•é€Ÿåº¦å€ç‡
 	/// </summary>
-	/// <returns>”{—¦</returns>
+	/// <returns>å€ç‡</returns>
 	float GetSlow();
 
 	/// <summary>
-	/// hp‚ğŒ¸‚ç‚µAƒGƒtƒFƒNƒg‚ğo‚·
+	/// hpã‚’æ¸›ã‚‰ã—ã€ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å‡ºã™
 	/// </summary>
-	/// <param name="subLife">Œ¸‚ç‚·hp—Ê</param>
-	/// <param name="effectNum">o‚·ƒGƒtƒFƒNƒg—Ê</param>
+	/// <param name="subLife">æ¸›ã‚‰ã™hpé‡</param>
+	/// <param name="effectNum">å‡ºã™ã‚¨ãƒ•ã‚§ã‚¯ãƒˆé‡</param>
 	void SubLife(int32_t subLife, int32_t effectNum);
 
-	// ƒfƒoƒt‚ÌŒø‰Ê‚ğXV
+	// ãƒ‡ãƒãƒ•ã®åŠ¹æœã‚’æ›´æ–°
 	void UpdateDebuff();
 
-	//©g‚ğƒVƒFƒCƒN‚³‚¹‚é
+	//è‡ªèº«ã‚’ã‚·ã‚§ã‚¤ã‚¯ã•ã›ã‚‹
 	void SetShake();
 	
-	//©g‚ÌƒRƒŠƒWƒ‡ƒ“‚ğİ’è
+	//è‡ªèº«ã®ã‚³ãƒªã‚¸ãƒ§ãƒ³ã‚’è¨­å®š
 	void SetCol();
 
 
@@ -156,40 +156,40 @@ protected:
 	const float RADIAN = 180;
 	const int32_t TIME_DOWN = 60 * 5;
 
-	//–{‘Ì
+	//æœ¬ä½“
 	BaseObj obj_;
 
-	//“–‚½‚è”»’è
+	//å½“ãŸã‚Šåˆ¤å®š
 	BaseCol col_;
 	float height_;
 
-	//‘Ì—Í
+	//ä½“åŠ›
 	int32_t life_;
 
-	//€‚ñ‚¾‚©‚Ç‚¤‚©
+	//æ­»ã‚“ã ã‹ã©ã†ã‹
 	bool isDead_;
 	bool isDown_;
 	int32_t downTimer_;
 
-	//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ğ‹L˜^
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ã‚’è¨˜éŒ²
 	Vector2 toPlayer;
 
-	//‘½’iƒqƒbƒg‚Ì‰ñ”ğƒtƒ‰ƒO
+	//å¤šæ®µãƒ’ãƒƒãƒˆã®å›é¿ãƒ•ãƒ©ã‚°
 	bool isHit_;
 
-	//ƒfƒoƒt
+	//ãƒ‡ãƒãƒ•
 	DebuffM debuff_;
 
-	//‘«‚ğ~‚ß‚é‚©
+	//è¶³ã‚’æ­¢ã‚ã‚‹ã‹
 	bool isStop_;
 
-	//UŒ‚
+	//æ”»æ’ƒ
 	float attackTimer_;
 	bool isAttack_;
 
-	//‰ñ“]‘¬“x
+	//å›è»¢é€Ÿåº¦
 	float angleSpeed_;
 
-	//ƒfƒoƒbƒO
+	//ãƒ‡ãƒãƒƒã‚°
 	static bool sIsDebugStop_;
 };

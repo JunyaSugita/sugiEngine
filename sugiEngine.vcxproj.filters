@@ -589,6 +589,7 @@
     <None Include="Resources\Shaders\PostEffectSecond.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
+    <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\BasicPS.hlsl">

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 class Vector3
 {
@@ -8,29 +8,29 @@ public:
 	float z;
 
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Vector3();
 	Vector3(float x, float y, float z);
 
-	//ƒƒ“ƒoŠÖ”
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
 	float length() const;
 	Vector3& normalize();
 	float dot(const Vector3& v) const;
 	float cross(const Vector3& v) const;
 
-	//’P€‰‰ZqƒI[ƒo[ƒ[ƒh
+	//å˜é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	Vector3 operator+() const;
 	Vector3 operator-() const;
 
-	//‘ã“ü‰‰ZqƒI[ƒo[ƒ[ƒh
+	//ä»£å…¥æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	Vector3& operator+=(const Vector3& v);
 	Vector3& operator-=(const Vector3& v);
 	Vector3& operator*=(float s);
 	Vector3& operator/=(float s);
 };
 
-//2€‰‰ZqƒI[ƒo[ƒ[ƒh
-//‚¢‚ë‚ñ‚Èˆø”‚Ìƒpƒ^[ƒ“‚É‘Î‰‚·‚é‚½‚ß‚¢‚Á‚Ï‚¢€”õ
+//2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
+//ã„ã‚ã‚“ãªå¼•æ•°ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã«å¯¾å¿œã™ã‚‹ãŸã‚ã„ã£ã±ã„æº–å‚™
 const Vector3 operator+(const Vector3& v1, const Vector3& v2);
 const Vector3 operator-(const Vector3& v1, const Vector3& v2);
 const Vector3 operator*(const Vector3& v, float s);

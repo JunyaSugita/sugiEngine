@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Sprite.h"
 
 class SetSpell final{
@@ -6,9 +6,9 @@ private:
 	SetSpell() = default;
 	~SetSpell() = default;
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	SetSpell(const SetSpell& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	SetSpell& operator=(const SetSpell& obj) = delete;
 
 	static SetSpell* GetInstance();

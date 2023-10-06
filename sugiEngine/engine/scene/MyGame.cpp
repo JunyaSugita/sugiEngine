@@ -1,37 +1,37 @@
-#include "MyGame.h"
+ï»¿#include "MyGame.h"
 
 using namespace DirectX;
 using namespace std;
 
 void MyGame::Initialize()
 {
-	//Šî’êƒNƒ‰ƒX‚Ì‰Šú‰»
+	//åŸºåº•ã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–
 	SugiFramework::Initialize();
 	
-	//ƒQ[ƒ€ŒÅ—L‚Ì‰Šú‰»
+	//ã‚²ãƒ¼ãƒ å›ºæœ‰ã®åˆæœŸåŒ–
 	ImGuiManager::GetInstance()->Initialize(winApp_.get(), dxCom_.get());
 }
 
 void MyGame::Finalize()
 {
-	//ƒQ[ƒ€ŒÅ—L‚ÌI—¹ˆ—
+	//ã‚²ãƒ¼ãƒ å›ºæœ‰ã®çµ‚äº†å‡¦ç†
 	GameManager::GetInstance()->Finalize();
-	//Šî’êƒNƒ‰ƒX‚ÌI—¹ˆ—
+	//åŸºåº•ã‚¯ãƒ©ã‚¹ã®çµ‚äº†å‡¦ç†
 	SugiFramework::Finalize();
 	ImGuiManager::GetInstance()->Finalize();
 }
 
 void MyGame::Update()
 {
-	//Šî’êƒNƒ‰ƒX‚ÌXVˆ—
+	//åŸºåº•ã‚¯ãƒ©ã‚¹ã®æ›´æ–°å‡¦ç†
 	SugiFramework::Update();
 
-	//ƒQ[ƒ€ŒÅ—L‚ÌXVˆ—
+	//ã‚²ãƒ¼ãƒ å›ºæœ‰ã®æ›´æ–°å‡¦ç†
 	ImGuiManager::GetInstance()->Begin();
 	GameManager::GetInstance()->Update();
 	ImGuiManager::GetInstance()->End();
 
-	//ƒJƒƒ‰‚ÌˆÚ“®
+	//ã‚«ãƒ¡ãƒ©ã®ç§»å‹•
 	Camera::GetInstance()->Update();
 }
 
@@ -47,14 +47,14 @@ void MyGame::Draw()
 	postEffect2->PostDrawScene(dxCom_->GetCommandList());
 
 	SugiFramework::dxCom_->PreDraw();
-	//”wŒiƒXƒvƒ‰ƒCƒg
+	//èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	Sprite::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->BackSpriteDraw();
 	Sprite::PostDraw();
 
 	postEffect2->Draw(dxCom_->GetCommandList());
 
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	Sprite::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->SpriteDraw();
 	Sprite::PostDraw();
@@ -70,22 +70,22 @@ void MyGame::Draw()
 
 void MyGame::GameDraw()
 {
-	//”wŒiƒXƒvƒ‰ƒCƒg
+	//èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	//Sprite::PreDraw(dxCom_->GetCommandList());
 	//GameManager::GetInstance()->BackSpriteDraw();
 	//Sprite::PostDraw();
 
-	//Fbxƒ‚ƒfƒ‹
+	//Fbxãƒ¢ãƒ‡ãƒ«
 	Fbx::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->Draw();
 	Fbx::PostDraw();
 
-	//objƒ‚ƒfƒ‹
+	//objãƒ¢ãƒ‡ãƒ«
 	Object3d::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->ObjDraw();
 	Object3d::PostDraw();
 
-	//particleƒ‚ƒfƒ‹
+	//particleãƒ¢ãƒ‡ãƒ«
 	ParticleManager::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->ParticleDraw();
 	ParticleManager::PostDraw();
@@ -94,7 +94,7 @@ void MyGame::GameDraw()
 	GameManager::GetInstance()->ObjDraw2();
 	Object3d::PostDraw();
 
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	//Sprite::PreDraw(dxCom_->GetCommandList());
 	//GameManager::GetInstance()->SpriteDraw();
 	//Sprite::PostDraw();

@@ -1,4 +1,4 @@
-#include "EffectManager.h"
+ï»¿#include "EffectManager.h"
 
 EffectManager* EffectManager::GetInstance()
 {
@@ -14,7 +14,7 @@ void EffectManager::Initialize()
 
 void EffectManager::Update()
 {
-	//”ò‚ÑU‚èƒGƒtƒFƒNƒg
+	//é£›ã³æ•£ã‚Šã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	burst_.remove_if([](std::unique_ptr<Burst>& burst) {return burst->IsDead(); });
 	bolt_.remove_if([](std::unique_ptr<Bolt>& bolt) {return bolt->IsDead(); });
 	for (std::unique_ptr<Burst>& burst : burst_) {
@@ -35,7 +35,7 @@ void EffectManager::Draw()
 	}
 }
 
-//”ò‚ÑU‚èƒGƒtƒFƒNƒg
+//é£›ã³æ•£ã‚Šã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 void EffectManager::BurstGenerate(const Vector3& pos, int32_t num,const Vector4& color, float range, float pow)
 {
 	for (int32_t i = 0; i < num; i++) {

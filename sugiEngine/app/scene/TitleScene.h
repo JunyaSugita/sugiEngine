@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "ISceneManager.h"
 #include "Sprite.h"
 #include "Input.h"
@@ -30,10 +30,10 @@ private:
 	int32_t titleTex_;
 	Sprite titleSp_;
 
-	//–{‘Ì
+	//æœ¬ä½“
 	BaseObj obj_;
 
-	//ã‚ÌƒI[ƒu
+	//ä¸Šã®ã‚ªãƒ¼ãƒ–
 	BaseObj orbObj_;
 };
 

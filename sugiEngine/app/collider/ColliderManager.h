@@ -1,4 +1,4 @@
-//“–‚½‚è”»’è‚ğŠÇ—‚·‚éƒ}ƒl[ƒWƒƒ[ƒNƒ‰ƒX
+ï»¿//å½“ãŸã‚Šåˆ¤å®šã‚’ç®¡ç†ã™ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚¯ãƒ©ã‚¹
 
 #pragma once
 #include "SugiMath.h"
@@ -14,9 +14,9 @@ private:
 	~ColliderManager() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	ColliderManager(const ColliderManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	ColliderManager& operator=(const ColliderManager& obj) = delete;
 
 	static ColliderManager* GetInstance();
@@ -53,6 +53,6 @@ private:
 
 
 private:
-	//“–‚½‚è”»’è•\¦‚Ìƒtƒ‰ƒO
+	//å½“ãŸã‚Šåˆ¤å®šè¡¨ç¤ºã®ãƒ•ãƒ©ã‚°
 	bool isShowHitBox_;
 };

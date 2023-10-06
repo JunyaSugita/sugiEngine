@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ColliderManager.h"
 #include "BaseObj.h"
 

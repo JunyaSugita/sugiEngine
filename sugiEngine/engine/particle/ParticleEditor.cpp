@@ -1,4 +1,4 @@
-#include "ParticleEditor.h"
+ï»¿#include "ParticleEditor.h"
 #include "ImGuiManager.h"
 #include "ParticleManager.h"
 #include <random>
@@ -115,7 +115,7 @@ void ParticleEditor::Update()
 
 void ParticleEditor::PopParticle(uint8_t num)
 {
-	//ƒ‰ƒ“ƒ_ƒ€
+	//ãƒ©ãƒ³ãƒ€ãƒ 
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 	for (int i = 0; i < num_[num]; i++) {

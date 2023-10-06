@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Model.h"
 #include "BaseObj.h"
 #include "JsonLoader.h"
@@ -10,9 +10,9 @@ private:
 	~FieldManager() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	FieldManager(const FieldManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	FieldManager& operator=(const FieldManager& obj) = delete;
 
 	static FieldManager* GetInstance();

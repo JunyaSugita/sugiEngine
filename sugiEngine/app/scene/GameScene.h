@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "ISceneManager.h"
 #include "Model.h"
 #include "Sprite.h"
@@ -33,7 +33,7 @@ public:
 	void GameInitialize();
 
 private:
-	//ƒ‰ƒCƒgŠÖ˜A
+	//ãƒ©ã‚¤ãƒˆé–¢é€£
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 
 	std::unique_ptr<ParticleEditor> particleE_ = nullptr;

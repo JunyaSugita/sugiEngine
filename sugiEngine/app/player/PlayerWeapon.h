@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include "BaseObj.h"
@@ -9,9 +9,9 @@ private:
 	~PlayerWeapon() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	PlayerWeapon(const PlayerWeapon& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	PlayerWeapon& operator=(const PlayerWeapon& obj) = delete;
 
 	static PlayerWeapon* GetInstance();
@@ -26,7 +26,7 @@ public:
 	void ChargeMove();
 	void ItemMove();
 	void AttackMove(bool isAttackOn);
-	void AttackCol();	//z‚Í”¼Œa
+	void AttackCol();	//zã¯åŠå¾„
 
 	Vector3 GetPos() {
 		return obj_.pos;
@@ -50,32 +50,32 @@ public:
 	const float ATTACK_LENGTH = 5;
 
 private:
-	//–{‘Ì
+	//æœ¬ä½“
 	BaseObj obj_;
 
-	//ã‚ÌƒI[ƒu
+	//ä¸Šã®ã‚ªãƒ¼ãƒ–
 	BaseObj orbObj_;
 
-	//UŒ‚”»’è
+	//æ”»æ’ƒåˆ¤å®š
 	bool isAt_;
 
-	//“–‚½‚è”»’è
+	//å½“ãŸã‚Šåˆ¤å®š
 	WorldTransform hitWorldTrans_;
 	Vector3 hitPos_;
 	Vector3 hitRot_;
 	Vector3 hitScale_;
 
-	//“–‚½‚è”»’è‚Ìƒ‚ƒfƒ‹ŠÖŒW
+	//å½“ãŸã‚Šåˆ¤å®šã®ãƒ¢ãƒ‡ãƒ«é–¢ä¿‚
 	std::unique_ptr <Model> hitModel_;
 	std::unique_ptr <Object3d> hitObj_;
 
 	float easeTimer_ = 0;
 
-	//ƒq[ƒ‹‚ÌˆÊ’uˆÚ“®
+	//ãƒ’ãƒ¼ãƒ«æ™‚ã®ä½ç½®ç§»å‹•
 	float healY;
 	float healRot;
 
-	//•Ší‚Ìæ‚èo‚µ
+	//æ­¦å™¨ã®å–ã‚Šå‡ºã—
 	float y = 0;
 	
 	float alpha_;

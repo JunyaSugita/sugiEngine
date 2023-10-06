@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SugiMath.h"
 #include "GrovalSetting.h"
 
@@ -8,9 +8,9 @@ private:
 	~Camera() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	Camera(const Camera& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	Camera& operator=(const Camera& obj) = delete;
 
 	static Camera* GetInstance();
@@ -185,7 +185,7 @@ public:
 		activeNum_ = num;
 	}
 
-	//ƒJƒƒ‰ƒVƒFƒCƒN
+	//ã‚«ãƒ¡ãƒ©ã‚·ã‚§ã‚¤ã‚¯
 	void SetShake(float num) {
 		shake_ = num;
 	};
@@ -194,16 +194,16 @@ public:
 private:
 	static const int32_t MAX_NUM = 10;
 
-	Vector3 eye_[MAX_NUM];	//‹“_À•W
-	Vector3 target_[MAX_NUM];	//’‹“_À•W
-	Vector3 up_[MAX_NUM];		//ã•ûŒüƒxƒNƒgƒ‹
+	Vector3 eye_[MAX_NUM];	//è¦–ç‚¹åº§æ¨™
+	Vector3 target_[MAX_NUM];	//æ³¨è¦–ç‚¹åº§æ¨™
+	Vector3 up_[MAX_NUM];		//ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 	DirectX::XMFLOAT3 eyeXM_;
 	DirectX::XMFLOAT3 targetXM_;
 	DirectX::XMFLOAT3 upXM_;
 
-	//•Às“Š‰es—ñ
+	//ä¸¦è¡ŒæŠ•å½±è¡Œåˆ—
 	DirectX::XMMATRIX ortho_;
-	//“§‹“Š‰e•ÏŠ·s—ñ‚ÌŒvZ
+	//é€è¦–æŠ•å½±å¤‰æ›è¡Œåˆ—ã®è¨ˆç®—
 	DirectX::XMMATRIX perspective_;
 
 	Matrix4 matProjection_;
@@ -211,6 +211,6 @@ private:
 
 	int32_t activeNum_ = 0;
 
-	//ƒJƒƒ‰ƒVƒFƒCƒN
+	//ã‚«ãƒ¡ãƒ©ã‚·ã‚§ã‚¤ã‚¯
 	float shake_;
 };

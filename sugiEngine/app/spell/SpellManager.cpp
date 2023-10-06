@@ -1,4 +1,4 @@
-#include "SpellManager.h"
+ï»¿#include "SpellManager.h"
 #include "Input.h"
 #include "Player.h"
 #include "LoadOut.h"
@@ -36,18 +36,18 @@ void SpellManager::Initialize()
 
 void SpellManager::Update()
 {
-#pragma region ƒCƒ“ƒXƒ^ƒ“ƒXŒÄ‚Ño‚µ
-	//ƒCƒ“ƒXƒ^ƒ“ƒXŒÄ‚Ño‚µ
+#pragma region ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å‘¼ã³å‡ºã—
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å‘¼ã³å‡ºã—
 	Input* input = Input::GetInstance();
 #pragma endregion
 
-#pragma region ó‘Ô‚ÌƒŠƒZƒbƒg
+#pragma region çŠ¶æ…‹ã®ãƒªã‚»ãƒƒãƒˆ
 	isModeEnchantFire_ = false;
 
 #pragma endregion
 
-#pragma region –‚–@‚ÌƒAƒbƒvƒf[ƒg
-	//Še–‚–@‚Ì”­Ë
+#pragma region é­”æ³•ã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ
+	//å„é­”æ³•ã®ç™ºå°„
 	if (isUseFireBall_) {
 		FireFireBall();
 	}
@@ -67,7 +67,7 @@ void SpellManager::Update()
 		FireFlame();
 	}
 
-	//Še–‚–@‚ÌUpdate
+	//å„é­”æ³•ã®Update
 	for (unique_ptr<BaseSpell>& fireBall : spells_) {
 		fireBall->Update();
 	}
@@ -77,8 +77,8 @@ void SpellManager::Update()
 
 #pragma endregion
 
-#pragma region –‚–@‚Ìíœ
-	//Á‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½–‚–@‚Ìíœ
+#pragma region é­”æ³•ã®å‰Šé™¤
+	//æ¶ˆã™ãƒ•ãƒ©ã‚°ã®ç«‹ã£ãŸé­”æ³•ã®å‰Šé™¤
 	spells_.remove_if([](unique_ptr<BaseSpell>& fireBall) {
 		return fireBall->GetIsDead();
 		});

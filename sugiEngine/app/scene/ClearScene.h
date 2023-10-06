@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "ISceneManager.h"
 #include "Object3d.h"
 #include "Sprite.h"
@@ -32,7 +32,7 @@ private:
 	WorldTransform worldTransform_;
 	std::vector<Object3d*> objects_;
 
-	//ƒXƒ|[ƒ“ƒ|ƒCƒ“ƒg
+	//ã‚¹ãƒãƒ¼ãƒ³ãƒã‚¤ãƒ³ãƒˆ
 	Vector3 spawnPoint_;
 	int32_t spawnNum_;
 	

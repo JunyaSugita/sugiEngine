@@ -1,4 +1,4 @@
-#include "Sound.h"
+ï»¿#include "Sound.h"
 #include <assert.h>
 
 #pragma comment(lib,"xaudio2.lib")
@@ -23,19 +23,19 @@ void Sound::Initialize(const std::string& directoryPath, const std::string& exte
 
 void Sound::LoadWave(const std::string& filename)
 {
-	//d•¡ƒ`ƒFƒbƒN
+	//é‡è¤‡ãƒã‚§ãƒƒã‚¯
 	if (soundDatas_.find(filename) != soundDatas_.end()) {
 		return;
 	};
 
 	std::string filepath = directoryPath_ + filename + extension_;
 
-	//ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³
 	std::ifstream file;
 	file.open(filepath, std::ios_base::binary);
 	assert(file.is_open());
 
-	//wavƒf[ƒ^“Ç‚İ‚İ
+	//wavãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 	RiffHeader riff;
 	file.read((char*)&riff, sizeof(riff));
 
@@ -69,10 +69,10 @@ void Sound::LoadWave(const std::string& filename)
 	char* pBuffer = new char[data.size];
 	file.read(pBuffer, data.size);
 
-	//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 	file.close();
 
-	//“Ç‚İ‚ñ‚¾ƒf[ƒ^‚ğ•Ô‚·
+	//èª­ã¿è¾¼ã‚“ã ãƒ‡ãƒ¼ã‚¿ã‚’è¿”ã™
 	SoundData soundData = {};
 
 	soundData.wfex = format.fmt;
@@ -93,7 +93,7 @@ void Sound::PlayWave(const string& filename, bool isLoop)
 {
 	HRESULT result;
 
-	//d•¡ƒ`ƒFƒbƒN
+	//é‡è¤‡ãƒã‚§ãƒƒã‚¯
 	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
 		return;
 	};
@@ -124,7 +124,7 @@ void Sound::PlayWave(const string& filename, bool isLoop)
 
 void Sound::RePlayWave(const std::string& filename, bool isLoop)
 {
-	//d•¡ƒ`ƒFƒbƒN
+	//é‡è¤‡ãƒã‚§ãƒƒã‚¯
 	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
 		StopWave(filename);
 	};
@@ -134,7 +134,7 @@ void Sound::RePlayWave(const std::string& filename, bool isLoop)
 
 void Sound::TogglePlayWave(const std::string& filename, bool isLoop)
 {
-	//d•¡ƒ`ƒFƒbƒN
+	//é‡è¤‡ãƒã‚§ãƒƒã‚¯
 	if (sourceVoices_.find(filename) != sourceVoices_.end()) {
 		StopWave(filename);
 		return;

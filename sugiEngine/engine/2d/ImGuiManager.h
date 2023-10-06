@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "WinApp.h"
 #include "DXCommon.h"
 #include <imgui.h>
@@ -10,9 +10,9 @@ private:
 	~ImGuiManager() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	ImGuiManager(const ImGuiManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	ImGuiManager& operator=(const ImGuiManager& obj) = delete;
 
 	static ImGuiManager* GetInstance();
@@ -20,33 +20,33 @@ public:
 
 public:
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
-	/// <param name="winApp">WinAppn‚Ìƒ|ƒCƒ“ƒ^</param>
+	/// <param name="winApp">WinAppnã®ãƒã‚¤ãƒ³ã‚¿</param>
 	void Initialize(WinApp* winApp,DXCommon* dxCom);
 
 	/// <summary>
-	/// I—¹
+	/// çµ‚äº†
 	/// </summary>
 	void Finalize();
 
 	/// <summary>
-	/// ImGuiƒXƒ^[ƒg
+	/// ImGuiã‚¹ã‚¿ãƒ¼ãƒˆ
 	/// </summary>
 	void Begin();
 
 	/// <summary>
-	/// ImGuiI‚í‚è
+	/// ImGuiçµ‚ã‚ã‚Š
 	/// </summary>
 	void End();
 
 	/// <summary>
-	/// ImGui•`‰æ
+	/// ImGuiæç”»
 	/// </summary>
 	void Draw();
 
 private:
-	//SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvHeap_;
 	DXCommon* dxCom_ = nullptr;
 };

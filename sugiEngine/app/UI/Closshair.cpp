@@ -1,4 +1,4 @@
-#include "Closshair.h"
+﻿#include "Closshair.h"
 #include "Input.h"
 
 Closshair* Closshair::GetInstance()

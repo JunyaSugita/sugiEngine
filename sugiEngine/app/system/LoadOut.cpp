@@ -1,4 +1,4 @@
-#include "LoadOut.h"
+ï»¿#include "LoadOut.h"
 #include "Input.h"
 #include "PostEffectSecond.h"
 #include "EnemyManager.h"
@@ -19,7 +19,7 @@ void LoadOut::Initialize()
 {
 	isActive_ = false;
 
-	//‰‰ñ‚Ì‚İ‚Ìˆ—
+	//åˆå›ã®ã¿ã®å‡¦ç†
 	if (!isFirst_) {
 		setSpell_[0] = FIRE_BALL;
 		setSpell_[1] = MAGIC_MISSILE;
@@ -117,15 +117,15 @@ void LoadOut::Update()
 		PostEffectSecond::SetPos({ 780,50 });
 		PostEffectSecond::SetSize({WIN_WIDTH / 3,WIN_HEIGHT / 3});
 
-		//‘I‘ğ’†‚ÌƒXƒyƒ‹‚ğg—p‚·‚é
+		//é¸æŠä¸­ã®ã‚¹ãƒšãƒ«ã‚’ä½¿ç”¨ã™ã‚‹
 		if (++preWindowTimer_ <= SpellManager::GetInstance()->GetMaxCharge() || SpellManager::GetInstance()->GetMaxCharge() == 0) {
 			Player::GetInstance()->ChargeSpell(selectSpell_);
 		}
 		PlayerWeapon::GetInstance()->Update(false, false);
 
-		//mode‚²‚Æ‚ÌˆÙ‚È‚éˆ—
+		//modeã”ã¨ã®ç•°ãªã‚‹å‡¦ç†
 		if (selectMode_ == SELECT_SPELL) {
-			//ƒZƒbƒg‚µ‚½‚¢ô•¶‚ğ‘I‘ğ‚³‚¹‚é
+			//ã‚»ãƒƒãƒˆã—ãŸã„å‘ªæ–‡ã‚’é¸æŠã•ã›ã‚‹
 			if (input->TriggerKey(DIK_D) || input->TriggerLStickRight()) {
 				if (selectSpell_ % 5 == 4) {
 					selectSpell_ -= 5;
@@ -163,7 +163,7 @@ void LoadOut::Update()
 			}
 		}
 		else if (selectMode_ == SELECT_NUM) {
-			//ƒZƒbƒg‚µ‚½‚¢ô•¶‚ğ‚Ç‚±‚É“ü‚ê‚é‚©‘I‘ğ‚³‚¹‚é
+			//ã‚»ãƒƒãƒˆã—ãŸã„å‘ªæ–‡ã‚’ã©ã“ã«å…¥ã‚Œã‚‹ã‹é¸æŠã•ã›ã‚‹
 			if (input->TriggerKey(DIK_D) || input->TriggerLStickRight()) {
 				if (selectNum_ % 5 == 4) {
 					selectNum_ -= 5;
@@ -231,7 +231,7 @@ void LoadOut::ResetWindow()
 
 void LoadOut::SetSpell(int32_t num, int32_t spellName)
 {
-	//‘I‘ğ‚µ‚½ô•¶‚ğ‘I‘ğ‚µ‚½”Ô†‚É“ü‚ê‚é
+	//é¸æŠã—ãŸå‘ªæ–‡ã‚’é¸æŠã—ãŸç•ªå·ã«å…¥ã‚Œã‚‹
 	setSpell_[num] = spellName;
 	isDirty_ = true;
 }

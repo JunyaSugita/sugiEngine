@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseSpell.h"
 #include "FireBall.h"
 #include "MagicMissile.h"
@@ -22,9 +22,9 @@ private:
 	~SpellManager() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	SpellManager(const SpellManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	SpellManager& operator=(const SpellManager& obj) = delete;
 
 	static SpellManager* GetInstance();
@@ -91,22 +91,22 @@ public:
 	bool GetIsUseSpell();
 
 public:
-	//ƒtƒ@ƒCƒA[ƒ{[ƒ‹
+	//ãƒ•ã‚¡ã‚¤ã‚¢ãƒ¼ãƒœãƒ¼ãƒ«
 	const float TIME_CHARGE_FIREBALL = 1.0f * 60;
 	const float TIME_FIRE_FIREBALL = 0.3f * 60;
-	//ƒ}ƒWƒbƒNƒ~ƒTƒCƒ‹
+	//ãƒã‚¸ãƒƒã‚¯ãƒŸã‚µã‚¤ãƒ«
 	const float TIME_CHARGE_MAGICMISSILE = 1.0f * 60;
 	const float TIME_FIRE_MAGICMISSILE = 2.0f * 60;
-	//ƒAƒCƒXƒ{ƒ‹ƒg
+	//ã‚¢ã‚¤ã‚¹ãƒœãƒ«ãƒˆ
 	const float TIME_CHARGE_ICEBOLT = 1.2f * 60;
 	const float TIME_FIRE_ICEBOLT = 0.3f * 60;
-	//ƒ`ƒFƒCƒ“ƒ‰ƒCƒgƒjƒ“ƒO
+	//ãƒã‚§ã‚¤ãƒ³ãƒ©ã‚¤ãƒˆãƒ‹ãƒ³ã‚°
 	const float TIME_CHARGE_CHAINLIGHTNING = 1.8f * 60;
 	const float TIME_FIRE_CHAINLIGHTNING = 0.3f * 60;
-	//ƒGƒ“ƒ`ƒƒƒ“ƒgƒtƒ@ƒCƒA
+	//ã‚¨ãƒ³ãƒãƒ£ãƒ³ãƒˆãƒ•ã‚¡ã‚¤ã‚¢
 	const float TIME_CHARGE_ENCHANTFIRE = 3.0f * 60;
 	const float TIME_FIRE_ENCHANTFIRE = 0.5f * 60;
-	//‰Î‰Š•úË
+	//ç«ç‚æ”¾å°„
 	const float TIME_CHARGE_FLAME = 2.0f * 60;
 	const float TIME_FIRE_FLAME = 3.0f * 60;
 

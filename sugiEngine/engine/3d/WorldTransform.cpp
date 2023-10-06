@@ -1,4 +1,4 @@
-#include "WorldTransform.h"
+ï»¿#include "WorldTransform.h"
 
 using namespace DirectX;
 
@@ -29,7 +29,7 @@ void WorldTransform::SetMatTrans(Matrix4& matTrans, const Vector3& trans) {
 void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char way) {
 
 	if (way == 'z') {
-		//ZŽ²‰ñ“]
+		//Zè»¸å›žè»¢
 		for (int32_t i = 0; i < 4; i++) {
 			for (int32_t j = 0; j < 4; j++) {
 				if (i == j) {
@@ -47,7 +47,7 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 	}
 
 	if (way == 'x') {
-		//XŽ²‰ñ“]
+		//Xè»¸å›žè»¢
 		for (int32_t i = 0; i < 4; i++) {
 			for (int32_t j = 0; j < 4; j++) {
 				if (i == j) {
@@ -63,7 +63,7 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 		matRot.m[2][1] = static_cast<float> (-sin(XMConvertToRadians(rot.x)));
 		matRot.m[2][2] = static_cast<float> (cos(XMConvertToRadians(rot.x)));
 	}
-	//YŽ²‰ñ“]
+	//Yè»¸å›žè»¢
 	if (way == 'y') {
 		for (int32_t i = 0; i < 4; i++) {
 			for (int32_t j = 0; j < 4; j++) {
@@ -83,7 +83,7 @@ void WorldTransform::SetMatRot(Matrix4& matRot, const Vector3& rot, const char w
 }
 
 void WorldTransform::SetWorldMat() {
-	//ƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ì‰Šú‰»
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®åˆæœŸåŒ–
 	matWorld_ =
 	{
 		1,0,0,0,
@@ -109,7 +109,7 @@ void WorldTransform::SetWorldMat() {
 
 	Matrix4 matRot = matRotZ * matRotX * matRotY;
 
-	//’PˆÊs—ñ‚ð‘ã“ü
+	//å˜ä½è¡Œåˆ—ã‚’ä»£å…¥
 	for (int32_t i = 0; i < 4; i++) {
 		for (int32_t j = 0; j < 4; j++) {
 			if (i == j) {

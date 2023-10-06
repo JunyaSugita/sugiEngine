@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GrovalSetting.h"
 
 struct NavePoint {
@@ -13,9 +13,9 @@ private:
 	~NavePointManager() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	NavePointManager(const NavePointManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	NavePointManager& operator=(const NavePointManager& obj) = delete;
 
 	static NavePointManager* GetInstance();

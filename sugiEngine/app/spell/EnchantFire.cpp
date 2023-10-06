@@ -1,4 +1,4 @@
-#include "EnchantFire.h"
+﻿#include "EnchantFire.h"
 #include "SpellManager.h"
 
 void EnchantFire::Initialize(Vector3 pos, Vector3 vec)

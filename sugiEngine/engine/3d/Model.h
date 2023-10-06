@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -13,23 +13,23 @@
 class Model
 {
 public:
-	//’¸“_ƒf[ƒ^\‘¢‘Ì
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct Vertex {
 		DirectX::XMFLOAT3 pos;	//xyz
-		DirectX::XMFLOAT3 normal;//–@üƒxƒNƒgƒ‹
-		DirectX::XMFLOAT2 uv;	//uvÀ•W
+		DirectX::XMFLOAT3 normal;//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+		DirectX::XMFLOAT2 uv;	//uvåº§æ¨™
 	};
 
-	//ƒ}ƒeƒŠƒAƒ‹
+	//ãƒãƒ†ãƒªã‚¢ãƒ«
 	struct Material {
-		std::string name;	//ƒ}ƒeƒŠƒAƒ‹–¼
-		DirectX::XMFLOAT3 ambient;	//ƒAƒ“ƒrƒGƒ“ƒg‰e‹¿“x
-		DirectX::XMFLOAT3 diffuse;	//ƒfƒBƒtƒ…[ƒY‰e‹¿“x
-		DirectX::XMFLOAT3 specular;	//ƒXƒyƒLƒ…ƒ‰[‰e‹¿“x
-		float alpha;		//ƒAƒ‹ƒtƒ@
+		std::string name;	//ãƒãƒ†ãƒªã‚¢ãƒ«å
+		DirectX::XMFLOAT3 ambient;	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆå½±éŸ¿åº¦
+		DirectX::XMFLOAT3 diffuse;	//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºå½±éŸ¿åº¦
+		DirectX::XMFLOAT3 specular;	//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼å½±éŸ¿åº¦
+		float alpha;		//ã‚¢ãƒ«ãƒ•ã‚¡
 		DirectX::XMFLOAT4 color;
-		std::string textureFilename;	//ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹–¼
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		std::string textureFilename;	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«å
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Material() {
 			ambient = { 0.3f,0.3f,0.3f };
 			diffuse = { 0.0f,0.0f,0.0f };
@@ -39,14 +39,14 @@ public:
 		}
 	};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘ÌB1
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“B1
 	struct ConstBufferDataB1 {
-		DirectX::XMFLOAT3 ambient;	//ƒAƒ“ƒrƒGƒ“ƒgŒW”
-		float pad1;			//ƒpƒfƒBƒ“ƒO
-		DirectX::XMFLOAT3 diffuse;	//ƒfƒBƒtƒ…[ƒYŒW”
-		float pad2;			//ƒpƒfƒBƒ“ƒO
-		DirectX::XMFLOAT3 specular;	//ƒXƒyƒLƒ…ƒ‰[ŒW”
-		float alpha;		//ƒAƒ‹ƒtƒ@
+		DirectX::XMFLOAT3 ambient;	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆä¿‚æ•°
+		float pad1;			//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		DirectX::XMFLOAT3 diffuse;	//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºä¿‚æ•°
+		float pad2;			//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		DirectX::XMFLOAT3 specular;	//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼ä¿‚æ•°
+		float alpha;		//ã‚¢ãƒ«ãƒ•ã‚¡
 	};
 
 
@@ -61,12 +61,12 @@ private:
 
 public:
 	/// <summary>
-	/// ƒ}ƒeƒŠƒAƒ‹“Ç‚İ‚İ
+	/// ãƒãƒ†ãƒªã‚¢ãƒ«èª­ã¿è¾¼ã¿
 	/// </summary>
 	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
 
 	/// <summary>
-	/// ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+	/// ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	/// </summary>
 	bool LoadTexture(const std::string& directoryPath, const std::string& filename);
 
@@ -90,13 +90,13 @@ private:
 	std::vector<Vertex> vertices_;
 	std::vector<unsigned short> indices_;
 	Material material_;
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Ì¶¬
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff_;
 
 	ID3D12DescriptorHeap* srvHeap_;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì¶¬
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff_;
-	// ’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff_;
 	D3D12_VERTEX_BUFFER_VIEW vbView_;
 	D3D12_INDEX_BUFFER_VIEW ibView_;

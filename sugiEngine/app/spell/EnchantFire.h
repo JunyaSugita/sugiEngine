@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GrovalSetting.h"
 #include "BaseSpell.h"
 
@@ -11,5 +11,5 @@ public:
 	bool GetActive();
 
 public:
-	const int32_t TIME_ALIVE = 15 * 60;	//–‚–@‚ªÁ‚¦‚é‚Ü‚Å‚ÌŠÔ
+	const int32_t TIME_ALIVE = 15 * 60;	//é­”æ³•ãŒæ¶ˆãˆã‚‹ã¾ã§ã®æ™‚é–“
 };

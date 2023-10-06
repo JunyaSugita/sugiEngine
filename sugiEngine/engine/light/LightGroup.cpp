@@ -1,4 +1,4 @@
-#include "LightGroup.h"
+ï»¿#include "LightGroup.h"
 #include <assert.h>
 
 using namespace DirectX;
@@ -29,23 +29,23 @@ void LightGroup::Initialize()
 
 	DefaultLightSetting();
 
-	//ƒq[ƒv
+	//ãƒ’ãƒ¼ãƒ—
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
-	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPU‚Ö‚Ì“]‘——p
-	//ƒŠƒ\[ƒX
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPUã¸ã®è»¢é€ç”¨
+	//ãƒªã‚½ãƒ¼ã‚¹
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferData) + 0xff) & ~0xff;	//256ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg
+	cbResourceDesc.Width = (sizeof(ConstBufferData) + 0xff) & ~0xff;	//256ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	result = sDevice->CreateCommittedResource(
-		&cbHeapProp,		//ƒq[ƒvİ’è
+		&cbHeapProp,		//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,	//ƒŠƒ\[ƒXİ’è
+		&cbResourceDesc,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuff_)
@@ -63,7 +63,7 @@ void LightGroup::TransferConstBuffer()
 	result = constBuff_->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		constMap->ambientColor = ambientColor_;
-		//•½sŒõ
+		//å¹³è¡Œå…‰
 		for (int32_t i = 0; i < sDirLightNum; i++) {
 			if (dirLights_[i].GetIsActive()) {
 				constMap->dirLights[i].active = 1;
@@ -74,7 +74,7 @@ void LightGroup::TransferConstBuffer()
 				constMap->dirLights[i].active = 0;
 			}
 		}
-		//“_ŒõŒ¹
+		//ç‚¹å…‰æº
 		for (int32_t i = 0; i < sPointLightNum; i++) {
 			if (pointLights_[i].GetIsActive()) {
 				constMap->pointLights[i].active = 1;
@@ -86,7 +86,7 @@ void LightGroup::TransferConstBuffer()
 				constMap->pointLights[i].active = 0;
 			}
 		}
-		//ƒXƒ|ƒbƒgƒ‰ƒCƒg
+		//ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆ
 		for (int32_t i = 0; i < sSpotLightNum; i++) {
 			if (spotLights_[i].GetIsActive()) {
 				constMap->spotLights[i].active = 1;
@@ -100,7 +100,7 @@ void LightGroup::TransferConstBuffer()
 				constMap->spotLights[i].active = 0;
 			}
 		}
-		//ŠÛ‰e
+		//ä¸¸å½±
 		for (int32_t i = 0; i < sCircleShadowNum; i++) {
 			if (circleShadows_[i].GetIsActive()) {
 				constMap->circleShadows[i].active = 1;

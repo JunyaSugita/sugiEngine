@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Matrix4.h"
 #include "Vector3.h"
 #include <d3d12.h>
@@ -139,15 +139,15 @@ public:
 	}
 
 public:
-	//ƒAƒtƒBƒ“•ÏŠ·î•ñ
+	//ã‚¢ãƒ•ã‚£ãƒ³å¤‰æ›æƒ…å ±
 	Vector3 scale_ = { 1,1,1 };
 	Vector3 rot_ = { 0,0,0 };
 	Vector3 pos_ = { 0,0,0 };
 
-	//ƒ[ƒ‹ƒh•ÏŠ·s—ñ
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
 	Matrix4 matWorld_;
 
-	//e‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	//è¦ªã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	WorldTransform* parent_ = nullptr;
 };
 

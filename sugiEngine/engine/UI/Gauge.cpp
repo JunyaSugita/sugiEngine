@@ -1,4 +1,4 @@
-#include "Gauge.h"
+ï»¿#include "Gauge.h"
 
 void Gauge::Set(Vector2 pos, Vector2 size, Vector3 color)
 {
@@ -40,16 +40,16 @@ void Gauge::Set(Vector2 pos, Vector2 size, Vector3 color)
 
 void Gauge::Update(float max, float now, float heal)
 {
-	//ƒQ[ƒW‚ª‰ºŒÀ“Ë”j‚µ‚È‚¢‚æ‚¤‚É
+	//ã‚²ãƒ¼ã‚¸ãŒä¸‹é™çªç ´ã—ãªã„ã‚ˆã†ã«
 	if (now < 0) {
 		now = 0;
 	}
-	//ƒQ[ƒW‚ªãŒÀ“Ë”j‚µ‚È‚¢‚æ‚¤‚É
+	//ã‚²ãƒ¼ã‚¸ãŒä¸Šé™çªç ´ã—ãªã„ã‚ˆã†ã«
 	if (now + heal > max) {
 		heal = max - now;
 	}
 
-	//ƒQ[ƒW•Ï“®‚ª–³‚¯‚ê‚Îƒ^ƒCƒ}[‚ğŒ¸‚ç‚·
+	//ã‚²ãƒ¼ã‚¸å¤‰å‹•ãŒç„¡ã‘ã‚Œã°ã‚¿ã‚¤ãƒãƒ¼ã‚’æ¸›ã‚‰ã™
 	if (oldNow_ <= now) {
 		stopTimer_--;
 	}

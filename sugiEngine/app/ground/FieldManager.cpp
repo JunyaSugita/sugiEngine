@@ -1,4 +1,4 @@
-#include "FieldManager.h"
+ï»¿#include "FieldManager.h"
 #include "EnemyManager.h"
 #include "NavePointManager.h"
 #include "ModelManager.h"
@@ -16,7 +16,7 @@ FieldManager* FieldManager::GetInstance()
 
 void FieldManager::Initialize(int num)
 {
-	// ƒŒƒxƒ‹ƒf[ƒ^‚Ì“Ç‚İ‚İ
+	// ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 	SelectStage(num);
 
 	objNum_ = 0;
@@ -24,10 +24,10 @@ void FieldManager::Initialize(int num)
 	col_.clear();
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
-			//ƒ‚ƒfƒ‹‚ğw’è‚µ‚Ä3DƒIƒuƒWƒFƒNƒg‚ğ¶¬
+			//ãƒ¢ãƒ‡ãƒ«ã‚’æŒ‡å®šã—ã¦3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
 			obj_[objNum_].Initialize("ground");
 
-			//objî•ñ
+			//objæƒ…å ±
 			obj_[objNum_].pos = objectData.pos;
 			obj_[objNum_].rot = { 0,0,0 };
 			obj_[objNum_].scale = objectData.scale;
@@ -52,10 +52,10 @@ void FieldManager::Initialize(int num)
 			objNum_++;
 		}
 		if (objectData.filename == "ground") {
-			//ƒ‚ƒfƒ‹‚ğw’è‚µ‚Ä3DƒIƒuƒWƒFƒNƒg‚ğ¶¬
+			//ãƒ¢ãƒ‡ãƒ«ã‚’æŒ‡å®šã—ã¦3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
 			obj_[objNum_].Initialize("ground");
 
-			//objî•ñ
+			//objæƒ…å ±
 			obj_[objNum_].pos = objectData.pos;
 			obj_[objNum_].rot = { 0,0,0 };
 			obj_[objNum_].scale = objectData.scale;

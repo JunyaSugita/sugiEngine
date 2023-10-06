@@ -1,4 +1,4 @@
-#include "Burst.h"
+ï»¿#include "Burst.h"
 #include <random>
 #include "ModelManager.h"
 
@@ -7,7 +7,7 @@ void Burst::Initialize(const Vector3& pos,Vector4 color,float range,float pow) {
 	obj_.Initialize("effect");
 	obj_.obj->SetColor(color);
 
-	//ƒ‰ƒ“ƒ_ƒ€
+	//ãƒ©ãƒ³ãƒ€ãƒ 
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 
@@ -19,13 +19,13 @@ void Burst::Initialize(const Vector3& pos,Vector4 color,float range,float pow) {
 	std::uniform_real_distribution<float> ry(-0.5f, 0.5f);
 	std::uniform_real_distribution<float> rz(-0.5f, 0.0f);
 
-	//ƒ‰ƒ“ƒ_ƒ€‚Åo‚µ‚½’l‚ğ“ü‚ê‚é
+	//ãƒ©ãƒ³ãƒ€ãƒ ã§å‡ºã—ãŸå€¤ã‚’å…¥ã‚Œã‚‹
 	move_ = { x(engine), y(engine), z(engine) };
 	rotate_ = { rx(engine), ry(engine), rz(engine) };
 
-	//ˆø”‚ÌÀ•W‚ğ“ü‚ê‚é
+	//å¼•æ•°ã®åº§æ¨™ã‚’å…¥ã‚Œã‚‹
 	obj_.pos = pos;
-	//‘å‚«‚³‚ğ•ÏX
+	//å¤§ãã•ã‚’å¤‰æ›´
 	obj_.scale = { 0.1f, 0.1f, 0.1f };
 }
 

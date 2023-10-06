@@ -1,4 +1,4 @@
-#include "StageSelectScene.h"
+ï»¿#include "StageSelectScene.h"
 #include "SceneChange.h"
 #include "StageSelectManager.h"
 #include "Input.h"
@@ -10,7 +10,7 @@ void StageSelectScene::Initialize()
 
 void StageSelectScene::Update()
 {
-	//ƒV[ƒ“ƒ`ƒFƒ“ƒW
+	//ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸
 	SceneChange::GetInstance()->Update();
 
 	StageSelectManager::GetInstance()->Update();

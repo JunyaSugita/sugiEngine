@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #pragma once
 #include "FbxModel.h"
 #include "Camera.h"
@@ -80,17 +80,17 @@ private:
 	WorldTransform worldTransform_;
 	FbxModel* model_ = nullptr;
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> constBuffSkin_;
 
-	//ƒAƒjƒ[ƒVƒ‡ƒ“ŠÖŒW
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é–¢ä¿‚
 	FbxTime frameTime;
 	FbxTime startTime;
 	FbxTime endTime;
 	FbxTime currentTime;
 	bool isPlay = false;
 
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	static LightGroup* lightGroup_;
 };
 

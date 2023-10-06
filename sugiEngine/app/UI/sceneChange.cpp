@@ -1,4 +1,4 @@
-#include "SceneChange.h"
+﻿#include "SceneChange.h"
 #include "GrovalSetting.h"
 #include "SugiMath.h"
 

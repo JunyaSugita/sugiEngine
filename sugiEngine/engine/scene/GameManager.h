@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "ISceneManager.h"
 #include <memory>
 #include "Camera.h"
@@ -10,9 +10,9 @@ private:
 	~GameManager() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	GameManager(const GameManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	GameManager& operator=(const GameManager& obj) = delete;
 
 	static GameManager* GetInstance();

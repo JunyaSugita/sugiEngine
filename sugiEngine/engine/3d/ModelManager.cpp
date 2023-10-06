@@ -1,4 +1,4 @@
-#include "ModelManager.h"
+ï»¿#include "ModelManager.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ Model* ModelManager::Get(string filename)
 
 void ModelManager::Load(string filename,bool is)
 {
-	//d•¡ƒ`ƒFƒbƒN
+	//é‡è¤‡ãƒã‚§ãƒƒã‚¯
 	if (objects_.find(filename) != objects_.end()) {
 		return;
 	};
@@ -44,7 +44,7 @@ void ModelManager::Load(string filename,bool is)
 
 void ModelManager::LoadSphere(string filename)
 {
-	//d•¡ƒ`ƒFƒbƒN
+	//é‡è¤‡ãƒã‚§ãƒƒã‚¯
 	if (objects_.find(filename) != objects_.end()) {
 		return;
 	};

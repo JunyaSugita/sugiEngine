@@ -1,4 +1,4 @@
-#include "Camera.h"
+ï»¿#include "Camera.h"
 #include <random>
 
 using namespace DirectX;
@@ -12,33 +12,33 @@ Camera* Camera::GetInstance()
 
 void Camera::Initialize()
 {
-	//•Às“Š‰es—ñ
+	//ä¸¦è¡ŒæŠ•å½±è¡Œåˆ—
 	ortho_ = XMMatrixOrthographicOffCenterLH(
 		0.0f, WIN_WIDTH,
 		WIN_HEIGHT, 0.0f,
 		0.0f, 1.0f
 	);
 
-	//“§‹“Š‰e•ÏŠ·s—ñ‚ÌŒvZ
+	//é€è¦–æŠ•å½±å¤‰æ›è¡Œåˆ—ã®è¨ˆç®—
 	perspective_ = XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(45.0f),			//ã‰º‰æŠp45“x
-		(float)WIN_WIDTH / WIN_HEIGHT,//ƒAƒXƒyƒNƒg”ä
-		0.1f, 1000.0f						//‘O’[,‰œ’[
+		XMConvertToRadians(45.0f),			//ä¸Šä¸‹ç”»è§’45åº¦
+		(float)WIN_WIDTH / WIN_HEIGHT,//ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”
+		0.1f, 1000.0f						//å‰ç«¯,å¥¥ç«¯
 	);
-	//matrix4‚É•ÏŠ·
+	//matrix4ã«å¤‰æ›
 	matProjection_ = ConvertToMatrix4(perspective_);
 
-	//ƒrƒ…[•ÏŠ·s—ñ
-	//ƒJƒƒ‰‘€ì
+	//ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
+	//ã‚«ãƒ¡ãƒ©æ“ä½œ
 	XMMATRIX xmmatView;
 	activeNum_ = 0;
 	for (int32_t i = 0; i < MAX_NUM; i++) {
-		eye_[i] = Vector3(0, 50, -50);	//‹“_À•W
-		target_[i] = Vector3(0, 0, 0);	//’‹“_À•W
-		up_[i] = Vector3(0, 1, 0);		//ã•ûŒüƒxƒNƒgƒ‹
+		eye_[i] = Vector3(0, 50, -50);	//è¦–ç‚¹åº§æ¨™
+		target_[i] = Vector3(0, 0, 0);	//æ³¨è¦–ç‚¹åº§æ¨™
+		up_[i] = Vector3(0, 1, 0);		//ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 	}
 	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(GetEyeXM()), XMLoadFloat3(GetTargetXM()), XMLoadFloat3(GetUpXM()));
-	//matrix4‚É•ÏŠ·
+	//matrix4ã«å¤‰æ›
 	matView_ = ConvertToMatrix4(xmmatView);
 
 	shake_ = 0;
@@ -46,7 +46,7 @@ void Camera::Initialize()
 
 void Camera::Update()
 {
-	//ƒJƒƒ‰ƒVƒFƒCƒNˆ—
+	//ã‚«ãƒ¡ãƒ©ã‚·ã‚§ã‚¤ã‚¯å‡¦ç†
 	if (shake_ > 0) {
 		std::random_device seed_gen;
 		std::mt19937_64 engine(seed_gen());
@@ -64,6 +64,6 @@ void Camera::Update()
 
 	XMMATRIX xmmatView;
 	xmmatView = XMMatrixLookAtLH(XMLoadFloat3(GetEyeXM()), XMLoadFloat3(GetTargetXM()), XMLoadFloat3(GetUpXM()));
-	//matrix4‚É•ÏŠ·
+	//matrix4ã«å¤‰æ›
 	matView_ = ConvertToMatrix4(xmmatView);
 }

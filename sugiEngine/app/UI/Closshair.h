@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Sprite.h"
 #include "GrovalSetting.h"
 
@@ -7,9 +7,9 @@ private:
 	Closshair() = default;
 	~Closshair() = default;
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	Closshair(const Closshair& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	Closshair& operator=(const Closshair& obj) = delete;
 
 	static Closshair* GetInstance();

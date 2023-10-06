@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 
 #include<DirectXMath.h>
 
@@ -22,7 +22,7 @@ public:
 	};
 
 public:
-	//ÉZÉbÉ^Å[
+	//„Çª„ÉÉ„Çø„Éº
 	inline void SetLightPos(const XMFLOAT3& lightpos) {
 		lightpos_ = lightpos;
 	}
@@ -36,7 +36,7 @@ public:
 		active_ = active;
 	}
 	
-	//ÉQÉbÉ^Å[
+	//„Ç≤„ÉÉ„Çø„Éº
 	inline const XMFLOAT3& GetLightPos() {
 		return lightpos_;
 	}

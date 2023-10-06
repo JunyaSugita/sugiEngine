@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GrovalSetting.h"
 #include "BaseObj.h"
 
@@ -14,12 +14,12 @@ public:
 
 private:
 	static const int NUM = 50;
-	//À•W
+	//åº§æ¨™
 	BaseObj obj_[NUM];
-	//‰ñ“]
+	//å›è»¢
 	Vector3 rotate_;
-	//ŠÔ
+	//æ™‚é–“
 	float timer_;
-	//Á–Åƒtƒ‰ƒO
+	//æ¶ˆæ»…ãƒ•ãƒ©ã‚°
 	bool isDead_;
 };

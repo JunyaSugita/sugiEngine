@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "WorldTransform.h"
 #include "Vector3.h"
 #include "Model.h"
@@ -15,12 +15,12 @@ public:
 	}
 
 private:
-	//À•W
+	//åº§æ¨™
 	BaseObj obj_;
-	//ˆÚ“®
+	//ç§»å‹•
 	Vector3 move_;
-	//‰ñ“]
+	//å›è»¢
 	Vector3 rotate_;
-	//Á–Åƒtƒ‰ƒO
+	//æ¶ˆæ»…ãƒ•ãƒ©ã‚°
 	bool isDead_;
 };

@@ -1,4 +1,4 @@
-#include "Slime.h"
+﻿#include "Slime.h"
 #include "NavePointManager.h"
 #include "Player.h"
 
@@ -86,6 +86,6 @@ void Slime::Down()
 	}
 	//obj_.obj->SetColor({1,0,0,1});
 
-	//�Ō�
+	//最後
 	BaseEnemy::Down();
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include "SpellManager.h"
@@ -9,9 +9,9 @@ private:
 	Player() = default;
 	~Player() = default;
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	Player(const Player& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	Player& operator=(const Player& obj) = delete;
 
 	static Player* GetInstance();
@@ -91,7 +91,7 @@ public:
 
 	void WorldTransUpdate();
 
-	//‰ñ•œ
+	//å›å¾©
 	void AddHealNum(int32_t num) {
 		healingLife_ += num;
 	}
@@ -99,7 +99,7 @@ public:
 		return healingLife_;
 	}
 
-	//–³“G
+	//ç„¡æ•µ
 	void SetInvincible() {
 		isInvincible_ = (isInvincible_ + 1) % 2;
 	}
@@ -114,13 +114,13 @@ private:
 	void HealLife();
 
 public:
-	const Vector3 CAMERA_EYE = { 0.0f,5.0f,0.0f };//ƒvƒŒƒCƒ„[‚Ì–Úü’²®
-	const float SPEED_MOVE = 0.5f;	//ƒvƒŒƒCƒ„[‚ÌƒXƒs[ƒh
-	const float SPEED_SLOW = 0.5f;	//ƒvƒŒƒCƒ„[‚ªslowó‘Ô‚Å‚ÌƒXƒs[ƒh‚Ì”{—¦
-	const float SPEED_CAMERA = 3.0f;	//ƒJƒƒ‰‚ÌƒXƒs[ƒh
-	const float TIME_ATTACK_START_NORMAL = 0.3f * 60.0f;//’ÊíUŒ‚ŠJn‚©‚çUŒ‚”»’è‚ªo‚é‚Ü‚Å‚ÌŠÔ
-	const float TIME_ATTACK_END_NORMAL = 0.75f * 60.0f;//’ÊíUŒ‚ŠJn‚©‚çUŒ‚”»’è‚ª–³‚­‚È‚é‚Ü‚Å‚ÌŠÔ
-	const float TIME_ATTACK_NORMAL = 0.8f * 60.0f;	//’ÊíUŒ‚ŠJn‚©‚çI—¹‚Ü‚Å‚ÌƒXƒs[ƒh
+	const Vector3 CAMERA_EYE = { 0.0f,5.0f,0.0f };//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç›®ç·šèª¿æ•´
+	const float SPEED_MOVE = 0.5f;	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
+	const float SPEED_SLOW = 0.5f;	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒslowçŠ¶æ…‹ã§ã®ã‚¹ãƒ”ãƒ¼ãƒ‰ã®å€ç‡
+	const float SPEED_CAMERA = 3.0f;	//ã‚«ãƒ¡ãƒ©ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
+	const float TIME_ATTACK_START_NORMAL = 0.3f * 60.0f;//é€šå¸¸æ”»æ’ƒé–‹å§‹ã‹ã‚‰æ”»æ’ƒåˆ¤å®šãŒå‡ºã‚‹ã¾ã§ã®æ™‚é–“
+	const float TIME_ATTACK_END_NORMAL = 0.75f * 60.0f;//é€šå¸¸æ”»æ’ƒé–‹å§‹ã‹ã‚‰æ”»æ’ƒåˆ¤å®šãŒç„¡ããªã‚‹ã¾ã§ã®æ™‚é–“
+	const float TIME_ATTACK_NORMAL = 0.8f * 60.0f;	//é€šå¸¸æ”»æ’ƒé–‹å§‹ã‹ã‚‰çµ‚äº†ã¾ã§ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
 	const float TIME_NAVE = 1.0f * 60;
 	const int32_t MAX_LIFE = 10000;
 	const float MAX_Y = 3.0f;
@@ -130,35 +130,35 @@ private:
 	Vector3 pos_;
 	Vector3 rot_;
 	Vector3 scale_;
-	Vector2 cameraAngle_;//ƒJƒƒ‰Šp“x
-	Vector3 frontVec_;//³–ÊƒxƒNƒgƒ‹
-	Vector3 rightVec_;//‰EƒxƒNƒgƒ‹
+	Vector2 cameraAngle_;//ã‚«ãƒ¡ãƒ©è§’åº¦
+	Vector3 frontVec_;//æ­£é¢ãƒ™ã‚¯ãƒˆãƒ«
+	Vector3 rightVec_;//å³ãƒ™ã‚¯ãƒˆãƒ«
 
-	int32_t life_;//‘Ì—Í
-	int32_t healingLife_;	//ƒ|[ƒVƒ‡ƒ“‚Ì‰ñ•œ
-	int32_t exLife_;	//ô•¶‚Ì‰ñ•œ
+	int32_t life_;//ä½“åŠ›
+	int32_t healingLife_;	//ãƒãƒ¼ã‚·ãƒ§ãƒ³ã®å›å¾©
+	int32_t exLife_;	//å‘ªæ–‡ã®å›å¾©
 
-	bool isAttack_;//UŒ‚ƒtƒ‰ƒO
-	bool isSpell_;//–‚–@ƒtƒ‰ƒO
-	float attackTime_;//UŒ‚ŠÔ
+	bool isAttack_;//æ”»æ’ƒãƒ•ãƒ©ã‚°
+	bool isSpell_;//é­”æ³•ãƒ•ãƒ©ã‚°
+	float attackTime_;//æ”»æ’ƒæ™‚é–“
 
-	//‘•”õô•¶
+	//è£…å‚™å‘ªæ–‡
 	int32_t presetSpell_;
 	float spellAngle_;
 
-	//“–‚½‚è”»’è
+	//å½“ãŸã‚Šåˆ¤å®š
 	BoxCol boxCol_;
 	BoxCol oldBoxCol_;
 
-	//ƒ_ƒ[ƒW‰‰o
+	//ãƒ€ãƒ¡ãƒ¼ã‚¸æ¼”å‡º
 	int32_t damageTex_;
 	Sprite damageSp_;
 	float damageAlpha_;
 
-	//–³“G
+	//ç„¡æ•µ
 	bool isInvincible_;
 
-	//navePoint‚Ìƒ^ƒCƒ~ƒ“ƒO
+	//navePointã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°
 	float naveTimer_;
 };
 

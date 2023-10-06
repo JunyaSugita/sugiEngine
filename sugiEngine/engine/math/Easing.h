@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 float EaseIn(float time,float move);
 

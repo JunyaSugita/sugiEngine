@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Model.h"
 #include <list>
 #include "Vector3.h"
@@ -12,9 +12,9 @@ private:
 	~EffectManager() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	EffectManager(const EffectManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	EffectManager& operator=(const EffectManager& obj) = delete;
 
 	static EffectManager* GetInstance();
@@ -24,7 +24,7 @@ public:
 	void Update();
 	void Draw();
 
-	//”ò‚ÑU‚èƒGƒtƒFƒNƒg(À•W,”)
+	//é£›ã³æ•£ã‚Šã‚¨ãƒ•ã‚§ã‚¯ãƒˆ(åº§æ¨™,æ•°)
 	void BurstGenerate(const Vector3& pos, int32_t num,const Vector4& color, float range = 0.5f, float pow = 0.5f);
 	void BoltGenerate(const Vector3& posS, const Vector3& posE, const Vector3& rot, const Vector4& color);
 private:

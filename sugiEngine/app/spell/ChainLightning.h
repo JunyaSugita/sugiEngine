@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include "BaseObj.h"
@@ -32,25 +32,25 @@ private:
 	void WorldTransUpdate();
 
 public:
-	const float SPEED_MOVE = 1.0f;	//–‚–@‚ÌƒXƒs[ƒh
-	const int32_t TIME_ALIVE = 2;	//–‚–@‚ªÁ‚¦‚é‚Ü‚Å‚ÌŠÔ
+	const float SPEED_MOVE = 1.0f;	//é­”æ³•ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
+	const int32_t TIME_ALIVE = 2;	//é­”æ³•ãŒæ¶ˆãˆã‚‹ã¾ã§ã®æ™‚é–“
 
 private:
 	BaseObj obj_;
 
-	//“–‚½‚è”»’è
+	//å½“ãŸã‚Šåˆ¤å®š
 	BaseCol col_;
 
-	//is•ûŒü
+	//é€²è¡Œæ–¹å‘
 	Vector3 vec_;
 
-	//•\¦ƒtƒ‰ƒO
+	//è¡¨ç¤ºãƒ•ãƒ©ã‚°
 	bool isDead_;
-	//Á‚¦‚é‚Ü‚Å‚ÌŠÔŠÇ—
+	//æ¶ˆãˆã‚‹ã¾ã§ã®æ™‚é–“ç®¡ç†
 	int32_t time_;
-	//Á‚¦‚é‚ÌAlpha
+	//æ¶ˆãˆã‚‹æ™‚ã®Alpha
 	float alpha_;
 
-	//“–‚½‚Á‚½ƒtƒ‰ƒO
+	//å½“ãŸã£ãŸãƒ•ãƒ©ã‚°
 	bool isHit_;
 };

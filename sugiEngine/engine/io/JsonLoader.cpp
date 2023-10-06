@@ -1,4 +1,4 @@
-#include "JsonLoader.h"
+ï»¿#include "JsonLoader.h"
 #include <fstream>
 
 using namespace std;
@@ -8,33 +8,33 @@ LevelData* JsonLoader::sLevelData;
 
 LevelData* JsonLoader::LoadJson(const std::string& filename)
 {
-	//˜AŒ‹‚µ‚Äƒtƒ‹ƒpƒX‚ğ“¾‚é
+	//é€£çµã—ã¦ãƒ•ãƒ«ãƒ‘ã‚¹ã‚’å¾—ã‚‹
 	const string fullpath = "Resources/level/" + filename + ".Json";
 
-	//ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 	ifstream file;
 
-	//ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	file.open(fullpath);
-	//ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s‚ğƒ`ƒFƒbƒN
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³å¤±æ•—ã‚’ãƒã‚§ãƒƒã‚¯
 	if (file.fail()) {
 		assert(0);
 	}
 
-	//‰ğ“€
+	//è§£å‡
 	file >> sDeserialized;
 
-	//³‚µ‚¢ƒŒƒxƒ‹ƒf[ƒ^ƒtƒ@ƒCƒ‹‚©ƒ`ƒFƒbƒN
+	//æ­£ã—ã„ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒã‚§ãƒƒã‚¯
 	assert(sDeserialized.is_object());
 	assert(sDeserialized.contains("name"));
 	assert(sDeserialized["name"].is_string());
 
-	//"name"‚ğ•¶š—ñ‚Æ‚µ‚Äæ“¾
+	//"name"ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—
 	string name = sDeserialized["name"].get<string>();
-	//³‚µ‚¢ƒŒƒxƒ‹ƒf[ƒ^ƒtƒ@ƒCƒ‹‚©ƒ`ƒFƒbƒN
+	//æ­£ã—ã„ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒã‚§ãƒƒã‚¯
 	assert(name.compare("scene") == 0);
 
-	//ƒŒƒxƒ‹ƒf[ƒ^Ši”[—pƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
+	//ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
 	sLevelData = new LevelData();
 
 	LoadRecursive();
@@ -44,42 +44,42 @@ LevelData* JsonLoader::LoadJson(const std::string& filename)
 
 void JsonLoader::LoadRecursive()
 {
-	//"objects"‚Ì‘SƒIƒuƒWƒFƒNƒg‚ğ‘–¸
+	//"objects"ã®å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’èµ°æŸ»
 	for (nlohmann::json& object : sDeserialized["objects"]) {
 		assert(object.contains("type"));
 
-		//í•Ê‚ğæ“¾
+		//ç¨®åˆ¥ã‚’å–å¾—
 		std::string type = object["type"].get<std::string>();
 
 		//MESH
 		if (type.compare("MESH") == 0) {
-			//—v‘f’Ç‰Á
+			//è¦ç´ è¿½åŠ 
 			sLevelData->obj.emplace_back(LevelData::OBJData{});
-			//¡’Ç‰Á‚µ‚½—v‘f‚ÌQÆ‚ğ“¾‚é
+			//ä»Šè¿½åŠ ã—ãŸè¦ç´ ã®å‚ç…§ã‚’å¾—ã‚‹
 			LevelData::OBJData& objectData = sLevelData->obj.back();
 
 			if (object.contains("file_name")) {
-				//ƒtƒ@ƒCƒ‹–¼
+				//ãƒ•ã‚¡ã‚¤ãƒ«å
 				objectData.filename = object["file_name"];
 			}
 
-			//ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ìƒpƒ‰ƒ[ƒ^“Ç‚İ‚İ
+			//ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 			nlohmann::json& transform = object["transform"];
-			//•½sˆÚ“®
+			//å¹³è¡Œç§»å‹•
 			objectData.pos.x = (float)transform["translation"][1];
 			objectData.pos.y = (float)transform["translation"][2];
 			objectData.pos.z = -(float)transform["translation"][0];
-			//‰ñ“]Šp
+			//å›è»¢è§’
 			objectData.rot.x = -(float)transform["rotation"][1];
 			objectData.rot.y = -(float)transform["rotation"][2];
 			objectData.rot.z = (float)transform["rotation"][0];
-			//ƒXƒP[ƒŠƒ“ƒO
+			//ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 			objectData.scale.x = (float)transform["scaling"][1];
 			objectData.scale.y = (float)transform["scaling"][2];
 			objectData.scale.z = (float)transform["scaling"][0];
 		}
 
-		//ƒIƒuƒWƒFƒNƒg‘–¸‚ÌÄ‹AŠÖ”
+		//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆèµ°æŸ»ã®å†å¸°é–¢æ•°
 		if (object.contains("children")) {
 			LoadRecursive();
 		}

@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+ï»¿#include "TitleScene.h"
 #include "Input.h"
 #include "ParticleManager.h"
 #include "sceneChange.h"
@@ -7,7 +7,7 @@
 
 void TitleScene::Initialize()
 {
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	lightGroup_ = LightGroup::Create();
 	Object3d::SetLight(lightGroup_.get());
 
@@ -27,15 +27,15 @@ void TitleScene::Initialize()
 	titleTex_ = Sprite::LoadTexture("title.png");
 	titleSp_.Initialize(titleTex_);
 
-	//•Ší‚ÌÝ’è
+	//æ­¦å™¨ã®è¨­å®š
 	obj_.Initialize("weapon");
 	obj_.pos = { 0,46,-48 };
 	obj_.rot = { 30,0,0 };
 	obj_.scale = { 1,1,1 };
-	//XV
+	//æ›´æ–°
 	obj_.Update();
 
-	//ƒI[ƒu‚ÌÝ’è
+	//ã‚ªãƒ¼ãƒ–ã®è¨­å®š
 	orbObj_.Initialize("sphere");
 	orbObj_.obj->SetColor({ 0,1,1,0.5f });
 	orbObj_.obj->SetIsSimple();
@@ -43,7 +43,7 @@ void TitleScene::Initialize()
 	orbObj_.rot = { 0,0,0 };
 	orbObj_.scale = { 0.3f,0.3f,0.3f };
 	orbObj_.worldTrans.parent_ = &obj_.worldTrans;
-	//XV
+	//æ›´æ–°
 	orbObj_.Update();
 }
 
@@ -53,7 +53,7 @@ void TitleScene::Update()
 
 	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, {0,0.5f,0});
 	ParticleManager::GetInstance()->Update();
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	lightGroup_->Update();
 
 	SceneChange::GetInstance()->Update();
@@ -101,7 +101,7 @@ void TitleScene::SpriteDraw()
 {
 	titleSp_.Draw();
 
-	//â‘ÎÅŒã
+	//çµ¶å¯¾æœ€å¾Œ
 	SceneChange::GetInstance()->Draw();
 }
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SugiMath.h"
 #include "BaseSpell.h"
 
@@ -8,6 +8,6 @@ public:
 	void Update()override;
 
 public:
-	const float SPEED_MOVE = 1.0f;	//–‚–@‚ÌƒXƒs[ƒh
+	const float SPEED_MOVE = 1.0f;	//é­”æ³•ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
 	const int32_t TIME_ALIVE = 10 * 60;
 };

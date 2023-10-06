@@ -1,14 +1,14 @@
-#include "FbxModel.h"
+ï»¿#include "FbxModel.h"
 
 void FbxModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
 
-	//’¸“_ƒoƒbƒtƒ@‚Ìİ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
 	D3D12_HEAP_PROPERTIES heapProp{};
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
 
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	uint32_t sizeVB = static_cast<uint32_t>(sizeof(VertexPosNormalUvSkin) * vertices_.size());
 
 	D3D12_RESOURCE_DESC resDesc{};
@@ -36,7 +36,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		vertBuff_->Unmap(0,nullptr);
 	}
 
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	vbView_.SizeInBytes = sizeVB;
 	vbView_.StrideInBytes = sizeof(vertices_[0]);
@@ -53,7 +53,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		IID_PPV_ARGS(&indexBuff_)
 	);
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
 	unsigned short* indexMap = nullptr;
 	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	if (SUCCEEDED(result)) {
@@ -68,12 +68,12 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	const DirectX::Image* img = scratchImg_.GetImage(0, 0, 0);
 	assert(img);
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
 	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
 	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	textureResourceDesc.Format = metadata_.format;
@@ -83,7 +83,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	textureResourceDesc.MipLevels = (UINT16)metadata_.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Ì¶¬
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	result = device->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -101,7 +101,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		(uint32_t)img->slicePitch
 	);
 
-	//SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì¶¬
+	//SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®ç”Ÿæˆ
 	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
 	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
@@ -122,24 +122,24 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 		descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
 	);
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
-	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPU‚Ö‚Ì“]‘——p
-	//ƒŠƒ\[ƒXİ’è
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;		//GPUã¸ã®è»¢é€ç”¨
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferDataB1) + 0xff) & ~0xff;	//256ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg
+	cbResourceDesc.Width = (sizeof(ConstBufferDataB1) + 0xff) & ~0xff;	//256ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬2
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ2
 	result = device->CreateCommittedResource(
-		&cbHeapProp,		//ƒq[ƒvİ’è
+		&cbHeapProp,		//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,	//ƒŠƒ\[ƒXİ’è
+		&cbResourceDesc,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffB1_)
@@ -164,7 +164,7 @@ void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList)
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV_.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-	//1”Ô‚Éİ’è
+	//1ç•ªã«è¨­å®š
 	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV_->GetGPUDescriptorHandleForHeapStart());
 
 	cmdList->DrawIndexedInstanced((uint32_t)indices_.size(), 1, 0, 0, 0);

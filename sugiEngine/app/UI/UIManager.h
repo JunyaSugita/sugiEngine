@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Sprite.h"
 
 class UIManager final{
@@ -6,9 +6,9 @@ private:
 	UIManager() = default;
 	~UIManager() = default;
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	UIManager(const UIManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	UIManager& operator=(const UIManager& obj) = delete;
 
 	static UIManager* GetInstance();

@@ -1,4 +1,4 @@
-#include "MenuManager.h"
+ï»¿#include "MenuManager.h"
 #include "Input.h"
 
 MenuManager* MenuManager::GetInstance()
@@ -58,7 +58,7 @@ void MenuManager::Update()
 
 	if (GetIsMenu()) {
 		timer_--;
-		//ƒƒjƒ…[‹¤’Êˆ—
+		//ãƒ¡ãƒ‹ãƒ¥ãƒ¼å…±é€šå‡¦ç†
 		if (input->TriggerKey(DIK_W) || input->GetLStickY() > 10000) {
 			if (selectNum_ > 0 && timer_ <= 0) {
 				selectNum_--;
@@ -112,7 +112,7 @@ void MenuManager::Update()
 			}
 		}
 
-		//ƒƒjƒ…[‹¤’Êˆ—
+		//ãƒ¡ãƒ‹ãƒ¥ãƒ¼å…±é€šå‡¦ç†
 		for (int i = 0; i < menuNum_; i++) {
 			if (selectNum_ == i) {
 				menuTex_[i].SetSize(550, 165);

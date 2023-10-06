@@ -1,4 +1,4 @@
-#include "GameManager.h"
+ï»¿#include "GameManager.h"
 #include "TitleScene.h"
 #include "StageSelectScene.h"
 #include "GameScene.h"
@@ -11,7 +11,7 @@ GameManager::GameManager()
 }
 void GameManager::Update()
 {
-	//ŠeƒV[ƒ“‚Ìˆ—
+	//å„ã‚·ãƒ¼ãƒ³ã®å‡¦ç†
 	scene_->Update();
 }
 

@@ -1,4 +1,4 @@
-#include "ImGuiManager.h"
+ï»¿#include "ImGuiManager.h"
 #include <imgui_impl_win32.h>
 #include <imgui_impl_dx12.h>
 using namespace ImGui;
@@ -15,23 +15,23 @@ void ImGuiManager::Initialize(WinApp* winApp, DXCommon* dxCom)
 	HRESULT result;
 	dxCom_ = dxCom;
 
-	//ImGui‚ÌƒRƒ“ƒeƒLƒXƒg‚ğ¶¬
+	//ImGuiã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’ç”Ÿæˆ
 	CreateContext();
-	//ImGui‚ÌƒXƒ^ƒCƒ‹
+	//ImGuiã®ã‚¹ã‚¿ã‚¤ãƒ«
 	StyleColorsDark();
 
 	ImGui_ImplWin32_Init(winApp->GetHWND());
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
 	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	desc.NumDescriptors = 1;
 	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv¶¬
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ç”Ÿæˆ
 	result = dxCom->GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&srvHeap_));
 	assert(SUCCEEDED(result));
 
-	//DirectX12—p‰Šú‰»
+	//DirectX12ç”¨åˆæœŸåŒ–
 	ImGui_ImplDX12_Init(
 		dxCom->GetDevice(),
 		static_cast<uint32_t>(dxCom->GetBackBufferCount()),
@@ -42,18 +42,18 @@ void ImGuiManager::Initialize(WinApp* winApp, DXCommon* dxCom)
 	);
 
 	ImGuiIO& io = ImGui::GetIO();
-	//ƒtƒHƒ“ƒgİ’è
+	//ãƒ•ã‚©ãƒ³ãƒˆè¨­å®š
 	io.Fonts->AddFontDefault();
 }
 
 void ImGuiManager::Finalize()
 {
-	//Œãn––
+	//å¾Œå§‹æœ«
 	ImGui_ImplDX12_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	DestroyContext();
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚ğ‰ğ•ú
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã‚’è§£æ”¾
 	srvHeap_.Reset();
 }
 
@@ -73,9 +73,9 @@ void ImGuiManager::Draw()
 {
 	ID3D12GraphicsCommandList* commandList = dxCom_->GetCommandList();
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì”z—ñ‚ğƒZƒbƒg
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®é…åˆ—ã‚’ã‚»ãƒƒãƒˆ
 	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	//•`‰æƒRƒ}ƒ“ƒh
+	//æç”»ã‚³ãƒãƒ³ãƒ‰
 	ImGui_ImplDX12_RenderDrawData(GetDrawData(), commandList);
 }

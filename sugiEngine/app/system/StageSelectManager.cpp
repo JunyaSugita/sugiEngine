@@ -1,4 +1,4 @@
-#include "StageSelectManager.h"
+ï»¿#include "StageSelectManager.h"
 #include "Input.h"
 #include "SceneChange.h"
 
@@ -50,11 +50,11 @@ void StageSelectManager::Update()
 		}
 	}
 
-	//•\¦‚ğ“®‚©‚·
+	//è¡¨ç¤ºã‚’å‹•ã‹ã™
 	Vector2 tempVec2 = originPos_;
 	tempVec2.y = originPos_.y - selectNum_ * DISTANCE;
 
-	//ã‰º‚ÉˆÚ“®
+	//ä¸Šä¸‹ã«ç§»å‹•
 	if (tempVec2.y != nowPos_.y) {
 		if (tempVec2.y > nowPos_.y) {
 			nowPos_.y += SPEED_MOVE;
@@ -63,7 +63,7 @@ void StageSelectManager::Update()
 			nowPos_.y -= SPEED_MOVE;
 		}
 	}
-	//ƒTƒCƒY‚ğ•ÏX
+	//ã‚µã‚¤ã‚ºã‚’å¤‰æ›´
 	for (int i = 0; i < END_STAGE_ID; i++) {
 		if (i != selectNum_) {
 			if (texSize_[i].x > 500) {
@@ -79,11 +79,11 @@ void StageSelectManager::Update()
 		}
 	}
 
-	//ƒ|ƒWƒVƒ‡ƒ“Šm’è
+	//ãƒã‚¸ã‚·ãƒ§ãƒ³ç¢ºå®š
 	for (int i = 0; i < END_STAGE_ID; i++) {
 		stageTex_[i].SetPos(nowPos_.x, nowPos_.y + i * DISTANCE);
 	}
-	//ƒTƒCƒYŠm’è
+	//ã‚µã‚¤ã‚ºç¢ºå®š
 	for (int i = 0; i < END_STAGE_ID; i++) {
 		stageTex_[i].SetSize(texSize_[i].x, texSize_[i].y);
 	}

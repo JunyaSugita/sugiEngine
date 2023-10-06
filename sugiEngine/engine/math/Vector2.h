@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 class Vector2 {
 
@@ -7,29 +7,29 @@ public:
 	float y;
 
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Vector2();
 	Vector2(float x, float y);
 
-	//ƒƒ“ƒoŠÖ”
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
 	float length() const;
 	Vector2& normalize();
 	float dot(const Vector2& v) const;
 	float cross(const Vector2& v) const;
 
-	//’PŒ÷‰‰ZqƒI[ƒo[ƒ[ƒh
+	//å˜åŠŸæ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	Vector2 operator+() const;
 	Vector2 operator-() const;
 
-	//‘ã“ü‰‰ZqƒI[ƒo[ƒ[ƒh
+	//ä»£å…¥æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	Vector2& operator+=(const Vector2& v);
 	Vector2& operator-=(const Vector2& v);
 	Vector2& operator*=(float s);
 	Vector2& operator/=(float s);
 };
 
-//2€‰‰ZqƒI[ƒo[ƒ[ƒh
-//¦‚¢‚ë‚ñ‚Èˆø”(ˆø”‚ÌŒ^‚Æ‡˜)‚Ìƒpƒ^[ƒ“‚É‘Î‰‚·‚é‚½‚ßAˆÈ‰º‚Ì‚æ‚¤‚É€”õ‚µ‚Ä‚¢‚é
+//2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
+//â€»ã„ã‚ã‚“ãªå¼•æ•°(å¼•æ•°ã®å‹ã¨é †åº)ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã«å¯¾å¿œã™ã‚‹ãŸã‚ã€ä»¥ä¸‹ã®ã‚ˆã†ã«æº–å‚™ã—ã¦ã„ã‚‹
 const Vector2 operator+(const Vector2& v1, const Vector2& v2);
 const Vector2 operator-(const Vector2& v1, const Vector2& v2);
 const Vector2 operator*(const Vector2& v, float s);

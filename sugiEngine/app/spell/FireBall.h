@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include "BaseSpell.h"
@@ -12,10 +12,10 @@ public:
 	void Explode()override;
 
 public:
-	const float SPEED_MOVE = 1.0f;	//–‚–@‚ÌƒXƒs[ƒh
-	const int32_t TIME_ALIVE = 10 * 60;	//–‚–@‚ªÁ‚¦‚é‚Ü‚Å‚ÌŠÔ
+	const float SPEED_MOVE = 1.0f;	//é­”æ³•ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
+	const int32_t TIME_ALIVE = 10 * 60;	//é­”æ³•ãŒæ¶ˆãˆã‚‹ã¾ã§ã®æ™‚é–“
 
 private:
-	//Á‚¦‚é‚ÌAlpha
+	//æ¶ˆãˆã‚‹æ™‚ã®Alpha
 	float alpha_;
 };

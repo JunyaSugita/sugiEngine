@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "SugiFramework.h"
 
 class MyGame : public SugiFramework

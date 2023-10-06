@@ -1,4 +1,4 @@
-#include "BaseCol.h"
+﻿#include "BaseCol.h"
 
 void BaseCol::Initialize()
 {

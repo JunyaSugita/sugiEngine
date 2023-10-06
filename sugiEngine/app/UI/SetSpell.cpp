@@ -1,4 +1,4 @@
-#include "SetSpell.h"
+ï»¿#include "SetSpell.h"
 #include "Input.h"
 #include "Player.h"
 #include "UIManager.h"
@@ -70,10 +70,10 @@ void SetSpell::Update()
 {
 	LoadOut* loadOut = LoadOut::GetInstance();
 
-	//ƒ[ƒhƒAƒEƒg•ÏXŽž‚ÉƒAƒCƒRƒ“•ÏX
+	//ãƒ­ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆå¤‰æ›´æ™‚ã«ã‚¢ã‚¤ã‚³ãƒ³å¤‰æ›´
 	SetSpellTex();
 
-	//Œ»Ý‘•”õ‚µ‚Ä‚¢‚é–‚–@‚Ì‰E‰º•\Ž¦‚Ì•ÏX‚Æ•ÏXƒrƒ…[‚ÌƒnƒCƒ‰ƒCƒg
+	//ç¾åœ¨è£…å‚™ã—ã¦ã„ã‚‹é­”æ³•ã®å³ä¸‹è¡¨ç¤ºã®å¤‰æ›´ã¨å¤‰æ›´ãƒ“ãƒ¥ãƒ¼ã®ãƒã‚¤ãƒ©ã‚¤ãƒˆ
 	useSpellSprite_.SetTexture(GetSpellTex(loadOut->GetSpell(Player::GetInstance()->GetPresetSpell())));
 	selectHiLightSp_.SetPos(spellSprite_[Player::GetInstance()->GetPresetSpell()].GetPos().x, spellSprite_[Player::GetInstance()->GetPresetSpell()].GetPos().y);
 }

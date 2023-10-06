@@ -1,4 +1,4 @@
-#include "UIManager.h"
+﻿#include "UIManager.h"
 #include "Closshair.h"
 #include "SpellCharge.h"
 #include "SetSpell.h"

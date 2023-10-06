@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GrovalSetting.h"
 #include "BaseObj.h"
 #include "BaseCol.h"
@@ -49,25 +49,25 @@ public:
 	bool GetIsCalcCol();
 
 protected:
-	//ˆÊ’u‚âÀ‘Ì
+	//ä½ç½®ã‚„å®Ÿä½“
 	BaseObj obj_;
-	//“–‚½‚è”»’è
+	//å½“ãŸã‚Šåˆ¤å®š
 	BaseCol col_;
-	//•\¦ƒtƒ‰ƒO
+	//è¡¨ç¤ºãƒ•ãƒ©ã‚°
 	bool isDead_;
-	//Á‚¦‚é‚Ü‚Å‚ÌŠÔŠÇ—
+	//æ¶ˆãˆã‚‹ã¾ã§ã®æ™‚é–“ç®¡ç†
 	int32_t time_;
-	//“–‚½‚Á‚½ƒtƒ‰ƒO
+	//å½“ãŸã£ãŸãƒ•ãƒ©ã‚°
 	bool isHit_;
-	//is•ûŒü
+	//é€²è¡Œæ–¹å‘
 	Vector3 vec_ = {0,0,0};
-	//ˆÚ“®ƒXƒs[ƒh
+	//ç§»å‹•ã‚¹ãƒ”ãƒ¼ãƒ‰
 	float moveSpeed_ = 0;
-	//ô•¶‚Ìƒ^ƒCƒv
+	//å‘ªæ–‡ã®ã‚¿ã‚¤ãƒ—
 	int32_t spellType_;
 
-	//ƒ_ƒ[ƒW(‰ñ•œ)
+	//ãƒ€ãƒ¡ãƒ¼ã‚¸(å›å¾©)
 	int32_t damage_ = 0;
-	//ƒfƒoƒt
+	//ãƒ‡ãƒãƒ•
 	int32_t debuffType_ = D_NONE;
 };

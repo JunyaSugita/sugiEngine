@@ -1,4 +1,4 @@
-#include "EnemyManager.h"
+ï»¿#include "EnemyManager.h"
 #include "PlayerWeapon.h"
 #include <random>
 #include "ImGuiManager.h"
@@ -28,7 +28,7 @@ void EnemyManager::GameInitialize()
 	for (unique_ptr<BaseEnemy>& enemy : enemys_) {
 		enemy->SetIsDead();
 	}
-	//Á‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½“G‚Ìíœ
+	//æ¶ˆã™ãƒ•ãƒ©ã‚°ã®ç«‹ã£ãŸæ•µã®å‰Šé™¤
 	enemys_.remove_if([](unique_ptr<BaseEnemy>& enemy) {
 		return enemy->GetIsDead();
 	});
@@ -40,7 +40,7 @@ void EnemyManager::Update()
 {
 	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
 
-	//Á‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½“G‚Ìíœ
+	//æ¶ˆã™ãƒ•ãƒ©ã‚°ã®ç«‹ã£ãŸæ•µã®å‰Šé™¤
 	enemys_.remove_if([](unique_ptr<BaseEnemy>& enemy) {
 		return enemy->GetIsDead();
 	});
@@ -50,11 +50,11 @@ void EnemyManager::Update()
 		enemy->Update();
 
 		enemyCount_ += enemy->GetLife();
-		//ƒvƒŒƒCƒ„[‚ªUŒ‚’†‚È‚ç
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ”»æ’ƒä¸­ãªã‚‰
 		if (weapon->GetIsAt()) {
-			//“–‚½‚è”»’èŒŸõ
+			//å½“ãŸã‚Šåˆ¤å®šæ¤œç´¢
 			if ((enemy->GetPos() - weapon->GetHitPos()).length() < weapon->ATTACK_RADIUS) {
-				//“–‚½‚Á‚½”»’è‚ğ“G‚É—^‚¦‚é
+				//å½“ãŸã£ãŸåˆ¤å®šã‚’æ•µã«ä¸ãˆã‚‹
 				if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
 					enemy->SetIsHit(10, 20);
 					enemy->SetDebuff(D_FIRE,3);

@@ -1,4 +1,4 @@
-#include "PlayerWeapon.h"
+ï»¿#include "PlayerWeapon.h"
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "Input.h"
@@ -64,7 +64,7 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 		orbObj_.obj->SetColor({ 0,1,1,0.5f });
 	}
 
-	//UŒ‚’†‚Í•Ší‚ðU‚é
+	//æ”»æ’ƒä¸­ã¯æ­¦å™¨ã‚’æŒ¯ã‚‹
 	if (isAttack) {
 		AttackMove(isAttackOn);
 		y = 3;
@@ -81,7 +81,7 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 		ItemMove();
 		y = 3;
 	}
-	//UŒ‚‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í’ÊíŽ‚¿
+	//æ”»æ’ƒã—ã¦ã„ãªã„ã¨ãã¯é€šå¸¸æŒã¡
 	else {
 		NormalMove();
 		easeTimer_ = 20;
@@ -114,7 +114,7 @@ void PlayerWeapon::NormalMove()
 	healY = 0;
 	healRot = 0;
 
-	//•ŠíŽ‚¿ã‚°
+	//æ­¦å™¨æŒã¡ä¸Šã’
 	if (y > 0) {
 		y -= 0.1f;
 	}
@@ -203,7 +203,7 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 
 void PlayerWeapon::AttackCol()
 {
-	//ƒCƒ“ƒXƒ^ƒ“ƒXŽæ“¾
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å–å¾—
 	Player* player = Player::GetInstance();
 
 	hitPos_ = player->GetPos();

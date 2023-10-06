@@ -1,5 +1,5 @@
-#pragma once
-#define DIRECTINPUT_VERSION	0x0800	//DirectInput‚Ìƒo[ƒWƒ‡ƒ“w’è
+ï»¿#pragma once
+#define DIRECTINPUT_VERSION	0x0800	//DirectInputã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š
 #include <dinput.h>
 #include <assert.h>
 #include <wrl.h>
@@ -20,9 +20,9 @@ private:
 	~Input() = default;
 
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	Input(const Input& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	Input& operator=(const Input& obj) = delete;
 
 	static Input* GetInstance();
@@ -51,7 +51,7 @@ public:
 	bool TriggerLStickUp();
 	bool TriggerLStickDown();
 public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 private:
 	const int32_t DEAD_ZONE = 2000;

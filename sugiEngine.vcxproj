@@ -53,13 +53,15 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,6 +87,8 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -250,6 +254,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="Resources\Shaders\Basic.hlsli" />
     <None Include="Resources\Shaders\FBX.hlsli" />
     <None Include="Resources\Shaders\Obj.hlsli" />

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Windows.h>
 #include <d3d12.h>
 #include <dxgi1_6.h>
@@ -63,7 +63,7 @@ public:
 	void UpdateFixFPS();
 
 public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 private:
 	ComPtr<ID3D12Device> device_;
@@ -74,31 +74,31 @@ private:
 	ComPtr<ID3D12CommandQueue> commandQueue_;
 	ComPtr<ID3D12DescriptorHeap> rtvHeap_;
 
-	// ƒAƒ_ƒvƒ^[‚Ì—ñ‹“—p
+	// ã‚¢ãƒ€ãƒ—ã‚¿ãƒ¼ã®åˆ—æŒ™ç”¨
 	std::vector<ComPtr<IDXGIAdapter4>> adapters_;
-	// ‚±‚±‚É“Á’è‚Ì–¼‘O‚ğ‚ÂƒAƒ_ƒvƒ^[ƒIƒuƒWƒFƒNƒg‚ª“ü‚é
+	// ã“ã“ã«ç‰¹å®šã®åå‰ã‚’æŒã¤ã‚¢ãƒ€ãƒ—ã‚¿ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå…¥ã‚‹
 	ComPtr<IDXGIAdapter4> tmpAdapter_;
 	D3D_FEATURE_LEVEL featureLevel_;
-	//ƒRƒ}ƒ“ƒhƒLƒ…[‚Ìİ’è
+	//ã‚³ãƒãƒ³ãƒ‰ã‚­ãƒ¥ãƒ¼ã®è¨­å®š
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc_{};
-	// ƒXƒƒbƒvƒ`ƒF[ƒ“‚Ìİ’è
+	// ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³ã®è¨­å®š
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc_{};
-	// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ìİ’è
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®è¨­å®š
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc_{};
-	// ƒoƒbƒNƒoƒbƒtƒ@
+	// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡
 	std::vector<ComPtr<ID3D12Resource>> backBuffers_;
-	// ƒtƒFƒ“ƒX‚Ì¶¬
+	// ãƒ•ã‚§ãƒ³ã‚¹ã®ç”Ÿæˆ
 	ComPtr<ID3D12Fence> fence_;
 	UINT64 fenceVal_ = 0;
 
-	//ƒŠƒ\[ƒX¶¬
+	//ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ
 	ComPtr<ID3D12Resource> depthBuff_;
 
 	ComPtr<ID3D12DescriptorHeap> dsvHeap_;
-	//ƒŠƒ\[ƒXƒoƒŠƒA
+	//ãƒªã‚½ãƒ¼ã‚¹ãƒãƒªã‚¢
 	D3D12_RESOURCE_BARRIER barrierDesc_{};
 
-	//‹L˜^ŠÔ
+	//è¨˜éŒ²æ™‚é–“
 	std::chrono::steady_clock::time_point reference_;
 };
 

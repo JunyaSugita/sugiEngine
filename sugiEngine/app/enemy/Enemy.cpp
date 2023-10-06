@@ -1,4 +1,4 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "ImGuiManager.h"
 #include "EffectManager.h"
 #include "ParticleManager.h"
@@ -71,7 +71,7 @@ void Enemy::Move()
 		else {
 			int32_t point = colM->CanMoveNavePointVec(obj_.pos);
 			if (point == -1) {
-				//ƒiƒrƒ|ƒCƒ“ƒg‚ªŒ©‚Â‚©‚ç‚È‚¯‚ê‚ÎˆÚ“®‚µ‚È‚¢
+				//ãƒŠãƒ“ãƒã‚¤ãƒ³ãƒˆãŒè¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°ç§»å‹•ã—ãªã„
 				return;
 			}
 
@@ -111,6 +111,6 @@ void Enemy::Down()
 	eyeObj_.obj->SetColor({ 1,1,1,alpha_ });
 	armL_.obj->SetColor({ 1,1,1,alpha_ });
 	armR_.obj->SetColor({ 1,1,1,alpha_ });
-	//ÅŒã
+	//æœ€å¾Œ
 	BaseEnemy::Down();
 }
