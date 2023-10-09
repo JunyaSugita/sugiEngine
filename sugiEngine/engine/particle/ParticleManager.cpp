@@ -508,9 +508,9 @@ void ParticleManager::Update()
 		it->scale = (it->e_scale - it->s_scale) * f;
 		it->scale += it->s_scale;
 
-		it->velocity = it->velocity * it->speed + it->gravity;
+		it->velocity = it->velocity + it->gravity;
 		it->speed *= it->accel.x;
-		it->position = it->position + it->velocity;
+		it->position = it->position + it->velocity * it->speed;
 	}
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
@@ -621,7 +621,7 @@ void ParticleManager::AddCircle(int life, Vector3 pos, Vector3 velo, float speed
 	p.s_scale = start_scale;
 	p.e_scale = end_scale;
 	p.velocity = velo.normalize();
-	p.speed = speed;
+	p.speed = speed / 1000;
 	p.accel = accel;
 	p.gravity = gravity;
 	p.num_frame = life;

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "SugiMath.h"
 #include <string>
 
@@ -12,6 +12,7 @@ struct EditFile {
 	Vector2 scale;
 	Vector3 move;
 	Vector3 moveRand;
+	float speed;
 	Vector3 acceleration;
 	Vector3 gravity;
 	Vector4 color;
@@ -75,6 +76,7 @@ private:
 	float posRand_[particleNum][3];
 	float move_[particleNum][3];
 	float moveRand_[particleNum][3];
+	float speed_[particleNum];
 	float acceleration_[particleNum][3];
 	float gravity_[particleNum][3];
 

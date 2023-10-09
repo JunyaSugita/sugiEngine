@@ -21,6 +21,7 @@ void ParticleEditor::Initialize()
 		posRand_[i][0] = posRand_[i][1] = posRand_[i][2] = 0.0f;
 		move_[i][0] = move_[i][1] = move_[i][2] = 0.0f;
 		moveRand_[i][0] = moveRand_[i][1] = moveRand_[i][2] = 0.0f;
+		speed_[i] = 100.0f;
 		acceleration_[i][0] = acceleration_[i][1] = acceleration_[i][2] = 1.0f;
 	}
 	Write();
@@ -59,6 +60,7 @@ void ParticleEditor::Update()
 		InputFloat3("posRand", posRand_[0]);
 		InputFloat3("move", move_[0]);
 		InputFloat3("moveRand", moveRand_[0]);
+		InputFloat("speed",speed_);
 		InputFloat3("acceleration", acceleration_[0]);
 		InputFloat2("s_scale->e_scale", scale_[0]);
 		InputFloat3("gravity", gravity_[0]);
@@ -127,7 +129,7 @@ void ParticleEditor::PopParticle(uint8_t num)
 		std::uniform_real_distribution<float> l(-float(lifeRand_[num] + 0.99f), float(lifeRand_[num] + 0.99f));
 
 		if (texNum_[num] == 0) {
-			ParticleManager::GetInstance()->AddCircle(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, { move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine) }, { acceleration_[num][0],acceleration_[num][1],acceleration_[num][2] }, { gravity_[num][0],gravity_[num][1],gravity_[num][2] }, scale_[num][0], scale_[num][1], { color_[num][0],color_[num][1],color_[num][2],color_[num][3] });
+			ParticleManager::GetInstance()->AddCircle(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, { move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine) },speed_[num], {acceleration_[num][0],acceleration_[num][1],acceleration_[num][2]}, {gravity_[num][0],gravity_[num][1],gravity_[num][2]}, scale_[num][0], scale_[num][1], {color_[num][0],color_[num][1],color_[num][2],color_[num][3]});
 		}
 		if (texNum_[num] == 1) {
 
