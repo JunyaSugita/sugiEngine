@@ -1,4 +1,4 @@
-﻿#include "Input.h"
+#include "Input.h"
 
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
@@ -43,7 +43,7 @@ void Input::Update()
 
 	oldState_ = state_;
 	ZeroMemory(&state_, sizeof(XINPUT_STATE));
-	DWORD dwResult = XInputGetState(0, &state_);
+	/*DWORD dwResult = */XInputGetState(0, &state_);
 
 	if (state_.Gamepad.sThumbLX <  DEAD_ZONE && state_.Gamepad.sThumbLX > -DEAD_ZONE) {
 		state_.Gamepad.sThumbLX = 0;

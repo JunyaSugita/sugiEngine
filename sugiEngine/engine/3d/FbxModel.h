@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <string>
 #include <DirectXMath.h>
 #include <vector>
@@ -11,6 +11,8 @@
 struct Node
 {
 	std::string name;
+	float pad1;
+	float pad2;
 
 	DirectX::XMVECTOR scaling = { 1,1,1,0 };
 	DirectX::XMVECTOR rotation = { 0,0,0,0 };

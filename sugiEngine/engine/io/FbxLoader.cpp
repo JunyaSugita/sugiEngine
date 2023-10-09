@@ -1,4 +1,4 @@
-﻿#include "FbxLoader.h"
+#include "FbxLoader.h"
 #include <cassert>
 
 using namespace std;
@@ -191,7 +191,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
 		//1頂点ずつ処理
 		for (int32_t j = 0; j < polygonSize; j++) {
 			//FBX頂点配列のインデックス
-			int32_t index = fbxMesh->GetPolygonVertex(i, j);
+			unsigned short index = (unsigned short)fbxMesh->GetPolygonVertex(i, j);
 			assert(index >= 0);
 			//頂点法線読み込み
 			FbxModel::VertexPosNormalUvSkin& vertex = vertices[index];
@@ -219,9 +219,9 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
 			//4頂点目
 			else {
 				//3点追加し、四角形の0,1,2,3のうち2,3,0で三角形を構築
-				int32_t index2 = indices[indices.size() - 1];
-				int32_t index3 = index;
-				int32_t index0 = indices[indices.size() - 3];
+				unsigned short index2 = indices[indices.size() - 1];
+				unsigned short index3 = index;
+				unsigned short index0 = indices[indices.size() - 3];
 				indices.push_back(index2);
 				indices.push_back(index3);
 				indices.push_back(index0);

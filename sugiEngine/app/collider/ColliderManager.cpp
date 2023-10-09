@@ -1,4 +1,4 @@
-﻿//当たり判定を管理するマネージャークラス
+//当たり判定を管理するマネージャークラス
 
 #include "ColliderManager.h"
 #include "SpellManager.h"
@@ -366,7 +366,6 @@ int32_t ColliderManager::CanMoveNavePointVec(Vector3 pos)
 {
 	FieldManager* field = FieldManager::GetInstance();
 	NavePointManager* navePointM = NavePointManager::GetInstance();
-	Player* player = Player::GetInstance();
 
 	int32_t temp = -1;
 

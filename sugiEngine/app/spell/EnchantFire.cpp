@@ -1,8 +1,10 @@
-﻿#include "EnchantFire.h"
+#include "EnchantFire.h"
 #include "SpellManager.h"
 
 void EnchantFire::Initialize(Vector3 pos, Vector3 vec)
 {
+	pos;
+	vec;
 	time_ = TIME_ALIVE;
 	spellType_ = BUFF;
 	damage_ = 0;

@@ -1,4 +1,4 @@
-﻿#include "ParticleManager.h"
+#include "ParticleManager.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <array>
@@ -941,10 +941,10 @@ void ParticleManager::SetUpVertex() {
 
 		D3D12_RESOURCE_DESC resDesc = sTextureBuffers[textureNum_]->GetDesc();
 
-		float tex_left = textureLeftTop_.x / resDesc.Width;
-		float tex_right = (textureLeftTop_.x + textureSize_.x) / resDesc.Width;
-		float tex_top = textureLeftTop_.y / resDesc.Height;
-		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
+		//float tex_left = textureLeftTop_.x / resDesc.Width;
+		//float tex_right = (textureLeftTop_.x + textureSize_.x) / resDesc.Width;
+		//float tex_top = textureLeftTop_.y / resDesc.Height;
+		//float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
 	}
 
 	//ワールド変換行列

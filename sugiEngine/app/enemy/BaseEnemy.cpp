@@ -1,4 +1,4 @@
-﻿//敵のベースクラス
+//敵のベースクラス
 
 #include "BaseEnemy.h"
 #include "SpellManager.h"
@@ -94,7 +94,7 @@ void BaseEnemy::WorldTransUpdate()
 	col_.Update();
 }
 
-void BaseEnemy::SetDebuff(uint8_t debuff, uint32_t time)
+void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 {
 	switch (debuff)
 	{

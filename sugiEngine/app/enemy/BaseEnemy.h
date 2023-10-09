@@ -1,5 +1,5 @@
-﻿//敵のベースクラス
-
+//敵のベースクラス
+#pragma warning(disable:5205)
 #pragma once
 #include "GrovalSetting.h"
 #include "WorldTransform.h"
@@ -16,6 +16,7 @@ struct DebuffM {
 };
 
 class BaseEnemy {
+
 public:
 	virtual void Initialize(std::string name,Vector3 pos);
 	virtual void Update();
@@ -91,7 +92,7 @@ public:
 	/// </summary>
 	/// <param name="debuff">デバフの種類番号</param>
 	/// <param name="time">デバフを適応する時間/f</param>
-	void SetDebuff(uint8_t debuff, uint32_t time);
+	void SetDebuff(int32_t debuff, int32_t time);
 
 	/// <summary>
 	/// HPを減らし、エフェクトを出す

@@ -1,4 +1,5 @@
-﻿#include "ParticleEditor.h"
+
+#include "ParticleEditor.h"
 #include "ImGuiManager.h"
 #include "ParticleManager.h"
 #include <random>
@@ -28,10 +29,6 @@ void ParticleEditor::Initialize()
 void ParticleEditor::Update()
 {
 #ifdef _DEBUG
-
-	ImGuiManager* imgui = ImGuiManager::GetInstance();
-	ParticleManager* parM = ParticleManager::GetInstance();
-
 	if (GetIsEdit(0)) {
 		PopParticle(0);
 		if (GetIsEdit(1)) {

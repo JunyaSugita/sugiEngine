@@ -1,4 +1,4 @@
-﻿#include "SpellManager.h"
+#include "SpellManager.h"
 #include "Input.h"
 #include "Player.h"
 #include "LoadOut.h"
@@ -36,10 +36,6 @@ void SpellManager::Initialize()
 
 void SpellManager::Update()
 {
-#pragma region インスタンス呼び出し
-	//インスタンス呼び出し
-	Input* input = Input::GetInstance();
-#pragma endregion
 
 #pragma region 状態のリセット
 	isModeEnchantFire_ = false;
@@ -117,8 +113,6 @@ void SpellManager::ChargeFireBall()
 	if (chargeTime_ < maxCharge_) {
 		chargeTime_++;
 	}
-
-	Camera* camera = Camera::GetInstance();
 
 	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {

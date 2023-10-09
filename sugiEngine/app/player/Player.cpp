@@ -1,4 +1,4 @@
-﻿#include "Player.h"
+#include "Player.h"
 #include "Camera.h"
 #include "Input.h"
 #include "EnemyManager.h"
@@ -247,7 +247,7 @@ void Player::CameraMove()
 	}
 	else {
 		Vector2 len = Vector2(input->GetRStickX(), input->GetRStickY());
-		float length = len.length();
+		len.length();
 		if (len.length() > 20000 || input->TriggerKey(DIK_1) || input->TriggerKey(DIK_2) || input->TriggerKey(DIK_3) || input->TriggerKey(DIK_4) || input->TriggerKey(DIK_5)) {
 			len.normalize();
 			if (input->GetRStickX() != 0 && input->GetRStickY() != 0) {

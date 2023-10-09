@@ -1,4 +1,4 @@
-﻿#include "Tutorial.h"
+#include "Tutorial.h"
 #include "Input.h"
 #include "SpellManager.h"
 #include "Player.h"
@@ -35,8 +35,6 @@ void Tutorial::Initialize()
 
 void Tutorial::Update()
 {
-	Input* input = Input::GetInstance();
-
 	switch (number_)
 	{
 	case 0:

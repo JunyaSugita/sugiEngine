@@ -1,4 +1,4 @@
-﻿#include "LoadOut.h"
+#include "LoadOut.h"
 #include "Input.h"
 #include "PostEffectSecond.h"
 #include "EnemyManager.h"
@@ -109,7 +109,6 @@ void LoadOut::Initialize()
 void LoadOut::Update()
 {
 	Input* input = Input::GetInstance();
-	Camera* camera = Camera::GetInstance();
 
 	if (isActive_) {
 		Player::GetInstance()->GameInitialize();

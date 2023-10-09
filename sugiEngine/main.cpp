@@ -1,4 +1,4 @@
-﻿#include "SugiFramework.h"
+#include "SugiFramework.h"
 #include "MyGame.h"
 
 //windowsのエントリーポイント

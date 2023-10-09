@@ -1,4 +1,4 @@
-﻿#include "SugiFramework.h"
+#include "SugiFramework.h"
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
@@ -42,7 +42,7 @@ void SugiFramework::Initialize()
 #pragma endregion
 
 	//PostEffect
-	uint32_t postNum = Sprite::LoadTexture("white1x1.png");
+	Sprite::LoadTexture("white1x1.png");
 
 	postEffect = make_unique <PostEffect>();
 	postEffect->Initialize(dxCom_->GetDevice());

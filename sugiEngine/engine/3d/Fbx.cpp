@@ -1,4 +1,4 @@
-﻿#include "Fbx.h"
+#include "Fbx.h"
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -279,7 +279,7 @@ void Fbx::Update()
 	worldTransform_.SetRot(rotation_);
 	worldTransform_.SetWorldMat();
 
-	const XMMATRIX& modelTransform = model_->GetModelTransform();
+	//const XMMATRIX& modelTransform = model_->GetModelTransform();
 
 
 	Camera* camera = Camera::GetInstance();

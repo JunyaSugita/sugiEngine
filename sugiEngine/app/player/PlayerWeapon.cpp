@@ -1,4 +1,4 @@
-﻿#include "PlayerWeapon.h"
+#include "PlayerWeapon.h"
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "Input.h"
@@ -123,11 +123,8 @@ void PlayerWeapon::NormalMove()
 void PlayerWeapon::SpellMove()
 {
 	Player* player = Player::GetInstance();
-	SpellManager* spellM = SpellManager::GetInstance();
 
 	if (--easeTimer_ > 0) {
-		Player* player = Player::GetInstance();
-
 		float nowTime = easeTimer_ / 19;
 
 		obj_.pos = player->GetPos();
