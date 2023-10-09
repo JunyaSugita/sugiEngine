@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Windows.h>
 #include "DXCommon.h"
 #include "GrovalSetting.h"
@@ -15,6 +15,7 @@ struct Particle {
 	float s_scale = 1.0f;
 	float e_scale = 1.0f;
 	Vector3 velocity = {};
+	float speed = 1.0f;
 	Vector3 accel = {1,1,1};
 	Vector3 gravity = {};
 	int32_t frame = 0;
@@ -127,8 +128,7 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-	void AddCircle(int life, Vector3 pos, Vector3 velo,Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector4 color);
-	void AddIce(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color);
+	void AddCircle(int life, Vector3 pos, Vector3 velo,float speed, Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector4 color);
 	void Add(Vector3 pos, EditFile data);
 	
 	void LoadParticleData();
@@ -159,7 +159,6 @@ protected:
 	Vector2 textureSize_ = { 100.0f,100.0f };
 
 	std::forward_list<Particle> circleParticles_;
-	std::forward_list<Particle> iceParticles_;
 
 	EditFile particleData_[P_END];
 };

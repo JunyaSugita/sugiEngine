@@ -500,7 +500,6 @@ void ParticleManager::Update()
 	HRESULT result;
 
 	circleParticles_.remove_if([](Particle& x) {return x.frame >= x.num_frame; });
-	iceParticles_.remove_if([](Particle& x) {return x.frame >= x.num_frame; });
 
 	for (std::forward_list<Particle>::iterator it = circleParticles_.begin(); it != circleParticles_.end(); it++) {
 		it->frame++;
@@ -509,24 +508,8 @@ void ParticleManager::Update()
 		it->scale = (it->e_scale - it->s_scale) * f;
 		it->scale += it->s_scale;
 
-		it->velocity = it->velocity + it->gravity;
-		it->velocity.x *= it->accel.x;
-		it->velocity.y *= it->accel.y;
-		it->velocity.z *= it->accel.z;
-		it->position = it->position + it->velocity;
-	}
-
-	for (std::forward_list<Particle>::iterator it = iceParticles_.begin(); it != iceParticles_.end(); it++) {
-		it->frame++;
-		float f = (float)it->frame / it->num_frame;
-		//スケールの線形補間
-		it->scale = (it->e_scale - it->s_scale) * f;
-		it->scale += it->s_scale;
-
-		it->velocity = it->velocity + it->gravity;
-		it->velocity.x *= it->accel.x;
-		it->velocity.y *= it->accel.y;
-		it->velocity.z *= it->accel.z;
+		it->velocity = it->velocity * it->speed + it->gravity;
+		it->speed *= it->accel.x;
 		it->position = it->position + it->velocity;
 	}
 
@@ -548,18 +531,6 @@ void ParticleManager::Update()
 		vertMap++;
 	}
 
-	for (std::forward_list<Particle>::iterator it = iceParticles_.begin(); it != iceParticles_.end(); it++) {
-		vertMap->pos.x = it->position.x;
-		vertMap->pos.y = it->position.y;
-		vertMap->pos.z = it->position.z;
-		vertMap->scale = it->scale;
-		vertMap->color.x = it->color.x;
-		vertMap->color.y = it->color.y;
-		vertMap->color.z = it->color.z;
-		vertMap->color.w = it->color.w;
-
-		vertMap++;
-	}
 	// 繋がりを解除
 	vertBuff_->Unmap(0, nullptr);
 
@@ -584,18 +555,6 @@ void ParticleManager::Draw()
 	if (isView_ == true) {
 		// 描画コマンド
 		sCmdList->DrawInstanced((UINT)std::distance(circleParticles_.begin(), circleParticles_.end()), 1, 0, 0); // 全ての頂点を使って描画
-	}
-
-	//描画するテクスチャの指定
-	srvGpuHandle.ptr += sIncrementSize;
-	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	sCmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
-	//定数バッファビュー(CBV)の設定コマンド
-	sCmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
-
-	if (isView_ == true) {
-		// 描画コマンド
-		sCmdList->DrawInstanced((UINT)std::distance(iceParticles_.begin(), iceParticles_.end()), 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -653,7 +612,7 @@ void ParticleManager::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void ParticleManager::AddCircle(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
+void ParticleManager::AddCircle(int life, Vector3 pos, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
 {
 	circleParticles_.emplace_front();
 	Particle& p = circleParticles_.front();
@@ -661,22 +620,8 @@ void ParticleManager::AddCircle(int life, Vector3 pos, Vector3 velo, Vector3 acc
 	p.scale = start_scale;
 	p.s_scale = start_scale;
 	p.e_scale = end_scale;
-	p.velocity = velo;
-	p.accel = accel;
-	p.gravity = gravity;
-	p.num_frame = life;
-	p.color = color;
-}
-
-void ParticleManager::AddIce(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
-{
-	iceParticles_.emplace_front();
-	Particle& p = iceParticles_.front();
-	p.position = pos;
-	p.scale = start_scale;
-	p.s_scale = start_scale;
-	p.e_scale = end_scale;
-	p.velocity = velo;
+	p.velocity = velo.normalize();
+	p.speed = speed;
 	p.accel = accel;
 	p.gravity = gravity;
 	p.num_frame = life;
@@ -703,23 +648,6 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 		if (data.texNum == 0) {
 			circleParticles_.emplace_front();
 			Particle& p = circleParticles_.front();
-			p.position.x = pos.x + data.pos.x + xp(engine);
-			p.position.y = pos.y + data.pos.y + yp(engine);
-			p.position.z = pos.z + data.pos.z + zp(engine);
-			p.scale = data.scale.x;
-			p.s_scale = data.scale.x;
-			p.e_scale = data.scale.y;
-			p.velocity.x = data.move.x + xv(engine);
-			p.velocity.y = data.move.y + yv(engine);
-			p.velocity.z = data.move.z + zv(engine);
-			p.accel = data.acceleration;
-			p.gravity = data.gravity;
-			p.num_frame = data.life + uint32_t(l(engine));
-			p.color = data.color;
-		}
-		if (data.texNum == 1) {
-			iceParticles_.emplace_front();
-			Particle& p = iceParticles_.front();
 			p.position.x = pos.x + data.pos.x + xp(engine);
 			p.position.y = pos.y + data.pos.y + yp(engine);
 			p.position.z = pos.z + data.pos.z + zp(engine);
@@ -764,23 +692,6 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 				p.num_frame = data.life1 + uint32_t(l(engine));
 				p.color = data.color1;
 			}
-			if (data.texNum1 == 1) {
-				iceParticles_.emplace_front();
-				Particle& p = iceParticles_.front();
-				p.position.x = pos.x + data.pos1.x + xp(engine);
-				p.position.y = pos.y + data.pos1.y + yp(engine);
-				p.position.z = pos.z + data.pos1.z + zp(engine);
-				p.scale = data.scale1.x;
-				p.s_scale = data.scale1.x;
-				p.e_scale = data.scale1.y;
-				p.velocity.x = data.move1.x + xv(engine);
-				p.velocity.y = data.move1.y + yv(engine);
-				p.velocity.z = data.move1.z + zv(engine);
-				p.accel = data.acceleration1;
-				p.gravity = data.gravity1;
-				p.num_frame = data.life1 + uint32_t(l(engine));
-				p.color = data.color1;
-			}
 		}
 		if (data.add2) {
 			for (int i = 0; i < data.num2; i++) {
@@ -797,23 +708,6 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 				if (data.texNum2 == 0) {
 					circleParticles_.emplace_front();
 					Particle& p = circleParticles_.front();
-					p.position.x = pos.x + data.pos2.x + xp(engine);
-					p.position.y = pos.y + data.pos2.y + yp(engine);
-					p.position.z = pos.z + data.pos2.z + zp(engine);
-					p.scale = data.scale2.x;
-					p.s_scale = data.scale2.x;
-					p.e_scale = data.scale2.y;
-					p.velocity.x = data.move2.x + xv(engine);
-					p.velocity.y = data.move2.y + yv(engine);
-					p.velocity.z = data.move2.z + zv(engine);
-					p.accel = data.acceleration2;
-					p.gravity = data.gravity2;
-					p.num_frame = data.life2 + uint32_t(l(engine));
-					p.color = data.color2;
-				}
-				if (data.texNum2 == 1) {
-					iceParticles_.emplace_front();
-					Particle& p = iceParticles_.front();
 					p.position.x = pos.x + data.pos2.x + xp(engine);
 					p.position.y = pos.y + data.pos2.y + yp(engine);
 					p.position.z = pos.z + data.pos2.z + zp(engine);
@@ -918,7 +812,6 @@ void ParticleManager::AddFromFile(uint8_t num, Vector3 pos)
 void ParticleManager::Clear()
 {
 	circleParticles_.clear();
-	iceParticles_.clear();
 }
 
 void ParticleManager::SetUpVertex() {

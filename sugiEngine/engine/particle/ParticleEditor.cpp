@@ -130,7 +130,7 @@ void ParticleEditor::PopParticle(uint8_t num)
 			ParticleManager::GetInstance()->AddCircle(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, { move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine) }, { acceleration_[num][0],acceleration_[num][1],acceleration_[num][2] }, { gravity_[num][0],gravity_[num][1],gravity_[num][2] }, scale_[num][0], scale_[num][1], { color_[num][0],color_[num][1],color_[num][2],color_[num][3] });
 		}
 		if (texNum_[num] == 1) {
-			ParticleManager::GetInstance()->AddIce(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, { move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine) }, { acceleration_[num][0],acceleration_[num][1],acceleration_[num][2] }, { gravity_[num][0],gravity_[num][1],gravity_[num][2] }, scale_[num][0], scale_[num][1], { color_[num][0],color_[num][1],color_[num][2],color_[num][3] });
+
 		}
 	}
 }
