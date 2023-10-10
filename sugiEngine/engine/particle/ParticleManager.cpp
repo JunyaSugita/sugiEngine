@@ -508,6 +508,10 @@ void ParticleManager::Update()
 		it->scale = (it->e_scale - it->s_scale) * f;
 		it->scale += it->s_scale;
 
+		//カラーの線形補間
+		it->color = (it->e_color - it->s_color) * f;
+		it->color += it->s_color;
+
 		it->velocity = it->velocity + it->gravity;
 		it->speed *= it->accel.x;
 		it->position = it->position + it->velocity * it->speed;
@@ -526,7 +530,6 @@ void ParticleManager::Update()
 		vertMap->color.x = it->color.x;
 		vertMap->color.y = it->color.y;
 		vertMap->color.z = it->color.z;
-		vertMap->color.w = it->color.w;
 
 		vertMap++;
 	}
@@ -612,20 +615,29 @@ void ParticleManager::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void ParticleManager::AddCircle(int life, Vector3 pos, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color)
+void ParticleManager::AddCircle(int life, Vector3 pos,bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector3 sColor, Vector3 eColor)
 {
 	circleParticles_.emplace_front();
 	Particle& p = circleParticles_.front();
-	p.position = pos;
+	p.originPos = pos;
 	p.scale = start_scale;
 	p.s_scale = start_scale;
 	p.e_scale = end_scale;
 	p.velocity = velo.normalize();
 	p.speed = speed / 1000;
+	if (isRevers) {
+		p.position = pos + p.velocity * p.speed * (float)life;
+		p.velocity *= -1;
+	}
+	else {
+		p.position = pos;
+	}
 	p.accel = accel;
 	p.gravity = gravity;
 	p.num_frame = life;
-	p.color = color;
+	p.color = sColor;
+	p.s_color = sColor;
+	p.e_color = eColor;
 }
 
 void ParticleManager::Add(Vector3 pos, EditFile data)

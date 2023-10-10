@@ -16,7 +16,8 @@ void ParticleEditor::Initialize()
 		life_[i] = 60;
 		lifeRand_[i] = 0;
 		scale_[i][0] = scale_[i][1] = 1.0f;
-		color_[i][0] = color_[i][1] = color_[i][2] = color_[i][3] = 1.0f;
+		sColor_[i][0] = sColor_[i][1] = sColor_[i][2] = 1.0f;
+		eColor_[i][0] = eColor_[i][1] = eColor_[i][2] = 1.0f;
 		pos_[i][0] = pos_[i][1] = pos_[i][2] = 0.0f;
 		posRand_[i][0] = posRand_[i][1] = posRand_[i][2] = 0.0f;
 		move_[i][0] = move_[i][1] = move_[i][2] = 0.0f;
@@ -58,13 +59,15 @@ void ParticleEditor::Update()
 		InputInt("lifeRand", &lifeRand_[0]);
 		InputFloat3("pos", pos_[0]);
 		InputFloat3("posRand", posRand_[0]);
+		Checkbox("revers",&isRevers_[0]);
 		InputFloat3("move", move_[0]);
 		InputFloat3("moveRand", moveRand_[0]);
 		InputFloat("speed",speed_);
 		InputFloat3("acceleration", acceleration_[0]);
 		InputFloat2("s_scale->e_scale", scale_[0]);
 		InputFloat3("gravity", gravity_[0]);
-		ColorEdit4("color", color_[0]);
+		ColorEdit3("s_color", sColor_[0]);
+		ColorEdit3("e_color", eColor_[0]);
 		if (Button("AddParticle1", { 100,30 })) {
 			isEdit_[1] = (isEdit_[1] + 1) % 2;
 		}
@@ -80,7 +83,8 @@ void ParticleEditor::Update()
 			InputFloat3("acceleration1", acceleration_[1]);
 			InputFloat2("s_scale->e_scale1", scale_[1]);
 			InputFloat3("gravity1", gravity_[1]);
-			ColorEdit4("color1", color_[1]);
+			ColorEdit3("s_color1", sColor_[1]);
+			ColorEdit3("e_color1", eColor_[1]);
 			if (Button("AddParticle2", { 100,30 })) {
 				isEdit_[2] = (isEdit_[2] + 1) % 2;
 			}
@@ -96,7 +100,8 @@ void ParticleEditor::Update()
 				InputFloat3("acceleration2", acceleration_[2]);
 				InputFloat2("s_scale->e_scale2", scale_[2]);
 				InputFloat3("gravity2", gravity_[2]);
-				ColorEdit4("color2", color_[2]);
+				ColorEdit3("s_color2", sColor_[2]);
+				ColorEdit3("e_color2", eColor_[2]);
 			}
 		}
 		else {
@@ -129,7 +134,7 @@ void ParticleEditor::PopParticle(uint8_t num)
 		std::uniform_real_distribution<float> l(-float(lifeRand_[num] + 0.99f), float(lifeRand_[num] + 0.99f));
 
 		if (texNum_[num] == 0) {
-			ParticleManager::GetInstance()->AddCircle(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, { move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine) },speed_[num], {acceleration_[num][0],acceleration_[num][1],acceleration_[num][2]}, {gravity_[num][0],gravity_[num][1],gravity_[num][2]}, scale_[num][0], scale_[num][1], {color_[num][0],color_[num][1],color_[num][2],color_[num][3]});
+			ParticleManager::GetInstance()->AddCircle(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, isRevers_[num], {move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine)}, speed_[num], {acceleration_[num][0],acceleration_[num][1],acceleration_[num][2]}, {gravity_[num][0],gravity_[num][1],gravity_[num][2]}, scale_[num][0], scale_[num][1], {sColor_[num][0],sColor_[num][1],sColor_[num][2]}, {eColor_[num][0],eColor_[num][1],eColor_[num][2]});
 		}
 		if (texNum_[num] == 1) {
 
@@ -179,7 +184,7 @@ void ParticleEditor::Write()
 	editData_.moveRand = { moveRand_[0][0],moveRand_[0][1],moveRand_[0][2] };
 	editData_.acceleration = { acceleration_[0][0],acceleration_[0][1],acceleration_[0][2] };
 	editData_.gravity = { gravity_[0][0],gravity_[0][1],gravity_[0][2] };
-	editData_.color = { color_[0][0],color_[0][1],color_[0][2],color_[0][3] };
+	editData_.color = { sColor_[0][0],sColor_[0][1],sColor_[0][2] };
 	editData_.add1 = GetIsEdit(1);
 	editData_.texNum1 = texNum_[1];
 	editData_.num1 = num_[1];
@@ -192,7 +197,7 @@ void ParticleEditor::Write()
 	editData_.moveRand1 = { moveRand_[1][0],moveRand_[1][1],moveRand_[1][2] };
 	editData_.acceleration1 = { acceleration_[1][0],acceleration_[1][1],acceleration_[1][2] };
 	editData_.gravity1 = { gravity_[1][0],gravity_[1][1],gravity_[1][2] };
-	editData_.color1 = { color_[1][0],color_[1][1],color_[1][2],color_[1][3] };
+	editData_.color1 = { sColor_[1][0],sColor_[1][1],sColor_[1][2] };
 	editData_.add2 = GetIsEdit(2);
 	editData_.texNum2 = texNum_[2];
 	editData_.num2 = num_[2];
@@ -205,7 +210,7 @@ void ParticleEditor::Write()
 	editData_.moveRand2 = { moveRand_[2][0],moveRand_[2][1],moveRand_[2][2] };
 	editData_.acceleration2 = { acceleration_[2][0],acceleration_[2][1],acceleration_[2][2] };
 	editData_.gravity2 = { gravity_[2][0],gravity_[2][1],gravity_[2][2] };
-	editData_.color2 = { color_[2][0],color_[2][1],color_[2][2],color_[2][3] };
+	editData_.color2 = { sColor_[2][0],sColor_[2][1],sColor_[2][2] };
 }
 
 void ParticleEditor::Read()
@@ -234,10 +239,9 @@ void ParticleEditor::Read()
 	gravity_[0][0] = editData_.gravity.x;
 	gravity_[0][1] = editData_.gravity.y;
 	gravity_[0][2] = editData_.gravity.z;
-	color_[0][0] = editData_.color.x;
-	color_[0][1] = editData_.color.y;
-	color_[0][2] = editData_.color.z;
-	color_[0][3] = editData_.color.w;
+	sColor_[0][0] = editData_.color.x;
+	sColor_[0][1] = editData_.color.y;
+	sColor_[0][2] = editData_.color.z;
 
 	isEdit_[1] = editData_.add1;
 	texNum_[1] = editData_.texNum1;
@@ -264,10 +268,9 @@ void ParticleEditor::Read()
 	gravity_[1][0] = editData_.gravity1.x;
 	gravity_[1][1] = editData_.gravity1.y;
 	gravity_[1][2] = editData_.gravity1.z;
-	color_[1][0] = editData_.color1.x;
-	color_[1][1] = editData_.color1.y;
-	color_[1][2] = editData_.color1.z;
-	color_[1][3] = editData_.color1.w;
+	sColor_[1][0] = editData_.color1.x;
+	sColor_[1][1] = editData_.color1.y;
+	sColor_[1][2] = editData_.color1.z;
 
 	isEdit_[2] = editData_.add2;
 	texNum_[2] = editData_.texNum2;
@@ -294,8 +297,7 @@ void ParticleEditor::Read()
 	gravity_[2][0] = editData_.gravity2.x;
 	gravity_[2][1] = editData_.gravity2.y;
 	gravity_[2][2] = editData_.gravity2.z;
-	color_[2][0] = editData_.color2.x;
-	color_[2][1] = editData_.color2.y;
-	color_[2][2] = editData_.color2.z;
-	color_[2][3] = editData_.color2.w;
+	sColor_[2][0] = editData_.color2.x;
+	sColor_[2][1] = editData_.color2.y;
+	sColor_[2][2] = editData_.color2.z;
 }

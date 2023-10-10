@@ -15,7 +15,7 @@ struct EditFile {
 	float speed;
 	Vector3 acceleration;
 	Vector3 gravity;
-	Vector4 color;
+	Vector3 color;
 	bool add1;
 	int32_t texNum1;
 	int32_t num1;
@@ -28,7 +28,7 @@ struct EditFile {
 	Vector3 moveRand1;
 	Vector3 acceleration1;
 	Vector3 gravity1;
-	Vector4 color1;
+	Vector3 color1;
 	bool add2;
 	int32_t texNum2;
 	int32_t num2;
@@ -41,7 +41,7 @@ struct EditFile {
 	Vector3 moveRand2;
 	Vector3 acceleration2;
 	Vector3 gravity2;
-	Vector4 color2;
+	Vector3 color2;
 };
 
 class ParticleEditor {
@@ -71,7 +71,9 @@ private:
 	int32_t life_[particleNum];
 	int32_t lifeRand_[particleNum];
 	float scale_[particleNum][2];
-	float color_[particleNum][4];
+	float sColor_[particleNum][3];
+	float eColor_[particleNum][3];
+	bool isRevers_[particleNum];
 	float pos_[particleNum][3];
 	float posRand_[particleNum][3];
 	float move_[particleNum][3];
