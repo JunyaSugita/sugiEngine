@@ -9,13 +9,16 @@ struct EditFile {
 	uint32_t lifeRand;
 	Vector3 pos;
 	Vector3 posRand;
-	Vector2 scale;
+	bool isRevers;
 	Vector3 move;
 	Vector3 moveRand;
 	float speed;
 	Vector3 acceleration;
+	Vector2 scale;
+	float angleSpeed;
 	Vector3 gravity;
-	Vector3 color;
+	Vector3 sColor;
+	Vector3 eColor;
 	bool add1;
 	int32_t texNum1;
 	int32_t num1;
@@ -23,12 +26,16 @@ struct EditFile {
 	uint32_t lifeRand1;
 	Vector3 pos1;
 	Vector3 posRand1;
-	Vector2 scale1;
+	bool isRevers1;
 	Vector3 move1;
 	Vector3 moveRand1;
+	float speed1;
 	Vector3 acceleration1;
+	Vector2 scale1;
+	float angleSpeed1;
 	Vector3 gravity1;
-	Vector3 color1;
+	Vector3 sColor1;
+	Vector3 eColor1;
 	bool add2;
 	int32_t texNum2;
 	int32_t num2;
@@ -36,12 +43,16 @@ struct EditFile {
 	uint32_t lifeRand2;
 	Vector3 pos2;
 	Vector3 posRand2;
-	Vector2 scale2;
+	bool isRevers2;
 	Vector3 move2;
 	Vector3 moveRand2;
+	float speed2;
 	Vector3 acceleration2;
+	Vector2 scale2;
+	float angleSpeed2;
 	Vector3 gravity2;
-	Vector3 color2;
+	Vector3 sColor2;
+	Vector3 eColor2;
 };
 
 enum P_POSTEFFECT {
