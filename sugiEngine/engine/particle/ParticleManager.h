@@ -10,21 +10,22 @@
 #include <DirectXMath.h>
 
 struct Particle {
+	int32_t frame = 0;
+	int32_t num_frame = 0;
 	Vector3 originPos = {};
 	Vector3 position = {};
-	float scale = 1.0f;
-	float s_scale = 1.0f;
-	float e_scale = 1.0f;
 	bool isRevers_ = false;
 	Vector3 velocity = {};
 	float speed = 1.0f;
-	Vector3 accel = {1,1,1};
+	Vector3 accel = { 1,1,1 };
+	float scale = 1.0f;
+	float s_scale = 1.0f;
+	float e_scale = 1.0f;
 	Vector3 gravity = {};
-	int32_t frame = 0;
-	int32_t num_frame = 0;
 	Vector3 color = { 1,1,1 };
 	Vector3 s_color = { 1,1,1 };
 	Vector3 e_color = { 1,1,1 };
+	int32_t postEffect = 0;
 };
 
 enum ParticleName {
@@ -132,7 +133,7 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo,float speed, Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector3 sColor, Vector3 eColor);
+	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo,float speed, Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector3 sColor, Vector3 eColor, int32_t postEffect);
 	void Add(Vector3 pos, EditFile data);
 	
 	void LoadParticleData();

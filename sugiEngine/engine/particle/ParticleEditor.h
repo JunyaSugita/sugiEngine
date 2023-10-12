@@ -16,9 +16,11 @@ struct EditFile {
 	Vector3 acceleration;
 	Vector2 scale;
 	float angleSpeed;
+	float angleSpeedRand;
 	Vector3 gravity;
 	Vector3 sColor;
 	Vector3 eColor;
+	int32_t postEffect;
 	bool add1;
 	int32_t texNum1;
 	int32_t num1;
@@ -33,9 +35,11 @@ struct EditFile {
 	Vector3 acceleration1;
 	Vector2 scale1;
 	float angleSpeed1;
+	float angleSpeedRand1;
 	Vector3 gravity1;
 	Vector3 sColor1;
 	Vector3 eColor1;
+	int32_t postEffect1;
 	bool add2;
 	int32_t texNum2;
 	int32_t num2;
@@ -50,9 +54,11 @@ struct EditFile {
 	Vector3 acceleration2;
 	Vector2 scale2;
 	float angleSpeed2;
+	float angleSpeedRand2;
 	Vector3 gravity2;
 	Vector3 sColor2;
 	Vector3 eColor2;
+	int32_t postEffect2;
 };
 
 enum P_POSTEFFECT {
@@ -98,6 +104,7 @@ private:
 	float speed_[particleNum];
 	float acceleration_[particleNum][3];
 	float angleSpeed_[particleNum];
+	float angleSpeedRand_[particleNum];
 	float gravity_[particleNum][3];
 	int32_t postEffect_[particleNum];
 

@@ -615,7 +615,7 @@ void ParticleManager::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void ParticleManager::AddCircle(int life, Vector3 pos,bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector3 sColor, Vector3 eColor)
+void ParticleManager::AddCircle(int life, Vector3 pos,bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector3 sColor, Vector3 eColor,int32_t postEffect)
 {
 	circleParticles_.emplace_front();
 	Particle& p = circleParticles_.front();
@@ -638,6 +638,7 @@ void ParticleManager::AddCircle(int life, Vector3 pos,bool isRevers, Vector3 vel
 	p.color = sColor;
 	p.s_color = sColor;
 	p.e_color = eColor;
+	p.postEffect = postEffect;
 }
 
 void ParticleManager::Add(Vector3 pos, EditFile data)
@@ -660,6 +661,7 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 		if (data.texNum == 0) {
 			circleParticles_.emplace_front();
 			Particle& p = circleParticles_.front();
+			p.originPos = pos;
 			p.position.x = pos.x + data.pos.x + xp(engine);
 			p.position.y = pos.y + data.pos.y + yp(engine);
 			p.position.z = pos.z + data.pos.z + zp(engine);
@@ -673,6 +675,7 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 			p.gravity = data.gravity;
 			p.num_frame = data.life + uint32_t(l(engine));
 			p.color = data.color;
+			
 		}
 	}
 	if (data.add1) {
