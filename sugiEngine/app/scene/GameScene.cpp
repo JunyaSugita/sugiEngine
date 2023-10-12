@@ -1,4 +1,4 @@
-﻿#include "GameScene.h"
+#include "GameScene.h"
 #include "Input.h"
 #include "FbxLoader.h"
 #include "PostEffect.h"

@@ -24,6 +24,7 @@ void ParticleEditor::Initialize()
 		moveRand_[i][0] = moveRand_[i][1] = moveRand_[i][2] = 0.0f;
 		speed_[i] = 100.0f;
 		acceleration_[i][0] = acceleration_[i][1] = acceleration_[i][2] = 1.0f;
+		postEffect_[i] = 0;
 	}
 	Write();
 }
@@ -65,9 +66,20 @@ void ParticleEditor::Update()
 		InputFloat("speed",speed_);
 		InputFloat3("acceleration", acceleration_[0]);
 		InputFloat2("s_scale->e_scale", scale_[0]);
+		SliderFloat("angleSpeed", &angleSpeed_[0],-10,10,"%.1f");
 		InputFloat3("gravity", gravity_[0]);
 		ColorEdit3("s_color", sColor_[0]);
 		ColorEdit3("e_color", eColor_[0]);
+		Text("postEffect");
+		if (RadioButton("none", postEffect_[0] == P_NONE)) {
+			postEffect_[0] = P_NONE;
+		}
+		if (RadioButton("bloom", postEffect_[0] == P_BLOOM)) {
+			postEffect_[0] = P_BLOOM;
+		}
+		if (RadioButton("cross", postEffect_[0] == P_CROSS)) {
+			postEffect_[0] = P_CROSS;
+		}
 		if (Button("AddParticle1", { 100,30 })) {
 			isEdit_[1] = (isEdit_[1] + 1) % 2;
 		}

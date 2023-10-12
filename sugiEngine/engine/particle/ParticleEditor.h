@@ -44,6 +44,12 @@ struct EditFile {
 	Vector3 color2;
 };
 
+enum P_POSTEFFECT {
+	P_NONE,
+	P_BLOOM,
+	P_CROSS,
+};
+
 class ParticleEditor {
 public:
 	void Initialize();
@@ -80,7 +86,9 @@ private:
 	float moveRand_[particleNum][3];
 	float speed_[particleNum];
 	float acceleration_[particleNum][3];
+	float angleSpeed_[particleNum];
 	float gravity_[particleNum][3];
+	int32_t postEffect_[particleNum];
 
 	FILE* saveFile_;
 	EditFile editData_;
