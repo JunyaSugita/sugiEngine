@@ -661,21 +661,25 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 		if (data.texNum == 0) {
 			circleParticles_.emplace_front();
 			Particle& p = circleParticles_.front();
+			p.num_frame = data.life + uint32_t(l(engine));
 			p.originPos = pos;
 			p.position.x = pos.x + data.pos.x + xp(engine);
 			p.position.y = pos.y + data.pos.y + yp(engine);
 			p.position.z = pos.z + data.pos.z + zp(engine);
-			p.scale = data.scale.x;
-			p.s_scale = data.scale.x;
-			p.e_scale = data.scale.y;
 			p.velocity.x = data.move.x + xv(engine);
 			p.velocity.y = data.move.y + yv(engine);
 			p.velocity.z = data.move.z + zv(engine);
+			p.velocity.normalize();
+			p.speed = data.speed;
 			p.accel = data.acceleration;
+			p.scale = data.scale.x;
+			p.s_scale = data.scale.x;
+			p.e_scale = data.scale.y;
 			p.gravity = data.gravity;
-			p.num_frame = data.life + uint32_t(l(engine));
-			p.color = data.color;
-			
+			p.color = data.sColor;
+			p.s_color = data.sColor;
+			p.e_color = data.eColor;
+			p.postEffect = data.postEffect;
 		}
 	}
 	if (data.add1) {
@@ -693,19 +697,25 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 			if (data.texNum1 == 0) {
 				circleParticles_.emplace_front();
 				Particle& p = circleParticles_.front();
+				p.num_frame = data.life1 + uint32_t(l(engine));
+				p.originPos = pos;
 				p.position.x = pos.x + data.pos1.x + xp(engine);
 				p.position.y = pos.y + data.pos1.y + yp(engine);
 				p.position.z = pos.z + data.pos1.z + zp(engine);
-				p.scale = data.scale1.x;
-				p.s_scale = data.scale1.x;
-				p.e_scale = data.scale1.y;
 				p.velocity.x = data.move1.x + xv(engine);
 				p.velocity.y = data.move1.y + yv(engine);
 				p.velocity.z = data.move1.z + zv(engine);
+				p.velocity.normalize();
+				p.speed = data.speed1;
 				p.accel = data.acceleration1;
+				p.scale = data.scale1.x;
+				p.s_scale = data.scale1.x;
+				p.e_scale = data.scale1.y;
 				p.gravity = data.gravity1;
-				p.num_frame = data.life1 + uint32_t(l(engine));
-				p.color = data.color1;
+				p.color = data.sColor1;
+				p.s_color = data.sColor1;
+				p.e_color = data.eColor1;
+				p.postEffect = data.postEffect1;
 			}
 		}
 		if (data.add2) {
@@ -723,19 +733,25 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 				if (data.texNum2 == 0) {
 					circleParticles_.emplace_front();
 					Particle& p = circleParticles_.front();
+					p.num_frame = data.life2 + uint32_t(l(engine));
+					p.originPos = pos;
 					p.position.x = pos.x + data.pos2.x + xp(engine);
 					p.position.y = pos.y + data.pos2.y + yp(engine);
 					p.position.z = pos.z + data.pos2.z + zp(engine);
-					p.scale = data.scale2.x;
-					p.s_scale = data.scale2.x;
-					p.e_scale = data.scale2.y;
 					p.velocity.x = data.move2.x + xv(engine);
 					p.velocity.y = data.move2.y + yv(engine);
 					p.velocity.z = data.move2.z + zv(engine);
+					p.velocity.normalize();
+					p.speed = data.speed2;
 					p.accel = data.acceleration2;
+					p.scale = data.scale2.x;
+					p.s_scale = data.scale2.x;
+					p.e_scale = data.scale2.y;
 					p.gravity = data.gravity2;
-					p.num_frame = data.life2 + uint32_t(l(engine));
-					p.color = data.color2;
+					p.color = data.sColor2;
+					p.s_color = data.sColor2;
+					p.e_color = data.eColor2;
+					p.postEffect = data.postEffect2;
 				}
 			}
 		}

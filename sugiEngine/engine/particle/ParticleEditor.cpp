@@ -179,7 +179,7 @@ void ParticleEditor::PopParticle(uint8_t num)
 		std::uniform_real_distribution<float> l(-float(lifeRand_[num] + 0.99f), float(lifeRand_[num] + 0.99f));
 
 		if (texNum_[num] == 0) {
-			ParticleManager::GetInstance()->AddCircle(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, isRevers_[num], {move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine)}, speed_[num], {acceleration_[num][0],acceleration_[num][1],acceleration_[num][2]}, {gravity_[num][0],gravity_[num][1],gravity_[num][2]}, scale_[num][0], scale_[num][1], {sColor_[num][0],sColor_[num][1],sColor_[num][2]}, {eColor_[num][0],eColor_[num][1],eColor_[num][2]});
+			ParticleManager::GetInstance()->AddCircle(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, isRevers_[num], {move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine)}, speed_[num], {acceleration_[num][0],acceleration_[num][1],acceleration_[num][2]}, {gravity_[num][0],gravity_[num][1],gravity_[num][2]}, scale_[num][0], scale_[num][1], {sColor_[num][0],sColor_[num][1],sColor_[num][2]}, {eColor_[num][0],eColor_[num][1],eColor_[num][2]},postEffect_[num]);
 		}
 		if (texNum_[num] == 1) {
 
