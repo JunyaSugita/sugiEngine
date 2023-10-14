@@ -615,7 +615,7 @@ void ParticleManager::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void ParticleManager::AddCircle(int life, Vector3 pos,bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector3 sColor, Vector3 eColor,int32_t postEffect)
+void ParticleManager::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector3 sColor, Vector3 eColor, int32_t postEffect)
 {
 	circleParticles_.emplace_front();
 	Particle& p = circleParticles_.front();
@@ -658,29 +658,20 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 
 		std::uniform_real_distribution<float> l(-float(data.lifeRand + 0.99f), float(data.lifeRand + 0.99f));
 
-		if (data.texNum == 0) {
-			circleParticles_.emplace_front();
-			Particle& p = circleParticles_.front();
-			p.num_frame = data.life + uint32_t(l(engine));
-			p.originPos = pos;
-			p.position.x = pos.x + data.pos.x + xp(engine);
-			p.position.y = pos.y + data.pos.y + yp(engine);
-			p.position.z = pos.z + data.pos.z + zp(engine);
-			p.velocity.x = data.move.x + xv(engine);
-			p.velocity.y = data.move.y + yv(engine);
-			p.velocity.z = data.move.z + zv(engine);
-			p.velocity.normalize();
-			p.speed = data.speed;
-			p.accel = data.acceleration;
-			p.scale = data.scale.x;
-			p.s_scale = data.scale.x;
-			p.e_scale = data.scale.y;
-			p.gravity = data.gravity;
-			p.color = data.sColor;
-			p.s_color = data.sColor;
-			p.e_color = data.eColor;
-			p.postEffect = data.postEffect;
-		}
+ 		AddCircle(
+			data.life + (int32_t)l(engine),
+			{ pos.x + data.pos.x + xp(engine),pos.y + data.pos.y + yp(engine),pos.z + data.pos.z + zp(engine) },
+			data.isRevers,
+			{ data.move.x + xv(engine),data.move.y + yv(engine), data.move.z + zv(engine) },
+			data.speed,
+			data.acceleration,
+			data.gravity,
+			data.scale.x,
+			data.scale.y,
+			data.sColor,
+			data.eColor,
+			data.postEffect
+		);
 	}
 	if (data.add1) {
 		for (int i = 0; i < data.num1; i++) {
@@ -694,29 +685,20 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 
 			std::uniform_real_distribution<float> l(-float(data.lifeRand1 + 0.99f), float(data.lifeRand1 + 0.99f));
 
-			if (data.texNum1 == 0) {
-				circleParticles_.emplace_front();
-				Particle& p = circleParticles_.front();
-				p.num_frame = data.life1 + uint32_t(l(engine));
-				p.originPos = pos;
-				p.position.x = pos.x + data.pos1.x + xp(engine);
-				p.position.y = pos.y + data.pos1.y + yp(engine);
-				p.position.z = pos.z + data.pos1.z + zp(engine);
-				p.velocity.x = data.move1.x + xv(engine);
-				p.velocity.y = data.move1.y + yv(engine);
-				p.velocity.z = data.move1.z + zv(engine);
-				p.velocity.normalize();
-				p.speed = data.speed1;
-				p.accel = data.acceleration1;
-				p.scale = data.scale1.x;
-				p.s_scale = data.scale1.x;
-				p.e_scale = data.scale1.y;
-				p.gravity = data.gravity1;
-				p.color = data.sColor1;
-				p.s_color = data.sColor1;
-				p.e_color = data.eColor1;
-				p.postEffect = data.postEffect1;
-			}
+			AddCircle(
+				data.life1 + (int32_t)l(engine),
+				{ pos.x + data.pos1.x + xp(engine),pos.y + data.pos1.y + yp(engine),pos.z + data.pos1.z + zp(engine) },
+				data.isRevers1,
+				{ data.move1.x + xv(engine),data.move.y + yv(engine), data.move1.z + zv(engine) },
+				data.speed1,
+				data.acceleration1,
+				data.gravity1,
+				data.scale1.x,
+				data.scale1.y,
+				data.sColor1,
+				data.eColor1,
+				data.postEffect1
+			);
 		}
 		if (data.add2) {
 			for (int i = 0; i < data.num2; i++) {
@@ -730,29 +712,20 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 
 				std::uniform_real_distribution<float> l(-float(data.lifeRand2 + 0.99f), float(data.lifeRand2 + 0.99f));
 
-				if (data.texNum2 == 0) {
-					circleParticles_.emplace_front();
-					Particle& p = circleParticles_.front();
-					p.num_frame = data.life2 + uint32_t(l(engine));
-					p.originPos = pos;
-					p.position.x = pos.x + data.pos2.x + xp(engine);
-					p.position.y = pos.y + data.pos2.y + yp(engine);
-					p.position.z = pos.z + data.pos2.z + zp(engine);
-					p.velocity.x = data.move2.x + xv(engine);
-					p.velocity.y = data.move2.y + yv(engine);
-					p.velocity.z = data.move2.z + zv(engine);
-					p.velocity.normalize();
-					p.speed = data.speed2;
-					p.accel = data.acceleration2;
-					p.scale = data.scale2.x;
-					p.s_scale = data.scale2.x;
-					p.e_scale = data.scale2.y;
-					p.gravity = data.gravity2;
-					p.color = data.sColor2;
-					p.s_color = data.sColor2;
-					p.e_color = data.eColor2;
-					p.postEffect = data.postEffect2;
-				}
+				AddCircle(
+					data.life2 + (int32_t)l(engine),
+					{ pos.x + data.pos2.x + xp(engine),pos.y + data.pos2.y + yp(engine),pos.z + data.pos2.z + zp(engine) },
+					data.isRevers2,
+					{ data.move2.x + xv(engine),data.move2.y + yv(engine), data.move2.z + zv(engine) },
+					data.speed2,
+					data.acceleration2,
+					data.gravity2,
+					data.scale2.x,
+					data.scale2.y,
+					data.sColor2,
+					data.eColor2,
+					data.postEffect2
+				);
 			}
 		}
 	}
@@ -794,7 +767,7 @@ void ParticleManager::LoadParticleData()
 	fread(&particleData_[P_MAGIC_MISSILE], sizeof(particleData_[0]), 1, saveFile_);
 	fclose(saveFile_);
 
-	//マジックミサイル
+	//ライトニング
 	fopen_s(&saveFile_, "Resources/particleData/lightning.dat", "rb");
 	if (saveFile_ == NULL) {
 		return;

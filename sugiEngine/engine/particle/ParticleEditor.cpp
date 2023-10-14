@@ -31,6 +31,17 @@ void ParticleEditor::Initialize()
 		postEffect_[i] = 0;
 	}
 	Write();
+
+	for (int i = 0; i < 100; i++) {
+		fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "rb");
+		if (saveFile_ == NULL) {
+			return;
+		}
+
+		fread(&particleName, sizeof(particleName), 1, saveFile_);
+
+		fclose(saveFile_);
+	}
 }
 
 void ParticleEditor::Update()
@@ -75,6 +86,11 @@ void ParticleEditor::Update()
 		InputFloat3("gravity", gravity_[0]);
 		ColorEdit3("s_color", sColor_[0]);
 		ColorEdit3("e_color", eColor_[0]);
+		if (Button("UseSameColor", { 100,30 })) {
+			eColor_[0][0] = sColor_[0][0];
+			eColor_[0][1] = sColor_[0][1];
+			eColor_[0][2] = sColor_[0][2];
+		}
 		Text("postEffect");
 		if (RadioButton("none", postEffect_[0] == P_NONE)) {
 			postEffect_[0] = P_NONE;
@@ -98,7 +114,7 @@ void ParticleEditor::Update()
 			Checkbox("revers1", &isRevers_[1]);
 			InputFloat3("move1", move_[1]);
 			InputFloat3("moveRand1", moveRand_[1]);
-			InputFloat("speed1", speed_);
+			InputFloat("speed1", &speed_[1]);
 			InputFloat3("acceleration1", acceleration_[1]);
 			InputFloat2("s_scale->e_scale1", scale_[1]);
 			SliderFloat("angleSpeed1", &angleSpeed_[1], -10, 10, "%.1f");
@@ -106,6 +122,11 @@ void ParticleEditor::Update()
 			InputFloat3("gravity1", gravity_[1]);
 			ColorEdit3("s_color1", sColor_[1]);
 			ColorEdit3("e_color1", eColor_[1]);
+			if (Button("UseSameColor", { 100,30 })) {
+				eColor_[1][0] = sColor_[1][0];
+				eColor_[1][1] = sColor_[1][1];
+				eColor_[1][2] = sColor_[1][2];
+			}
 			Text("postEffect1");
 			if (RadioButton("none1", postEffect_[1] == P_NONE)) {
 				postEffect_[1] = P_NONE;
@@ -137,6 +158,11 @@ void ParticleEditor::Update()
 				InputFloat3("gravity2", gravity_[2]);
 				ColorEdit3("s_color2", sColor_[2]);
 				ColorEdit3("e_color2", eColor_[2]);
+				if (Button("UseSameColor", { 100,30 })) {
+					eColor_[2][0] = sColor_[2][0];
+					eColor_[2][1] = sColor_[2][1];
+					eColor_[2][2] = sColor_[2][2];
+				}
 				Text("postEffect2");
 				if (RadioButton("none2", postEffect_[2] == P_NONE)) {
 					postEffect_[2] = P_NONE;
@@ -197,6 +223,10 @@ void ParticleEditor::Save()
 
 	fwrite(&editData_, sizeof(editData_), 1, saveFile_);
 
+	fclose(saveFile_);
+
+	fopen_s(&saveFile_,"Resources/ParticleData/particleName.dat","wb");
+	fwrite(&particleName,sizeof(particleName),1,saveFile_);
 	fclose(saveFile_);
 }
 

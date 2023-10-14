@@ -110,4 +110,6 @@ private:
 
 	FILE* saveFile_;
 	EditFile editData_;
+
+	std::string particleName[100];
 };
