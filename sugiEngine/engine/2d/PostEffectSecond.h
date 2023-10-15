@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Windows.h>
 #include "DXCommon.h"
 #include "GrovalSetting.h"
@@ -94,14 +94,8 @@ public:
 		sIsMoveCloss = true;
 	}
 
-	static void SetPos(Vector2 pos) {
-		sPos = pos;
-		sIsDirty = true;
-	}
-	static void SetSize(Vector2 size) {
-		sSize = size;
-		sIsDirty = true;
-	}
+	static void SetPos(Vector2 pos);
+	static void SetSize(Vector2 size);
 
 public:
 	static const float CLEAR_COLOR[4];

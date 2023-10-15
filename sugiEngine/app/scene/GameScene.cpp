@@ -1,4 +1,4 @@
-﻿#include "GameScene.h"
+#include "GameScene.h"
 #include "Input.h"
 #include "FbxLoader.h"
 #include "PostEffect.h"
@@ -72,9 +72,6 @@ void GameScene::Initialize()
 	ParticleManager* particleM = ParticleManager::GetInstance();
 	particleM->Initialize();
 
-	particleE_ = make_unique<ParticleEditor>();
-	particleE_->Initialize();
-
 	gameOver_.Initialize();
 
 	sound_.Initialize();
@@ -118,7 +115,7 @@ void GameScene::Update()
 
 #pragma region デバッグ用
 #ifdef _DEBUG
-	if (!particleE_->GetIsEdit(0)) {
+	if (!particleM->GetIsEdit()) {
 
 		if (input->TriggerKey(DIK_P)) {
 			ParticleManager::GetInstance()->Clear();
@@ -164,7 +161,6 @@ void GameScene::Update()
 	uiM->Update();
 	colM->Update();
 	particleM->Update();
-	particleE_->Update();
 	loadOut->Update();
 	MenuManager::GetInstance()->Update();
 
@@ -256,7 +252,7 @@ void GameScene::Draw()
 
 void GameScene::ObjDraw()
 {
-	if (!particleE_->GetIsEdit(0)) {
+	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		FieldManager::GetInstance()->Draw();
 
 		EnemyManager::GetInstance()->Draw();
@@ -268,7 +264,7 @@ void GameScene::ObjDraw()
 void GameScene::ObjDraw2()
 {
 
-	if (!particleE_->GetIsEdit(0)) {
+	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		Player::GetInstance()->Draw();
 	}
 	ClearChecker::GetInstance()->Draw();
@@ -282,7 +278,7 @@ void GameScene::ParticleDraw()
 
 void GameScene::SpriteDraw()
 {
-	if (!particleE_->GetIsEdit(0)) {
+	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 
 		if (!LoadOut::GetInstance()->GetIsActive()) {
 			Player::GetInstance()->SpDraw();
@@ -296,4 +292,5 @@ void GameScene::SpriteDraw()
 
 void GameScene::Finalize()
 {
+	ParticleManager::GetInstance()->Finalize();
 }

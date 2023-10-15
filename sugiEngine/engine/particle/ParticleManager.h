@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Windows.h>
 #include "DXCommon.h"
 #include "GrovalSetting.h"
@@ -10,16 +10,22 @@
 #include <DirectXMath.h>
 
 struct Particle {
+	int32_t frame = 0;
+	int32_t num_frame = 0;
+	Vector3 originPos = {};
 	Vector3 position = {};
+	bool isRevers_ = false;
+	Vector3 velocity = {};
+	float speed = 1.0f;
+	Vector3 accel = { 1,1,1 };
 	float scale = 1.0f;
 	float s_scale = 1.0f;
 	float e_scale = 1.0f;
-	Vector3 velocity = {};
-	Vector3 accel = {1,1,1};
 	Vector3 gravity = {};
-	int32_t frame = 0;
-	int32_t num_frame = 0;
-	Vector4 color = {0,1,0,1};
+	Vector3 color = { 1,1,1 };
+	Vector3 s_color = { 1,1,1 };
+	Vector3 e_color = { 1,1,1 };
+	int32_t postEffect = 0;
 };
 
 enum ParticleName {
@@ -101,6 +107,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+	void Finalize();
 
 	void SetPos(float x, float y);
 
@@ -127,15 +134,20 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-	void AddCircle(int life, Vector3 pos, Vector3 velo,Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector4 color);
-	void AddIce(int life, Vector3 pos, Vector3 velo, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 color);
+	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo,float speed, Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector3 sColor, Vector3 eColor, int32_t postEffect);
 	void Add(Vector3 pos, EditFile data);
-	
-	void LoadParticleData();
 
 	void AddFromFile(uint8_t num, Vector3 pos);
 
 	void Clear();
+
+	void SetParticleData(int num, EditFile file) {
+		particleData_[num] = file;
+	}
+
+	bool GetIsEdit() {
+		return particleE_->GetIsEdit(0);
+	}
 protected:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ヒープ設定
 	D3D12_RESOURCE_DESC resDesc_{};
@@ -159,9 +171,10 @@ protected:
 	Vector2 textureSize_ = { 100.0f,100.0f };
 
 	std::forward_list<Particle> circleParticles_;
-	std::forward_list<Particle> iceParticles_;
 
-	EditFile particleData_[P_END];
+	EditFile particleData_[100];
+
+	std::unique_ptr<ParticleEditor> particleE_ = nullptr;
 };
 
 

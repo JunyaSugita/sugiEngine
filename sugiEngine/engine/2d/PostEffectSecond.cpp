@@ -1,4 +1,4 @@
-﻿#include "PostEffectSecond.h"
+#include "PostEffectSecond.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <d3dx12.h>
@@ -795,4 +795,20 @@ void PostEffectSecond::SetUp()
 	constMapEffect_->closs6 = sIsCloss6;
 	constMapEffect_->closs8 = sIsCloss8;
 	constMapEffect_->moveCloss = sIsMoveCloss;
+}
+
+void PostEffectSecond::SetPos(Vector2 pos)
+{
+	if (sPos.x != pos.x || sPos.y != pos.y) {
+		sIsDirty = true;
+	}
+	sPos = pos;
+}
+
+void PostEffectSecond::SetSize(Vector2 size)
+{
+	if (sSize.x != size.x || sSize.y != size.y) {
+		sIsDirty = true;
+	}
+	sSize = size;
 }

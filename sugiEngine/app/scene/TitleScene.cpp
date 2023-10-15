@@ -1,4 +1,4 @@
-﻿#include "TitleScene.h"
+#include "TitleScene.h"
 #include "Input.h"
 #include "ParticleManager.h"
 #include "sceneChange.h"
@@ -108,4 +108,5 @@ void TitleScene::SpriteDraw()
 void TitleScene::Finalize()
 {
 	sound_.Finalize();
+	ParticleManager::GetInstance()->Finalize();
 }
