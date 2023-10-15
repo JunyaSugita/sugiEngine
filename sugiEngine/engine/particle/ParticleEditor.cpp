@@ -376,6 +376,7 @@ void ParticleEditor::Read()
 	eColor_[0][2] = editData_.eColor.z;
 	postEffect_[0] = editData_.postEffect;
 
+	isEdit_[1] = editData_.add1;
 	texNum_[1] = editData_.texNum1;
 	num_[1] = editData_.num1;
 	life_[1] = editData_.life1;
@@ -412,6 +413,7 @@ void ParticleEditor::Read()
 	eColor_[1][2] = editData_.eColor1.z;
 	postEffect_[1] = editData_.postEffect1;
 
+	isEdit_[2] = editData_.add2;
 	texNum_[2] = editData_.texNum2;
 	num_[2] = editData_.num2;
 	life_[2] = editData_.life2;
