@@ -107,6 +107,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+	void Finalize();
 
 	void SetPos(float x, float y);
 
@@ -135,12 +136,18 @@ public:
 
 	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo,float speed, Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector3 sColor, Vector3 eColor, int32_t postEffect);
 	void Add(Vector3 pos, EditFile data);
-	
-	void LoadParticleData();
 
 	void AddFromFile(uint8_t num, Vector3 pos);
 
 	void Clear();
+
+	void SetParticleData(int num, EditFile file) {
+		particleData_[num] = file;
+	}
+
+	bool GetIsEdit() {
+		return particleE_->GetIsEdit(0);
+	}
 protected:
 	D3D12_HEAP_PROPERTIES heapProp_{}; // ヒープ設定
 	D3D12_RESOURCE_DESC resDesc_{};
@@ -165,7 +172,9 @@ protected:
 
 	std::forward_list<Particle> circleParticles_;
 
-	EditFile particleData_[P_END];
+	EditFile particleData_[100];
+
+	std::unique_ptr<ParticleEditor> particleE_ = nullptr;
 };
 
 

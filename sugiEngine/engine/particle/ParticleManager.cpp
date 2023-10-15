@@ -490,9 +490,11 @@ void ParticleManager::Initialize()
 
 	SetUpVertex();
 
-	LoadParticleData();
-
 	Clear();
+
+	particleE_.release();
+	particleE_ = make_unique<ParticleEditor>();
+	particleE_->Initialize();
 }
 
 void ParticleManager::Update()
@@ -538,6 +540,8 @@ void ParticleManager::Update()
 	vertBuff_->Unmap(0, nullptr);
 
 	SetUpVertex();
+
+	particleE_->Update();
 }
 
 void ParticleManager::Draw()
@@ -559,6 +563,11 @@ void ParticleManager::Draw()
 		// 描画コマンド
 		sCmdList->DrawInstanced((UINT)std::distance(circleParticles_.begin(), circleParticles_.end()), 1, 0, 0); // 全ての頂点を使って描画
 	}
+}
+
+void ParticleManager::Finalize()
+{
+	particleE_.release();
 }
 
 void ParticleManager::SetPos(float x, float y) {
@@ -729,83 +738,6 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 			}
 		}
 	}
-}
-
-void ParticleManager::LoadParticleData()
-{
-	FILE* saveFile_;
-
-	//ファイアボール
-	fopen_s(&saveFile_, "Resources/particleData/fire.dat", "rb");
-	if (saveFile_ == NULL) {
-		return;
-	}
-	fread(&particleData_[P_FIRE_BALL], sizeof(particleData_[0]), 1, saveFile_);
-	fclose(saveFile_);
-
-	//爆発
-	fopen_s(&saveFile_, "Resources/particleData/explode.dat", "rb");
-	if (saveFile_ == NULL) {
-		return;
-	}
-	fread(&particleData_[P_FIRE_BALL_EXPLODE], sizeof(particleData_[0]), 1, saveFile_);
-	fclose(saveFile_);
-
-	//アイスボルト
-	fopen_s(&saveFile_, "Resources/particleData/ice.dat", "rb");
-	if (saveFile_ == NULL) {
-		return;
-	}
-	fread(&particleData_[P_ICE], sizeof(particleData_[0]), 1, saveFile_);
-	fclose(saveFile_);
-
-	//マジックミサイル
-	fopen_s(&saveFile_, "Resources/particleData/magicMissile.dat", "rb");
-	if (saveFile_ == NULL) {
-		return;
-	}
-	fread(&particleData_[P_MAGIC_MISSILE], sizeof(particleData_[0]), 1, saveFile_);
-	fclose(saveFile_);
-
-	//ライトニング
-	fopen_s(&saveFile_, "Resources/particleData/lightning.dat", "rb");
-	if (saveFile_ == NULL) {
-		return;
-	}
-	fread(&particleData_[P_LIGHTNING], sizeof(particleData_[0]), 1, saveFile_);
-	fclose(saveFile_);
-
-	//武器
-	fopen_s(&saveFile_, "Resources/particleData/weapon.dat", "rb");
-	if (saveFile_ == NULL) {
-		return;
-	}
-	fread(&particleData_[P_WEAPON], sizeof(particleData_[0]), 1, saveFile_);
-	fclose(saveFile_);
-
-	//武器(火属性)
-	fopen_s(&saveFile_, "Resources/particleData/weaponFire.dat", "rb");
-	if (saveFile_ == NULL) {
-		return;
-	}
-	fread(&particleData_[P_WEAPON_FIRE], sizeof(particleData_[0]), 1, saveFile_);
-	fclose(saveFile_);
-
-	//デバフ　ファイア
-	fopen_s(&saveFile_, "Resources/particleData/debuffFire.dat", "rb");
-	if (saveFile_ == NULL) {
-		return;
-	}
-	fread(&particleData_[P_DEBUFF_FIRE], sizeof(particleData_[0]), 1, saveFile_);
-	fclose(saveFile_);
-
-	//ゴール
-	fopen_s(&saveFile_, "Resources/particleData/goal.dat", "rb");
-	if (saveFile_ == NULL) {
-		return;
-	}
-	fread(&particleData_[P_GOAL], sizeof(particleData_[0]), 1, saveFile_);
-	fclose(saveFile_);
 }
 
 void ParticleManager::AddFromFile(uint8_t num, Vector3 pos)

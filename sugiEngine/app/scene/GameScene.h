@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "ISceneManager.h"
 #include "Model.h"
 #include "Sprite.h"
@@ -35,8 +35,6 @@ public:
 private:
 	//ライト関連
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
-
-	std::unique_ptr<ParticleEditor> particleE_ = nullptr;
 
 	GameOver gameOver_;
 

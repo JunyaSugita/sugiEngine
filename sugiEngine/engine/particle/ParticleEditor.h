@@ -67,7 +67,7 @@ enum P_POSTEFFECT {
 	P_CROSS,
 };
 
-class ParticleEditor {
+class ParticleEditor{
 public:
 	void Initialize();
 	void Update();
@@ -78,10 +78,16 @@ public:
 		return isEdit_[num];
 	}
 
+	std::string GetParticleName(int num) {
+		return particleName[num];
+	}
+
 	void Save();
 	void Write();
 	void Load();
 	void Read();
+
+	void SetParticleData();
 
 public:
 	static const uint8_t particleNum = 3;

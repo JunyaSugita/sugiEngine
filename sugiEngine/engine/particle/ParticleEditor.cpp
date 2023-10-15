@@ -42,6 +42,8 @@ void ParticleEditor::Initialize()
 
 		fclose(saveFile_);
 	}
+
+	SetParticleData();
 }
 
 void ParticleEditor::Update()
@@ -65,9 +67,6 @@ void ParticleEditor::Update()
 		InputText("fileName", text_, sizeof(text_));
 		if (Button("Save", { 100,30 })) {
 			Save();
-		}
-		if (Button("Load", { 100,30 })) {
-			Load();
 		}
 		InputInt("texNum", &texNum_[0]);
 		InputInt("num", &num_[0]);
@@ -185,6 +184,30 @@ void ParticleEditor::Update()
 	}
 	End();
 
+	if (GetIsEdit(0)) {
+		Begin("ParticleList");
+
+		for (int i = 0; i < 100; i++) {
+			//nullの時は飛ばす
+			if (GetParticleName(i) == "null") {
+				break;
+			}
+
+			if (Button(GetParticleName(i).c_str(), { 100,30 })) {
+				std::string temp = GetParticleName(i).c_str();
+				for (int j = 0; j < 16; j++) {
+					text_[j] = temp[j];
+					if (temp[j] == '\0') {
+						break;
+					}
+				}
+				Load();
+			}
+		}
+
+		End();
+	}
+
 #endif 
 }
 
@@ -225,9 +248,18 @@ void ParticleEditor::Save()
 
 	fclose(saveFile_);
 
+	for (int i = 0; i < 100; i++) {
+		if (particleName[i] == "null" || particleName[i] == text_) {
+			particleName[i] = text_;
+			break;
+		}
+	}
+
 	fopen_s(&saveFile_,"Resources/ParticleData/particleName.dat","wb");
 	fwrite(&particleName,sizeof(particleName),1,saveFile_);
 	fclose(saveFile_);
+
+	SetParticleData();
 }
 
 void ParticleEditor::Load()
@@ -415,4 +447,27 @@ void ParticleEditor::Read()
 	eColor_[2][1] = editData_.eColor2.y;
 	eColor_[2][2] = editData_.eColor2.z;
 	postEffect_[2] = editData_.postEffect2;
+}
+
+void ParticleEditor::SetParticleData()
+{
+	FILE* saveFile;
+	EditFile tempFile;
+
+	for (int i = 0; i < 100; i++) {
+		//全てのパーティクルを読み込む
+		if (GetParticleName(i) == "null") {
+			break;
+		}
+
+		std::string temp = "Resources/ParticleData/" + GetParticleName(i) + ".dat";
+		fopen_s(&saveFile, temp.c_str(), "rb");
+		if (saveFile == NULL) {
+			return;
+		}
+		fread(&tempFile, sizeof(tempFile), 1, saveFile);
+		fclose(saveFile);
+
+		ParticleManager::GetInstance()->SetParticleData(i,tempFile);
+	}
 }

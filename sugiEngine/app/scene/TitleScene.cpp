@@ -108,4 +108,5 @@ void TitleScene::SpriteDraw()
 void TitleScene::Finalize()
 {
 	sound_.Finalize();
+	ParticleManager::GetInstance()->Finalize();
 }
