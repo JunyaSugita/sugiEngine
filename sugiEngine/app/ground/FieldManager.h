@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Model.h"
 #include "BaseObj.h"
 #include "JsonLoader.h"
@@ -41,9 +41,12 @@ private:
 
 	std::unique_ptr<Model> boxModel_;
 	BaseObj obj_[100];
-
+	int32_t objNum_;
 	std::vector<BoxCol> col_;
 
-	int32_t objNum_;
+	std::unique_ptr<Model> torchModel_;
+	BaseObj torchObj_[100];
+	int32_t torchNum_;
+
 	int32_t navePointNum_;
 };
