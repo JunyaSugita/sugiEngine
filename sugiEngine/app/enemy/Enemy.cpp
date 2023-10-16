@@ -1,4 +1,4 @@
-﻿#include "Player.h"
+#include "Player.h"
 #include "ImGuiManager.h"
 #include "EffectManager.h"
 #include "ParticleManager.h"
@@ -38,6 +38,11 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 
 	BaseEnemy::Initialize(name, pos);
 	WorldTransUpdate();
+
+	obj_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
+	eyeObj_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
+	armL_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
+	armR_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
 }
 
 void Enemy::Draw()
@@ -107,10 +112,10 @@ void Enemy::Down()
 		obj_.rot.z += 5;
 	}
 	//alpha_ -= 0.005f;
-	obj_.obj->SetColor({1,1,1,alpha_});
-	eyeObj_.obj->SetColor({ 1,1,1,alpha_ });
-	armL_.obj->SetColor({ 1,1,1,alpha_ });
-	armR_.obj->SetColor({ 1,1,1,alpha_ });
+	//obj_.obj->SetColor({1,1,1,alpha_});
+	//eyeObj_.obj->SetColor({ 1,1,1,alpha_ });
+	//armL_.obj->SetColor({ 1,1,1,alpha_ });
+	//armR_.obj->SetColor({ 1,1,1,alpha_ });
 	//最後
 	BaseEnemy::Down();
 }

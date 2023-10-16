@@ -1,4 +1,4 @@
-﻿#include "GameOver.h"
+#include "GameOver.h"
 #include "Player.h"
 #include "PostEffectSecond.h"
 #include "UIManager.h"
@@ -6,7 +6,7 @@
 void GameOver::Initialize()
 {
 	maxHp_ = nowHp_ = Player::GetInstance()->GetLife();
-	gauge_.Set({ WIN_WIDTH / 2,700 }, { 500,50 }, {0.2f,0.8f,0.2f});
+	gauge_.Set({ WIN_WIDTH / 2,700 }, { 500,50 }, {0.1f,0.4f,0.1f});
 
 	blur_ = 0;
 	PostEffectSecond::SetBlur((int32_t)blur_);

@@ -79,8 +79,8 @@ void Tutorial::Update()
 void Tutorial::Draw()
 {
 	if (isTutorial_) {
-		sprite_.Draw();
-		sprite2_.Draw();
+		//sprite_.Draw();
+		//sprite2_.Draw();
 		
 	}
 }

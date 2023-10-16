@@ -36,5 +36,9 @@ private:
 
 	//上のオーブ
 	BaseObj orbObj_;
+
+	//パーティクルエディタ用
+	float angle_ = 0;
+	float length_ = 5;
 };
 
