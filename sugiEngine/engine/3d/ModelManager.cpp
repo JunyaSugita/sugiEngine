@@ -1,4 +1,4 @@
-﻿#include "ModelManager.h"
+#include "ModelManager.h"
 
 using namespace std;
 
@@ -22,6 +22,7 @@ void ModelManager::Initialize()
 	LoadSphere("orb");
 	Load("goal",true);
 	Load("posion", true);
+	Load("torch");
 }
 
 Model* ModelManager::Get(string filename)

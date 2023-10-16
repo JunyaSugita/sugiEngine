@@ -1,9 +1,10 @@
-﻿#include "FieldManager.h"
+#include "FieldManager.h"
 #include "EnemyManager.h"
 #include "NavePointManager.h"
 #include "ModelManager.h"
 #include "ClearChecker.h"
 #include "StageSelectManager.h"
+#include "ParticleManager.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ void FieldManager::Initialize(int num)
 
 	objNum_ = 0;
 	navePointNum_ = 0;
+	torchNum_ = 0;
 	col_.clear();
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
@@ -83,6 +85,19 @@ void FieldManager::Initialize(int num)
 		if (objectData.filename == "goal") {
 			ClearChecker::GetInstance()->SetGoal(objectData.pos);
 		}
+		if (objectData.filename == "torch") {
+			//モデルを指定して3Dオブジェクトを生成
+			torchObj_[torchNum_].Initialize("torch");
+
+			//obj情報
+			torchObj_[torchNum_].pos = objectData.pos;
+			torchObj_[torchNum_].rot.x = objectData.rot.x + 180;
+			torchObj_[torchNum_].rot.y = objectData.rot.y - 90;
+			torchObj_[torchNum_].rot.z = objectData.rot.z + 90;
+			torchObj_[torchNum_].scale = objectData.scale;
+			torchObj_[torchNum_].obj->SetColor({0.2f,0.2f,0.2f,1});
+			torchNum_++;
+		}
 	}
 }
 
@@ -91,12 +106,19 @@ void FieldManager::Update()
 	for (int i = 0; i < objNum_; i++) {
 		obj_[i].Update();
 	}
+	for (int i = 0; i < torchNum_;i++) {
+		torchObj_[i].Update();
+		ParticleManager::GetInstance()->AddFromFile(P_TORCH,torchObj_[i].pos);
+	}
 }
 
 void FieldManager::Draw()
 {
 	for (int i = 0; i < objNum_; i++) {
 		obj_[i].Draw();
+	}
+	for (int i = 0; i < torchNum_; i++) {
+		torchObj_[i].Draw();
 	}
 }
 
