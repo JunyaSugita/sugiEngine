@@ -1,4 +1,4 @@
-﻿#include "Slime.h"
+#include "Slime.h"
 #include "NavePointManager.h"
 #include "Player.h"
 
@@ -12,7 +12,7 @@ void Slime::Initialize(std::string name, Vector3 pos)
 	height_ = HEIGHT_COL;
 
 	BaseEnemy::Initialize(name, pos);
-	obj_.obj->SetColor({ 0,1,1,0.2f });
+	obj_.obj->SetColor({ 0,0.1f,0.1f,0.7f });
 	WorldTransUpdate();
 
 }
