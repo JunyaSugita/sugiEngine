@@ -1,4 +1,4 @@
-﻿#include <DirectXMath.h>
+#include <DirectXMath.h>
 #include <Windows.h>
 #include <d3d12.h>
 #include <d3dx12.h>
@@ -21,7 +21,7 @@ public:
 	struct ConstBufferData {
 		XMVECTOR lightv;
 		XMFLOAT3 lightcolor;
-		unsigned int active;
+		uint32_t active;
 	};
 
 public:

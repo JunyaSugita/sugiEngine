@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <DirectXMath.h>
 
 class CircleShadow {
@@ -18,7 +18,7 @@ public:
 		XMFLOAT3 atten;
 		float pad3;
 		XMFLOAT2 factorAngleCos;
-		size_t active;
+		uint32_t active;
 		float pad4;
 	};
 

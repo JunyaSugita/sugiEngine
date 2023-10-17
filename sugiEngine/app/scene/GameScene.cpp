@@ -24,6 +24,10 @@ void GameScene::Initialize()
 {
 	//ライト
 	lightGroup_ = LightGroup::Create();
+	//lightGroup_->SetPointLightActive(0,true);
+	//lightGroup_->SetPointLightPos(0,{0,5,0});
+	//lightGroup_->SetPointLightColor(0,{1,0,0});
+
 	Object3d::SetLight(lightGroup_.get());
 	Fbx::SetLight(lightGroup_.get());
 

@@ -47,28 +47,6 @@
         },
         {
             "type": "MESH",
-            "name": "Cube.007",
-            "transform": {
-                "translation": [
-                    -82.17449951171875,
-                    33.03160095214844,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
             "name": "ICO球.024",
             "transform": {
                 "translation": [
@@ -179,55 +157,11 @@
         },
         {
             "type": "MESH",
-            "name": "ICO球.002",
-            "transform": {
-                "translation": [
-                    -93.73435974121094,
-                    13.618867874145508,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "slime"
-        },
-        {
-            "type": "MESH",
             "name": "Cube.001",
             "transform": {
                 "translation": [
                     -82.17449951171875,
                     -28.403179168701172,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.002",
-            "transform": {
-                "translation": [
-                    -82.71195983886719,
-                    -57.033504486083984,
                     0.0
                 ],
                 "rotation": [
@@ -289,28 +223,6 @@
         },
         {
             "type": "MESH",
-            "name": "Cube.008",
-            "transform": {
-                "translation": [
-                    -131.5755615234375,
-                    -12.48946762084961,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
             "name": "Cube.009",
             "transform": {
                 "translation": [
@@ -333,77 +245,11 @@
         },
         {
             "type": "MESH",
-            "name": "Cube.010",
-            "transform": {
-                "translation": [
-                    -131.5755615234375,
-                    -57.033504486083984,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
             "name": "Cube.011",
             "transform": {
                 "translation": [
                     -131.5755615234375,
                     14.39255142211914,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.013",
-            "transform": {
-                "translation": [
-                    -131.5755615234375,
-                    40.93135070800781,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.015",
-            "transform": {
-                "translation": [
-                    -131.5755615234375,
-                    62.159488677978516,
                     0.0
                 ],
                 "rotation": [
@@ -509,28 +355,6 @@
         },
         {
             "type": "MESH",
-            "name": "Cube.020",
-            "transform": {
-                "translation": [
-                    -155.6273956298828,
-                    -72.19233703613281,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
             "name": "Cube.021",
             "transform": {
                 "translation": [
@@ -558,50 +382,6 @@
                 "translation": [
                     -111.08831787109375,
                     46.81272888183594,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.023",
-            "transform": {
-                "translation": [
-                    -111.08831787109375,
-                    79.63356018066406,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.024",
-            "transform": {
-                "translation": [
-                    -62.673240661621094,
-                    79.63356018066406,
                     0.0
                 ],
                 "rotation": [
@@ -663,28 +443,6 @@
         },
         {
             "type": "MESH",
-            "name": "Cube.028",
-            "transform": {
-                "translation": [
-                    -62.673240661621094,
-                    -74.45362091064453,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy"
-        },
-        {
-            "type": "MESH",
             "name": "ICO球.001",
             "transform": {
                 "translation": [
@@ -712,72 +470,6 @@
                 "translation": [
                     -93.73435974121094,
                     50.52958679199219,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "slime"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.004",
-            "transform": {
-                "translation": [
-                    -145.2374267578125,
-                    50.52958679199219,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "slime"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.005",
-            "transform": {
-                "translation": [
-                    -145.2374267578125,
-                    -47.73693084716797,
-                    0.0
-                ],
-                "rotation": [
-                    90.00000762939453,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "slime"
-        },
-        {
-            "type": "MESH",
-            "name": "ICO球.006",
-            "transform": {
-                "translation": [
-                    -145.2374267578125,
-                    -19.766517639160156,
                     0.0
                 ],
                 "rotation": [

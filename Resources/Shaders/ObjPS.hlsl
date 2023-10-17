@@ -30,7 +30,7 @@ PSOutput main(VSOutput input)
 	//シェーディングによる色
     float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
-    if (!isSimple || !isBloom)
+    if (!isSimple && !isBloom)
     {
 	    //平行光
         for (int i = 0; i < DIRLIGHT_NUM; i++)
@@ -118,7 +118,7 @@ PSOutput main(VSOutput input)
         }
         if (isBloom)
         {
-            output.target2 = texcolor * color;
+            //output.target2 = texcolor * color;
         }
         output.target0 = texcolor * color;
     }
@@ -130,7 +130,7 @@ PSOutput main(VSOutput input)
         }
         if (isBloom)
         {
-            output.target2 = float4((shadecolor * texcolor).rgb * color.rgb, color.w);
+            //output.target2 = float4((shadecolor * texcolor).rgb * color.rgb, color.w);
         }
             output.target0 = float4((shadecolor * texcolor).rgb * color.rgb, color.w);
     }
