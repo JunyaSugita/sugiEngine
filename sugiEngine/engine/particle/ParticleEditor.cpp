@@ -249,7 +249,8 @@ void ParticleEditor::Save()
 	fclose(saveFile_);
 
 	for (int i = 0; i < 100; i++) {
-		if (particleName[i] == "null" || particleName[i] == text_) {
+
+		if (particleName[i] == "null" || particleName[i] == text_ || particleName[i] == "a") {
 			particleName[i] = text_;
 			break;
 		}

@@ -741,9 +741,11 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 	}
 }
 
-void ParticleManager::AddFromFile(uint8_t num, Vector3 pos)
+void ParticleManager::AddFromFile(uint8_t num, Vector3 pos,bool isEdit)
 {
-	Add(pos, particleData_[num]);
+	if (isEdit || !GetIsEdit()) {
+		Add(pos, particleData_[num]);
+	}
 }
 
 void ParticleManager::Clear()

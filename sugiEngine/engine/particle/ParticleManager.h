@@ -138,7 +138,7 @@ public:
 	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo,float speed, Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector3 sColor, Vector3 eColor, int32_t postEffect);
 	void Add(Vector3 pos, EditFile data);
 
-	void AddFromFile(uint8_t num, Vector3 pos);
+	void AddFromFile(uint8_t num, Vector3 pos, bool isEdit = false);
 
 	void Clear();
 
