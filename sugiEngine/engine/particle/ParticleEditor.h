@@ -86,6 +86,7 @@ public:
 	void Write();
 	void Load();
 	void Read();
+	void Delete();
 
 	void SetParticleData();
 

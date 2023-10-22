@@ -68,6 +68,9 @@ void ParticleEditor::Update()
 		if (Button("Save", { 100,30 })) {
 			Save();
 		}
+		if (Button("Delete", { 100,30 })) {
+			Delete();
+		}
 		InputInt("texNum", &texNum_[0]);
 		InputInt("num", &num_[0]);
 		InputInt("life", &life_[0]);
@@ -249,8 +252,7 @@ void ParticleEditor::Save()
 	fclose(saveFile_);
 
 	for (int i = 0; i < 100; i++) {
-
-		if (particleName[i] == "null" || particleName[i] == text_ || particleName[i] == "a") {
+		if (particleName[i] == "null" || particleName[i] == text_) {
 			particleName[i] = text_;
 			break;
 		}
@@ -450,6 +452,31 @@ void ParticleEditor::Read()
 	eColor_[2][1] = editData_.eColor2.y;
 	eColor_[2][2] = editData_.eColor2.z;
 	postEffect_[2] = editData_.postEffect2;
+}
+
+void ParticleEditor::Delete()
+{
+	for (int i = 0; i < 100; i++) {
+		if (particleName[i] == "null") {
+			break;
+		}
+
+		if (particleName[i] == text_) {
+			for (int j = i; j < 100; j++) {
+				particleName[j] = particleName[j + 1];
+				if (particleName[j] == "null") {
+					break;
+				}
+			}
+			break;
+		}
+	}
+
+	fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "wb");
+	fwrite(&particleName, sizeof(particleName), 1, saveFile_);
+	fclose(saveFile_);
+
+	SetParticleData();
 }
 
 void ParticleEditor::SetParticleData()
