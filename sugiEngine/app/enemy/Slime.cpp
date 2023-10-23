@@ -30,11 +30,6 @@ void Slime::WorldTransUpdate()
 
 void Slime::Move()
 {
-	timer_ += 0.1f;
-	obj_.scale.x = 1 + sinf(timer_) * 0.5f;
-	obj_.scale.y = 1 + cosf(timer_) * 0.5f;
-	obj_.scale.z = 1 + sinf(timer_) * 0.5f;
-
 	ColliderManager* colM = ColliderManager::GetInstance();
 	NavePointManager* navePointM = NavePointManager::GetInstance();
 
@@ -73,6 +68,14 @@ void Slime::Attack()
 			isAttack_ = false;
 		}
 	}
+
+	//スライムの動き
+	timer_ += 0.1f;
+	obj_.scale.x = 1 + sinf(timer_) * 0.5f;
+	obj_.scale.y = 1 + cosf(timer_) * 0.5f;
+	obj_.scale.z = 1 + sinf(timer_) * 0.5f;
+
+	WorldTransUpdate();
 }
 
 void Slime::Down()

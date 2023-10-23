@@ -53,7 +53,7 @@ void ColliderManager::Update()
 			if (CheckHitBox(spellsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
 				//呪文が敵に当たっている時
 				spellsCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage(), 1);
+				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage());
 				enemysCol[j]->SetDebuff(spellsCol[i]->GetDamage(), 10);
 			}
 		}
@@ -80,7 +80,7 @@ void ColliderManager::Update()
 			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
 				//ライトニングの判定先に敵がいたとき
 				chainLightningsCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(15, 5);
+				enemysCol[j]->SetIsHit(15);
 				enemysCol[j]->SetDebuff(D_STAN, 1);
 
 				//1体目の伝播
@@ -103,7 +103,7 @@ void ColliderManager::Update()
 				//近いやつがいたら
 				if (hitTemp1 != -1) {
 					//一番近いやつにダメージ
-					enemysCol[hitTemp1]->SetIsHit(15, 5);
+					enemysCol[hitTemp1]->SetIsHit(15);
 					enemysCol[hitTemp1]->SetDebuff(D_STAN, 1);
 					//そこまでのパーティクル
 					EffectManager::GetInstance()->BoltGenerate(enemysCol[j]->GetBoxCol().pos, enemysCol[hitTemp1]->GetBoxCol().pos,{0,0,0},{0.5f,0.5f,1,0.5f});
@@ -127,7 +127,7 @@ void ColliderManager::Update()
 					//近いやつがいたら
 					if (hitTemp2 != -1) {
 						//一番近いやつにダメージ
-						enemysCol[hitTemp2]->SetIsHit(15, 5);
+						enemysCol[hitTemp2]->SetIsHit(15);
 						enemysCol[hitTemp2]->SetDebuff(D_STAN, 1);
 
 						//そこまでのパーティクル

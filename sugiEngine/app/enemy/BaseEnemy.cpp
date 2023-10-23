@@ -115,7 +115,7 @@ void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 	}
 }
 
-void BaseEnemy::SetIsHit(int32_t subLife, int32_t effectNum)
+void BaseEnemy::SetIsHit(int32_t subLife,bool isParticle)
 {
 	//既に当たっていたら当たらない
 	if (isHit_) {
@@ -125,7 +125,7 @@ void BaseEnemy::SetIsHit(int32_t subLife, int32_t effectNum)
 		//当たったフラグを立てる
 		isHit_ = true;
 		//体力を削る
-		SubLife(subLife, effectNum);
+		SubLife(subLife, isParticle);
 	}
 }
 
@@ -203,13 +203,15 @@ float BaseEnemy::GetSlow()
 	return 1.0f;
 }
 
-void BaseEnemy::SubLife(int32_t subLife, int32_t effectNum)
+void BaseEnemy::SubLife(int32_t subLife, bool isParticle)
 {
 	life_ -= subLife;
 	if (life_ < 0) {
 		life_ = 0;
 	}
-	EffectManager::GetInstance()->BurstGenerate({ obj_.pos.x,obj_.pos.y + 4,obj_.pos.z }, effectNum, { 1,0,0,1 });
+	if (isParticle) {
+		ParticleManager::GetInstance()->AddFromFile(P_DAMAGER, { obj_.pos.x,obj_.pos.y,obj_.pos.z });
+	}
 	if (life_ <= 0) {
 		isDown_ = true;
 	}
@@ -221,7 +223,7 @@ void BaseEnemy::UpdateDebuff()
 		if (debuff_.isFire) {
 			ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.col.pos);
 			if (debuff_.fireTime % 40 == 1) {
-				SubLife(1, 0);
+				SubLife(1);
 			}
 
 

@@ -32,16 +32,16 @@ void ParticleEditor::Initialize()
 	}
 	Write();
 
-	for (int i = 0; i < 100; i++) {
-		fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "rb");
-		if (saveFile_ == NULL) {
-			return;
-		}
+#ifdef _DEBUG
 
-		fread(&particleName, sizeof(particleName), 1, saveFile_);
-
-		fclose(saveFile_);
+	fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "rb");
+	if (saveFile_ == NULL) {
+		return;
 	}
+	fread(&particleName, sizeof(particleName), 1, saveFile_);
+	fclose(saveFile_);
+
+#endif
 
 	SetParticleData();
 }
@@ -77,13 +77,13 @@ void ParticleEditor::Update()
 		InputInt("lifeRand", &lifeRand_[0]);
 		InputFloat3("pos", pos_[0]);
 		InputFloat3("posRand", posRand_[0]);
-		Checkbox("revers",&isRevers_[0]);
+		Checkbox("revers", &isRevers_[0]);
 		InputFloat3("move", move_[0]);
 		InputFloat3("moveRand", moveRand_[0]);
-		InputFloat("speed",&speed_[0]);
+		InputFloat("speed", &speed_[0]);
 		InputFloat3("acceleration", acceleration_[0]);
 		InputFloat2("s_scale->e_scale", scale_[0]);
-		SliderFloat("angleSpeed", &angleSpeed_[0],-10,10,"%.1f");
+		SliderFloat("angleSpeed", &angleSpeed_[0], -10, 10, "%.1f");
 		SliderFloat("angleSpeedRand", &angleSpeedRand_[0], -10, 10, "%.1f");
 		InputFloat3("gravity", gravity_[0]);
 		ColorEdit3("s_color", sColor_[0]);
@@ -231,7 +231,7 @@ void ParticleEditor::PopParticle(uint8_t num)
 		std::uniform_real_distribution<float> l(-float(lifeRand_[num] + 0.99f), float(lifeRand_[num] + 0.99f));
 
 		if (texNum_[num] == 0) {
-			ParticleManager::GetInstance()->AddCircle(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, isRevers_[num], {move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine)}, speed_[num], {acceleration_[num][0],acceleration_[num][1],acceleration_[num][2]}, {gravity_[num][0],gravity_[num][1],gravity_[num][2]}, scale_[num][0], scale_[num][1], {sColor_[num][0],sColor_[num][1],sColor_[num][2]}, {eColor_[num][0],eColor_[num][1],eColor_[num][2]},postEffect_[num]);
+			ParticleManager::GetInstance()->AddCircle(int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, isRevers_[num], { move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine) }, speed_[num], { acceleration_[num][0],acceleration_[num][1],acceleration_[num][2] }, { gravity_[num][0],gravity_[num][1],gravity_[num][2] }, scale_[num][0], scale_[num][1], { sColor_[num][0],sColor_[num][1],sColor_[num][2] }, { eColor_[num][0],eColor_[num][1],eColor_[num][2] }, postEffect_[num]);
 		}
 		if (texNum_[num] == 1) {
 
@@ -258,8 +258,8 @@ void ParticleEditor::Save()
 		}
 	}
 
-	fopen_s(&saveFile_,"Resources/ParticleData/particleName.dat","wb");
-	fwrite(&particleName,sizeof(particleName),1,saveFile_);
+	fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "wb");
+	fwrite(&particleName, sizeof(particleName), 1, saveFile_);
 	fclose(saveFile_);
 
 	SetParticleData();
@@ -481,23 +481,54 @@ void ParticleEditor::Delete()
 
 void ParticleEditor::SetParticleData()
 {
-	FILE* saveFile;
 	EditFile tempFile;
-
+#ifdef _DEBUG
+	
 	for (int i = 0; i < 100; i++) {
+		std::string name = particleName[i];
+
 		//全てのパーティクルを読み込む
-		if (GetParticleName(i) == "null") {
+		if (name == "null") {
 			break;
 		}
 
-		std::string temp = "Resources/ParticleData/" + GetParticleName(i) + ".dat";
-		fopen_s(&saveFile, temp.c_str(), "rb");
-		if (saveFile == NULL) {
+		std::string temp = "Resources/ParticleData/" + particleName[i] + ".dat";
+		fopen_s(&saveFile_, temp.c_str(), "rb");
+		if (saveFile_ == NULL) {
 			return;
 		}
-		fread(&tempFile, sizeof(tempFile), 1, saveFile);
-		fclose(saveFile);
+		fread(&tempFile, sizeof(tempFile), 1, saveFile_);
+		fclose(saveFile_);
 
-		ParticleManager::GetInstance()->SetParticleData(i,tempFile);
+		ParticleManager::GetInstance()->SetParticleData(i, tempFile);
 	}
+#else
+	//エラー一時回避用
+
+	particleName[0] = "fire";
+	particleName[1] = "explode";
+	particleName[2] = "ice";
+	particleName[3] = "magicMissile";
+	particleName[4] = "lightning";
+	particleName[5] = "weapon";
+	particleName[6] = "weaponFire";
+	particleName[7] = "debuffFire";
+	particleName[8] = "goal";
+	particleName[9] = "torch";
+	particleName[10] = "damage";
+
+	for (int i = 0; i < 11; i++) {
+		std::string name = particleName[i];
+
+		std::string temp = "Resources/ParticleData/" + particleName[i] + ".dat";
+		fopen_s(&saveFile_, temp.c_str(), "rb");
+		if (saveFile_ == NULL) {
+			return;
+		}
+		fread(&tempFile, sizeof(tempFile), 1, saveFile_);
+		fclose(saveFile_);
+
+		ParticleManager::GetInstance()->SetParticleData(i, tempFile);
+	}
+#endif
 }

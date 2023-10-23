@@ -1,4 +1,4 @@
-﻿#include "EnemyManager.h"
+#include "EnemyManager.h"
 #include "PlayerWeapon.h"
 #include <random>
 #include "ImGuiManager.h"
@@ -56,11 +56,11 @@ void EnemyManager::Update()
 			if ((enemy->GetPos() - weapon->GetHitPos()).length() < weapon->ATTACK_RADIUS) {
 				//当たった判定を敵に与える
 				if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
-					enemy->SetIsHit(10, 20);
+					enemy->SetIsHit(10);
 					enemy->SetDebuff(D_FIRE,3);
 				}
 				else {
-					enemy->SetIsHit(5, 20);
+					enemy->SetIsHit(5,true);
 				}
 			}
 		}

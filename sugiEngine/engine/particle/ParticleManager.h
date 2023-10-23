@@ -39,6 +39,7 @@ enum ParticleName {
 	P_DEBUFF_FIRE,
 	P_GOAL,
 	P_TORCH,
+	P_DAMAGER,
 	P_END,
 };
 

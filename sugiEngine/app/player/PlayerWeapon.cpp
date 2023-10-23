@@ -175,7 +175,7 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 
 	float nowTime = player->GetTime();
 
-	float easeTime = nowTime / 45.0f;
+	float easeTime = nowTime / 30.0f;
 	if (easeTime >= 1.0f) {
 		easeTime = 1.0f;
 	}
