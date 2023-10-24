@@ -11,6 +11,7 @@
 #include "ParticleManager.h"
 #include "ParticleEditor.h"
 #include "GameOver.h"
+#include "BaseObj.h"
 
 class GameScene : public ISceneManager
 {
@@ -41,5 +42,10 @@ private:
 	Sound sound_;
 
 	int32_t stageNum_;
+
+	//シェーディング確認用
+	BaseObj orb_;
+	float dir_[3];
+	float color_[3];
 };
 

@@ -79,9 +79,6 @@
     <Filter Include="ヘッダー ファイル\engine\light">
       <UniqueIdentifier>{2187c251-87b4-4338-8286-67ec0e6db2b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\engine\liget">
-      <UniqueIdentifier>{66de793a-24d9-4d64-9990-d2f9271824bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\engine\audio">
       <UniqueIdentifier>{43bbfcd1-ba26-43aa-8773-0868beb26bc3}</UniqueIdentifier>
     </Filter>
@@ -138,6 +135,9 @@
     </Filter>
     <Filter Include="ソース ファイル\engine\UI">
       <UniqueIdentifier>{1765b929-94b2-4cb3-92b3-06668306f9f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\engine\light">
+      <UniqueIdentifier>{66de793a-24d9-4d64-9990-d2f9271824bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -208,7 +208,7 @@
       <Filter>ソース ファイル\engine\base</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\light\LightGroup.cpp">
-      <Filter>ソース ファイル\engine\liget</Filter>
+      <Filter>ソース ファイル\engine\light</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp">
       <Filter>ソース ファイル\engine\io</Filter>

@@ -85,6 +85,14 @@ void GameScene::Initialize()
 
 	LoadOut::GetInstance()->Initialize();
 	MenuManager::GetInstance()->Initialize();
+
+	//シェーディング確認用
+	orb_.Initialize("orb");
+	orb_.obj->SetColor({ 1,1,1,1 });
+	orb_.pos = { 0,5,0 };
+	dir_[0] = dir_[2] = 0;
+	dir_[1] = -1;
+	color_[0] = color_[1] = color_[2] = 1;
 }
 
 void GameScene::GameInitialize()
@@ -167,6 +175,10 @@ void GameScene::Update()
 	particleM->Update();
 	loadOut->Update();
 	MenuManager::GetInstance()->Update();
+	orb_.rot.x += 1;
+	orb_.rot.y += 1;
+	orb_.rot.z += 1;
+	orb_.Update();
 
 #pragma endregion
 
@@ -198,6 +210,10 @@ void GameScene::Update()
 		if (Button("PlayerInvincible", { 150,30 })) {
 			Player::GetInstance()->SetInvincible();
 		}
+		SliderFloat3("LightDir", dir_,-1,1);
+		SliderFloat3("LightColor", color_, 0, 1);
+		lightGroup_->SetDirLightDir(0,{dir_[0],dir_[1],dir_[2],0});
+		lightGroup_->SetDirLightColor(0, { color_[0],color_[1],color_[2]});
 		End();
 	}
 
@@ -256,6 +272,8 @@ void GameScene::Draw()
 
 void GameScene::ObjDraw()
 {
+	orb_.Draw();
+
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		FieldManager::GetInstance()->Draw();
 
