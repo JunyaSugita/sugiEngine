@@ -47,5 +47,10 @@ private:
 	BaseObj orb_;
 	float dir_[3];
 	float color_[3];
+
+	bool pointActive_;
+	float pointPos_[3];
+	float pointColor_[3];
+	float pointAtten_[3];
 };
 

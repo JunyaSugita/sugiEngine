@@ -37,7 +37,7 @@ void GameScene::Initialize()
 
 	//敵
 	EnemyManager::GetInstance()->Initialize();
-	
+
 	//クリアの判定
 	ClearChecker::GetInstance()->Initialize();
 	//グラウンド
@@ -93,6 +93,9 @@ void GameScene::Initialize()
 	dir_[0] = dir_[2] = 0;
 	dir_[1] = -1;
 	color_[0] = color_[1] = color_[2] = 1;
+	pointPos_[0] = pointPos_[1] = pointPos_[2] = 0.0f;
+	pointColor_[0] = pointColor_[1] = pointColor_[2] = 1;
+	pointAtten_[0] = pointAtten_[1] = pointAtten_[2] = 0.3f;
 }
 
 void GameScene::GameInitialize()
@@ -196,7 +199,7 @@ void GameScene::Update()
 			Initialize();
 		}
 		if (Button("EnemyPop", { 150,30 })) {
-			enemyM->PopEnemy({0,0,0});
+			enemyM->PopEnemy({ 0,0,0 });
 		}
 		if (Button("SlimePop", { 150,30 })) {
 			enemyM->PopSlime({ 0,0,0 });
@@ -210,10 +213,21 @@ void GameScene::Update()
 		if (Button("PlayerInvincible", { 150,30 })) {
 			Player::GetInstance()->SetInvincible();
 		}
-		SliderFloat3("LightDir", dir_,-1,1);
-		SliderFloat3("LightColor", color_, 0, 1);
-		lightGroup_->SetDirLightDir(0,{dir_[0],dir_[1],dir_[2],0});
-		lightGroup_->SetDirLightColor(0, { color_[0],color_[1],color_[2]});
+		End();
+
+		Begin("Light");
+		SliderFloat3("DirLightDir", dir_, -1, 1);
+		lightGroup_->SetDirLightDir(0, { dir_[0],dir_[1],dir_[2],0 });
+		SliderFloat3("DirLightColor", color_, 0, 1);
+		lightGroup_->SetDirLightColor(0, { color_[0],color_[1],color_[2] });
+		Checkbox("PointLightActive", &pointActive_);
+		lightGroup_->SetPointLightActive(0, pointActive_);
+		SliderFloat3("PointLightPos", pointPos_, -10, 10);
+		lightGroup_->SetPointLightPos(0, { pointPos_[0],pointPos_[1] ,pointPos_[2] });
+		SliderFloat3("PointLightColor", pointColor_, 0, 1);
+		lightGroup_->SetPointLightColor(0, { pointColor_[0],pointColor_[1] ,pointColor_[2] });
+		SliderFloat3("PointLightAtten", pointAtten_, 0.001f, 1.0f);
+		lightGroup_->SetPointLightAtten(0, { pointAtten_[0],pointAtten_[1] ,pointAtten_[2] });
 		End();
 	}
 
@@ -239,7 +253,7 @@ void GameScene::Update()
 	//デバッグ関連
 	if (stageNum_ == SET_SPELL_STAGE) {
 		if (enemyM->GetEnemyCount() <= 0) {
-			enemyM->PopEnemy({0,0,15});
+			enemyM->PopEnemy({ 0,0,15 });
 		}
 	}
 
