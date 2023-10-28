@@ -22,11 +22,11 @@ PSOutput main(VSOutput input)
 	//テクスチャマッピング
     float4 texcolor = tex.Sample(smp, input.uv * tiling);
 	//光沢度
-    const float shininess = 4.0f;
+    const float shininess = 20.0f;
 	//頂点から視点のベクトル
     float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 	//環境反射光
-    float3 ambient = m_ambient;
+    float3 ambient = float3(0.1f, 0.1f, 0.1f)/*m_ambient*/;
 	//シェーディングによる色
     float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
@@ -46,7 +46,7 @@ PSOutput main(VSOutput input)
             }
         }
 	    //点光源
-        for (int i = 0; i < POINTLIGHT_NUM; i++)
+        for (i = 0; i < POINTLIGHT_NUM; i++)
         {
             if (pointLights[i].active)
             {

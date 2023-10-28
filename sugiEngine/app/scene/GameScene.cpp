@@ -91,11 +91,14 @@ void GameScene::Initialize()
 	orb_.obj->SetColor({ 1,1,1,1 });
 	orb_.pos = { 0,5,0 };
 	dir_[0] = dir_[2] = 0;
-	dir_[1] = -1;
+	dir_[1] = -0.4f;
 	color_[0] = color_[1] = color_[2] = 1;
-	pointPos_[0] = pointPos_[1] = pointPos_[2] = 0.0f;
-	pointColor_[0] = pointColor_[1] = pointColor_[2] = 1;
-	pointAtten_[0] = pointAtten_[1] = pointAtten_[2] = 0.3f;
+	pointPos_[0][0] = pointPos_[0][1] = pointPos_[0][2] = 0.0f;
+	pointColor_[0][0] = pointColor_[0][1] = pointColor_[0][2] = 1;
+	pointAtten_[0][0] = pointAtten_[0][1] = pointAtten_[0][2] = 0.3f;
+	pointPos_[1][0] = pointPos_[1][1] = pointPos_[1][2] = 0.0f;
+	pointColor_[1][0] = pointColor_[1][1] = pointColor_[1][2] = 1;
+	pointAtten_[1][0] = pointAtten_[1][1] = pointAtten_[1][2] = 0.3f;
 }
 
 void GameScene::GameInitialize()
@@ -220,14 +223,29 @@ void GameScene::Update()
 		lightGroup_->SetDirLightDir(0, { dir_[0],dir_[1],dir_[2],0 });
 		SliderFloat3("DirLightColor", color_, 0, 1);
 		lightGroup_->SetDirLightColor(0, { color_[0],color_[1],color_[2] });
-		Checkbox("PointLightActive", &pointActive_);
-		lightGroup_->SetPointLightActive(0, pointActive_);
-		SliderFloat3("PointLightPos", pointPos_, -10, 10);
-		lightGroup_->SetPointLightPos(0, { pointPos_[0],pointPos_[1] ,pointPos_[2] });
-		SliderFloat3("PointLightColor", pointColor_, 0, 1);
-		lightGroup_->SetPointLightColor(0, { pointColor_[0],pointColor_[1] ,pointColor_[2] });
-		SliderFloat3("PointLightAtten", pointAtten_, 0.001f, 1.0f);
-		lightGroup_->SetPointLightAtten(0, { pointAtten_[0],pointAtten_[1] ,pointAtten_[2] });
+
+		Checkbox("PointLightActive0", &pointActive_[0]);
+		lightGroup_->SetPointLightActive(28, pointActive_[0]);
+		if (pointActive_[0]) {
+			SliderFloat3("PointLightPos0", pointPos_[0], -10, 10);
+			lightGroup_->SetPointLightPos(28, { pointPos_[0][0],pointPos_[0][1] ,pointPos_[0][2] });
+			SliderFloat3("PointLightColor0", pointColor_[0], 0, 1);
+			lightGroup_->SetPointLightColor(28, { pointColor_[0][0],pointColor_[0][1] ,pointColor_[0][2] });
+			SliderFloat3("PointLightAtten0", pointAtten_[0], 0.001f, 1.0f);
+			lightGroup_->SetPointLightAtten(28, { pointAtten_[0][0],pointAtten_[0][1] ,pointAtten_[0][2] });
+		}
+
+		Checkbox("PointLightActive1", &pointActive_[1]);
+		lightGroup_->SetPointLightActive(29, pointActive_[1]);
+
+		if (pointActive_[1]) {
+			SliderFloat3("PointLightPos1", pointPos_[1], -10, 10);
+			lightGroup_->SetPointLightPos(29, { pointPos_[1][0],pointPos_[1][1] ,pointPos_[1][2] });
+			SliderFloat3("PointLightColor1", pointColor_[1], 0, 1);
+			lightGroup_->SetPointLightColor(29, { pointColor_[1][0],pointColor_[1][1] ,pointColor_[1][2] });
+			SliderFloat3("PointLightAtten1", pointAtten_[1], 0.001f, 1.0f);
+			lightGroup_->SetPointLightAtten(29, { pointAtten_[1][0],pointAtten_[1][1] ,pointAtten_[1][2] });
+		}
 		End();
 	}
 

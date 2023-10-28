@@ -200,6 +200,20 @@ void LightGroup::SetPointLightAtten(int32_t index, const XMFLOAT3& lightAtten)
 	dirty_ = true;
 }
 
+int32_t LightGroup::SetPointLightGetNum()
+{
+	//使って無いライトを探す
+	for (int i = 0; i < sPointLightNum; i++) {
+		if (pointLights_[i].GetIsActive() == false) {
+			pointLights_[i].SetActive(true);
+			return i;
+		}
+	}
+
+	//無い時は-1
+	return -1;
+}
+
 void LightGroup::SetSpotLightActive(int32_t index, bool active)
 {
 	assert(0 <= index && index < sSpotLightNum);
