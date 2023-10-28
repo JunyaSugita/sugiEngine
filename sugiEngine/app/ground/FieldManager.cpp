@@ -8,6 +8,8 @@
 
 using namespace std;
 
+LightGroup* FieldManager::lightGroup_ = nullptr;
+
 FieldManager* FieldManager::GetInstance()
 {
 	static FieldManager instance;
@@ -34,7 +36,6 @@ void FieldManager::Initialize(int num)
 			obj_[objNum_].rot = { 0,0,0 };
 			obj_[objNum_].scale = objectData.scale;
 			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
-			//obj_[objNum_].obj->SetIsSimple();
 			float tilY = 0;
 			if (objectData.scale.x > objectData.scale.y) {
 				tilY = objectData.scale.x;
@@ -62,7 +63,6 @@ void FieldManager::Initialize(int num)
 			obj_[objNum_].rot = { 0,0,0 };
 			obj_[objNum_].scale = objectData.scale;
 			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
-			//obj_[objNum_].obj->SetIsSimple();
 			obj_[objNum_].obj->SetTiling({ 50,50 });
 
 			BoxCol temp;
@@ -96,6 +96,12 @@ void FieldManager::Initialize(int num)
 			torchObj_[torchNum_].rot.z = objectData.rot.z + 90;
 			torchObj_[torchNum_].scale = objectData.scale;
 			torchObj_[torchNum_].obj->SetColor({0.2f,0.2f,0.2f,1});
+			
+			useLightNum_ = lightGroup_->SetPointLightGetNum();
+			lightGroup_->SetPointLightColor(useLightNum_,{1,0.2f,0});
+			lightGroup_->SetPointLightAtten(useLightNum_,{0.01f,0.01f,0.01f});
+			lightGroup_->SetPointLightPos(useLightNum_, { torchObj_[torchNum_].pos.x, torchObj_[torchNum_].pos.y ,torchObj_[torchNum_].pos.z });
+
 			torchNum_++;
 		}
 	}
