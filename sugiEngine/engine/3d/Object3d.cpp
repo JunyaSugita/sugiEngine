@@ -1,4 +1,4 @@
-﻿#include "Object3d.h"
+#include "Object3d.h"
 #include <d3dcompiler.h>
 #include <fstream>
 #include <sstream>
@@ -188,7 +188,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
 	//テクスチャレジスタ0番
 	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
-	rootParams[2].DescriptorTable.pDescriptorRanges = &descriptorRange;					//定数バッファ番号
+	rootParams[2].DescriptorTable.pDescriptorRanges = &descriptorRange;				//定数バッファ番号
 	rootParams[2].DescriptorTable.NumDescriptorRanges = 1;						//デフォルト値
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
 	//定数バッファ2番

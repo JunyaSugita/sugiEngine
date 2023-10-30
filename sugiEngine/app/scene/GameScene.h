@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "ISceneManager.h"
 #include "Model.h"
 #include "Sprite.h"
@@ -11,6 +11,7 @@
 #include "ParticleManager.h"
 #include "ParticleEditor.h"
 #include "GameOver.h"
+#include "BaseObj.h"
 
 class GameScene : public ISceneManager
 {
@@ -36,12 +37,20 @@ private:
 	//ライト関連
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 
-	std::unique_ptr<ParticleEditor> particleE_ = nullptr;
-
 	GameOver gameOver_;
 
 	Sound sound_;
 
 	int32_t stageNum_;
+
+	//シェーディング確認用
+	BaseObj orb_;
+	float dir_[3];
+	float color_[3];
+
+	bool pointActive_[2];
+	float pointPos_[2][3];
+	float pointColor_[2][3];
+	float pointAtten_[2][3];
 };
 

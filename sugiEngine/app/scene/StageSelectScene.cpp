@@ -1,4 +1,4 @@
-﻿#include "StageSelectScene.h"
+#include "StageSelectScene.h"
 #include "SceneChange.h"
 #include "StageSelectManager.h"
 #include "Input.h"
@@ -52,4 +52,5 @@ void StageSelectScene::SpriteDraw()
 
 void StageSelectScene::Finalize()
 {
+	
 }

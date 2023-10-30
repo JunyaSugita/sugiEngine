@@ -97,9 +97,9 @@ public:
 	/// <summary>
 	/// HPを減らし、エフェクトを出す
 	/// </summary>
-	/// <param name="subLife">hp減少量</param>
-	/// <param name="effectNum">エフェクトを出す量</param>
-	void SetIsHit(int32_t subLife = 1, int32_t effectNum = 0);
+	/// <param name="subLife">hp減少量</param>]
+	/// <param name="subLife">パーティクルを出すか</param>
+	void SetIsHit(int32_t subLife, bool isParticle = false);
 
 	/// <summary>
 	/// デバフ状態になっているか
@@ -138,8 +138,8 @@ protected:
 	/// hpを減らし、エフェクトを出す
 	/// </summary>
 	/// <param name="subLife">減らすhp量</param>
-	/// <param name="effectNum">出すエフェクト量</param>
-	void SubLife(int32_t subLife, int32_t effectNum);
+	/// <param name="subLife">パーティクルを出すかどうか</param>
+	void SubLife(int32_t subLife,bool isParticle = false);
 
 	// デバフの効果を更新
 	void UpdateDebuff();

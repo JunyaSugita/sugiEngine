@@ -1,10 +1,11 @@
-﻿#pragma once
+#pragma once
 #include "ISceneManager.h"
 #include "Sprite.h"
 #include "Input.h"
 #include "GameManager.h"
 #include "Sound.h"
 #include "BaseObj.h"
+#include "ParticleEditor.h"
 
 class TitleScene : public ISceneManager
 {
@@ -35,5 +36,9 @@ private:
 
 	//上のオーブ
 	BaseObj orbObj_;
+
+	//パーティクルエディタ用
+	float angle_ = 0;
+	float length_ = 5;
 };
 

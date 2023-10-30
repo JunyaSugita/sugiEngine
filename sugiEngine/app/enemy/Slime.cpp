@@ -1,4 +1,4 @@
-﻿#include "Slime.h"
+#include "Slime.h"
 #include "NavePointManager.h"
 #include "Player.h"
 
@@ -12,7 +12,7 @@ void Slime::Initialize(std::string name, Vector3 pos)
 	height_ = HEIGHT_COL;
 
 	BaseEnemy::Initialize(name, pos);
-	obj_.obj->SetColor({ 0,1,1,0.2f });
+	obj_.obj->SetColor({ 0,0.1f,0.1f,0.7f });
 	WorldTransUpdate();
 
 }
@@ -30,11 +30,6 @@ void Slime::WorldTransUpdate()
 
 void Slime::Move()
 {
-	timer_ += 0.1f;
-	obj_.scale.x = 1 + sinf(timer_) * 0.5f;
-	obj_.scale.y = 1 + cosf(timer_) * 0.5f;
-	obj_.scale.z = 1 + sinf(timer_) * 0.5f;
-
 	ColliderManager* colM = ColliderManager::GetInstance();
 	NavePointManager* navePointM = NavePointManager::GetInstance();
 
@@ -73,6 +68,14 @@ void Slime::Attack()
 			isAttack_ = false;
 		}
 	}
+
+	//スライムの動き
+	timer_ += 0.1f;
+	obj_.scale.x = 1 + sinf(timer_) * 0.5f;
+	obj_.scale.y = 1 + cosf(timer_) * 0.5f;
+	obj_.scale.z = 1 + sinf(timer_) * 0.5f;
+
+	WorldTransUpdate();
 }
 
 void Slime::Down()

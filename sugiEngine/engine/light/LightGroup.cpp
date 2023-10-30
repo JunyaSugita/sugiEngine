@@ -1,4 +1,4 @@
-﻿#include "LightGroup.h"
+#include "LightGroup.h"
 #include <assert.h>
 
 using namespace DirectX;
@@ -133,13 +133,13 @@ void LightGroup::DefaultLightSetting()
 	dirLights_[0].SetLightColor({ 1.0f, 1.0f, 1.0f });
 	dirLights_[0].SetLightDir({ 0.0f,-1.0f,0.0f,0 });
 
-	dirLights_[1].SetActive(true);
-	dirLights_[1].SetLightColor({ 1.0f,1.0f, 1.0f });
-	dirLights_[1].SetLightDir({ +0.5f, +0.1f,+0.2f,0 });
+	//dirLights_[1].SetActive(true);
+	//dirLights_[1].SetLightColor({ 1.0f,1.0f, 1.0f });
+	//dirLights_[1].SetLightDir({ +0.5f, +0.1f,+0.2f,0 });
 
-	dirLights_[2].SetActive(true);
-	dirLights_[2].SetLightColor({ 1.0f,1.0f, 1.0f });
-	dirLights_[2].SetLightDir({ -0.5f,+0.1f,-0.2f,0 });
+	//dirLights_[2].SetActive(true);
+	//dirLights_[2].SetLightColor({ 1.0f,1.0f, 1.0f });
+	//dirLights_[2].SetLightDir({ -0.5f,+0.1f,-0.2f,0 });
 }
 
 void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, uint32_t rootParameterIndex)
@@ -198,6 +198,20 @@ void LightGroup::SetPointLightAtten(int32_t index, const XMFLOAT3& lightAtten)
 	assert(0 <= index && index < sPointLightNum);
 	pointLights_[index].SetLightAtten(lightAtten);
 	dirty_ = true;
+}
+
+int32_t LightGroup::SetPointLightGetNum()
+{
+	//使って無いライトを探す
+	for (int i = 0; i < sPointLightNum; i++) {
+		if (pointLights_[i].GetIsActive() == false) {
+			pointLights_[i].SetActive(true);
+			return i;
+		}
+	}
+
+	//無い時は-1
+	return -1;
 }
 
 void LightGroup::SetSpotLightActive(int32_t index, bool active)

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <DirectXMath.h>
 
 class SpotLight {
@@ -20,7 +20,7 @@ public:
 		XMFLOAT3 lightatten;
 		float pad3;
 		XMFLOAT2 lightfactoranglecos;
-		size_t active;
+		uint32_t active;
 		float pad4;
 	};
 public:

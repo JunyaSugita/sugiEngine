@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "SugiMath.h"
 #include <string>
 
@@ -9,12 +9,18 @@ struct EditFile {
 	uint32_t lifeRand;
 	Vector3 pos;
 	Vector3 posRand;
-	Vector2 scale;
+	bool isRevers;
 	Vector3 move;
 	Vector3 moveRand;
+	float speed;
 	Vector3 acceleration;
+	Vector2 scale;
+	float angleSpeed;
+	float angleSpeedRand;
 	Vector3 gravity;
-	Vector4 color;
+	Vector3 sColor;
+	Vector3 eColor;
+	int32_t postEffect;
 	bool add1;
 	int32_t texNum1;
 	int32_t num1;
@@ -22,12 +28,18 @@ struct EditFile {
 	uint32_t lifeRand1;
 	Vector3 pos1;
 	Vector3 posRand1;
-	Vector2 scale1;
+	bool isRevers1;
 	Vector3 move1;
 	Vector3 moveRand1;
+	float speed1;
 	Vector3 acceleration1;
+	Vector2 scale1;
+	float angleSpeed1;
+	float angleSpeedRand1;
 	Vector3 gravity1;
-	Vector4 color1;
+	Vector3 sColor1;
+	Vector3 eColor1;
+	int32_t postEffect1;
 	bool add2;
 	int32_t texNum2;
 	int32_t num2;
@@ -35,15 +47,27 @@ struct EditFile {
 	uint32_t lifeRand2;
 	Vector3 pos2;
 	Vector3 posRand2;
-	Vector2 scale2;
+	bool isRevers2;
 	Vector3 move2;
 	Vector3 moveRand2;
+	float speed2;
 	Vector3 acceleration2;
+	Vector2 scale2;
+	float angleSpeed2;
+	float angleSpeedRand2;
 	Vector3 gravity2;
-	Vector4 color2;
+	Vector3 sColor2;
+	Vector3 eColor2;
+	int32_t postEffect2;
 };
 
-class ParticleEditor {
+enum P_POSTEFFECT {
+	P_NONE,
+	P_BLOOM,
+	P_CROSS,
+};
+
+class ParticleEditor{
 public:
 	void Initialize();
 	void Update();
@@ -54,10 +78,17 @@ public:
 		return isEdit_[num];
 	}
 
+	std::string GetParticleName(int num) {
+		return particleName[num];
+	}
+
 	void Save();
 	void Write();
 	void Load();
 	void Read();
+	void Delete();
+
+	void SetParticleData();
 
 public:
 	static const uint8_t particleNum = 3;
@@ -70,14 +101,22 @@ private:
 	int32_t life_[particleNum];
 	int32_t lifeRand_[particleNum];
 	float scale_[particleNum][2];
-	float color_[particleNum][4];
+	float sColor_[particleNum][3];
+	float eColor_[particleNum][3];
+	bool isRevers_[particleNum];
 	float pos_[particleNum][3];
 	float posRand_[particleNum][3];
 	float move_[particleNum][3];
 	float moveRand_[particleNum][3];
+	float speed_[particleNum];
 	float acceleration_[particleNum][3];
+	float angleSpeed_[particleNum];
+	float angleSpeedRand_[particleNum];
 	float gravity_[particleNum][3];
+	int32_t postEffect_[particleNum];
 
 	FILE* saveFile_;
 	EditFile editData_;
+
+	std::string particleName[100];
 };

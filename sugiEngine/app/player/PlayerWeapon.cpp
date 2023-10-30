@@ -9,6 +9,8 @@
 #include "ItemManager.h"
 #include "ClearChecker.h"
 
+LightGroup* PlayerWeapon::lightGroup_ = nullptr;
+
 using namespace ImGui;
 
 PlayerWeapon* PlayerWeapon::GetInstance()
@@ -89,7 +91,17 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 
 	WorldTransUpdate();
 	if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
+		if (useLightNum_ == -1) {
+			useLightNum_ = lightGroup_->SetPointLightGetNum();
+			lightGroup_->SetPointLightColor(useLightNum_, { 1,0.2f,0 });
+			lightGroup_->SetPointLightAtten(useLightNum_, { 0.001f,0.001f,0.001f });
+		}
 		ParticleManager::GetInstance()->AddFromFile(P_WEAPON_FIRE, orbObj_.worldTrans.GetMatPos());
+		lightGroup_->SetPointLightPos(useLightNum_, { orbObj_.worldTrans.GetMatPos().x, orbObj_.worldTrans.GetMatPos().y ,orbObj_.worldTrans.GetMatPos().z });
+	}
+	else if (useLightNum_ != -1) {
+		lightGroup_->SetPointLightActive(useLightNum_,false);
+		useLightNum_ = -1;
 	}
 }
 
@@ -175,7 +187,7 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 
 	float nowTime = player->GetTime();
 
-	float easeTime = nowTime / 45.0f;
+	float easeTime = nowTime / 30.0f;
 	if (easeTime >= 1.0f) {
 		easeTime = 1.0f;
 	}

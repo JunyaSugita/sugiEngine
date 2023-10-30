@@ -1,10 +1,11 @@
-﻿#pragma once
+#pragma once
 #include <DirectXMath.h>
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "CircleShadow.h"
 #include <memory>
+#include "SugiMath.h"
 
 class LightGroup
 {
@@ -24,7 +25,7 @@ public:
 	//平行光
 	static const int32_t sDirLightNum = 3;
 	//点光源
-	static const int32_t sPointLightNum = 3;
+	static const int32_t sPointLightNum = 30;
 	//スポットライト
 	static const int32_t sSpotLightNum = 3;
 	//丸影
@@ -87,6 +88,8 @@ public:
 	void SetPointLightPos(int32_t index,const XMFLOAT3& lightpos);
 	void SetPointLightColor(int32_t index, const XMFLOAT3& lightcolor);
 	void SetPointLightAtten(int32_t index, const XMFLOAT3& lightAtten);
+
+	int32_t SetPointLightGetNum();
 	//スポットライト
 	void SetSpotLightActive(int32_t index, bool active);
 	void SetSpotLightDir(int32_t index, const XMVECTOR& lightdir);

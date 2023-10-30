@@ -1,4 +1,4 @@
-﻿#include "TitleScene.h"
+#include "TitleScene.h"
 #include "Input.h"
 #include "ParticleManager.h"
 #include "sceneChange.h"
@@ -50,8 +50,31 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	Input* input = Input::GetInstance();
+	Camera* camera = Camera::GetInstance();
 
-	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, {0,0.5f,0});
+	if (!ParticleManager::GetInstance()->GetIsEdit()) {
+		ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, { 0,0.5f,0 });
+	}
+	else {
+		//パーティクルエディタ使用中
+		if (input->PushKey(DIK_A)) {
+			angle_ -= 0.01f;
+		}
+		if (input->PushKey(DIK_D)) {
+			angle_ += 0.01f;
+		}
+
+		if (input->PushKey(DIK_W)) {
+			length_ -= 1;
+		}
+		if (input->PushKey(DIK_S)) {
+			length_ += 1;
+		}
+
+		camera->SetTarget({ 0,5,0 });
+		camera->SetEye({sinf(angle_) * length_,5,cosf(angle_) * length_ });
+		camera->Update();
+	}
 	ParticleManager::GetInstance()->Update();
 	//ライト
 	lightGroup_->Update();
@@ -84,12 +107,16 @@ void TitleScene::Draw()
 
 void TitleScene::ObjDraw()
 {
-	obj_.Draw();
+	if (!ParticleManager::GetInstance()->GetIsEdit()) {
+		obj_.Draw();
+	}
 }
 
 void TitleScene::ObjDraw2()
 {
-	orbObj_.Draw();
+	if (!ParticleManager::GetInstance()->GetIsEdit()) {
+		orbObj_.Draw();
+	}
 }
 
 void TitleScene::ParticleDraw()
@@ -99,7 +126,9 @@ void TitleScene::ParticleDraw()
 
 void TitleScene::SpriteDraw()
 {
-	titleSp_.Draw();
+	if (!ParticleManager::GetInstance()->GetIsEdit()) {
+		titleSp_.Draw();
+	}
 
 	//絶対最後
 	SceneChange::GetInstance()->Draw();
@@ -108,4 +137,5 @@ void TitleScene::SpriteDraw()
 void TitleScene::Finalize()
 {
 	sound_.Finalize();
+	ParticleManager::GetInstance()->Finalize();
 }

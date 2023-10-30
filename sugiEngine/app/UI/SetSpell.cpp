@@ -1,4 +1,4 @@
-﻿#include "SetSpell.h"
+#include "SetSpell.h"
 #include "Input.h"
 #include "Player.h"
 #include "UIManager.h"
@@ -57,6 +57,7 @@ void SetSpell::Initialize()
 		useSpellSprite_.SetAnchorPoint(0.5f, 0.5f);
 		useSpellSprite_.SetPos(1200, 635);
 		useSpellSprite_.SetSize(150, 150);
+		useSpellSprite_.SetColor(0.5f,0.5f,0.5f,0.8f);
 
 		selectHiLightSp_.Initialize(selectHiLightTex_);
 		selectHiLightSp_.SetAnchorPoint(0.5f, 0.5f);

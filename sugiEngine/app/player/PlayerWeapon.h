@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include "BaseObj.h"
+#include "LightGroup.h"
 
 class PlayerWeapon final {
 private:
@@ -39,6 +40,10 @@ public:
 
 	bool GetIsAt() {
 		return isAt_;
+	}
+
+	static void SetLight(LightGroup* lightGroup) {
+		lightGroup_ = lightGroup;
 	}
 
 private:
@@ -79,4 +84,7 @@ private:
 	float y = 0;
 	
 	float alpha_;
+
+	static LightGroup* lightGroup_;
+	int32_t useLightNum_ = -1;
 };

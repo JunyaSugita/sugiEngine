@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include<DirectXMath.h>
 
@@ -18,7 +18,7 @@ public:
 		XMFLOAT3 lightcolor;
 		float pad2;
 		XMFLOAT3 lightatten;
-		size_t active;
+		uint32_t active;
 	};
 
 public:

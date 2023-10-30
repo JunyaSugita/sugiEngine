@@ -1,4 +1,4 @@
-﻿#include "ItemManager.h"
+#include "ItemManager.h"
 #include "Input.h"
 #include "Player.h"
 
@@ -24,6 +24,7 @@ void ItemManager::Initialize()
 
 	itemIcon_.Initialize(Sprite::LoadTexture("healPosionIcon.png"));
 	itemIcon_.SetPos({900,660});
+	itemIcon_.SetColor(0.5f,0.5f,0.5f,0.8f);
 
 	numberTex_[0] = Sprite::LoadTexture("number1.png");
 	numberTex_[1] = Sprite::LoadTexture("number1.png");

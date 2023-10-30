@@ -23,11 +23,11 @@ void Tutorial::Initialize()
 
 	sprite_.Initialize(tex_);
 	sprite_.SetPos(0,0);
-	sprite_.SetColor(1,1,1,0.5f);
+	sprite_.SetColor(1,1,1,0.3f);
 	sprite2_.Initialize(texStart_);
 	sprite2_.SetPos(0, 200);
 	sprite2_.SetSize(360, 72);
-	sprite2_.SetColor(1, 1, 1, 0.5f);
+	sprite2_.SetColor(1, 1, 1, 0.3f);
 
 	number_ = 0;
 	isNext_ = false;
@@ -81,6 +81,5 @@ void Tutorial::Draw()
 	if (isTutorial_) {
 		sprite_.Draw();
 		sprite2_.Draw();
-		
 	}
 }
