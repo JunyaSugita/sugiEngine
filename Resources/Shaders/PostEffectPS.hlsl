@@ -195,7 +195,7 @@ float4 main(VSOutput input) : SV_TARGET
             col1 += tex1.Sample(smp, input.uv + float2(i, i)) * weight;
             totalWeight1 += weight;
         }
-        for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth)
+        for (i = -(sigma * 2); i < sigma * 2; i += stepWidth)
         {
             float d = distance(input.uv, input.uv + float2(i, -i));
             float weight = exp(-(d * d) / (2 * sigma * sigma));

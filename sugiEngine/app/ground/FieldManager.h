@@ -36,6 +36,10 @@ public:
 
 	void SelectStage(int num);
 
+	static void SetLight(LightGroup* lightGroup) {
+		lightGroup_ = lightGroup;
+	}
+
 private:
 	LevelData* levelData_;
 
@@ -49,4 +53,9 @@ private:
 	int32_t torchNum_;
 
 	int32_t navePointNum_;
+
+	//ライト関係
+	static LightGroup* lightGroup_;
+	int32_t useLightNum_;
+	float stageAtten_;
 };

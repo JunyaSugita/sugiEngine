@@ -31,7 +31,7 @@ struct DirLight {
 };
 
 //“_ŒõŒ¹
-static const int POINTLIGHT_NUM = 3;
+static const int POINTLIGHT_NUM = 30;
 struct PointLight {
 	float3 lightpos;
 	float3 lightcolor;

@@ -16,6 +16,7 @@
 #include "ClearChecker.h"
 #include "StageSelectManager.h"
 #include "MenuManager.h"
+#include "PlayerWeapon.h"
 
 using namespace ImGui;
 using namespace std;
@@ -24,12 +25,13 @@ void GameScene::Initialize()
 {
 	//ライト
 	lightGroup_ = LightGroup::Create();
-	//lightGroup_->SetPointLightActive(0,true);
-	//lightGroup_->SetPointLightPos(0,{0,5,0});
-	//lightGroup_->SetPointLightColor(0,{1,0,0});
-
+	//ライトの取得
 	Object3d::SetLight(lightGroup_.get());
 	Fbx::SetLight(lightGroup_.get());
+	FieldManager::SetLight(lightGroup_.get());
+	FireBall::SetLight(lightGroup_.get());
+	MagicMissile::SetLight(lightGroup_.get());
+	PlayerWeapon::SetLight(lightGroup_.get());
 
 	//カメラ
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
@@ -37,7 +39,7 @@ void GameScene::Initialize()
 
 	//敵
 	EnemyManager::GetInstance()->Initialize();
-	
+
 	//クリアの判定
 	ClearChecker::GetInstance()->Initialize();
 	//グラウンド
@@ -85,6 +87,20 @@ void GameScene::Initialize()
 
 	LoadOut::GetInstance()->Initialize();
 	MenuManager::GetInstance()->Initialize();
+
+	//シェーディング確認用
+	orb_.Initialize("orb");
+	orb_.obj->SetColor({ 1,1,1,1 });
+	orb_.pos = { 0,5,0 };
+	dir_[0] = dir_[2] = 0;
+	dir_[1] = -0.4f;
+	color_[0] = color_[1] = color_[2] = 1;
+	pointPos_[0][0] = pointPos_[0][1] = pointPos_[0][2] = 0.0f;
+	pointColor_[0][0] = pointColor_[0][1] = pointColor_[0][2] = 1;
+	pointAtten_[0][0] = pointAtten_[0][1] = pointAtten_[0][2] = 0.3f;
+	pointPos_[1][0] = pointPos_[1][1] = pointPos_[1][2] = 0.0f;
+	pointColor_[1][0] = pointColor_[1][1] = pointColor_[1][2] = 1;
+	pointAtten_[1][0] = pointAtten_[1][1] = pointAtten_[1][2] = 0.3f;
 }
 
 void GameScene::GameInitialize()
@@ -167,6 +183,10 @@ void GameScene::Update()
 	particleM->Update();
 	loadOut->Update();
 	MenuManager::GetInstance()->Update();
+	orb_.rot.x += 1;
+	orb_.rot.y += 1;
+	orb_.rot.z += 1;
+	orb_.Update();
 
 #pragma endregion
 
@@ -184,7 +204,7 @@ void GameScene::Update()
 			Initialize();
 		}
 		if (Button("EnemyPop", { 150,30 })) {
-			enemyM->PopEnemy({0,0,0});
+			enemyM->PopEnemy({ 0,0,0 });
 		}
 		if (Button("SlimePop", { 150,30 })) {
 			enemyM->PopSlime({ 0,0,0 });
@@ -197,6 +217,36 @@ void GameScene::Update()
 		}
 		if (Button("PlayerInvincible", { 150,30 })) {
 			Player::GetInstance()->SetInvincible();
+		}
+		End();
+
+		Begin("Light");
+		SliderFloat3("DirLightDir", dir_, -1, 1);
+		lightGroup_->SetDirLightDir(0, { dir_[0],dir_[1],dir_[2],0 });
+		SliderFloat3("DirLightColor", color_, 0, 1);
+		lightGroup_->SetDirLightColor(0, { color_[0],color_[1],color_[2] });
+
+		Checkbox("PointLightActive0", &pointActive_[0]);
+		lightGroup_->SetPointLightActive(28, pointActive_[0]);
+		if (pointActive_[0]) {
+			SliderFloat3("PointLightPos0", pointPos_[0], -10, 10);
+			lightGroup_->SetPointLightPos(28, { pointPos_[0][0],pointPos_[0][1] ,pointPos_[0][2] });
+			SliderFloat3("PointLightColor0", pointColor_[0], 0, 1);
+			lightGroup_->SetPointLightColor(28, { pointColor_[0][0],pointColor_[0][1] ,pointColor_[0][2] });
+			SliderFloat3("PointLightAtten0", pointAtten_[0], 0.001f, 1.0f);
+			lightGroup_->SetPointLightAtten(28, { pointAtten_[0][0],pointAtten_[0][1] ,pointAtten_[0][2] });
+		}
+
+		Checkbox("PointLightActive1", &pointActive_[1]);
+		lightGroup_->SetPointLightActive(29, pointActive_[1]);
+
+		if (pointActive_[1]) {
+			SliderFloat3("PointLightPos1", pointPos_[1], -10, 10);
+			lightGroup_->SetPointLightPos(29, { pointPos_[1][0],pointPos_[1][1] ,pointPos_[1][2] });
+			SliderFloat3("PointLightColor1", pointColor_[1], 0, 1);
+			lightGroup_->SetPointLightColor(29, { pointColor_[1][0],pointColor_[1][1] ,pointColor_[1][2] });
+			SliderFloat3("PointLightAtten1", pointAtten_[1], 0.001f, 1.0f);
+			lightGroup_->SetPointLightAtten(29, { pointAtten_[1][0],pointAtten_[1][1] ,pointAtten_[1][2] });
 		}
 		End();
 	}
@@ -223,7 +273,7 @@ void GameScene::Update()
 	//デバッグ関連
 	if (stageNum_ == SET_SPELL_STAGE) {
 		if (enemyM->GetEnemyCount() <= 0) {
-			enemyM->PopEnemy({0,0,15});
+			enemyM->PopEnemy({ 0,0,15 });
 		}
 	}
 
@@ -256,6 +306,8 @@ void GameScene::Draw()
 
 void GameScene::ObjDraw()
 {
+	//orb_.Draw();
+
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		FieldManager::GetInstance()->Draw();
 
