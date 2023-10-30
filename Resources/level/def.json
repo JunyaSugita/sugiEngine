@@ -138,9 +138,9 @@
             "name": "円柱",
             "transform": {
                 "translation": [
-                    25.0,
+                    312.93865966796875,
                     0.0,
-                    0.0
+                    5.0
                 ],
                 "rotation": [
                     0.0,
@@ -154,6 +154,50 @@
                 ]
             },
             "file_name": "goal"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.001",
+            "transform": {
+                "translation": [
+                    -18.5,
+                    -10.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.003",
+            "transform": {
+                "translation": [
+                    -18.5,
+                    10.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
         }
     ]
 }
