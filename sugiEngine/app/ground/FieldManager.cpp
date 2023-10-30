@@ -84,6 +84,10 @@ void FieldManager::Initialize(int num)
 		}
 		if (objectData.filename == "goal") {
 			ClearChecker::GetInstance()->SetGoal(objectData.pos);
+			useLightNum_ = lightGroup_->SetPointLightGetNum();
+			lightGroup_->SetPointLightColor(useLightNum_, { 0,0,1 });
+			lightGroup_->SetPointLightAtten(useLightNum_, { 0.002f,0.002f,0.002f });
+			lightGroup_->SetPointLightPos(useLightNum_, { objectData.pos.x, objectData.pos.y + 2,objectData.pos.z });
 		}
 		if (objectData.filename == "torch") {
 			//モデルを指定して3Dオブジェクトを生成
@@ -99,7 +103,7 @@ void FieldManager::Initialize(int num)
 			
 			useLightNum_ = lightGroup_->SetPointLightGetNum();
 			lightGroup_->SetPointLightColor(useLightNum_,{1,0.2f,0});
-			lightGroup_->SetPointLightAtten(useLightNum_,{0.01f,0.01f,0.01f});
+			lightGroup_->SetPointLightAtten(useLightNum_,{ stageAtten_,stageAtten_,stageAtten_ });
 			lightGroup_->SetPointLightPos(useLightNum_, { torchObj_[torchNum_].pos.x, torchObj_[torchNum_].pos.y ,torchObj_[torchNum_].pos.z });
 
 			torchNum_++;
@@ -134,16 +138,19 @@ void FieldManager::SelectStage(int num)
 	{
 	case TUTORIAL:
 		levelData_ = JsonLoader::LoadJson("levelTutorial");
+		stageAtten_ = 0.01f;
 		break;
-
 	case STAGE1:
-		levelData_ = JsonLoader::LoadJson("level");
+		levelData_ = JsonLoader::LoadJson("levelTutorial");
+		stageAtten_ = 0.01f;
 		break;
 	case STAGE2:
-		levelData_ = JsonLoader::LoadJson("level2");
+		levelData_ = JsonLoader::LoadJson("level");
+		stageAtten_ = 0.001f;
 		break;
 	case SET_SPELL_STAGE:
 		levelData_ = JsonLoader::LoadJson("def");
+		stageAtten_ = 0.01f;
 		break;
 	default:
 		break;

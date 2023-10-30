@@ -16,6 +16,7 @@
 #include "ClearChecker.h"
 #include "StageSelectManager.h"
 #include "MenuManager.h"
+#include "PlayerWeapon.h"
 
 using namespace ImGui;
 using namespace std;
@@ -24,10 +25,13 @@ void GameScene::Initialize()
 {
 	//ライト
 	lightGroup_ = LightGroup::Create();
-
+	//ライトの取得
 	Object3d::SetLight(lightGroup_.get());
 	Fbx::SetLight(lightGroup_.get());
 	FieldManager::SetLight(lightGroup_.get());
+	FireBall::SetLight(lightGroup_.get());
+	MagicMissile::SetLight(lightGroup_.get());
+	PlayerWeapon::SetLight(lightGroup_.get());
 
 	//カメラ
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
@@ -302,7 +306,7 @@ void GameScene::Draw()
 
 void GameScene::ObjDraw()
 {
-	orb_.Draw();
+	//orb_.Draw();
 
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		FieldManager::GetInstance()->Draw();

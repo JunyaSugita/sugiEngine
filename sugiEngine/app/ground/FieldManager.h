@@ -57,4 +57,5 @@ private:
 	//ライト関係
 	static LightGroup* lightGroup_;
 	int32_t useLightNum_;
+	float stageAtten_;
 };
