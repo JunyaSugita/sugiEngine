@@ -32,16 +32,16 @@ void ParticleEditor::Initialize()
 	}
 	Write();
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 
 	fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "rb");
 	if (saveFile_ == NULL) {
 		return;
 	}
-	fread(&particleName, sizeof(particleName), 1, saveFile_);
+	fread(&particleName_, sizeof(particleName_), 1, saveFile_);
 	fclose(saveFile_);
 
-#endif
+//#endif
 
 	SetParticleData();
 }
@@ -252,14 +252,14 @@ void ParticleEditor::Save()
 	fclose(saveFile_);
 
 	for (int i = 0; i < 100; i++) {
-		if (particleName[i] == "null" || particleName[i] == text_) {
-			particleName[i] = text_;
+		if (particleName_[i] == "null" || particleName_[i] == text_) {
+			particleName_[i] = text_;
 			break;
 		}
 	}
 
 	fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "wb");
-	fwrite(&particleName, sizeof(particleName), 1, saveFile_);
+	fwrite(&particleName_, sizeof(particleName_), 1, saveFile_);
 	fclose(saveFile_);
 
 	SetParticleData();
@@ -457,14 +457,14 @@ void ParticleEditor::Read()
 void ParticleEditor::Delete()
 {
 	for (int i = 0; i < 100; i++) {
-		if (particleName[i] == "null") {
+		if (particleName_[i] == "null") {
 			break;
 		}
 
-		if (particleName[i] == text_) {
+		if (particleName_[i] == text_) {
 			for (int j = i; j < 100; j++) {
-				particleName[j] = particleName[j + 1];
-				if (particleName[j] == "null") {
+				particleName_[j] = particleName_[j + 1];
+				if (particleName_[j] == "null") {
 					break;
 				}
 			}
@@ -473,7 +473,7 @@ void ParticleEditor::Delete()
 	}
 
 	fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "wb");
-	fwrite(&particleName, sizeof(particleName), 1, saveFile_);
+	fwrite(&particleName_, sizeof(particleName_), 1, saveFile_);
 	fclose(saveFile_);
 
 	SetParticleData();
@@ -482,17 +482,17 @@ void ParticleEditor::Delete()
 void ParticleEditor::SetParticleData()
 {
 	EditFile tempFile;
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	
 	for (int i = 0; i < 100; i++) {
-		std::string name = particleName[i];
+		std::string name = particleName_[i];
 
 		//全てのパーティクルを読み込む
 		if (name == "null") {
 			break;
 		}
 
-		std::string temp = "Resources/ParticleData/" + particleName[i] + ".dat";
+		std::string temp = "Resources/ParticleData/" + name + ".dat";
 		fopen_s(&saveFile_, temp.c_str(), "rb");
 		if (saveFile_ == NULL) {
 			return;
@@ -502,33 +502,33 @@ void ParticleEditor::SetParticleData()
 
 		ParticleManager::GetInstance()->SetParticleData(i, tempFile);
 	}
-#else
-	//エラー一時回避用
-
-	particleName[0] = "fire";
-	particleName[1] = "explode";
-	particleName[2] = "ice";
-	particleName[3] = "magicMissile";
-	particleName[4] = "lightning";
-	particleName[5] = "weapon";
-	particleName[6] = "weaponFire";
-	particleName[7] = "debuffFire";
-	particleName[8] = "goal";
-	particleName[9] = "torch";
-	particleName[10] = "damage";
-
-	for (int i = 0; i < 11; i++) {
-		std::string name = particleName[i];
-
-		std::string temp = "Resources/ParticleData/" + particleName[i] + ".dat";
-		fopen_s(&saveFile_, temp.c_str(), "rb");
-		if (saveFile_ == NULL) {
-			return;
-		}
-		fread(&tempFile, sizeof(tempFile), 1, saveFile_);
-		fclose(saveFile_);
-
-		ParticleManager::GetInstance()->SetParticleData(i, tempFile);
-	}
-#endif
+//#else
+//	//エラー一時回避用
+//
+//	particleName_[0] = "fire";
+//	particleName_[1] = "explode";
+//	particleName_[2] = "ice";
+//	particleName_[3] = "magicMissile";
+//	particleName_[4] = "lightning";
+//	particleName_[5] = "weapon";
+//	particleName_[6] = "weaponFire";
+//	particleName_[7] = "debuffFire";
+//	particleName_[8] = "goal";
+//	particleName_[9] = "torch";
+//	particleName_[10] = "damage";
+//
+//	for (int i = 0; i < 11; i++) {
+//		std::string name = particleName_[i];
+//
+//		std::string temp = "Resources/ParticleData/" + name + ".dat";
+//		fopen_s(&saveFile_, temp.c_str(), "rb");
+//		if (saveFile_ == NULL) {
+//			return;
+//		}
+//		fread(&tempFile, sizeof(tempFile), 1, saveFile_);
+//		fclose(saveFile_);
+//
+//		ParticleManager::GetInstance()->SetParticleData(i, tempFile);
+//	}
+//#endif
 }

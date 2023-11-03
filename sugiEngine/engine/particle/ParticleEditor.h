@@ -79,7 +79,7 @@ public:
 	}
 
 	std::string GetParticleName(int num) {
-		return particleName[num];
+		return particleName_[num];
 	}
 
 	void Save();
@@ -118,5 +118,5 @@ private:
 	FILE* saveFile_;
 	EditFile editData_;
 
-	std::string particleName[100];
+	const char* particleName_[100];
 };
