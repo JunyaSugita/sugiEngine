@@ -12,6 +12,7 @@
 #include <random>
 
 bool BaseEnemy::sIsDebugStop_ = true;
+LightGroup* BaseEnemy::light_ = nullptr;
 
 void BaseEnemy::Initialize(std::string name, Vector3 pos)
 {
@@ -38,6 +39,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	isStop_ = false;
 	isAttack_ = false;
 	attackTimer_ = 0.0f;
+	lightNum_ = -1;
 }
 
 void BaseEnemy::Update()
@@ -101,6 +103,13 @@ void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 	case D_FIRE:
 		debuff_.isFire = true;
 		debuff_.fireTime = time * 60;
+		if (lightNum_ == -1) {
+			lightNum_ = light_->SetPointLightGetNum();
+			light_->SetPointLightAtten(lightNum_, { 0.001f,0.001f,0.001f });
+			light_->SetPointLightColor(lightNum_, { 1,0.3f,0 });
+			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
+		}
+		
 		break;
 	case D_STAN:
 		debuff_.isThunder = true;
@@ -226,9 +235,12 @@ void BaseEnemy::UpdateDebuff()
 				SubLife(1);
 			}
 
+			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
 
 			if (--debuff_.fireTime < 0) {
 				debuff_.isFire = false;
+				light_->SetPointLightActive(lightNum_, false);
+				lightNum_ = -1;
 			}
 		}
 		if (debuff_.isThunder) {
@@ -273,6 +285,9 @@ void BaseEnemy::Down()
 {
 	if (--downTimer_ <= 0) {
 		isDead_ = true;
+
+		light_->SetPointLightActive(lightNum_, false);
+		lightNum_ = -1;
 	}
 
 	if (downTimer_ < 30) {

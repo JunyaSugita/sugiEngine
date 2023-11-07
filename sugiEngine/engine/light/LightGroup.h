@@ -25,7 +25,7 @@ public:
 	//平行光
 	static const int32_t sDirLightNum = 3;
 	//点光源
-	static const int32_t sPointLightNum = 30;
+	static const int32_t sPointLightNum = 100;
 	//スポットライト
 	static const int32_t sSpotLightNum = 3;
 	//丸影
