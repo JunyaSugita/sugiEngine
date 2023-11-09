@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Sprite.h"
 
 class Tutorial final{
@@ -32,12 +32,13 @@ public:
 		isReturn_ = is;
 	}
 private:
-	uint32_t tex_;
-	uint32_t tex2_;
-	uint32_t tex3_;
-	uint32_t tex4_;
-	uint32_t tex5_;
+	uint32_t tex_[5][2];
 	uint32_t texStart_;
+
+	int32_t animeNum_;
+
+	const int32_t ANIME_TIME = 60;
+	int32_t animeTimer_;
 
 	Sprite sprite_;
 	Sprite sprite2_;
