@@ -5,8 +5,6 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sugiEngine", "sugiEngine.vcxproj", "{20F85459-B063-4344-AA5E-43B97B46C7F1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTex", "DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj", "{371B9FA9-4C90-4AC6-A123-ACED756D6C77}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "imgui\imgui.vcxproj", "{6F6143CC-3D5D-4597-AB9F-0EB8217D5F4B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{8CD9AD93-0740-443F-A1A5-DCCFD7082DB9}"
@@ -24,10 +22,6 @@ Global
 		{20F85459-B063-4344-AA5E-43B97B46C7F1}.Debug|x64.Build.0 = Debug|x64
 		{20F85459-B063-4344-AA5E-43B97B46C7F1}.Release|x64.ActiveCfg = Release|x64
 		{20F85459-B063-4344-AA5E-43B97B46C7F1}.Release|x64.Build.0 = Release|x64
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|x64.ActiveCfg = Debug|x64
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|x64.Build.0 = Debug|x64
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|x64.ActiveCfg = Release|x64
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|x64.Build.0 = Release|x64
 		{6F6143CC-3D5D-4597-AB9F-0EB8217D5F4B}.Debug|x64.ActiveCfg = Debug|x64
 		{6F6143CC-3D5D-4597-AB9F-0EB8217D5F4B}.Debug|x64.Build.0 = Debug|x64
 		{6F6143CC-3D5D-4597-AB9F-0EB8217D5F4B}.Release|x64.ActiveCfg = Release|x64
@@ -37,7 +31,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77} = {8CD9AD93-0740-443F-A1A5-DCCFD7082DB9}
 		{6F6143CC-3D5D-4597-AB9F-0EB8217D5F4B} = {8CD9AD93-0740-443F-A1A5-DCCFD7082DB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
