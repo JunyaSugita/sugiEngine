@@ -137,7 +137,7 @@ void FieldManager::SelectStage(int num)
 	switch (num)
 	{
 	case TUTORIAL:
-		levelData_ = JsonLoader::LoadJson("levelTutorial");
+		levelData_ = JsonLoader::LoadJson("levelTutorial2");
 		stageAtten_ = 0.01f;
 		break;
 	case STAGE1:

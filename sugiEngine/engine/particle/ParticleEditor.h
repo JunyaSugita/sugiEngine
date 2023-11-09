@@ -78,8 +78,8 @@ public:
 		return isEdit_[num];
 	}
 
-	std::string GetParticleName(int num) {
-		return particleName[num];
+	const char* GetParticleName(int num) {
+		return particleName_[num];
 	}
 
 	void Save();
@@ -118,5 +118,5 @@ private:
 	FILE* saveFile_;
 	EditFile editData_;
 
-	std::string particleName[100];
+	char particleName_[100][16];
 };

@@ -1238,14 +1238,14 @@
             "name": "Cube.062",
             "transform": {
                 "translation": [
-                    18.5,
-                    0.0,
+                    -30.0,
+                    -5.5,
                     5.0
                 ],
                 "rotation": [
                     90.00000762939453,
-                    -1.3435247651818333e-13,
-                    -179.99998474121094
+                    -3.4150941701227566e-06,
+                    90.0
                 ],
                 "scaling": [
                     1.0,
@@ -1282,14 +1282,14 @@
             "name": "Cube.065",
             "transform": {
                 "translation": [
-                    -178.5,
-                    85.0,
+                    -160.0,
+                    98.5,
                     5.0
                 ],
                 "rotation": [
                     90.00000762939453,
-                    -0.0,
-                    0.0
+                    -3.4150941701227566e-06,
+                    -90.00000762939453
                 ],
                 "scaling": [
                     1.0,
@@ -1371,7 +1371,7 @@
             "transform": {
                 "translation": [
                     -98.5,
-                    0.0,
+                    10.0,
                     5.0
                 ],
                 "rotation": [
@@ -1474,6 +1474,248 @@
                 ]
             },
             "file_name": "enemy"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.061",
+            "transform": {
+                "translation": [
+                    -18.5,
+                    10.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.064",
+            "transform": {
+                "translation": [
+                    18.5,
+                    10.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -1.3435247651818333e-13,
+                    -179.99998474121094
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.068",
+            "transform": {
+                "translation": [
+                    -18.5,
+                    -10.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.069",
+            "transform": {
+                "translation": [
+                    18.5,
+                    -10.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -1.3435247651818333e-13,
+                    -179.99998474121094
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.070",
+            "transform": {
+                "translation": [
+                    -50.0,
+                    -5.5,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -3.4150941701227566e-06,
+                    90.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.071",
+            "transform": {
+                "translation": [
+                    -50.0,
+                    5.5,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -3.4150941701227566e-06,
+                    -90.00000762939453
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.072",
+            "transform": {
+                "translation": [
+                    -30.0,
+                    5.5,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -3.4150941701227566e-06,
+                    -90.00000762939453
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.073",
+            "transform": {
+                "translation": [
+                    -80.0,
+                    -18.5,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -3.4150941701227566e-06,
+                    90.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.074",
+            "transform": {
+                "translation": [
+                    -61.5,
+                    80.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -1.3435247651818333e-13,
+                    -179.99998474121094
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.075",
+            "transform": {
+                "translation": [
+                    -98.5,
+                    -10.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.076",
+            "transform": {
+                "translation": [
+                    -178.5,
+                    85.0,
+                    5.0
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "torch"
         }
     ]
 }

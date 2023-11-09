@@ -14,15 +14,18 @@ Tutorial* Tutorial::GetInstance()
 
 void Tutorial::Initialize()
 {
-	tex_ = Sprite::LoadTexture("tutorial1.png");
-	tex2_ = Sprite::LoadTexture("tutorial2.png");
-	tex3_ = Sprite::LoadTexture("tutorial3.png");
-	tex4_ = Sprite::LoadTexture("tutorial4.png");
-	tex5_ = Sprite::LoadTexture("tutorial5.png");
+	tex_[0][0] = Sprite::LoadTexture("tutorial1_1.png");
+	tex_[0][1] = Sprite::LoadTexture("tutorial1_2.png");
+	tex_[1][0] = Sprite::LoadTexture("tutorial2_1.png");
+	tex_[1][1] = Sprite::LoadTexture("tutorial2_2.png");
+	tex_[2][0] = Sprite::LoadTexture("tutorial3.png");
+	tex_[3][0] = Sprite::LoadTexture("tutorial4.png");
+	tex_[4][0] = Sprite::LoadTexture("tutorial5.png");
 	texStart_ = Sprite::LoadTexture("start.png");
 
-	sprite_.Initialize(tex_);
+	sprite_.Initialize(tex_[0][0]);
 	sprite_.SetPos(0,0);
+	sprite_.SetSize(300, 120);
 	sprite_.SetColor(1,1,1,0.3f);
 	sprite2_.Initialize(texStart_);
 	sprite2_.SetPos(0, 200);
@@ -31,39 +34,37 @@ void Tutorial::Initialize()
 
 	number_ = 0;
 	isNext_ = false;
+
+	animeNum_ = 0;
+	animeTimer_ = ANIME_TIME;
 }
 
 void Tutorial::Update()
 {
+	sprite_.SetTexture(tex_[number_][animeNum_]);
+
 	switch (number_)
 	{
 	case 0:
-		if (Player::GetInstance()->GetPos().z <= -20) {
+		if (Player::GetInstance()->GetPos().z >= 60) {
 			isNext_ = true;
 		}
 		break;
 	case 1:
-		sprite_.SetTexture(tex2_);
-		if (Player::GetInstance()->GetPos().z <= -40) {
+		if (Player::GetInstance()->GetPos().x >= 60) {
 			isNext_ = true;
 		}
 		break;
 	case 2:
-		sprite_.SetTexture(tex3_);
-		if (Player::GetInstance()->GetPos().z <= -100) {
-			isNext_ = true;
+		if (Player::GetInstance()->GetPos().z >= 140) {
+			//isNext_ = true;
 		}
 
 		break;
 	case 3:
-		sprite_.SetTexture(tex4_);
-		if (Player::GetInstance()->GetPos().z <= -140) {
+		if (Player::GetInstance()->GetPos().x <= 40) {
 			isNext_ = true;
 		}
-
-		break;
-	case 4:
-		sprite_.SetTexture(tex5_);
 
 		break;
 	default:
@@ -73,6 +74,11 @@ void Tutorial::Update()
 	if (isNext_) {
 		number_++;
 		isNext_ = false;
+	}
+
+	if (--animeTimer_ <= 0) {
+		animeTimer_ = ANIME_TIME;
+		animeNum_ = (animeNum_ + 1) % 2;
 	}
 }
 

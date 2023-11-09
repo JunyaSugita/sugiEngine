@@ -85,6 +85,10 @@ public:
 		sIsDebugStop_ = is;
 	}
 
+	static void SetLight(LightGroup* light) {
+		light_ = light;
+	}
+
 #pragma endregion
 
 	/// <summary>
@@ -150,8 +154,6 @@ protected:
 	//自身のコリジョンを設定
 	void SetCol();
 
-
-
 protected:
 	const Vector2 UP = { 0,-1 };
 	const float RADIAN = 180;
@@ -180,6 +182,10 @@ protected:
 
 	//デバフ
 	DebuffM debuff_;
+
+	//ライト
+	static LightGroup* light_;
+	int32_t lightNum_ = -1;
 
 	//足を止めるか
 	bool isStop_;

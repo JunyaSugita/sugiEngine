@@ -32,6 +32,7 @@ void GameScene::Initialize()
 	FireBall::SetLight(lightGroup_.get());
 	MagicMissile::SetLight(lightGroup_.get());
 	PlayerWeapon::SetLight(lightGroup_.get());
+	BaseEnemy::SetLight(lightGroup_.get());
 
 	//カメラ
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));

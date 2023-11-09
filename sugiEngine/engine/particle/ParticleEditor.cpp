@@ -32,16 +32,13 @@ void ParticleEditor::Initialize()
 	}
 	Write();
 
-#ifdef _DEBUG
-
+	//パーティクルの名前読み込み
 	fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "rb");
 	if (saveFile_ == NULL) {
 		return;
 	}
-	fread(&particleName, sizeof(particleName), 1, saveFile_);
+	fread(&particleName_, sizeof(particleName_), 1, saveFile_);
 	fclose(saveFile_);
-
-#endif
 
 	SetParticleData();
 }
@@ -191,13 +188,15 @@ void ParticleEditor::Update()
 		Begin("ParticleList");
 
 		for (int i = 0; i < 100; i++) {
+			std::string tampStr = GetParticleName(i);
+
 			//nullの時は飛ばす
-			if (GetParticleName(i) == "null") {
+			if (tampStr == "null") {
 				break;
 			}
 
-			if (Button(GetParticleName(i).c_str(), { 100,30 })) {
-				std::string temp = GetParticleName(i).c_str();
+			if (Button(GetParticleName(i), { 100,30 })) {
+				std::string temp = GetParticleName(i);
 				for (int j = 0; j < 16; j++) {
 					text_[j] = temp[j];
 					if (temp[j] == '\0') {
@@ -252,14 +251,21 @@ void ParticleEditor::Save()
 	fclose(saveFile_);
 
 	for (int i = 0; i < 100; i++) {
-		if (particleName[i] == "null" || particleName[i] == text_) {
-			particleName[i] = text_;
+		std::string tempStr = particleName_[i];
+
+		if (tempStr == "null" || tempStr == text_) {
+			for (int j = 0; j < 16; j++) {
+				particleName_[i][j] = text_[j];
+				if (text_[j] == '\0') {
+					break;
+				}
+			}
 			break;
 		}
 	}
 
 	fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "wb");
-	fwrite(&particleName, sizeof(particleName), 1, saveFile_);
+	fwrite(&particleName_, sizeof(particleName_), 1, saveFile_);
 	fclose(saveFile_);
 
 	SetParticleData();
@@ -456,15 +462,27 @@ void ParticleEditor::Read()
 
 void ParticleEditor::Delete()
 {
+	std::string nullStr = "null";
+
 	for (int i = 0; i < 100; i++) {
-		if (particleName[i] == "null") {
+		std::string temp = particleName_[i];
+
+		if (temp == nullStr) {
 			break;
 		}
 
-		if (particleName[i] == text_) {
-			for (int j = i; j < 100; j++) {
-				particleName[j] = particleName[j + 1];
-				if (particleName[j] == "null") {
+		if (temp == text_) {
+			for (int j = i; j < 99; j++) {
+				for (int k = 0; k < 16; k++) {
+					particleName_[j][k] = particleName_[j + 1][k];
+				}
+				if (temp == nullStr) {
+					break;
+				}
+			}
+			for (int k = 0; k < 16; k++) {
+				particleName_[99][k] = nullStr[k];
+				if (nullStr[k] == '\0') {
 					break;
 				}
 			}
@@ -473,7 +491,7 @@ void ParticleEditor::Delete()
 	}
 
 	fopen_s(&saveFile_, "Resources/ParticleData/particleName.dat", "wb");
-	fwrite(&particleName, sizeof(particleName), 1, saveFile_);
+	fwrite(&particleName_, sizeof(particleName_), 1, saveFile_);
 	fclose(saveFile_);
 
 	SetParticleData();
@@ -482,17 +500,16 @@ void ParticleEditor::Delete()
 void ParticleEditor::SetParticleData()
 {
 	EditFile tempFile;
-#ifdef _DEBUG
 	
 	for (int i = 0; i < 100; i++) {
-		std::string name = particleName[i];
+		std::string name = particleName_[i];
 
 		//全てのパーティクルを読み込む
 		if (name == "null") {
 			break;
 		}
 
-		std::string temp = "Resources/ParticleData/" + particleName[i] + ".dat";
+		std::string temp = "Resources/ParticleData/" + name + ".dat";
 		fopen_s(&saveFile_, temp.c_str(), "rb");
 		if (saveFile_ == NULL) {
 			return;
@@ -502,33 +519,4 @@ void ParticleEditor::SetParticleData()
 
 		ParticleManager::GetInstance()->SetParticleData(i, tempFile);
 	}
-#else
-	//エラー一時回避用
-
-	particleName[0] = "fire";
-	particleName[1] = "explode";
-	particleName[2] = "ice";
-	particleName[3] = "magicMissile";
-	particleName[4] = "lightning";
-	particleName[5] = "weapon";
-	particleName[6] = "weaponFire";
-	particleName[7] = "debuffFire";
-	particleName[8] = "goal";
-	particleName[9] = "torch";
-	particleName[10] = "damage";
-
-	for (int i = 0; i < 11; i++) {
-		std::string name = particleName[i];
-
-		std::string temp = "Resources/ParticleData/" + particleName[i] + ".dat";
-		fopen_s(&saveFile_, temp.c_str(), "rb");
-		if (saveFile_ == NULL) {
-			return;
-		}
-		fread(&tempFile, sizeof(tempFile), 1, saveFile_);
-		fclose(saveFile_);
-
-		ParticleManager::GetInstance()->SetParticleData(i, tempFile);
-	}
-#endif
 }
