@@ -32,6 +32,9 @@ public:
 	Vector3 GetPos() {
 		return obj_.pos;
 	}
+	Vector3 GetOrbPos() {
+		return orbObj_.worldTrans.GetMatPos();
+	}
 
 
 	Vector3 GetHitPos() {
@@ -48,6 +51,7 @@ public:
 
 private:
 	void WorldTransUpdate();
+	void PopChargeParticle(Vector3 color);
 
 public:
 	const float SPEED_MOVE = 0.5f;

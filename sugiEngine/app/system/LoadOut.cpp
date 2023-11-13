@@ -24,8 +24,7 @@ void LoadOut::Initialize()
 		setSpell_[0] = FIRE_BALL;
 		setSpell_[1] = MAGIC_MISSILE;
 		setSpell_[2] = ICE_BOLT;
-		setSpell_[3] = CHAIN_LIGHTNING;
-		setSpell_[4] = ENCHANT_FIRE;
+		setSpell_[3] = ENCHANT_FIRE;
 	}
 	isFirst_ = true;
 
@@ -39,32 +38,17 @@ void LoadOut::Initialize()
 	spellTexNum_[CHAIN_LIGHTNING] = Sprite::LoadTexture("chainLightning.png");
 	spellTexNum_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantFireIcon.png");
 	spellTexNum_[FLAME] = Sprite::LoadTexture("flame.png");
-	for (int i = 6; i < 20; i++) {
+	for (int i = 6; i < SPELL_ALL; i++) {
 		spellTexNum_[i] = Sprite::LoadTexture("comingSoonIcon.png");
 	}
 
-	//preview_[FIRE_BALL].Initialize(spellTexNum_[FIRE_BALL]);
-	//preview_[FIRE_BALL].SetPos(170, 150);
-
-	//preview_[MAGIC_MISSILE].Initialize(spellTexNum_[MAGIC_MISSILE]);
-	//preview_[MAGIC_MISSILE].SetPos(290, 150);
-
-	//preview_[ICE_BOLT].Initialize(spellTexNum_[ICE_BOLT]);
-	//preview_[ICE_BOLT].SetPos(410, 150);
-
-	//preview_[CHAIN_LIGHTNING].Initialize(spellTexNum_[CHAIN_LIGHTNING]);
-	//preview_[CHAIN_LIGHTNING].SetPos(530, 150);
-
-	//preview_[ENCHANT_FIRE].Initialize(spellTexNum_[ENCHANT_FIRE]);
-	//preview_[ENCHANT_FIRE].SetPos(650, 150);
-
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < SPELL_ALL; i++) {
 		preview_[i].Initialize(spellTexNum_[i]);
 	}
 
 	for (int y = 0; y < 4; y++) {
-		for (int x = 0; x < 5; x++) {
-			preview_[y * 5 + x].SetPos(float(170 + x * 120),float(120 + y * 120));
+		for (int x = 0; x < SPELL_SET; x++) {
+			preview_[y * SPELL_SET + x].SetPos(float(170 + x * 120),float(120 + y * 120));
 		}
 	}
 
@@ -75,7 +59,7 @@ void LoadOut::Initialize()
 	back_.Initialize(Sprite::LoadTexture("LoadOut.png"));
 
 	int a = Sprite::LoadTexture("Explan.png");
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < SPELL_ALL; i++) {
 		spellExplanTex_[i] = a;
 	}
 	spellExplanTex_[FIRE_BALL] = Sprite::LoadTexture("fireBallExplan.png");
@@ -88,12 +72,12 @@ void LoadOut::Initialize()
 	SpellExplanation_.Initialize(spellExplanTex_[0]);
 	SpellExplanation_.SetPos({740,300});
 
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < SPELL_ALL; i++) {
 		preview_[i].SetAnchorPoint(0.5f, 0.5f);
 	}
 	hiLight_.SetAnchorPoint(0.5f, 0.5f);
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < SPELL_SET; i++) {
 		set_[i].Initialize(spellTexNum_[setSpell_[i]]);
 		set_[i].SetAnchorPoint(0.5f, 0.5f);
 	}
@@ -101,7 +85,6 @@ void LoadOut::Initialize()
 	set_[1].SetPos(290, 600);
 	set_[2].SetPos(410, 600);
 	set_[3].SetPos(530, 600);
-	set_[4].SetPos(650, 600);
 
 	preWindowTimer_ = 0;
 }
@@ -126,31 +109,31 @@ void LoadOut::Update()
 		if (selectMode_ == SELECT_SPELL) {
 			//セットしたい呪文を選択させる
 			if (input->TriggerKey(DIK_D) || input->TriggerLStickRight()) {
-				if (selectSpell_ % 5 == 4) {
-					selectSpell_ -= 5;
+				if (selectSpell_ % SPELL_SET == SPELL_SET - 1) {
+					selectSpell_ -= SPELL_SET;
 				}
 				selectSpell_++;
 				ResetWindow();
 			}
 			if (input->TriggerKey(DIK_A) || input->TriggerLStickLeft()) {
-				if (selectSpell_ % 5 == 0) {
-					selectSpell_ += 5;
+				if (selectSpell_ % SPELL_SET == 0) {
+					selectSpell_ += SPELL_SET;
 				}
 				selectSpell_--;
 				ResetWindow();
 			}
 			if (input->TriggerKey(DIK_S) || input->TriggerLStickDown()) {
-				if (selectSpell_ >= 15) {
-					selectSpell_ -= 20;
+				if (selectSpell_ >= SPELL_ALL - SPELL_SET) {
+					selectSpell_ -= SPELL_ALL;
 				}
-				selectSpell_+= 5;
+				selectSpell_+= SPELL_SET;
 				ResetWindow();
 			}
 			if (input->TriggerKey(DIK_W) || input->TriggerLStickUp()) {
-				if (selectSpell_ <= 4) {
-					selectSpell_ += 20;
+				if (selectSpell_ <= SPELL_SET - 1) {
+					selectSpell_ += SPELL_ALL;
 				}
-				selectSpell_ -= 5;
+				selectSpell_ -= SPELL_SET;
 				ResetWindow();
 			}
 
@@ -164,14 +147,14 @@ void LoadOut::Update()
 		else if (selectMode_ == SELECT_NUM) {
 			//セットしたい呪文をどこに入れるか選択させる
 			if (input->TriggerKey(DIK_D) || input->TriggerLStickRight()) {
-				if (selectNum_ % 5 == 4) {
-					selectNum_ -= 5;
+				if (selectNum_ % SPELL_SET == SPELL_SET - 1) {
+					selectNum_ -= SPELL_SET;
 				}
 				selectNum_++;
 			}
 			if (input->TriggerKey(DIK_A) || input->TriggerLStickLeft()) {
-				if (selectNum_ % 5 == 0) {
-					selectNum_ += 5;
+				if (selectNum_ % SPELL_SET == 0) {
+					selectNum_ += SPELL_SET;
 				}
 				selectNum_--;
 			}
@@ -205,10 +188,10 @@ void LoadOut::Draw()
 {
 	if (isActive_) {
 		hiLight_.Draw();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < SPELL_ALL; i++) {
 			preview_[i].Draw();
 		}
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < SPELL_SET; i++) {
 			set_[i].Draw();
 		}
 		SpellExplanation_.Draw();

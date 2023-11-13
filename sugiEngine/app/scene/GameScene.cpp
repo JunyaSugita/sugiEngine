@@ -145,14 +145,6 @@ void GameScene::Update()
 		if (input->TriggerKey(DIK_R)) {
 			Initialize();
 		}
-		if (input->TriggerButton(XINPUT_GAMEPAD_X)) {
-			enemyM->PopEnemy({ -10,0,0 });
-			enemyM->PopEnemy({ -5,0,3 });
-			enemyM->PopEnemy({ 0,0,0 });
-			enemyM->PopEnemy({ 5,0,3 });
-			enemyM->PopEnemy({ 10,0,0 });
-			ClearChecker::GetInstance()->Initialize();
-		}
 	}
 #endif
 #pragma endregion
@@ -181,6 +173,7 @@ void GameScene::Update()
 	spellM->Update();
 	uiM->Update();
 	colM->Update();
+	//particleM->AddFromFile(P_BACKGROUND, { 0,20,0 });
 	particleM->Update();
 	loadOut->Update();
 	MenuManager::GetInstance()->Update();

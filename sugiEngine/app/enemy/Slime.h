@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "BaseEnemy.h"
 
 class Slime : public BaseEnemy {
@@ -12,6 +12,7 @@ private:
 	void Move() override;
 	void Attack() override;
 	void Down() override;
+	void DownHitPlayer()override;
 
 private:
 	const float SPEED_MOVE = 0.15f;

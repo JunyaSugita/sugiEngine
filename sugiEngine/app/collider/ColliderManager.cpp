@@ -153,6 +153,12 @@ void ColliderManager::Update()
 					enemysCol[i]->SetIsAttack();
 				}
 			}
+			else {
+				//ダウンしている時の判定
+				if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
+					enemysCol[i]->DownHitPlayer();
+				}
+			}
 		}
 	}
 
