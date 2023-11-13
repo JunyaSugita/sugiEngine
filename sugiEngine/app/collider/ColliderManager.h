@@ -1,4 +1,4 @@
-﻿//当たり判定を管理するマネージャークラス
+//当たり判定を管理するマネージャークラス
 
 #pragma once
 #include "SugiMath.h"
@@ -50,7 +50,7 @@ private:
 	bool CheckHitZ(BoxCol a, BoxCol b);
 
 	bool CheckHitBox(BoxCol a, BoxCol b);
-
+	bool CheckHitCircle(BoxCol a, BoxCol b);
 
 private:
 	//当たり判定表示のフラグ
