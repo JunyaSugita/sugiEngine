@@ -1,6 +1,7 @@
 #include "SpellManager.h"
 #include "Input.h"
 #include "Player.h"
+#include "PlayerWeapon.h"
 #include "LoadOut.h"
 #include "ImGuiManager.h"
 
@@ -131,7 +132,7 @@ void SpellManager::FireFireBall()
 
 	if (int(useTime_) == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<FireBall>();
-		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
+		newSpell->Initialize(PlayerWeapon::GetInstance()->GetOrbPos(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
 
 		spells_.push_back(move(newSpell));
@@ -170,7 +171,7 @@ void SpellManager::FireMagicMissile()
 
 	if (int(useTime_) % 20 == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<MagicMissile>();
-		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
+		newSpell->Initialize(PlayerWeapon::GetInstance()->GetOrbPos(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
 
 		spells_.push_back(move(newSpell));
@@ -209,7 +210,7 @@ void SpellManager::FireIceBolt()
 
 	if (int(useTime_) == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<IceBolt>();
-		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
+		newSpell->Initialize(PlayerWeapon::GetInstance()->GetOrbPos(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
 
 		spells_.push_back(move(newSpell));
@@ -247,7 +248,7 @@ void SpellManager::FireChainLightning()
 
 	if (int(useTime_) == 1) {
 		unique_ptr<ChainLightning> newSpell = make_unique<ChainLightning>();
-		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
+		newSpell->Initialize(PlayerWeapon::GetInstance()->GetOrbPos(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
 
 		chainLightnings_.push_back(move(newSpell));
@@ -284,7 +285,7 @@ void SpellManager::FireEnchantFire()
 
 	if (int(useTime_) == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<EnchantFire>();
-		newSpell->Initialize({ 0,0,0 });
+		newSpell->Initialize(PlayerWeapon::GetInstance()->GetOrbPos());
 		newSpell->Fire();
 
 		spells_.push_back(move(newSpell));
@@ -323,7 +324,7 @@ void SpellManager::FireFlame()
 
 	if (int(useTime_) % 5 == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<Flame>();
-		newSpell->Initialize(camera->GetEye(), camera->GetTarget() - camera->GetEye());
+		newSpell->Initialize(PlayerWeapon::GetInstance()->GetOrbPos(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
 
 		spells_.push_back(move(newSpell));

@@ -668,7 +668,7 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 
 		std::uniform_real_distribution<float> l(-float(data.lifeRand + 0.99f), float(data.lifeRand + 0.99f));
 
- 		AddCircle(
+		AddCircle(
 			data.life + (int32_t)l(engine),
 			{ pos.x + data.pos.x + xp(engine),pos.y + data.pos.y + yp(engine),pos.z + data.pos.z + zp(engine) },
 			data.isRevers,
@@ -741,10 +741,107 @@ void ParticleManager::Add(Vector3 pos, EditFile data)
 	}
 }
 
-void ParticleManager::AddFromFile(uint8_t num, Vector3 pos,bool isEdit)
+void ParticleManager::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector3 color)
+{
+	//ランダム
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+
+	for (int i = 0; i < data.num; i++) {
+		std::uniform_real_distribution<float> xp(-data.posRand.x, data.posRand.x);
+		std::uniform_real_distribution<float> yp(-data.posRand.y, data.posRand.y);
+		std::uniform_real_distribution<float> zp(-data.posRand.z, data.posRand.z);
+
+		std::uniform_real_distribution<float> xv(-data.moveRand.x, data.moveRand.x);
+		std::uniform_real_distribution<float> yv(-data.moveRand.y, data.moveRand.y);
+		std::uniform_real_distribution<float> zv(-data.moveRand.z, data.moveRand.z);
+
+		std::uniform_real_distribution<float> l(-float(data.lifeRand + 0.99f), float(data.lifeRand + 0.99f));
+
+		AddCircle(
+			data.life + (int32_t)l(engine),
+			{ pos.x + data.pos.x + xp(engine),pos.y + data.pos.y + yp(engine),pos.z + data.pos.z + zp(engine) },
+			data.isRevers,
+			{ data.move.x + xv(engine),data.move.y + yv(engine), data.move.z + zv(engine) },
+			data.speed,
+			data.acceleration,
+			data.gravity,
+			data.scale.x * scale,
+			data.scale.y * scale,
+			color,
+			color,
+			data.postEffect
+		);
+	}
+	if (data.add1) {
+		for (int i = 0; i < data.num1; i++) {
+			std::uniform_real_distribution<float> xp(-data.posRand1.x, data.posRand1.x);
+			std::uniform_real_distribution<float> yp(-data.posRand1.y, data.posRand1.y);
+			std::uniform_real_distribution<float> zp(-data.posRand1.z, data.posRand1.z);
+
+			std::uniform_real_distribution<float> xv(-data.moveRand1.x, data.moveRand1.x);
+			std::uniform_real_distribution<float> yv(-data.moveRand1.y, data.moveRand1.y);
+			std::uniform_real_distribution<float> zv(-data.moveRand1.z, data.moveRand1.z);
+
+			std::uniform_real_distribution<float> l(-float(data.lifeRand1 + 0.99f), float(data.lifeRand1 + 0.99f));
+
+			AddCircle(
+				data.life1 + (int32_t)l(engine),
+				{ pos.x + data.pos1.x + xp(engine),pos.y + data.pos1.y + yp(engine),pos.z + data.pos1.z + zp(engine) },
+				data.isRevers1,
+				{ data.move1.x + xv(engine),data.move.y + yv(engine), data.move1.z + zv(engine) },
+				data.speed1,
+				data.acceleration1,
+				data.gravity1,
+				data.scale1.x * scale,
+				data.scale1.y * scale,
+				data.sColor1,
+				data.eColor1,
+				data.postEffect1
+			);
+		}
+		if (data.add2) {
+			for (int i = 0; i < data.num2; i++) {
+				std::uniform_real_distribution<float> xp(-data.posRand2.x, data.posRand2.x);
+				std::uniform_real_distribution<float> yp(-data.posRand2.y, data.posRand2.y);
+				std::uniform_real_distribution<float> zp(-data.posRand2.z, data.posRand2.z);
+
+				std::uniform_real_distribution<float> xv(-data.moveRand2.x, data.moveRand2.x);
+				std::uniform_real_distribution<float> yv(-data.moveRand2.y, data.moveRand2.y);
+				std::uniform_real_distribution<float> zv(-data.moveRand2.z, data.moveRand2.z);
+
+				std::uniform_real_distribution<float> l(-float(data.lifeRand2 + 0.99f), float(data.lifeRand2 + 0.99f));
+
+				AddCircle(
+					data.life2 + (int32_t)l(engine),
+					{ pos.x + data.pos2.x + xp(engine),pos.y + data.pos2.y + yp(engine),pos.z + data.pos2.z + zp(engine) },
+					data.isRevers2,
+					{ data.move2.x + xv(engine),data.move2.y + yv(engine), data.move2.z + zv(engine) },
+					data.speed2,
+					data.acceleration2,
+					data.gravity2,
+					data.scale2.x * scale,
+					data.scale2.y * scale,
+					data.sColor2,
+					data.eColor2,
+					data.postEffect2
+				);
+			}
+		}
+	}
+}
+
+void ParticleManager::AddFromFile(uint8_t num, Vector3 pos, bool isEdit)
 {
 	if (isEdit || !GetIsEdit()) {
 		Add(pos, particleData_[num]);
+	}
+}
+
+void ParticleManager::AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector3 color, bool isEdit)
+{
+	if (isEdit || !GetIsEdit()) {
+		AddEditScaleAndColor(pos, particleData_[num], scale, color);
 	}
 }
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "SpellManager.h"
 #include "Sprite.h"
 
@@ -64,14 +64,17 @@ private:
 	int32_t selectMode_;//変更状況
 	bool isDirty_;//変えたかどうか
 
-	int32_t spellTexNum_[20];
-	Sprite preview_[20];
+	static const int SPELL_ALL = 16;
+	static const int SPELL_SET = 4;
+
+	int32_t spellTexNum_[SPELL_ALL];
+	Sprite preview_[SPELL_ALL];
 	Sprite hiLight_;
 
-	Sprite set_[5];
+	Sprite set_[SPELL_SET];
 	Sprite back_;
 	Sprite SpellExplanation_;
-	int32_t spellExplanTex_[20];
+	int32_t spellExplanTex_[SPELL_ALL];
 
 	float preWindowTimer_;
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "BaseSpell.h"
 #include "FireBall.h"
 #include "MagicMissile.h"
@@ -14,6 +14,15 @@ enum MAGIC {
 	CHAIN_LIGHTNING,
 	ENCHANT_FIRE,
 	FLAME,
+};
+
+enum SPELL_TYPE {
+	TYPE_NONE,
+	TYPE_FIRE,
+	TYPE_THUNDER,
+	TYPE_ICE,
+	TYPE_DARK,
+	TYPE_END,
 };
 
 class SpellManager final{
