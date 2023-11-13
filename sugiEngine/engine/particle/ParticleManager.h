@@ -40,6 +40,9 @@ enum ParticleName {
 	P_GOAL,
 	P_TORCH,
 	P_DAMAGER,
+	P_CHARGE_FIRE,
+	P_CHARGE_MAX_FIRE,
+	P_BACKGROUND,
 	P_END,
 };
 
@@ -138,8 +141,10 @@ public:
 
 	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo,float speed, Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector3 sColor, Vector3 eColor, int32_t postEffect);
 	void Add(Vector3 pos, EditFile data);
+	void AddEditScaleAndColor(Vector3 pos, EditFile data,float scale,Vector3 color);
 
 	void AddFromFile(uint8_t num, Vector3 pos, bool isEdit = false);
+	void AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale ,Vector3 color,bool isEdit = false);
 
 	void Clear();
 

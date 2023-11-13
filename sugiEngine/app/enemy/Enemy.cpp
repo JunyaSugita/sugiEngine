@@ -111,11 +111,7 @@ void Enemy::Down()
 	if (obj_.rot.z < 90) {
 		obj_.rot.z += 5;
 	}
-	//alpha_ -= 0.005f;
-	//obj_.obj->SetColor({1,1,1,alpha_});
-	//eyeObj_.obj->SetColor({ 1,1,1,alpha_ });
-	//armL_.obj->SetColor({ 1,1,1,alpha_ });
-	//armR_.obj->SetColor({ 1,1,1,alpha_ });
+
 	//最後
 	BaseEnemy::Down();
 }

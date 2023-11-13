@@ -44,8 +44,11 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 
 void BaseEnemy::Update()
 {
+	//倒れている時の処理
 	if (isDown_) {
 		Down();
+		//移動を適応
+		WorldTransUpdate();
 
 		return;
 	}
@@ -96,6 +99,10 @@ void BaseEnemy::WorldTransUpdate()
 	col_.Update();
 }
 
+void BaseEnemy::DownHitPlayer()
+{
+}
+
 void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 {
 	switch (debuff)
@@ -140,6 +147,7 @@ void BaseEnemy::SetIsHit(int32_t subLife,bool isParticle)
 
 bool BaseEnemy::isDebuff()
 {
+	//デバフ状態ならtrueを返す
 	if (debuff_.isFire || debuff_.isThunder || debuff_.isIce) {
 		return true;
 	}
@@ -149,6 +157,7 @@ bool BaseEnemy::isDebuff()
 
 bool BaseEnemy::isCanMove()
 {
+	//動けなくなる状態ならfalseを返す
 	if (debuff_.isThunder) {
 		return false;
 	}
@@ -283,16 +292,6 @@ void BaseEnemy::SetCol()
 
 void BaseEnemy::Down()
 {
-	if (--downTimer_ <= 0) {
-		isDead_ = true;
-
-		light_->SetPointLightActive(lightNum_, false);
-		lightNum_ = -1;
-	}
-
-	if (downTimer_ < 30) {
-		obj_.pos.y -= 0.1f;
-	}
-
-	WorldTransUpdate();
+	//デバフの適応
+	UpdateDebuff();
 }

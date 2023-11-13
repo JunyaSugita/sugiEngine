@@ -153,6 +153,12 @@ void ColliderManager::Update()
 					enemysCol[i]->SetIsAttack();
 				}
 			}
+			else {
+				//ダウンしている時の判定
+				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
+					enemysCol[i]->DownHitPlayer();
+				}
+			}
 		}
 	}
 
@@ -301,6 +307,17 @@ bool ColliderManager::CheckHitBox(BoxCol a, BoxCol b)
 				return true;
 			}
 		}
+	}
+
+	return false;
+}
+
+bool ColliderManager::CheckHitCircle(BoxCol a, BoxCol b)
+{
+	Vector3 temp = a.pos - b.pos;
+
+	if (temp.length() < a.size.x + b.size.x) {
+		return true;
 	}
 
 	return false;

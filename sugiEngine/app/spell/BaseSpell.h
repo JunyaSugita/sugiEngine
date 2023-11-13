@@ -1,8 +1,7 @@
-﻿#pragma once
+#pragma once
 #include "GrovalSetting.h"
 #include "BaseObj.h"
 #include "BaseCol.h"
-
 
 enum SpellType {
 	SHOT,

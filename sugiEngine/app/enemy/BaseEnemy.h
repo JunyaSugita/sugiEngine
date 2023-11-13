@@ -23,6 +23,9 @@ public:
 	virtual void Draw();
 	virtual void WorldTransUpdate();
 
+	//死んだあとプレイヤーに当たった時の反応
+	virtual void DownHitPlayer();
+
 #pragma region inline群
 	//inline群
 	Vector3 GetPos() {
@@ -128,6 +131,8 @@ protected:
 	virtual void Attack() = 0;
 	//死んだ時の反応
 	virtual void Down();
+
+
 
 	// プレイヤーの方向を向く
 	void SetAngleToPlayer();

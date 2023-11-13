@@ -87,8 +87,12 @@ void Slime::Down()
 		obj_.scale.x += 0.5f;
 		obj_.scale.z += 0.5f;
 	}
-	//obj_.obj->SetColor({1,0,0,1});
 
 	//最後
 	BaseEnemy::Down();
+}
+
+void Slime::DownHitPlayer()
+{
+	Player::GetInstance()->SetSlow(0.5f);
 }

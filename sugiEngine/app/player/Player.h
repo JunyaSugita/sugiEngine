@@ -22,7 +22,8 @@ public:
 	void Update();
 	void Draw();
 	void SpDraw();
-	void ChargeSpell(int32_t spellNum);
+	void ChargeSpell(int32_t num);
+	int32_t GetSpellType();
 
 	//pos
 	Vector3 GetPos() {
@@ -77,7 +78,7 @@ public:
 	void SetPresetSpell(uint32_t spellName) {
 		presetSpell_ = spellName;
 	}
-	uint32_t GetPresetSpell(){
+	int32_t GetPresetSpell(){
 		return presetSpell_;
 	}
 
@@ -105,6 +106,11 @@ public:
 	}
 	bool GetInvincible() {
 		return isInvincible_;
+	}
+
+	//移動速度減少の乗算
+	void SetSlow(float num) {
+		slow_ *= num;
 	}
 
 private:
@@ -160,6 +166,9 @@ private:
 
 	//navePointのタイミング
 	float naveTimer_;
+
+	//移動速度低下処理
+	float slow_;
 };
 
 float Radian(float r);

@@ -25,7 +25,7 @@ void Player::Initialize()
 
 	damageTex_ = Sprite::LoadTexture("damage.png");
 	damageSp_.Initialize(damageTex_);
-	
+
 	GameInitialize();
 }
 
@@ -50,6 +50,8 @@ void Player::GameInitialize()
 	naveTimer_ = 10000;
 
 	isInvincible_ = false;
+
+	slow_ = 1;
 }
 
 void Player::Update()
@@ -62,7 +64,7 @@ void Player::Update()
 
 	//ゲーム終了orゲームオーバーで動けなくする
 	if (ClearChecker::GetInstance()->GetIsClear() || life_ <= 0) {
-		PlayerWeapon::GetInstance()->Update(false,false);
+		PlayerWeapon::GetInstance()->Update(false, false);
 		isInvincible_ = true;
 		return;
 	}
@@ -96,11 +98,11 @@ void Player::SpDraw()
 	damageSp_.Draw();
 }
 
-void Player::ChargeSpell(int32_t spellNum)
+void Player::ChargeSpell(int32_t num)
 {
 	SpellManager* spellM = SpellManager::GetInstance();
 
-	switch (LoadOut::GetInstance()->GetSpell(spellNum))
+	switch (LoadOut::GetInstance()->GetSpell(num))
 	{
 	case FIRE_BALL:
 		spellM->ChargeFireBall();
@@ -125,11 +127,36 @@ void Player::ChargeSpell(int32_t spellNum)
 	}
 }
 
+int32_t Player::GetSpellType()
+{
+	switch (LoadOut::GetInstance()->GetSpell(presetSpell_))
+	{
+	case FIRE_BALL:
+	case ENCHANT_FIRE:
+	case FLAME:
+
+		return TYPE_FIRE;
+
+	case MAGIC_MISSILE:
+	case CHAIN_LIGHTNING:
+
+		return TYPE_THUNDER;
+
+	case ICE_BOLT:
+	
+		return TYPE_ICE;
+
+	default:
+
+		return TYPE_NONE;
+	}
+}
+
 void Player::SubLife()
 {
 	if (life_ > 0) {
 		if (!Tutorial::GetInstance()->GetIsTutorial() || isInvincible_) {
-			life_-= 1000;
+			life_ -= 1000;
 		}
 		damageAlpha_ = 1.0f;
 		Camera::GetInstance()->SetShake(0.05f);
@@ -154,24 +181,23 @@ void Player::Move()
 	Vector3 moveX = { rightVec_.x,0,rightVec_.z };
 	moveX.normalize();
 
-	//移動速度低下処理
-	float slow = 1;
+
 	if (!GetIsCanAction()) {
-		slow = SPEED_SLOW;
+		slow_ = SPEED_SLOW;
 	}
 
 	//移動
 	if (input->PushKey(DIK_W)) {
-		pos_ += moveZ * SPEED_MOVE * slow;
+		pos_ += moveZ * SPEED_MOVE * slow_;
 	}
 	if (input->PushKey(DIK_S)) {
-		pos_ -= moveZ * SPEED_MOVE * slow;
+		pos_ -= moveZ * SPEED_MOVE * slow_;
 	}
 	if (input->PushKey(DIK_A)) {
-		pos_ -= moveX * SPEED_MOVE * slow;
+		pos_ -= moveX * SPEED_MOVE * slow_;
 	}
 	if (input->PushKey(DIK_D)) {
-		pos_ += moveX * SPEED_MOVE * slow;
+		pos_ += moveX * SPEED_MOVE * slow_;
 	}
 
 	float stickX = float(input->GetLStickX()) / 32768.0f;
@@ -179,11 +205,14 @@ void Player::Move()
 
 	//移動
 	if (input->GetLStickY()) {
-		pos_ += moveZ * SPEED_MOVE * stickY * slow;
+		pos_ += moveZ * SPEED_MOVE * stickY * slow_;
 	}
 	if (input->GetLStickX()) {
-		pos_ += moveX * SPEED_MOVE * stickX * slow;
+		pos_ += moveX * SPEED_MOVE * stickX * slow_;
 	}
+
+	//移動速度減速を初期化
+	slow_ = 1;
 
 	//当たり判定移動
 	boxCol_.pos = pos_;
@@ -227,82 +256,38 @@ void Player::CameraMove()
 	float stickX = float(input->GetRStickX()) / 32768.0f;
 	float stickY = float(input->GetRStickY()) / 32768.0f;
 
-	if (input->GetLTrigger() < 50 && !(input->TriggerKey(DIK_1) || input->TriggerKey(DIK_2) || input->TriggerKey(DIK_3) || input->TriggerKey(DIK_4) || input->TriggerKey(DIK_5))) {
-		if (input->GetRStickX()) {
-			cameraAngle_.x += SPEED_CAMERA * stickX;
+	if (input->GetRStickX()) {
+		cameraAngle_.x += SPEED_CAMERA * stickX;
+	}
+
+	if (input->GetRStickY()) {
+		cameraAngle_.y += SPEED_CAMERA * stickY;
+
+		//最大値設定
+		if (cameraAngle_.y > RAD / 2) {
+			cameraAngle_.y = RAD / 2;
 		}
-
-		if (input->GetRStickY()) {
-			cameraAngle_.y += SPEED_CAMERA * stickY;
-
-			//最大値設定
-			if (cameraAngle_.y > RAD / 2) {
-				cameraAngle_.y = RAD / 2;
-			}
-			//最小値設定
-			if (cameraAngle_.y < -RAD / 2) {
-				cameraAngle_.y = -RAD / 2;
-			}
+		//最小値設定
+		if (cameraAngle_.y < -RAD / 2) {
+			cameraAngle_.y = -RAD / 2;
 		}
 	}
-	else {
-		Vector2 len = Vector2(input->GetRStickX(), input->GetRStickY());
-		len.length();
-		if (len.length() > 20000 || input->TriggerKey(DIK_1) || input->TriggerKey(DIK_2) || input->TriggerKey(DIK_3) || input->TriggerKey(DIK_4) || input->TriggerKey(DIK_5)) {
-			len.normalize();
-			if (input->GetRStickX() != 0 && input->GetRStickY() != 0) {
-				spellAngle_ = (atan2(len.cross({ 0,-1 }), -len.dot({ 0,-1 })) / PI * -RAD - (RAD / 2)) + RAD / 2 * 3;
-			}
-
-			//スティックを倒した方向の呪文に変える
-			if (spellAngle_ >= RAD && spellAngle_ < 72 + RAD) {
-				presetSpell_ = 0;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-			else if (spellAngle_ >= 72 + RAD && spellAngle_ < 144 + RAD) {
-				presetSpell_ = 1;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-			else if (spellAngle_ >= 144 + RAD && spellAngle_ < 180 + RAD || spellAngle_ >= 0 && spellAngle_ < 36) {
-				presetSpell_ = 2;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-			else if (spellAngle_ >= 36 && spellAngle_ < 108) {
-				presetSpell_ = 3;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-			else if (spellAngle_ >= 108 && spellAngle_ < RAD) {
-				presetSpell_ = 4;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-
-			//キー対応
-			if (input->TriggerKey(DIK_1)) {
-				presetSpell_ = 0;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-			else if (input->TriggerKey(DIK_2)) {
-				presetSpell_ = 1;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-			else if (input->TriggerKey(DIK_3)) {
-				presetSpell_ = 2;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-			else if (input->TriggerKey(DIK_4)) {
-				presetSpell_ = 3;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-			else if (input->TriggerKey(DIK_5)) {
-				presetSpell_ = 4;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-			else if (input->TriggerKey(DIK_6)) {
-				presetSpell_ = 5;
-				SpellManager::GetInstance()->ResetChargeTime();
-			}
-
-		}
+	//押したボタンの呪文に変える
+	if (input->TriggerButton(XINPUT_GAMEPAD_Y)) {
+		presetSpell_ = 0;
+		SpellManager::GetInstance()->ResetChargeTime();
+	}
+	else if (input->TriggerButton(XINPUT_GAMEPAD_B)) {
+		presetSpell_ = 1;
+		SpellManager::GetInstance()->ResetChargeTime();
+	}
+	else if (input->TriggerButton(XINPUT_GAMEPAD_A)) {
+		presetSpell_ = 2;
+		SpellManager::GetInstance()->ResetChargeTime();
+	}
+	else if (input->TriggerButton(XINPUT_GAMEPAD_X)) {
+		presetSpell_ = 3;
+		SpellManager::GetInstance()->ResetChargeTime();
 	}
 
 	frontVec_.x = float(sin(Radian(cameraAngle_.x)));

@@ -165,6 +165,28 @@ void PlayerWeapon::ChargeMove()
 	obj_.pos.y = 3.5f;
 	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
 	obj_.rot = { 30 + float(sin(Radian(spellM->ChargePercent() * 1000))* 15),player->GetCameraAngle().x,0 + float(cos(Radian(spellM->ChargePercent() * 1000)) * 15) };
+
+
+	//呪文の属性ごとに色を変えたパーティクルを出す
+	switch (player->GetSpellType())
+	{
+	case TYPE_FIRE:
+		PopChargeParticle({ 0.2f,0.04f,0 });
+		break;
+	case TYPE_THUNDER:
+		PopChargeParticle({ 0.2f,0,0.2f });
+		break;
+	case TYPE_ICE:
+		PopChargeParticle({ 0,0.04f,0.1f });
+		break;
+	case TYPE_DARK:
+		PopChargeParticle({ 0.2f,0,0.2f });
+		break;
+	default:
+		PopChargeParticle({ 0.2f,0.2f,0.2f });
+		break;
+	}
+
 }
 
 void PlayerWeapon::ItemMove()
@@ -232,4 +254,17 @@ void PlayerWeapon::WorldTransUpdate()
 
 	obj_.Update();
 	orbObj_.Update();
+}
+
+void PlayerWeapon::PopChargeParticle(Vector3 color)
+{
+	if (SpellManager::GetInstance()->ChargePercent() != 1.0f) {
+		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), SpellManager::GetInstance()->ChargePercent(), color);
+		if (SpellManager::GetInstance()->ChargePercent() >= 0.9f) {
+			ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_MAX_FIRE, orbObj_.worldTrans.GetMatPos(), 1, color);
+		}
+	}
+	else {
+		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), 0.8f, color);
+	}
 }
