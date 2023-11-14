@@ -1,4 +1,6 @@
-﻿#include "EffectManager.h"
+#include "EffectManager.h"
+
+using namespace std;
 
 EffectManager* EffectManager::GetInstance()
 {
@@ -15,22 +17,22 @@ void EffectManager::Initialize()
 void EffectManager::Update()
 {
 	//飛び散りエフェクト
-	burst_.remove_if([](std::unique_ptr<Burst>& burst) {return burst->IsDead(); });
-	bolt_.remove_if([](std::unique_ptr<Bolt>& bolt) {return bolt->IsDead(); });
-	for (std::unique_ptr<Burst>& burst : burst_) {
+	burst_.remove_if([](unique_ptr<Burst>& burst) {return burst->IsDead(); });
+	bolt_.remove_if([](unique_ptr<Bolt>& bolt) {return bolt->IsDead(); });
+	for (unique_ptr<Burst>& burst : burst_) {
 		burst->Update();
 	}
-	for (std::unique_ptr<Bolt>& bolt : bolt_) {
+	for (unique_ptr<Bolt>& bolt : bolt_) {
 		bolt->Update();
 	}
 }
 
 void EffectManager::Draw()
 {
-	for (std::unique_ptr<Burst>& burst : burst_) {
+	for (unique_ptr<Burst>& burst : burst_) {
 		burst->Draw();
 	}
-	for (std::unique_ptr<Bolt>& bolt : bolt_) {
+	for (unique_ptr<Bolt>& bolt : bolt_) {
 		bolt->Draw();
 	}
 }

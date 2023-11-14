@@ -89,6 +89,8 @@ public:
 	void SetPointLightColor(int32_t index, const XMFLOAT3& lightcolor);
 	void SetPointLightAtten(int32_t index, const XMFLOAT3& lightAtten);
 
+	void PointLightAllClear();
+
 	int32_t SetPointLightGetNum();
 	//スポットライト
 	void SetSpotLightActive(int32_t index, bool active);

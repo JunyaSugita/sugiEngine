@@ -24,7 +24,7 @@ void FieldManager::Initialize(int num)
 
 	objNum_ = 0;
 	navePointNum_ = 0;
-	torchNum_ = 0;
+	torchs_.clear();
 	col_.clear();
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
@@ -90,23 +90,9 @@ void FieldManager::Initialize(int num)
 			lightGroup_->SetPointLightPos(useLightNum_, { objectData.pos.x, objectData.pos.y + 2,objectData.pos.z });
 		}
 		if (objectData.filename == "torch") {
-			//モデルを指定して3Dオブジェクトを生成
-			torchObj_[torchNum_].Initialize("torch");
-
-			//obj情報
-			torchObj_[torchNum_].pos = objectData.pos;
-			torchObj_[torchNum_].rot.x = objectData.rot.x + 180;
-			torchObj_[torchNum_].rot.y = objectData.rot.y - 90;
-			torchObj_[torchNum_].rot.z = objectData.rot.z + 90;
-			torchObj_[torchNum_].scale = objectData.scale;
-			torchObj_[torchNum_].obj->SetColor({0.2f,0.2f,0.2f,1});
-			
-			useLightNum_ = lightGroup_->SetPointLightGetNum();
-			lightGroup_->SetPointLightColor(useLightNum_,{1,0.2f,0});
-			lightGroup_->SetPointLightAtten(useLightNum_,{ stageAtten_,stageAtten_,stageAtten_ });
-			lightGroup_->SetPointLightPos(useLightNum_, { torchObj_[torchNum_].pos.x, torchObj_[torchNum_].pos.y ,torchObj_[torchNum_].pos.z });
-
-			torchNum_++;
+			std::unique_ptr<Torch> torch = std::make_unique<Torch>();
+			torch->Initialize(objectData.pos, objectData.rot, objectData.scale,stageAtten_);
+			torchs_.push_back(std::move(torch));
 		}
 	}
 }
@@ -116,9 +102,8 @@ void FieldManager::Update()
 	for (int i = 0; i < objNum_; i++) {
 		obj_[i].Update();
 	}
-	for (int i = 0; i < torchNum_;i++) {
-		torchObj_[i].Update();
-		ParticleManager::GetInstance()->AddFromFile(P_TORCH,torchObj_[i].pos);
+	for (std::unique_ptr<Torch>& t : torchs_) {
+		t->Update();
 	}
 }
 
@@ -127,8 +112,8 @@ void FieldManager::Draw()
 	for (int i = 0; i < objNum_; i++) {
 		obj_[i].Draw();
 	}
-	for (int i = 0; i < torchNum_; i++) {
-		torchObj_[i].Draw();
+	for (std::unique_ptr<Torch>& t : torchs_) {
+		t->Draw();
 	}
 }
 
@@ -155,4 +140,10 @@ void FieldManager::SelectStage(int num)
 	default:
 		break;
 	}
+}
+
+void FieldManager::SetLight(LightGroup* lightGroup)
+{
+	lightGroup_ = lightGroup;
+	Torch::SetLight(lightGroup);
 }

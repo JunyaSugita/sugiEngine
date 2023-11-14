@@ -3,6 +3,7 @@
 #include "BaseObj.h"
 #include "JsonLoader.h"
 #include "ColliderManager.h"
+#include "Torch.h"
 
 class FieldManager final{
 private:
@@ -36,9 +37,7 @@ public:
 
 	void SelectStage(int num);
 
-	static void SetLight(LightGroup* lightGroup) {
-		lightGroup_ = lightGroup;
-	}
+	static void SetLight(LightGroup* lightGroup);
 
 private:
 	LevelData* levelData_;
@@ -48,9 +47,7 @@ private:
 	int32_t objNum_;
 	std::vector<BoxCol> col_;
 
-	std::unique_ptr<Model> torchModel_;
-	BaseObj torchObj_[100];
-	int32_t torchNum_;
+	std::vector<std::unique_ptr<Torch>> torchs_;
 
 	int32_t navePointNum_;
 
