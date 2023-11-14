@@ -86,12 +86,16 @@ void Enemy::Move()
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);
 		toPlayer.normalize();
-		obj_.pos.x += toPlayer.x * SPEED_MOVE * GetSlow();
-		obj_.pos.z += toPlayer.y * SPEED_MOVE * GetSlow();
+
+		obj_.pos.x += toPlayer.x * SPEED_MOVE * slow_;
+		obj_.pos.z += toPlayer.y * SPEED_MOVE * slow_;
 	}
 	else {
 		isStop_ = false;
 	}
+
+	//最後にスピード減少を初期化
+	slow_ = 1.0f;
 }
 
 void Enemy::Attack()
