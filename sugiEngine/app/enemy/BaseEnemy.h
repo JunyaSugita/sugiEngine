@@ -15,6 +15,11 @@ struct DebuffM {
 	int32_t iceTime;
 };
 
+struct DownState {
+	float slow = 1.0f;
+	int damage = 0;
+};
+
 class BaseEnemy {
 
 public:
@@ -25,6 +30,10 @@ public:
 
 	//死んだあとプレイヤーに当たった時の反応
 	virtual void DownHitPlayer();
+
+	//死んだあと他の敵に当たった時の反応
+	virtual DownState GetDownHitEnemy();
+	virtual void SetDownHitEnemy(DownState state);
 
 #pragma region inline群
 	//inline群
@@ -126,13 +135,16 @@ public:
 	// 攻撃してプレイヤーにダメージを与える
 	void SetIsAttack();
 
+	// 移動速度をセット
+	void SetSlow(float slow) {
+		slow_ *= slow;
+	}
+
 protected:
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
 	//死んだ時の反応
 	virtual void Down();
-
-
 
 	// プレイヤーの方向を向く
 	void SetAngleToPlayer();
@@ -204,4 +216,7 @@ protected:
 
 	//デバッグ
 	static bool sIsDebugStop_;
+
+	//移動速度減少
+	float slow_;
 };

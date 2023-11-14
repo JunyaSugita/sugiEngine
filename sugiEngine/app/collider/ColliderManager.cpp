@@ -188,6 +188,18 @@ void ColliderManager::Update()
 					}
 				}
 			}
+			//後者のみが倒れてる
+			else if (!enemysCol[i]->GetIsDown() && enemysCol[j]->GetIsDown()) {
+				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+					enemysCol[i]->SetDownHitEnemy(enemysCol[j]->GetDownHitEnemy());
+				}
+			}
+			//前者のみが倒れている
+			else if (enemysCol[i]->GetIsDown() && !enemysCol[j]->GetIsDown()){
+				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+					enemysCol[j]->SetDownHitEnemy(enemysCol[i]->GetDownHitEnemy());
+				}
+			}
 		}
 	}
 

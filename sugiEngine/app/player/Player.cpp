@@ -183,7 +183,7 @@ void Player::Move()
 
 
 	if (!GetIsCanAction()) {
-		slow_ = SPEED_SLOW;
+		slow_ *= SPEED_SLOW;
 	}
 
 	//移動

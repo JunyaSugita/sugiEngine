@@ -40,6 +40,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	isAttack_ = false;
 	attackTimer_ = 0.0f;
 	lightNum_ = -1;
+	slow_ = 1.0f;
 }
 
 void BaseEnemy::Update()
@@ -101,6 +102,23 @@ void BaseEnemy::WorldTransUpdate()
 
 void BaseEnemy::DownHitPlayer()
 {
+
+}
+
+DownState BaseEnemy::GetDownHitEnemy()
+{
+	//生き残っている敵に与える影響
+	DownState a;
+	a.slow = 0;
+
+	return a;
+}
+
+void BaseEnemy::SetDownHitEnemy(DownState state)
+{
+	//死んでいるやつから貰う影響
+	SetSlow(state.slow);
+	SubLife(state.damage);
 }
 
 void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
@@ -216,9 +234,9 @@ void BaseEnemy::SetAngleToPlayer()
 float BaseEnemy::GetSlow()
 {
 	if (debuff_.isIce) {
-		return 0.5;
+		return slow_ * 0.5f;
 	}
-	return 1.0f;
+	return slow_;
 }
 
 void BaseEnemy::SubLife(int32_t subLife, bool isParticle)
