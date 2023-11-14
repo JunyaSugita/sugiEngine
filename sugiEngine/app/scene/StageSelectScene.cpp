@@ -29,7 +29,6 @@ void StageSelectScene::BackSpriteDraw()
 
 void StageSelectScene::Draw()
 {
-	
 }
 
 void StageSelectScene::ObjDraw()
