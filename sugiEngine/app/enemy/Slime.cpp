@@ -98,14 +98,14 @@ void Slime::Down()
 
 void Slime::DownHitPlayer()
 {
-	Player::GetInstance()->SetSlow(0.7f);
+	Player::GetInstance()->SetSlow(0.4f);
 }
 
 DownState Slime::GetDownHitEnemy()
 {
 	DownState temp;
 
-	temp.slow = 0.7f;
+	temp.slow = 0.5f;
 
 	return temp;
 }

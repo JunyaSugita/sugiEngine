@@ -137,7 +137,7 @@ public:
 
 	// 移動速度をセット
 	void SetSlow(float slow) {
-		slow_ *= slow;
+		slow_ = slow;
 	}
 
 protected:

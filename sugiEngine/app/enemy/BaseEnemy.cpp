@@ -130,8 +130,8 @@ void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 		debuff_.fireTime = time * 60;
 		if (lightNum_ == -1) {
 			lightNum_ = light_->SetPointLightGetNum();
-			light_->SetPointLightAtten(lightNum_, { 0.001f,0.001f,0.001f });
-			light_->SetPointLightColor(lightNum_, { 1,0.3f,0 });
+			light_->SetPointLightAtten(lightNum_, { 0.005f,0.005f,0.005f });
+			light_->SetPointLightColor(lightNum_, { 0.5f,0.2f,0 });
 			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
 		}
 		
@@ -262,7 +262,13 @@ void BaseEnemy::UpdateDebuff()
 				SubLife(1);
 			}
 
-			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
+			//ランダム
+			std::random_device seed_gen;
+			std::mt19937_64 engine(seed_gen());
+
+			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z});
+			std::uniform_real_distribution<float> atten(0.004f, 0.006f);
+			light_->SetPointLightAtten(lightNum_, { atten(engine),atten(engine),atten(engine) });
 
 			if (--debuff_.fireTime < 0) {
 				debuff_.isFire = false;

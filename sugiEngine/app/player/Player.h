@@ -110,7 +110,7 @@ public:
 
 	//移動速度減少の乗算
 	void SetSlow(float num) {
-		slow_ *= num;
+		slow_ = num;
 	}
 
 private:
