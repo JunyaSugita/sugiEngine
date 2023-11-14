@@ -106,6 +106,8 @@ void GameScene::Initialize()
 
 void GameScene::GameInitialize()
 {
+	lightGroup_->PointLightAllClear();
+
 	EnemyManager::GetInstance()->GameInitialize();
 	FieldManager::GetInstance()->Initialize(stageNum_);
 	Player::GetInstance()->GameInitialize();
@@ -116,6 +118,7 @@ void GameScene::GameInitialize()
 	sound_.RePlayWave("mainBGM", true);
 	sound_.SetVolume("mainBGM", 0.1f);
 	MenuManager::GetInstance()->GameInitialize();
+	
 }
 
 void GameScene::Update()

@@ -31,25 +31,25 @@ void SetSpell::Initialize()
 		spellSprite_[0].Initialize(fireBallTex_);
 		spellSprite_[0].SetAnchorPoint(0.5f, 0.5f);
 		spellSprite_[0].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y - 90);
-		spellSprite_[0].SetColor(1, 1, 1, 0.5f);
+		spellSprite_[0].SetColor(1, 1, 1, 0.8f);
 		spellSprite_[0].SetSize(80, 80);
 
 		spellSprite_[1].Initialize(magicMissileTex_);
 		spellSprite_[1].SetAnchorPoint(0.5f, 0.5f);
 		spellSprite_[1].SetPos(POS_ORIGIN_SPELL_SPRITE.x + 90, POS_ORIGIN_SPELL_SPRITE.y);
-		spellSprite_[1].SetColor(1, 1, 1, 0.5f);
+		spellSprite_[1].SetColor(1, 1, 1, 0.8f);
 		spellSprite_[1].SetSize(50, 50);
 
 		spellSprite_[2].Initialize(iceBoltTex_);
 		spellSprite_[2].SetAnchorPoint(0.5f, 0.5f);
 		spellSprite_[2].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y + 90);
-		spellSprite_[2].SetColor(1, 1, 1, 0.5f);
+		spellSprite_[2].SetColor(1, 1, 1, 0.8f);
 		spellSprite_[2].SetSize(50, 50);
 
 		spellSprite_[3].Initialize(enchantFireTex_);
 		spellSprite_[3].SetAnchorPoint(0.5f, 0.5f);
 		spellSprite_[3].SetPos(POS_ORIGIN_SPELL_SPRITE.x - 90, POS_ORIGIN_SPELL_SPRITE.y);
-		spellSprite_[3].SetColor(1, 1, 1, 0.5f);
+		spellSprite_[3].SetColor(1, 1, 1, 0.8f);
 		spellSprite_[3].SetSize(50, 50);
 
 		buttonSprite_[0].Initialize(buttonTex_[0]);
@@ -79,7 +79,7 @@ void SetSpell::Initialize()
 		backSprite_.Initialize(selectHiLightTex_);
 		backSprite_.SetAnchorPoint(0.5f,0.5f);
 		backSprite_.SetPos(spellSprite_[0].GetPos());
-		backSprite_.SetColor(0.1f, 0.1f, 0.1f, 0.5f);
+		backSprite_.SetColor(0.5f, 0.5f, 0.5f, 0.5f);
 		backSprite_.SetSize(90, 90);
 	}
 	isFirst_ = true;
