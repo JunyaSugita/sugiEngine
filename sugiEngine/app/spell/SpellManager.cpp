@@ -115,12 +115,14 @@ void SpellManager::ChargeFireBall()
 		chargeTime_++;
 	}
 
-	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseFireBall_ = true;
 			useTime_ = TIME_FIRE_FIREBALL;
 		}
-		chargeTime_ = 0;
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1)) {
+			chargeTime_ = 0;
+		}
 	}
 }
 

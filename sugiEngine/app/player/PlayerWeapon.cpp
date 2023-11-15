@@ -260,7 +260,7 @@ void PlayerWeapon::PopChargeParticle(Vector3 color)
 {
 	if (SpellManager::GetInstance()->ChargePercent() != 1.0f) {
 		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), SpellManager::GetInstance()->ChargePercent(), color);
-		if (SpellManager::GetInstance()->ChargePercent() >= 0.9f) {
+		if (SpellManager::GetInstance()->ChargePercent() >= 0.90f) {
 			ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_MAX_FIRE, orbObj_.worldTrans.GetMatPos(), 1, color);
 		}
 	}
