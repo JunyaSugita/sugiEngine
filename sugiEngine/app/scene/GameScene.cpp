@@ -251,10 +251,6 @@ void GameScene::Update()
 #endif
 #pragma endregion
 
-	if (Tutorial::GetInstance()->GetIsTutorial() && EnemyManager::GetInstance()->GetEnemyCount() <= 0) {
-		enemyM->PopEnemy({ 0,0,15 });
-	}
-
 	ClearChecker::GetInstance()->Update();
 	gameOver_.Update();
 

@@ -49,9 +49,11 @@ public:
 		lightGroup_ = lightGroup;
 	}
 
+	void PopChargeParticle(int32_t num);
+
 private:
 	void WorldTransUpdate();
-	void PopChargeParticle(Vector3 color);
+	void ChargeParticle(Vector3 color);
 
 public:
 	const float SPEED_MOVE = 0.5f;

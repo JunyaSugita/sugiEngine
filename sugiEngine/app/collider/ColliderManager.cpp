@@ -49,12 +49,22 @@ void ColliderManager::Update()
 
 		//呪文と敵の判定
 		for (int j = 0; j < enemysCol.size(); j++) {
+			//まだ当たってない呪文と倒れている敵は判定しない
+			if (!spellsCol[i]->GetIsHit() && enemysCol[j]->GetIsDown()) {
+				continue;
+			}
+
 			//判定
 			if (CheckHitBox(spellsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
 				//呪文が敵に当たっている時
+				if (!spellsCol[i]->GetIsHit()) {
+					//敵に当たった瞬間
+					ParticleManager::GetInstance()->AddFromFile(P_DAMAGE,enemysCol[j]->GetPos());
+					enemysCol[j]->SetShakeTime(10);
+				}
 				spellsCol[i]->SetIsHit();
 				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage());
-				enemysCol[j]->SetDebuff(spellsCol[i]->GetDamage(), 10);
+				enemysCol[j]->SetDebuff(spellsCol[i]->GetDebuff(), 10);
 			}
 		}
 		//呪文と壁や床との判定
@@ -168,7 +178,7 @@ void ColliderManager::Update()
 	for (int i = 0; i < enemysCol.size(); i++) {
 		for (int j = i + 1; j < enemysCol.size(); j++) {
 			if (!enemysCol[i]->GetIsDown() && !enemysCol[j]->GetIsDown()) {
-				if (CheckHitBox(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
 					if (enemysCol[i]->GetBoxCol().pos.x <= enemysCol[j]->GetBoxCol().pos.x) {
 						enemysCol[i]->AddColX(-0.01f);
 						enemysCol[j]->AddColX(0.01f);

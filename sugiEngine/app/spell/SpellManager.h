@@ -99,6 +99,8 @@ public:
 
 	bool GetIsUseSpell();
 
+	int32_t GetSpellType(int32_t spell);
+
 public:
 	//ファイアーボール
 	const float TIME_CHARGE_FIREBALL = 1.0f * 60;

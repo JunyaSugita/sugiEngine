@@ -41,6 +41,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	attackTimer_ = 0.0f;
 	lightNum_ = -1;
 	slow_ = 1.0f;
+	shakeTime_ = 0;
 }
 
 void BaseEnemy::Update()
@@ -81,6 +82,10 @@ void BaseEnemy::Update()
 	}
 	else
 	{
+		SetShake();
+	}
+
+	if (shakeTime_ > 0) {
 		SetShake();
 	}
 
@@ -246,7 +251,7 @@ void BaseEnemy::SubLife(int32_t subLife, bool isParticle)
 		life_ = 0;
 	}
 	if (isParticle) {
-		ParticleManager::GetInstance()->AddFromFile(P_DAMAGER, { obj_.pos.x,obj_.pos.y,obj_.pos.z });
+		ParticleManager::GetInstance()->AddFromFile(P_DAMAGE, { obj_.pos.x,obj_.pos.y,obj_.pos.z });
 	}
 	if (life_ <= 0) {
 		isDown_ = true;

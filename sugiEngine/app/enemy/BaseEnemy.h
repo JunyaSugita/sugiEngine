@@ -138,6 +138,11 @@ public:
 	// 移動速度をセット
 	void SetSlow(float slow) {
 		slow_ = slow;
+	}	
+
+	//長時間のシェイク
+	void SetShakeTime(int32_t time) {
+		shakeTime_ =time;
 	}
 
 protected:
@@ -164,12 +169,12 @@ protected:
 
 	// デバフの効果を更新
 	void UpdateDebuff();
-
-	//自身をシェイクさせる
-	void SetShake();
 	
 	//自身のコリジョンを設定
 	void SetCol();
+
+	//自身をシェイクさせる
+	void SetShake();
 
 protected:
 	const Vector2 UP = { 0,-1 };
@@ -219,4 +224,7 @@ protected:
 
 	//移動速度減少
 	float slow_;
+
+	//自身をシェイクさせている時間
+	int32_t shakeTime_;
 };

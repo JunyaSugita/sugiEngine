@@ -120,7 +120,7 @@ void SpellManager::ChargeFireBall()
 			isUseFireBall_ = true;
 			useTime_ = TIME_FIRE_FIREBALL;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1)) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && !LoadOut::GetInstance()->GetIsActive()) {
 			chargeTime_ = 0;
 		}
 	}
@@ -155,12 +155,14 @@ void SpellManager::ChargeMagicMissile()
 		chargeTime_++;
 	}
 
-	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseMagicMissile_ = true;
 			useTime_ = TIME_FIRE_MAGICMISSILE;
 		}
-		chargeTime_ = 0;
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && !LoadOut::GetInstance()->GetIsActive()) {
+			chargeTime_ = 0;
+		}
 	}
 	Player::GetInstance()->SetIsSpell(false);
 }
@@ -194,12 +196,14 @@ void SpellManager::ChargeIceBolt()
 		chargeTime_++;
 	}
 
-	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseIceBolt_ = true;
 			useTime_ = TIME_FIRE_ICEBOLT;
 		}
-		chargeTime_ = 0;
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && !LoadOut::GetInstance()->GetIsActive()) {
+			chargeTime_ = 0;
+		}
 	}
 	Player::GetInstance()->SetIsSpell(false);
 }
@@ -232,12 +236,14 @@ void SpellManager::ChargeChainLightning()
 		chargeTime_++;
 	}
 
-	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseChainLightning_ = true;
 			useTime_ = TIME_FIRE_CHAINLIGHTNING;
 		}
-		chargeTime_ = 0;
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && !LoadOut::GetInstance()->GetIsActive()) {
+			chargeTime_ = 0;
+		}
 	}
 	Player::GetInstance()->SetIsSpell(false);
 }
@@ -271,12 +277,14 @@ void SpellManager::ChargeEnchantFire()
 		chargeTime_++;
 	}
 
-	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseEnchantFire_ = true;
 			useTime_ = TIME_FIRE_ENCHANTFIRE;
 		}
-		chargeTime_ = 0;
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && !LoadOut::GetInstance()->GetIsActive()) {
+			chargeTime_ = 0;
+		}
 	}
 	Player::GetInstance()->SetIsSpell(false);
 }
@@ -308,12 +316,14 @@ void SpellManager::ChargeFlame()
 		chargeTime_++;
 	}
 
-	if (Input::GetInstance()->ReleaseKey(DIK_E) || Input::GetInstance()->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseFlame_ = true;
 			useTime_ = TIME_FIRE_FLAME;
 		}
-		chargeTime_ = 0;
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && !LoadOut::GetInstance()->GetIsActive()) {
+			chargeTime_ = 0;
+		}
 	}
 	Player::GetInstance()->SetIsSpell(false);
 }
@@ -356,4 +366,29 @@ bool SpellManager::GetIsUseSpell()
 		return true;
 	}
 	return false;
+}
+
+int32_t SpellManager::GetSpellType(int32_t spell)
+{
+	switch (spell)
+	{
+	case FIRE_BALL:
+	case ENCHANT_FIRE:
+	case FLAME:
+
+		return TYPE_FIRE;
+
+	case MAGIC_MISSILE:
+	case CHAIN_LIGHTNING:
+
+		return TYPE_THUNDER;
+
+	case ICE_BOLT:
+
+		return TYPE_ICE;
+
+	default:
+
+		return TYPE_NONE;
+	}
 }

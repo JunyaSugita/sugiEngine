@@ -19,6 +19,8 @@ FieldManager* FieldManager::GetInstance()
 
 void FieldManager::Initialize(int num)
 {
+	lightGroup_->PointLightAllClear();
+
 	// レベルデータの読み込み
 	SelectStage(num);
 

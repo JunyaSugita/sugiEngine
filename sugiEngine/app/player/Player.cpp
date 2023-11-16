@@ -102,7 +102,7 @@ void Player::ChargeSpell(int32_t num)
 {
 	SpellManager* spellM = SpellManager::GetInstance();
 
-	switch (LoadOut::GetInstance()->GetSpell(num))
+	switch (num)
 	{
 	case FIRE_BALL:
 		spellM->ChargeFireBall();
@@ -124,31 +124,6 @@ void Player::ChargeSpell(int32_t num)
 		break;
 	default:
 		break;
-	}
-}
-
-int32_t Player::GetSpellType()
-{
-	switch (LoadOut::GetInstance()->GetSpell(presetSpell_))
-	{
-	case FIRE_BALL:
-	case ENCHANT_FIRE:
-	case FLAME:
-
-		return TYPE_FIRE;
-
-	case MAGIC_MISSILE:
-	case CHAIN_LIGHTNING:
-
-		return TYPE_THUNDER;
-
-	case ICE_BOLT:
-	
-		return TYPE_ICE;
-
-	default:
-
-		return TYPE_NONE;
 	}
 }
 
