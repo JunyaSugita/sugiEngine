@@ -87,6 +87,7 @@ void BaseEnemy::Update()
 
 	if (shakeTime_ > 0) {
 		SetShake();
+		shakeTime_--;
 	}
 
 	//移動を適応
@@ -113,10 +114,7 @@ void BaseEnemy::DownHitPlayer()
 DownState BaseEnemy::GetDownHitEnemy()
 {
 	//生き残っている敵に与える影響
-	DownState a;
-	a.slow = 0;
-
-	return a;
+	return DownState();
 }
 
 void BaseEnemy::SetDownHitEnemy(DownState state)

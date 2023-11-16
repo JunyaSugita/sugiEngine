@@ -12,7 +12,7 @@ std::unique_ptr<Model> Enemy::sEyeModel_;
 void Enemy::Initialize(std::string name, Vector3 pos)
 {
 	eyeObj_.Initialize("eye");
-	eyeObj_.obj->SetEffectCross();
+	eyeObj_.obj->SetEffectCross(true);
 	eyeObj_.worldTrans.parent_ = &obj_.worldTrans;
 	eyeObj_.pos = { 0.3f,4.1f,0 };
 	eyeObj_.scale = { 0.3f,0.3f,0.3f };
@@ -114,6 +114,7 @@ void Enemy::Down()
 {
 	if (obj_.rot.z < 90) {
 		obj_.rot.z += 5;
+		eyeObj_.obj->SetEffectCross(false);
 	}
 
 	//最後

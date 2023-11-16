@@ -46,7 +46,7 @@ void SetSpell::Initialize()
 		spellSprite_[2].SetColor(1, 1, 1, 0.8f);
 		spellSprite_[2].SetSize(50, 50);
 
-		spellSprite_[3].Initialize(enchantFireTex_);
+		spellSprite_[3].Initialize(chainLightningTex_);
 		spellSprite_[3].SetAnchorPoint(0.5f, 0.5f);
 		spellSprite_[3].SetPos(POS_ORIGIN_SPELL_SPRITE.x - 90, POS_ORIGIN_SPELL_SPRITE.y);
 		spellSprite_[3].SetColor(1, 1, 1, 0.8f);

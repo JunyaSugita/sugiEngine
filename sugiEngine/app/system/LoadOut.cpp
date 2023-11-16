@@ -102,7 +102,7 @@ void LoadOut::Update()
 		//選択中のスペルを使用する
 		if (++preWindowTimer_ <= SpellManager::GetInstance()->GetMaxCharge() || SpellManager::GetInstance()->GetMaxCharge() == 0) {
 			Player::GetInstance()->ChargeSpell(selectSpell_);
-			SpellManager::GetInstance()->GetSpellType(selectSpell_);
+			PlayerWeapon::GetInstance()->PopChargeParticle(SpellManager::GetInstance()->GetSpellType(selectSpell_));
 		}
 		PlayerWeapon::GetInstance()->Update(false, false);
 

@@ -37,7 +37,7 @@ void Player::GameInitialize()
 	cameraAngle_ = { 0,-10 };
 	life_ = MAX_LIFE;
 	isAttack_ = false;
-	presetSpell_ = 0;
+	presetSpell_ = 1;
 	spellAngle_ = 0;
 
 	boxCol_.pos = pos_;
@@ -293,8 +293,7 @@ void Player::Attack()
 	}
 	//呪文詠唱
 	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) && !spellM->GetIsUseSpell() || (SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1)) {
-		ChargeSpell(presetSpell_);
-
+		ChargeSpell(LoadOut::GetInstance()->GetSpell(presetSpell_));
 		isSpell_ = true;
 	}
 	else {

@@ -84,7 +84,7 @@ void Slime::Attack()
 
 void Slime::Down()
 {
-	if (obj_.scale.y > 0.1f) {
+	if (obj_.scale.y > 0.2f) {
 		obj_.scale.y -= 0.1f;
 	}
 	if (obj_.scale.x < 10) {
