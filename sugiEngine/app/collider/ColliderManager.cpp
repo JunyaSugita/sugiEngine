@@ -234,7 +234,6 @@ void ColliderManager::Update()
 						enemysCol[i]->SetColZ(enemysCol[i]->GetOldBoxCol().pos.z);
 					}
 				}
-				enemysCol[i]->ResetShake();
 				enemysCol[i]->WorldTransUpdate();
 			}
 		}

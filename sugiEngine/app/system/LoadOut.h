@@ -32,6 +32,7 @@ public:
 		isActive_ = is;
 	}
 	void ToggleIsActive() {
+		ResetWindow();
 		isActive_ = (isActive_ + 1) % 2;
 	}
 

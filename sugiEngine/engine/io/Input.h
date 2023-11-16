@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #define DIRECTINPUT_VERSION	0x0800	//DirectInputのバージョン指定
 #include <dinput.h>
 #include <assert.h>
@@ -44,7 +44,11 @@ public:
 	SHORT GetLStickY();
 	SHORT GetRStickX();
 	SHORT GetRStickY();
+
 	BYTE GetLTrigger();
+	bool ReleaseLTrigger();
+
+	BYTE GetRTrigger();
 
 	bool TriggerLStickRight();
 	bool TriggerLStickLeft();
@@ -70,5 +74,7 @@ private:
 	bool isLSLeft_ = false;
 	bool isLSUp_ = false;
 	bool isLSDown_ = false;
+
+	bool isRTrigger_ = false;
 };
 

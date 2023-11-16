@@ -286,13 +286,13 @@ void Player::Attack()
 
 	bool isAttackOn = false;
 
-	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_RIGHT_SHOULDER)) && GetIsCanAction()) {
+	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_RIGHT_SHOULDER) || input->GetRTrigger()) && GetIsCanAction()) {
 		//攻撃フラグを立てる
 		isAttack_ = true;
 		attackTime_ = TIME_ATTACK_NORMAL;
 	}
 	//呪文詠唱
-	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) && !spellM->GetIsUseSpell() || (SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1)) {
+	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->GetLTrigger() || input->ReleaseLTrigger()) && !spellM->GetIsUseSpell() || (SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1)) {
 		ChargeSpell(LoadOut::GetInstance()->GetSpell(presetSpell_));
 		isSpell_ = true;
 	}

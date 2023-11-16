@@ -115,7 +115,7 @@ void SpellManager::ChargeFireBall()
 		chargeTime_++;
 	}
 
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseFireBall_ = true;
 			useTime_ = TIME_FIRE_FIREBALL;
@@ -155,7 +155,7 @@ void SpellManager::ChargeMagicMissile()
 		chargeTime_++;
 	}
 
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseMagicMissile_ = true;
 			useTime_ = TIME_FIRE_MAGICMISSILE;
@@ -196,7 +196,7 @@ void SpellManager::ChargeIceBolt()
 		chargeTime_++;
 	}
 
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseIceBolt_ = true;
 			useTime_ = TIME_FIRE_ICEBOLT;
@@ -236,7 +236,7 @@ void SpellManager::ChargeChainLightning()
 		chargeTime_++;
 	}
 
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseChainLightning_ = true;
 			useTime_ = TIME_FIRE_CHAINLIGHTNING;
@@ -277,7 +277,7 @@ void SpellManager::ChargeEnchantFire()
 		chargeTime_++;
 	}
 
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseEnchantFire_ = true;
 			useTime_ = TIME_FIRE_ENCHANTFIRE;
@@ -316,7 +316,7 @@ void SpellManager::ChargeFlame()
 		chargeTime_++;
 	}
 
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
+	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseFlame_ = true;
 			useTime_ = TIME_FIRE_FLAME;

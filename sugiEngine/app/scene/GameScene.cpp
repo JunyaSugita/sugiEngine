@@ -255,7 +255,7 @@ void GameScene::Update()
 	gameOver_.Update();
 
 	//シーン遷移処理
-	if (StageSelectManager::GetInstance()->GetSelectNum() == SET_SPELL_STAGE && input->TriggerButton(XINPUT_GAMEPAD_Y)) {
+	if (StageSelectManager::GetInstance()->GetSelectNum() == SET_SPELL_STAGE && (input->TriggerButton(XINPUT_GAMEPAD_DPAD_UP) || input->TriggerButton(XINPUT_GAMEPAD_DPAD_DOWN) || input->TriggerButton(XINPUT_GAMEPAD_DPAD_LEFT) || input->TriggerButton(XINPUT_GAMEPAD_DPAD_RIGHT))) {
 		loadOut->ToggleIsActive();
 	}
 
