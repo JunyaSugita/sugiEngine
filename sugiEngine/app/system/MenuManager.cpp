@@ -1,4 +1,4 @@
-﻿#include "MenuManager.h"
+#include "MenuManager.h"
 #include "Input.h"
 
 MenuManager* MenuManager::GetInstance()
@@ -59,13 +59,13 @@ void MenuManager::Update()
 	if (GetIsMenu()) {
 		timer_--;
 		//メニュー共通処理
-		if (input->TriggerKey(DIK_W) || input->GetLStickY() > 10000) {
+		if (input->TriggerKey(DIK_W) || input->GetLStickY() > 10000 || input->PushButton(XINPUT_GAMEPAD_DPAD_UP)) {
 			if (selectNum_ > 0 && timer_ <= 0) {
 				selectNum_--;
 				timer_ = 10;
 			}
 		}
-		if (input->TriggerKey(DIK_S) || input->GetLStickY() < -10000) {
+		if (input->TriggerKey(DIK_S) || input->GetLStickY() < -10000 || input->PushButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
 			if (selectNum_ < menuNum_ - 1 && timer_ <= 0) {
 				selectNum_++;
 				timer_ = 10;

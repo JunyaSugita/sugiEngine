@@ -106,6 +106,8 @@ void GameScene::Initialize()
 
 void GameScene::GameInitialize()
 {
+	lightGroup_->PointLightAllClear();
+
 	EnemyManager::GetInstance()->GameInitialize();
 	FieldManager::GetInstance()->Initialize(stageNum_);
 	Player::GetInstance()->GameInitialize();
@@ -116,6 +118,7 @@ void GameScene::GameInitialize()
 	sound_.RePlayWave("mainBGM", true);
 	sound_.SetVolume("mainBGM", 0.1f);
 	MenuManager::GetInstance()->GameInitialize();
+	
 }
 
 void GameScene::Update()
@@ -248,15 +251,11 @@ void GameScene::Update()
 #endif
 #pragma endregion
 
-	if (Tutorial::GetInstance()->GetIsTutorial() && EnemyManager::GetInstance()->GetEnemyCount() <= 0) {
-		enemyM->PopEnemy({ 0,0,15 });
-	}
-
 	ClearChecker::GetInstance()->Update();
 	gameOver_.Update();
 
 	//シーン遷移処理
-	if (StageSelectManager::GetInstance()->GetSelectNum() == SET_SPELL_STAGE && input->TriggerButton(XINPUT_GAMEPAD_Y)) {
+	if (StageSelectManager::GetInstance()->GetSelectNum() == SET_SPELL_STAGE && (input->TriggerButton(XINPUT_GAMEPAD_DPAD_UP) || input->TriggerButton(XINPUT_GAMEPAD_DPAD_DOWN) || input->TriggerButton(XINPUT_GAMEPAD_DPAD_LEFT) || input->TriggerButton(XINPUT_GAMEPAD_DPAD_RIGHT))) {
 		loadOut->ToggleIsActive();
 	}
 

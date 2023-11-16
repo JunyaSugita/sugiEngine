@@ -15,6 +15,11 @@ struct DebuffM {
 	int32_t iceTime;
 };
 
+struct DownState {
+	float slow = 1.0f;
+	int damage = 0;
+};
+
 class BaseEnemy {
 
 public:
@@ -25,6 +30,10 @@ public:
 
 	//死んだあとプレイヤーに当たった時の反応
 	virtual void DownHitPlayer();
+
+	//死んだあと他の敵に当たった時の反応
+	virtual DownState GetDownHitEnemy();
+	virtual void SetDownHitEnemy(DownState state);
 
 #pragma region inline群
 	//inline群
@@ -126,13 +135,21 @@ public:
 	// 攻撃してプレイヤーにダメージを与える
 	void SetIsAttack();
 
+	// 移動速度をセット
+	void SetSlow(float slow) {
+		slow_ = slow;
+	}	
+
+	//長時間のシェイク
+	void SetShakeTime(int32_t time) {
+		shakeTime_ =time;
+	}
+
 protected:
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
 	//死んだ時の反応
 	virtual void Down();
-
-
 
 	// プレイヤーの方向を向く
 	void SetAngleToPlayer();
@@ -152,12 +169,12 @@ protected:
 
 	// デバフの効果を更新
 	void UpdateDebuff();
-
-	//自身をシェイクさせる
-	void SetShake();
 	
 	//自身のコリジョンを設定
 	void SetCol();
+
+	//自身をシェイクさせる
+	void SetShake();
 
 protected:
 	const Vector2 UP = { 0,-1 };
@@ -204,4 +221,10 @@ protected:
 
 	//デバッグ
 	static bool sIsDebugStop_;
+
+	//移動速度減少
+	float slow_;
+
+	//自身をシェイクさせている時間
+	int32_t shakeTime_;
 };

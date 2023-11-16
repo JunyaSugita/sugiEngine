@@ -9,7 +9,7 @@ void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 	BaseSpell::Initialize(pos,vec);
 
 	obj_.obj->SetColor({ 1,0,1,1 });
-	obj_.obj->SetEffectCross();
+	obj_.obj->SetEffectCross(true);
 	obj_.obj->SetIsSimple();
 	obj_.scale = { 0.5f,0.5f,0.5f };
 	

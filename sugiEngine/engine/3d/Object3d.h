@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Windows.h>
 #include "WorldTransform.h"
 #include "DXCommon.h"
@@ -83,8 +83,8 @@ public:
 	void SetIsSimple() {
 		isSimple_ = true;
 	}
-	void SetEffectCross() {
-		effectCloss_ = true;
+	void SetEffectCross(bool is) {
+		effectCloss_ = is;
 	}
 	void SetIsBloom() {
 		isBloom_ = true;

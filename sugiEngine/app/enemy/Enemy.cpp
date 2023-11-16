@@ -12,7 +12,7 @@ std::unique_ptr<Model> Enemy::sEyeModel_;
 void Enemy::Initialize(std::string name, Vector3 pos)
 {
 	eyeObj_.Initialize("eye");
-	eyeObj_.obj->SetEffectCross();
+	eyeObj_.obj->SetEffectCross(true);
 	eyeObj_.worldTrans.parent_ = &obj_.worldTrans;
 	eyeObj_.pos = { 0.3f,4.1f,0 };
 	eyeObj_.scale = { 0.3f,0.3f,0.3f };
@@ -86,12 +86,16 @@ void Enemy::Move()
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);
 		toPlayer.normalize();
-		obj_.pos.x += toPlayer.x * SPEED_MOVE * GetSlow();
-		obj_.pos.z += toPlayer.y * SPEED_MOVE * GetSlow();
+
+		obj_.pos.x += toPlayer.x * SPEED_MOVE * slow_;
+		obj_.pos.z += toPlayer.y * SPEED_MOVE * slow_;
 	}
 	else {
 		isStop_ = false;
 	}
+
+	//最後にスピード減少を初期化
+	slow_ = 1.0f;
 }
 
 void Enemy::Attack()
@@ -110,6 +114,7 @@ void Enemy::Down()
 {
 	if (obj_.rot.z < 90) {
 		obj_.rot.z += 5;
+		eyeObj_.obj->SetEffectCross(false);
 	}
 
 	//最後

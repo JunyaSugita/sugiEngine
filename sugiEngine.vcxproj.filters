@@ -345,6 +345,9 @@
     <ClCompile Include="sugiEngine\app\player\ItemManager.cpp">
       <Filter>ソース ファイル\app\player</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\ground\Torch.cpp">
+      <Filter>ソース ファイル\app\ground</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -565,6 +568,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\system\MenuManager.h">
       <Filter>ヘッダー ファイル\app\system</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\ground\Torch.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

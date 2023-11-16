@@ -130,7 +130,41 @@ SHORT Input::GetRStickY()
 
 BYTE Input::GetLTrigger()
 {
+	if (state_.Gamepad.bLeftTrigger < 50) {
+		state_.Gamepad.bLeftTrigger = 0;
+	}
+
 	return state_.Gamepad.bLeftTrigger;
+}
+
+bool Input::ReleaseLTrigger()
+{
+	if (state_.Gamepad.bLeftTrigger < 50) {
+		state_.Gamepad.bLeftTrigger = 0;
+	}
+
+	if (oldState_.Gamepad.bLeftTrigger >= 50 && state_.Gamepad.bLeftTrigger <= 0) {
+		return true;
+	}
+
+	return false;
+}
+
+BYTE Input::GetRTrigger()
+{
+	if (state_.Gamepad.bRightTrigger < 50) {
+		state_.Gamepad.bRightTrigger = 0;
+	}
+
+	if (state_.Gamepad.bRightTrigger) {
+		if (isRTrigger_) {
+			return 0;
+		}
+		isRTrigger_ = true;
+		return state_.Gamepad.bRightTrigger;
+	}
+	isRTrigger_ = false;
+	return 0;
 }
 
 bool Input::TriggerLStickRight()

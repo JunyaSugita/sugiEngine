@@ -37,7 +37,7 @@ void Player::GameInitialize()
 	cameraAngle_ = { 0,-10 };
 	life_ = MAX_LIFE;
 	isAttack_ = false;
-	presetSpell_ = 0;
+	presetSpell_ = 1;
 	spellAngle_ = 0;
 
 	boxCol_.pos = pos_;
@@ -102,7 +102,7 @@ void Player::ChargeSpell(int32_t num)
 {
 	SpellManager* spellM = SpellManager::GetInstance();
 
-	switch (LoadOut::GetInstance()->GetSpell(num))
+	switch (num)
 	{
 	case FIRE_BALL:
 		spellM->ChargeFireBall();
@@ -124,31 +124,6 @@ void Player::ChargeSpell(int32_t num)
 		break;
 	default:
 		break;
-	}
-}
-
-int32_t Player::GetSpellType()
-{
-	switch (LoadOut::GetInstance()->GetSpell(presetSpell_))
-	{
-	case FIRE_BALL:
-	case ENCHANT_FIRE:
-	case FLAME:
-
-		return TYPE_FIRE;
-
-	case MAGIC_MISSILE:
-	case CHAIN_LIGHTNING:
-
-		return TYPE_THUNDER;
-
-	case ICE_BOLT:
-	
-		return TYPE_ICE;
-
-	default:
-
-		return TYPE_NONE;
 	}
 }
 
@@ -183,7 +158,7 @@ void Player::Move()
 
 
 	if (!GetIsCanAction()) {
-		slow_ = SPEED_SLOW;
+		slow_ *= SPEED_SLOW;
 	}
 
 	//移動
@@ -311,15 +286,14 @@ void Player::Attack()
 
 	bool isAttackOn = false;
 
-	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_RIGHT_SHOULDER)) && GetIsCanAction()) {
+	if ((input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_RIGHT_SHOULDER) || input->GetRTrigger()) && GetIsCanAction()) {
 		//攻撃フラグを立てる
 		isAttack_ = true;
 		attackTime_ = TIME_ATTACK_NORMAL;
 	}
 	//呪文詠唱
-	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER)) && !spellM->GetIsUseSpell()) {
-		ChargeSpell(presetSpell_);
-
+	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->GetLTrigger() || input->ReleaseLTrigger()) && !spellM->GetIsUseSpell() || (SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1)) {
+		ChargeSpell(LoadOut::GetInstance()->GetSpell(presetSpell_));
 		isSpell_ = true;
 	}
 	else {

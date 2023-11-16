@@ -23,7 +23,6 @@ public:
 	void Draw();
 	void SpDraw();
 	void ChargeSpell(int32_t num);
-	int32_t GetSpellType();
 
 	//pos
 	Vector3 GetPos() {
@@ -110,7 +109,7 @@ public:
 
 	//移動速度減少の乗算
 	void SetSlow(float num) {
-		slow_ *= num;
+		slow_ = num;
 	}
 
 private:

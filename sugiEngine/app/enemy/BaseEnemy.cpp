@@ -40,6 +40,8 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	isAttack_ = false;
 	attackTimer_ = 0.0f;
 	lightNum_ = -1;
+	slow_ = 1.0f;
+	shakeTime_ = 0;
 }
 
 void BaseEnemy::Update()
@@ -83,6 +85,11 @@ void BaseEnemy::Update()
 		SetShake();
 	}
 
+	if (shakeTime_ > 0) {
+		SetShake();
+		shakeTime_--;
+	}
+
 	//移動を適応
 	WorldTransUpdate();
 }
@@ -101,6 +108,20 @@ void BaseEnemy::WorldTransUpdate()
 
 void BaseEnemy::DownHitPlayer()
 {
+
+}
+
+DownState BaseEnemy::GetDownHitEnemy()
+{
+	//生き残っている敵に与える影響
+	return DownState();
+}
+
+void BaseEnemy::SetDownHitEnemy(DownState state)
+{
+	//死んでいるやつから貰う影響
+	SetSlow(state.slow);
+	SubLife(state.damage);
 }
 
 void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
@@ -112,8 +133,8 @@ void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 		debuff_.fireTime = time * 60;
 		if (lightNum_ == -1) {
 			lightNum_ = light_->SetPointLightGetNum();
-			light_->SetPointLightAtten(lightNum_, { 0.001f,0.001f,0.001f });
-			light_->SetPointLightColor(lightNum_, { 1,0.3f,0 });
+			light_->SetPointLightAtten(lightNum_, { 0.005f,0.005f,0.005f });
+			light_->SetPointLightColor(lightNum_, { 0.5f,0.2f,0 });
 			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
 		}
 		
@@ -216,9 +237,9 @@ void BaseEnemy::SetAngleToPlayer()
 float BaseEnemy::GetSlow()
 {
 	if (debuff_.isIce) {
-		return 0.5;
+		return slow_ * 0.5f;
 	}
-	return 1.0f;
+	return slow_;
 }
 
 void BaseEnemy::SubLife(int32_t subLife, bool isParticle)
@@ -228,7 +249,7 @@ void BaseEnemy::SubLife(int32_t subLife, bool isParticle)
 		life_ = 0;
 	}
 	if (isParticle) {
-		ParticleManager::GetInstance()->AddFromFile(P_DAMAGER, { obj_.pos.x,obj_.pos.y,obj_.pos.z });
+		ParticleManager::GetInstance()->AddFromFile(P_DAMAGE, { obj_.pos.x,obj_.pos.y,obj_.pos.z });
 	}
 	if (life_ <= 0) {
 		isDown_ = true;
@@ -244,7 +265,13 @@ void BaseEnemy::UpdateDebuff()
 				SubLife(1);
 			}
 
-			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
+			//ランダム
+			std::random_device seed_gen;
+			std::mt19937_64 engine(seed_gen());
+
+			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z});
+			std::uniform_real_distribution<float> atten(0.004f, 0.006f);
+			light_->SetPointLightAtten(lightNum_, { atten(engine),atten(engine),atten(engine) });
 
 			if (--debuff_.fireTime < 0) {
 				debuff_.isFire = false;

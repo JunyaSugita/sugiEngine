@@ -33,6 +33,9 @@ public:
 	void SetIsDead() {
 		isDead_ = true;
 	};
+	bool GetIsHit() {
+		return isHit_;
+	}
 	void SetIsHit() {
 		isHit_ = true;
 	}

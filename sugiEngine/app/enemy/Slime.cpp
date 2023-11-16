@@ -46,12 +46,16 @@ void Slime::Move()
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);
 		toPlayer.normalize();
+		
 		obj_.pos.x += toPlayer.x * SPEED_MOVE * GetSlow();
 		obj_.pos.z += toPlayer.y * SPEED_MOVE * GetSlow();
 	}
 	else {
 		isStop_ = false;
 	}
+
+	//最後にスピード減少を初期化
+	slow_ = 1.0f;
 }
 
 void Slime::Attack()
@@ -80,7 +84,7 @@ void Slime::Attack()
 
 void Slime::Down()
 {
-	if (obj_.scale.y > 0.1f) {
+	if (obj_.scale.y > 0.2f) {
 		obj_.scale.y -= 0.1f;
 	}
 	if (obj_.scale.x < 10) {
@@ -94,5 +98,14 @@ void Slime::Down()
 
 void Slime::DownHitPlayer()
 {
-	Player::GetInstance()->SetSlow(0.5f);
+	Player::GetInstance()->SetSlow(0.4f);
+}
+
+DownState Slime::GetDownHitEnemy()
+{
+	DownState temp;
+
+	temp.slow = 0.5f;
+
+	return temp;
 }

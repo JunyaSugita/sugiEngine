@@ -200,6 +200,13 @@ void LightGroup::SetPointLightAtten(int32_t index, const XMFLOAT3& lightAtten)
 	dirty_ = true;
 }
 
+void LightGroup::PointLightAllClear()
+{
+	for (int i = 0; i < sPointLightNum;i++) {
+		SetPointLightActive(i,false);
+	}
+}
+
 int32_t LightGroup::SetPointLightGetNum()
 {
 	//使って無いライトを探す

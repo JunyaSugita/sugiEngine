@@ -89,32 +89,32 @@ void ItemManager::DrawSprite()
 		gauge_.Draw();
 	}
 	if (haveItem_[itemType_]) {
-		padIcon_.Draw();
-		itemIcon_.Draw();
-		itemNum_.Draw();
+		//padIcon_.Draw();
+		//itemIcon_.Draw();
+		//itemNum_.Draw();
 	}
 }
 
 void ItemManager::Use()
 {
-	Player* player = Player::GetInstance();
-	if (Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_DPAD_UP) && haveItem_[itemType_] > 0) {
-		switch (itemType_)
-		{
-		case HEAL_LV1:
-		case HEAL_LV2:
-		case HEAL_LV3:
-			if (player->GetMaxLife() > player->GetLife()) {
-				isUse_ = true;
-			}
-			break;
+	//Player* player = Player::GetInstance();
+	//if (Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_DPAD_UP) && haveItem_[itemType_] > 0) {
+	//	switch (itemType_)
+	//	{
+	//	case HEAL_LV1:
+	//	case HEAL_LV2:
+	//	case HEAL_LV3:
+	//		if (player->GetMaxLife() > player->GetLife()) {
+	//			isUse_ = true;
+	//		}
+	//		break;
 
-		case PROTECT_LV1:
-		case PROTECT_LV2:
-			isUse_ = true;
-			break;
-		}
-	}
+	//	case PROTECT_LV1:
+	//	case PROTECT_LV2:
+	//		isUse_ = true;
+	//		break;
+	//	}
+	//}
 }
 
 void ItemManager::Cancel()
