@@ -24,7 +24,7 @@ void LoadOut::Initialize()
 		setSpell_[0] = FIRE_BALL;
 		setSpell_[1] = MAGIC_MISSILE;
 		setSpell_[2] = ICE_BOLT;
-		setSpell_[3] = ENCHANT_FIRE;
+		setSpell_[3] = CHAIN_LIGHTNING;
 	}
 	isFirst_ = true;
 
@@ -163,11 +163,13 @@ void LoadOut::Update()
 			hiLight_.SetPos(set_[selectNum_].GetPos());
 
 			if (input->TriggerKey(DIK_SPACE) || input->TriggerButton(XINPUT_GAMEPAD_A)) {
+				ResetWindow();
 				SetSpell(selectNum_,selectSpell_);
 				set_[selectNum_].SetTexture(spellTexNum_[selectSpell_]);
 				selectMode_ = SELECT_SPELL;
 			}
 			if (input->TriggerKey(DIK_0) || input->TriggerButton(XINPUT_GAMEPAD_B)) {
+				ResetWindow();
 				selectMode_ = SELECT_SPELL;
 			}
 		}
