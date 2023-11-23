@@ -25,9 +25,10 @@ public:
 	void PopSlime(Vector3 pos);
 	void ResetIsHit();
 
-	std::vector<BaseEnemy*> GetEnemysList();
+	std::vector<BaseEnemy*> GetEnemysList() {
+		return enemysList_;
+	}
 
 private:
-	std::list<std::unique_ptr<BaseEnemy>> enemys_;
 	std::vector<BaseEnemy*> enemysList_;
 };
