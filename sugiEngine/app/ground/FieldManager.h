@@ -6,7 +6,7 @@
 #include "ColliderManager.h"
 #include "Torch.h"
 
-class FieldManager final{
+class FieldManager final {
 private:
 	FieldManager() = default;
 	~FieldManager() = default;
@@ -44,8 +44,7 @@ private:
 	LevelData* levelData_;
 
 	std::unique_ptr<Model> boxModel_;
-	BaseObj obj_[100];
-	int32_t objNum_;
+	std::vector <std::unique_ptr<BaseObj>> objs_;
 	std::vector<BoxCol> col_;
 
 	std::vector<std::unique_ptr<Torch>> torchs_;

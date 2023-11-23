@@ -1,3 +1,4 @@
+//全ての敵のマネージャークラス
 #include "EnemyManager.h"
 #include "PlayerWeapon.h"
 #include <random>

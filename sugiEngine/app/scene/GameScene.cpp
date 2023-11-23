@@ -88,20 +88,6 @@ void GameScene::Initialize()
 
 	LoadOut::GetInstance()->Initialize();
 	MenuManager::GetInstance()->Initialize();
-
-	//シェーディング確認用
-	orb_.Initialize("orb");
-	orb_.obj->SetColor({ 1,1,1,1 });
-	orb_.pos = { 0,5,0 };
-	dir_[0] = dir_[2] = 0;
-	dir_[1] = -0.4f;
-	color_[0] = color_[1] = color_[2] = 1;
-	pointPos_[0][0] = pointPos_[0][1] = pointPos_[0][2] = 0.0f;
-	pointColor_[0][0] = pointColor_[0][1] = pointColor_[0][2] = 1;
-	pointAtten_[0][0] = pointAtten_[0][1] = pointAtten_[0][2] = 0.3f;
-	pointPos_[1][0] = pointPos_[1][1] = pointPos_[1][2] = 0.0f;
-	pointColor_[1][0] = pointColor_[1][1] = pointColor_[1][2] = 1;
-	pointAtten_[1][0] = pointAtten_[1][1] = pointAtten_[1][2] = 0.3f;
 }
 
 void GameScene::GameInitialize()
@@ -180,10 +166,6 @@ void GameScene::Update()
 	particleM->Update();
 	loadOut->Update();
 	MenuManager::GetInstance()->Update();
-	orb_.rot.x += 1;
-	orb_.rot.y += 1;
-	orb_.rot.z += 1;
-	orb_.Update();
 
 #pragma endregion
 
