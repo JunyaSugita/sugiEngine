@@ -20,7 +20,6 @@ void EnemyManager::Initialize()
 	for (unique_ptr<BaseEnemy>& enemy : enemys_) {
 		enemy->SetIsDead();
 	}
-	enemyCount_ = 0;
 }
 
 void EnemyManager::GameInitialize()
@@ -32,8 +31,6 @@ void EnemyManager::GameInitialize()
 	enemys_.remove_if([](unique_ptr<BaseEnemy>& enemy) {
 		return enemy->GetIsDead();
 	});
-
-	enemyCount_ = 0;
 }
 
 void EnemyManager::Update()
@@ -45,11 +42,9 @@ void EnemyManager::Update()
 		return enemy->GetIsDead();
 	});
 
-	enemyCount_ = 0;
 	for (unique_ptr<BaseEnemy>& enemy : enemys_) {
 		enemy->Update();
 
-		enemyCount_ += enemy->GetLife();
 		//プレイヤーが攻撃中なら
 		if (weapon->GetIsAt()) {
 			//当たり判定検索
@@ -78,7 +73,6 @@ void EnemyManager::PopEnemy(Vector3 pos)
 {
 	unique_ptr<BaseEnemy> newEnemy = make_unique<Enemy>();
 	newEnemy->Initialize("player",pos);
-	enemyCount_ += newEnemy->GetLife();
 	enemys_.push_back(move(newEnemy));
 }
 
@@ -86,7 +80,6 @@ void EnemyManager::PopSlime(Vector3 pos)
 {
 	unique_ptr<BaseEnemy> newEnemy = make_unique<Slime>();
 	newEnemy->Initialize("slime", pos);
-	enemyCount_ += newEnemy->GetLife();
 	enemys_.push_back(move(newEnemy));
 }
 

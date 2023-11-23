@@ -1,3 +1,4 @@
+//フィールドを生成するクラス
 #pragma once
 #include "Model.h"
 #include "BaseObj.h"

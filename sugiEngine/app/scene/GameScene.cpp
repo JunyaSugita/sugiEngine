@@ -263,13 +263,6 @@ void GameScene::Update()
 		MenuManager::GetInstance()->SetGameMenu();
 	}
 
-	//デバッグ関連
-	if (stageNum_ == SET_SPELL_STAGE) {
-		if (enemyM->GetEnemyCount() <= 0) {
-			enemyM->PopEnemy({ 0,0,15 });
-		}
-	}
-
 	//Initialize系
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		if (player->GetLife() > 0) {

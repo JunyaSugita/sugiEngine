@@ -1,5 +1,4 @@
 //敵のベースクラス
-#pragma warning(disable:5205)
 #pragma once
 #include "GrovalSetting.h"
 #include "WorldTransform.h"
