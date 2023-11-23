@@ -1,4 +1,5 @@
-﻿#pragma once
+//全ての敵のマネージャークラス
+#pragma once
 #include "Enemy.h"
 
 class EnemyManager final{
@@ -26,13 +27,7 @@ public:
 
 	std::vector<BaseEnemy*> GetEnemysList();
 
-	uint32_t GetEnemyCount() {
-		return enemyCount_;
-	}
-
 private:
 	std::list<std::unique_ptr<BaseEnemy>> enemys_;
 	std::vector<BaseEnemy*> enemysList_;
-
-	uint32_t enemyCount_;
 };

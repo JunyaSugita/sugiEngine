@@ -42,15 +42,5 @@ private:
 	Sound sound_;
 
 	int32_t stageNum_;
-
-	//シェーディング確認用
-	BaseObj orb_;
-	float dir_[3];
-	float color_[3];
-
-	bool pointActive_[2];
-	float pointPos_[2][3];
-	float pointColor_[2][3];
-	float pointAtten_[2][3];
 };
 

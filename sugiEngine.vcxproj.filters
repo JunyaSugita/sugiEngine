@@ -570,7 +570,7 @@
       <Filter>ヘッダー ファイル\app\system</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\ground\Torch.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\app\ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
