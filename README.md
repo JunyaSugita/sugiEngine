@@ -81,5 +81,6 @@
 ![stageBle](https://github.com/JunyaSugita/sugiEngine/assets/94422859/4f34bdd8-9f1b-47c3-a784-e3ad0dcbf57e)
 ![stage](https://github.com/JunyaSugita/sugiEngine/assets/94422859/47eb4bfe-c4ab-40ee-871d-c11933bb02fd)
 
-        Blender上でオブジェクトや敵を配置し、それをファイルとして出力。
+        pythonで自作のアドオンを作成。
+        Blender上でオブジェクトや敵を配置し、それをjsonファイルとして出力。
         それをエンジン上でロードしてゲームに反映させています。
