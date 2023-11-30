@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Sprite.h"
 
 class MenuManager {
@@ -47,8 +47,10 @@ public:
 	void Enter();
 	void Cancel();
 
+	void GoToSetting();
+
 private:
-	static const int32_t MAX_MENU = 3;
+	static const int32_t MAX_MENU = 4;
 
 	bool isActive_;
 	bool isReset_;
@@ -56,8 +58,6 @@ private:
 
 	bool isResetCheck_;
 	bool isStageSelectBackCheck_;
-
-	int32_t menuNum_;
 
 	int32_t selectNum_;
 	int32_t checkNum_;
@@ -68,6 +68,7 @@ private:
 	int32_t backTex_;
 	int32_t resetTex_;
 	int32_t stageSelectTex_;
+	int32_t settingTex_;
 
 	int32_t timer_;
 };

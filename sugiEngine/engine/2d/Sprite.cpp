@@ -1,4 +1,4 @@
-﻿#include "Sprite.h"
+#include "Sprite.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <array>
@@ -509,6 +509,38 @@ void Sprite::SetColor(float x, float y, float z, float w) {
 	color_.w = w;
 
 	SetUpVertex();
+}
+
+void Sprite::SetColor(Vector4 color) {
+	color_.x = color.x;
+	color_.y = color.y;
+	color_.z = color.z;
+	color_.w = color.w;
+
+	SetUpVertex();
+}
+
+void Sprite::SetColor(float x, float y, float z)
+{
+	color_.x = x;
+	color_.y = y;
+	color_.z = z;
+
+	SetUpVertex();
+}
+
+void Sprite::SetColor(Vector3 color)
+{
+	color_.x = color.x;
+	color_.y = color.y;
+	color_.z = color.z;
+
+	SetUpVertex();
+}
+
+void Sprite::SetAlpha(float alpha)
+{
+	color_.w = alpha;
 }
 
 void Sprite::SetSize(float x, float y) {
