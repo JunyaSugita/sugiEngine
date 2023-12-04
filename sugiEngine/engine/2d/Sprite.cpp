@@ -550,6 +550,13 @@ void Sprite::SetSize(float x, float y) {
 	SetUpVertex();
 }
 
+void Sprite::SetSize(Vector2 vec) {
+	size_.x = vec.x;
+	size_.y = vec.y;
+
+	SetUpVertex();
+}
+
 void Sprite::SetSizeX(float x)
 {
 	size_.x = x;

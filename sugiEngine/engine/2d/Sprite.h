@@ -69,6 +69,7 @@ public:
 	void SetAlpha(float alpha);
 
 	void SetSize(float x, float y);
+	void SetSize(Vector2 vec);
 	void SetSizeX(float x);
 	void SetSizeY(float y);
 

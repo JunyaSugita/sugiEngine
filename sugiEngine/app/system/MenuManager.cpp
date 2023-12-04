@@ -1,5 +1,6 @@
 #include "MenuManager.h"
 #include "Input.h"
+#include "Setting.h"
 
 MenuManager* MenuManager::GetInstance()
 {
@@ -37,8 +38,8 @@ void MenuManager::Initialize()
 	}
 
 	backSp_.Initialize(Sprite::LoadTexture("white1x1.png"));
-	backSp_.SetColor(0,0,0,0.7f);
-	backSp_.SetSize(1280,720);
+	backSp_.SetColor(0, 0, 0, 0.7f);
+	backSp_.SetSize(1280, 720);
 }
 
 void MenuManager::GameInitialize()
@@ -57,6 +58,11 @@ void MenuManager::Update()
 {
 	Input* input = Input::GetInstance();
 
+	if (Setting::GetInstance()->GetIsActive()) {
+		Setting::GetInstance()->Update();
+		return;
+	}
+
 	if (GetIsMenu()) {
 		timer_--;
 		//メニュー共通処理
@@ -72,32 +78,7 @@ void MenuManager::Update()
 				timer_ = 10;
 			}
 		}
-
-		/*if (isResetCheck_) {
-			if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
-				if (selectNum_ == 0) {
-					isStageSelectBackCheck_ = false;
-					selectNum_ = checkNum_;
-					menuNum_ = 3;
-				}
-				else if (selectNum_ == 1) {
-					isReset_ = true;
-				}
-			}
-		}
-		else if (isStageSelectBackCheck_) {
-			if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
-				if (selectNum_ == 0) {
-					isStageSelectBackCheck_ = false;
-					selectNum_ = checkNum_;
-					menuNum_ = 3;
-				}
-				else if (selectNum_ == 1) {
-					isStageSelect_ = true;
-				}
-			}
-		}
-		else */if (isActive_) {
+		if (isActive_) {
 			if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
 				if (selectNum_ == 0) {
 					Back();
@@ -130,7 +111,11 @@ void MenuManager::Update()
 
 void MenuManager::Draw()
 {
-	if (isActive_) {
+	if (Setting::GetInstance()->GetIsActive()) {
+		backSp_.Draw();
+		Setting::GetInstance()->Draw();
+	}
+	else if (isActive_) {
 		backSp_.Draw();
 		for (int i = 0; i < MAX_MENU; i++) {
 			menuTex_[i].Draw();
@@ -188,5 +173,5 @@ void MenuManager::Cancel()
 
 void MenuManager::GoToSetting()
 {
-
+	Setting::GetInstance()->Initialize();
 }

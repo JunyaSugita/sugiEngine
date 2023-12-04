@@ -6,6 +6,7 @@ class Box
 {
 public:
 	void Initialize(Vector2 pos,Vector2 size,Vector4 color);
+	void Update();
 	void Draw();
 
 	void SetPos(Vector2 pos) {
@@ -33,6 +34,10 @@ public:
 	}
 	void SetSizeY(float size) {
 		box_.SetSizeY(size);
+	}
+
+	void SetColor(Vector3 col) {
+		box_.SetColor(col);
 	}
 
 private:
