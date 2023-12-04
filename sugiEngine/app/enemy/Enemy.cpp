@@ -69,14 +69,22 @@ void Enemy::Move()
 
 	if (!isStop_) {
 		Vector2 temp;
+		//プレイヤー方向に壁が無ければプレイヤー方向に移動
 		if (colM->CanMovePlayerVec(obj_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
+
+			//起動してなければ起動
+			isStart_ = true;
 		}
 		else {
 			int32_t point = colM->CanMoveNavePointVec(obj_.pos);
+			//ナビポイントが見つからなければ移動しない
 			if (point == -1) {
-				//ナビポイントが見つからなければ移動しない
+				return;
+			}
+			//isStartがfalseなら止まる
+			if (!isStart_) {
 				return;
 			}
 

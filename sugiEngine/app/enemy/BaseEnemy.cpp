@@ -42,6 +42,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	lightNum_ = -1;
 	slow_ = 1.0f;
 	shakeTime_ = 0;
+	isStart_ = false;
 }
 
 void BaseEnemy::Update()

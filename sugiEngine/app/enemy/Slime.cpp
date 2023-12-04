@@ -35,20 +35,34 @@ void Slime::Move()
 
 	if (!isStop_) {
 		Vector2 temp;
+		//プレイヤー方向に壁が無ければプレイヤー方向に移動
 		if (colM->CanMovePlayerVec(obj_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
+
+			//起動してなければ起動
+			isStart_ = true;
 		}
 		else {
-			temp.x = navePointM->GetNavePoint(colM->CanMoveNavePointVec(obj_.pos)).pos.x;
-			temp.y = navePointM->GetNavePoint(colM->CanMoveNavePointVec(obj_.pos)).pos.z;
+			int32_t point = colM->CanMoveNavePointVec(obj_.pos);
+			//ナビポイントが見つからなければ移動しない
+			if (point == -1) {
+				return;
+			}
+			//isStartがfalseなら止まる
+			if (!isStart_) {
+				return;
+			}
+
+			temp.x = navePointM->GetNavePoint(point).pos.x;
+			temp.y = navePointM->GetNavePoint(point).pos.z;
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);
 		toPlayer.normalize();
-		
-		obj_.pos.x += toPlayer.x * SPEED_MOVE * GetSlow();
-		obj_.pos.z += toPlayer.y * SPEED_MOVE * GetSlow();
+
+		obj_.pos.x += toPlayer.x * SPEED_MOVE * slow_;
+		obj_.pos.z += toPlayer.y * SPEED_MOVE * slow_;
 	}
 	else {
 		isStop_ = false;

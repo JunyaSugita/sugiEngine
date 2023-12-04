@@ -226,4 +226,7 @@ protected:
 
 	//自身をシェイクさせている時間
 	int32_t shakeTime_;
+
+	//敵が起動しているか
+	bool isStart_;
 };
