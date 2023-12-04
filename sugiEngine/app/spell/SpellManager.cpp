@@ -120,7 +120,7 @@ void SpellManager::ChargeFireBall()
 			isUseFireBall_ = true;
 			useTime_ = TIME_FIRE_FIREBALL;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && isUseFireBall_ || !LoadOut::GetInstance()->GetIsActive()) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFireBall_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -160,7 +160,7 @@ void SpellManager::ChargeMagicMissile()
 			isUseMagicMissile_ = true;
 			useTime_ = TIME_FIRE_MAGICMISSILE;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && isUseMagicMissile_ || !LoadOut::GetInstance()->GetIsActive()) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseMagicMissile_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -201,7 +201,7 @@ void SpellManager::ChargeIceBolt()
 			isUseIceBolt_ = true;
 			useTime_ = TIME_FIRE_ICEBOLT;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && isUseIceBolt_ || !LoadOut::GetInstance()->GetIsActive()) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseIceBolt_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -241,7 +241,7 @@ void SpellManager::ChargeChainLightning()
 			isUseChainLightning_ = true;
 			useTime_ = TIME_FIRE_CHAINLIGHTNING;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && isUseChainLightning_ || !LoadOut::GetInstance()->GetIsActive()) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseChainLightning_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -282,7 +282,7 @@ void SpellManager::ChargeEnchantFire()
 			isUseEnchantFire_ = true;
 			useTime_ = TIME_FIRE_ENCHANTFIRE;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && isUseEnchantFire_ || !LoadOut::GetInstance()->GetIsActive()) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseEnchantFire_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -321,7 +321,7 @@ void SpellManager::ChargeFlame()
 			isUseFlame_ = true;
 			useTime_ = TIME_FIRE_FLAME;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && isUseFlame_ || !LoadOut::GetInstance()->GetIsActive()) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFlame_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}

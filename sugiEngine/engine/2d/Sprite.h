@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Windows.h>
 #include "DXCommon.h"
 #include "GrovalSetting.h"
@@ -62,8 +62,14 @@ public:
 	void SetRotate(float r);
 
 	void SetColor(float x, float y, float z, float w);
+	void SetColor(Vector4 color);
+	void SetColor(float x, float y, float z);
+	void SetColor(Vector3 color);
+
+	void SetAlpha(float alpha);
 
 	void SetSize(float x, float y);
+	void SetSize(Vector2 vec);
 	void SetSizeX(float x);
 	void SetSizeY(float y);
 

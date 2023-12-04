@@ -24,20 +24,21 @@ void FieldManager::Initialize(int num)
 	// レベルデータの読み込み
 	SelectStage(num);
 
-	objNum_ = 0;
 	navePointNum_ = 0;
 	torchs_.clear();
+	objs_.clear();
 	col_.clear();
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
+			std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
 			//モデルを指定して3Dオブジェクトを生成
-			obj_[objNum_].Initialize("ground");
+			tempObj->Initialize("ground");
 
 			//obj情報
-			obj_[objNum_].pos = objectData.pos;
-			obj_[objNum_].rot = { 0,0,0 };
-			obj_[objNum_].scale = objectData.scale;
-			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
+			tempObj->pos = objectData.pos;
+			tempObj->rot = { 0,0,0 };
+			tempObj->scale = objectData.scale;
+			tempObj->obj->SetColor({ 1,1,1,1 });
 			float tilY = 0;
 			if (objectData.scale.x > objectData.scale.y) {
 				tilY = objectData.scale.x;
@@ -47,32 +48,33 @@ void FieldManager::Initialize(int num)
 				tilY = objectData.scale.z;
 			}
 
-			obj_[objNum_].obj->SetTiling({ objectData.scale.y,tilY });
+			tempObj->obj->SetTiling({ objectData.scale.y,tilY });
+
+			objs_.push_back(std::move(tempObj));
 
 			BoxCol temp;
 			temp.pos = objectData.pos;
 			temp.size = objectData.scale;
 			col_.push_back(temp);
-
-			objNum_++;
 		}
 		if (objectData.filename == "ground") {
 			//モデルを指定して3Dオブジェクトを生成
-			obj_[objNum_].Initialize("ground");
+			std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
+			tempObj->Initialize("ground");
 
 			//obj情報
-			obj_[objNum_].pos = objectData.pos;
-			obj_[objNum_].rot = { 0,0,0 };
-			obj_[objNum_].scale = objectData.scale;
-			obj_[objNum_].obj->SetColor({ 1,1,1,1 });
-			obj_[objNum_].obj->SetTiling({ 50,50 });
+			tempObj->pos = objectData.pos;
+			tempObj->rot = { 0,0,0 };
+			tempObj->scale = objectData.scale;
+			tempObj->obj->SetColor({ 1,1,1,1 });
+			tempObj->obj->SetTiling({ 50,50 });
+
+			objs_.push_back(std::move(tempObj));
 
 			BoxCol temp;
 			temp.pos = objectData.pos;
 			temp.size = objectData.scale;
 			col_.push_back(temp);
-
-			objNum_++;
 		}
 		if (objectData.filename == "enemy") {
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
@@ -101,8 +103,8 @@ void FieldManager::Initialize(int num)
 
 void FieldManager::Update()
 {
-	for (int i = 0; i < objNum_; i++) {
-		obj_[i].Update();
+	for (std::unique_ptr<BaseObj>& obj: objs_) {
+		obj->Update();
 	}
 	for (std::unique_ptr<Torch>& t : torchs_) {
 		t->Update();
@@ -111,8 +113,8 @@ void FieldManager::Update()
 
 void FieldManager::Draw()
 {
-	for (int i = 0; i < objNum_; i++) {
-		obj_[i].Draw();
+	for (std::unique_ptr<BaseObj>& obj : objs_) {
+		obj->Draw();
 	}
 	for (std::unique_ptr<Torch>& t : torchs_) {
 		t->Draw();

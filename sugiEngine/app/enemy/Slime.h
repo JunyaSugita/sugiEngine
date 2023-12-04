@@ -1,3 +1,4 @@
+//スライムの敵
 #pragma once
 #include "BaseEnemy.h"
 

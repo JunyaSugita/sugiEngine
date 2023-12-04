@@ -1,5 +1,6 @@
 #include "MenuManager.h"
 #include "Input.h"
+#include "Setting.h"
 
 MenuManager* MenuManager::GetInstance()
 {
@@ -23,21 +24,22 @@ void MenuManager::Initialize()
 	backTex_ = Sprite::LoadTexture("gameMenu_back.png");
 	resetTex_ = Sprite::LoadTexture("gameMenu_reset.png");
 	stageSelectTex_ = Sprite::LoadTexture("gameMenu_stageSelect.png");
+	settingTex_ = Sprite::LoadTexture("gameMenu_stageSelect.png");
 
 	menuTex_[0].Initialize(backTex_);
 	menuTex_[1].Initialize(resetTex_);
 	menuTex_[2].Initialize(stageSelectTex_);
-
+	menuTex_[3].Initialize(settingTex_);
 
 	for (int i = 0; i < MAX_MENU; i++) {
 		menuTex_[i].SetAnchorPoint(0.5f, 0.5f);
 		menuTex_[i].SetSize(500, 150);
-		menuTex_[i].SetPos(500, (float)100 + 250 * i);
+		menuTex_[i].SetPos(500, (float)100 + 200 * i);
 	}
 
 	backSp_.Initialize(Sprite::LoadTexture("white1x1.png"));
-	backSp_.SetColor(0,0,0,0.7f);
-	backSp_.SetSize(1280,720);
+	backSp_.SetColor(0, 0, 0, 0.7f);
+	backSp_.SetSize(1280, 720);
 }
 
 void MenuManager::GameInitialize()
@@ -56,6 +58,11 @@ void MenuManager::Update()
 {
 	Input* input = Input::GetInstance();
 
+	if (Setting::GetInstance()->GetIsActive()) {
+		Setting::GetInstance()->Update();
+		return;
+	}
+
 	if (GetIsMenu()) {
 		timer_--;
 		//メニュー共通処理
@@ -66,37 +73,12 @@ void MenuManager::Update()
 			}
 		}
 		if (input->TriggerKey(DIK_S) || input->GetLStickY() < -10000 || input->PushButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
-			if (selectNum_ < menuNum_ - 1 && timer_ <= 0) {
+			if (selectNum_ < MAX_MENU - 1 && timer_ <= 0) {
 				selectNum_++;
 				timer_ = 10;
 			}
 		}
-
-		/*if (isResetCheck_) {
-			if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
-				if (selectNum_ == 0) {
-					isStageSelectBackCheck_ = false;
-					selectNum_ = checkNum_;
-					menuNum_ = 3;
-				}
-				else if (selectNum_ == 1) {
-					isReset_ = true;
-				}
-			}
-		}
-		else if (isStageSelectBackCheck_) {
-			if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
-				if (selectNum_ == 0) {
-					isStageSelectBackCheck_ = false;
-					selectNum_ = checkNum_;
-					menuNum_ = 3;
-				}
-				else if (selectNum_ == 1) {
-					isStageSelect_ = true;
-				}
-			}
-		}
-		else */if (isActive_) {
+		if (isActive_) {
 			if (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_SPACE)) {
 				if (selectNum_ == 0) {
 					Back();
@@ -109,11 +91,14 @@ void MenuManager::Update()
 					//SetStageSelectBackCheck();
 					isStageSelect_ = true;
 				}
+				else if (selectNum_ == 3) {
+					GoToSetting();
+				}
 			}
 		}
 
 		//メニュー共通処理
-		for (int i = 0; i < menuNum_; i++) {
+		for (int i = 0; i < MAX_MENU; i++) {
 			if (selectNum_ == i) {
 				menuTex_[i].SetSize(550, 165);
 			}
@@ -126,9 +111,13 @@ void MenuManager::Update()
 
 void MenuManager::Draw()
 {
-	if (isActive_) {
+	if (Setting::GetInstance()->GetIsActive()) {
 		backSp_.Draw();
-		for (int i = 0; i < menuNum_; i++) {
+		Setting::GetInstance()->Draw();
+	}
+	else if (isActive_) {
+		backSp_.Draw();
+		for (int i = 0; i < MAX_MENU; i++) {
 			menuTex_[i].Draw();
 		}
 	}
@@ -137,13 +126,11 @@ void MenuManager::Draw()
 void MenuManager::SetGameMenu()
 {
 	isActive_ = true;
-	menuNum_ = 3;
 }
 
 void MenuManager::SetResetCheck()
 {
 	isResetCheck_ = true;
-	menuNum_ = 2;
 	checkNum_ = selectNum_;
 	selectNum_ = 0;
 }
@@ -151,7 +138,6 @@ void MenuManager::SetResetCheck()
 void MenuManager::SetStageSelectBackCheck()
 {
 	isStageSelectBackCheck_ = true;
-	menuNum_ = 2;
 	checkNum_ = selectNum_;
 	selectNum_ = 0;
 }
@@ -183,4 +169,9 @@ void MenuManager::Enter()
 
 void MenuManager::Cancel()
 {
+}
+
+void MenuManager::GoToSetting()
+{
+	Setting::GetInstance()->Initialize();
 }

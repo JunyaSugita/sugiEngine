@@ -1,4 +1,5 @@
-﻿#pragma once
+//全ての敵のマネージャークラス
+#pragma once
 #include "Enemy.h"
 
 class EnemyManager final{
@@ -24,15 +25,10 @@ public:
 	void PopSlime(Vector3 pos);
 	void ResetIsHit();
 
-	std::vector<BaseEnemy*> GetEnemysList();
-
-	uint32_t GetEnemyCount() {
-		return enemyCount_;
+	std::vector<BaseEnemy*> GetEnemysList() {
+		return enemysList_;
 	}
 
 private:
-	std::list<std::unique_ptr<BaseEnemy>> enemys_;
 	std::vector<BaseEnemy*> enemysList_;
-
-	uint32_t enemyCount_;
 };

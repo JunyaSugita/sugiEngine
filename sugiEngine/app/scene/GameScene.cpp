@@ -88,20 +88,6 @@ void GameScene::Initialize()
 
 	LoadOut::GetInstance()->Initialize();
 	MenuManager::GetInstance()->Initialize();
-
-	//シェーディング確認用
-	orb_.Initialize("orb");
-	orb_.obj->SetColor({ 1,1,1,1 });
-	orb_.pos = { 0,5,0 };
-	dir_[0] = dir_[2] = 0;
-	dir_[1] = -0.4f;
-	color_[0] = color_[1] = color_[2] = 1;
-	pointPos_[0][0] = pointPos_[0][1] = pointPos_[0][2] = 0.0f;
-	pointColor_[0][0] = pointColor_[0][1] = pointColor_[0][2] = 1;
-	pointAtten_[0][0] = pointAtten_[0][1] = pointAtten_[0][2] = 0.3f;
-	pointPos_[1][0] = pointPos_[1][1] = pointPos_[1][2] = 0.0f;
-	pointColor_[1][0] = pointColor_[1][1] = pointColor_[1][2] = 1;
-	pointAtten_[1][0] = pointAtten_[1][1] = pointAtten_[1][2] = 0.3f;
 }
 
 void GameScene::GameInitialize()
@@ -180,10 +166,6 @@ void GameScene::Update()
 	particleM->Update();
 	loadOut->Update();
 	MenuManager::GetInstance()->Update();
-	orb_.rot.x += 1;
-	orb_.rot.y += 1;
-	orb_.rot.z += 1;
-	orb_.Update();
 
 #pragma endregion
 
@@ -217,35 +199,35 @@ void GameScene::Update()
 		}
 		End();
 
-		Begin("Light");
-		SliderFloat3("DirLightDir", dir_, -1, 1);
-		lightGroup_->SetDirLightDir(0, { dir_[0],dir_[1],dir_[2],0 });
-		SliderFloat3("DirLightColor", color_, 0, 1);
-		lightGroup_->SetDirLightColor(0, { color_[0],color_[1],color_[2] });
+		//Begin("Light");
+		//SliderFloat3("DirLightDir", dir_, -1, 1);
+		//lightGroup_->SetDirLightDir(0, { dir_[0],dir_[1],dir_[2],0 });
+		//SliderFloat3("DirLightColor", color_, 0, 1);
+		//lightGroup_->SetDirLightColor(0, { color_[0],color_[1],color_[2] });
 
-		Checkbox("PointLightActive0", &pointActive_[0]);
-		lightGroup_->SetPointLightActive(28, pointActive_[0]);
-		if (pointActive_[0]) {
-			SliderFloat3("PointLightPos0", pointPos_[0], -10, 10);
-			lightGroup_->SetPointLightPos(28, { pointPos_[0][0],pointPos_[0][1] ,pointPos_[0][2] });
-			SliderFloat3("PointLightColor0", pointColor_[0], 0, 1);
-			lightGroup_->SetPointLightColor(28, { pointColor_[0][0],pointColor_[0][1] ,pointColor_[0][2] });
-			SliderFloat3("PointLightAtten0", pointAtten_[0], 0.001f, 1.0f);
-			lightGroup_->SetPointLightAtten(28, { pointAtten_[0][0],pointAtten_[0][1] ,pointAtten_[0][2] });
-		}
+		//Checkbox("PointLightActive0", &pointActive_[0]);
+		//lightGroup_->SetPointLightActive(28, pointActive_[0]);
+		//if (pointActive_[0]) {
+		//	SliderFloat3("PointLightPos0", pointPos_[0], -10, 10);
+		//	lightGroup_->SetPointLightPos(28, { pointPos_[0][0],pointPos_[0][1] ,pointPos_[0][2] });
+		//	SliderFloat3("PointLightColor0", pointColor_[0], 0, 1);
+		//	lightGroup_->SetPointLightColor(28, { pointColor_[0][0],pointColor_[0][1] ,pointColor_[0][2] });
+		//	SliderFloat3("PointLightAtten0", pointAtten_[0], 0.001f, 1.0f);
+		//	lightGroup_->SetPointLightAtten(28, { pointAtten_[0][0],pointAtten_[0][1] ,pointAtten_[0][2] });
+		//}
 
-		Checkbox("PointLightActive1", &pointActive_[1]);
-		lightGroup_->SetPointLightActive(29, pointActive_[1]);
+		//Checkbox("PointLightActive1", &pointActive_[1]);
+		//lightGroup_->SetPointLightActive(29, pointActive_[1]);
 
-		if (pointActive_[1]) {
-			SliderFloat3("PointLightPos1", pointPos_[1], -10, 10);
-			lightGroup_->SetPointLightPos(29, { pointPos_[1][0],pointPos_[1][1] ,pointPos_[1][2] });
-			SliderFloat3("PointLightColor1", pointColor_[1], 0, 1);
-			lightGroup_->SetPointLightColor(29, { pointColor_[1][0],pointColor_[1][1] ,pointColor_[1][2] });
-			SliderFloat3("PointLightAtten1", pointAtten_[1], 0.001f, 1.0f);
-			lightGroup_->SetPointLightAtten(29, { pointAtten_[1][0],pointAtten_[1][1] ,pointAtten_[1][2] });
-		}
-		End();
+		//if (pointActive_[1]) {
+		//	SliderFloat3("PointLightPos1", pointPos_[1], -10, 10);
+		//	lightGroup_->SetPointLightPos(29, { pointPos_[1][0],pointPos_[1][1] ,pointPos_[1][2] });
+		//	SliderFloat3("PointLightColor1", pointColor_[1], 0, 1);
+		//	lightGroup_->SetPointLightColor(29, { pointColor_[1][0],pointColor_[1][1] ,pointColor_[1][2] });
+		//	SliderFloat3("PointLightAtten1", pointAtten_[1], 0.001f, 1.0f);
+		//	lightGroup_->SetPointLightAtten(29, { pointAtten_[1][0],pointAtten_[1][1] ,pointAtten_[1][2] });
+		//}
+		//End();
 	}
 
 #endif
@@ -261,13 +243,6 @@ void GameScene::Update()
 
 	if (input->TriggerButton(XINPUT_GAMEPAD_START) || input->TriggerKey(DIK_ESCAPE)) {
 		MenuManager::GetInstance()->SetGameMenu();
-	}
-
-	//デバッグ関連
-	if (stageNum_ == SET_SPELL_STAGE) {
-		if (enemyM->GetEnemyCount() <= 0) {
-			enemyM->PopEnemy({ 0,0,15 });
-		}
 	}
 
 	//Initialize系

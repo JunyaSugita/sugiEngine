@@ -168,7 +168,7 @@ void PlayerWeapon::ChargeMove()
 	obj_.rot = { 30 + float(sin(Radian(spellM->ChargePercent() * 1000))* 15),player->GetCameraAngle().x,0 + float(cos(Radian(spellM->ChargePercent() * 1000)) * 15) };
 
 	if (!LoadOut::GetInstance()->GetIsActive()) {
-		PopChargeParticle(spellM->GetSpellType(Player::GetInstance()->GetPresetSpell()));
+		PopChargeParticle(spellM->GetSpellType(LoadOut::GetInstance()->GetSpell(Player::GetInstance()->GetPresetSpell())));
 	}
 }
 
