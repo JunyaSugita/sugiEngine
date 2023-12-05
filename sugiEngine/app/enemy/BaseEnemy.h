@@ -147,6 +147,8 @@ public:
 protected:
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
+	//パーティクルの出し方
+	virtual void PopDebuffFireParticle();
 	//死んだ時の反応
 	virtual void Down();
 

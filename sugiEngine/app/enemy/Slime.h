@@ -16,6 +16,7 @@ private:
 	void DownHitPlayer()override;
 	//死んだあと他の敵に当たった時の反応
 	DownState GetDownHitEnemy()override;
+	void PopDebuffFireParticle()override;
 
 private:
 	const float SPEED_MOVE = 0.15f;

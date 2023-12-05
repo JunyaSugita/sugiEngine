@@ -33,6 +33,12 @@ public:
 	bool GetIsActive() {
 		return isActive_;
 	}
+	float GetXSensi() {
+		return sensiX_;
+	}
+	float GetYSensi() {
+		return sensiY_;
+	}
 private:
 	//設定画面を開いているかどうか
 	bool isActive_ = false;

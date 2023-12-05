@@ -261,7 +261,7 @@ void BaseEnemy::UpdateDebuff()
 {
 	if (isDebuff()) {
 		if (debuff_.isFire) {
-			ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.col.pos);
+			PopDebuffFireParticle();
 			if (debuff_.fireTime % 40 == 1) {
 				SubLife(1);
 			}
@@ -318,8 +318,18 @@ void BaseEnemy::SetCol()
 	col_.SetCol(obj_.pos);
 }
 
+void BaseEnemy::PopDebuffFireParticle()
+{
+	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.col.pos);
+}
+
 void BaseEnemy::Down()
 {
 	//デバフの適応
 	UpdateDebuff();
+
+	if (debuff_.fireTime == 1) {
+		isDead_ = true;
+		light_->SetPointLightActive(lightNum_, false);
+	}
 }

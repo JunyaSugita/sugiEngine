@@ -11,8 +11,15 @@ void Slider::Initialize(Vector2 pos, float min, float max, float size)
 	size_ = size;
 }
 
-void Slider::Update(float now)
+void Slider::Update(float& now)
 {
+	if (now < min_) {
+		now = min_;
+	}
+	else if (now > max_) {
+		now = max_;
+	}
+
 	float par = (now - min_) / (max_ - min_);
 
 	float temp = pos_.x - size_ / 2 + size_ * par;

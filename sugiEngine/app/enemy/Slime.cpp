@@ -1,6 +1,8 @@
 #include "Slime.h"
 #include "NavePointManager.h"
 #include "Player.h"
+#include "ParticleManager.h"
+#include <random>
 
 void Slime::StaticInitialize()
 {
@@ -113,6 +115,9 @@ void Slime::Down()
 void Slime::DownHitPlayer()
 {
 	Player::GetInstance()->SetSlow(0.4f);
+	if (debuff_.isFire) {
+		Player::GetInstance()->SubLife(10);
+	}
 }
 
 DownState Slime::GetDownHitEnemy()
@@ -121,5 +126,25 @@ DownState Slime::GetDownHitEnemy()
 
 	temp.slow = 0.5f;
 
+	if (debuff_.isFire) {
+		temp.damage = 1;
+	}
+
 	return temp;
+}
+
+void Slime::PopDebuffFireParticle()
+{
+	if (isDown_) {
+		//ランダム
+		std::random_device seed_gen;
+		std::mt19937_64 engine(seed_gen());
+		std::uniform_real_distribution<float> x(-7.0f, 7.0f);
+		std::uniform_real_distribution<float> z(-7.0f, 7.0f);
+
+		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, { col_.col.pos.x + x(engine), col_.col.pos.y ,col_.col.pos.z + z(engine) });
+	}
+	else {
+		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.col.pos);
+	}
 }

@@ -29,6 +29,12 @@ void EnemyManager::GameInitialize()
 void EnemyManager::Update()
 {
 	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
+	
+	for (int i = 0; i < enemysList_.size(); i++) {
+		if (enemysList_[i]->GetIsDead()) {
+			enemysList_.erase(enemysList_.begin() + i);
+		}
+	}
 
 	for (int i = 0; i < enemysList_.size(); i++) {
 		enemysList_[i]->Update();

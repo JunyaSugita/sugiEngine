@@ -6,7 +6,7 @@ class Slider
 {
 public:
 	void Initialize(Vector2 pos, float min, float max, float size);
-	void Update(float now);
+	void Update(float& now);
 	void Draw();
 
 	void SetPointColor(Vector3 col);

@@ -10,6 +10,7 @@
 #include "LoadOut.h"
 #include "ItemManager.h"
 #include "ClearChecker.h"
+#include "Setting.h"
 
 Player* Player::GetInstance()
 {
@@ -127,11 +128,11 @@ void Player::ChargeSpell(int32_t num)
 	}
 }
 
-void Player::SubLife()
+void Player::SubLife(int32_t num)
 {
 	if (life_ > 0) {
 		if (!Tutorial::GetInstance()->GetIsTutorial() || isInvincible_) {
-			life_ -= 1000;
+			life_ -= num;
 		}
 		damageAlpha_ = 1.0f;
 		Camera::GetInstance()->SetShake(0.05f);
@@ -210,21 +211,21 @@ void Player::CameraMove()
 
 	//カメラ操作
 	if (input->PushKey(DIK_LEFT)) {
-		cameraAngle_.x -= SPEED_CAMERA;
+		cameraAngle_.x -= SPEED_CAMERA * Setting::GetInstance()->GetXSensi();
 	}
 	if (input->PushKey(DIK_RIGHT)) {
-		cameraAngle_.x += SPEED_CAMERA;
+		cameraAngle_.x += SPEED_CAMERA * Setting::GetInstance()->GetXSensi();
 	}
 	if (input->PushKey(DIK_UP)) {
 		//最大値設定
 		if (cameraAngle_.y <= 90) {
-			cameraAngle_.y += SPEED_CAMERA;
+			cameraAngle_.y += SPEED_CAMERA * Setting::GetInstance()->GetYSensi();
 		}
 	}
 	if (input->PushKey(DIK_DOWN)) {
 		//最小値設定
 		if (cameraAngle_.y >= -90) {
-			cameraAngle_.y -= SPEED_CAMERA;
+			cameraAngle_.y -= SPEED_CAMERA * Setting::GetInstance()->GetYSensi();
 		}
 	}
 

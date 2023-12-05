@@ -24,7 +24,7 @@ void MenuManager::Initialize()
 	backTex_ = Sprite::LoadTexture("gameMenu_back.png");
 	resetTex_ = Sprite::LoadTexture("gameMenu_reset.png");
 	stageSelectTex_ = Sprite::LoadTexture("gameMenu_stageSelect.png");
-	settingTex_ = Sprite::LoadTexture("gameMenu_stageSelect.png");
+	settingTex_ = Sprite::LoadTexture("Setting.png");
 
 	menuTex_[0].Initialize(backTex_);
 	menuTex_[1].Initialize(resetTex_);
@@ -34,7 +34,7 @@ void MenuManager::Initialize()
 	for (int i = 0; i < MAX_MENU; i++) {
 		menuTex_[i].SetAnchorPoint(0.5f, 0.5f);
 		menuTex_[i].SetSize(500, 150);
-		menuTex_[i].SetPos(500, (float)100 + 200 * i);
+		menuTex_[i].SetPos(500, (float)100 + 150 * i);
 	}
 
 	backSp_.Initialize(Sprite::LoadTexture("white1x1.png"));
