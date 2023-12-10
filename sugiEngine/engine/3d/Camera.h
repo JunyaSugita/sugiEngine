@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "SugiMath.h"
 #include "GrovalSetting.h"
 
@@ -189,6 +189,9 @@ public:
 	void SetShake(float num) {
 		shake_ = num;
 	};
+	float GetShake() {
+		return shake_;
+	}
 
 
 private:

@@ -1,6 +1,8 @@
 #include "StageSelectManager.h"
 #include "Input.h"
 #include "SceneChange.h"
+#include "FieldManager.h"
+#include "EnemyManager.h"
 
 StageSelectManager* StageSelectManager::GetInstance()
 {
@@ -43,10 +45,14 @@ void StageSelectManager::Update()
 		if ((input->PushKey(DIK_S) || input->GetLStickY() < -10000 || input->PushButton(XINPUT_GAMEPAD_DPAD_DOWN)) && selectNum_ < END_STAGE_ID - 1 && moveTimer_ <= 0) {
 			selectNum_++;
 			moveTimer_ = TIME_MOVE;
+			EnemyManager::GetInstance()->GameInitialize();
+			FieldManager::GetInstance()->Initialize(selectNum_);
 		}
 		else if ((input->PushKey(DIK_W) || input->GetLStickY() > 10000 || input->PushButton(XINPUT_GAMEPAD_DPAD_UP)) && selectNum_ > 0 && moveTimer_ <= 0) {
 			selectNum_--;
 			moveTimer_ = TIME_MOVE;
+			EnemyManager::GetInstance()->GameInitialize();
+			FieldManager::GetInstance()->Initialize(selectNum_);
 		}
 	}
 

@@ -135,7 +135,9 @@ void Player::SubLife(int32_t num)
 			life_ -= num;
 		}
 		damageAlpha_ = 1.0f;
-		Camera::GetInstance()->SetShake(0.05f);
+		if(Camera::GetInstance()->GetShake() <= 0){
+			Camera::GetInstance()->SetShake(0.05f);
+		}
 	}
 }
 

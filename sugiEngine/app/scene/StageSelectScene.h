@@ -1,6 +1,8 @@
-﻿#pragma once
+#pragma once
 #include "GameManager.h"
 #include "ISceneManager.h"
+#include "LightGroup.h"
+
 
 class StageSelectScene : public ISceneManager
 {
@@ -16,5 +18,6 @@ public:
 	void Finalize() override;
 
 private:
-
+	//ライト関連
+	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 };

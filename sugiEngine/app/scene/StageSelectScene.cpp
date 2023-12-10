@@ -2,10 +2,25 @@
 #include "SceneChange.h"
 #include "StageSelectManager.h"
 #include "Input.h"
+#include "FieldManager.h"
+#include "ParticleManager.h"
+#include "EnemyManager.h"
 
 void StageSelectScene::Initialize()
 {
 	StageSelectManager::GetInstance()->Initialize();
+	//ライト
+	lightGroup_ = LightGroup::Create();
+	Object3d::SetLight(lightGroup_.get());
+	FieldManager::SetLight(lightGroup_.get()); 
+	BaseEnemy::SetLight(lightGroup_.get());
+	//敵
+	EnemyManager::GetInstance()->Initialize();
+	FieldManager::GetInstance()->Initialize(0);
+	ParticleManager::GetInstance()->Initialize();
+
+	Camera::GetInstance()->SetEye({3,5,3});
+	Camera::GetInstance()->SetTarget({0,5,10});
 }
 
 void StageSelectScene::Update()
@@ -21,6 +36,11 @@ void StageSelectScene::Update()
 	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
 		GameManager::GetInstance()->SetGameScene();
 	}
+	//Update呼び出し
+	lightGroup_->Update();
+	FieldManager::GetInstance()->Update();
+	ParticleManager::GetInstance()->Update();
+	EnemyManager::GetInstance()->Update();
 }
 
 void StageSelectScene::BackSpriteDraw()
@@ -33,14 +53,18 @@ void StageSelectScene::Draw()
 
 void StageSelectScene::ObjDraw()
 {
+	FieldManager::GetInstance()->Draw();
+	EnemyManager::GetInstance()->Draw();
 }
 
 void StageSelectScene::ObjDraw2()
 {
+
 }
 
 void StageSelectScene::ParticleDraw()
 {
+	ParticleManager::GetInstance()->Draw();
 }
 
 void StageSelectScene::SpriteDraw()
