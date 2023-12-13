@@ -30,17 +30,18 @@ void StageSelectScene::Update()
 
 	StageSelectManager::GetInstance()->Update();
 
+	//Update呼び出し
+	lightGroup_->Update();
+	FieldManager::GetInstance()->Update();
+	ParticleManager::GetInstance()->Update();
+	EnemyManager::GetInstance()->Update();
+
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE) || Input::GetInstance()->TriggerButton(XINPUT_GAMEPAD_A)) {
 		SceneChange::GetInstance()->Start();
 	}
 	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
 		GameManager::GetInstance()->SetGameScene();
 	}
-	//Update呼び出し
-	lightGroup_->Update();
-	FieldManager::GetInstance()->Update();
-	ParticleManager::GetInstance()->Update();
-	EnemyManager::GetInstance()->Update();
 }
 
 void StageSelectScene::BackSpriteDraw()
