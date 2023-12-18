@@ -21,6 +21,11 @@ void Slime::Initialize(std::string name, Vector3 pos)
 
 void Slime::Draw()
 {
+}
+
+void Slime::Draw2()
+{
+	//半透明描画
 	BaseEnemy::Draw();
 }
 

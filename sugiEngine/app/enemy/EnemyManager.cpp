@@ -63,6 +63,13 @@ void EnemyManager::Draw()
 	}
 }
 
+void EnemyManager::Draw2()
+{
+	for (int i = 0; i < enemysList_.size(); i++) {
+		enemysList_[i]->Draw2();
+	}
+}
+
 void EnemyManager::PopEnemy(Vector3 pos)
 {
 	BaseEnemy* newEnemy = new Enemy;

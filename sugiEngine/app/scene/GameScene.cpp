@@ -289,6 +289,7 @@ void GameScene::ObjDraw2()
 {
 
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
+		EnemyManager::GetInstance()->Draw2();
 		Player::GetInstance()->Draw();
 	}
 	ClearChecker::GetInstance()->Draw();

@@ -25,6 +25,7 @@ public:
 	virtual void Initialize(std::string name,Vector3 pos);
 	virtual void Update();
 	virtual void Draw();
+	virtual void Draw2();
 	virtual void WorldTransUpdate();
 
 	//死んだあとプレイヤーに当たった時の反応
@@ -184,6 +185,9 @@ protected:
 
 	//本体
 	BaseObj obj_;
+
+	//iceモデル
+	BaseObj iceObj_;
 
 	//当たり判定
 	BaseCol col_;

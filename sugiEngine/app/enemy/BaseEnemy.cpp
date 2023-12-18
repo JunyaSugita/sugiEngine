@@ -31,6 +31,12 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	col_.col.size = { 1.0f,height_,1.0f };
 	col_.gap = {0,height_,0};
 
+	//デバフの氷
+	iceObj_.Initialize("box");
+	iceObj_.pos = pos;
+	iceObj_.scale = { 2,3,2 };
+	iceObj_.obj->SetColor({0.5f,1,0.5f,0.5f});
+
 	//フラグ
 	isDead_ = false;
 	isDown_ = false;
@@ -83,7 +89,9 @@ void BaseEnemy::Update()
 	}
 	else
 	{
-		SetShake();
+		if (debuff_.isThunder) {
+			SetShake();
+		}
 	}
 
 	if (shakeTime_ > 0) {
@@ -101,10 +109,18 @@ void BaseEnemy::Draw()
 	col_.Draw();
 }
 
+void BaseEnemy::Draw2()
+{
+	if (debuff_.isIce && !isDown_) {
+		iceObj_.Draw();
+	}
+}
+
 void BaseEnemy::WorldTransUpdate()
 {
 	obj_.Update();
 	col_.Update();
+	iceObj_.Update();
 }
 
 void BaseEnemy::DownHitPlayer()
@@ -180,7 +196,7 @@ bool BaseEnemy::isDebuff()
 bool BaseEnemy::isCanMove()
 {
 	//動けなくなる状態ならfalseを返す
-	if (debuff_.isThunder) {
+	if (debuff_.isThunder || debuff_.isIce) {
 		return false;
 	}
 
@@ -237,9 +253,6 @@ void BaseEnemy::SetAngleToPlayer()
 
 float BaseEnemy::GetSlow()
 {
-	if (debuff_.isIce) {
-		return slow_ * 0.5f;
-	}
 	return slow_;
 }
 
@@ -316,6 +329,8 @@ void BaseEnemy::SetShake()
 void BaseEnemy::SetCol()
 {
 	col_.SetCol(obj_.pos);
+	iceObj_.pos = obj_.pos;
+	iceObj_.pos.y += 2;
 }
 
 void BaseEnemy::PopDebuffFireParticle()

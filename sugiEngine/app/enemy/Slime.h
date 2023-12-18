@@ -7,6 +7,7 @@ public:
 	static void StaticInitialize();
 	void Initialize(std::string name,Vector3 pos) override;
 	void Draw() override;
+	void Draw2() override;
 	void WorldTransUpdate() override;
 
 private:
