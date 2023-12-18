@@ -33,9 +33,10 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 
 	//デバフの氷
 	iceObj_.Initialize("box");
-	iceObj_.pos = pos;
+	iceObj_.pos = {0,2,0};
 	iceObj_.scale = { 2,3,2 };
 	iceObj_.obj->SetColor({0.5f,1,0.5f,0.5f});
+	iceObj_.worldTrans.parent_ = &obj_.worldTrans;
 
 	//フラグ
 	isDead_ = false;
@@ -329,8 +330,6 @@ void BaseEnemy::SetShake()
 void BaseEnemy::SetCol()
 {
 	col_.SetCol(obj_.pos);
-	iceObj_.pos = obj_.pos;
-	iceObj_.pos.y += 2;
 }
 
 void BaseEnemy::PopDebuffFireParticle()
