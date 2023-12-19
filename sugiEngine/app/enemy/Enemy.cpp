@@ -34,7 +34,6 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
 	height_ = HEIGHT_COL;
-	alpha_ = 1.0f;
 
 	BaseEnemy::Initialize(name, pos);
 	WorldTransUpdate();

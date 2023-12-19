@@ -641,11 +641,11 @@ void Sprite::SetUpVertex() {
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int32_t i = 0; i < _countof(vertices_); i++) {
+	for (int32_t i = 0; i < 4; i++) {
 		vertMap[i] = vertices_[i]; // 座標をコピー
 	}
 	// 繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
+	//vertBuff_->Unmap(0, nullptr);
 
 	//ワールド変換行列
 	WorldTransform matTransform;

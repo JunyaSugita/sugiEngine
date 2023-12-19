@@ -5,6 +5,7 @@
 #include "ImGuiManager.h"
 #include "SpellManager.h"
 #include "Slime.h"
+#include "Fly.h"
 
 using namespace std;
 using namespace ImGui;
@@ -81,6 +82,13 @@ void EnemyManager::PopSlime(Vector3 pos)
 {
 	BaseEnemy* newEnemy = new Slime;
 	newEnemy->Initialize("slime", pos);
+	enemysList_.push_back(newEnemy);
+}
+
+void EnemyManager::PopFly(Vector3 pos)
+{
+	BaseEnemy* newEnemy = new Fly;
+	newEnemy->Initialize("box", pos);
 	enemysList_.push_back(newEnemy);
 }
 

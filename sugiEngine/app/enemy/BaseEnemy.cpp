@@ -29,14 +29,13 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	//当たり判定
 	col_.col.pos = pos;
 	col_.col.size = { 1.0f,height_,1.0f };
-	col_.gap = {0,height_,0};
+	col_.gap = { 0,height_,0 };
 
 	//デバフの氷
 	iceObj_.Initialize("box");
-	iceObj_.pos = {0,2,0};
+	iceObj_.pos = { 0,2,0 };
 	iceObj_.scale = { 2,3,2 };
-	iceObj_.obj->SetColor({0.5f,1,0.5f,0.5f});
-	iceObj_.worldTrans.parent_ = &obj_.worldTrans;
+	iceObj_.obj->SetColor({ 0.5f,1,0.5f,0.5f });
 
 	//フラグ
 	isDead_ = false;
@@ -54,6 +53,12 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 
 void BaseEnemy::Update()
 {
+	//1フレ前の座標を保存
+	col_.SetOldCol();
+
+	//シェイクを戻す
+	ResetShake();
+
 	//倒れている時の処理
 	if (isDown_) {
 		Down();
@@ -62,12 +67,6 @@ void BaseEnemy::Update()
 
 		return;
 	}
-
-	//1フレ前の座標を保存
-	col_.SetOldCol();
-
-	//シェイクを戻す
-	ResetShake();
 
 	//デバフの適応
 	UpdateDebuff();
@@ -90,6 +89,7 @@ void BaseEnemy::Update()
 	}
 	else
 	{
+		DontMoveUpdate();
 		if (debuff_.isThunder) {
 			SetShake();
 		}
@@ -102,6 +102,11 @@ void BaseEnemy::Update()
 
 	//移動を適応
 	WorldTransUpdate();
+}
+
+void BaseEnemy::DontMoveUpdate()
+{
+
 }
 
 void BaseEnemy::Draw()
@@ -155,7 +160,7 @@ void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 			light_->SetPointLightColor(lightNum_, { 0.5f,0.2f,0 });
 			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
 		}
-		
+
 		break;
 	case D_STAN:
 		debuff_.isThunder = true;
@@ -170,7 +175,7 @@ void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 	}
 }
 
-void BaseEnemy::SetIsHit(int32_t subLife,bool isParticle)
+void BaseEnemy::SetIsHit(int32_t subLife, bool isParticle)
 {
 	//既に当たっていたら当たらない
 	if (isHit_) {
@@ -284,7 +289,7 @@ void BaseEnemy::UpdateDebuff()
 			std::random_device seed_gen;
 			std::mt19937_64 engine(seed_gen());
 
-			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z});
+			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
 			std::uniform_real_distribution<float> atten(0.004f, 0.006f);
 			light_->SetPointLightAtten(lightNum_, { atten(engine),atten(engine),atten(engine) });
 
@@ -300,7 +305,16 @@ void BaseEnemy::UpdateDebuff()
 			}
 		}
 		if (debuff_.isIce) {
+			iceObj_.pos = col_.col.pos;
+			iceObj_.rot = iceObj_.rot;
+
+			if (!isDown_) {
+				ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_ICE, obj_.pos);
+			}
 			if (--debuff_.iceTime < 0) {
+				if (!isDown_) {
+					ParticleManager::GetInstance()->AddFromFile(P_ICE_BREAK, obj_.pos);
+				}
 				debuff_.isIce = false;
 			}
 		}

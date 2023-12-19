@@ -29,6 +29,4 @@ private:
 	BaseObj armR_;
 
 	static std::unique_ptr<Model> sEyeModel_;
-
-	float alpha_;
 };

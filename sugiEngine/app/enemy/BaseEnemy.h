@@ -24,6 +24,7 @@ class BaseEnemy {
 public:
 	virtual void Initialize(std::string name,Vector3 pos);
 	virtual void Update();
+	virtual void DontMoveUpdate();
 	virtual void Draw();
 	virtual void Draw2();
 	virtual void WorldTransUpdate();

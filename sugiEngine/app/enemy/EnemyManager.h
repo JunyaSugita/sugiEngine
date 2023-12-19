@@ -24,6 +24,7 @@ public:
 
 	void PopEnemy(Vector3 pos);
 	void PopSlime(Vector3 pos);
+	void PopFly(Vector3 pos);
 	void ResetIsHit();
 
 	std::vector<BaseEnemy*> GetEnemysList() {
