@@ -348,6 +348,18 @@
     <ClCompile Include="sugiEngine\app\ground\Torch.cpp">
       <Filter>ソース ファイル\app\ground</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\system\Setting.cpp">
+      <Filter>ソース ファイル\app\system</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\UI\Box.cpp">
+      <Filter>ソース ファイル\engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\UI\Slider.cpp">
+      <Filter>ソース ファイル\engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Fly.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -515,9 +527,6 @@
     <ClInclude Include="sugiEngine\app\system\ClearChecker.h">
       <Filter>ヘッダー ファイル\app\system</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\engine\UI\Gauge.h">
-      <Filter>ヘッダー ファイル\engine\UI</Filter>
-    </ClInclude>
     <ClInclude Include="sugiEngine\app\system\GameOver.h">
       <Filter>ヘッダー ファイル\app\system</Filter>
     </ClInclude>
@@ -571,6 +580,21 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\ground\Torch.h">
       <Filter>ヘッダー ファイル\app\ground</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\system\Setting.h">
+      <Filter>ヘッダー ファイル\app\system</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\UI\Gauge.h">
+      <Filter>ヘッダー ファイル\engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\UI\Slider.h">
+      <Filter>ヘッダー ファイル\engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\UI\Box.h">
+      <Filter>ヘッダー ファイル\engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\enemy\Fly.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

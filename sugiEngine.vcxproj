@@ -101,6 +101,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Fly.cpp" />
     <ClCompile Include="sugiEngine\app\collider\ColliderManager.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\Enemy.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="sugiEngine\app\system\GameOver.cpp" />
     <ClCompile Include="sugiEngine\app\system\LoadOut.cpp" />
     <ClCompile Include="sugiEngine\app\system\MenuManager.cpp" />
+    <ClCompile Include="sugiEngine\app\system\Setting.cpp" />
     <ClCompile Include="sugiEngine\app\system\StageSelectManager.cpp" />
     <ClCompile Include="sugiEngine\app\UI\Closshair.cpp" />
     <ClCompile Include="sugiEngine\app\UI\SceneChange.cpp" />
@@ -155,7 +157,9 @@
     <ClCompile Include="sugiEngine\engine\2d\ImGuiManager.cpp" />
     <ClCompile Include="sugiEngine\engine\io\Input.cpp" />
     <ClCompile Include="sugiEngine\engine\light\LightGroup.cpp" />
+    <ClCompile Include="sugiEngine\engine\UI\Box.cpp" />
     <ClCompile Include="sugiEngine\engine\UI\Gauge.cpp" />
+    <ClCompile Include="sugiEngine\engine\UI\Slider.cpp" />
     <ClCompile Include="sugiEngine\main.cpp" />
     <ClCompile Include="sugiEngine\engine\math\Matrix4.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Model.cpp" />
@@ -176,6 +180,7 @@
     <ClInclude Include="sugiEngine\app\enemy\BaseEnemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\Enemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\EnemyManager.h" />
+    <ClInclude Include="sugiEngine\app\enemy\Fly.h" />
     <ClInclude Include="sugiEngine\app\enemy\Slime.h" />
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h" />
     <ClInclude Include="sugiEngine\app\ground\Torch.h" />
@@ -195,6 +200,7 @@
     <ClInclude Include="sugiEngine\app\system\GameOver.h" />
     <ClInclude Include="sugiEngine\app\system\LoadOut.h" />
     <ClInclude Include="sugiEngine\app\system\MenuManager.h" />
+    <ClInclude Include="sugiEngine\app\system\Setting.h" />
     <ClInclude Include="sugiEngine\app\system\StageSelectManager.h" />
     <ClInclude Include="sugiEngine\app\UI\Closshair.h" />
     <ClInclude Include="sugiEngine\app\UI\SceneChange.h" />
@@ -245,7 +251,9 @@
     <ClInclude Include="sugiEngine\engine\math\Vector4.h" />
     <ClInclude Include="sugiEngine\engine\base\WinApp.h" />
     <ClInclude Include="sugiEngine\engine\3d\WorldTransform.h" />
+    <ClInclude Include="sugiEngine\engine\UI\Box.h" />
     <ClInclude Include="sugiEngine\engine\UI\Gauge.h" />
+    <ClInclude Include="sugiEngine\engine\UI\Slider.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="imgui\imgui.vcxproj">

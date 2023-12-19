@@ -48,7 +48,7 @@ public:
 	int32_t GetMaxLife() {
 		return MAX_LIFE;
 	}
-	void SubLife();
+	void SubLife(int32_t num = 1000);
 
 	//worldTrans
 	WorldTransform& GetWorldTrans() {

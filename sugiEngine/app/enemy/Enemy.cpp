@@ -34,7 +34,6 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
 	height_ = HEIGHT_COL;
-	alpha_ = 1.0f;
 
 	BaseEnemy::Initialize(name, pos);
 	WorldTransUpdate();
@@ -69,14 +68,22 @@ void Enemy::Move()
 
 	if (!isStop_) {
 		Vector2 temp;
+		//プレイヤー方向に壁が無ければプレイヤー方向に移動
 		if (colM->CanMovePlayerVec(obj_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
+
+			//起動してなければ起動
+			isStart_ = true;
 		}
 		else {
 			int32_t point = colM->CanMoveNavePointVec(obj_.pos);
+			//ナビポイントが見つからなければ移動しない
 			if (point == -1) {
-				//ナビポイントが見つからなければ移動しない
+				return;
+			}
+			//isStartがfalseなら止まる
+			if (!isStart_) {
 				return;
 			}
 

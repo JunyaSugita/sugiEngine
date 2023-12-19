@@ -1,4 +1,4 @@
-﻿#include "Sprite.h"
+#include "Sprite.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <array>
@@ -511,9 +511,48 @@ void Sprite::SetColor(float x, float y, float z, float w) {
 	SetUpVertex();
 }
 
+void Sprite::SetColor(Vector4 color) {
+	color_.x = color.x;
+	color_.y = color.y;
+	color_.z = color.z;
+	color_.w = color.w;
+
+	SetUpVertex();
+}
+
+void Sprite::SetColor(float x, float y, float z)
+{
+	color_.x = x;
+	color_.y = y;
+	color_.z = z;
+
+	SetUpVertex();
+}
+
+void Sprite::SetColor(Vector3 color)
+{
+	color_.x = color.x;
+	color_.y = color.y;
+	color_.z = color.z;
+
+	SetUpVertex();
+}
+
+void Sprite::SetAlpha(float alpha)
+{
+	color_.w = alpha;
+}
+
 void Sprite::SetSize(float x, float y) {
 	size_.x = x;
 	size_.y = y;
+
+	SetUpVertex();
+}
+
+void Sprite::SetSize(Vector2 vec) {
+	size_.x = vec.x;
+	size_.y = vec.y;
 
 	SetUpVertex();
 }
@@ -602,11 +641,11 @@ void Sprite::SetUpVertex() {
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int32_t i = 0; i < _countof(vertices_); i++) {
+	for (int32_t i = 0; i < 4; i++) {
 		vertMap[i] = vertices_[i]; // 座標をコピー
 	}
 	// 繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
+	//vertBuff_->Unmap(0, nullptr);
 
 	//ワールド変換行列
 	WorldTransform matTransform;

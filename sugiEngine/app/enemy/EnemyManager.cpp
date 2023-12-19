@@ -5,6 +5,7 @@
 #include "ImGuiManager.h"
 #include "SpellManager.h"
 #include "Slime.h"
+#include "Fly.h"
 
 using namespace std;
 using namespace ImGui;
@@ -29,6 +30,12 @@ void EnemyManager::GameInitialize()
 void EnemyManager::Update()
 {
 	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
+	
+	for (int i = 0; i < enemysList_.size(); i++) {
+		if (enemysList_[i]->GetIsDead()) {
+			enemysList_.erase(enemysList_.begin() + i);
+		}
+	}
 
 	for (int i = 0; i < enemysList_.size(); i++) {
 		enemysList_[i]->Update();
@@ -57,6 +64,13 @@ void EnemyManager::Draw()
 	}
 }
 
+void EnemyManager::Draw2()
+{
+	for (int i = 0; i < enemysList_.size(); i++) {
+		enemysList_[i]->Draw2();
+	}
+}
+
 void EnemyManager::PopEnemy(Vector3 pos)
 {
 	BaseEnemy* newEnemy = new Enemy;
@@ -68,6 +82,13 @@ void EnemyManager::PopSlime(Vector3 pos)
 {
 	BaseEnemy* newEnemy = new Slime;
 	newEnemy->Initialize("slime", pos);
+	enemysList_.push_back(newEnemy);
+}
+
+void EnemyManager::PopFly(Vector3 pos)
+{
+	BaseEnemy* newEnemy = new Fly;
+	newEnemy->Initialize("box", pos);
 	enemysList_.push_back(newEnemy);
 }
 

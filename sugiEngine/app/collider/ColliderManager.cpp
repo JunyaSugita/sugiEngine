@@ -64,7 +64,7 @@ void ColliderManager::Update()
 				}
 				spellsCol[i]->SetIsHit();
 				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage());
-				enemysCol[j]->SetDebuff(spellsCol[i]->GetDebuff(), 10);
+				enemysCol[j]->SetDebuff(spellsCol[i]->GetDebuff(), 3);
 			}
 		}
 		//呪文と壁や床との判定

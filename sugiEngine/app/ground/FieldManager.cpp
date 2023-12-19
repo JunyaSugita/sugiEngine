@@ -57,7 +57,7 @@ void FieldManager::Initialize(int num)
 			temp.size = objectData.scale;
 			col_.push_back(temp);
 		}
-		if (objectData.filename == "ground") {
+		else if (objectData.filename == "ground") {
 			//モデルを指定して3Dオブジェクトを生成
 			std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
 			tempObj->Initialize("ground");
@@ -76,24 +76,27 @@ void FieldManager::Initialize(int num)
 			temp.size = objectData.scale;
 			col_.push_back(temp);
 		}
-		if (objectData.filename == "enemy") {
+		else if (objectData.filename == "enemy") {
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
 		}
-		if (objectData.filename == "slime") {
+		else if (objectData.filename == "slime") {
 			EnemyManager::GetInstance()->PopSlime(objectData.pos);
 		}
-		if (objectData.filename == "navePoint") {
+		else if (objectData.filename == "fly") {
+			EnemyManager::GetInstance()->PopFly(objectData.pos);
+		}
+		else if (objectData.filename == "navePoint") {
 			NavePointManager::GetInstance()->Add(objectData.pos);
 			navePointNum_++;
 		}
-		if (objectData.filename == "goal") {
+		else if (objectData.filename == "goal") {
 			ClearChecker::GetInstance()->SetGoal(objectData.pos);
 			useLightNum_ = lightGroup_->SetPointLightGetNum();
 			lightGroup_->SetPointLightColor(useLightNum_, { 0,0,1 });
 			lightGroup_->SetPointLightAtten(useLightNum_, { 0.002f,0.002f,0.002f });
 			lightGroup_->SetPointLightPos(useLightNum_, { objectData.pos.x, objectData.pos.y + 2,objectData.pos.z });
 		}
-		if (objectData.filename == "torch") {
+		else if (objectData.filename == "torch") {
 			std::unique_ptr<Torch> torch = std::make_unique<Torch>();
 			torch->Initialize(objectData.pos, objectData.rot, objectData.scale,stageAtten_);
 			torchs_.push_back(std::move(torch));

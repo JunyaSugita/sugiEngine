@@ -43,7 +43,10 @@ enum ParticleName {
 	P_CHARGE_FIRE,
 	P_CHARGE_MAX_FIRE,
 	P_BACKGROUND,
-	P_END,
+	P_ICE_BREAK,
+	P_DEBUFF_ICE,
+
+	P_END
 };
 
 class ParticleManager final

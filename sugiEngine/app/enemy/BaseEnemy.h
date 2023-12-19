@@ -24,7 +24,9 @@ class BaseEnemy {
 public:
 	virtual void Initialize(std::string name,Vector3 pos);
 	virtual void Update();
+	virtual void DontMoveUpdate();
 	virtual void Draw();
+	virtual void Draw2();
 	virtual void WorldTransUpdate();
 
 	//死んだあとプレイヤーに当たった時の反応
@@ -147,6 +149,8 @@ public:
 protected:
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
+	//パーティクルの出し方
+	virtual void PopDebuffFireParticle();
 	//死んだ時の反応
 	virtual void Down();
 
@@ -182,6 +186,9 @@ protected:
 
 	//本体
 	BaseObj obj_;
+
+	//iceモデル
+	BaseObj iceObj_;
 
 	//当たり判定
 	BaseCol col_;
@@ -226,4 +233,7 @@ protected:
 
 	//自身をシェイクさせている時間
 	int32_t shakeTime_;
+
+	//敵が起動しているか
+	bool isStart_;
 };
