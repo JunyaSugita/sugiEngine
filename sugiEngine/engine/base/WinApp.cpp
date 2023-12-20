@@ -1,4 +1,4 @@
-﻿#include "WinApp.h"
+#include "WinApp.h"
 #pragma comment(lib,"winmm.lib")
 #include <imgui_impl_win32.h>
 
@@ -44,7 +44,7 @@ void WinApp::CreateWindowScreen()
 
 	// ウィンドウオブジェクトの生成
 	hwnd_ = CreateWindow(w_.lpszClassName, // クラス名
-		L"Darkness v0.5.0", // タイトルバーの文字
+		L"Darkness v0.6.0", // タイトルバーの文字
 		WS_OVERLAPPEDWINDOW, // 標準的なウィンドウスタイル
 		CW_USEDEFAULT, // 表示X座標(OSに任せる)
 		CW_USEDEFAULT, // 表示Y座標(OSに任せる)

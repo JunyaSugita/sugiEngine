@@ -101,11 +101,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Fly.cpp" />
     <ClCompile Include="sugiEngine\app\collider\ColliderManager.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\Enemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\EnemyManager.cpp" />
+    <ClCompile Include="sugiEngine\app\enemy\Fly.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\Slime.cpp" />
     <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp" />
     <ClCompile Include="sugiEngine\app\ground\Torch.cpp" />

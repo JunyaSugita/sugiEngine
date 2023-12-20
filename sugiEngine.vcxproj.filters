@@ -357,8 +357,8 @@
     <ClCompile Include="sugiEngine\engine\UI\Slider.cpp">
       <Filter>ソース ファイル\engine\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Fly.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\app\enemy\Fly.cpp">
+      <Filter>ソース ファイル\app\enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -594,7 +594,7 @@
       <Filter>ヘッダー ファイル\engine\UI</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\enemy\Fly.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\app\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
