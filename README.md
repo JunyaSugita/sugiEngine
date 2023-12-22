@@ -57,6 +57,8 @@
 # 技術紹介
 ### このゲームはDirectX12を使った自作エンジンで制作しています。
 ### Windows SDK v.10.0.22621.0
+### 使用しているもの DirectXTex imgui
+
 ![engineLogo](https://github.com/JunyaSugita/sugiEngine/assets/94422859/d9ad3098-9377-4de2-8390-e5587ef10e0f)
 
 
