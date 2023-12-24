@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file EnchantFire.h
+ * @brief 武器に火属性を付与する呪文
+ */
+
+#pragma once
 #include "GrovalSetting.h"
 #include "BaseSpell.h"
 

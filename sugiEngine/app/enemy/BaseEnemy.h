@@ -1,4 +1,7 @@
-//敵のベースクラス
+/**
+ * @file BaseEnemy.h
+ * @brief 敵のベースクラス
+ */
 #pragma once
 #include "GrovalSetting.h"
 #include "WorldTransform.h"

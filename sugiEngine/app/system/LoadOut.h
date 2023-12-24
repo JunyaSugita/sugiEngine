@@ -1,3 +1,8 @@
+/**
+ * @file LoadOut.h
+ * @brief 装備する魔法を変えたり装備している魔法を発射させたりを管理する
+ */
+
 #pragma once
 #include "SpellManager.h"
 #include "Sprite.h"

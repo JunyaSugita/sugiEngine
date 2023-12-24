@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file MyGame.h
+ * @brief 各シーンをオーバーライドさせる
+ */
+
+#pragma once
 #include "SugiFramework.h"
 
 class MyGame : public SugiFramework

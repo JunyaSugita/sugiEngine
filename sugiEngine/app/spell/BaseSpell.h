@@ -1,3 +1,8 @@
+/**
+ * @file BaseSpell.h
+ * @brief 魔法のベース
+ */
+
 #pragma once
 #include "GrovalSetting.h"
 #include "BaseObj.h"

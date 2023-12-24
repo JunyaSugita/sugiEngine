@@ -1,3 +1,8 @@
+/**
+ * @file StageSelectScene.h
+ * @brief ステージを選ばせる
+ */
+
 #pragma once
 #include "GameManager.h"
 #include "ISceneManager.h"

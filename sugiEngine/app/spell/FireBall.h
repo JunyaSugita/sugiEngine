@@ -1,3 +1,8 @@
+/**
+ * @file FireBall.h
+ * @brief 火球を飛ばす魔法
+ */
+
 #pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"

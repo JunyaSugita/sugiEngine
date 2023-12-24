@@ -1,4 +1,7 @@
-//スライムの敵
+/**
+ * @file Slime.h
+ * @brief スライムの敵
+ */
 #pragma once
 #include "BaseEnemy.h"
 

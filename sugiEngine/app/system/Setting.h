@@ -1,3 +1,8 @@
+/**
+ * @file Setting.h
+ * @brief 設定を管理するマネージャー
+ */
+
 #pragma once
 #include "GrovalSetting.h"
 #include "Sprite.h"

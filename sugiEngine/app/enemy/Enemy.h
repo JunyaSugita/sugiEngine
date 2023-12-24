@@ -1,4 +1,7 @@
-//人型の敵
+/**
+ * @file Enemy.h
+ * @brief 人型の敵
+ */
 #pragma once
 #include "BaseEnemy.h"
 #include "BaseObj.h"

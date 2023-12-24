@@ -1,3 +1,8 @@
+/**
+ * @file MagicMissile.h
+ * @brief 複数の魔法の弾を飛ばす魔法
+ */
+
 #pragma once
 #include "SugiMath.h"
 #include "BaseSpell.h"

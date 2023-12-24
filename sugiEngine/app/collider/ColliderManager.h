@@ -1,4 +1,7 @@
-//当たり判定を管理するマネージャークラス
+/**
+ * @file ColliderManager.h
+ * @brief 当たり判定を管理するマネージャークラス
+ */
 
 #pragma once
 #include "SugiMath.h"

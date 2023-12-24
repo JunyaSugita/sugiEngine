@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file Closshair.h
+ * @brief 画面中央の照準の描画(UI)
+ */
+
+#pragma once
 #include "Sprite.h"
 #include "GrovalSetting.h"
 

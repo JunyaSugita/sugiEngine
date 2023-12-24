@@ -1,3 +1,8 @@
+/**
+ * @file PlayerWeapon.h
+ * @brief プレイヤーが手に持つ杖
+ */
+
 #pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"

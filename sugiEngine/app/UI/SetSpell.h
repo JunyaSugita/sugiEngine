@@ -1,3 +1,8 @@
+/**
+ * @file SetSpell.h
+ * @brief 装備した魔法を表示(UI)
+ */
+
 #pragma once
 #include "Sprite.h"
 

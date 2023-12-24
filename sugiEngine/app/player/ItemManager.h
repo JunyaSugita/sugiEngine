@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file ItemManager.h
+ * @brief アイテムのマネージャー
+ */
+
+#pragma once
 #include "GrovalSetting.h"
 #include "BaseObj.h"
 #include "Gauge.h"

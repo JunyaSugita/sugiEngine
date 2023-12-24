@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file IceBolt.h
+ * @brief 氷柱を飛ばす魔法
+ */
+
+#pragma once
 #include "BaseSpell.h"
 
 class IceBolt : public BaseSpell{

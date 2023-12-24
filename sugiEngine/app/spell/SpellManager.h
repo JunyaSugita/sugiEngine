@@ -1,3 +1,8 @@
+/**
+ * @file SpellManager.h
+ * @brief 魔法を管理するマネージャー
+ */
+
 #pragma once
 #include "BaseSpell.h"
 #include "FireBall.h"

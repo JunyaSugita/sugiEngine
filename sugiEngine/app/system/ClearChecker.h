@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file ClearChecker.h
+ * @brief クリア判定をし、ゴールのオブジェクトやパーティクル、UIを出す
+ */
+
+#pragma once
 #include "GrovalSetting.h"
 #include "Gauge.h"
 #include "BaseObj.h"

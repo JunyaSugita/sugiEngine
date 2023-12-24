@@ -1,3 +1,8 @@
+/**
+ * @file MenuManager.h
+ * @brief メニュー画面を管理するマネージャー
+ */
+
 #pragma once
 #include "Sprite.h"
 

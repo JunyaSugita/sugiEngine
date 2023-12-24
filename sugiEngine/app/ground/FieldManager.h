@@ -1,4 +1,7 @@
-//フィールドを生成するクラス
+/**
+ * @file FieldManager.h
+ * @brief フィールドを生成する
+ */
 #pragma once
 #include "Model.h"
 #include "BaseObj.h"

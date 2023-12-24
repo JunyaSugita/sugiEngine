@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file ChainLightning.h
+ * @brief 伝播する雷呪文
+ */
+
+#pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include "BaseObj.h"

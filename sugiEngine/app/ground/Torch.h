@@ -1,3 +1,8 @@
+/**
+ * @file Torch.h
+ * @brief フィールドに置くたいまつ
+ */
+
 #pragma once
 #include "LightGroup.h"
 #include "Model.h"

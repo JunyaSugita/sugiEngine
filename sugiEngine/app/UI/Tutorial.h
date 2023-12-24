@@ -1,3 +1,8 @@
+/**
+ * @file Tutorial.h
+ * @brief チュートリアルの描画(UI)
+ */
+
 #pragma once
 #include "Sprite.h"
 

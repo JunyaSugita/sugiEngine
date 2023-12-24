@@ -1,3 +1,8 @@
+/**
+ * @file Player.h
+ * @brief プレイヤーの操作
+ */
+
 #pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"

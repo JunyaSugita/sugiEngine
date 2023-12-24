@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file GameOver.h
+ * @brief ゲームオーバーの表示やHPの管理
+ */
+
+#pragma once
 #include "GrovalSetting.h"
 #include "Gauge.h"
 

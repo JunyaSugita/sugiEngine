@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file StageSelectManager.h
+ * @brief ステージセレクト画面を管理するマネージャー
+ */
+
+#pragma once
 #include "Sprite.h"
 
 enum STAGE_ID {

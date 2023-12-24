@@ -1,4 +1,7 @@
-//全ての敵のマネージャークラス
+/**
+ * @file EnemyManager.h
+ * @brief 全ての敵のマネージャークラス
+ */
 #pragma once
 #include "Enemy.h"
 

@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file SceneChange.h
+ * @brief シーンチェンジ時の演出描画(UI)
+ */
+
+#pragma once
 #include "Sprite.h"
 
 class SceneChange final{

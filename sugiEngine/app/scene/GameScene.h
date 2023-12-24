@@ -1,3 +1,8 @@
+/**
+ * @file GameScene.h
+ * @brief ゲーム中に呼ばれる
+ */
+
 #pragma once
 #include "ISceneManager.h"
 #include "Model.h"

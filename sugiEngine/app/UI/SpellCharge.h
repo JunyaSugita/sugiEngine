@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file SpellCharge.h
+ * @brief 魔法を溜めているときに出てくるゲージの描画(UI)
+ */
+
+#pragma once
 #include "Sprite.h"
 
 class SpellCharge final{

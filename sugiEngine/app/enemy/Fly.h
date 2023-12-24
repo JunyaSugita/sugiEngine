@@ -1,3 +1,8 @@
+/**
+ * @file Fly.h
+ * @brief 飛行している敵
+ */
+
 #pragma once
 #include "BaseEnemy.h"
 #include "BaseObj.h"

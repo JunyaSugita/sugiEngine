@@ -1,3 +1,8 @@
+/**
+ * @file TitleScene.h
+ * @brief タイトルで呼ばれる
+ */
+
 #pragma once
 #include "ISceneManager.h"
 #include "Sprite.h"

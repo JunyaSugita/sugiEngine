@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file UIManager.h
+ * @brief UIの描画を管理するマネージャー
+ */
+
+#pragma once
 #include "Sprite.h"
 
 class UIManager final{
