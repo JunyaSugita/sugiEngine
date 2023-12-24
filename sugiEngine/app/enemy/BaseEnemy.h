@@ -3,7 +3,7 @@
  * @brief 敵のベースクラス
  */
 #pragma once
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "WorldTransform.h"
 #include "BaseObj.h"
 #include "BaseCol.h"

@@ -6,7 +6,7 @@
 #include "ParticleManager.h"
 #include "Player.h"
 #include "FieldManager.h"
-#include "NavePointManager.h"
+#include "NaviPointManager.h"
 #include "EffectManager.h"
 #include "ClearChecker.h"
 
@@ -400,21 +400,21 @@ bool ColliderManager::CanMovePlayerVec(Vector3 pos)
 	return true;
 }
 
-int32_t ColliderManager::CanMoveNavePointVec(Vector3 pos)
+int32_t ColliderManager::CanMoveNaviPointVec(Vector3 pos)
 {
 	FieldManager* field = FieldManager::GetInstance();
-	NavePointManager* navePointM = NavePointManager::GetInstance();
+	NaviPointManager* navePointM = NaviPointManager::GetInstance();
 
 	int32_t temp = -1;
 
-	for (int k = 0; k < field->GetNavePointNum(); k++) {
-		if (navePointM->GetNavePoint(k).score == 99999) {
+	for (int k = 0; k < field->GetNaviPointNum(); k++) {
+		if (navePointM->GetNaviPoint(k).score == 99999) {
 			continue;
 		}
 
 		bool isHit_ = false;
 
-		Vector3 navePoint = navePointM->GetNavePoint(k).pos;
+		Vector3 navePoint = navePointM->GetNaviPoint(k).pos;
 		navePoint.y = 1;
 		Vector3 myPos = pos;
 		myPos.y = 1;
@@ -443,7 +443,7 @@ int32_t ColliderManager::CanMoveNavePointVec(Vector3 pos)
 
 		if (!isHit_) {
 			if (temp != -1) {
-				if (navePointM->GetNavePoint(k).score > navePointM->GetNavePoint(temp).score) {
+				if (navePointM->GetNaviPoint(k).score > navePointM->GetNaviPoint(temp).score) {
 					continue;
 				}
 			}
@@ -453,21 +453,21 @@ int32_t ColliderManager::CanMoveNavePointVec(Vector3 pos)
 	return temp;
 }
 
-void ColliderManager::SetNavePointScore()
+void ColliderManager::SetNaviPointScore()
 {
 	FieldManager* field = FieldManager::GetInstance();
-	NavePointManager* navePointM = NavePointManager::GetInstance();
+	NaviPointManager* navePointM = NaviPointManager::GetInstance();
 
-	for (int i = 0; i < field->GetNavePointNum(); i++) {
-		navePointM->SetNaveScore(i, 99999);
+	for (int i = 0; i < field->GetNaviPointNum(); i++) {
+		navePointM->SetNaviScore(i, 99999);
 	}
 
 	//1回目
-	for (int k = 0; k < field->GetNavePointNum(); k++) {
+	for (int k = 0; k < field->GetNaviPointNum(); k++) {
 		bool isHit = false;
 		Vector3 playerPos = Player::GetInstance()->GetBoxCol().pos;
 		playerPos.y = 0.3f;
-		Vector3 myPos = navePointM->GetNavePoint(k).pos;
+		Vector3 myPos = navePointM->GetNaviPoint(k).pos;
 		myPos.y = 0.3f;
 
 		Vector3 vecN;
@@ -493,27 +493,27 @@ void ColliderManager::SetNavePointScore()
 		}
 
 		if (!isHit) {
-			navePointM->SetNaveScore(k, vec.length());
+			navePointM->SetNaviScore(k, vec.length());
 		}
 	}
 
 	for (int m = 0; m < 2; m++) {
 		//2回目以降
-		for (int l = 0; l < field->GetNavePointNum(); l++) {
+		for (int l = 0; l < field->GetNaviPointNum(); l++) {
 			//まだ設定されていなければ終わる
-			if (navePointM->GetNavePoint(l).score == 99999) {
+			if (navePointM->GetNaviPoint(l).score == 99999) {
 				continue;
 			}
-			for (int k = 0; k < field->GetNavePointNum(); k++) {
+			for (int k = 0; k < field->GetNaviPointNum(); k++) {
 				//設定されていたら終わる
-				if (navePointM->GetNavePoint(k).score != 99999) {
+				if (navePointM->GetNaviPoint(k).score != 99999) {
 					continue;
 				}
 
 				bool isHit = false;
-				Vector3 naveEndPos = navePointM->GetNavePoint(l).pos;
+				Vector3 naveEndPos = navePointM->GetNaviPoint(l).pos;
 				naveEndPos.y = 0.3f;
-				Vector3 myPos = navePointM->GetNavePoint(k).pos;
+				Vector3 myPos = navePointM->GetNaviPoint(k).pos;
 				myPos.y = 0.3f;
 
 				Vector3 vecN;
@@ -540,7 +540,7 @@ void ColliderManager::SetNavePointScore()
 				}
 
 				if (!isHit) {
-					navePointM->SetNaveScore(k, navePointM->GetNavePoint(l).score + vec.length());
+					navePointM->SetNaviScore(k, navePointM->GetNaviPoint(l).score + vec.length());
 				}
 			}
 		}

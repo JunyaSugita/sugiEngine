@@ -4,7 +4,7 @@
 #include "EffectManager.h"
 #include "ParticleManager.h"
 #include "Tutorial.h"
-#include "NavePointManager.h"
+#include "NaviPointManager.h"
 #include "ModelManager.h"
 
 void Fly::Initialize(std::string name, Vector3 pos)
@@ -60,7 +60,7 @@ void Fly::WorldTransUpdate()
 void Fly::Move()
 {
 	ColliderManager* colM = ColliderManager::GetInstance();
-	NavePointManager* navePointM = NavePointManager::GetInstance();
+	NaviPointManager* navePointM = NaviPointManager::GetInstance();
 
 	if (obj_.pos.y != 10) {
 		isDead_ = true;
@@ -77,7 +77,7 @@ void Fly::Move()
 			isStart_ = true;
 		}
 		else {
-			int32_t point = colM->CanMoveNavePointVec(obj_.pos);
+			int32_t point = colM->CanMoveNaviPointVec(obj_.pos);
 			//ナビポイントが見つからなければ移動しない
 			if (point == -1) {
 				return;
@@ -87,8 +87,8 @@ void Fly::Move()
 				return;
 			}
 
-			temp.x = navePointM->GetNavePoint(point).pos.x;
-			temp.y = navePointM->GetNavePoint(point).pos.z;
+			temp.x = navePointM->GetNaviPoint(point).pos.x;
+			temp.y = navePointM->GetNaviPoint(point).pos.z;
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);

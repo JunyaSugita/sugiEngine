@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "BaseObj.h"
 #include "Gauge.h"
 

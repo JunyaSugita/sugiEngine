@@ -1,3 +1,8 @@
+/**
+ * @file LightGroup.h
+ * @brief ライト系を管理
+ */
+
 #pragma once
 #include <DirectXMath.h>
 #include "DirectionalLight.h"

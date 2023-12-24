@@ -1,6 +1,6 @@
 #include "FieldManager.h"
 #include "EnemyManager.h"
-#include "NavePointManager.h"
+#include "NaviPointManager.h"
 #include "ModelManager.h"
 #include "ClearChecker.h"
 #include "StageSelectManager.h"
@@ -86,7 +86,7 @@ void FieldManager::Initialize(int num)
 			EnemyManager::GetInstance()->PopFly(objectData.pos);
 		}
 		else if (objectData.filename == "navePoint") {
-			NavePointManager::GetInstance()->Add(objectData.pos);
+			NaviPointManager::GetInstance()->Add(objectData.pos);
 			navePointNum_++;
 		}
 		else if (objectData.filename == "goal") {

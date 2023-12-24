@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file DXCommon.h
+ * @brief DirectXの一般
+ */
+
+#pragma once
 #include <Windows.h>
 #include <d3d12.h>
 #include <dxgi1_6.h>
@@ -8,7 +13,7 @@
 #include <chrono>
 #include <thread>
 
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "WinApp.h"
 
 class DXCommon

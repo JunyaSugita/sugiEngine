@@ -12,7 +12,7 @@
 #include "Fieldmanager.h"
 #include "Tutorial.h"
 #include "LoadOut.h"
-#include "NavePointManager.h"
+#include "NaviPointManager.h"
 #include "ClearChecker.h"
 #include "StageSelectManager.h"
 #include "MenuManager.h"
@@ -298,7 +298,7 @@ void GameScene::ObjDraw2()
 void GameScene::ParticleDraw()
 {
 	ParticleManager::GetInstance()->Draw();
-	NavePointManager::GetInstance()->Draw();
+	NaviPointManager::GetInstance()->Draw();
 }
 
 void GameScene::SpriteDraw()

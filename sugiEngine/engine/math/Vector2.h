@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file Vector2.h
+ * @brief float x2
+ */
+
+#pragma once
 
 class Vector2 {
 

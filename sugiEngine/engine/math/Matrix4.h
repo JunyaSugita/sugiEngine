@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file Matrix4.h
+ * @brief 4x4の行列計算
+ */
+
+#pragma once
 #include <DirectXMath.h>
 
 class Matrix4 {

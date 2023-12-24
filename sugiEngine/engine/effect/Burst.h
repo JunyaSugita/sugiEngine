@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file Burst.h
+ * @brief 爆発するようなオブジェクトを使ったパーティクル
+ */
+
+#pragma once
 #include "WorldTransform.h"
 #include "Vector3.h"
 #include "Model.h"

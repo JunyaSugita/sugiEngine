@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file GlobalSetting.h
+ * @brief エンジンの設定等
+ */
+
+#pragma once
 #include "SugiMath.h"
 
 static const uint16_t WIN_WIDTH = 1280;

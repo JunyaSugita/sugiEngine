@@ -1,5 +1,10 @@
-﻿#pragma once
-#include "GrovalSetting.h"
+/**
+ * @file Bolt.h
+ * @brief チェインライトニングで使うオブジェクト
+ */
+
+#pragma once
+#include "GlobalSetting.h"
 #include "BaseObj.h"
 
 class Bolt {

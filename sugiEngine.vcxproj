@@ -148,7 +148,7 @@
     <ClCompile Include="sugiEngine\engine\effect\EffectManager.cpp" />
     <ClCompile Include="sugiEngine\engine\io\FbxLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp" />
-    <ClCompile Include="sugiEngine\engine\io\NavePointManager.cpp" />
+    <ClCompile Include="sugiEngine\engine\io\NaviPointManager.cpp" />
     <ClCompile Include="sugiEngine\engine\math\Easing.cpp" />
     <ClCompile Include="sugiEngine\engine\particle\ParticleEditor.cpp" />
     <ClCompile Include="sugiEngine\engine\particle\ParticleManager.cpp" />
@@ -220,7 +220,7 @@
     <ClInclude Include="sugiEngine\engine\effect\Burst.h" />
     <ClInclude Include="sugiEngine\engine\io\FbxLoader.h" />
     <ClInclude Include="sugiEngine\engine\io\JsonLoader.h" />
-    <ClInclude Include="sugiEngine\engine\io\NavePointManager.h" />
+    <ClInclude Include="sugiEngine\engine\io\NaviPointManager.h" />
     <ClInclude Include="sugiEngine\engine\light\CircleShadow.h" />
     <ClInclude Include="sugiEngine\app\scene\ClearScene.h" />
     <ClInclude Include="sugiEngine\engine\base\DXCommon.h" />
@@ -231,7 +231,7 @@
     <ClInclude Include="sugiEngine\engine\particle\ParticleManager.h" />
     <ClInclude Include="sugiEngine\engine\scene\GameManager.h" />
     <ClInclude Include="sugiEngine\app\scene\GameScene.h" />
-    <ClInclude Include="sugiEngine\engine\base\GrovalSetting.h" />
+    <ClInclude Include="sugiEngine\engine\base\GlobalSetting.h" />
     <ClInclude Include="sugiEngine\engine\2d\ImGuiManager.h" />
     <ClInclude Include="sugiEngine\engine\io\Input.h" />
     <ClInclude Include="sugiEngine\engine\light\LightGroup.h" />

@@ -5,7 +5,7 @@
 
 #pragma once
 #include "Sprite.h"
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 
 class Closshair final{
 private:

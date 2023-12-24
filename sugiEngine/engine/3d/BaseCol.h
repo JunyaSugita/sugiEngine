@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file BaseCol.h
+ * @brief 当たり判定の汎用クラス
+ */
+
+#pragma once
 #include "ColliderManager.h"
 #include "BaseObj.h"
 

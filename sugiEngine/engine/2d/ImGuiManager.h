@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file ImGui.h
+ * @brief デバッグ時のImgui
+ */
+
+#pragma once
 #include "WinApp.h"
 #include "DXCommon.h"
 #include <imgui.h>

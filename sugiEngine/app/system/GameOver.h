@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "Gauge.h"
 
 class GameOver {

@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file Sound.h
+ * @brief 音
+ */
+
+#pragma once
 #include <xaudio2.h>
 #include <fstream>
 #include <wrl.h>

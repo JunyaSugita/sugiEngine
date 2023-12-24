@@ -1,7 +1,12 @@
-﻿#pragma once
+/**
+ * @file PostEffect.h
+ * @brief オブジェクトなど一部にかけるポストエフェクト
+ */
+
+#pragma once
 #include <Windows.h>
 #include "DXCommon.h"
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include <string>

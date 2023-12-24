@@ -1,6 +1,11 @@
+/**
+ * @file Camera.h
+ * @brief カメラ
+ */
+
 #pragma once
 #include "SugiMath.h"
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 
 class Camera final {
 private:

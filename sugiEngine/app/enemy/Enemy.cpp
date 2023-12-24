@@ -3,7 +3,7 @@
 #include "EffectManager.h"
 #include "ParticleManager.h"
 #include "Tutorial.h"
-#include "NavePointManager.h"
+#include "NaviPointManager.h"
 #include "ModelManager.h"
 #include "Enemy.h"
 
@@ -64,7 +64,7 @@ void Enemy::WorldTransUpdate()
 void Enemy::Move()
 {
 	ColliderManager* colM = ColliderManager::GetInstance();
-	NavePointManager* navePointM = NavePointManager::GetInstance();
+	NaviPointManager* navePointM = NaviPointManager::GetInstance();
 
 	if (!isStop_) {
 		Vector2 temp;
@@ -77,7 +77,7 @@ void Enemy::Move()
 			isStart_ = true;
 		}
 		else {
-			int32_t point = colM->CanMoveNavePointVec(obj_.pos);
+			int32_t point = colM->CanMoveNaviPointVec(obj_.pos);
 			//ナビポイントが見つからなければ移動しない
 			if (point == -1) {
 				return;
@@ -87,8 +87,8 @@ void Enemy::Move()
 				return;
 			}
 
-			temp.x = navePointM->GetNavePoint(point).pos.x;
-			temp.y = navePointM->GetNavePoint(point).pos.z;
+			temp.x = navePointM->GetNaviPoint(point).pos.x;
+			temp.y = navePointM->GetNaviPoint(point).pos.z;
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);

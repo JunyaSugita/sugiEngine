@@ -1,3 +1,8 @@
+/**
+ * @file PointLight.h
+ * @brief 点光源
+ */
+
 #pragma once
 #include<DirectXMath.h>
 

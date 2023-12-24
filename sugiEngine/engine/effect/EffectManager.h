@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file EffectManager.h
+ * @brief オブジェクトを使ったパーティクルを管理するマネージャー
+ */
+
+#pragma once
 #include "Model.h"
 #include <list>
 #include "Vector3.h"

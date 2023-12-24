@@ -1,3 +1,8 @@
+/**
+ * @file SpotLight.h
+ * @brief スポットライト
+ */
+
 #pragma once
 #include <DirectXMath.h>
 

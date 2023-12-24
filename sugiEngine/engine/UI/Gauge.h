@@ -1,5 +1,10 @@
-﻿#pragma once
-#include "GrovalSetting.h"
+/**
+ * @file Gauge.h
+ * @brief ゲージを動かしたり描画したり(UI)
+ */
+
+#pragma once
+#include "GlobalSetting.h"
 #include "Sprite.h"
 
 class Gauge {

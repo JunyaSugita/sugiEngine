@@ -1,17 +1,17 @@
-﻿#include "NavePointManager.h"
+#include "NaviPointManager.h"
 #include "ParticleManager.h"
 #include "FieldManager.h"
 
-NavePointManager* NavePointManager::GetInstance()
+NaviPointManager* NaviPointManager::GetInstance()
 {
-	static NavePointManager instance;
+	static NaviPointManager instance;
 
 	return &instance;
 }
 
-void NavePointManager::Draw()
+void NaviPointManager::Draw()
 {
-	//for (int i = 0; i < FieldManager::GetInstance()->GetNavePointNum(); i++) {
+	//for (int i = 0; i < FieldManager::GetInstance()->GetNaviPointNum(); i++) {
 	//	if (navePoint_[i].isActive) {
 	//		if (navePoint_[i].score < 15) {
 	//			ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, navePoint_[i].pos);
@@ -26,7 +26,7 @@ void NavePointManager::Draw()
 	//}
 }
 
-void NavePointManager::Add(Vector3 pos)
+void NaviPointManager::Add(Vector3 pos)
 {
 	for (int i = 0; i < 100; i++) {
 		if (!navePoint_[i].isActive) {

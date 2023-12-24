@@ -1,5 +1,10 @@
+/**
+ * @file Slider.h
+ * @brief スライダーを動かしたり描画したり
+ */
+
 #pragma once
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "Box.h"
 
 class Slider

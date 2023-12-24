@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file Easing.h
+ * @brief イージング関数群
+ */
+
+#pragma once
 
 float EaseIn(float time,float move);
 

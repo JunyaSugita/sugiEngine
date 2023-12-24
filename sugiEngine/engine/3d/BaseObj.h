@@ -1,5 +1,10 @@
-﻿#pragma once
-#include "GrovalSetting.h"
+/**
+ * @file BaseObj.h
+ * @brief オブジェクトの汎用クラス
+ */
+
+#pragma once
+#include "GlobalSetting.h"
 #include <string>
 #include "Object3d.h"
 #include "WorldTransform.h"

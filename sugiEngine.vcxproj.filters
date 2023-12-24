@@ -306,7 +306,7 @@
     <ClCompile Include="sugiEngine\app\system\LoadOut.cpp">
       <Filter>ソース ファイル\app\system</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\engine\io\NavePointManager.cpp">
+    <ClCompile Include="sugiEngine\engine\io\NaviPointManager.cpp">
       <Filter>ソース ファイル\engine\io</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp">
@@ -392,7 +392,7 @@
     <ClInclude Include="sugiEngine\app\scene\GameScene.h">
       <Filter>ヘッダー ファイル\app\scene</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\engine\base\GrovalSetting.h">
+    <ClInclude Include="sugiEngine\engine\base\GlobalSetting.h">
       <Filter>ヘッダー ファイル\engine\base</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\io\Input.h">
@@ -539,7 +539,7 @@
     <ClInclude Include="sugiEngine\app\system\LoadOut.h">
       <Filter>ヘッダー ファイル\app\system</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\engine\io\NavePointManager.h">
+    <ClInclude Include="sugiEngine\engine\io\NaviPointManager.h">
       <Filter>ヘッダー ファイル\engine\io</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\enemy\BaseEnemy.h">

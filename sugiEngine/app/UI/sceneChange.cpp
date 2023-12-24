@@ -1,5 +1,5 @@
 ﻿#include "SceneChange.h"
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "SugiMath.h"
 
 SceneChange* SceneChange::GetInstance()

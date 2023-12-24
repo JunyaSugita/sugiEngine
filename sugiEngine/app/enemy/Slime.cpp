@@ -1,5 +1,5 @@
 #include "Slime.h"
-#include "NavePointManager.h"
+#include "NaviPointManager.h"
 #include "Player.h"
 #include "ParticleManager.h"
 #include <random>
@@ -38,7 +38,7 @@ void Slime::WorldTransUpdate()
 void Slime::Move()
 {
 	ColliderManager* colM = ColliderManager::GetInstance();
-	NavePointManager* navePointM = NavePointManager::GetInstance();
+	NaviPointManager* navePointM = NaviPointManager::GetInstance();
 
 	if (!isStop_) {
 		Vector2 temp;
@@ -51,7 +51,7 @@ void Slime::Move()
 			isStart_ = true;
 		}
 		else {
-			int32_t point = colM->CanMoveNavePointVec(obj_.pos);
+			int32_t point = colM->CanMoveNaviPointVec(obj_.pos);
 			//ナビポイントが見つからなければ移動しない
 			if (point == -1) {
 				return;
@@ -61,8 +61,8 @@ void Slime::Move()
 				return;
 			}
 
-			temp.x = navePointM->GetNavePoint(point).pos.x;
-			temp.y = navePointM->GetNavePoint(point).pos.z;
+			temp.x = navePointM->GetNaviPoint(point).pos.x;
+			temp.y = navePointM->GetNaviPoint(point).pos.z;
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);

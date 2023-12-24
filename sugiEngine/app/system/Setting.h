@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "Sprite.h"
 #include "Slider.h"
 

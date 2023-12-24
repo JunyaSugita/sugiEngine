@@ -1,3 +1,8 @@
+/**
+ * @file ParticleEditor.h
+ * @brief デバッグ時にパーティクルを自作出来るようにする
+ */
+
 #pragma once
 #include "SugiMath.h"
 #include <string>

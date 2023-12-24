@@ -1,8 +1,13 @@
+/**
+ * @file Object3d.h
+ * @brief obj
+ */
+
 #pragma once
 #include <Windows.h>
 #include "WorldTransform.h"
 #include "DXCommon.h"
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include <wrl.h>
 #include <fstream>
 #include <sstream>

@@ -1,7 +1,12 @@
+/**
+ * @file PostEffectSecond.h
+ * @brief 画面全体にかけるポストエフェクト
+ */
+
 #pragma once
 #include <Windows.h>
 #include "DXCommon.h"
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include <string>

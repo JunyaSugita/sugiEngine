@@ -35,7 +35,7 @@ public:
 		return col_.size();
 	}
 
-	int32_t GetNavePointNum() {
+	int32_t GetNaviPointNum() {
 		return navePointNum_;
 	}
 
