@@ -53,26 +53,26 @@ void TitleScene::Update()
 	Camera* camera = Camera::GetInstance();
 
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
-		ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, { 0,0.5f,0 });
+		ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, POS_FIRE);
 	}
 	else {
 		//パーティクルエディタ使用中
 		if (input->PushKey(DIK_A)) {
-			angle_ -= 0.01f;
+			angle_ -= SPEED_EDIT_CAMERA_X;
 		}
 		if (input->PushKey(DIK_D)) {
-			angle_ += 0.01f;
+			angle_ += SPEED_EDIT_CAMERA_X;
 		}
 
 		if (input->PushKey(DIK_W)) {
-			length_ -= 1;
+			length_ -= SPEED_EDIT_CAMERA_Z;
 		}
 		if (input->PushKey(DIK_S)) {
-			length_ += 1;
+			length_ += SPEED_EDIT_CAMERA_Z;
 		}
 
-		camera->SetTarget({ 0,5,0 });
-		camera->SetEye({sinf(angle_) * length_,5,cosf(angle_) * length_ });
+		camera->SetTarget({ 0,EDIT_CAMERA_Y,0 });
+		camera->SetEye({sinf(angle_) * length_,EDIT_CAMERA_Y,cosf(angle_) * length_ });
 		camera->Update();
 	}
 	ParticleManager::GetInstance()->Update();
@@ -85,7 +85,7 @@ void TitleScene::Update()
 		SceneChange::GetInstance()->Start();
 	}
 
-	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
+	if (SceneChange::GetInstance()->GetTimer() >= 1) {
 		ParticleManager::GetInstance()->Clear();
 		GameManager::GetInstance()->SetStageSelectScene();
 	}

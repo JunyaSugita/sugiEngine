@@ -39,8 +39,15 @@ private:
 public:
 	const float SPEED_MOVE = 1.0f;	//魔法のスピード
 	const int32_t TIME_ALIVE = 2;	//魔法が消えるまでの時間
+	static const int32_t DAMAGE = 15;
+	static const int32_t TIME_STAN = 1;
 
 private:
+	//色
+	const Vector4 COLOR = { 0.5f,0.5f,1,0.5f };
+	//最大距離
+	const int32_t MAX_LENGE = 50;
+
 	BaseObj obj_;
 
 	//当たり判定

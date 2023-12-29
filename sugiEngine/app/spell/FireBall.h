@@ -26,6 +26,11 @@ public:
 	const int32_t TIME_ALIVE = 10 * 60;	//魔法が消えるまでの時間
 
 private:
+	//爆発時
+	const float SPEED_SIZE_UP_EXPLODE = 1.2f;
+	const float SPEED_ALPHA_EXPLODE = 0.03f;
+	const float MAX_SIZE_EXPLODE = 10.0f;
+
 	//消える時のAlpha
 	float alpha_;
 

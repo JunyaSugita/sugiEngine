@@ -28,6 +28,8 @@ public:
 private:
 	static const int32_t MAX_SPELL_SET = 4;
 	const Vector2 POS_ORIGIN_SPELL_SPRITE = {1130,580};
+	const Vector2 SIZE_ICON = { 50, 50 };
+	const Vector2 SIZE_ACTIVE_ICON = { 80, 80 };
 
 	uint32_t fireBallTex_;
 	uint32_t magicMissileTex_;

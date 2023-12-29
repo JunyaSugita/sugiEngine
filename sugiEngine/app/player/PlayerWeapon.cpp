@@ -6,7 +6,6 @@
 #include "SpellManager.h"
 #include "ParticleManager.h"
 #include "ModelManager.h"
-#include "ItemManager.h"
 #include "ClearChecker.h"
 #include "LoadOut.h"
 
@@ -78,10 +77,6 @@ void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
 	}
 	else if (SpellManager::GetInstance()->ChargePercent() != 0.0f) {
 		ChargeMove();
-		y = 3;
-	}
-	else if (ItemManager::GetInstance()->GetIsUse()) {
-		ItemMove();
 		y = 3;
 	}
 	//攻撃していないときは通常持ち

@@ -19,6 +19,8 @@ enum MAGIC {
 	CHAIN_LIGHTNING,
 	ENCHANT_FIRE,
 	FLAME,
+
+	MAGIC_END
 };
 
 enum SPELL_TYPE {
@@ -126,7 +128,14 @@ public:
 	const float TIME_CHARGE_FLAME = 2.0f * 60;
 	const float TIME_FIRE_FLAME = 3.0f * 60;
 
+	//呪文詠唱のコヨーテ
+	const float COYOTE_SPELL = 0.9f;
+
 private:
+	//マジックミサイルの間隔
+	const int32_t COOLTIME_MAGIC_MISSILE = 20;
+	const int32_t COOLTIME_FLAME = 5;
+
 	float maxCharge_;
 	float chargeTime_;
 	float useTime_;

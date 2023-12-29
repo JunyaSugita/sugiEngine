@@ -17,4 +17,6 @@ public:
 
 public:
 	const int32_t TIME_ALIVE = 15 * 60;	//魔法が消えるまでの時間
+	static const int32_t DAMAGE = 10;
+	static const int32_t TIME_DEBUFF = 3;
 };

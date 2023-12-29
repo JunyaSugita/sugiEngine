@@ -43,6 +43,12 @@ public:
 	void SetGoal(Vector3 pos);
 
 private:
+	//ブラー
+	const float MAX_BLUR = 5;
+	const float SPEED_BLUR = 0.025f;
+	//ゴール
+	const float GOAL_Y = 3;
+
 	BaseObj obj_;
 	BaseCol col_;
 

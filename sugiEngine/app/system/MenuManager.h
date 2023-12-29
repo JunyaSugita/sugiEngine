@@ -6,6 +6,15 @@
 #pragma once
 #include "Sprite.h"
 
+enum MENU{
+	BACK,
+	RESET,
+	STAGE_SELECT,
+	SETTING,
+
+	MENU_END
+};
+
 class MenuManager {
 private:
 	MenuManager() = default;
@@ -56,6 +65,12 @@ public:
 
 private:
 	static const int32_t MAX_MENU = 4;
+	//カーソル移動のディレイ
+	const int32_t TIME_DELAY = 10;
+	const int32_t STICK_DELAY = 10000;
+	//カーソルサイズ
+	const Vector2 SIZE_MENU = { 500, 150 };
+	const Vector2 SIZE_BIG_MENU = { 550, 165 };
 
 	bool isActive_;
 	bool isReset_;

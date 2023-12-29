@@ -18,7 +18,13 @@ public:
 	}
 
 private:
+	//最大数
 	static const int NUM = 50;
+	//サイズ
+	const float SIZE = 0.05f;
+	//生存時間
+	const int32_t TIME = 30;
+
 	//座標
 	BaseObj obj_[NUM];
 	//回転

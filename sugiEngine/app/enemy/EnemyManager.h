@@ -23,7 +23,7 @@ public:
 	void GameInitialize();
 	void Update();
 	void Draw();
-	void Draw2();
+	void DrawTransparent();
 
 	void PopEnemy(Vector3 pos);
 	void PopSlime(Vector3 pos);

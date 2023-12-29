@@ -61,6 +61,11 @@ private:
 	void SetSpell(int32_t num,int32_t spellName);
 
 private:
+	//プレビュー画面の場所
+	const Vector2 POS_WINDOW = { 780,50 };
+	//画面サイズ
+	const float SIZE_WINDOW = 3;
+
 	//装備画面かどうか
 	bool isActive_;
 

@@ -26,6 +26,13 @@ public:
 	void Finalize() override;
 
 private:
+	//火を出す位置
+	const Vector3 POS_FIRE = { 0,0.5f,0 };
+	//エディタ中
+	const float SPEED_EDIT_CAMERA_X = 0.01f;
+	const float SPEED_EDIT_CAMERA_Z = 1;
+	const float EDIT_CAMERA_Y = 5;
+
 	std::unique_ptr<Object3d> sphereObj_[2];
 	WorldTransform sphereWorldTransform_[2];
 

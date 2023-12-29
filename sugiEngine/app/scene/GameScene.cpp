@@ -84,7 +84,7 @@ void GameScene::Initialize()
 	sound_.Initialize();
 	sound_.LoadWave("mainBGM");
 	sound_.RePlayWave("mainBGM", true);
-	sound_.SetVolume("mainBGM", 0.1f);
+	sound_.SetVolume("mainBGM", START_BOV);
 
 	LoadOut::GetInstance()->Initialize();
 	MenuManager::GetInstance()->Initialize();
@@ -102,9 +102,9 @@ void GameScene::GameInitialize()
 	gameOver_.Initialize();
 	UIManager::GetInstance()->GameInitialize();
 	sound_.RePlayWave("mainBGM", true);
-	sound_.SetVolume("mainBGM", 0.1f);
+	sound_.SetVolume("mainBGM", START_BOV);
 	MenuManager::GetInstance()->GameInitialize();
-	
+
 }
 
 void GameScene::Update()
@@ -162,7 +162,6 @@ void GameScene::Update()
 	spellM->Update();
 	uiM->Update();
 	colM->Update();
-	//particleM->AddFromFile(P_BACKGROUND, { 0,20,0 });
 	particleM->Update();
 	loadOut->Update();
 	MenuManager::GetInstance()->Update();
@@ -173,61 +172,31 @@ void GameScene::Update()
 #ifdef _DEBUG
 	{
 		Begin("EnemyDebug");
-		if (Button("stop", { 150,30 })) {
+		if (Button("stop", SIZE_IMGUI)) {
 			Enemy::ToggleIsAllStop();
 		}
 		End();
 
 		Begin("DebugButton");
-		if (Button("Reset", { 150,30 })) {
+		if (Button("Reset", SIZE_IMGUI)) {
 			Initialize();
 		}
-		if (Button("EnemyPop", { 150,30 })) {
+		if (Button("EnemyPop", SIZE_IMGUI)) {
 			enemyM->PopEnemy({ 0,0,0 });
 		}
-		if (Button("SlimePop", { 150,30 })) {
+		if (Button("SlimePop", SIZE_IMGUI)) {
 			enemyM->PopSlime({ 0,0,0 });
 		}
-		if (Button("ShowHitBox", { 150,30 })) {
+		if (Button("ShowHitBox", SIZE_IMGUI)) {
 			colM->ChangeIsShowHitBox();
 		}
-		if (Button("particleClear", { 150,30 })) {
+		if (Button("particleClear", SIZE_IMGUI)) {
 			ParticleManager::GetInstance()->Clear();
 		}
-		if (Button("PlayerInvincible", { 150,30 })) {
+		if (Button("PlayerInvincible", SIZE_IMGUI)) {
 			Player::GetInstance()->SetInvincible();
 		}
 		End();
-
-		//Begin("Light");
-		//SliderFloat3("DirLightDir", dir_, -1, 1);
-		//lightGroup_->SetDirLightDir(0, { dir_[0],dir_[1],dir_[2],0 });
-		//SliderFloat3("DirLightColor", color_, 0, 1);
-		//lightGroup_->SetDirLightColor(0, { color_[0],color_[1],color_[2] });
-
-		//Checkbox("PointLightActive0", &pointActive_[0]);
-		//lightGroup_->SetPointLightActive(28, pointActive_[0]);
-		//if (pointActive_[0]) {
-		//	SliderFloat3("PointLightPos0", pointPos_[0], -10, 10);
-		//	lightGroup_->SetPointLightPos(28, { pointPos_[0][0],pointPos_[0][1] ,pointPos_[0][2] });
-		//	SliderFloat3("PointLightColor0", pointColor_[0], 0, 1);
-		//	lightGroup_->SetPointLightColor(28, { pointColor_[0][0],pointColor_[0][1] ,pointColor_[0][2] });
-		//	SliderFloat3("PointLightAtten0", pointAtten_[0], 0.001f, 1.0f);
-		//	lightGroup_->SetPointLightAtten(28, { pointAtten_[0][0],pointAtten_[0][1] ,pointAtten_[0][2] });
-		//}
-
-		//Checkbox("PointLightActive1", &pointActive_[1]);
-		//lightGroup_->SetPointLightActive(29, pointActive_[1]);
-
-		//if (pointActive_[1]) {
-		//	SliderFloat3("PointLightPos1", pointPos_[1], -10, 10);
-		//	lightGroup_->SetPointLightPos(29, { pointPos_[1][0],pointPos_[1][1] ,pointPos_[1][2] });
-		//	SliderFloat3("PointLightColor1", pointColor_[1], 0, 1);
-		//	lightGroup_->SetPointLightColor(29, { pointColor_[1][0],pointColor_[1][1] ,pointColor_[1][2] });
-		//	SliderFloat3("PointLightAtten1", pointAtten_[1], 0.001f, 1.0f);
-		//	lightGroup_->SetPointLightAtten(29, { pointAtten_[1][0],pointAtten_[1][1] ,pointAtten_[1][2] });
-		//}
-		//End();
 	}
 
 #endif
@@ -289,7 +258,7 @@ void GameScene::ObjDraw2()
 {
 
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
-		EnemyManager::GetInstance()->Draw2();
+		EnemyManager::GetInstance()->DrawTransparent();
 		Player::GetInstance()->Draw();
 	}
 	ClearChecker::GetInstance()->Draw();

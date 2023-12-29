@@ -1,4 +1,5 @@
 #include "LightGroup.h"
+#include "SugiMath.h"
 #include <assert.h>
 
 using namespace DirectX;
@@ -186,14 +187,14 @@ void LightGroup::SetPointLightPos(int32_t index, const XMFLOAT3& lightpos)
 	dirty_ = true;
 }
 
-void LightGroup::SetPointLightColor(int32_t index, const XMFLOAT3& lightcolor)
+void LightGroup::SetPointLightColor(int32_t index, const Vector3& lightColor)
 {
 	assert(0 <= index && index < sPointLightNum);
-	pointLights_[index].SetLightColor(lightcolor);
+	pointLights_[index].SetLightColor(lightColor);
 	dirty_ = true;
 }
 
-void LightGroup::SetPointLightAtten(int32_t index, const XMFLOAT3& lightAtten)
+void LightGroup::SetPointLightAtten(int32_t index, const Vector3& lightAtten)
 {
 	assert(0 <= index && index < sPointLightNum);
 	pointLights_[index].SetLightAtten(lightAtten);

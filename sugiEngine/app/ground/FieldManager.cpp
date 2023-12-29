@@ -92,8 +92,8 @@ void FieldManager::Initialize(int num)
 		else if (objectData.filename == "goal") {
 			ClearChecker::GetInstance()->SetGoal(objectData.pos);
 			useLightNum_ = lightGroup_->SetPointLightGetNum();
-			lightGroup_->SetPointLightColor(useLightNum_, { 0,0,1 });
-			lightGroup_->SetPointLightAtten(useLightNum_, { 0.002f,0.002f,0.002f });
+			lightGroup_->SetPointLightColor(useLightNum_, COLOR_GOAL);
+			lightGroup_->SetPointLightAtten(useLightNum_, { ATTEN_GOAL,ATTEN_GOAL,ATTEN_GOAL });
 			lightGroup_->SetPointLightPos(useLightNum_, { objectData.pos.x, objectData.pos.y + 2,objectData.pos.z });
 		}
 		else if (objectData.filename == "torch") {
@@ -130,19 +130,19 @@ void FieldManager::SelectStage(int num)
 	{
 	case TUTORIAL:
 		levelData_ = JsonLoader::LoadJson("levelTutorial");
-		stageAtten_ = 0.01f;
+		stageAtten_ = ATTEN_LOW;
 		break;
 	case STAGE1:
 		levelData_ = JsonLoader::LoadJson("level2");
-		stageAtten_ = 0.01f;
+		stageAtten_ = ATTEN_LOW;
 		break;
 	case STAGE2:
 		levelData_ = JsonLoader::LoadJson("level");
-		stageAtten_ = 0.001f;
+		stageAtten_ = ATTEN_HIGT;
 		break;
 	case SET_SPELL_STAGE:
 		levelData_ = JsonLoader::LoadJson("def");
-		stageAtten_ = 0.01f;
+		stageAtten_ = ATTEN_LOW;
 		break;
 	default:
 		break;

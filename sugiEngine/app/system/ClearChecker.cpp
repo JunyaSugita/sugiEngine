@@ -1,4 +1,4 @@
-﻿#include "ClearChecker.h"
+#include "ClearChecker.h"
 #include "EnemyManager.h"
 #include "GameManager.h"
 #include "PostEffectSecond.h"
@@ -33,8 +33,8 @@ void ClearChecker::GameInitialize()
 void ClearChecker::Update()
 {
 	if (isClear_ == true) {
-		if (blur_ < 5) {
-			blur_ += 0.025f;
+		if (blur_ < MAX_BLUR) {
+			blur_ += SPEED_BLUR;
 			if (blur_ >= 1) {
 				PostEffectSecond::SetBlur((int32_t)blur_);
 			}
@@ -48,7 +48,7 @@ void ClearChecker::Update()
 	col_.SetCol(obj_.pos);
 	col_.Update();
 
-	ParticleManager::GetInstance()->AddFromFile(P_GOAL, { obj_.pos.x, obj_.pos.y + 3 ,obj_.pos.z });
+	ParticleManager::GetInstance()->AddFromFile(P_GOAL, { obj_.pos.x, obj_.pos.y + GOAL_Y ,obj_.pos.z });
 }
 
 void ClearChecker::Draw()

@@ -1,4 +1,4 @@
-﻿#include "ClearScene.h"
+#include "ClearScene.h"
 
 using namespace std;
 
@@ -7,8 +7,6 @@ void ClearScene::Initialize()
 	// レベルデータの読み込み
 	levelData_ = JsonLoader::LoadJson("level");
 
-	//sphereModel_ = move(Model::LoadFromObj("sphere", true));
-	//playerModel_ = move(Model::LoadFromObj("player"));
 	models_.insert(std::make_pair("sphere", sphereModel_.get()));
 	models_.insert(std::make_pair("player", playerModel_.get()));
 
@@ -53,18 +51,6 @@ void ClearScene::Initialize()
 
 void ClearScene::Update()
 {
-	Input* input = Input::GetInstance();
-
-	if (input->PushKey(DIK_LEFT)) {
-		worldTransform_.AddPosX(-0.3f);
-	}
-	if (input->PushKey(DIK_RIGHT)) {
-		worldTransform_.AddPosX(0.3f);
-	}
-	if (input->TriggerKey(DIK_R)) {
-		worldTransform_.SetPos(spawnPoint_);
-	}
-
 	objects_[playerNum_]->SetWorldTransform(worldTransform_);
 
 

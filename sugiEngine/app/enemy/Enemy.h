@@ -22,14 +22,17 @@ private:
 	const float SPEED_ANGLE = 5;
 	const uint32_t MAX_HP = 25;
 	const float HEIGHT_COL = 2.2f;
+	const float SUB_TIME_ATTACK = 0.025f;
+	const float SPEED_DOWN = 5;
+	const float ROT_ARM = 50;
 
 private:
 	//目
 	BaseObj eyeObj_;
 
 	//腕
-	BaseObj armL_;
-	BaseObj armR_;
+	BaseObj wingL_;
+	BaseObj wingR_;
 
 	static std::unique_ptr<Model> sEyeModel_;
 };

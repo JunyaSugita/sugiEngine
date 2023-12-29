@@ -9,17 +9,17 @@
 
 void Fly::Initialize(std::string name, Vector3 pos)
 {
-	armL_.Initialize("box");
-	armL_.worldTrans.parent_ = &obj_.worldTrans;
-	armL_.pos = { 0,0,-1 };
-	armL_.rot = { 0,0,0 };
-	armL_.scale = { 0.8f,0.3f,1 };
+	wingL_.Initialize("box");
+	wingL_.worldTrans.parent_ = &obj_.worldTrans;
+	wingL_.pos = { 0,0,-1 };
+	wingL_.rot = { 0,0,0 };
+	wingL_.scale = { 0.8f,0.3f,1 };
 
-	armR_.Initialize("box");
-	armR_.worldTrans.parent_ = &obj_.worldTrans;
-	armR_.pos = { 0,0,1 };
-	armR_.rot = { 0,0,0 };
-	armR_.scale = { 0.8f,0.3f,1 };
+	wingR_.Initialize("box");
+	wingR_.worldTrans.parent_ = &obj_.worldTrans;
+	wingR_.pos = { 0,0,1 };
+	wingR_.rot = { 0,0,0 };
+	wingR_.scale = { 0.8f,0.3f,1 };
 
 
 	life_ = MAX_HP;
@@ -29,7 +29,7 @@ void Fly::Initialize(std::string name, Vector3 pos)
 	BaseEnemy::Initialize(name, pos);
 	WorldTransUpdate();
 
-	obj_.pos.y = 10;
+	obj_.pos.y = FLY_Y;
 	obj_.scale.x = 2;
 
 	col_.gap.y = 0.0f;
@@ -37,22 +37,22 @@ void Fly::Initialize(std::string name, Vector3 pos)
 	col_.col.size.y = 1;
 	col_.col.size.z = 2;
 
-	obj_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
-	armL_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
-	armR_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
+	obj_.obj->SetColor(COLOR_BODY);
+	wingL_.obj->SetColor(COLOR_BODY);
+	wingR_.obj->SetColor(COLOR_BODY);
 }
 
 void Fly::Draw()
 {
 	BaseEnemy::Draw();
-	armL_.Draw();
-	armR_.Draw();
+	wingL_.Draw();
+	wingR_.Draw();
 }
 
 void Fly::WorldTransUpdate()
 {
-	armL_.Update();
-	armR_.Update();
+	wingL_.Update();
+	wingR_.Update();
 
 	BaseEnemy::WorldTransUpdate();
 }
@@ -62,7 +62,7 @@ void Fly::Move()
 	ColliderManager* colM = ColliderManager::GetInstance();
 	NaviPointManager* navePointM = NaviPointManager::GetInstance();
 
-	if (obj_.pos.y != 10) {
+	if (obj_.pos.y != FLY_Y) {
 		isDead_ = true;
 	}
 
@@ -102,13 +102,13 @@ void Fly::Move()
 	}
 
 	//最後にスピード減少を初期化
-	slow_ = 1.0f;
+	slow_ = 1;
 }
 
 void Fly::DontMoveUpdate()
 {
 	if (debuff_.isIce) {
-		obj_.pos.y -= 0.5f;
+		obj_.pos.y -= SPEED_DROP;
 	}
 
 	if (obj_.pos.y <= 0) {
@@ -120,15 +120,15 @@ void Fly::DontMoveUpdate()
 
 void Fly::Attack()
 {
-	attackTimer_ += 0.25f;
-	armL_.rot.x = EaseOut(attackTimer_, 50);
-	armR_.rot.x = -EaseOut(attackTimer_, 50);
+	attackTimer_ += SPEED_WING;
+	wingL_.rot.x = EaseOut(attackTimer_, LEN_WING);
+	wingR_.rot.x = -EaseOut(attackTimer_, LEN_WING);
 }
 
 void Fly::Down()
 {
 	if (col_.col.pos.y > 1) {
-		col_.col.pos.y -= 0.2f;
+		col_.col.pos.y -= SPEED_DROP_DOWN;
 	}
 	else {
 		col_.col.pos.y = 1;

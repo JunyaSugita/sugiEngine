@@ -134,6 +134,12 @@ public:
 	const float TIME_NAVE = 1.0f * 60;
 	const int32_t MAX_LIFE = 10000;
 	const float MAX_Y = 3.0f;
+	//ダメージ演出が消えていくスピード
+	const float SPEED_DAMAGE_UI = 0.01f;
+	//画面シェイクの大きさ
+	const float SHAKE_SIZE = 0.05f;
+	//スティックの修正
+	const float PATCH_STICK = 32768.0f;
 
 private:
 	WorldTransform worldTrans_;

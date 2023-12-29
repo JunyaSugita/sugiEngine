@@ -44,6 +44,13 @@ public:
 	static void SetLight(LightGroup* lightGroup);
 
 private:
+	//ライトの明るさ
+	const float ATTEN_LOW = 0.01f;
+	const float ATTEN_HIGT = 0.001f;
+	//ゴール関係
+	const Vector3 COLOR_GOAL = {0,0,1};
+	const float ATTEN_GOAL = 0.002f;
+
 	LevelData* levelData_;
 
 	std::unique_ptr<Model> boxModel_;

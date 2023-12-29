@@ -30,6 +30,9 @@ public:
 		return stateAlpha_;
 	}
 private:
+	//ゲームオーバー、クリアの出るスピード
+	const float SPEED_ALPHA = 0.025f;
+
 	Sprite stateSp_;
 	float stateAlpha_;
 

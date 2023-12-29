@@ -10,6 +10,7 @@
 #include "EffectManager.h"
 #include "ClearChecker.h"
 
+
 using namespace std;
 
 ColliderManager* ColliderManager::GetInstance()
@@ -60,11 +61,11 @@ void ColliderManager::Update()
 				if (!spellsCol[i]->GetIsHit()) {
 					//敵に当たった瞬間
 					ParticleManager::GetInstance()->AddFromFile(P_DAMAGE,enemysCol[j]->GetPos());
-					enemysCol[j]->SetShakeTime(10);
+					enemysCol[j]->SetShakeTime(TIME_SHAKE);
 				}
 				spellsCol[i]->SetIsHit();
 				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage());
-				enemysCol[j]->SetDebuff(spellsCol[i]->GetDebuff(), 3);
+				enemysCol[j]->SetDebuff(spellsCol[i]->GetDebuff(), TIME_DEBUFF);
 			}
 		}
 		//呪文と壁や床との判定
@@ -90,8 +91,8 @@ void ColliderManager::Update()
 			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
 				//ライトニングの判定先に敵がいたとき
 				chainLightningsCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(15);
-				enemysCol[j]->SetDebuff(D_STAN, 1);
+				enemysCol[j]->SetIsHit(ChainLightning::DAMAGE);
+				enemysCol[j]->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
 
 				//1体目の伝播
 				int32_t hitTemp1 = -1;
@@ -113,8 +114,8 @@ void ColliderManager::Update()
 				//近いやつがいたら
 				if (hitTemp1 != -1) {
 					//一番近いやつにダメージ
-					enemysCol[hitTemp1]->SetIsHit(15);
-					enemysCol[hitTemp1]->SetDebuff(D_STAN, 1);
+					enemysCol[hitTemp1]->SetIsHit(ChainLightning::DAMAGE);
+					enemysCol[hitTemp1]->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
 					//そこまでのパーティクル
 					EffectManager::GetInstance()->BoltGenerate(enemysCol[j]->GetBoxCol().pos, enemysCol[hitTemp1]->GetBoxCol().pos,{0,0,0},{0.5f,0.5f,1,0.5f});
 
@@ -137,8 +138,8 @@ void ColliderManager::Update()
 					//近いやつがいたら
 					if (hitTemp2 != -1) {
 						//一番近いやつにダメージ
-						enemysCol[hitTemp2]->SetIsHit(15);
-						enemysCol[hitTemp2]->SetDebuff(D_STAN, 1);
+						enemysCol[hitTemp2]->SetIsHit(ChainLightning::DAMAGE);
+						enemysCol[hitTemp2]->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
 
 						//そこまでのパーティクル
 						EffectManager::GetInstance()->BoltGenerate(enemysCol[hitTemp1]->GetBoxCol().pos, enemysCol[hitTemp2]->GetBoxCol().pos, { 0,0,0 }, { 0.5f,0.5f,1,0.5f });
@@ -180,21 +181,21 @@ void ColliderManager::Update()
 			if (!enemysCol[i]->GetIsDown() && !enemysCol[j]->GetIsDown()) {
 				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
 					if (enemysCol[i]->GetBoxCol().pos.x <= enemysCol[j]->GetBoxCol().pos.x) {
-						enemysCol[i]->AddColX(-0.01f);
-						enemysCol[j]->AddColX(0.01f);
+						enemysCol[i]->AddColX(-PUSH_LEN);
+						enemysCol[j]->AddColX(PUSH_LEN);
 					}
 					else if (enemysCol[i]->GetBoxCol().pos.x > enemysCol[j]->GetBoxCol().pos.x) {
-						enemysCol[i]->AddColX(0.01f);
-						enemysCol[j]->AddColX(-0.01f);
+						enemysCol[i]->AddColX(PUSH_LEN);
+						enemysCol[j]->AddColX(-PUSH_LEN);
 					}
 
 					if (enemysCol[i]->GetBoxCol().pos.z <= enemysCol[j]->GetBoxCol().pos.z) {
-						enemysCol[i]->AddColZ(-0.01f);
-						enemysCol[j]->AddColZ(0.01f);
+						enemysCol[i]->AddColZ(-PUSH_LEN);
+						enemysCol[j]->AddColZ(PUSH_LEN);
 					}
 					else if (enemysCol[i]->GetBoxCol().pos.z > enemysCol[j]->GetBoxCol().pos.z) {
-						enemysCol[i]->AddColZ(0.01f);
-						enemysCol[j]->AddColZ(-0.01f);
+						enemysCol[i]->AddColZ(PUSH_LEN);
+						enemysCol[j]->AddColZ(-PUSH_LEN);
 					}
 				}
 			}
@@ -353,7 +354,6 @@ bool ColliderManager::CheckHitEnemyToChainLightning()
 	//チェインライトニング
 	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
 
-
 	for (int i = 0; i < chainLightningsCol.size(); i++) {
 		for (int j = 0; j < enemysCol.size(); j++) {
 			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
@@ -392,7 +392,7 @@ bool ColliderManager::CanMovePlayerVec(Vector3 pos)
 	for (int j = 0; j < num; j++) {
 		myPos += vecN;
 		for (int i = 0; i < field->GetColSize(); i++) {
-			if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+			if (CheckHitBox({ myPos ,TEMP_ENEMY_HITBOX }, field->GetCol(i))) {
 				return false;
 			}
 		}
@@ -415,9 +415,9 @@ int32_t ColliderManager::CanMoveNaviPointVec(Vector3 pos)
 		bool isHit_ = false;
 
 		Vector3 navePoint = navePointM->GetNaviPoint(k).pos;
-		navePoint.y = 1;
+		navePoint.y = TEMP_Y;
 		Vector3 myPos = pos;
-		myPos.y = 1;
+		myPos.y = TEMP_Y;
 
 		Vector3 vecN;
 		Vector3 vec = vecN = navePoint - myPos;
@@ -431,7 +431,7 @@ int32_t ColliderManager::CanMoveNaviPointVec(Vector3 pos)
 		for (int j = 0; j < num; j++) {
 			myPos += vecN;
 			for (int i = 0; i < field->GetColSize(); i++) {
-				if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+				if (CheckHitBox({ myPos ,TEMP_ENEMY_HITBOX }, field->GetCol(i))) {
 					isHit_ = true;
 					break;
 				}
@@ -466,9 +466,9 @@ void ColliderManager::SetNaviPointScore()
 	for (int k = 0; k < field->GetNaviPointNum(); k++) {
 		bool isHit = false;
 		Vector3 playerPos = Player::GetInstance()->GetBoxCol().pos;
-		playerPos.y = 0.3f;
+		playerPos.y = TEMP_Y;
 		Vector3 myPos = navePointM->GetNaviPoint(k).pos;
-		myPos.y = 0.3f;
+		myPos.y = TEMP_Y;
 
 		Vector3 vecN;
 		Vector3 vec = vecN = playerPos - myPos;
@@ -482,7 +482,7 @@ void ColliderManager::SetNaviPointScore()
 		for (int j = 0; j < num; j++) {
 			myPos += vecN;
 			for (int i = 0; i < field->GetColSize(); i++) {
-				if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+				if (CheckHitBox({ myPos ,TEMP_ENEMY_HITBOX }, field->GetCol(i))) {
 					isHit = true;
 					break;
 				}
@@ -512,9 +512,9 @@ void ColliderManager::SetNaviPointScore()
 
 				bool isHit = false;
 				Vector3 naveEndPos = navePointM->GetNaviPoint(l).pos;
-				naveEndPos.y = 0.3f;
+				naveEndPos.y = TEMP_Y;
 				Vector3 myPos = navePointM->GetNaviPoint(k).pos;
-				myPos.y = 0.3f;
+				myPos.y = TEMP_Y;
 
 				Vector3 vecN;
 				Vector3 vec = vecN = naveEndPos - myPos;
@@ -529,7 +529,7 @@ void ColliderManager::SetNaviPointScore()
 				for (int j = 0; j < num; j++) {
 					myPos += vecN;
 					for (int i = 0; i < field->GetColSize(); i++) {
-						if (CheckHitBox({ myPos ,{1.5f,0.01f,1.5f} }, field->GetCol(i))) {
+						if (CheckHitBox({ myPos ,TEMP_ENEMY_HITBOX }, field->GetCol(i))) {
 							isHit = true;
 							break;
 						}

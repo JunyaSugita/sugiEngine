@@ -8,7 +8,6 @@
 #include "GameManager.h"
 #include "Tutorial.h"
 #include "LoadOut.h"
-#include "ItemManager.h"
 #include "ClearChecker.h"
 #include "Setting.h"
 
@@ -22,7 +21,6 @@ Player* Player::GetInstance()
 void Player::Initialize()
 {
 	PlayerWeapon::GetInstance()->Initialize();
-	ItemManager::GetInstance()->Initialize();
 
 	damageTex_ = Sprite::LoadTexture("damage.png");
 	damageSp_.Initialize(damageTex_);
@@ -59,7 +57,7 @@ void Player::Update()
 {
 	//被弾演出
 	if (damageAlpha_ > 0) {
-		damageAlpha_ -= 0.01f;
+		damageAlpha_ -= SPEED_DAMAGE_UI;
 		damageSp_.SetColor(1, 1, 1, damageAlpha_);
 	}
 
@@ -89,13 +87,11 @@ void Player::Update()
 
 void Player::Draw()
 {
-	ItemManager::GetInstance()->Draw();
 	PlayerWeapon::GetInstance()->Draw();
 }
 
 void Player::SpDraw()
 {
-	ItemManager::GetInstance()->DrawSprite();
 	damageSp_.Draw();
 }
 
@@ -136,14 +132,14 @@ void Player::SubLife(int32_t num)
 		}
 		damageAlpha_ = 1.0f;
 		if(Camera::GetInstance()->GetShake() <= 0){
-			Camera::GetInstance()->SetShake(0.05f);
+			Camera::GetInstance()->SetShake(SHAKE_SIZE);
 		}
 	}
 }
 
 bool Player::GetIsCanAction()
 {
-	if (isAttack_ || isSpell_ || SpellManager::GetInstance()->GetIsUseSpell() || ItemManager::GetInstance()->GetIsUse()) {
+	if (isAttack_ || isSpell_ || SpellManager::GetInstance()->GetIsUseSpell()) {
 		return false;
 	}
 	return true;
@@ -178,8 +174,8 @@ void Player::Move()
 		pos_ += moveX * SPEED_MOVE * slow_;
 	}
 
-	float stickX = float(input->GetLStickX()) / 32768.0f;
-	float stickY = float(input->GetLStickY()) / 32768.0f;
+	float stickX = float(input->GetLStickX()) / PATCH_STICK;
+	float stickY = float(input->GetLStickY()) / PATCH_STICK;
 
 	//移動
 	if (input->GetLStickY()) {
@@ -220,13 +216,13 @@ void Player::CameraMove()
 	}
 	if (input->PushKey(DIK_UP)) {
 		//最大値設定
-		if (cameraAngle_.y <= 90) {
+		if (cameraAngle_.y <= RAD / 2) {
 			cameraAngle_.y += SPEED_CAMERA * Setting::GetInstance()->GetYSensi();
 		}
 	}
 	if (input->PushKey(DIK_DOWN)) {
 		//最小値設定
-		if (cameraAngle_.y >= -90) {
+		if (cameraAngle_.y >= -RAD / 2) {
 			cameraAngle_.y -= SPEED_CAMERA * Setting::GetInstance()->GetYSensi();
 		}
 	}
@@ -320,14 +316,6 @@ void Player::Attack()
 	}
 
 	weapon->Update(isAttack_, isAttackOn);
-
-	//何もしていない時のみ
-	if (GetIsCanAction()) {
-		ItemManager::GetInstance()->Use();
-	}
-	//いつでも
-	ItemManager::GetInstance()->Update();
-	//ItemManager::GetInstance()->ChangeItem();
 }
 
 void Player::HealLife()

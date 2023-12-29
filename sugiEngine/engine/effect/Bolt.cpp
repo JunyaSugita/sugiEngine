@@ -1,4 +1,4 @@
-﻿#include "Bolt.h"
+#include "Bolt.h"
 #include <random>
 
 void Bolt::Initialize(const Vector3& posS, const Vector3& posE, const Vector3& rot, Vector4 color)
@@ -9,7 +9,7 @@ void Bolt::Initialize(const Vector3& posS, const Vector3& posE, const Vector3& r
 		obj_[i].obj->SetIsSimple();
 		obj_[i].obj->SetIsBloom();
 		//大きさを変更
-		obj_[i].scale = {0.05f, 0.05f, 0.5f};
+		obj_[i].scale = { SIZE, SIZE, SIZE };
 
 		obj_[i].rot = rot;
 	}
@@ -20,7 +20,7 @@ void Bolt::Initialize(const Vector3& posS, const Vector3& posE, const Vector3& r
 	for (int i = 0; i < NUM; i++) {
 		obj_[i].pos = posS + tempVec * (float)i;
 	}
-	timer_ = 30;
+	timer_ = TIME;
 }
 
 void Bolt::Update()

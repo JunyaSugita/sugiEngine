@@ -18,17 +18,17 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	eyeObj_.scale = { 0.3f,0.3f,0.3f };
 
 
-	armL_.Initialize("box");
-	armL_.worldTrans.parent_ = &obj_.worldTrans;
-	armL_.pos = { 1,3,-1 };
-	armL_.rot = { 0,0,60 };
-	armL_.scale = { 1,0.3f,0.3f };
+	wingL_.Initialize("box");
+	wingL_.worldTrans.parent_ = &obj_.worldTrans;
+	wingL_.pos = { 1,3,-1 };
+	wingL_.rot = { 0,0,60 };
+	wingL_.scale = { 1,0.3f,0.3f };
 
-	armR_.Initialize("box");
-	armR_.worldTrans.parent_ = &obj_.worldTrans;
-	armR_.pos = { 1,3,1 };
-	armR_.rot = { 0,0,60 };
-	armR_.scale = { 1,0.3f,0.3f };
+	wingR_.Initialize("box");
+	wingR_.worldTrans.parent_ = &obj_.worldTrans;
+	wingR_.pos = { 1,3,1 };
+	wingR_.rot = { 0,0,60 };
+	wingR_.scale = { 1,0.3f,0.3f };
 
 
 	life_ = MAX_HP;
@@ -40,23 +40,23 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 
 	obj_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
 	eyeObj_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
-	armL_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
-	armR_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
+	wingL_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
+	wingR_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
 }
 
 void Enemy::Draw()
 {
 	BaseEnemy::Draw();
 	eyeObj_.Draw();
-	armL_.Draw();
-	armR_.Draw();
+	wingL_.Draw();
+	wingR_.Draw();
 }
 
 void Enemy::WorldTransUpdate()
 {
 	eyeObj_.Update();
-	armL_.Update();
-	armR_.Update();
+	wingL_.Update();
+	wingR_.Update();
 
 	BaseEnemy::WorldTransUpdate();
 }
@@ -108,19 +108,19 @@ void Enemy::Move()
 void Enemy::Attack()
 {
 	if (isAttack_) {
-		attackTimer_ -= 0.025f;
+		attackTimer_ -= SUB_TIME_ATTACK;
 		if (attackTimer_ <= 0) {
 			isAttack_ = false;
 		}
 	}
-	armL_.rot.z = 50 - EaseOut(attackTimer_, 50);
-	armR_.rot.z = 50 - EaseOut(attackTimer_, 50);
+	wingL_.rot.z = ROT_ARM - EaseOut(attackTimer_, ROT_ARM);
+	wingR_.rot.z = ROT_ARM - EaseOut(attackTimer_, ROT_ARM);
 }
 
 void Enemy::Down()
 {
-	if (obj_.rot.z < 90) {
-		obj_.rot.z += 5;
+	if (obj_.rot.z < RAD / 2) {
+		obj_.rot.z += SPEED_DOWN;
 		eyeObj_.obj->SetEffectCross(false);
 	}
 

@@ -27,9 +27,13 @@ class BaseEnemy {
 public:
 	virtual void Initialize(std::string name,Vector3 pos);
 	virtual void Update();
+	//動けない時の処理
 	virtual void DontMoveUpdate();
+	//一度目の描画
 	virtual void Draw();
-	virtual void Draw2();
+	//半透明などの描画
+	virtual void DrawTransparent();
+	//オブジェクトの移動
 	virtual void WorldTransUpdate();
 
 	//死んだあとプレイヤーに当たった時の反応
@@ -186,6 +190,20 @@ protected:
 	const Vector2 UP = { 0,-1 };
 	const float RADIAN = 180;
 	const int32_t TIME_DOWN = 60 * 5;
+	const Vector4 COLOR_ICE = { 0.5f,1,0.5f,0.5f };
+	const Vector3 START_ROT = { 0,90,0 };
+	const Vector3 COLOR_FIRE = { 0.5f,0.2f,0 };
+	const Vector3 LIGHT_ATTEN = { 0.005f,0.005f,0.005f };
+	//何フレームごとにバーンダメージをくらうか
+	const int32_t TIME_FIRE_BURN = 40;
+	//一回のバーンダメージでくらうダメージ量
+	const int32_t DAMAGE_FIRE_BURN = 1;
+	const float MAX_SHAKE = 0.5f;
+	//シェイク量調整
+	const float CALC_SHAKE = 100;
+	//火のチカチカの最大値と最小値
+	const float MAX_ATTEN_FIRE = 0.006f;
+	const float MIN_ATTEN_FIRE = 0.004f;
 
 	//本体
 	BaseObj obj_;

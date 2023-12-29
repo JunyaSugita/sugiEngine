@@ -56,6 +56,9 @@ public:
 	bool GetIsCalcCol();
 
 protected:
+	//魔法が出る位置
+	const float SPELL_LENGE = 3;
+
 	//位置や実体
 	BaseObj obj_;
 	//当たり判定

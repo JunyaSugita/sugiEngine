@@ -45,6 +45,16 @@ public:
 		return sensiY_;
 	}
 private:
+	const float DEAD_ZONE_STICK = 10000;
+	//スライダーカラー
+	const Vector3 COLOR_SLIDER = { 0.8f,0.8f,0.8f };
+	const Vector3 COLOR_ACTIVE_SLIDER = {0.8f,0.3f,0.3f};
+	//スライダーの速度
+	const float SPEED_SLIDER_VOL = 0.01f;
+	const float SPEED_SLIDER_SENSI = 0.02f;
+	//実装個数(実装ごとに増やす)
+	static const int32_t MENU_NUM = 4;
+
 	//設定画面を開いているかどうか
 	bool isActive_ = false;
 	//カメラ感度調整
@@ -61,8 +71,8 @@ private:
 	int32_t menuNum_;
 	int32_t timer_;
 	
-	Sprite sprite_[4];
-	Slider slider_[4];
+	Sprite sprite_[MENU_NUM];
+	Slider slider_[MENU_NUM];
 	float BGMVol_ = 0.8f;
 	float SEVol_ = 0.8f;
 	float XSensi_ = 1.0f;

@@ -23,7 +23,7 @@ void Slime::Draw()
 {
 }
 
-void Slime::Draw2()
+void Slime::DrawTransparent()
 {
 	//半透明描画
 	BaseEnemy::Draw();
@@ -76,18 +76,18 @@ void Slime::Move()
 	}
 
 	//最後にスピード減少を初期化
-	slow_ = 1.0f;
+	slow_ = 1;
 }
 
 void Slime::Attack()
 {
 	if (isAttack_) {
-		attackTimer_ -= 0.025f;
+		attackTimer_ -= SUB_ATTACK_TIMER;
 
-		timer_ += 0.1f;
-		obj_.scale.x = 1 + sinf(timer_) * 0.5f;
-		obj_.scale.y = 1 + cosf(timer_) * 0.5f;
-		obj_.scale.z = 1 + sinf(timer_) * 0.5f;
+		timer_ += SPEED_ANIME_TIMER;
+		obj_.scale.x = 1 + sinf(timer_) * SAVE_ANIME;
+		obj_.scale.y = 1 + cosf(timer_) * SAVE_ANIME;
+		obj_.scale.z = 1 + sinf(timer_) * SAVE_ANIME;
 
 		if (attackTimer_ <= 0) {
 			isAttack_ = false;
@@ -95,22 +95,22 @@ void Slime::Attack()
 	}
 
 	//スライムの動き
-	timer_ += 0.1f;
-	obj_.scale.x = 1 + sinf(timer_) * 0.5f;
-	obj_.scale.y = 1 + cosf(timer_) * 0.5f;
-	obj_.scale.z = 1 + sinf(timer_) * 0.5f;
+	timer_ += SPEED_ANIME_TIMER;
+	obj_.scale.x = 1 + sinf(timer_) * SAVE_ANIME;
+	obj_.scale.y = 1 + cosf(timer_) * SAVE_ANIME;
+	obj_.scale.z = 1 + sinf(timer_) * SAVE_ANIME;
 
 	WorldTransUpdate();
 }
 
 void Slime::Down()
 {
-	if (obj_.scale.y > 0.2f) {
-		obj_.scale.y -= 0.1f;
+	if (obj_.scale.y > MAX_HEIGHT_DOWN) {
+		obj_.scale.y -= SPEED_HEIGHT_DOWN;
 	}
-	if (obj_.scale.x < 10) {
-		obj_.scale.x += 0.5f;
-		obj_.scale.z += 0.5f;
+	if (obj_.scale.x < MAX_WIDTH_DOWN) {
+		obj_.scale.x += SAVE_ANIME;
+		obj_.scale.z += SAVE_ANIME;
 	}
 
 	//最後
@@ -119,9 +119,9 @@ void Slime::Down()
 
 void Slime::DownHitPlayer()
 {
-	Player::GetInstance()->SetSlow(0.4f);
+	Player::GetInstance()->SetSlow(SPEED_DOWN_DEBUFF_TO_PLAYER);
 	if (debuff_.isFire) {
-		Player::GetInstance()->SubLife(10);
+		Player::GetInstance()->SubLife(DAMAGE_DOWN_FIRE_TO_PLAYER);
 	}
 }
 
@@ -129,10 +129,10 @@ DownState Slime::GetDownHitEnemy()
 {
 	DownState temp;
 
-	temp.slow = 0.5f;
+	temp.slow = SPEED_DOWN_DEBUFF_TO_ENEMY;
 
 	if (debuff_.isFire) {
-		temp.damage = 1;
+		temp.damage = DAMAGE_DOWN_FIRE_TO_ENEMY;
 	}
 
 	return temp;
@@ -144,8 +144,8 @@ void Slime::PopDebuffFireParticle()
 		//ランダム
 		std::random_device seed_gen;
 		std::mt19937_64 engine(seed_gen());
-		std::uniform_real_distribution<float> x(-7.0f, 7.0f);
-		std::uniform_real_distribution<float> z(-7.0f, 7.0f);
+		std::uniform_real_distribution<float> x(-RENGE_DOWN_FIELD, RENGE_DOWN_FIELD);
+		std::uniform_real_distribution<float> z(-RENGE_DOWN_FIELD, RENGE_DOWN_FIELD);
 
 		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, { col_.col.pos.x + x(engine), col_.col.pos.y ,col_.col.pos.z + z(engine) });
 	}

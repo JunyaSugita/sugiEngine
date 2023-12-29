@@ -1,4 +1,4 @@
-﻿#include "BaseSpell.h"
+#include "BaseSpell.h"
 #include "Player.h"
 #include "ModelManager.h"
 
@@ -11,7 +11,7 @@ void BaseSpell::Initialize(Vector3 pos, Vector3 vec)
 	vec_ = vec.normalize();
 
 	//プレイヤーの少し前に出す
-	obj_.pos = pos + vec_ * 3;
+	obj_.pos = pos + vec_ * SPELL_LENGE;
 
 	col_.col.pos = pos;
 

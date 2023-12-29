@@ -1,4 +1,4 @@
-﻿#include "ChainLightning.h"
+#include "ChainLightning.h"
 #include "ColliderManager.h"
 #include "ParticleManager.h"
 #include "ModelManager.h"
@@ -38,7 +38,7 @@ void ChainLightning::Update()
 	Vector3 posS = obj_.pos;
 
 	if (!isDead_) {
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < MAX_LENGE; i++) {
 			obj_.pos += vec_ * SPEED_MOVE;
 			SetCol();
 			WorldTransUpdate();
@@ -50,7 +50,7 @@ void ChainLightning::Update()
 				break;
 			}
 		}
-		EffectManager::GetInstance()->BoltGenerate(posS, obj_.pos, { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 }, {0.5f,0.5f,1,0.5f});
+		EffectManager::GetInstance()->BoltGenerate(posS, obj_.pos, { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 }, COLOR);
 	}
 }
 

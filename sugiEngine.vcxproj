@@ -109,7 +109,6 @@
     <ClCompile Include="sugiEngine\app\enemy\Slime.cpp" />
     <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp" />
     <ClCompile Include="sugiEngine\app\ground\Torch.cpp" />
-    <ClCompile Include="sugiEngine\app\player\ItemManager.cpp" />
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
     <ClCompile Include="sugiEngine\app\scene\StageSelectScene.cpp" />
@@ -184,7 +183,6 @@
     <ClInclude Include="sugiEngine\app\enemy\Slime.h" />
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h" />
     <ClInclude Include="sugiEngine\app\ground\Torch.h" />
-    <ClInclude Include="sugiEngine\app\player\ItemManager.h" />
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
     <ClInclude Include="sugiEngine\app\scene\StageSelectScene.h" />
