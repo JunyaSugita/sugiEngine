@@ -275,7 +275,7 @@ void GameScene::SpriteDraw()
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 
 		if (!LoadOut::GetInstance()->GetIsActive()) {
-			Player::GetInstance()->SpDraw();
+			Player::GetInstance()->SpriteDraw();
 			gameOver_.Draw();
 		}
 		UIManager::GetInstance()->Draw();

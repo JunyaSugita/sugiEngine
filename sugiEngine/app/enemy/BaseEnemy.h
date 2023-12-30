@@ -49,25 +49,25 @@ public:
 		return obj_.pos;
 	}
 	void SetCol(Vector3 vec) {
-		col_.col.pos = vec;
+		cols_.col.pos = vec;
 	}
 	void SetColX(float x) {
-		col_.col.pos.x = x;
+		cols_.col.pos.x = x;
 	}
 	void SetColY(float y) {
-		col_.col.pos.y = y;
+		cols_.col.pos.y = y;
 	}
 	void SetColZ(float z) {
-		col_.col.pos.z = z;
+		cols_.col.pos.z = z;
 	}
 	void AddCol(Vector3 vec) {
-		col_.col.pos += vec;
+		cols_.col.pos += vec;
 	}
 	void AddColX(float x) {
-		col_.col.pos.x += x;
+		cols_.col.pos.x += x;
 	}
 	void AddColZ(float z) {
-		col_.col.pos.z += z;
+		cols_.col.pos.z += z;
 	}
 	bool GetIsDead() {
 		return isDead_;
@@ -82,10 +82,10 @@ public:
 		isHit_ = false;
 	}
 	BoxCol GetBoxCol() {
-		return col_.col;
+		return cols_.col;
 	}
 	BoxCol GetOldBoxCol() {
-		return col_.oldCol;
+		return cols_.oldCol;
 	}
 	void SetIsStop() {
 		isStop_ = true;
@@ -100,11 +100,11 @@ public:
 	static void ToggleIsAllStop() {
 		sIsDebugStop_ = (sIsDebugStop_ + 1) % 2;
 	}
-
+	//全ての敵の動きを止める
 	static void SetIsAllStop(bool is) {
 		sIsDebugStop_ = is;
 	}
-
+	//ライトセット
 	static void SetLight(LightGroup* light) {
 		light_ = light;
 	}
@@ -212,7 +212,7 @@ protected:
 	BaseObj iceObj_;
 
 	//当たり判定
-	BaseCol col_;
+	BaseCol cols_;
 	float height_;
 
 	//体力

@@ -43,7 +43,7 @@ void FireBall::Update()
 void FireBall::Draw()
 {
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		col_.Draw();
+		cols_.Draw();
 	}
 }
 

@@ -24,8 +24,11 @@ public:
 	void Update();
 	void Draw();
 
+	//クリアを呼び出し
 	void SetClear();
+	//ゲームオーバーを呼び出し
 	void SetGameOver();
+	//透明度
 	float GetStateAlpha_() {
 		return stateAlpha_;
 	}

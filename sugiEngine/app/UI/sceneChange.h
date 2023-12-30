@@ -23,14 +23,16 @@ public:
 	void Update();
 	void Draw();
 
+	//シーンチェンジを始める
 	void Start() {
 		isSceneChange_ = true;
 	}
-
+	//シーンチェンジ中か
 	bool GetIsSceneChange() {
 		return isSceneChange_;
 	}
 
+	//イージングの時間を取得
 	float GetTimer() {
 		return easeTimer_;
 	}

@@ -14,8 +14,8 @@ void IceBolt::Initialize(Vector3 pos, Vector3 vec)
 
 	vec_ = vec.normalize();
 
-	col_.col.pos = pos;
-	col_.col.size = { 0.5f ,0.5f, 0.5f };
+	cols_.col.pos = pos;
+	cols_.col.size = { 0.5f ,0.5f, 0.5f };
 
 	WorldTransUpdate();
 

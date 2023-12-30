@@ -29,17 +29,16 @@ public:
 	void Update();
 	void Draw();
 
+	//ゲッターセッター
 	void SetClear() {
 		isClear_ = true;
 	}
 	bool GetIsClear() {
 		return isClear_;
 	}
-
 	BoxCol GetCol() {
-		return col_.col;
+		return cols_.col;
 	}
-
 	void SetGoal(Vector3 pos);
 
 private:
@@ -50,7 +49,7 @@ private:
 	const float GOAL_Y = 3;
 
 	BaseObj obj_;
-	BaseCol col_;
+	BaseCol cols_;
 
 	bool isClear_;
 	float blur_;

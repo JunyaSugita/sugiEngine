@@ -28,20 +28,19 @@ public:
 
 	static MenuManager* GetInstance();
 
+	//ゲッターセッター
 	void SetIsActive(bool is) {
 		isActive_ = is;
 	}
 	bool GetIsActive() {
 		return isActive_;
 	}
-
 	bool GetIsReset() {
 		return isReset_;
 	}
 	bool GetIsStageSelect() {
 		return isStageSelect_;
 	}
-
 	bool GetIsMenu();
 
 	void Initialize();
@@ -49,18 +48,12 @@ public:
 	void Update();
 	void Draw();
 
+	//メニュー画面を開く
 	void SetGameMenu();
-	void SetResetCheck();
-	void SetStageSelectBackCheck();
 
+	//ゲームに戻る
 	void Back();
-	void Reset();
-	void GoStageSelect();
-	void GoSpellSetting();
-	void BackStage();
-	void Enter();
-	void Cancel();
-
+	//設定画面へ
 	void GoToSetting();
 
 private:

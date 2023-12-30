@@ -72,6 +72,12 @@ public:
 		color_.z = color.z;
 		color_.w = color.w;
 	}
+	void SetColor(const Vector3& color,float alpha) {
+		color_.x = color.x;
+		color_.y = color.y;
+		color_.z = color.z;
+		color_.w = alpha;
+	}
 	void SetTiling(const Vector2& uv) {
 		tiling_.x = uv.x;
 		tiling_.y = uv.y;

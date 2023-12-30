@@ -10,15 +10,15 @@ void ChainLightning::Initialize(Vector3 pos, Vector3 vec)
 	obj_.Initialize("sphere");
 	obj_.obj->SetColor({ 1,0,0,1 });
 
-	col_.Initialize();
+	cols_.Initialize();
 
 
 	obj_.pos = pos;
 
 	vec_ = vec.normalize();
 
-	col_.col.pos = pos;
-	col_.col.size = { 1,1,1 };
+	cols_.col.pos = pos;
+	cols_.col.size = { 1,1,1 };
 
 	WorldTransUpdate();
 
@@ -58,7 +58,7 @@ void ChainLightning::Draw()
 {
 	obj_.Draw();
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		col_.Draw();
+		cols_.Draw();
 	}
 }
 
@@ -69,12 +69,12 @@ void ChainLightning::Fire()
 
 void ChainLightning::SetCol()
 {
-	col_.SetCol(obj_.pos);
-	col_.col.size = { obj_.scale.x,obj_.scale.y, obj_.scale.x };
+	cols_.SetCol(obj_.pos);
+	cols_.col.size = { obj_.scale.x,obj_.scale.y, obj_.scale.x };
 }
 
 void ChainLightning::WorldTransUpdate()
 {
 	obj_.Update();
-	col_.Update();
+	cols_.Update();
 }

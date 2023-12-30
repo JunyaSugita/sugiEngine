@@ -35,6 +35,7 @@ public:
 	void Update();
 	void Draw();
 
+	//ゲッター
 	bool GetIsActive() {
 		return isActive_;
 	}

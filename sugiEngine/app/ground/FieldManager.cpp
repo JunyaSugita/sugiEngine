@@ -22,12 +22,12 @@ void FieldManager::Initialize(int num)
 	lightGroup_->PointLightAllClear();
 
 	// レベルデータの読み込み
-	SelectStage(num);
+	LoadStage(num);
 
 	navePointNum_ = 0;
 	torchs_.clear();
 	objs_.clear();
-	col_.clear();
+	cols_.clear();
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
 			std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
@@ -55,7 +55,7 @@ void FieldManager::Initialize(int num)
 			BoxCol temp;
 			temp.pos = objectData.pos;
 			temp.size = objectData.scale;
-			col_.push_back(temp);
+			cols_.push_back(temp);
 		}
 		else if (objectData.filename == "ground") {
 			//モデルを指定して3Dオブジェクトを生成
@@ -74,7 +74,7 @@ void FieldManager::Initialize(int num)
 			BoxCol temp;
 			temp.pos = objectData.pos;
 			temp.size = objectData.scale;
-			col_.push_back(temp);
+			cols_.push_back(temp);
 		}
 		else if (objectData.filename == "enemy") {
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
@@ -124,7 +124,7 @@ void FieldManager::Draw()
 	}
 }
 
-void FieldManager::SelectStage(int num)
+void FieldManager::LoadStage(int num)
 {
 	switch (num)
 	{

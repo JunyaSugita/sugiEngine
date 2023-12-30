@@ -14,25 +14,25 @@ public:
 	void Initialize(Vector3 pos, Vector3 vec);
 	void Update();
 	void Draw();
-
+	//発射
 	void Fire();
 
+	//ゲッターセッター
 	bool GetIsDead() {
 		return isDead_;
 	}
 	void SetIsDead() {
 		isDead_ = true;
 	};
-
 	void SetIsHit() {
 		isHit_ = true;
 	}
-
 	BoxCol GetBoxCol() {
-		return col_.col;
+		return cols_.col;
 	}
 
 private:
+	//当たり判定セット
 	void SetCol();
 	void WorldTransUpdate();
 
@@ -51,7 +51,7 @@ private:
 	BaseObj obj_;
 
 	//当たり判定
-	BaseCol col_;
+	BaseCol cols_;
 
 	//進行方向
 	Vector3 vec_;

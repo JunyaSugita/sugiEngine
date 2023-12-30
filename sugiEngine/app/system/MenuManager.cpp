@@ -126,47 +126,9 @@ void MenuManager::SetGameMenu()
 	isActive_ = true;
 }
 
-void MenuManager::SetResetCheck()
-{
-	isResetCheck_ = true;
-	checkNum_ = selectNum_;
-	selectNum_ = 0;
-}
-
-void MenuManager::SetStageSelectBackCheck()
-{
-	isStageSelectBackCheck_ = true;
-	checkNum_ = selectNum_;
-	selectNum_ = 0;
-}
-
 void MenuManager::Back()
 {
 	isActive_ = false;
-}
-
-void MenuManager::Reset()
-{
-}
-
-void MenuManager::GoStageSelect()
-{
-}
-
-void MenuManager::GoSpellSetting()
-{
-}
-
-void MenuManager::BackStage()
-{
-}
-
-void MenuManager::Enter()
-{
-}
-
-void MenuManager::Cancel()
-{
 }
 
 void MenuManager::GoToSetting()

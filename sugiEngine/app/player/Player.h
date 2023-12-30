@@ -26,7 +26,9 @@ public:
 	void GameInitialize();
 	void Update();
 	void Draw();
-	void SpDraw();
+	void SpriteDraw();
+
+	//呪文を詠唱
 	void ChargeSpell(int32_t num);
 
 	//pos
@@ -53,6 +55,8 @@ public:
 	int32_t GetMaxLife() {
 		return MAX_LIFE;
 	}
+
+	//ダメージを適応
 	void SubLife(int32_t num = 1000);
 
 	//worldTrans
@@ -70,6 +74,7 @@ public:
 		return attackTime_;
 	};
 
+	//杖を振ったり出来るか
 	bool GetIsCanAction();
 	bool GetIsSpell() {
 		return isSpell_;

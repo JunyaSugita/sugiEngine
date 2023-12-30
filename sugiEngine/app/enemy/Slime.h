@@ -7,7 +7,6 @@
 
 class Slime : public BaseEnemy {
 public:
-	static void StaticInitialize();
 	void Initialize(std::string name,Vector3 pos) override;
 	void Draw() override;
 	void DrawTransparent() override;

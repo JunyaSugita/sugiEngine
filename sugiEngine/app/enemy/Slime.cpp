@@ -4,10 +4,6 @@
 #include "ParticleManager.h"
 #include <random>
 
-void Slime::StaticInitialize()
-{
-}
-
 void Slime::Initialize(std::string name, Vector3 pos)
 {
 	life_ = MAX_HP;
@@ -31,7 +27,7 @@ void Slime::DrawTransparent()
 
 void Slime::WorldTransUpdate()
 {
-	col_.col.size = { obj_.scale.x,obj_.scale.y ,obj_.scale.x };
+	cols_.col.size = { obj_.scale.x,obj_.scale.y ,obj_.scale.x };
 	BaseEnemy::WorldTransUpdate();
 }
 
@@ -147,9 +143,9 @@ void Slime::PopDebuffFireParticle()
 		std::uniform_real_distribution<float> x(-RENGE_DOWN_FIELD, RENGE_DOWN_FIELD);
 		std::uniform_real_distribution<float> z(-RENGE_DOWN_FIELD, RENGE_DOWN_FIELD);
 
-		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, { col_.col.pos.x + x(engine), col_.col.pos.y ,col_.col.pos.z + z(engine) });
+		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, { cols_.col.pos.x + x(engine), cols_.col.pos.y ,cols_.col.pos.z + z(engine) });
 	}
 	else {
-		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.col.pos);
+		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, cols_.col.pos);
 	}
 }

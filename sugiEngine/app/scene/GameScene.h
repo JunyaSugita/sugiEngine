@@ -31,11 +31,13 @@ public:
 	void SpriteDraw() override;
 	void Finalize() override;
 
+	//次のステージへ
 	void AddStage() {
 		stageNum_++;
 	}
 
 public:
+	//ゲームリセット時
 	void GameInitialize();
 
 private:

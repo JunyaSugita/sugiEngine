@@ -32,10 +32,10 @@ void Fly::Initialize(std::string name, Vector3 pos)
 	obj_.pos.y = FLY_Y;
 	obj_.scale.x = 2;
 
-	col_.gap.y = 0.0f;
-	col_.col.size.x = 2;
-	col_.col.size.y = 1;
-	col_.col.size.z = 2;
+	cols_.gap.y = 0.0f;
+	cols_.col.size.x = 2;
+	cols_.col.size.y = 1;
+	cols_.col.size.z = 2;
 
 	obj_.obj->SetColor(COLOR_BODY);
 	wingL_.obj->SetColor(COLOR_BODY);
@@ -115,7 +115,7 @@ void Fly::DontMoveUpdate()
 		debuff_.iceTime = 0;
 	}
 
-	col_.col.pos = obj_.pos;
+	cols_.col.pos = obj_.pos;
 }
 
 void Fly::Attack()
@@ -127,13 +127,13 @@ void Fly::Attack()
 
 void Fly::Down()
 {
-	if (col_.col.pos.y > 1) {
-		col_.col.pos.y -= SPEED_DROP_DOWN;
+	if (cols_.col.pos.y > 1) {
+		cols_.col.pos.y -= SPEED_DROP_DOWN;
 	}
 	else {
-		col_.col.pos.y = 1;
+		cols_.col.pos.y = 1;
 	}
-	obj_.pos = col_.col.pos;
+	obj_.pos = cols_.col.pos;
 
 	//最後
 	BaseEnemy::Down();

@@ -32,6 +32,7 @@ public:
 	void Update();
 	void Draw();
 
+	//ゲッター
 	int32_t GetSelectNum() {
 		return selectNum_;
 	}

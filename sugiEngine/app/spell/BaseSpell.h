@@ -26,9 +26,12 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
+	//当たり判定セット
 	virtual void SetCol();
 	virtual void WorldTransUpdate();
+	//発射
 	virtual void Fire();
+	//着弾時効果
 	virtual void Explode();
 
 public:
@@ -45,7 +48,7 @@ public:
 		isHit_ = true;
 	}
 	BoxCol GetBoxCol() {
-		return col_.col;
+		return cols_.col;
 	}
 	int32_t GetDamage() {
 		return damage_;
@@ -62,7 +65,7 @@ protected:
 	//位置や実体
 	BaseObj obj_;
 	//当たり判定
-	BaseCol col_;
+	BaseCol cols_;
 	//表示フラグ
 	bool isDead_;
 	//消えるまでの時間管理

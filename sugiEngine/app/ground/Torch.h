@@ -15,6 +15,7 @@ public:
 	void Update();
 	void Draw();
 
+	//ライトグループのセット
 	static void SetLight(LightGroup* lightGroup) {
 		lightGroup_ = lightGroup;
 	}

@@ -50,37 +50,39 @@ public:
 	void Update();
 	void Draw();
 
+	//ファイアーボールのチャージと発射
 	void ChargeFireBall();
 	void FireFireBall();
-
+	//マジックミサイルのチャージと発射
 	void ChargeMagicMissile();
 	void FireMagicMissile();
-
+	//アイスボルトのチャージと発射
 	void ChargeIceBolt();
 	void FireIceBolt();
-
+	//チェインライトニングのチャージと発射
 	void ChargeChainLightning();
 	void FireChainLightning();
-
+	//エンチャントファイアのチャージと発射
 	void ChargeEnchantFire();
 	void FireEnchantFire();
-
+	//火炎放射のチャージと発射
 	void ChargeFlame();
 	void FireFlame();
 
+	//ボタンを離した時などにチャージタイムを初期化
 	void ResetChargeTime() {
 		chargeTime_ = 0;
 	}
+	//何パーセント溜まっているか
 	float ChargePercent();
-
 	float UsePercent() {
 		return useTime_ / maxCharge_;
 	}
-
 	float GetMaxCharge() {
 		return maxCharge_;
 	}
 
+	//ライトニング以外の呪文の判定
 	std::vector<BaseSpell*> GetSpellsCol() {
 		spellsList_.clear();
 		for (std::unique_ptr<BaseSpell>& spell : spells_) {
@@ -88,7 +90,7 @@ public:
 		}
 		return spellsList_;
 	}
-
+	//ライトニングの呪文の判定
 	std::vector<ChainLightning*> GetChainLightningsCol() {
 		chainLightningsList_.clear();
 		for (std::unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
@@ -96,16 +98,17 @@ public:
 		}
 		return chainLightningsList_;
 	}
-
+	//エンチャントファイア適応
 	void SetEnchantFire() {
 		isModeEnchantFire_ = true;
 	}
+	//エンチャントファイアを使っているか
 	bool GetActiveEnchantFire() {
 		return isModeEnchantFire_;
 	}
-
+	//呪文を使っているか
 	bool GetIsUseSpell();
-
+	//呪文の属性を取得
 	int32_t GetSpellType(int32_t spell);
 
 public:

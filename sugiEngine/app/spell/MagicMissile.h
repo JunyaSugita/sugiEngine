@@ -13,6 +13,7 @@ public:
 	void Initialize(Vector3 pos, Vector3 vec) override;
 	void Update()override;
 
+	//ライトグループセット
 	static void SetLight(LightGroup* lightGroup) {
 		lightGroup_ = lightGroup;
 	}

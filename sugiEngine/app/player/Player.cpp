@@ -90,7 +90,7 @@ void Player::Draw()
 	PlayerWeapon::GetInstance()->Draw();
 }
 
-void Player::SpDraw()
+void Player::SpriteDraw()
 {
 	damageSp_.Draw();
 }

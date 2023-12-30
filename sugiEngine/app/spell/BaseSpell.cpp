@@ -6,14 +6,14 @@ void BaseSpell::Initialize(Vector3 pos, Vector3 vec)
 {
 	obj_.Initialize("sphere");
 
-	col_.Initialize();
+	cols_.Initialize();
 
 	vec_ = vec.normalize();
 
 	//プレイヤーの少し前に出す
 	obj_.pos = pos + vec_ * SPELL_LENGE;
 
-	col_.col.pos = pos;
+	cols_.col.pos = pos;
 
 	isDead_ = true;
 	isHit_ = false;
@@ -50,20 +50,20 @@ void BaseSpell::Draw()
 	}
 
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		col_.Draw();
+		cols_.Draw();
 	}
 }
 
 void BaseSpell::SetCol()
 {
-	col_.col.size = { obj_.scale.x,obj_.scale.y, obj_.scale.x };
-	col_.SetCol(obj_.pos);
+	cols_.col.size = { obj_.scale.x,obj_.scale.y, obj_.scale.x };
+	cols_.SetCol(obj_.pos);
 }
 
 void BaseSpell::WorldTransUpdate()
 {
 	obj_.Update();
-	col_.Update();
+	cols_.Update();
 }
 
 void BaseSpell::Fire()

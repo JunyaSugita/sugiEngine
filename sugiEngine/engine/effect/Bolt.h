@@ -23,7 +23,7 @@ private:
 	//サイズ
 	const float SIZE = 0.05f;
 	//生存時間
-	const int32_t TIME = 30;
+	const float TIME = 30;
 
 	//座標
 	BaseObj obj_[NUM];

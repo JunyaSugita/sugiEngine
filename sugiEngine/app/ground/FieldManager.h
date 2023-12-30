@@ -27,20 +27,22 @@ public:
 	void Update();
 	void Draw();
 
+	//当たり判定取得
 	BoxCol GetCol(int num) {
-		return col_[num];
+		return cols_[num];
 	}
-
+	//当たり判定の大きさ取得
 	size_t GetColSize() {
-		return col_.size();
+		return cols_.size();
 	}
-
+	//ナビポイントの番号取得
 	int32_t GetNaviPointNum() {
 		return navePointNum_;
 	}
+	//ステージを読み込む
+	void LoadStage(int num);
 
-	void SelectStage(int num);
-
+	//ライトをセット
 	static void SetLight(LightGroup* lightGroup);
 
 private:
@@ -55,7 +57,7 @@ private:
 
 	std::unique_ptr<Model> boxModel_;
 	std::vector <std::unique_ptr<BaseObj>> objs_;
-	std::vector<BoxCol> col_;
+	std::vector<BoxCol> cols_;
 
 	std::vector<std::unique_ptr<Torch>> torchs_;
 

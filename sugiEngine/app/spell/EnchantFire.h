@@ -13,6 +13,7 @@ public:
 	void Update()override;
 	void Fire()override;
 
+	//武器に火がついているか
 	bool GetActive();
 
 public:

@@ -23,6 +23,7 @@ public:
 	void Update();
 	void Draw();
 
+	//呪文のテクスチャ番号取得
 	int32_t GetSpellTex(int32_t spellName);
 	void SetSpellTex();
 private:

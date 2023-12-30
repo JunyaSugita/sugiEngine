@@ -17,6 +17,7 @@ public:
 
 	void Explode()override;
 
+	//ライトグループセット
 	static void SetLight(LightGroup* lightGroup) {
 		lightGroup_ = lightGroup;
 	}

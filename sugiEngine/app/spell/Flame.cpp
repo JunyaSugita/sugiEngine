@@ -26,6 +26,6 @@ void Flame::Update()
 void Flame::Draw()
 {
 	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		col_.Draw();
+		cols_.Draw();
 	}
 }
