@@ -46,12 +46,43 @@ public:
 	static void SetLight(LightGroup* lightGroup);
 
 private:
+	/// <summary>
+	/// 壁を設置
+	/// </summary>
+	/// <param name="pos">壁の位置</param>
+	/// <param name="scale">壁の大きさ</param>
+	void SetWall(Vector3 pos,Vector3 scale);
+
+	/// <summary>
+	/// 床を設置
+	/// </summary>
+	/// <param name="pos">床の位置</param>
+	/// <param name="scale">床の大きさ</param>
+	void SetFloor(Vector3 pos, Vector3 scale);
+
+	/// <summary>
+	/// ゴールを設置
+	/// </summary>
+	/// <param name="pos">ゴールの場所</param>
+	void SetGoal(Vector3 pos);
+
+	/// <summary>
+	/// たいまつの設置
+	/// </summary>
+	/// <param name="pos">たいまつの場所</param>
+	/// <param name="rot">たいまつの角度</param>
+	/// <param name="scale"></param>
+	void SetTorch(Vector3 pos,Vector3 rot,Vector3 scale);
+
+private:
 	//ライトの明るさ
 	const float ATTEN_LOW = 0.01f;
 	const float ATTEN_HIGT = 0.001f;
 	//ゴール関係
 	const Vector3 COLOR_GOAL = {0,0,1};
 	const float ATTEN_GOAL = 0.002f;
+	//ゴールの高さ
+	const float GOAL_Y = 2;
 
 	LevelData* levelData_;
 

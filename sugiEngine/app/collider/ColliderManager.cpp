@@ -29,246 +29,26 @@ void ColliderManager::Initialize()
 
 void ColliderManager::Update()
 {
-	//敵の判定
-	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
-	//マップの判定
-	FieldManager* field = FieldManager::GetInstance();
-	//プレイヤー
-	Player* player = Player::GetInstance();
-	//ゴール
-	ClearChecker* clear = ClearChecker::GetInstance();
-
-#pragma region 呪文の判定
 	//呪文の判定
-	vector<BaseSpell*> spellsCol = SpellManager::GetInstance()->GetSpellsCol();
+	CheckSpellCol();
 
-	for (int i = 0; i < spellsCol.size(); i++) {
-		//当たり判定を行わない呪文は弾く
-		if (!spellsCol[i]->GetIsCalcCol()) {
-			continue;
-		}
+	//チェインライトニングの判定
+	CheckChainLightningCol();
 
-		//呪文と敵の判定
-		for (int j = 0; j < enemysCol.size(); j++) {
-			//まだ当たってない呪文と倒れている敵は判定しない
-			if (!spellsCol[i]->GetIsHit() && enemysCol[j]->GetIsDown()) {
-				continue;
-			}
+	//プレイヤーと敵の判定
+	CheckPlayerToEnemyCol();
 
-			//判定
-			if (CheckHitBox(spellsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
-				//呪文が敵に当たっている時
-				if (!spellsCol[i]->GetIsHit()) {
-					//敵に当たった瞬間
-					ParticleManager::GetInstance()->AddFromFile(P_DAMAGE,enemysCol[j]->GetPos());
-					enemysCol[j]->SetShakeTime(TIME_SHAKE);
-				}
-				spellsCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage());
-				enemysCol[j]->SetDebuff(spellsCol[i]->GetDebuff(), TIME_DEBUFF);
-			}
-		}
-		//呪文と壁や床との判定
-		for (int j = 0; j < field->GetColSize(); j++) {
-			//判定
-			if (CheckHitBox(spellsCol[i]->GetBoxCol(), field->GetCol(j))) {
-				//呪文が壁や床と当たっている時
-				spellsCol[i]->SetIsHit();
-			}
-		}
-	}
+	//敵同士の当たり判定
+	CheckEnemyToEnemyCol();
 
-#pragma endregion
+	//敵と壁の判定
+	CheckEnemyToFieldCol();
 
-#pragma region チェインライトニングの判定
-	//チェインライトニング
-	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
+	//プレイヤーと壁の判定
+	CheckPlayerToFieldCol();
 
-	//敵との判定を取る
-	for (int i = 0; i < chainLightningsCol.size(); i++) {
-		for (int j = 0; j < enemysCol.size(); j++) {
-			//判定
-			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
-				//ライトニングの判定先に敵がいたとき
-				chainLightningsCol[i]->SetIsHit();
-				enemysCol[j]->SetIsHit(ChainLightning::DAMAGE);
-				enemysCol[j]->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
-
-				//1体目の伝播
-				int32_t hitTemp1 = -1;
-				float lenTemp = 30;
-
-				//近い敵を探す
-				for (int k = 0; k < enemysCol.size(); k++) {
-					//被り防止
-					if (j != k) {
-						float length = (enemysCol[j]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
-						//距離を比べて近い敵をhitTemp1に代入
-						if (lenTemp > length) {
-							lenTemp = length;
-							hitTemp1 = k;
-						}
-					}
-				}
-
-				//近いやつがいたら
-				if (hitTemp1 != -1) {
-					//一番近いやつにダメージ
-					enemysCol[hitTemp1]->SetIsHit(ChainLightning::DAMAGE);
-					enemysCol[hitTemp1]->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
-					//そこまでのパーティクル
-					EffectManager::GetInstance()->BoltGenerate(enemysCol[j]->GetBoxCol().pos, enemysCol[hitTemp1]->GetBoxCol().pos,{0,0,0},{0.5f,0.5f,1,0.5f});
-
-					//2体目の伝播
-					int32_t hitTemp2 = -1;
-					lenTemp = 30;
-
-					//近い敵を探す
-					for (int k = 0; k < enemysCol.size(); k++) {
-						//被り防止
-						if (j != k && hitTemp1 != k) {
-							float length = (enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
-							//より近い敵をhitTemp2に代入
-							if (lenTemp > length) {
-								lenTemp = length;
-								hitTemp2 = k;
-							}
-						}
-					}
-					//近いやつがいたら
-					if (hitTemp2 != -1) {
-						//一番近いやつにダメージ
-						enemysCol[hitTemp2]->SetIsHit(ChainLightning::DAMAGE);
-						enemysCol[hitTemp2]->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
-
-						//そこまでのパーティクル
-						EffectManager::GetInstance()->BoltGenerate(enemysCol[hitTemp1]->GetBoxCol().pos, enemysCol[hitTemp2]->GetBoxCol().pos, { 0,0,0 }, { 0.5f,0.5f,1,0.5f });
-					}
-				}
-			}
-		}
-	}
-
-#pragma endregion
-
-#pragma region プレイヤーと敵の判定
-	///プレイヤーと敵
-	//プレイヤーが無敵かどうか
-	if (!Player::GetInstance()->GetInvincible()) {
-		for (int i = 0; i < enemysCol.size(); i++) {
-			//敵がダウンしているかどうか
-			if (!enemysCol[i]->GetIsDown()) {
-				//判定
-				if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
-					enemysCol[i]->SetIsStop();
-					enemysCol[i]->SetIsAttack();
-				}
-			}
-			else {
-				//ダウンしている時の判定
-				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
-					enemysCol[i]->DownHitPlayer();
-				}
-			}
-		}
-	}
-
-#pragma endregion 
-
-#pragma region 敵同士の当たり判定
-	for (int i = 0; i < enemysCol.size(); i++) {
-		for (int j = i + 1; j < enemysCol.size(); j++) {
-			if (!enemysCol[i]->GetIsDown() && !enemysCol[j]->GetIsDown()) {
-				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
-					if (enemysCol[i]->GetBoxCol().pos.x <= enemysCol[j]->GetBoxCol().pos.x) {
-						enemysCol[i]->AddColX(-PUSH_LEN);
-						enemysCol[j]->AddColX(PUSH_LEN);
-					}
-					else if (enemysCol[i]->GetBoxCol().pos.x > enemysCol[j]->GetBoxCol().pos.x) {
-						enemysCol[i]->AddColX(PUSH_LEN);
-						enemysCol[j]->AddColX(-PUSH_LEN);
-					}
-
-					if (enemysCol[i]->GetBoxCol().pos.z <= enemysCol[j]->GetBoxCol().pos.z) {
-						enemysCol[i]->AddColZ(-PUSH_LEN);
-						enemysCol[j]->AddColZ(PUSH_LEN);
-					}
-					else if (enemysCol[i]->GetBoxCol().pos.z > enemysCol[j]->GetBoxCol().pos.z) {
-						enemysCol[i]->AddColZ(PUSH_LEN);
-						enemysCol[j]->AddColZ(-PUSH_LEN);
-					}
-				}
-			}
-			//後者のみが倒れてる
-			else if (!enemysCol[i]->GetIsDown() && enemysCol[j]->GetIsDown()) {
-				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
-					enemysCol[i]->SetDownHitEnemy(enemysCol[j]->GetDownHitEnemy());
-				}
-			}
-			//前者のみが倒れている
-			else if (enemysCol[i]->GetIsDown() && !enemysCol[j]->GetIsDown()){
-				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
-					enemysCol[j]->SetDownHitEnemy(enemysCol[i]->GetDownHitEnemy());
-				}
-			}
-		}
-	}
-
-#pragma endregion
-
-#pragma region 敵と壁の判定
-	for (int i = 0; i < enemysCol.size(); i++) {
-		for (int j = 0; j < field->GetColSize(); j++) {
-			if (CheckHitBox(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
-				if (CheckHitX(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
-					if (!CheckHitX(enemysCol[i]->GetOldBoxCol(), field->GetCol(j))) {
-						enemysCol[i]->SetColX(enemysCol[i]->GetOldBoxCol().pos.x);
-					}
-				}
-				if (CheckHitY(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
-					if (!CheckHitY(enemysCol[i]->GetOldBoxCol(), field->GetCol(j))) {
-						enemysCol[i]->SetColY(enemysCol[i]->GetOldBoxCol().pos.y);
-					}
-				}
-				if (CheckHitZ(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
-					if (!CheckHitZ(enemysCol[i]->GetOldBoxCol(), field->GetCol(j))) {
-						enemysCol[i]->SetColZ(enemysCol[i]->GetOldBoxCol().pos.z);
-					}
-				}
-				enemysCol[i]->WorldTransUpdate();
-			}
-		}
-	}
-#pragma endregion
-
-#pragma region プレイヤーと壁の判定
-	for (int i = 0; i < field->GetColSize(); i++) {
-		if (CheckHitBox(player->GetBoxCol(), field->GetCol(i))) {
-			if (CheckHitX(player->GetBoxCol(), field->GetCol(i))) {
-				if (!CheckHitX(player->GetOldBoxCol(), field->GetCol(i))) {
-					player->SetPosX(player->GetOldBoxCol().pos.x);
-				}
-			}
-			if (CheckHitY(player->GetBoxCol(), field->GetCol(i))) {
-				if (!CheckHitY(player->GetOldBoxCol(), field->GetCol(i))) {
-					player->SetPosY(player->GetOldBoxCol().pos.y);
-				}
-			}
-			if (CheckHitZ(player->GetBoxCol(), field->GetCol(i))) {
-				if (!CheckHitZ(player->GetOldBoxCol(), field->GetCol(i))) {
-					player->SetPosZ(player->GetOldBoxCol().pos.z);
-				}
-			}
-			player->WorldTransUpdate();
-		}
-	}
-#pragma endregion
-
-#pragma region プレイヤーとゴールの判定
-	if (CheckHitBox(player->GetBoxCol(), clear->GetCol())) {
-		clear->SetClear();
-	}
-#pragma endregion
+	//プレイヤーとゴールの判定
+	CheckPlayerToGoalCol();
 }
 
 bool ColliderManager::CheckWayX(BoxCol a, BoxCol b)
@@ -544,6 +324,270 @@ void ColliderManager::SetNaviPointScore()
 				}
 			}
 		}
+	}
+}
+
+void ColliderManager::CheckSpellCol()
+{
+	//呪文の判定
+	vector<BaseSpell*> spellsCol = SpellManager::GetInstance()->GetSpellsCol();
+	//敵の判定
+	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+	//マップの判定
+	FieldManager* field = FieldManager::GetInstance();
+
+	for (int i = 0; i < spellsCol.size(); i++) {
+		//当たり判定を行わない呪文は弾く
+		if (!spellsCol[i]->GetIsCalcCol()) {
+			continue;
+		}
+
+		//呪文と敵の判定
+		for (int j = 0; j < enemysCol.size(); j++) {
+			//まだ当たってない呪文と倒れている敵は判定しない
+			if (!spellsCol[i]->GetIsHit() && enemysCol[j]->GetIsDown()) {
+				continue;
+			}
+
+			//判定
+			if (CheckHitBox(spellsCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+				//呪文が敵に当たっている時
+				if (!spellsCol[i]->GetIsHit()) {
+					//敵に当たった瞬間
+					ParticleManager::GetInstance()->AddFromFile(P_DAMAGE, enemysCol[j]->GetPos());
+					enemysCol[j]->SetShakeTime(TIME_SHAKE);
+				}
+				spellsCol[i]->SetIsHit();
+				enemysCol[j]->SetIsHit(spellsCol[i]->GetDamage());
+				enemysCol[j]->SetDebuff(spellsCol[i]->GetDebuff(), TIME_DEBUFF);
+			}
+		}
+		//呪文と壁や床との判定
+		for (int j = 0; j < field->GetColSize(); j++) {
+			//判定
+			if (CheckHitBox(spellsCol[i]->GetBoxCol(), field->GetCol(j))) {
+				//呪文が壁や床と当たっている時
+				spellsCol[i]->SetIsHit();
+			}
+		}
+	}
+}
+
+void ColliderManager::CheckChainLightningCol()
+{
+	//敵の判定
+	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+	//チェインライトニング
+	vector<ChainLightning*> chainLightningsCol = SpellManager::GetInstance()->GetChainLightningsCol();
+
+	//敵との判定を取る
+	for (int i = 0; i < chainLightningsCol.size(); i++) {
+		for (int j = 0; j < enemysCol.size(); j++) {
+			//判定
+			if (CheckHitBox(enemysCol[j]->GetBoxCol(), chainLightningsCol[i]->GetBoxCol())) {
+				//ライトニングの判定先に敵がいたとき
+				chainLightningsCol[i]->SetIsHit();
+				enemysCol[j]->SetIsHit(ChainLightning::DAMAGE);
+				enemysCol[j]->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
+
+				//1体目の伝播
+				int32_t hitTemp1 = -1;
+				float lenTemp = 30;
+
+				//近い敵を探す
+				for (int k = 0; k < enemysCol.size(); k++) {
+					//被り防止
+					if (j != k) {
+						float length = (enemysCol[j]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
+						//距離を比べて近い敵をhitTemp1に代入
+						if (lenTemp > length) {
+							lenTemp = length;
+							hitTemp1 = k;
+						}
+					}
+				}
+
+				//近いやつがいたら
+				if (hitTemp1 != -1) {
+					//一番近いやつにダメージ
+					enemysCol[hitTemp1]->SetIsHit(ChainLightning::DAMAGE);
+					enemysCol[hitTemp1]->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
+					//そこまでのパーティクル
+					EffectManager::GetInstance()->BoltGenerate(enemysCol[j]->GetBoxCol().pos, enemysCol[hitTemp1]->GetBoxCol().pos, { 0,0,0 }, { 0.5f,0.5f,1,0.5f });
+
+					//2体目の伝播
+					int32_t hitTemp2 = -1;
+					lenTemp = 30;
+
+					//近い敵を探す
+					for (int k = 0; k < enemysCol.size(); k++) {
+						//被り防止
+						if (j != k && hitTemp1 != k) {
+							float length = (enemysCol[hitTemp1]->GetBoxCol().pos - enemysCol[k]->GetBoxCol().pos).length();
+							//より近い敵をhitTemp2に代入
+							if (lenTemp > length) {
+								lenTemp = length;
+								hitTemp2 = k;
+							}
+						}
+					}
+					//近いやつがいたら
+					if (hitTemp2 != -1) {
+						//一番近いやつにダメージ
+						enemysCol[hitTemp2]->SetIsHit(ChainLightning::DAMAGE);
+						enemysCol[hitTemp2]->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
+
+						//そこまでのパーティクル
+						EffectManager::GetInstance()->BoltGenerate(enemysCol[hitTemp1]->GetBoxCol().pos, enemysCol[hitTemp2]->GetBoxCol().pos, { 0,0,0 }, { 0.5f,0.5f,1,0.5f });
+					}
+				}
+			}
+		}
+	}
+}
+
+void ColliderManager::CheckPlayerToEnemyCol()
+{
+	//敵の判定
+	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+	//プレイヤー
+	Player* player = Player::GetInstance();
+
+	///プレイヤーと敵
+	//プレイヤーが無敵かどうか
+	if (!Player::GetInstance()->GetInvincible()) {
+		for (int i = 0; i < enemysCol.size(); i++) {
+			//敵がダウンしているかどうか
+			if (!enemysCol[i]->GetIsDown()) {
+				//判定
+				if (CheckHitBox(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
+					enemysCol[i]->SetIsStop();
+					enemysCol[i]->SetIsAttack();
+				}
+			}
+			else {
+				//ダウンしている時の判定
+				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), player->GetBoxCol())) {
+					enemysCol[i]->DownHitPlayer();
+				}
+			}
+		}
+	}
+}
+
+void ColliderManager::CheckEnemyToEnemyCol()
+{
+	//敵の判定
+	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+
+	for (int i = 0; i < enemysCol.size(); i++) {
+		for (int j = i + 1; j < enemysCol.size(); j++) {
+			if (!enemysCol[i]->GetIsDown() && !enemysCol[j]->GetIsDown()) {
+				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+					if (enemysCol[i]->GetBoxCol().pos.x <= enemysCol[j]->GetBoxCol().pos.x) {
+						enemysCol[i]->AddColX(-PUSH_LEN);
+						enemysCol[j]->AddColX(PUSH_LEN);
+					}
+					else if (enemysCol[i]->GetBoxCol().pos.x > enemysCol[j]->GetBoxCol().pos.x) {
+						enemysCol[i]->AddColX(PUSH_LEN);
+						enemysCol[j]->AddColX(-PUSH_LEN);
+					}
+
+					if (enemysCol[i]->GetBoxCol().pos.z <= enemysCol[j]->GetBoxCol().pos.z) {
+						enemysCol[i]->AddColZ(-PUSH_LEN);
+						enemysCol[j]->AddColZ(PUSH_LEN);
+					}
+					else if (enemysCol[i]->GetBoxCol().pos.z > enemysCol[j]->GetBoxCol().pos.z) {
+						enemysCol[i]->AddColZ(PUSH_LEN);
+						enemysCol[j]->AddColZ(-PUSH_LEN);
+					}
+				}
+			}
+			//後者のみが倒れてる
+			else if (!enemysCol[i]->GetIsDown() && enemysCol[j]->GetIsDown()) {
+				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+					enemysCol[i]->SetDownHitEnemy(enemysCol[j]->GetDownHitEnemy());
+				}
+			}
+			//前者のみが倒れている
+			else if (enemysCol[i]->GetIsDown() && !enemysCol[j]->GetIsDown()) {
+				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), enemysCol[j]->GetBoxCol())) {
+					enemysCol[j]->SetDownHitEnemy(enemysCol[i]->GetDownHitEnemy());
+				}
+			}
+		}
+	}
+}
+
+void ColliderManager::CheckEnemyToFieldCol()
+{
+	//敵の判定
+	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+	//マップの判定
+	FieldManager* field = FieldManager::GetInstance();
+
+	for (int i = 0; i < enemysCol.size(); i++) {
+		for (int j = 0; j < field->GetColSize(); j++) {
+			if (CheckHitBox(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
+				if (CheckHitX(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
+					if (!CheckHitX(enemysCol[i]->GetOldBoxCol(), field->GetCol(j))) {
+						enemysCol[i]->SetColX(enemysCol[i]->GetOldBoxCol().pos.x);
+					}
+				}
+				if (CheckHitY(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
+					if (!CheckHitY(enemysCol[i]->GetOldBoxCol(), field->GetCol(j))) {
+						enemysCol[i]->SetColY(enemysCol[i]->GetOldBoxCol().pos.y);
+					}
+				}
+				if (CheckHitZ(enemysCol[i]->GetBoxCol(), field->GetCol(j))) {
+					if (!CheckHitZ(enemysCol[i]->GetOldBoxCol(), field->GetCol(j))) {
+						enemysCol[i]->SetColZ(enemysCol[i]->GetOldBoxCol().pos.z);
+					}
+				}
+				enemysCol[i]->WorldTransUpdate();
+			}
+		}
+	}
+}
+
+void ColliderManager::CheckPlayerToFieldCol()
+{
+	//マップの判定
+	FieldManager* field = FieldManager::GetInstance();
+	//プレイヤー
+	Player* player = Player::GetInstance();
+
+	for (int i = 0; i < field->GetColSize(); i++) {
+		if (CheckHitBox(player->GetBoxCol(), field->GetCol(i))) {
+			if (CheckHitX(player->GetBoxCol(), field->GetCol(i))) {
+				if (!CheckHitX(player->GetOldBoxCol(), field->GetCol(i))) {
+					player->SetPosX(player->GetOldBoxCol().pos.x);
+				}
+			}
+			if (CheckHitY(player->GetBoxCol(), field->GetCol(i))) {
+				if (!CheckHitY(player->GetOldBoxCol(), field->GetCol(i))) {
+					player->SetPosY(player->GetOldBoxCol().pos.y);
+				}
+			}
+			if (CheckHitZ(player->GetBoxCol(), field->GetCol(i))) {
+				if (!CheckHitZ(player->GetOldBoxCol(), field->GetCol(i))) {
+					player->SetPosZ(player->GetOldBoxCol().pos.z);
+				}
+			}
+			player->WorldTransUpdate();
+		}
+	}
+}
+
+void ColliderManager::CheckPlayerToGoalCol()
+{
+	//プレイヤー
+	Player* player = Player::GetInstance();
+	//ゴール
+	ClearChecker* clear = ClearChecker::GetInstance();
+
+	if (CheckHitBox(player->GetBoxCol(), clear->GetCol())) {
+		clear->SetClear();
 	}
 }
 

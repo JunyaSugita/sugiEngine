@@ -71,6 +71,41 @@ public:
 
 private:
 	/// <summary>
+	/// 呪文と敵、フィールドの判定
+	/// </summary>
+	void CheckSpellCol();
+
+	/// <summary>
+	/// チェインライトニングと敵の判定
+	/// </summary>
+	void CheckChainLightningCol();
+
+	/// <summary>
+	/// プレイヤーと敵の判定
+	/// </summary>
+	void CheckPlayerToEnemyCol();
+
+	/// <summary>
+	/// 敵同士の判定
+	/// </summary>
+	void CheckEnemyToEnemyCol();
+	
+	/// <summary>
+	/// 敵とフィールドの判定
+	/// </summary>
+	void CheckEnemyToFieldCol();
+
+	/// <summary>
+	/// プレイヤーとフィールドの判定
+	/// </summary>
+	void CheckPlayerToFieldCol();
+
+	/// <summary>
+	/// プレイヤーとゴールの判定
+	/// </summary>
+	void CheckPlayerToGoalCol();
+
+	/// <summary>
 	/// aとbが当たっているか判定
 	/// </summary>
 	/// <param name="a">判定したいもの1</param>

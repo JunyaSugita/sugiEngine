@@ -30,51 +30,10 @@ void FieldManager::Initialize(int num)
 	cols_.clear();
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
-			std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
-			//モデルを指定して3Dオブジェクトを生成
-			tempObj->Initialize("ground");
-
-			//obj情報
-			tempObj->pos = objectData.pos;
-			tempObj->rot = { 0,0,0 };
-			tempObj->scale = objectData.scale;
-			tempObj->obj->SetColor({ 1,1,1,1 });
-			float tilY = 0;
-			if (objectData.scale.x > objectData.scale.y) {
-				tilY = objectData.scale.x;
-			}
-			else {
-				
-				tilY = objectData.scale.z;
-			}
-
-			tempObj->obj->SetTiling({ objectData.scale.y,tilY });
-
-			objs_.push_back(std::move(tempObj));
-
-			BoxCol temp;
-			temp.pos = objectData.pos;
-			temp.size = objectData.scale;
-			cols_.push_back(temp);
+			SetWall(objectData.pos, objectData.scale);
 		}
 		else if (objectData.filename == "ground") {
-			//モデルを指定して3Dオブジェクトを生成
-			std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
-			tempObj->Initialize("ground");
-
-			//obj情報
-			tempObj->pos = objectData.pos;
-			tempObj->rot = { 0,0,0 };
-			tempObj->scale = objectData.scale;
-			tempObj->obj->SetColor({ 1,1,1,1 });
-			tempObj->obj->SetTiling({ 50,50 });
-
-			objs_.push_back(std::move(tempObj));
-
-			BoxCol temp;
-			temp.pos = objectData.pos;
-			temp.size = objectData.scale;
-			cols_.push_back(temp);
+			SetFloor(objectData.pos, objectData.scale);
 		}
 		else if (objectData.filename == "enemy") {
 			EnemyManager::GetInstance()->PopEnemy(objectData.pos);
@@ -90,16 +49,10 @@ void FieldManager::Initialize(int num)
 			navePointNum_++;
 		}
 		else if (objectData.filename == "goal") {
-			ClearChecker::GetInstance()->SetGoal(objectData.pos);
-			useLightNum_ = lightGroup_->SetPointLightGetNum();
-			lightGroup_->SetPointLightColor(useLightNum_, COLOR_GOAL);
-			lightGroup_->SetPointLightAtten(useLightNum_, { ATTEN_GOAL,ATTEN_GOAL,ATTEN_GOAL });
-			lightGroup_->SetPointLightPos(useLightNum_, { objectData.pos.x, objectData.pos.y + 2,objectData.pos.z });
+			SetGoal(objectData.pos);
 		}
 		else if (objectData.filename == "torch") {
-			std::unique_ptr<Torch> torch = std::make_unique<Torch>();
-			torch->Initialize(objectData.pos, objectData.rot, objectData.scale,stageAtten_);
-			torchs_.push_back(std::move(torch));
+			
 		}
 	}
 }
@@ -153,4 +106,71 @@ void FieldManager::SetLight(LightGroup* lightGroup)
 {
 	lightGroup_ = lightGroup;
 	Torch::SetLight(lightGroup);
+}
+
+void FieldManager::SetWall(Vector3 pos, Vector3 scale)
+{
+	std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
+	//モデルを指定して3Dオブジェクトを生成
+	tempObj->Initialize("ground");
+
+	//obj情報
+	tempObj->pos = pos;
+	tempObj->rot = { 0,0,0 };
+	tempObj->scale = scale;
+	tempObj->obj->SetColor({ 1,1,1,1 });
+	float tilY = 0;
+	if (scale.x > scale.y) {
+		tilY = scale.x;
+	}
+	else {
+
+		tilY = scale.z;
+	}
+
+	tempObj->obj->SetTiling({ scale.y,tilY });
+
+	objs_.push_back(std::move(tempObj));
+
+	BoxCol temp;
+	temp.pos = pos;
+	temp.size = scale;
+	cols_.push_back(temp);
+}
+
+void FieldManager::SetFloor(Vector3 pos, Vector3 scale)
+{
+	//モデルを指定して3Dオブジェクトを生成
+	std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
+	tempObj->Initialize("ground");
+
+	//obj情報
+	tempObj->pos = pos;
+	tempObj->rot = { 0,0,0 };
+	tempObj->scale =scale;
+	tempObj->obj->SetColor({ 1,1,1,1 });
+	tempObj->obj->SetTiling({ 50,50 });
+
+	objs_.push_back(std::move(tempObj));
+
+	BoxCol temp;
+	temp.pos = pos;
+	temp.size = scale;
+	cols_.push_back(temp);
+}
+
+void FieldManager::SetGoal(Vector3 pos)
+{
+	ClearChecker::GetInstance()->SetGoal(pos);
+	useLightNum_ = lightGroup_->SetPointLightGetNum();
+	lightGroup_->SetPointLightColor(useLightNum_, COLOR_GOAL);
+	lightGroup_->SetPointLightAtten(useLightNum_, { ATTEN_GOAL,ATTEN_GOAL,ATTEN_GOAL });
+	lightGroup_->SetPointLightPos(useLightNum_, { pos.x, pos.y + GOAL_Y,pos.z });
+}
+
+void FieldManager::SetTorch(Vector3 pos, Vector3 rot, Vector3 scale)
+{
+	std::unique_ptr<Torch> torch = std::make_unique<Torch>();
+	torch->Initialize(pos, rot, scale, stageAtten_);
+	torchs_.push_back(std::move(torch));
 }
