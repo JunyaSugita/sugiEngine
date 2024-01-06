@@ -38,7 +38,7 @@ void LoadOut::Initialize()
 	spellTexNum_[CHAIN_LIGHTNING] = Sprite::LoadTexture("chainLightning.png");
 	spellTexNum_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantFireIcon.png");
 	spellTexNum_[FLAME] = Sprite::LoadTexture("flame.png");
-	for (int i = 6; i < SPELL_ALL; i++) {
+	for (int i = MAGIC_END; i < SPELL_ALL; i++) {
 		spellTexNum_[i] = Sprite::LoadTexture("comingSoonIcon.png");
 	}
 
@@ -96,8 +96,8 @@ void LoadOut::Update()
 	if (isActive_) {
 		Player::GetInstance()->GameInitialize();
 
-		PostEffectSecond::SetPos({ 780,50 });
-		PostEffectSecond::SetSize({WIN_WIDTH / 3,WIN_HEIGHT / 3});
+		PostEffectSecond::SetPos(POS_WINDOW);
+		PostEffectSecond::SetSize({WIN_WIDTH / SIZE_WINDOW,WIN_HEIGHT / SIZE_WINDOW });
 
 		//選択中のスペルを使用する
 		if (++preWindowTimer_ <= SpellManager::GetInstance()->GetMaxCharge() || SpellManager::GetInstance()->GetMaxCharge() == 0) {

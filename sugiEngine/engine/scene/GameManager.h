@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file GameManager.h
+ * @brief ゲーム全体を管理するマネージャー
+ */
+
+#pragma once
 #include "ISceneManager.h"
 #include <memory>
 #include "Camera.h"

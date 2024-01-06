@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file Fbx.h
+ * @brief FBX
+ */
+
 #pragma once
 #include "FbxModel.h"
 #include "Camera.h"

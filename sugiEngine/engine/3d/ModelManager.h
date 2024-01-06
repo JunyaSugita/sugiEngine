@@ -1,5 +1,10 @@
-﻿#pragma once
-#include "GrovalSetting.h"
+/**
+ * @file ModelManager.h
+ * @brief モデルを管理するマネージャー
+ */
+
+#pragma once
+#include "GlobalSetting.h"
 #include "Model.h"
 #include <map>
 

@@ -1,3 +1,8 @@
+/**
+ * @file LightGroup.h
+ * @brief ライト系を管理
+ */
+
 #pragma once
 #include <DirectXMath.h>
 #include "DirectionalLight.h"
@@ -86,8 +91,8 @@ public:
 	//点光源
 	void SetPointLightActive(int32_t index, bool active);
 	void SetPointLightPos(int32_t index,const XMFLOAT3& lightpos);
-	void SetPointLightColor(int32_t index, const XMFLOAT3& lightcolor);
-	void SetPointLightAtten(int32_t index, const XMFLOAT3& lightAtten);
+	void SetPointLightColor(int32_t index, const Vector3& lightColor);
+	void SetPointLightAtten(int32_t index, const Vector3& lightAtten);
 
 	void PointLightAllClear();
 

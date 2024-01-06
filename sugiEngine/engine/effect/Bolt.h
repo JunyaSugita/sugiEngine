@@ -1,5 +1,10 @@
-﻿#pragma once
-#include "GrovalSetting.h"
+/**
+ * @file Bolt.h
+ * @brief チェインライトニングで使うオブジェクト
+ */
+
+#pragma once
+#include "GlobalSetting.h"
 #include "BaseObj.h"
 
 class Bolt {
@@ -13,7 +18,13 @@ public:
 	}
 
 private:
+	//最大数
 	static const int NUM = 50;
+	//サイズ
+	const float SIZE = 0.05f;
+	//生存時間
+	const float TIME = 30;
+
 	//座標
 	BaseObj obj_[NUM];
 	//回転

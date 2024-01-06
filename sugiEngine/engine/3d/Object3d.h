@@ -1,8 +1,13 @@
+/**
+ * @file Object3d.h
+ * @brief obj
+ */
+
 #pragma once
 #include <Windows.h>
 #include "WorldTransform.h"
 #include "DXCommon.h"
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include <wrl.h>
 #include <fstream>
 #include <sstream>
@@ -66,6 +71,12 @@ public:
 		color_.y = color.y;
 		color_.z = color.z;
 		color_.w = color.w;
+	}
+	void SetColor(const Vector3& color,float alpha) {
+		color_.x = color.x;
+		color_.y = color.y;
+		color_.z = color.z;
+		color_.w = alpha;
 	}
 	void SetTiling(const Vector2& uv) {
 		tiling_.x = uv.x;

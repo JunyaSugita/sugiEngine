@@ -13,13 +13,13 @@ void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
 	obj_.obj->SetIsSimple();
 	obj_.scale = { 0.5f,0.5f,0.5f };
 	
-	col_.col.pos = pos;
-	col_.col.size = { 0.5f,0.5f,0.5f };
+	col_.pos = pos;
+	col_.size = { 0.5f,0.5f,0.5f };
 
 	time_ = TIME_ALIVE;
 	moveSpeed_ = SPEED_MOVE;
 	spellType_ = SHOT;
-	damage_ = 5;
+	damage_ = DAMAGE;
 	debuffType_ = D_NONE;
 
 	useLightNum_ = lightGroup_->SetPointLightGetNum();

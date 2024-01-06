@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file SpellCharge.h
+ * @brief 魔法を溜めているときに出てくるゲージの描画(UI)
+ */
+
+#pragma once
 #include "Sprite.h"
 
 class SpellCharge final{
@@ -19,6 +24,10 @@ public:
 	void Draw();
 
 private:
+	const Vector2 SIZE_CHARGE_GAUGE = { 301 ,50 };
+	const Vector4 COLOR_GAUGE = { 1, 1, 0, 1 };
+	const Vector4 COLOR_MAX_GAUGE = { 1, 1, 1, 1 };
+
 	uint32_t spellTex_;
 	Sprite spellSprite_;
 

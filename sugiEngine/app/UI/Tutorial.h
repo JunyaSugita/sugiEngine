@@ -1,5 +1,27 @@
+/**
+ * @file Tutorial.h
+ * @brief チュートリアルの描画(UI)
+ */
+
 #pragma once
 #include "Sprite.h"
+
+enum TUTORIAL {
+	TUTORIAL0,
+	TUTORIAL1,
+	TUTORIAL2,
+	TUTORIAL3,
+	TUTORIAL4,
+
+	TUTORIAL_END
+};
+
+enum ANIME {
+	ANIME0,
+	ANIME1,
+
+	ANIME_END
+};
 
 class Tutorial final{
 private:
@@ -32,7 +54,12 @@ public:
 		isReturn_ = is;
 	}
 private:
-	uint32_t tex_[5][2];
+	const float TUTORIAL_0TO1 = 60;
+	const float TUTORIAL_1TO2 = 20;
+	const float TUTORIAL_2TO3 = 100;
+	const float TUTORIAL_3TO4 = 60;
+
+	uint32_t tex_[TUTORIAL_END][ANIME_END];
 	uint32_t texStart_;
 
 	int32_t animeNum_;

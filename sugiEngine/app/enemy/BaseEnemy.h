@@ -1,6 +1,9 @@
-//敵のベースクラス
+/**
+ * @file BaseEnemy.h
+ * @brief 敵のベースクラス
+ */
 #pragma once
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "WorldTransform.h"
 #include "BaseObj.h"
 #include "BaseCol.h"
@@ -14,58 +17,59 @@ struct DebuffM {
 	int32_t iceTime;
 };
 
-struct DownState {
-	float slow = 1.0f;
-	int damage = 0;
-};
 
-class BaseEnemy {
+
+class BaseEnemy : public BaseCol {
 
 public:
-	virtual void Initialize(std::string name,Vector3 pos);
+	virtual void Initialize(std::string name, Vector3 pos);
 	virtual void Update();
+	//動けない時の処理
 	virtual void DontMoveUpdate();
+	//一度目の描画
 	virtual void Draw();
-	virtual void Draw2();
+	//半透明などの描画
+	virtual void DrawTransparent();
+	//オブジェクトの移動
 	virtual void WorldTransUpdate();
 
 	//死んだあとプレイヤーに当たった時の反応
-	virtual void DownHitPlayer();
+	void DownHitPlayer()override;
 
 	//死んだあと他の敵に当たった時の反応
-	virtual DownState GetDownHitEnemy();
-	virtual void SetDownHitEnemy(DownState state);
+	DownState GetDownHitEnemy() override;
+	void SetDownHitEnemy(DownState state) override;
 
 #pragma region inline群
 	//inline群
-	Vector3 GetPos() {
+	Vector3 GetPos() override{
 		return obj_.pos;
 	}
 	void SetCol(Vector3 vec) {
-		col_.col.pos = vec;
+		col_.pos = vec;
 	}
 	void SetColX(float x) {
-		col_.col.pos.x = x;
+		col_.pos.x = x;
 	}
 	void SetColY(float y) {
-		col_.col.pos.y = y;
+		col_.pos.y = y;
 	}
 	void SetColZ(float z) {
-		col_.col.pos.z = z;
+		col_.pos.z = z;
 	}
 	void AddCol(Vector3 vec) {
-		col_.col.pos += vec;
+		col_.pos += vec;
 	}
-	void AddColX(float x) {
-		col_.col.pos.x += x;
+	void AddColX(float x) override{
+		col_.pos.x += x;
 	}
-	void AddColZ(float z) {
-		col_.col.pos.z += z;
+	void AddColZ(float z) override{
+		col_.pos.z += z;
 	}
 	bool GetIsDead() {
 		return isDead_;
 	}
-	bool GetIsDown() {
+	bool GetIsDown() override {
 		return isDown_;
 	}
 	void SetIsDead() {
@@ -74,13 +78,13 @@ public:
 	void ResetIsHit() {
 		isHit_ = false;
 	}
-	BoxCol GetBoxCol() {
-		return col_.col;
+	Col GetBoxCol() {
+		return col_;
 	}
-	BoxCol GetOldBoxCol() {
-		return col_.oldCol;
+	Col GetOldBoxCol() {
+		return oldCol_;
 	}
-	void SetIsStop() {
+	void SetIsStop() override {
 		isStop_ = true;
 	}
 	uint32_t GetLife() {
@@ -88,16 +92,16 @@ public:
 	}
 
 	//デバッグ用
-	
+
 	// 敵の動きを止めたり動かしたり制御する
 	static void ToggleIsAllStop() {
 		sIsDebugStop_ = (sIsDebugStop_ + 1) % 2;
 	}
-
+	//全ての敵の動きを止める
 	static void SetIsAllStop(bool is) {
 		sIsDebugStop_ = is;
 	}
-
+	//ライトセット
 	static void SetLight(LightGroup* light) {
 		light_ = light;
 	}
@@ -109,7 +113,7 @@ public:
 	/// </summary>
 	/// <param name="debuff">デバフの種類番号</param>
 	/// <param name="time">デバフを適応する時間/f</param>
-	void SetDebuff(int32_t debuff, int32_t time);
+	void SetDebuff(int32_t debuff, int32_t time) override;
 
 	/// <summary>
 	/// HPを減らし、エフェクトを出す
@@ -134,16 +138,16 @@ public:
 	void ResetShake();
 
 	// 攻撃してプレイヤーにダメージを与える
-	void SetIsAttack();
+	void SetIsAttack()override;
 
 	// 移動速度をセット
 	void SetSlow(float slow) {
 		slow_ = slow;
-	}	
+	}
 
 	//長時間のシェイク
-	void SetShakeTime(int32_t time) {
-		shakeTime_ =time;
+	void SetShakeTime(int32_t time) override{
+		shakeTime_ = time;
 	}
 
 protected:
@@ -168,31 +172,46 @@ protected:
 	/// </summary>
 	/// <param name="subLife">減らすhp量</param>
 	/// <param name="subLife">パーティクルを出すかどうか</param>
-	void SubLife(int32_t subLife,bool isParticle = false);
+	void SubLife(int32_t subLife, bool isParticle = false) override;
 
 	// デバフの効果を更新
 	void UpdateDebuff();
-	
+
 	//自身のコリジョンを設定
 	void SetCol();
 
 	//自身をシェイクさせる
 	void SetShake();
 
+	//当たり判定適応
+	void HitChangePos()override;
+
 protected:
 	const Vector2 UP = { 0,-1 };
 	const float RADIAN = 180;
 	const int32_t TIME_DOWN = 60 * 5;
+	const Vector4 COLOR_ICE = { 0.5f,1,0.5f,0.5f };
+	const Vector3 START_ROT = { 0,90,0 };
+	const Vector3 COLOR_FIRE = { 0.5f,0.2f,0 };
+	const Vector3 LIGHT_ATTEN = { 0.005f,0.005f,0.005f };
+	//何フレームごとにバーンダメージをくらうか
+	const int32_t TIME_FIRE_BURN = 40;
+	//一回のバーンダメージでくらうダメージ量
+	const int32_t DAMAGE_FIRE_BURN = 1;
+	const float MAX_SHAKE = 0.5f;
+	//シェイク量調整
+	const float CALC_SHAKE = 100;
+	//火のチカチカの最大値と最小値
+	const float MAX_ATTEN_FIRE = 0.006f;
+	const float MIN_ATTEN_FIRE = 0.004f;
 
 	//本体
 	BaseObj obj_;
+	//サイズ
+	Vector2 size_;
 
 	//iceモデル
 	BaseObj iceObj_;
-
-	//当たり判定
-	BaseCol col_;
-	float height_;
 
 	//体力
 	int32_t life_;

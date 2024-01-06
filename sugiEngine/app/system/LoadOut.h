@@ -1,3 +1,8 @@
+/**
+ * @file LoadOut.h
+ * @brief 装備する魔法を変えたり装備している魔法を発射させたりを管理する
+ */
+
 #pragma once
 #include "SpellManager.h"
 #include "Sprite.h"
@@ -25,24 +30,19 @@ public:
 	void BackDrawSp();
 	void Draw();
 
+	//ゲッターセッター
 	bool GetIsActive() {
 		return isActive_;
 	}
 	void SetIsActive(bool is) {
 		isActive_ = is;
 	}
-	void ToggleIsActive() {
-		ResetWindow();
-		isActive_ = (isActive_ + 1) % 2;
-	}
-
 	bool GetIsDirty() {
 		return isDirty_;
 	}
 	void SetIsDirty(bool is) {
 		isDirty_ = is;
 	}
-
 	int32_t GetSpell(int32_t num) {
 		return setSpell_[num];
 	}
@@ -50,12 +50,25 @@ public:
 		return selectMode_;
 	}
 
+	//ロードアウトのオンオフ切り替え
+	void ToggleIsActive() {
+		ResetWindow();
+		isActive_ = (isActive_ + 1) % 2;
+	}
+
+	//初期化
 	void ResetWindow();
 
 private:
+	//指定した呪文を装備
 	void SetSpell(int32_t num,int32_t spellName);
 
 private:
+	//プレビュー画面の場所
+	const Vector2 POS_WINDOW = { 780,50 };
+	//画面サイズ
+	const float SIZE_WINDOW = 3;
+
 	//装備画面かどうか
 	bool isActive_;
 

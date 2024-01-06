@@ -1,3 +1,4 @@
+#include "Fly.h"
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "EffectManager.h"
@@ -5,67 +6,63 @@
 #include "Tutorial.h"
 #include "NaviPointManager.h"
 #include "ModelManager.h"
-#include "Enemy.h"
 #include "ColliderManager.h"
 
-std::unique_ptr<Model> Enemy::sEyeModel_;
-
-void Enemy::Initialize(std::string name, Vector3 pos)
+void Fly::Initialize(std::string name, Vector3 pos)
 {
-	eyeObj_.Initialize("eye");
-	eyeObj_.obj->SetEffectCross(true);
-	eyeObj_.worldTrans.parent_ = &obj_.worldTrans;
-	eyeObj_.pos = { 0.3f,4.1f,0 };
-	eyeObj_.scale = { 0.3f,0.3f,0.3f };
-
-
 	wingL_.Initialize("box");
 	wingL_.worldTrans.parent_ = &obj_.worldTrans;
-	wingL_.pos = { 1,3,-1 };
-	wingL_.rot = { 0,0,60 };
-	wingL_.scale = { 1,0.3f,0.3f };
+	wingL_.pos = { 0,0,-1 };
+	wingL_.rot = { 0,0,0 };
+	wingL_.scale = { 0.8f,0.3f,1 };
 
 	wingR_.Initialize("box");
 	wingR_.worldTrans.parent_ = &obj_.worldTrans;
-	wingR_.pos = { 1,3,1 };
-	wingR_.rot = { 0,0,60 };
-	wingR_.scale = { 1,0.3f,0.3f };
+	wingR_.pos = { 0,0,1 };
+	wingR_.rot = { 0,0,0 };
+	wingR_.scale = { 0.8f,0.3f,1 };
+
 
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
 
 	BaseEnemy::Initialize(name, pos);
-	col_.size.y = 5;
-	gap_ = HEIGHT_COL;
 	WorldTransUpdate();
 
-	obj_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
-	eyeObj_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
-	wingL_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
-	wingR_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
+	obj_.pos.y = FLY_Y;
+	obj_.scale.x = 2;
+
+	gap_ = 0.0f;
+	col_.size = {2,1,2};
+
+	obj_.obj->SetColor(COLOR_BODY);
+	wingL_.obj->SetColor(COLOR_BODY);
+	wingR_.obj->SetColor(COLOR_BODY);
 }
 
-void Enemy::Draw()
+void Fly::Draw()
 {
 	BaseEnemy::Draw();
-	eyeObj_.Draw();
 	wingL_.Draw();
 	wingR_.Draw();
 }
 
-void Enemy::WorldTransUpdate()
+void Fly::WorldTransUpdate()
 {
-	eyeObj_.Update();
 	wingL_.Update();
 	wingR_.Update();
 
 	BaseEnemy::WorldTransUpdate();
 }
 
-void Enemy::Move()
+void Fly::Move()
 {
+	if (obj_.pos.y != FLY_Y) {
+		isDead_ = true;
+	}
+
 	if (!isStop_) {
-		Vector2 temp;
+		Vector2 temp = {};
 		//プレイヤー方向に壁が無ければプレイヤー方向に移動
 		if (ColliderManager::GetInstance()->CanMoveEnemyToPlayer(obj_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
@@ -89,27 +86,38 @@ void Enemy::Move()
 	}
 
 	//最後にスピード減少を初期化
-	slow_ = 1.0f;
+	slow_ = 1;
 }
 
-void Enemy::Attack()
+void Fly::DontMoveUpdate()
 {
-	if (isAttack_) {
-		attackTimer_ -= SUB_TIME_ATTACK;
-		if (attackTimer_ <= 0) {
-			isAttack_ = false;
-		}
+	if (debuff_.isIce) {
+		obj_.pos.y -= SPEED_DROP;
 	}
-	wingL_.rot.z = ROT_ARM - EaseOut(attackTimer_, ROT_ARM);
-	wingR_.rot.z = ROT_ARM - EaseOut(attackTimer_, ROT_ARM);
+
+	if (obj_.pos.y <= 0) {
+		debuff_.iceTime = 0;
+	}
+
+	BaseCol::Update(obj_.pos,obj_.scale);
 }
 
-void Enemy::Down()
+void Fly::Attack()
 {
-	if (obj_.rot.z < RAD / 2) {
-		obj_.rot.z += SPEED_DOWN;
-		eyeObj_.obj->SetEffectCross(false);
+	attackTimer_ += SPEED_WING;
+	wingL_.rot.x = EaseOut(attackTimer_, LEN_WING);
+	wingR_.rot.x = -EaseOut(attackTimer_, LEN_WING);
+}
+
+void Fly::Down()
+{
+	if (col_.pos.y > 1) {
+		col_.pos.y -= SPEED_DROP_DOWN;
 	}
+	else {
+		col_.pos.y = 1;
+	}
+	obj_.pos = col_.pos;
 
 	//最後
 	BaseEnemy::Down();

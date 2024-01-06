@@ -120,7 +120,7 @@ void SpellManager::ChargeFireBall()
 			isUseFireBall_ = true;
 			useTime_ = TIME_FIRE_FIREBALL;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFireBall_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFireBall_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -160,7 +160,7 @@ void SpellManager::ChargeMagicMissile()
 			isUseMagicMissile_ = true;
 			useTime_ = TIME_FIRE_MAGICMISSILE;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseMagicMissile_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseMagicMissile_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -173,7 +173,7 @@ void SpellManager::FireMagicMissile()
 
 	maxCharge_ = TIME_FIRE_MAGICMISSILE;
 
-	if (int(useTime_) % 20 == 1) {
+	if (int(useTime_) % COOLTIME_MAGIC_MISSILE == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<MagicMissile>();
 		newSpell->Initialize(PlayerWeapon::GetInstance()->GetOrbPos(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();
@@ -201,7 +201,7 @@ void SpellManager::ChargeIceBolt()
 			isUseIceBolt_ = true;
 			useTime_ = TIME_FIRE_ICEBOLT;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseIceBolt_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COOLTIME_MAGIC_MISSILE && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseIceBolt_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -241,7 +241,7 @@ void SpellManager::ChargeChainLightning()
 			isUseChainLightning_ = true;
 			useTime_ = TIME_FIRE_CHAINLIGHTNING;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseChainLightning_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COOLTIME_MAGIC_MISSILE && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseChainLightning_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -282,7 +282,7 @@ void SpellManager::ChargeEnchantFire()
 			isUseEnchantFire_ = true;
 			useTime_ = TIME_FIRE_ENCHANTFIRE;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseEnchantFire_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COOLTIME_MAGIC_MISSILE && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseEnchantFire_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -321,7 +321,7 @@ void SpellManager::ChargeFlame()
 			isUseFlame_ = true;
 			useTime_ = TIME_FIRE_FLAME;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFlame_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COOLTIME_MAGIC_MISSILE && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFlame_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -334,7 +334,7 @@ void SpellManager::FireFlame()
 
 	maxCharge_ = TIME_FIRE_FLAME;
 
-	if (int(useTime_) % 5 == 1) {
+	if (int(useTime_) % COOLTIME_FLAME == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<Flame>();
 		newSpell->Initialize(PlayerWeapon::GetInstance()->GetOrbPos(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();

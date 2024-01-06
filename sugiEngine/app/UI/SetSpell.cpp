@@ -94,12 +94,12 @@ void SetSpell::Update()
 	for (int i = 0; i < MAX_SPELL_SET;i++) {
 		if (player->GetPresetSpell() == i) {
 			//使用中の呪文アイコンは大きくする
-			spellSprite_[i].SetSize(80, 80);
+			spellSprite_[i].SetSize(SIZE_ACTIVE_ICON);
 			backSprite_.SetPos(spellSprite_[i].GetPos());
 		}
 		else {
 			//使用中ではない呪文アイコンは小さくする
-			spellSprite_[i].SetSize(50, 50);
+			spellSprite_[i].SetSize(SIZE_ICON);
 		}
 	}
 

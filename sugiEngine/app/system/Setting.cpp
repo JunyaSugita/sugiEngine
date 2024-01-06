@@ -45,13 +45,13 @@ void Setting::Update()
 			timer_--;
 		}
 
-		if ((input->GetLStickY() < -10000 || input->PushButton(XINPUT_GAMEPAD_DPAD_DOWN)) && timer_ <= 0) {
+		if ((input->GetLStickY() < -DEAD_ZONE_STICK || input->PushButton(XINPUT_GAMEPAD_DPAD_DOWN)) && timer_ <= 0) {
 			if (menuNum_ < MAX_MENU) {
 				menuNum_++;
 				timer_ = TIME_MOVE;
 			}
 		}
-		if ((input->GetLStickY() > 10000 || input->PushButton(XINPUT_GAMEPAD_DPAD_UP)) && timer_ <= 0) {
+		if ((input->GetLStickY() > DEAD_ZONE_STICK || input->PushButton(XINPUT_GAMEPAD_DPAD_UP)) && timer_ <= 0) {
 			if (menuNum_ > 0) {
 				menuNum_--;
 				timer_ = TIME_MOVE;
@@ -62,39 +62,39 @@ void Setting::Update()
 		}
 
 		//設定項目の変更
-		if ((input->GetLStickX() < -10000 || input->PushButton(XINPUT_GAMEPAD_DPAD_LEFT)) && timer_ <= 0) {
+		if ((input->GetLStickX() < -DEAD_ZONE_STICK || input->PushButton(XINPUT_GAMEPAD_DPAD_LEFT)) && timer_ <= 0) {
 			switch (menuNum_)
 			{
 			case BGM:
-				BGMVol_ -= 0.01f;
+				BGMVol_ -= SPEED_SLIDER_VOL;
 				break;
 			case SE:
-				SEVol_ -= 0.01f;
+				SEVol_ -= SPEED_SLIDER_VOL;
 				break;
 			case XSensi:
-				XSensi_ -= 0.02f;
+				XSensi_ -= SPEED_SLIDER_SENSI;
 				break;
 			case YSensi:
-				YSensi_ -= 0.02f;
+				YSensi_ -= SPEED_SLIDER_SENSI;
 				break;
 			default:
 				break;
 			}
 		}
-		if ((input->GetLStickX() > 10000 || input->PushButton(XINPUT_GAMEPAD_DPAD_RIGHT)) && timer_ <= 0) {
+		if ((input->GetLStickX() > DEAD_ZONE_STICK || input->PushButton(XINPUT_GAMEPAD_DPAD_RIGHT)) && timer_ <= 0) {
 			switch (menuNum_)
 			{
 			case BGM:
-				BGMVol_ += 0.01f;
+				BGMVol_ += SPEED_SLIDER_VOL;
 				break;
 			case SE:
-				SEVol_ += 0.01f;
+				SEVol_ += SPEED_SLIDER_VOL;
 				break;
 			case XSensi:
-				XSensi_ += 0.02f;
+				XSensi_ += SPEED_SLIDER_SENSI;
 				break;
 			case YSensi:
-				YSensi_ += 0.02f;
+				YSensi_ += SPEED_SLIDER_SENSI;
 				break;
 			default:
 				break;
@@ -107,11 +107,11 @@ void Setting::Update()
 		slider_[XSensi].Update(XSensi_);
 		slider_[YSensi].Update(YSensi_);
 
-		for (int i = 0;i < 4;i++) {
+		for (int i = 0;i < MENU_NUM;i++) {
 			if (i == menuNum_) {
-				slider_[i].SetPointColor({ 0.8f,0.3f,0.3f });
+				slider_[i].SetPointColor(COLOR_ACTIVE_SLIDER);
 			}else{
-				slider_[i].SetPointColor({0.8f,0.8f,0.8f});
+				slider_[i].SetPointColor(COLOR_SLIDER);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ void Setting::Draw()
 {
 	//設定画面中のみ表示
 	if (isActive_) {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < MENU_NUM; i++) {
 			sprite_[i].Draw();
 			slider_[i].Draw();
 		}

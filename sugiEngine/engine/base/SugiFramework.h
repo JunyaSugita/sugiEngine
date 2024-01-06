@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file SugiFramework.h
+ * @brief フレームワーク
+ */
+
+#pragma once
 #include <Windows.h>
 #include <d3d12.h>
 #include <dxgi1_6.h>
@@ -14,7 +19,7 @@
 #include "Matrix4.h"
 #include "WorldTransform.h"
 
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "WinApp.h"
 #include "DXCommon.h"
 #include"Input.h"

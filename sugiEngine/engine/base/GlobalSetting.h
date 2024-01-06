@@ -1,10 +1,18 @@
-﻿#pragma once
+/**
+ * @file GlobalSetting.h
+ * @brief エンジンの設定等
+ */
+
+#pragma once
 #include "SugiMath.h"
 
 static const uint16_t WIN_WIDTH = 1280;
 static const uint16_t WIN_HEIGHT = 720;
 
 static const uint8_t MULTI_RENDAR_TARGET_NUM = 8;
+
+//フレーム固定
+static const int32_t MAX_FRAME = 60;
 
 //定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDataMaterial {

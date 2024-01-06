@@ -1,4 +1,4 @@
-﻿#include "IceBolt.h"
+#include "IceBolt.h"
 #include "Player.h"
 #include "ParticleManager.h"
 #include "ModelManager.h"
@@ -14,15 +14,15 @@ void IceBolt::Initialize(Vector3 pos, Vector3 vec)
 
 	vec_ = vec.normalize();
 
-	col_.col.pos = pos;
-	col_.col.size = { 0.5f ,0.5f, 0.5f };
+	col_.pos = pos;
+	col_.size = { 0.5f ,0.5f, 0.5f };
 
 	WorldTransUpdate();
 
 	moveSpeed_ = SPEED_MOVE;
 	time_ = TIME_ALIVE;
 	spellType_ = SHOT;
-	damage_ = 15;
+	damage_ = DAMAGE;
 	debuffType_ = D_SLOW;
 }
 

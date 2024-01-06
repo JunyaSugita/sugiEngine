@@ -112,12 +112,6 @@
     <Filter Include="ヘッダー ファイル\app\UI">
       <UniqueIdentifier>{74a443cd-2c12-4ca3-809f-7a6ad3664e06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\app\collider">
-      <UniqueIdentifier>{50beaaae-49fd-418c-9442-1d69dd0276c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\app\collider">
-      <UniqueIdentifier>{20c6474a-7b5d-4df7-934b-1be5131a72ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\engine\particle">
       <UniqueIdentifier>{5d56968c-5432-427c-93e8-228cf59d2e52}</UniqueIdentifier>
     </Filter>
@@ -255,9 +249,6 @@
     <ClCompile Include="sugiEngine\app\UI\SpellCharge.cpp">
       <Filter>ソース ファイル\app\UI</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\app\collider\ColliderManager.cpp">
-      <Filter>ソース ファイル\app\collider</Filter>
-    </ClCompile>
     <ClCompile Include="sugiEngine\app\spell\MagicMissile.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
@@ -306,7 +297,7 @@
     <ClCompile Include="sugiEngine\app\system\LoadOut.cpp">
       <Filter>ソース ファイル\app\system</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\engine\io\NavePointManager.cpp">
+    <ClCompile Include="sugiEngine\engine\io\NaviPointManager.cpp">
       <Filter>ソース ファイル\engine\io</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp">
@@ -342,9 +333,6 @@
     <ClCompile Include="sugiEngine\app\spell\Flame.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\app\player\ItemManager.cpp">
-      <Filter>ソース ファイル\app\player</Filter>
-    </ClCompile>
     <ClCompile Include="sugiEngine\app\ground\Torch.cpp">
       <Filter>ソース ファイル\app\ground</Filter>
     </ClCompile>
@@ -357,8 +345,14 @@
     <ClCompile Include="sugiEngine\engine\UI\Slider.cpp">
       <Filter>ソース ファイル\engine\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Fly.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="sugiEngine\app\enemy\Fly.cpp">
+      <Filter>ソース ファイル\app\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\3d\ColliderManager.cpp">
+      <Filter>ソース ファイル\engine\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\ground\Wall.cpp">
+      <Filter>ソース ファイル\app\ground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -392,7 +386,7 @@
     <ClInclude Include="sugiEngine\app\scene\GameScene.h">
       <Filter>ヘッダー ファイル\app\scene</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\engine\base\GrovalSetting.h">
+    <ClInclude Include="sugiEngine\engine\base\GlobalSetting.h">
       <Filter>ヘッダー ファイル\engine\base</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\io\Input.h">
@@ -491,9 +485,6 @@
     <ClInclude Include="sugiEngine\app\UI\SpellCharge.h">
       <Filter>ヘッダー ファイル\app\UI</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\app\collider\ColliderManager.h">
-      <Filter>ヘッダー ファイル\app\collider</Filter>
-    </ClInclude>
     <ClInclude Include="sugiEngine\app\spell\MagicMissile.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
@@ -539,7 +530,7 @@
     <ClInclude Include="sugiEngine\app\system\LoadOut.h">
       <Filter>ヘッダー ファイル\app\system</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\engine\io\NavePointManager.h">
+    <ClInclude Include="sugiEngine\engine\io\NaviPointManager.h">
       <Filter>ヘッダー ファイル\engine\io</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\enemy\BaseEnemy.h">
@@ -566,9 +557,6 @@
     <ClInclude Include="sugiEngine\engine\effect\Bolt.h">
       <Filter>ヘッダー ファイル\engine\effect</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\app\player\ItemManager.h">
-      <Filter>ヘッダー ファイル\app\player</Filter>
-    </ClInclude>
     <ClInclude Include="sugiEngine\app\scene\StageSelectScene.h">
       <Filter>ヘッダー ファイル\app\scene</Filter>
     </ClInclude>
@@ -594,7 +582,13 @@
       <Filter>ヘッダー ファイル\engine\UI</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\enemy\Fly.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\app\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\3d\ColliderManager.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\ground\Wall.h">
+      <Filter>ヘッダー ファイル\app\ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

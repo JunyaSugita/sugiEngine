@@ -1,5 +1,10 @@
+/**
+ * @file Box.h
+ * @brief 四角を描画する(UI)
+ */
+
 #pragma once
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "Sprite.h"
 
 class Box

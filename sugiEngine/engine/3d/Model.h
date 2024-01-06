@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file Model.h
+ * @brief objのモデル
+ */
+
+#pragma once
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -6,7 +11,7 @@
 #include <wrl.h>
 #include <unordered_map>
 
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "DXCommon.h"
 #include "Vector4.h"
 

@@ -8,9 +8,9 @@
 #include "GameManager.h"
 #include "Tutorial.h"
 #include "LoadOut.h"
-#include "ItemManager.h"
 #include "ClearChecker.h"
 #include "Setting.h"
+#include "ColliderManager.h"
 
 Player* Player::GetInstance()
 {
@@ -22,10 +22,11 @@ Player* Player::GetInstance()
 void Player::Initialize()
 {
 	PlayerWeapon::GetInstance()->Initialize();
-	ItemManager::GetInstance()->Initialize();
 
 	damageTex_ = Sprite::LoadTexture("damage.png");
 	damageSp_.Initialize(damageTex_);
+
+	BaseCol::Initialize(pos_,scale_,PLAYER);
 
 	GameInitialize();
 }
@@ -41,10 +42,10 @@ void Player::GameInitialize()
 	presetSpell_ = 1;
 	spellAngle_ = 0;
 
-	boxCol_.pos = pos_;
-	boxCol_.size = { 2.5f,2.2f,2.5f };
-	oldBoxCol_.pos = pos_;
-	oldBoxCol_.size = { 2.5f,2.2f,2.5f };
+	col_.pos = pos_;
+	col_.size = { 2.5f,2.2f,2.5f };
+	oldCol_.pos = col_.pos;
+	oldCol_.size = col_.size;
 
 	damageSp_.SetColor(1, 1, 1, 0);
 	damageAlpha_ = 0;
@@ -59,7 +60,7 @@ void Player::Update()
 {
 	//被弾演出
 	if (damageAlpha_ > 0) {
-		damageAlpha_ -= 0.01f;
+		damageAlpha_ -= SPEED_DAMAGE_UI;
 		damageSp_.SetColor(1, 1, 1, damageAlpha_);
 	}
 
@@ -76,27 +77,33 @@ void Player::Update()
 	}
 
 	//1フレーム前の情報を保存
-	oldBoxCol_.pos = pos_;
+	oldCol_.pos = pos_;
 
 	Move();
 	WorldTransUpdate();
 
+	CameraMove();
 	//攻撃
 	Attack();
-
-	CameraMove();
 }
 
 void Player::Draw()
 {
-	ItemManager::GetInstance()->Draw();
 	PlayerWeapon::GetInstance()->Draw();
 }
 
-void Player::SpDraw()
+void Player::SpriteDraw()
 {
-	ItemManager::GetInstance()->DrawSprite();
 	damageSp_.Draw();
+}
+
+void Player::HitChangePos()
+{
+	pos_ = col_.pos;
+	//カメラ操作
+	Camera* camera = Camera::GetInstance();
+	camera->SetEye(pos_ + CAMERA_EYE);//目線にカメラを調整
+	camera->SetTarget(pos_ + frontVec_ + CAMERA_EYE);//目線にカメラを調整
 }
 
 void Player::ChargeSpell(int32_t num)
@@ -136,14 +143,14 @@ void Player::SubLife(int32_t num)
 		}
 		damageAlpha_ = 1.0f;
 		if(Camera::GetInstance()->GetShake() <= 0){
-			Camera::GetInstance()->SetShake(0.05f);
+			Camera::GetInstance()->SetShake(SHAKE_SIZE);
 		}
 	}
 }
 
 bool Player::GetIsCanAction()
 {
-	if (isAttack_ || isSpell_ || SpellManager::GetInstance()->GetIsUseSpell() || ItemManager::GetInstance()->GetIsUse()) {
+	if (isAttack_ || isSpell_ || SpellManager::GetInstance()->GetIsUseSpell()) {
 		return false;
 	}
 	return true;
@@ -178,8 +185,8 @@ void Player::Move()
 		pos_ += moveX * SPEED_MOVE * slow_;
 	}
 
-	float stickX = float(input->GetLStickX()) / 32768.0f;
-	float stickY = float(input->GetLStickY()) / 32768.0f;
+	float stickX = float(input->GetLStickX()) / PATCH_STICK;
+	float stickY = float(input->GetLStickY()) / PATCH_STICK;
 
 	//移動
 	if (input->GetLStickY()) {
@@ -193,11 +200,11 @@ void Player::Move()
 	slow_ = 1;
 
 	//当たり判定移動
-	boxCol_.pos = pos_;
+	col_.pos = pos_;
 
 	//navePointの重みづけ
 	if (++naveTimer_ > TIME_NAVE) {
-		ColliderManager::GetInstance()->SetNavePointScore();
+		//ColliderManager::GetInstance()->SetNaviPointScore();
 		naveTimer_ = 0;
 	}
 
@@ -220,13 +227,13 @@ void Player::CameraMove()
 	}
 	if (input->PushKey(DIK_UP)) {
 		//最大値設定
-		if (cameraAngle_.y <= 90) {
+		if (cameraAngle_.y <= RAD / 2) {
 			cameraAngle_.y += SPEED_CAMERA * Setting::GetInstance()->GetYSensi();
 		}
 	}
 	if (input->PushKey(DIK_DOWN)) {
 		//最小値設定
-		if (cameraAngle_.y >= -90) {
+		if (cameraAngle_.y >= -RAD / 2) {
 			cameraAngle_.y -= SPEED_CAMERA * Setting::GetInstance()->GetYSensi();
 		}
 	}
@@ -320,14 +327,6 @@ void Player::Attack()
 	}
 
 	weapon->Update(isAttack_, isAttackOn);
-
-	//何もしていない時のみ
-	if (GetIsCanAction()) {
-		ItemManager::GetInstance()->Use();
-	}
-	//いつでも
-	ItemManager::GetInstance()->Update();
-	//ItemManager::GetInstance()->ChangeItem();
 }
 
 void Player::HealLife()

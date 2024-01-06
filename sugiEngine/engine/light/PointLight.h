@@ -1,5 +1,11 @@
+/**
+ * @file PointLight.h
+ * @brief 点光源
+ */
+
 #pragma once
 #include<DirectXMath.h>
+#include "SugiMath.h"
 
 class PointLight
 {
@@ -25,11 +31,15 @@ public:
 	inline void SetLightPos(const XMFLOAT3& lightpos) {
 		lightpos_ = lightpos;
 	}
-	inline void SetLightColor(const XMFLOAT3& lightcolor) {
-		lightcolor_ = lightcolor;
+	inline void SetLightColor(const Vector3& lightcolor) {
+		lightcolor_.x = lightcolor.x;
+		lightcolor_.y = lightcolor.y;
+		lightcolor_.z = lightcolor.z;
 	}
-	inline void SetLightAtten(const XMFLOAT3& lightAtten) {
-		lightAtten_ = lightAtten;
+	inline void SetLightAtten(const Vector3& lightAtten) {
+		lightAtten_.x = lightAtten.x;
+		lightAtten_.y = lightAtten.y;
+		lightAtten_.z = lightAtten.z;
 	}
 	inline void SetActive(bool active) {
 		active_ = active;

@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file WorldTransform.h
+ * @brief ワールド変換行列
+ */
+
+#pragma once
 #include "Matrix4.h"
 #include "Vector3.h"
 #include <d3d12.h>

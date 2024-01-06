@@ -1,5 +1,19 @@
+/**
+ * @file MenuManager.h
+ * @brief メニュー画面を管理するマネージャー
+ */
+
 #pragma once
 #include "Sprite.h"
+
+enum MENU{
+	BACK,
+	RESET,
+	STAGE_SELECT,
+	SETTING,
+
+	MENU_END
+};
 
 class MenuManager {
 private:
@@ -14,20 +28,19 @@ public:
 
 	static MenuManager* GetInstance();
 
+	//ゲッターセッター
 	void SetIsActive(bool is) {
 		isActive_ = is;
 	}
 	bool GetIsActive() {
 		return isActive_;
 	}
-
 	bool GetIsReset() {
 		return isReset_;
 	}
 	bool GetIsStageSelect() {
 		return isStageSelect_;
 	}
-
 	bool GetIsMenu();
 
 	void Initialize();
@@ -35,22 +48,22 @@ public:
 	void Update();
 	void Draw();
 
+	//メニュー画面を開く
 	void SetGameMenu();
-	void SetResetCheck();
-	void SetStageSelectBackCheck();
 
+	//ゲームに戻る
 	void Back();
-	void Reset();
-	void GoStageSelect();
-	void GoSpellSetting();
-	void BackStage();
-	void Enter();
-	void Cancel();
-
+	//設定画面へ
 	void GoToSetting();
 
 private:
 	static const int32_t MAX_MENU = 4;
+	//カーソル移動のディレイ
+	const int32_t TIME_DELAY = 10;
+	const int32_t STICK_DELAY = 10000;
+	//カーソルサイズ
+	const Vector2 SIZE_MENU = { 500, 150 };
+	const Vector2 SIZE_BIG_MENU = { 550, 165 };
 
 	bool isActive_;
 	bool isReset_;

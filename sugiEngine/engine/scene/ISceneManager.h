@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file ISceneManager.h
+ * @brief シーンのベースクラス
+ */
+
+#pragma once
 
 class ISceneManager
 {

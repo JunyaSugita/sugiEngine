@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file Vector4.h
+ * @brief float x4
+ */
+
+#pragma once
 class Vector4
 {
 public:

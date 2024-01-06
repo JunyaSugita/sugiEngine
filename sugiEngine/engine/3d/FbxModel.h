@@ -1,3 +1,8 @@
+/**
+ * @file FbxModel.h
+ * @brief Fbxのモデル
+ */
+
 #pragma once
 #include <string>
 #include <DirectXMath.h>

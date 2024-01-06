@@ -1,3 +1,8 @@
+/**
+ * @file SpellManager.h
+ * @brief 魔法を管理するマネージャー
+ */
+
 #pragma once
 #include "BaseSpell.h"
 #include "FireBall.h"
@@ -14,6 +19,8 @@ enum MAGIC {
 	CHAIN_LIGHTNING,
 	ENCHANT_FIRE,
 	FLAME,
+
+	MAGIC_END
 };
 
 enum SPELL_TYPE {
@@ -43,37 +50,39 @@ public:
 	void Update();
 	void Draw();
 
+	//ファイアーボールのチャージと発射
 	void ChargeFireBall();
 	void FireFireBall();
-
+	//マジックミサイルのチャージと発射
 	void ChargeMagicMissile();
 	void FireMagicMissile();
-
+	//アイスボルトのチャージと発射
 	void ChargeIceBolt();
 	void FireIceBolt();
-
+	//チェインライトニングのチャージと発射
 	void ChargeChainLightning();
 	void FireChainLightning();
-
+	//エンチャントファイアのチャージと発射
 	void ChargeEnchantFire();
 	void FireEnchantFire();
-
+	//火炎放射のチャージと発射
 	void ChargeFlame();
 	void FireFlame();
 
+	//ボタンを離した時などにチャージタイムを初期化
 	void ResetChargeTime() {
 		chargeTime_ = 0;
 	}
+	//何パーセント溜まっているか
 	float ChargePercent();
-
 	float UsePercent() {
 		return useTime_ / maxCharge_;
 	}
-
 	float GetMaxCharge() {
 		return maxCharge_;
 	}
 
+	//ライトニング以外の呪文の判定
 	std::vector<BaseSpell*> GetSpellsCol() {
 		spellsList_.clear();
 		for (std::unique_ptr<BaseSpell>& spell : spells_) {
@@ -81,7 +90,7 @@ public:
 		}
 		return spellsList_;
 	}
-
+	//ライトニングの呪文の判定
 	std::vector<ChainLightning*> GetChainLightningsCol() {
 		chainLightningsList_.clear();
 		for (std::unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
@@ -89,16 +98,17 @@ public:
 		}
 		return chainLightningsList_;
 	}
-
+	//エンチャントファイア適応
 	void SetEnchantFire() {
 		isModeEnchantFire_ = true;
 	}
+	//エンチャントファイアを使っているか
 	bool GetActiveEnchantFire() {
 		return isModeEnchantFire_;
 	}
-
+	//呪文を使っているか
 	bool GetIsUseSpell();
-
+	//呪文の属性を取得
 	int32_t GetSpellType(int32_t spell);
 
 public:
@@ -121,7 +131,14 @@ public:
 	const float TIME_CHARGE_FLAME = 2.0f * 60;
 	const float TIME_FIRE_FLAME = 3.0f * 60;
 
+	//呪文詠唱のコヨーテ
+	const float COYOTE_SPELL = 0.9f;
+
 private:
+	//マジックミサイルの間隔
+	const int32_t COOLTIME_MAGIC_MISSILE = 20;
+	const int32_t COOLTIME_FLAME = 5;
+
 	float maxCharge_;
 	float chargeTime_;
 	float useTime_;

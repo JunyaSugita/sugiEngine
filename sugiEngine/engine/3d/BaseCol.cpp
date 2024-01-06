@@ -1,38 +1,130 @@
-﻿#include "BaseCol.h"
+#include "BaseCol.h"
+#include "ColliderManager.h"
 
-void BaseCol::Initialize()
+void BaseCol::Initialize(Vector3 pos, Vector3 scale, int32_t colType, float gap)
 {
 	colObj_.Initialize("box");
 
-	col.pos = {0,0,0};
-	col.size = { 1,1,1 };
+	col_.pos = pos;
+	col_.size = scale;
+	oldCol_ = col_;
 
-	oldCol = col;
+	colType_ = colType;
 
-	gap = { 0,0,0 };
+	gap_ = gap;
+
+	ColliderManager::GetInstance()->AddCollider(this);
 }
 
-void BaseCol::Update()
+void BaseCol::Update(Vector3 pos, Vector3 scale)
 {
+	SetCol(pos,scale);
 	colObj_.Update();
 }
 
 void BaseCol::Draw()
 {
-	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		colObj_.Draw();
-	}
+	colObj_.Draw();
 }
 
-void BaseCol::SetCol(Vector3 pos)
+void BaseCol::SetCol(Vector3 pos, Vector3 scale)
 {
-	col.pos = pos + gap;
+	col_.pos = {pos.x,pos.y + gap_,pos.z};
+	col_.size = scale;
 
-	colObj_.pos = col.pos;
-	colObj_.scale = col.size;
+	colObj_.pos = col_.pos;
+	colObj_.scale = col_.size;
 }
 
 void BaseCol::SetOldCol()
 {
-	oldCol = col;
+	oldCol_ = col_;
+}
+
+void BaseCol::HitChangePos()
+{
+
+}
+
+void BaseCol::SetIsHit()
+{
+
+}
+
+bool BaseCol::GetIsHit()
+{
+	return false;
+}
+
+void BaseCol::SubLife(int32_t subLife, bool isParticle)
+{
+	subLife;
+	isParticle;
+}
+
+int32_t BaseCol::GetDamage()
+{
+	return 0;
+}
+
+void BaseCol::SetDebuff(int32_t debuff, int32_t time)
+{
+	debuff;
+	time;
+}
+
+int32_t BaseCol::GetDebuff()
+{
+	return 0;
+}
+
+void BaseCol::SetIsStop()
+{
+}
+
+void BaseCol::SetIsAttack()
+{
+}
+
+bool BaseCol::GetIsDown()
+{
+	return 0;
+}
+
+void BaseCol::DownHitPlayer()
+{
+}
+
+DownState BaseCol::GetDownHitEnemy()
+{
+	return DownState();
+}
+
+void BaseCol::SetDownHitEnemy(DownState state)
+{
+	state;
+}
+
+Vector3 BaseCol::GetPos()
+{
+	return Vector3();
+}
+
+void BaseCol::SetShakeTime(int32_t time)
+{
+	time;
+}
+
+void BaseCol::SetClear()
+{
+}
+
+void BaseCol::AddColX(float num)
+{
+	num;
+}
+
+void BaseCol::AddColZ(float num)
+{
+	num;
 }

@@ -46,8 +46,8 @@ void EnemyManager::Update()
 			if ((enemysList_[i]->GetPos() - weapon->GetHitPos()).length() < weapon->ATTACK_RADIUS) {
 				//当たった判定を敵に与える
 				if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
-					enemysList_[i]->SetIsHit(10);
-					enemysList_[i]->SetDebuff(D_FIRE,3);
+					enemysList_[i]->SetIsHit(EnchantFire::DAMAGE);
+					enemysList_[i]->SetDebuff(D_FIRE, EnchantFire::TIME_DEBUFF);
 				}
 				else {
 					enemysList_[i]->SetIsHit(5,true);
@@ -64,10 +64,10 @@ void EnemyManager::Draw()
 	}
 }
 
-void EnemyManager::Draw2()
+void EnemyManager::DrawTransparent()
 {
 	for (int i = 0; i < enemysList_.size(); i++) {
-		enemysList_[i]->Draw2();
+		enemysList_[i]->DrawTransparent();
 	}
 }
 

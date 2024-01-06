@@ -1,7 +1,12 @@
+/**
+ * @file ParticleManager.h
+ * @brief パーティクルを管理するマネージャー
+ */
+
 #pragma once
 #include <Windows.h>
 #include "DXCommon.h"
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "WorldTransform.h"
 #include "SugiMath.h"
 #include <forward_list>

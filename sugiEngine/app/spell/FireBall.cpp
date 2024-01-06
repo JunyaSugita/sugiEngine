@@ -42,19 +42,17 @@ void FireBall::Update()
 
 void FireBall::Draw()
 {
-	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		col_.Draw();
-	}
+
 }
 
 void FireBall::Explode()
 {
-	obj_.scale *= 1.2f;
-	alpha_ -= 0.03f;
+	obj_.scale *= SPEED_SIZE_UP_EXPLODE;
+	alpha_ -= SPEED_ALPHA_EXPLODE;
 	obj_.obj->SetColor({ 1,0,0,alpha_ });
 	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL_EXPLODE, obj_.pos);
-	if (obj_.scale.x >= 10.0f) {
-		isDead_ = true;
+	if (obj_.scale.x >= MAX_SIZE_EXPLODE) {
+		BaseSpell::Explode();
 		lightGroup_->SetPointLightActive(useLightNum_,false);
 	}
 }

@@ -101,15 +101,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Fly.cpp" />
-    <ClCompile Include="sugiEngine\app\collider\ColliderManager.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\Enemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\EnemyManager.cpp" />
+    <ClCompile Include="sugiEngine\app\enemy\Fly.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\Slime.cpp" />
     <ClCompile Include="sugiEngine\app\ground\FieldManager.cpp" />
     <ClCompile Include="sugiEngine\app\ground\Torch.cpp" />
-    <ClCompile Include="sugiEngine\app\player\ItemManager.cpp" />
+    <ClCompile Include="sugiEngine\app\ground\Wall.cpp" />
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
     <ClCompile Include="sugiEngine\app\scene\StageSelectScene.cpp" />
@@ -138,6 +137,7 @@
     <ClCompile Include="sugiEngine\engine\3d\BaseCol.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\BaseObj.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Camera.cpp" />
+    <ClCompile Include="sugiEngine\engine\3d\ColliderManager.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\ModelManager.cpp" />
@@ -148,7 +148,7 @@
     <ClCompile Include="sugiEngine\engine\effect\EffectManager.cpp" />
     <ClCompile Include="sugiEngine\engine\io\FbxLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp" />
-    <ClCompile Include="sugiEngine\engine\io\NavePointManager.cpp" />
+    <ClCompile Include="sugiEngine\engine\io\NaviPointManager.cpp" />
     <ClCompile Include="sugiEngine\engine\math\Easing.cpp" />
     <ClCompile Include="sugiEngine\engine\particle\ParticleEditor.cpp" />
     <ClCompile Include="sugiEngine\engine\particle\ParticleManager.cpp" />
@@ -176,7 +176,6 @@
     <ClCompile Include="sugiEngine\engine\3d\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sugiEngine\app\collider\ColliderManager.h" />
     <ClInclude Include="sugiEngine\app\enemy\BaseEnemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\Enemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\EnemyManager.h" />
@@ -184,7 +183,7 @@
     <ClInclude Include="sugiEngine\app\enemy\Slime.h" />
     <ClInclude Include="sugiEngine\app\ground\FieldManager.h" />
     <ClInclude Include="sugiEngine\app\ground\Torch.h" />
-    <ClInclude Include="sugiEngine\app\player\ItemManager.h" />
+    <ClInclude Include="sugiEngine\app\ground\Wall.h" />
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
     <ClInclude Include="sugiEngine\app\scene\StageSelectScene.h" />
@@ -213,6 +212,7 @@
     <ClInclude Include="sugiEngine\engine\3d\BaseCol.h" />
     <ClInclude Include="sugiEngine\engine\3d\BaseObj.h" />
     <ClInclude Include="sugiEngine\engine\3d\Camera.h" />
+    <ClInclude Include="sugiEngine\engine\3d\ColliderManager.h" />
     <ClInclude Include="sugiEngine\engine\3d\Fbx.h" />
     <ClInclude Include="sugiEngine\engine\3d\FbxModel.h" />
     <ClInclude Include="sugiEngine\engine\3d\ModelManager.h" />
@@ -220,7 +220,7 @@
     <ClInclude Include="sugiEngine\engine\effect\Burst.h" />
     <ClInclude Include="sugiEngine\engine\io\FbxLoader.h" />
     <ClInclude Include="sugiEngine\engine\io\JsonLoader.h" />
-    <ClInclude Include="sugiEngine\engine\io\NavePointManager.h" />
+    <ClInclude Include="sugiEngine\engine\io\NaviPointManager.h" />
     <ClInclude Include="sugiEngine\engine\light\CircleShadow.h" />
     <ClInclude Include="sugiEngine\app\scene\ClearScene.h" />
     <ClInclude Include="sugiEngine\engine\base\DXCommon.h" />
@@ -231,7 +231,7 @@
     <ClInclude Include="sugiEngine\engine\particle\ParticleManager.h" />
     <ClInclude Include="sugiEngine\engine\scene\GameManager.h" />
     <ClInclude Include="sugiEngine\app\scene\GameScene.h" />
-    <ClInclude Include="sugiEngine\engine\base\GrovalSetting.h" />
+    <ClInclude Include="sugiEngine\engine\base\GlobalSetting.h" />
     <ClInclude Include="sugiEngine\engine\2d\ImGuiManager.h" />
     <ClInclude Include="sugiEngine\engine\io\Input.h" />
     <ClInclude Include="sugiEngine\engine\light\LightGroup.h" />

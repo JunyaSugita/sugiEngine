@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file FbxLoader.h
+ * @brief FBXファイルの読み込み
+ */
+
+#pragma once
 
 #include "fbxsdk.h"
 

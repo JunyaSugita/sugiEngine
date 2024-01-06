@@ -1,10 +1,15 @@
+/**
+ * @file Player.h
+ * @brief プレイヤーの操作
+ */
+
 #pragma once
 #include "SugiMath.h"
 #include "WorldTransform.h"
 #include "SpellManager.h"
 #include "Sprite.h"
 
-class Player final{
+class Player :public BaseCol{
 private:
 	Player() = default;
 	~Player() = default;
@@ -21,7 +26,10 @@ public:
 	void GameInitialize();
 	void Update();
 	void Draw();
-	void SpDraw();
+	void SpriteDraw();
+	void HitChangePos() override;
+
+	//呪文を詠唱
 	void ChargeSpell(int32_t num);
 
 	//pos
@@ -48,6 +56,8 @@ public:
 	int32_t GetMaxLife() {
 		return MAX_LIFE;
 	}
+
+	//ダメージを適応
 	void SubLife(int32_t num = 1000);
 
 	//worldTrans
@@ -65,6 +75,7 @@ public:
 		return attackTime_;
 	};
 
+	//杖を振ったり出来るか
 	bool GetIsCanAction();
 	bool GetIsSpell() {
 		return isSpell_;
@@ -81,12 +92,12 @@ public:
 		return presetSpell_;
 	}
 
-	BoxCol GetBoxCol() {
-		return boxCol_;
+	Col GetBoxCol() {
+		return col_;
 	}
 
-	BoxCol GetOldBoxCol() {
-		return oldBoxCol_;
+	Col GetOldBoxCol() {
+		return oldCol_;
 	}
 
 	void WorldTransUpdate();
@@ -129,6 +140,12 @@ public:
 	const float TIME_NAVE = 1.0f * 60;
 	const int32_t MAX_LIFE = 10000;
 	const float MAX_Y = 3.0f;
+	//ダメージ演出が消えていくスピード
+	const float SPEED_DAMAGE_UI = 0.01f;
+	//画面シェイクの大きさ
+	const float SHAKE_SIZE = 0.05f;
+	//スティックの修正
+	const float PATCH_STICK = 32768.0f;
 
 private:
 	WorldTransform worldTrans_;
@@ -150,10 +167,6 @@ private:
 	//装備呪文
 	int32_t presetSpell_;
 	float spellAngle_;
-
-	//当たり判定
-	BoxCol boxCol_;
-	BoxCol oldBoxCol_;
 
 	//ダメージ演出
 	int32_t damageTex_;

@@ -1,4 +1,4 @@
-﻿#include "SpellCharge.h"
+#include "SpellCharge.h"
 #include "Player.h"
 
 SpellCharge* SpellCharge::GetInstance()
@@ -26,17 +26,17 @@ void SpellCharge::Initialize()
 void SpellCharge::Update()
 {
 	if (Player::GetInstance()->GetIsSpell()) {
-		chargeSprite_.SetSize(301 * SpellManager::GetInstance()->ChargePercent(), 50);
+		chargeSprite_.SetSize(SIZE_CHARGE_GAUGE.x * SpellManager::GetInstance()->ChargePercent(), SIZE_CHARGE_GAUGE.y);
 		if (SpellManager::GetInstance()->ChargePercent() >= 1.0f) {
-			chargeSprite_.SetColor(1, 1, 0, 1);
+			chargeSprite_.SetColor(COLOR_GAUGE);
 		}
 		else {
-			chargeSprite_.SetColor(1, 1, 1, 1);
+			chargeSprite_.SetColor(COLOR_MAX_GAUGE);
 		}
 	}
 	if (SpellManager::GetInstance()->GetIsUseSpell()) {
-		chargeSprite_.SetSize(301 * SpellManager::GetInstance()->UsePercent(), 50);
-		chargeSprite_.SetColor(1, 1, 0, 1);
+		chargeSprite_.SetSize(SIZE_CHARGE_GAUGE.x * SpellManager::GetInstance()->UsePercent(), SIZE_CHARGE_GAUGE.y);
+		chargeSprite_.SetColor(COLOR_GAUGE);
 	}
 }
 

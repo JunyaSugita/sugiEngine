@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file ClearScene.h
+ * @brief ステージをクリアした時に呼ばれる
+ */
+
+#pragma once
 #include "ISceneManager.h"
 #include "Object3d.h"
 #include "Sprite.h"

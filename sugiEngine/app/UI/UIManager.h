@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file UIManager.h
+ * @brief UIの描画を管理するマネージャー
+ */
+
+#pragma once
 #include "Sprite.h"
 
 class UIManager final{
@@ -19,12 +24,18 @@ public:
 	void Update();
 	void Draw();
 
+	//クリアを呼び出し
 	void SetClear();
+	//ゲームオーバーを呼び出し
 	void SetGameOver();
+	//透明度
 	float GetStateAlpha_() {
 		return stateAlpha_;
 	}
 private:
+	//ゲームオーバー、クリアの出るスピード
+	const float SPEED_ALPHA = 0.025f;
+
 	Sprite stateSp_;
 	float stateAlpha_;
 

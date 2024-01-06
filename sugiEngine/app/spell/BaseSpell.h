@@ -1,5 +1,10 @@
+/**
+ * @file BaseSpell.h
+ * @brief 魔法のベース
+ */
+
 #pragma once
-#include "GrovalSetting.h"
+#include "GlobalSetting.h"
 #include "BaseObj.h"
 #include "BaseCol.h"
 
@@ -15,15 +20,16 @@ enum DebuffType {
 	D_STAN,
 };
 
-class BaseSpell {
+class BaseSpell :public BaseCol{
 public:
 	virtual void Initialize(Vector3 pos, Vector3 vec = Vector3());
 	virtual void Update();
 	virtual void Draw();
-
-	virtual void SetCol();
 	virtual void WorldTransUpdate();
+
+	//発射
 	virtual void Fire();
+	//着弾時効果
 	virtual void Explode();
 
 public:
@@ -33,28 +39,29 @@ public:
 	void SetIsDead() {
 		isDead_ = true;
 	};
-	bool GetIsHit() {
+	bool GetIsHit() override{
 		return isHit_;
 	}
-	void SetIsHit() {
+	void SetIsHit() override {
 		isHit_ = true;
 	}
-	BoxCol GetBoxCol() {
-		return col_.col;
+	Col GetBoxCol() {
+		return col_;
 	}
-	int32_t GetDamage() {
+	int32_t GetDamage() override{
 		return damage_;
 	}
-	int32_t GetDebuff() {
+	int32_t GetDebuff() override{
 		return debuffType_;
 	}
 	bool GetIsCalcCol();
 
 protected:
+	//魔法が出る位置
+	const float SPELL_LENGE = 3;
+
 	//位置や実体
 	BaseObj obj_;
-	//当たり判定
-	BaseCol col_;
 	//表示フラグ
 	bool isDead_;
 	//消えるまでの時間管理

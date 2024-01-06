@@ -1,4 +1,7 @@
-//全ての敵のマネージャークラス
+/**
+ * @file EnemyManager.h
+ * @brief 全ての敵のマネージャークラス
+ */
 #pragma once
 #include "Enemy.h"
 
@@ -17,16 +20,21 @@ public:
 
 public:
 	void Initialize();
+	//ゲーム初期化
 	void GameInitialize();
 	void Update();
 	void Draw();
-	void Draw2();
+	void DrawTransparent();
 
+	//人型の敵を出す
 	void PopEnemy(Vector3 pos);
+	//スライムを出す
 	void PopSlime(Vector3 pos);
+	//虫を出す
 	void PopFly(Vector3 pos);
+	//当たった判定のリセット
 	void ResetIsHit();
-
+	//フィールドにいる敵のリスト
 	std::vector<BaseEnemy*> GetEnemysList() {
 		return enemysList_;
 	}

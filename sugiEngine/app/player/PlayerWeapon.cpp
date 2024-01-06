@@ -6,7 +6,6 @@
 #include "SpellManager.h"
 #include "ParticleManager.h"
 #include "ModelManager.h"
-#include "ItemManager.h"
 #include "ClearChecker.h"
 #include "LoadOut.h"
 
@@ -29,7 +28,7 @@ void PlayerWeapon::Initialize()
 	obj_.scale = { 1,1,1 };
 
 	orbObj_.Initialize("orb");
-	orbObj_.obj->SetColor({0,1,1,0.5f});
+	orbObj_.obj->SetColor({ 0,1,1,0.5f });
 	orbObj_.obj->SetIsSimple();
 
 	orbObj_.pos = { 0,1.7f,0 };
@@ -48,70 +47,62 @@ void PlayerWeapon::Initialize()
 
 	isAt_ = false;
 
-	healY = 0;
-	healRot = 0;
 	alpha_ = 1;
 }
 
-void PlayerWeapon::Update(bool isAttack,bool isAttackOn)
+void PlayerWeapon::Update(bool isAttack, bool isAttackOn)
 {
 	if (ClearChecker::GetInstance()->GetIsClear()) {
-		alpha_ -= 0.02f;
-		obj_.obj->SetColor({ 1,1,1,alpha_ });
-		orbObj_.obj->SetColor({ 0,1,1,alpha_ * 0.5f });
+		alpha_ -= SPEED_ALPHA;
+		obj_.obj->SetColor(COLOR_WEAPON ,alpha_ );
+		orbObj_.obj->SetColor( COLOR_ORB,alpha_ * ALPHA_ORB);
 		WorldTransUpdate();
 		return;
 	}
 	else {
-		obj_.obj->SetColor({ 1,1,1,1 });
-		orbObj_.obj->SetColor({ 0,1,1,0.5f });
+		obj_.obj->SetColor(COLOR_WEAPON,1);
+		orbObj_.obj->SetColor(COLOR_ORB, ALPHA_ORB);
 	}
 
 	//攻撃中は武器を振る
 	if (isAttack) {
 		AttackMove(isAttackOn);
-		y = 3;
+		weaponY = START_WEAPON_Y;
 	}
 	else if (SpellManager::GetInstance()->GetIsUseSpell()) {
 		SpellMove();
-		y = 3;
+		weaponY = START_WEAPON_Y;
 	}
 	else if (SpellManager::GetInstance()->ChargePercent() != 0.0f) {
 		ChargeMove();
-		y = 3;
-	}
-	else if (ItemManager::GetInstance()->GetIsUse()) {
-		ItemMove();
-		y = 3;
+		weaponY = START_WEAPON_Y;
 	}
 	//攻撃していないときは通常持ち
 	else {
 		NormalMove();
-		easeTimer_ = 20;
+		easeTimer_ = EASING_TIME;
 	}
 
 	WorldTransUpdate();
 	if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
 		if (useLightNum_ == -1) {
 			useLightNum_ = lightGroup_->SetPointLightGetNum();
-			lightGroup_->SetPointLightColor(useLightNum_, { 1,0.2f,0 });
-			lightGroup_->SetPointLightAtten(useLightNum_, { 0.001f,0.001f,0.001f });
+			lightGroup_->SetPointLightColor(useLightNum_, COLOR_FIRE_LIGHT);
+			lightGroup_->SetPointLightAtten(useLightNum_, ATTEN_FIRE);
 		}
 		ParticleManager::GetInstance()->AddFromFile(P_WEAPON_FIRE, orbObj_.worldTrans.GetMatPos());
 		lightGroup_->SetPointLightPos(useLightNum_, { orbObj_.worldTrans.GetMatPos().x, orbObj_.worldTrans.GetMatPos().y ,orbObj_.worldTrans.GetMatPos().z });
 	}
 	else if (useLightNum_ != -1) {
-		lightGroup_->SetPointLightActive(useLightNum_,false);
+		lightGroup_->SetPointLightActive(useLightNum_, false);
 		useLightNum_ = -1;
 	}
 }
 
 void PlayerWeapon::Draw()
 {
-	if (healY < 5) {
-		obj_.Draw();
-		orbObj_.Draw();
-	}
+	obj_.Draw();
+	orbObj_.Draw();
 }
 
 void PlayerWeapon::NormalMove()
@@ -119,17 +110,14 @@ void PlayerWeapon::NormalMove()
 	Player* player = Player::GetInstance();
 
 	obj_.pos = player->GetPos();
-	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
-	obj_.pos.y = 3.5f - y;
-	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
-	obj_.rot = { 30,player->GetCameraAngle().x,0 };
-
-	healY = 0;
-	healRot = 0;
+	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + POS_WEAPON)) * LEN_WEAPON);
+	obj_.pos.y = PATCH_WEAPON_Y - weaponY;
+	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + POS_WEAPON)) * LEN_WEAPON);
+	obj_.rot = { POS_WEAPON,player->GetCameraAngle().x,0 };
 
 	//武器持ち上げ
-	if (y > 0) {
-		y -= 0.1f;
+	if (weaponY > 0) {
+		weaponY -= SPEED_REVERSE_WEAPON;
 	}
 }
 
@@ -138,21 +126,21 @@ void PlayerWeapon::SpellMove()
 	Player* player = Player::GetInstance();
 
 	if (--easeTimer_ > 0) {
-		float nowTime = easeTimer_ / 19;
+		float nowTime = easeTimer_ / PATCH_EASING_TIME;
 
 		obj_.pos = player->GetPos();
-		obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
-		obj_.pos.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f + EaseOut(nowTime,2));
-		obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
+		obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + PATCH_SPELLMOVE_LEN)) * LEN_MOVE_WEAPON);
+		obj_.pos.y += float(sin(Radian(player->GetCameraAngle().y)) * LEN_MOVE_WEAPON + PATCH_SPELLMOVE + EaseOut(nowTime, LEN_MOVE_WEAPON));
+		obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + PATCH_SPELLMOVE_LEN)) * LEN_MOVE_WEAPON);
 		obj_.rot = { (player->GetCameraAngle().y - 90) * -1,player->GetCameraAngle().x,0 };
 	}
 	else {
 
 		obj_.pos = player->GetPos();
-		obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 10)) * 2);
-		obj_.pos.y += float(sin(Radian(player->GetCameraAngle().y)) * 2 + 4.5f);
-		obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 10)) * 2);
-		obj_.rot = { (player->GetCameraAngle().y - 90) * -1,player->GetCameraAngle().x,0 };
+		obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + PATCH_SPELLMOVE_LEN)) * LEN_MOVE_WEAPON);
+		obj_.pos.y += float(sin(Radian(player->GetCameraAngle().y)) * LEN_MOVE_WEAPON + PATCH_SPELLMOVE);
+		obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + PATCH_SPELLMOVE_LEN)) * LEN_MOVE_WEAPON);
+		obj_.rot = { (player->GetCameraAngle().y - RAD / 2) * -1,player->GetCameraAngle().x,0 };
 	}
 }
 
@@ -162,28 +150,14 @@ void PlayerWeapon::ChargeMove()
 	SpellManager* spellM = SpellManager::GetInstance();
 
 	obj_.pos = player->GetPos();
-	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
-	obj_.pos.y = 3.5f;
-	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
-	obj_.rot = { 30 + float(sin(Radian(spellM->ChargePercent() * 1000))* 15),player->GetCameraAngle().x,0 + float(cos(Radian(spellM->ChargePercent() * 1000)) * 15) };
+	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + POS_WEAPON)) * LEN_WEAPON);
+	obj_.pos.y = PATCH_WEAPON_Y;
+	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + POS_WEAPON)) * LEN_WEAPON);
+	obj_.rot = { POS_WEAPON + float(sin(Radian(spellM->ChargePercent() * 1000)) * PATCH_CHARGEMOVE),player->GetCameraAngle().x,0 + float(cos(Radian(spellM->ChargePercent() * 1000)) * PATCH_CHARGEMOVE) };
 
 	if (!LoadOut::GetInstance()->GetIsActive()) {
 		PopChargeParticle(spellM->GetSpellType(LoadOut::GetInstance()->GetSpell(Player::GetInstance()->GetPresetSpell())));
 	}
-}
-
-void PlayerWeapon::ItemMove()
-{
-	Player* player = Player::GetInstance();
-
-	obj_.pos = player->GetPos();
-	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x + 30)) * 4);
-	obj_.pos.y = 3.5f + healY;
-	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x + 30)) * 4);
-	obj_.rot = { 30 - healRot,player->GetCameraAngle().x,0 };
-
-	healY += 0.1f;
-	healRot += 3.0f;
 }
 
 void PlayerWeapon::AttackMove(bool isAttackOn)
@@ -192,16 +166,16 @@ void PlayerWeapon::AttackMove(bool isAttackOn)
 
 	float nowTime = player->GetTime();
 
-	float easeTime = nowTime / 30.0f;
-	if (easeTime >= 1.0f) {
-		easeTime = 1.0f;
+	float easeTime = nowTime / PATCH_ATTACK_EASING_TIME;
+	if (easeTime >= 1) {
+		easeTime = 1;
 	}
 
 	obj_.pos = player->GetPos();
-	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x)) * 2);
-	obj_.pos.y = EaseOut(easeTime,6);
-	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x)) * 2);
-	obj_.rot = { 130 - EaseIn(easeTime,130),player->GetCameraAngle().x - 5,0 };
+	obj_.pos.x += float(sin(Radian(player->GetCameraAngle().x)) * LEN_MOVE_WEAPON);
+	obj_.pos.y = EaseOut(easeTime, PATCH_ATTACKMOVE_EASING);
+	obj_.pos.z += float(cos(Radian(player->GetCameraAngle().x)) * LEN_MOVE_WEAPON);
+	obj_.rot = { PATCH_ATTACKMOVE - EaseIn(easeTime,PATCH_ATTACKMOVE),player->GetCameraAngle().x - PATCH_ATTACKMOVE_LEN,0 };
 	if (isAttackOn) {
 		isAt_ = true;
 		AttackCol();
@@ -232,19 +206,19 @@ void PlayerWeapon::PopChargeParticle(int32_t num)
 	switch (num)
 	{
 	case TYPE_FIRE:
-		ChargeParticle({ 0.2f,0.04f,0 });
+		ChargeParticle(COLOR_FIRE);
 		break;
 	case TYPE_THUNDER:
-		ChargeParticle({ 0.2f,0,0.2f });
+		ChargeParticle(COLOR_THUNDER);
 		break;
 	case TYPE_ICE:
-		ChargeParticle({ 0,0.04f,0.1f });
+		ChargeParticle(COLOR_ICE);
 		break;
 	case TYPE_DARK:
-		ChargeParticle({ 0.2f,0,0.2f });
+		ChargeParticle(COLOR_DARK);
 		break;
 	default:
-		ChargeParticle({ 0.2f,0.2f,0.2f });
+		ChargeParticle(COLOR_DEF);
 		break;
 	}
 }
@@ -266,7 +240,7 @@ void PlayerWeapon::ChargeParticle(Vector3 color)
 {
 	if (SpellManager::GetInstance()->ChargePercent() != 1.0f) {
 		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), SpellManager::GetInstance()->ChargePercent(), color);
-		if (SpellManager::GetInstance()->ChargePercent() >= 0.90f) {
+		if (SpellManager::GetInstance()->ChargePercent() >= MAGIC_COYOTE) {
 			ParticleManager::GetInstance()->AddFromFile(P_CHARGE_MAX_FIRE, orbObj_.worldTrans.GetMatPos());
 		}
 	}

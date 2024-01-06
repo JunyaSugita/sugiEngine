@@ -1,3 +1,8 @@
+/**
+ * @file CircleShadow.h
+ * @brief 丸影
+ */
+
 #pragma once
 #include <DirectXMath.h>
 

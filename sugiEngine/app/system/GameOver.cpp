@@ -18,8 +18,8 @@ void GameOver::Update()
 	gauge_.Update((float)maxHp_, (float)nowHp_,(float)Player::GetInstance()->GetHeal());
 
 	if (nowHp_ <= 0) {
-		if (blur_ < 5) {
-			blur_ += 0.025f;
+		if (blur_ < MAX_BLUR) {
+			blur_ += SPEED_BLUR;
 			if (blur_ >= 1) {
 				PostEffectSecond::SetBlur((int32_t)blur_);
 			}

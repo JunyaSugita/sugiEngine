@@ -18,24 +18,18 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 {
 	//モデルデータは先に派生クラスで読み込む
 	obj_.Initialize(name);
-	col_.Initialize();
+	BaseCol::Initialize(obj_.pos,obj_.scale,ENEMY);
 
 	//位置
 	obj_.pos = pos;
-	obj_.rot = { 0,90,0 };
-	obj_.scale = { 1,1,1 };
+	obj_.rot = START_ROT;
 	obj_.obj->SetIsSimple();
-
-	//当たり判定
-	col_.col.pos = pos;
-	col_.col.size = { 1.0f,height_,1.0f };
-	col_.gap = { 0,height_,0 };
 
 	//デバフの氷
 	iceObj_.Initialize("box");
 	iceObj_.pos = { 0,2,0 };
 	iceObj_.scale = { 2,3,2 };
-	iceObj_.obj->SetColor({ 0.5f,1,0.5f,0.5f });
+	iceObj_.obj->SetColor(COLOR_ICE);
 
 	//フラグ
 	isDead_ = false;
@@ -46,7 +40,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	isAttack_ = false;
 	attackTimer_ = 0.0f;
 	lightNum_ = -1;
-	slow_ = 1.0f;
+	slow_ = 1;
 	shakeTime_ = 0;
 	isStart_ = false;
 }
@@ -54,7 +48,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 void BaseEnemy::Update()
 {
 	//1フレ前の座標を保存
-	col_.SetOldCol();
+	SetOldCol();
 
 	//シェイクを戻す
 	ResetShake();
@@ -102,6 +96,7 @@ void BaseEnemy::Update()
 
 	//移動を適応
 	WorldTransUpdate();
+	BaseCol::Update(obj_.pos,col_.size);
 }
 
 void BaseEnemy::DontMoveUpdate()
@@ -112,10 +107,9 @@ void BaseEnemy::DontMoveUpdate()
 void BaseEnemy::Draw()
 {
 	obj_.Draw();
-	col_.Draw();
 }
 
-void BaseEnemy::Draw2()
+void BaseEnemy::DrawTransparent()
 {
 	if (debuff_.isIce && !isDown_) {
 		iceObj_.Draw();
@@ -125,7 +119,7 @@ void BaseEnemy::Draw2()
 void BaseEnemy::WorldTransUpdate()
 {
 	obj_.Update();
-	col_.Update();
+	BaseCol::Update(obj_.pos,obj_.scale);
 	iceObj_.Update();
 }
 
@@ -153,22 +147,23 @@ void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 	{
 	case D_FIRE:
 		debuff_.isFire = true;
-		debuff_.fireTime = time * 60;
+		debuff_.fireTime = time * MAX_FRAME;
 		if (lightNum_ == -1) {
 			lightNum_ = light_->SetPointLightGetNum();
-			light_->SetPointLightAtten(lightNum_, { 0.005f,0.005f,0.005f });
-			light_->SetPointLightColor(lightNum_, { 0.5f,0.2f,0 });
+			light_->SetPointLightAtten(lightNum_, LIGHT_ATTEN);
+			light_->SetPointLightColor(lightNum_, COLOR_FIRE);
+			//少し上にライトを置く
 			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
 		}
 
 		break;
 	case D_STAN:
 		debuff_.isThunder = true;
-		debuff_.thunderTime = time * 60;
+		debuff_.thunderTime = time * MAX_FRAME;
 		break;
 	case D_SLOW:
 		debuff_.isIce = true;
-		debuff_.iceTime = time * 60;
+		debuff_.iceTime = time * MAX_FRAME;
 		break;
 	default:
 		break;
@@ -211,8 +206,8 @@ bool BaseEnemy::isCanMove()
 
 void BaseEnemy::ResetShake()
 {
-	obj_.pos.x = col_.col.pos.x;
-	obj_.pos.z = col_.col.pos.z;
+	obj_.pos.x = col_.pos.x;
+	obj_.pos.z = col_.pos.z;
 }
 
 void BaseEnemy::SetIsAttack()
@@ -281,8 +276,8 @@ void BaseEnemy::UpdateDebuff()
 	if (isDebuff()) {
 		if (debuff_.isFire) {
 			PopDebuffFireParticle();
-			if (debuff_.fireTime % 40 == 1) {
-				SubLife(1);
+			if (debuff_.fireTime % TIME_FIRE_BURN == 1) {
+				SubLife(DAMAGE_FIRE_BURN);
 			}
 
 			//ランダム
@@ -290,7 +285,7 @@ void BaseEnemy::UpdateDebuff()
 			std::mt19937_64 engine(seed_gen());
 
 			light_->SetPointLightPos(lightNum_, { obj_.pos.x,obj_.pos.y + 1 ,obj_.pos.z });
-			std::uniform_real_distribution<float> atten(0.004f, 0.006f);
+			std::uniform_real_distribution<float> atten(MIN_ATTEN_FIRE, MAX_ATTEN_FIRE);
 			light_->SetPointLightAtten(lightNum_, { atten(engine),atten(engine),atten(engine) });
 
 			if (--debuff_.fireTime < 0) {
@@ -305,7 +300,7 @@ void BaseEnemy::UpdateDebuff()
 			}
 		}
 		if (debuff_.isIce) {
-			iceObj_.pos = col_.col.pos;
+			iceObj_.pos = col_.pos;
 			iceObj_.rot = iceObj_.rot;
 
 			if (!isDown_) {
@@ -329,9 +324,10 @@ void BaseEnemy::SetShake()
 
 	//カメラとの距離でシェイクの大きさを変える
 	Vector3 len = Camera::GetInstance()->GetEye() - obj_.pos;
-	float maxShake = len.length() / 100;
-	if (maxShake > 0.5f) {
-		maxShake = 0.5f;
+	//適当な数で割る
+	float maxShake = len.length() / CALC_SHAKE;
+	if (maxShake > MAX_SHAKE) {
+		maxShake = MAX_SHAKE;
 	}
 
 	std::uniform_real_distribution<float> x(-maxShake, maxShake);
@@ -341,14 +337,20 @@ void BaseEnemy::SetShake()
 	obj_.pos.z += z(engine);
 }
 
+void BaseEnemy::HitChangePos()
+{
+	ResetShake();
+	WorldTransUpdate();
+}
+
 void BaseEnemy::SetCol()
 {
-	col_.SetCol(obj_.pos);
+	SetCol(obj_.pos);
 }
 
 void BaseEnemy::PopDebuffFireParticle()
 {
-	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.col.pos);
+	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.pos);
 }
 
 void BaseEnemy::Down()

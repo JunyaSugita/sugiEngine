@@ -1,4 +1,4 @@
-﻿#include "UIManager.h"
+#include "UIManager.h"
 #include "Closshair.h"
 #include "SpellCharge.h"
 #include "SetSpell.h"
@@ -71,11 +71,11 @@ void UIManager::Draw()
 void UIManager::SetClear()
 {
 	stateSp_.SetTexture(clearTex_);
-	stateAlpha_ += 0.025f;
+	stateAlpha_ += SPEED_ALPHA;
 }
 
 void UIManager::SetGameOver()
 {
 	stateSp_.SetTexture(gameOverTex_);
-	stateAlpha_ += 0.025f;
+	stateAlpha_ += SPEED_ALPHA;
 }

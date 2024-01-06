@@ -1,6 +1,11 @@
-﻿#pragma once
+/**
+ * @file WinApp.h
+ * @brief ウィンドウ関係
+ */
+
+#pragma once
 #include <Windows.h>
-#include"GrovalSetting.h"
+#include"GlobalSetting.h"
 
 class WinApp
 {

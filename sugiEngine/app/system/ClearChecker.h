@@ -1,10 +1,15 @@
-﻿#pragma once
-#include "GrovalSetting.h"
+/**
+ * @file ClearChecker.h
+ * @brief クリア判定をし、ゴールのオブジェクトやパーティクル、UIを出す
+ */
+
+#pragma once
+#include "GlobalSetting.h"
 #include "Gauge.h"
 #include "BaseObj.h"
 #include "BaseCol.h"
 
-class ClearChecker {
+class ClearChecker : BaseCol{
 private:
 	ClearChecker() = default;
 	~ClearChecker() = default;
@@ -17,29 +22,32 @@ public:
 
 	static ClearChecker* GetInstance();
 
-
 public:
 	void Initialize();
 	void GameInitialize();
 	void Update();
 	void Draw();
 
-	void SetClear() {
+	//ゲッターセッター
+	void SetClear() override{
 		isClear_ = true;
 	}
 	bool GetIsClear() {
 		return isClear_;
 	}
-
-	BoxCol GetCol() {
-		return col_.col;
+	Col GetCol() {
+		return col_;
 	}
-
 	void SetGoal(Vector3 pos);
 
 private:
+	//ブラー
+	const float MAX_BLUR = 5;
+	const float SPEED_BLUR = 0.025f;
+	//ゴール
+	const float GOAL_Y = 3;
+
 	BaseObj obj_;
-	BaseCol col_;
 
 	bool isClear_;
 	float blur_;

@@ -1,4 +1,9 @@
-﻿#pragma once
+/**
+ * @file JsonLoader.h
+ * @brief jsonファイルからマップ情報を受け取る
+ */
+
+#pragma once
 #include <string>
 #include <vector>
 #include "json.hpp"

@@ -1,3 +1,8 @@
+/**
+ * @file Input.h
+ * @brief キーボードやコントローラーからの入力を受け取る
+ */
+
 #pragma once
 #define DIRECTINPUT_VERSION	0x0800	//DirectInputのバージョン指定
 #include <dinput.h>
