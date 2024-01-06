@@ -1,19 +1,18 @@
 #include "BaseSpell.h"
 #include "Player.h"
 #include "ModelManager.h"
+#include "ColliderManager.h"
 
 void BaseSpell::Initialize(Vector3 pos, Vector3 vec)
 {
 	obj_.Initialize("sphere");
-
-	cols_.Initialize();
 
 	vec_ = vec.normalize();
 
 	//プレイヤーの少し前に出す
 	obj_.pos = pos + vec_ * SPELL_LENGE;
 
-	cols_.col.pos = pos;
+	BaseCol::Initialize(obj_.pos,obj_.scale,SPELL);
 
 	isDead_ = true;
 	isHit_ = false;
@@ -38,8 +37,7 @@ void BaseSpell::Update()
 		isDead_ = true;
 	}
 
-	SetCol();
-
+	BaseCol::Update(obj_.pos,obj_.scale);
 	WorldTransUpdate();
 }
 
@@ -48,22 +46,11 @@ void BaseSpell::Draw()
 	if (spellType_ == SHOT) {
 		obj_.Draw();
 	}
-
-	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		cols_.Draw();
-	}
-}
-
-void BaseSpell::SetCol()
-{
-	cols_.col.size = { obj_.scale.x,obj_.scale.y, obj_.scale.x };
-	cols_.SetCol(obj_.pos);
 }
 
 void BaseSpell::WorldTransUpdate()
 {
 	obj_.Update();
-	cols_.Update();
 }
 
 void BaseSpell::Fire()
@@ -74,6 +61,7 @@ void BaseSpell::Fire()
 void BaseSpell::Explode()
 {
 	isDead_ = true;
+	ColliderManager::GetInstance()->DeleteCollider(this);
 }
 
 bool BaseSpell::GetIsCalcCol()

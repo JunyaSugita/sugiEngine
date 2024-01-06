@@ -6,6 +6,7 @@
 #include "NaviPointManager.h"
 #include "ModelManager.h"
 #include "Enemy.h"
+#include "ColliderManager.h"
 
 std::unique_ptr<Model> Enemy::sEyeModel_;
 
@@ -30,12 +31,12 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	wingR_.rot = { 0,0,60 };
 	wingR_.scale = { 1,0.3f,0.3f };
 
-
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
-	height_ = HEIGHT_COL;
 
 	BaseEnemy::Initialize(name, pos);
+	col_.size.y = 5;
+	gap_ = HEIGHT_COL;
 	WorldTransUpdate();
 
 	obj_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
@@ -63,13 +64,10 @@ void Enemy::WorldTransUpdate()
 
 void Enemy::Move()
 {
-	ColliderManager* colM = ColliderManager::GetInstance();
-	NaviPointManager* navePointM = NaviPointManager::GetInstance();
-
 	if (!isStop_) {
 		Vector2 temp;
 		//プレイヤー方向に壁が無ければプレイヤー方向に移動
-		if (colM->CanMovePlayerVec(obj_.pos)) {
+		if (ColliderManager::GetInstance()->CanMoveEnemyToPlayer(obj_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 
@@ -77,18 +75,7 @@ void Enemy::Move()
 			isStart_ = true;
 		}
 		else {
-			int32_t point = colM->CanMoveNaviPointVec(obj_.pos);
-			//ナビポイントが見つからなければ移動しない
-			if (point == -1) {
-				return;
-			}
-			//isStartがfalseなら止まる
-			if (!isStart_) {
-				return;
-			}
-
-			temp.x = navePointM->GetNaviPoint(point).pos.x;
-			temp.y = navePointM->GetNaviPoint(point).pos.z;
+			return;
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);

@@ -8,7 +8,6 @@
 #include "EffectManager.h"
 #include "SpellManager.h"
 #include "UIManager.h"
-#include "ColliderManager.h"
 #include "Fieldmanager.h"
 #include "Tutorial.h"
 #include "LoadOut.h"
@@ -17,6 +16,7 @@
 #include "StageSelectManager.h"
 #include "MenuManager.h"
 #include "PlayerWeapon.h"
+#include "ColliderManager.h"
 
 using namespace ImGui;
 using namespace std;
@@ -37,6 +37,9 @@ void GameScene::Initialize()
 	//カメラ
 	Camera::GetInstance()->SetTarget(Vector3(0, 0, 0));
 	Camera::GetInstance()->SetEye(Vector3(0, 1, -10));
+
+	//判定
+	ColliderManager::GetInstance()->Initialize();
 
 	//敵
 	EnemyManager::GetInstance()->Initialize();
@@ -72,9 +75,6 @@ void GameScene::Initialize()
 
 	//UI
 	UIManager::GetInstance()->Initialize();
-
-	//当たり判定
-	ColliderManager::GetInstance()->Initialize();
 
 	ParticleManager* particleM = ParticleManager::GetInstance();
 	particleM->Initialize();
@@ -117,7 +117,6 @@ void GameScene::Update()
 	EffectManager* effectM = EffectManager::GetInstance();
 	SpellManager* spellM = SpellManager::GetInstance();
 	UIManager* uiM = UIManager::GetInstance();
-	ColliderManager* colM = ColliderManager::GetInstance();
 	ParticleManager* particleM = ParticleManager::GetInstance();
 	LoadOut* loadOut = LoadOut::GetInstance();
 
@@ -161,7 +160,8 @@ void GameScene::Update()
 	effectM->Update();
 	spellM->Update();
 	uiM->Update();
-	colM->Update();
+	ClearChecker::GetInstance()->Update();
+	ColliderManager::GetInstance()->Update();
 	particleM->Update();
 	loadOut->Update();
 	MenuManager::GetInstance()->Update();
@@ -188,7 +188,7 @@ void GameScene::Update()
 			enemyM->PopSlime({ 0,0,0 });
 		}
 		if (Button("ShowHitBox", SIZE_IMGUI)) {
-			colM->ChangeIsShowHitBox();
+			ColliderManager::GetInstance()->ToggleShowHitBox();
 		}
 		if (Button("particleClear", SIZE_IMGUI)) {
 			ParticleManager::GetInstance()->Clear();
@@ -202,7 +202,7 @@ void GameScene::Update()
 #endif
 #pragma endregion
 
-	ClearChecker::GetInstance()->Update();
+
 	gameOver_.Update();
 
 	//シーン遷移処理
@@ -251,6 +251,8 @@ void GameScene::ObjDraw()
 		EnemyManager::GetInstance()->Draw();
 		EffectManager::GetInstance()->Draw();
 		SpellManager::GetInstance()->Draw();
+
+		ColliderManager::GetInstance()->Draw();
 	}
 }
 

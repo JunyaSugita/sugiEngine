@@ -3,16 +3,17 @@
 #include "Player.h"
 #include "ParticleManager.h"
 #include <random>
+#include "ColliderManager.h"
 
 void Slime::Initialize(std::string name, Vector3 pos)
 {
 	life_ = MAX_HP;
-	height_ = HEIGHT_COL;
 
 	BaseEnemy::Initialize(name, pos);
 	obj_.obj->SetColor({ 0,0.1f,0.1f,0.7f });
-	WorldTransUpdate();
 
+	col_.size = { obj_.scale.x,obj_.scale.y ,obj_.scale.x };
+	WorldTransUpdate();
 }
 
 void Slime::Draw()
@@ -27,19 +28,16 @@ void Slime::DrawTransparent()
 
 void Slime::WorldTransUpdate()
 {
-	cols_.col.size = { obj_.scale.x,obj_.scale.y ,obj_.scale.x };
+	BaseCol::Update(obj_.pos,obj_.scale);
 	BaseEnemy::WorldTransUpdate();
 }
 
 void Slime::Move()
 {
-	ColliderManager* colM = ColliderManager::GetInstance();
-	NaviPointManager* navePointM = NaviPointManager::GetInstance();
-
 	if (!isStop_) {
 		Vector2 temp;
 		//プレイヤー方向に壁が無ければプレイヤー方向に移動
-		if (colM->CanMovePlayerVec(obj_.pos)) {
+		if (ColliderManager::GetInstance()->CanMoveEnemyToPlayer(obj_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 
@@ -47,18 +45,7 @@ void Slime::Move()
 			isStart_ = true;
 		}
 		else {
-			int32_t point = colM->CanMoveNaviPointVec(obj_.pos);
-			//ナビポイントが見つからなければ移動しない
-			if (point == -1) {
-				return;
-			}
-			//isStartがfalseなら止まる
-			if (!isStart_) {
-				return;
-			}
-
-			temp.x = navePointM->GetNaviPoint(point).pos.x;
-			temp.y = navePointM->GetNaviPoint(point).pos.z;
+			return;
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);
@@ -143,9 +130,9 @@ void Slime::PopDebuffFireParticle()
 		std::uniform_real_distribution<float> x(-RENGE_DOWN_FIELD, RENGE_DOWN_FIELD);
 		std::uniform_real_distribution<float> z(-RENGE_DOWN_FIELD, RENGE_DOWN_FIELD);
 
-		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, { cols_.col.pos.x + x(engine), cols_.col.pos.y ,cols_.col.pos.z + z(engine) });
+		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, { col_.pos.x + x(engine), col_.pos.y ,col_.pos.z + z(engine) });
 	}
 	else {
-		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, cols_.col.pos);
+		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.pos);
 	}
 }

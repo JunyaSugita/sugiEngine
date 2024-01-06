@@ -5,6 +5,7 @@
 #include "ClearChecker.h"
 #include "StageSelectManager.h"
 #include "ParticleManager.h"
+#include "ColliderManager2.h"
 
 using namespace std;
 
@@ -25,9 +26,9 @@ void FieldManager::Initialize(int num)
 	LoadStage(num);
 
 	navePointNum_ = 0;
+	walls_.clear();
 	torchs_.clear();
 	objs_.clear();
-	cols_.clear();
 	for (auto& objectData : levelData_->obj) {
 		if (objectData.filename == "box") {
 			SetWall(objectData.pos, objectData.scale);
@@ -52,15 +53,20 @@ void FieldManager::Initialize(int num)
 			SetGoal(objectData.pos);
 		}
 		else if (objectData.filename == "torch") {
-			
+#ifdef _RELEASE
+			SetTorch(objectData.pos, objectData.rot, objectData.scale);
+#endif 
 		}
 	}
 }
 
 void FieldManager::Update()
 {
-	for (std::unique_ptr<BaseObj>& obj: objs_) {
+	for (std::unique_ptr<BaseObj>& obj : objs_) {
 		obj->Update();
+	}
+	for (std::unique_ptr<Wall>& w : walls_) {
+		w->Update();
 	}
 	for (std::unique_ptr<Torch>& t : torchs_) {
 		t->Update();
@@ -71,6 +77,9 @@ void FieldManager::Draw()
 {
 	for (std::unique_ptr<BaseObj>& obj : objs_) {
 		obj->Draw();
+	}
+	for (std::unique_ptr<Wall>& w : walls_) {
+		w->Draw();
 	}
 	for (std::unique_ptr<Torch>& t : torchs_) {
 		t->Draw();
@@ -110,32 +119,9 @@ void FieldManager::SetLight(LightGroup* lightGroup)
 
 void FieldManager::SetWall(Vector3 pos, Vector3 scale)
 {
-	std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
-	//モデルを指定して3Dオブジェクトを生成
-	tempObj->Initialize("ground");
-
-	//obj情報
-	tempObj->pos = pos;
-	tempObj->rot = { 0,0,0 };
-	tempObj->scale = scale;
-	tempObj->obj->SetColor({ 1,1,1,1 });
-	float tilY = 0;
-	if (scale.x > scale.y) {
-		tilY = scale.x;
-	}
-	else {
-
-		tilY = scale.z;
-	}
-
-	tempObj->obj->SetTiling({ scale.y,tilY });
-
-	objs_.push_back(std::move(tempObj));
-
-	BoxCol temp;
-	temp.pos = pos;
-	temp.size = scale;
-	cols_.push_back(temp);
+	std::unique_ptr<Wall> wall = std::make_unique<Wall>();
+	wall->Initialize(pos, scale);
+	walls_.push_back(std::move(wall));
 }
 
 void FieldManager::SetFloor(Vector3 pos, Vector3 scale)
@@ -147,16 +133,15 @@ void FieldManager::SetFloor(Vector3 pos, Vector3 scale)
 	//obj情報
 	tempObj->pos = pos;
 	tempObj->rot = { 0,0,0 };
-	tempObj->scale =scale;
+	tempObj->scale = scale;
 	tempObj->obj->SetColor({ 1,1,1,1 });
 	tempObj->obj->SetTiling({ 50,50 });
 
 	objs_.push_back(std::move(tempObj));
 
-	BoxCol temp;
+	Col temp;
 	temp.pos = pos;
 	temp.size = scale;
-	cols_.push_back(temp);
 }
 
 void FieldManager::SetGoal(Vector3 pos)

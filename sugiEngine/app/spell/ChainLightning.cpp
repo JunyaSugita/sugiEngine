@@ -1,5 +1,4 @@
 #include "ChainLightning.h"
-#include "ColliderManager.h"
 #include "ParticleManager.h"
 #include "ModelManager.h"
 #include "EffectManager.h"
@@ -10,15 +9,15 @@ void ChainLightning::Initialize(Vector3 pos, Vector3 vec)
 	obj_.Initialize("sphere");
 	obj_.obj->SetColor({ 1,0,0,1 });
 
-	cols_.Initialize();
+	//BaseCol::Initialize();
 
 
 	obj_.pos = pos;
 
 	vec_ = vec.normalize();
 
-	cols_.col.pos = pos;
-	cols_.col.size = { 1,1,1 };
+	col_.pos = pos;
+	col_.size = { 1,1,1 };
 
 	WorldTransUpdate();
 
@@ -40,12 +39,9 @@ void ChainLightning::Update()
 	if (!isDead_) {
 		for (int i = 0; i < MAX_LENGE; i++) {
 			obj_.pos += vec_ * SPEED_MOVE;
-			SetCol();
+			BaseCol::Update(obj_.pos,obj_.scale);
 			WorldTransUpdate();
 
-			if (ColliderManager::GetInstance()->CheckHitEnemyToChainLightning()) {
-				break;
-			}
 			if (obj_.pos.y <= 0) {
 				break;
 			}
@@ -57,9 +53,6 @@ void ChainLightning::Update()
 void ChainLightning::Draw()
 {
 	obj_.Draw();
-	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		cols_.Draw();
-	}
 }
 
 void ChainLightning::Fire()
@@ -67,14 +60,7 @@ void ChainLightning::Fire()
 	isDead_ = false;
 }
 
-void ChainLightning::SetCol()
-{
-	cols_.SetCol(obj_.pos);
-	cols_.col.size = { obj_.scale.x,obj_.scale.y, obj_.scale.x };
-}
-
 void ChainLightning::WorldTransUpdate()
 {
 	obj_.Update();
-	cols_.Update();
 }

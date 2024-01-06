@@ -18,17 +18,12 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 {
 	//モデルデータは先に派生クラスで読み込む
 	obj_.Initialize(name);
-	cols_.Initialize();
+	BaseCol::Initialize(obj_.pos,obj_.scale,ENEMY);
 
 	//位置
 	obj_.pos = pos;
 	obj_.rot = START_ROT;
 	obj_.obj->SetIsSimple();
-
-	//当たり判定
-	cols_.col.pos = pos;
-	cols_.col.size = { 1.0f,height_,1.0f };
-	cols_.gap = { 0,height_,0 };
 
 	//デバフの氷
 	iceObj_.Initialize("box");
@@ -53,7 +48,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 void BaseEnemy::Update()
 {
 	//1フレ前の座標を保存
-	cols_.SetOldCol();
+	SetOldCol();
 
 	//シェイクを戻す
 	ResetShake();
@@ -101,6 +96,7 @@ void BaseEnemy::Update()
 
 	//移動を適応
 	WorldTransUpdate();
+	BaseCol::Update(obj_.pos,col_.size);
 }
 
 void BaseEnemy::DontMoveUpdate()
@@ -111,7 +107,6 @@ void BaseEnemy::DontMoveUpdate()
 void BaseEnemy::Draw()
 {
 	obj_.Draw();
-	cols_.Draw();
 }
 
 void BaseEnemy::DrawTransparent()
@@ -124,7 +119,7 @@ void BaseEnemy::DrawTransparent()
 void BaseEnemy::WorldTransUpdate()
 {
 	obj_.Update();
-	cols_.Update();
+	BaseCol::Update(obj_.pos,obj_.scale);
 	iceObj_.Update();
 }
 
@@ -211,8 +206,8 @@ bool BaseEnemy::isCanMove()
 
 void BaseEnemy::ResetShake()
 {
-	obj_.pos.x = cols_.col.pos.x;
-	obj_.pos.z = cols_.col.pos.z;
+	obj_.pos.x = col_.pos.x;
+	obj_.pos.z = col_.pos.z;
 }
 
 void BaseEnemy::SetIsAttack()
@@ -305,7 +300,7 @@ void BaseEnemy::UpdateDebuff()
 			}
 		}
 		if (debuff_.isIce) {
-			iceObj_.pos = cols_.col.pos;
+			iceObj_.pos = col_.pos;
 			iceObj_.rot = iceObj_.rot;
 
 			if (!isDown_) {
@@ -342,14 +337,20 @@ void BaseEnemy::SetShake()
 	obj_.pos.z += z(engine);
 }
 
+void BaseEnemy::HitChangePos()
+{
+	ResetShake();
+	WorldTransUpdate();
+}
+
 void BaseEnemy::SetCol()
 {
-	cols_.SetCol(obj_.pos);
+	SetCol(obj_.pos);
 }
 
 void BaseEnemy::PopDebuffFireParticle()
 {
-	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, cols_.col.pos);
+	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.pos);
 }
 
 void BaseEnemy::Down()
