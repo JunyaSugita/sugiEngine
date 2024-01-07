@@ -53,7 +53,15 @@ void FieldManager::Initialize(int num)
 			SetGoal(objectData.pos);
 		}
 		else if (objectData.filename == "torch") {
-			SetTorch(objectData.pos, objectData.rot, objectData.scale);
+			bool debug = false;
+
+#ifdef _DEBUG
+			debug = true;
+#endif // _DEBUG
+
+			if (!debug) {
+				SetTorch(objectData.pos, objectData.rot, objectData.scale);
+			}
 		}
 	}
 }

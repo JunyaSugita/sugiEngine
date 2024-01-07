@@ -15,7 +15,7 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	eyeObj_.Initialize("eye");
 	eyeObj_.obj->SetEffectCross(true);
 	eyeObj_.worldTrans.parent_ = &obj_.worldTrans;
-	eyeObj_.pos = { 0.3f,4.1f,0 };
+	eyeObj_.pos = { 0.5f,4.1f,0 };
 	eyeObj_.scale = { 0.3f,0.3f,0.3f };
 
 
