@@ -5,7 +5,7 @@
 #include "ClearChecker.h"
 #include "StageSelectManager.h"
 #include "ParticleManager.h"
-#include "ColliderManager2.h"
+#include "ColliderManager.h"
 
 using namespace std;
 
@@ -53,9 +53,7 @@ void FieldManager::Initialize(int num)
 			SetGoal(objectData.pos);
 		}
 		else if (objectData.filename == "torch") {
-#ifdef _RELEASE
 			SetTorch(objectData.pos, objectData.rot, objectData.scale);
-#endif 
 		}
 	}
 }
