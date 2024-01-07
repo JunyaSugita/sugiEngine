@@ -206,8 +206,7 @@ bool BaseEnemy::isCanMove()
 
 void BaseEnemy::ResetShake()
 {
-	obj_.pos.x = col_.pos.x;
-	obj_.pos.z = col_.pos.z;
+	obj_.pos = col_.pos;
 }
 
 void BaseEnemy::SetIsAttack()

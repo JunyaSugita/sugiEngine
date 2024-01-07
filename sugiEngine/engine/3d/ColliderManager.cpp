@@ -280,19 +280,20 @@ void ColliderManager::HitPlayerToGoal(BaseCol* player, BaseCol* goal)
 	}
 }
 
-bool ColliderManager::CanMoveEnemyToPlayer(Vector3 pos)
+bool ColliderManager::CanMoveEnemyToPlayer(Vector3 pos, Vector3 col)
 {
 	Vector3 playerPos = Player::GetInstance()->GetPos();
 	Vector3 way = playerPos - pos;
-	way.normalize();
+	way /= 50;
 	way.y = 0;
 
 	forward_list<BaseCol*>::iterator itA = colliders_.begin();
-	for (int i = 0;i < 50;i++) {
-		for (; itA != colliders_.end(); ++itA) {
-			BaseCol* colA = *itA;
-			if (colA->GetColType() == WALL) {
-				if (CheckHitBox(colA->GetCol(), { pos + way * (float)i * 5.0f,TEMP_ENEMY_HITBOX })) {
+	for (; itA != colliders_.end(); ++itA) {
+		BaseCol* colA = *itA;
+		if (colA->GetColType() == WALL) {
+			for (int i = 1; i < 50; i++) {
+				Vector3 tempPos = pos + (way * (float)i);
+				if (CheckHitBox(colA->GetCol(), { tempPos,col })) {
 					return false;
 				}
 			}

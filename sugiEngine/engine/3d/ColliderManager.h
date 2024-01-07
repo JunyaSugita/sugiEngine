@@ -46,7 +46,7 @@ public:
 	/// </summary>
 	/// <param name="pos">敵の現在位置</param>
 	/// <returns>進めるか</returns>
-	bool CanMoveEnemyToPlayer(Vector3 pos);
+	bool CanMoveEnemyToPlayer(Vector3 pos, Vector3 col);
 
 private:
 	/// <summary>
