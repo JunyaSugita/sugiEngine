@@ -58,7 +58,6 @@ void FieldManager::Initialize(int num)
 #ifdef _DEBUG
 			debug = true;
 #endif // _DEBUG
-
 			if (!debug) {
 				SetTorch(objectData.pos, objectData.rot, objectData.scale);
 			}

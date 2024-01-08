@@ -42,11 +42,21 @@ public:
 	}
 
 	/// <summary>
-	/// 敵からプレイヤーに直線で進めるか
+	/// プレイヤー方向に直線で進めるか
 	/// </summary>
-	/// <param name="pos">敵の現在位置</param>
+	/// <param name="pos">現在位置</param>
+	/// <param name="col">当たり判定</param>
 	/// <returns>進めるか</returns>
-	bool CanMoveEnemyToPlayer(Vector3 pos, Vector3 col);
+	bool CanMoveToPlayer(Vector3 pos, Vector3 col);
+
+	/// <summary>
+	/// ナビポイント同士が繋がるか
+	/// </summary>
+	/// <param name="pos1">ナビポイント1</param>
+	/// <param name="pos2">ナビポイント2</param>
+	/// <param name="col">当たり判定</param>
+	/// <returns>繋がるか</returns>
+	bool CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2, Vector3 col);
 
 private:
 	/// <summary>

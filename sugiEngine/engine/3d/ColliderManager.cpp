@@ -280,7 +280,7 @@ void ColliderManager::HitPlayerToGoal(BaseCol* player, BaseCol* goal)
 	}
 }
 
-bool ColliderManager::CanMoveEnemyToPlayer(Vector3 pos, Vector3 col)
+bool ColliderManager::CanMoveToPlayer(Vector3 pos, Vector3 col)
 {
 	Vector3 playerPos = Player::GetInstance()->GetPos();
 	Vector3 way = playerPos - pos;
@@ -299,6 +299,28 @@ bool ColliderManager::CanMoveEnemyToPlayer(Vector3 pos, Vector3 col)
 			}
 		}
 	}
+	return true;
+}
+
+bool ColliderManager::CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2, Vector3 col)
+{
+	Vector3 way = pos2 - pos1;
+	way /= 50;
+	way.y = 0;
+
+	forward_list<BaseCol*>::iterator itA = colliders_.begin();
+	for (; itA != colliders_.end(); ++itA) {
+		BaseCol* colA = *itA;
+		if (colA->GetColType() == WALL) {
+			for (int i = 1; i < 50; i++) {
+				Vector3 tempPos = pos1 + (way * (float)i);
+				if (CheckHitBox(colA->GetCol(), { tempPos,col })) {
+					return false;
+				}
+			}
+		}
+	}
+
 	return true;
 }
 

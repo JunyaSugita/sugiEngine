@@ -67,7 +67,7 @@ void Enemy::Move()
 	if (!isStop_) {
 		Vector2 temp;
 		//プレイヤー方向に壁が無ければプレイヤー方向に移動
-		if (ColliderManager::GetInstance()->CanMoveEnemyToPlayer(col_.pos, col_.size)) {
+		if (ColliderManager::GetInstance()->CanMoveToPlayer(col_.pos, col_.size)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 

@@ -135,7 +135,7 @@ public:
 	bool isCanMove();
 
 	// シェイクで移動していた分を戻す
-	void ResetShake();
+	virtual void ResetShake();
 
 	// 攻撃してプレイヤーにダメージを与える
 	void SetIsAttack()override;

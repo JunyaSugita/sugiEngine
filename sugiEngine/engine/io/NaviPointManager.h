@@ -5,6 +5,7 @@
 
 #pragma once
 #include "GlobalSetting.h"
+#include <vector>
 
 struct NaviPoint {
 	Vector3 pos = Vector3();
@@ -30,14 +31,15 @@ public:
 
 	void Add(Vector3 pos);
 
-	NaviPoint GetNaviPoint(int num) {
-		return navePoint_[num];
-	}
+	void CalcScore();
 
-	void SetNaviScore(int32_t num, float score) {
-		navePoint_[num].score = score;
-	}
+	void ReSetCalc();
+	void FirstCalc();
+	void SecondCalc();
 
 private:
-	NaviPoint navePoint_[100];
+	const Vector3 NAVIPOINT_HITBOX = {0.5f,0.1f,0.5f};
+	const float RESET_SCORE = 99999;
+
+	std::vector<NaviPoint> naviPoints_;
 };

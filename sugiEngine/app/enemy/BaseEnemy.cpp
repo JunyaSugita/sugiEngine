@@ -50,11 +50,10 @@ void BaseEnemy::Update()
 	//1フレ前の座標を保存
 	SetOldCol();
 
-	//シェイクを戻す
-	ResetShake();
-
 	//倒れている時の処理
 	if (isDown_) {
+		//シェイクを戻す
+		ResetShake();
 		Down();
 		//移動を適応
 		WorldTransUpdate();
@@ -207,6 +206,7 @@ bool BaseEnemy::isCanMove()
 void BaseEnemy::ResetShake()
 {
 	obj_.pos = col_.pos;
+	obj_.pos.y = 0;
 }
 
 void BaseEnemy::SetIsAttack()
