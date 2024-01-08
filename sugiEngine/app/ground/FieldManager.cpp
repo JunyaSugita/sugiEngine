@@ -52,14 +52,20 @@ void FieldManager::Initialize(int num)
 			SetGoal(objectData.pos);
 		}
 		else if (objectData.filename == "torch") {
-			
+			bool isDebug = false;
+#ifdef _DEBUG
+			isDebug = true;
+#endif // _DEBUG
+			if (!isDebug) {
+				SetTorch(objectData.pos, objectData.rot, objectData.scale);
+			}
 		}
 	}
 }
 
 void FieldManager::Update()
 {
-	for (std::unique_ptr<BaseObj>& obj: objs_) {
+	for (std::unique_ptr<BaseObj>& obj : objs_) {
 		obj->Update();
 	}
 	for (std::unique_ptr<Torch>& t : torchs_) {
@@ -147,7 +153,7 @@ void FieldManager::SetFloor(Vector3 pos, Vector3 scale)
 	//obj情報
 	tempObj->pos = pos;
 	tempObj->rot = { 0,0,0 };
-	tempObj->scale =scale;
+	tempObj->scale = scale;
 	tempObj->obj->SetColor({ 1,1,1,1 });
 	tempObj->obj->SetTiling({ 50,50 });
 
