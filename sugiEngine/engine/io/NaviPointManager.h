@@ -37,6 +37,10 @@ public:
 	void FirstCalc();
 	void SecondCalc();
 
+	std::vector<NaviPoint> GetNaviPoints() {
+		return naviPoints_;
+	}
+
 private:
 	const Vector3 NAVIPOINT_HITBOX = {0.5f,0.1f,0.5f};
 	const float RESET_SCORE = 99999;

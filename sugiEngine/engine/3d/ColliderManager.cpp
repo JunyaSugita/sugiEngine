@@ -1,6 +1,7 @@
 #include "ColliderManager.h"
 #include "Player.h"
 #include "ParticleManager.h"
+#include "NaviPointManager.h"
 
 using namespace std;
 
@@ -322,6 +323,43 @@ bool ColliderManager::CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2, Vector3 col
 	}
 
 	return true;
+}
+
+Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos, Vector3 col)
+{
+	vector<NaviPoint> naviPoints = NaviPointManager::GetInstance()->GetNaviPoints();
+
+	float score = 99999;
+	int32_t num = -1;
+
+	for (int i = 0; i < naviPoints.size();i++) {
+		if (score <= naviPoints[i].score) {
+			continue;
+		}
+
+		Vector3 naviPos = pos;
+		Vector3 way = naviPoints[i].pos - pos;
+		way /= 50;
+		way.y = 0;
+
+		forward_list<BaseCol*>::iterator itA = colliders_.begin();
+		for (; itA != colliders_.end(); ++itA) {
+			BaseCol* colA = *itA;
+			if (colA->GetColType() == WALL) {
+				for (int i = 1; i < 50; i++) {
+					Vector3 tempPos = pos + (way * (float)i);
+					if (CheckHitBox(colA->GetCol(), { tempPos,col })) {
+						continue;
+					}
+				}
+			}
+		}
+		
+		score = naviPoints[i].score;
+
+	}
+
+	return naviPoints[num].pos;
 }
 
 bool ColliderManager::CheckHitBox(Col a, Col b)

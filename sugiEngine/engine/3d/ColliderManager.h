@@ -58,6 +58,16 @@ public:
 	/// <returns>繋がるか</returns>
 	bool CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2, Vector3 col);
 
+	/// <summary>
+	/// 敵とナビポイントが繋がるか
+	/// </summary>
+	/// <param name="pos1">敵の位置</param>
+	/// <param name="col">当たり判定</param>
+	/// <returns>繋げるナビポイント</returns>
+	Vector3 CanMoveEnemyToNaviPoint(Vector3 pos1, Vector3 col);
+
+	
+
 private:
 	/// <summary>
 	/// プレイヤーと壁の判定

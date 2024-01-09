@@ -156,6 +156,7 @@ void GameScene::Update()
 	lightGroup_->Update();
 	fieldM->Update();
 	player->Update();//プレイヤー
+	NaviPointManager::GetInstance()->CalcScore();
 	enemyM->Update();//敵
 	effectM->Update();
 	spellM->Update();
