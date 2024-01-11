@@ -39,7 +39,7 @@ private:
 public:
 	const float SPEED_MOVE = 1.0f;	//魔法のスピード
 	const int32_t TIME_ALIVE = 2;	//魔法が消えるまでの時間
-	static const int32_t DAMAGE = 25;
+	static const int32_t DAMAGE = 20;
 	static const int32_t TIME_STAN = 1;
 
 private:
