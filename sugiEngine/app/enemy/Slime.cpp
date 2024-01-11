@@ -10,7 +10,7 @@ void Slime::Initialize(std::string name, Vector3 pos)
 	height_ = HEIGHT_COL;
 
 	BaseEnemy::Initialize(name, pos);
-	obj_.obj->SetColor({ 0,0.1f,0.1f,0.7f });
+	obj_.obj->SetColor(COLOR_BODY);
 	WorldTransUpdate();
 
 }
@@ -148,5 +148,22 @@ void Slime::PopDebuffFireParticle()
 	}
 	else {
 		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, cols_.col.pos);
+	}
+}
+
+void Slime::WeakBodyColor()
+{
+	if (Player::GetInstance()->GetPresetSpell() == MAGIC::FIRE_BALL) {
+		obj_.obj->SetColor(COLOR_WEAK_BODY);
+		obj_.obj->SetIsBloom();
+	}
+	else {
+		obj_.obj->SetColor(COLOR_BODY);
+		obj_.obj->SetIsBloom(false);
+	}
+
+	if (isDown_) {
+		obj_.obj->SetColor(COLOR_BODY);
+		obj_.obj->SetIsBloom(false);
 	}
 }

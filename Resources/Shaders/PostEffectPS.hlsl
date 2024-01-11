@@ -207,8 +207,8 @@ float4 main(VSOutput input) : SV_TARGET
 	//ƒuƒ‹[ƒ€
 	{
         float totalWeight = 0;
-        float sigma = 0.02f;
-        float stepWidth = 0.008f;
+        float sigma = 0.01f;
+        float stepWidth = 0.002f;
         float4 col = float4(0, 0, 0, 1);
         for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth)
         {

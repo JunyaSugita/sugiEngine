@@ -18,6 +18,7 @@ private:
 	void DontMoveUpdate() override;
 	void Attack() override;
 	void Down() override;
+	void WeakBodyColor() override;
 
 private:
 	const float SPEED_MOVE = 0.15f;
@@ -28,6 +29,7 @@ private:
 private:
 	//体の色
 	const Vector4 COLOR_BODY = { 0.1f,0.1f,0.1f,1 };
+	const Vector4 COLOR_WEAK_BODY = { 0.2f,0.2f,0.0f,1 };
 	//飛ぶ高さ
 	const float FLY_Y = 10;
 	const float SPEED_DROP = 0.5f;

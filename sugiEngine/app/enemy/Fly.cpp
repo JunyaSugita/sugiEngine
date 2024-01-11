@@ -138,3 +138,24 @@ void Fly::Down()
 	//最後
 	BaseEnemy::Down();
 }
+
+void Fly::WeakBodyColor()
+{
+	if (Player::GetInstance()->GetPresetSpell() == MAGIC::ICE_BOLT) {
+		obj_.obj->SetColor(COLOR_WEAK_BODY);
+		wingL_.obj->SetColor(COLOR_WEAK_BODY);
+		wingR_.obj->SetColor(COLOR_WEAK_BODY);
+		obj_.obj->SetIsBloom();
+	}
+	else {
+		obj_.obj->SetColor(COLOR_BODY);
+		wingL_.obj->SetColor(COLOR_BODY);
+		wingR_.obj->SetColor(COLOR_BODY);
+		obj_.obj->SetIsBloom(false);
+	}
+
+	if (isDown_) {
+		obj_.obj->SetColor(COLOR_BODY);
+		obj_.obj->SetIsBloom(false);
+	}
+}

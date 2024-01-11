@@ -94,8 +94,12 @@ public:
 		return life_;
 	}
 
+	/// <summary>
+	/// 弱点時に体の色を変える
+	/// </summary>
+	virtual void WeakBodyColor();
+
 	//デバッグ用
-	
 	// 敵の動きを止めたり動かしたり制御する
 	static void ToggleIsAllStop() {
 		sIsDebugStop_ = (sIsDebugStop_ + 1) % 2;

@@ -61,6 +61,8 @@ void BaseEnemy::Update()
 	//倒れている時の処理
 	if (isDown_) {
 		Down();
+		//弱点の体変更
+		WeakBodyColor();
 		//移動を適応
 		WorldTransUpdate();
 
@@ -69,6 +71,9 @@ void BaseEnemy::Update()
 
 	//デバフの適応
 	UpdateDebuff();
+
+	//弱点の体変更
+	WeakBodyColor();
 
 	//動けるかどうか
 	if (isCanMove()) {
@@ -146,6 +151,11 @@ void BaseEnemy::SetDownHitEnemy(DownState state)
 	SubLife(state.damage);
 }
 
+void BaseEnemy::WeakBodyColor()
+{
+
+}
+
 void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 {
 	switch (debuff)
@@ -202,7 +212,7 @@ bool BaseEnemy::isDebuff()
 bool BaseEnemy::isCanMove()
 {
 	//動けなくなる状態ならfalseを返す
-	if (debuff_.isThunder || debuff_.isIce) {
+	if (debuff_.isThunder || debuff_.isIce || (sIsDebugStop_ && !Tutorial::GetInstance()->GetIsTutorial())) {
 		return false;
 	}
 
