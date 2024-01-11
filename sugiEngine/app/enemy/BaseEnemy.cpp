@@ -8,6 +8,7 @@
 #include "Tutorial.h"
 #include "Enemy.h"
 #include "ModelManager.h"
+#include "ColliderManager.h"
 
 #include <random>
 
@@ -359,6 +360,7 @@ void BaseEnemy::Down()
 
 	if (debuff_.fireTime == 1) {
 		isDead_ = true;
+		ColliderManager::GetInstance()->DeleteCollider(this);
 		light_->SetPointLightActive(lightNum_, false);
 	}
 }

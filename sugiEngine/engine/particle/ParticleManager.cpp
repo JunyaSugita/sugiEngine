@@ -537,7 +537,7 @@ void ParticleManager::Update()
 	}
 
 	// 繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
+	//vertBuff_->Unmap(0, nullptr);
 
 	SetUpVertex();
 

@@ -346,8 +346,8 @@ Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos, Vector3 col)
 		for (; itA != colliders_.end(); ++itA) {
 			BaseCol* colA = *itA;
 			if (colA->GetColType() == WALL) {
-				for (int i = 1; i < 50; i++) {
-					Vector3 tempPos = pos + (way * (float)i);
+				for (int j = 1; j < 50; j++) {
+					Vector3 tempPos = pos + (way * (float)j);
 					if (CheckHitBox(colA->GetCol(), { tempPos,col })) {
 						continue;
 					}

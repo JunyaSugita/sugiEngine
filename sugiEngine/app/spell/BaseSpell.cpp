@@ -12,8 +12,6 @@ void BaseSpell::Initialize(Vector3 pos, Vector3 vec)
 	//プレイヤーの少し前に出す
 	obj_.pos = pos + vec_ * SPELL_LENGE;
 
-	BaseCol::Initialize(obj_.pos,obj_.scale,SPELL);
-
 	isDead_ = true;
 	isHit_ = false;
 }
@@ -35,6 +33,7 @@ void BaseSpell::Update()
 
 	if (--time_ <= 0) {
 		isDead_ = true;
+		ColliderManager::GetInstance()->DeleteCollider(this);
 	}
 
 	BaseCol::Update(obj_.pos,obj_.scale);
@@ -56,6 +55,7 @@ void BaseSpell::WorldTransUpdate()
 void BaseSpell::Fire()
 {
 	isDead_ = false;
+	BaseCol::Initialize(obj_.pos, obj_.scale, SPELL);
 }
 
 void BaseSpell::Explode()

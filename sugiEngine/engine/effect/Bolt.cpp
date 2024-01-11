@@ -1,5 +1,6 @@
 #include "Bolt.h"
 #include <random>
+#include "ColliderManager.h"
 
 void Bolt::Initialize(const Vector3& posS, const Vector3& posE, const Vector3& rot, Vector4 color)
 {

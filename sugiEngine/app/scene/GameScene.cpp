@@ -104,7 +104,7 @@ void GameScene::GameInitialize()
 	sound_.RePlayWave("mainBGM", true);
 	sound_.SetVolume("mainBGM", START_BOV);
 	MenuManager::GetInstance()->GameInitialize();
-
+	ColliderManager::GetInstance()->Initialize();
 }
 
 void GameScene::Update()

@@ -59,6 +59,7 @@ void Fly::Move()
 {
 	if (obj_.pos.y != FLY_Y) {
 		isDead_ = true;
+		ColliderManager::GetInstance()->DeleteCollider(this);
 	}
 
 	if (!isStop_) {
