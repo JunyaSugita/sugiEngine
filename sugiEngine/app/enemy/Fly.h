@@ -22,7 +22,7 @@ private:
 private:
 	const float SPEED_MOVE = 0.15f;
 	const float SPEED_ANGLE = 5;
-	const uint32_t MAX_HP = 25;
+	const float MAX_HP = 25;
 	const float HEIGHT_COL = 2.2f;
 
 private:

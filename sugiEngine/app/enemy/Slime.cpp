@@ -23,6 +23,7 @@ void Slime::DrawTransparent()
 {
 	//半透明描画
 	BaseEnemy::Draw();
+	BaseEnemy::DrawTransparent();
 }
 
 void Slime::WorldTransUpdate()

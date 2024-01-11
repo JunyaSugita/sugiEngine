@@ -537,7 +537,7 @@ void ParticleManager::Update()
 	}
 
 	// 繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
+	//vertBuff_->Unmap(0, nullptr);
 
 	SetUpVertex();
 
@@ -563,7 +563,6 @@ void ParticleManager::Draw()
 		// 描画コマンド
 		sCmdList->DrawInstanced((UINT)std::distance(circleParticles_.begin(), circleParticles_.end()), 1, 0, 0); // 全ての頂点を使って描画
 	}
-
 }
 
 void ParticleManager::Finalize()

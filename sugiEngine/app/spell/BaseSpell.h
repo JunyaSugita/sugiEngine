@@ -50,7 +50,7 @@ public:
 	BoxCol GetBoxCol() {
 		return cols_.col;
 	}
-	int32_t GetDamage() {
+	float GetDamage() {
 		return damage_;
 	}
 	int32_t GetDebuff() {
@@ -80,7 +80,7 @@ protected:
 	int32_t spellType_;
 
 	//ダメージ(回復)
-	int32_t damage_ = 0;
+	float damage_ = 0;
 	//デバフ
 	int32_t debuffType_ = D_NONE;
 };

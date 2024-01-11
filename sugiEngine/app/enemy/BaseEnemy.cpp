@@ -31,7 +31,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	cols_.gap = { 0,height_,0 };
 
 	//デバフの氷
-	iceObj_.Initialize("box");
+	iceObj_.Initialize("iceBlock");
 	iceObj_.pos = { 0,2,0 };
 	iceObj_.scale = { 2,3,2 };
 	iceObj_.obj->SetColor(COLOR_ICE);
@@ -89,7 +89,7 @@ void BaseEnemy::Update()
 	else
 	{
 		DontMoveUpdate();
-		if (debuff_.isThunder) {
+		if (debuff_.isThunder || debuff_.isIce) {
 			SetShake();
 		}
 	}
@@ -175,7 +175,7 @@ void BaseEnemy::SetDebuff(int32_t debuff, int32_t time)
 	}
 }
 
-void BaseEnemy::SetIsHit(int32_t subLife, bool isParticle)
+void BaseEnemy::SetIsHit(float subLife, bool isParticle)
 {
 	//既に当たっていたら当たらない
 	if (isHit_) {
@@ -262,7 +262,7 @@ float BaseEnemy::GetSlow()
 	return slow_;
 }
 
-void BaseEnemy::SubLife(int32_t subLife, bool isParticle)
+void BaseEnemy::SubLife(float subLife, bool isParticle)
 {
 	life_ -= subLife;
 	if (life_ < 0) {
@@ -340,6 +340,8 @@ void BaseEnemy::SetShake()
 
 	obj_.pos.x += x(engine);
 	obj_.pos.z += z(engine);
+	iceObj_.pos.x = obj_.pos.x;
+	iceObj_.pos.z = obj_.pos.z;
 }
 
 void BaseEnemy::SetCol()
