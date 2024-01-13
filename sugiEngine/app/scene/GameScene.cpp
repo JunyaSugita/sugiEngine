@@ -104,7 +104,7 @@ void GameScene::GameInitialize()
 	sound_.RePlayWave("mainBGM", true);
 	sound_.SetVolume("mainBGM", START_BOV);
 	MenuManager::GetInstance()->GameInitialize();
-
+	ColliderManager::GetInstance()->Initialize();
 }
 
 void GameScene::Update()
@@ -217,11 +217,11 @@ void GameScene::Update()
 
 	//Initialize系
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
+		GameInitialize();
 		if (player->GetLife() > 0) {
 			GameManager::GetInstance()->SetStageSelectScene();
 			return;
 		}
-		GameInitialize();
 	}
 	if (MenuManager::GetInstance()->GetIsReset()) {
 		GameInitialize();
@@ -229,6 +229,7 @@ void GameScene::Update()
 
 	//シーン切り替え系
 	if (MenuManager::GetInstance()->GetIsStageSelect()) {
+		GameInitialize();
 		GameManager::GetInstance()->SetStageSelectScene();
 	}
 }
@@ -244,8 +245,6 @@ void GameScene::Draw()
 
 void GameScene::ObjDraw()
 {
-	//orb_.Draw();
-
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		FieldManager::GetInstance()->Draw();
 
@@ -270,7 +269,7 @@ void GameScene::ObjDraw2()
 void GameScene::ParticleDraw()
 {
 	ParticleManager::GetInstance()->Draw();
-	NaviPointManager::GetInstance()->Draw();
+	//NaviPointManager::GetInstance()->Draw();
 }
 
 void GameScene::SpriteDraw()

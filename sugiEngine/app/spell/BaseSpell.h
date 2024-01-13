@@ -56,6 +56,8 @@ public:
 	}
 	bool GetIsCalcCol();
 
+	void Dead();
+
 protected:
 	//魔法が出る位置
 	const float SPELL_LENGE = 3;

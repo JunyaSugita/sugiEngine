@@ -36,7 +36,7 @@ private:
 	const float SPEED_WIDTH_DOWN = 0.5f;
 	const float SPEED_HEIGHT_DOWN = 0.1f;
 	//死んだ後のパーティクル範囲
-	const float RENGE_DOWN_FIELD = 0.7f;
+	const float RENGE_DOWN_FIELD = 7.0f;
 	//死んだあとプレイヤーに与えるデバフ
 	const float SPEED_DOWN_DEBUFF_TO_PLAYER = 0.4f;
 	const int32_t DAMAGE_DOWN_FIRE_TO_PLAYER = 10;

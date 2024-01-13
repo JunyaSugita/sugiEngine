@@ -58,7 +58,7 @@ void Fly::WorldTransUpdate()
 void Fly::Move()
 {
 	if (obj_.pos.y != FLY_Y) {
-		isDead_ = true;
+		Dead();
 	}
 
 	if (!isStop_) {
@@ -72,7 +72,15 @@ void Fly::Move()
 			isStart_ = true;
 		}
 		else {
-			return;
+			if (isStart_) {
+				Vector3 tempPos = ColliderManager::GetInstance()->CanMoveEnemyToNaviPoint(col_.pos, col_.size);
+
+				temp.x = tempPos.x;
+				temp.y = tempPos.z;
+			}
+			else {
+				return;
+			}
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);
