@@ -34,7 +34,7 @@ void BaseSpell::Update()
 	}
 
 	if (--time_ <= 0) {
-		isDead_ = true;
+		Dead();
 	}
 
 	BaseCol::Update(obj_.pos,obj_.scale);
@@ -60,8 +60,7 @@ void BaseSpell::Fire()
 
 void BaseSpell::Explode()
 {
-	isDead_ = true;
-	ColliderManager::GetInstance()->DeleteCollider(this);
+	Dead();
 }
 
 bool BaseSpell::GetIsCalcCol()
@@ -71,4 +70,10 @@ bool BaseSpell::GetIsCalcCol()
 		return false;
 	}
 	return true;
+}
+
+void BaseSpell::Dead()
+{
+	isDead_ = true;
+	ColliderManager::GetInstance()->DeleteCollider(this);
 }

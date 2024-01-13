@@ -186,6 +186,11 @@ protected:
 	//当たり判定適応
 	void HitChangePos()override;
 
+	/// <summary>
+	/// 死ぬ時の処理
+	/// </summary>
+	void Dead();
+
 protected:
 	const Vector2 UP = { 0,-1 };
 	const float RADIAN = 180;
