@@ -9,9 +9,6 @@ void ChainLightning::Initialize(Vector3 pos, Vector3 vec)
 	obj_.Initialize("sphere");
 	obj_.obj->SetColor({ 1,0,0,1 });
 
-	//BaseCol::Initialize();
-
-
 	obj_.pos = pos;
 
 	vec_ = vec.normalize();
