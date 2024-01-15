@@ -40,7 +40,7 @@ void StageSelectScene::Update()
 		SceneChange::GetInstance()->Start();
 	}
 	if (SceneChange::GetInstance()->GetTimer() >= 1.0f) {
-		GameManager::GetInstance()->SetGameScene();
+		GameManager::GetInstance()->ChangeScene(std::make_unique<GameScene>());
 	}
 }
 

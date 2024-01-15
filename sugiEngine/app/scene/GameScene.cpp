@@ -146,7 +146,7 @@ void GameScene::Update()
 
 		//シーン切り替え系
 		if (MenuManager::GetInstance()->GetIsStageSelect()) {
-			GameManager::GetInstance()->SetStageSelectScene();
+			GameManager::GetInstance()->ChangeScene(make_unique<StageSelectScene>());
 		}
 		return;
 	}
@@ -219,7 +219,7 @@ void GameScene::Update()
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		GameInitialize();
 		if (player->GetLife() > 0) {
-			GameManager::GetInstance()->SetStageSelectScene();
+			GameManager::GetInstance()->ChangeScene(make_unique<StageSelectScene>());
 			return;
 		}
 	}
@@ -230,7 +230,7 @@ void GameScene::Update()
 	//シーン切り替え系
 	if (MenuManager::GetInstance()->GetIsStageSelect()) {
 		GameInitialize();
-		GameManager::GetInstance()->SetStageSelectScene();
+		GameManager::GetInstance()->ChangeScene(make_unique<StageSelectScene>());
 	}
 }
 

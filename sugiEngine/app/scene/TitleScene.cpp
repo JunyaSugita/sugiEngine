@@ -5,6 +5,8 @@
 #include "Tutorial.h"
 #include "ModelManager.h"
 
+using namespace std;
+
 void TitleScene::Initialize()
 {
 	//ライト
@@ -87,11 +89,11 @@ void TitleScene::Update()
 
 	if (SceneChange::GetInstance()->GetTimer() >= 1) {
 		ParticleManager::GetInstance()->Clear();
-		GameManager::GetInstance()->SetStageSelectScene();
+ 		GameManager::GetInstance()->ChangeScene(make_unique<StageSelectScene>());
 	}
 	else if (Tutorial::GetInstance()->GetIsReturn()) {
 		Tutorial::GetInstance()->SetIsReturn(false);
-		GameManager::GetInstance()->SetGameScene();
+		GameManager::GetInstance()->ChangeScene(make_unique<GameScene>());
 	}
 }
 
