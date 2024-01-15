@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include "ISceneManager.h"
+#include "IScene.h"
 #include "Object3d.h"
 #include "Sprite.h"
 #include "GameManager.h"
@@ -14,7 +14,7 @@
 #include <map>
 
 
-class ClearScene : public ISceneManager
+class ClearScene : public IScene
 {
 public:
 	void Initialize() override;

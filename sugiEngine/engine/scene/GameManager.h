@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include "ISceneManager.h"
+#include "IScene.h"
 #include <memory>
 #include "Camera.h"
 
@@ -38,6 +38,6 @@ public:
 	void SetClearScene();
 
 private:
-	std::unique_ptr<ISceneManager> scene_;
+	std::unique_ptr<IScene> scene_;
 };
 

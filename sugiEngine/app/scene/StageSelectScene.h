@@ -5,11 +5,11 @@
 
 #pragma once
 #include "GameManager.h"
-#include "ISceneManager.h"
+#include "IScene.h"
 #include "LightGroup.h"
 
 
-class StageSelectScene : public ISceneManager
+class StageSelectScene : public IScene
 {
 public:
 	void Initialize() override;

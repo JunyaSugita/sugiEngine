@@ -239,7 +239,7 @@
     <ClInclude Include="sugiEngine\engine\3d\Model.h" />
     <ClInclude Include="sugiEngine\engine\scene\MyGame.h" />
     <ClInclude Include="sugiEngine\engine\3d\Object3d.h" />
-    <ClInclude Include="sugiEngine\engine\scene\ISceneManager.h" />
+    <ClInclude Include="sugiEngine\engine\scene\IScene.h" />
     <ClInclude Include="sugiEngine\engine\light\PointLight.h" />
     <ClInclude Include="sugiEngine\engine\audio\Sound.h" />
     <ClInclude Include="sugiEngine\engine\light\SpotLight.h" />

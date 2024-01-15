@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include "ISceneManager.h"
+#include "IScene.h"
 #include "Model.h"
 #include "Sprite.h"
 #include "Input.h"
@@ -18,7 +18,7 @@
 #include "GameOver.h"
 #include "BaseObj.h"
 
-class GameScene : public ISceneManager
+class GameScene : public IScene
 {
 public:
 	void Initialize() override;

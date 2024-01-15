@@ -1,14 +1,14 @@
 /**
- * @file ISceneManager.h
+ * @file IScene.h
  * @brief シーンのベースクラス
  */
 
 #pragma once
 
-class ISceneManager
+class IScene
 {
 public:
-	virtual ~ISceneManager() = 0 {}
+	virtual ~IScene() = 0 {}
 public:
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
