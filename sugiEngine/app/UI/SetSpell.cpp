@@ -28,53 +28,77 @@ void SetSpell::Initialize()
 		comingSoonTex_ = Sprite::LoadTexture("comingSoonIcon.png");
 		selectHiLightTex_ = Sprite::LoadTexture("white1x1.png");
 
-		spellSprite_[0].Initialize(fireBallTex_);
-		spellSprite_[0].SetAnchorPoint(0.5f, 0.5f);
-		spellSprite_[0].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y - 90);
-		spellSprite_[0].SetColor(1, 1, 1, 0.8f);
-		spellSprite_[0].SetSize(80, 80);
+		spellSprite_[Y_BUTTON].Initialize(fireBallTex_);
+		spellSprite_[Y_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		spellSprite_[Y_BUTTON].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y - 90);
+		spellSprite_[Y_BUTTON].SetColor(1, 1, 1, 0.8f);
+		spellSprite_[Y_BUTTON].SetSize(80, 80);
 
-		spellSprite_[1].Initialize(magicMissileTex_);
-		spellSprite_[1].SetAnchorPoint(0.5f, 0.5f);
-		spellSprite_[1].SetPos(POS_ORIGIN_SPELL_SPRITE.x + 90, POS_ORIGIN_SPELL_SPRITE.y);
-		spellSprite_[1].SetColor(1, 1, 1, 0.8f);
-		spellSprite_[1].SetSize(50, 50);
+		spellSprite_[B_BUTTON].Initialize(magicMissileTex_);
+		spellSprite_[B_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		spellSprite_[B_BUTTON].SetPos(POS_ORIGIN_SPELL_SPRITE.x + 90, POS_ORIGIN_SPELL_SPRITE.y);
+		spellSprite_[B_BUTTON].SetColor(1, 1, 1, 0.8f);
+		spellSprite_[B_BUTTON].SetSize(50, 50);
 
-		spellSprite_[2].Initialize(iceBoltTex_);
-		spellSprite_[2].SetAnchorPoint(0.5f, 0.5f);
-		spellSprite_[2].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y + 90);
-		spellSprite_[2].SetColor(1, 1, 1, 0.8f);
-		spellSprite_[2].SetSize(50, 50);
+		spellSprite_[A_BUTTON].Initialize(iceBoltTex_);
+		spellSprite_[A_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		spellSprite_[A_BUTTON].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y + 90);
+		spellSprite_[A_BUTTON].SetColor(1, 1, 1, 0.8f);
+		spellSprite_[A_BUTTON].SetSize(50, 50);
 
-		spellSprite_[3].Initialize(chainLightningTex_);
-		spellSprite_[3].SetAnchorPoint(0.5f, 0.5f);
-		spellSprite_[3].SetPos(POS_ORIGIN_SPELL_SPRITE.x - 90, POS_ORIGIN_SPELL_SPRITE.y);
-		spellSprite_[3].SetColor(1, 1, 1, 0.8f);
-		spellSprite_[3].SetSize(50, 50);
+		spellSprite_[X_BUTTON].Initialize(chainLightningTex_);
+		spellSprite_[X_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		spellSprite_[X_BUTTON].SetPos(POS_ORIGIN_SPELL_SPRITE.x - 90, POS_ORIGIN_SPELL_SPRITE.y);
+		spellSprite_[X_BUTTON].SetColor(1, 1, 1, 0.8f);
+		spellSprite_[X_BUTTON].SetSize(50, 50);
 
-		buttonSprite_[0].Initialize(buttonTex_[0]);
-		buttonSprite_[0].SetAnchorPoint(0.5f, 0.5f);
-		buttonSprite_[0].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y - 35);
-		buttonSprite_[0].SetColor(1, 1, 1, 0.5f);
-		buttonSprite_[0].SetSize(40, 40);
+		buttonSprite_[Y_BUTTON].Initialize(buttonTex_[Y_BUTTON]);
+		buttonSprite_[Y_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		buttonSprite_[Y_BUTTON].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y - 35);
+		buttonSprite_[Y_BUTTON].SetColor(1, 1, 1, 0.5f);
+		buttonSprite_[Y_BUTTON].SetSize(40, 40);
 
-		buttonSprite_[1].Initialize(buttonTex_[1]);
-		buttonSprite_[1].SetAnchorPoint(0.5f, 0.5f);
-		buttonSprite_[1].SetPos(POS_ORIGIN_SPELL_SPRITE.x + 35, POS_ORIGIN_SPELL_SPRITE.y);
-		buttonSprite_[1].SetColor(1, 1, 1, 0.5f);
-		buttonSprite_[1].SetSize(40, 40);
+		buttonSprite_[B_BUTTON].Initialize(buttonTex_[B_BUTTON]);
+		buttonSprite_[B_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		buttonSprite_[B_BUTTON].SetPos(POS_ORIGIN_SPELL_SPRITE.x + 35, POS_ORIGIN_SPELL_SPRITE.y);
+		buttonSprite_[B_BUTTON].SetColor(1, 1, 1, 0.5f);
+		buttonSprite_[B_BUTTON].SetSize(40, 40);
 
-		buttonSprite_[2].Initialize(buttonTex_[2]);
-		buttonSprite_[2].SetAnchorPoint(0.5f, 0.5f);
-		buttonSprite_[2].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y + 35);
-		buttonSprite_[2].SetColor(1, 1, 1, 0.5f);
-		buttonSprite_[2].SetSize(40, 40);
+		buttonSprite_[A_BUTTON].Initialize(buttonTex_[A_BUTTON]);
+		buttonSprite_[A_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		buttonSprite_[A_BUTTON].SetPos(POS_ORIGIN_SPELL_SPRITE.x, POS_ORIGIN_SPELL_SPRITE.y + 35);
+		buttonSprite_[A_BUTTON].SetColor(1, 1, 1, 0.5f);
+		buttonSprite_[A_BUTTON].SetSize(40, 40);
 
-		buttonSprite_[3].Initialize(buttonTex_[3]);
-		buttonSprite_[3].SetAnchorPoint(0.5f, 0.5f);
-		buttonSprite_[3].SetPos(POS_ORIGIN_SPELL_SPRITE.x - 35, POS_ORIGIN_SPELL_SPRITE.y);
-		buttonSprite_[3].SetColor(1, 1, 1, 0.5f);
-		buttonSprite_[3].SetSize(40, 40);
+		buttonSprite_[X_BUTTON].Initialize(buttonTex_[X_BUTTON]);
+		buttonSprite_[X_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		buttonSprite_[X_BUTTON].SetPos(POS_ORIGIN_SPELL_SPRITE.x - 35, POS_ORIGIN_SPELL_SPRITE.y);
+		buttonSprite_[X_BUTTON].SetColor(1, 1, 1, 0.5f);
+		buttonSprite_[X_BUTTON].SetSize(40, 40);
+
+		weakSprite_[Y_BUTTON].Initialize(selectHiLightTex_);
+		weakSprite_[Y_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		weakSprite_[Y_BUTTON].SetPos(spellSprite_[Y_BUTTON].GetPos());
+		weakSprite_[Y_BUTTON].SetColor(0.8f, 0.8f, 0.f, 0.5f);
+		weakSprite_[Y_BUTTON].SetSize(90, 90);
+
+		weakSprite_[B_BUTTON].Initialize(selectHiLightTex_);
+		weakSprite_[B_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		weakSprite_[B_BUTTON].SetPos(spellSprite_[B_BUTTON].GetPos());
+		weakSprite_[B_BUTTON].SetColor(0.8f, 0.8f, 0.f, 0.5f);
+		weakSprite_[B_BUTTON].SetSize(90, 90);
+
+		weakSprite_[A_BUTTON].Initialize(selectHiLightTex_);
+		weakSprite_[A_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		weakSprite_[A_BUTTON].SetPos(spellSprite_[A_BUTTON].GetPos());
+		weakSprite_[A_BUTTON].SetColor(0.8f, 0.8f, 0.f, 0.5f);
+		weakSprite_[A_BUTTON].SetSize(90, 90);
+
+		weakSprite_[X_BUTTON].Initialize(selectHiLightTex_);
+		weakSprite_[X_BUTTON].SetAnchorPoint(0.5f, 0.5f);
+		weakSprite_[X_BUTTON].SetPos(spellSprite_[X_BUTTON].GetPos());
+		weakSprite_[X_BUTTON].SetColor(0.8f, 0.8f, 0.f, 0.5f);
+		weakSprite_[X_BUTTON].SetSize(90, 90);
 
 		backSprite_.Initialize(selectHiLightTex_);
 		backSprite_.SetAnchorPoint(0.5f,0.5f);
@@ -96,10 +120,12 @@ void SetSpell::Update()
 			//使用中の呪文アイコンは大きくする
 			spellSprite_[i].SetSize(SIZE_ACTIVE_ICON);
 			backSprite_.SetPos(spellSprite_[i].GetPos());
+			weakSprite_[i].SetSize(90,90);
 		}
 		else {
 			//使用中ではない呪文アイコンは小さくする
 			spellSprite_[i].SetSize(SIZE_ICON);
+			weakSprite_[i].SetSize(70, 70);
 		}
 	}
 
@@ -111,7 +137,9 @@ void SetSpell::Draw()
 {
 	backSprite_.Draw();
 	for (int i = 0; i < MAX_SPELL_SET; i++) {
-		
+		if (ColliderManager::GetInstance()->CheckNearEnemy(i)) {
+			weakSprite_[i].Draw();
+		}
 		spellSprite_[i].Draw();
 		buttonSprite_[i].Draw();
 	}

@@ -12,6 +12,7 @@ void Slime::Initialize(std::string name, Vector3 pos)
 	BaseEnemy::Initialize(name, pos);
 	obj_.obj->SetColor(COLOR_BODY);
 	WorldTransUpdate();
+	serial_ = 1;
 
 }
 

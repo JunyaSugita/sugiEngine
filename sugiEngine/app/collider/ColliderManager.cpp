@@ -327,6 +327,48 @@ void ColliderManager::SetNaviPointScore()
 	}
 }
 
+bool ColliderManager::CheckNearEnemy(int32_t num)
+{
+	int32_t tempNum = 0;
+
+	switch (num)
+	{
+	case 0:
+		tempNum = 1;
+		break;
+	case 2:
+		tempNum = 2;
+		break;
+
+	default:
+		return false;
+		break;
+	}
+
+	//敵の判定
+	vector<BaseEnemy*> enemysCol = EnemyManager::GetInstance()->GetEnemysList();
+	//プレイヤー
+	Player* player = Player::GetInstance();
+
+	///プレイヤーと敵
+	//プレイヤーが無敵かどうか
+	if (!Player::GetInstance()->GetInvincible()) {
+		for (int i = 0; i < enemysCol.size(); i++) {
+			//敵がダウンしているかどうか
+			if (!enemysCol[i]->GetIsDown()) {
+				//判定
+				if (CheckHitCircle(enemysCol[i]->GetBoxCol(), { player->GetBoxCol().pos,{70,50,70} })) {
+					if (enemysCol[i]->GetSerial() == tempNum) {
+						return true;
+					}
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
 void ColliderManager::CheckSpellCol()
 {
 	//呪文の判定

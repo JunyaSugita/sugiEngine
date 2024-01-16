@@ -93,6 +93,9 @@ public:
 	float GetLife() {
 		return life_;
 	}
+	int32_t GetSerial() {
+		return serial_;
+	}
 
 	/// <summary>
 	/// 弱点時に体の色を変える
@@ -261,4 +264,7 @@ protected:
 
 	//敵が起動しているか
 	bool isStart_;
+
+	//シリアル
+	int32_t serial_ = 0;
 };

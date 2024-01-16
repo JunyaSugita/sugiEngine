@@ -69,6 +69,12 @@ public:
 	/// </summary>
 	void SetNaviPointScore();
 
+	/// <summary>
+	/// 特定の敵が近くにいるか
+	/// </summary>
+	/// <param name="num">調べたい特定の敵の番号</param>
+	bool CheckNearEnemy(int32_t num);
+
 private:
 	/// <summary>
 	/// 呪文と敵、フィールドの判定

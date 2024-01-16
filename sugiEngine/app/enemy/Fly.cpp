@@ -40,6 +40,8 @@ void Fly::Initialize(std::string name, Vector3 pos)
 	obj_.obj->SetColor(COLOR_BODY);
 	wingL_.obj->SetColor(COLOR_BODY);
 	wingR_.obj->SetColor(COLOR_BODY);
+
+	serial_ = 2;
 }
 
 void Fly::Draw()
