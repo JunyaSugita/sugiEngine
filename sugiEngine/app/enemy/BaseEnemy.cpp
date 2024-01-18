@@ -78,8 +78,7 @@ void BaseEnemy::Update()
 		//プレイヤーの方へゆっくり回転
 		SetAngleToPlayer();
 
-		//当たり判定移動
-		SetCol();
+		BaseCol::Update(obj_.pos, col_.size);
 	}
 	else
 	{
@@ -96,7 +95,6 @@ void BaseEnemy::Update()
 
 	//移動を適応
 	WorldTransUpdate();
-	BaseCol::Update(obj_.pos,col_.size);
 }
 
 void BaseEnemy::DontMoveUpdate()
@@ -119,7 +117,6 @@ void BaseEnemy::DrawTransparent()
 void BaseEnemy::WorldTransUpdate()
 {
 	obj_.Update();
-	BaseCol::Update(obj_.pos,obj_.scale);
 	iceObj_.Update();
 }
 

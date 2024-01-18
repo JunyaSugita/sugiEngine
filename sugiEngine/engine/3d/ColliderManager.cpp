@@ -356,7 +356,11 @@ Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos, Vector3 col)
 		}
 		
 		score = naviPoints[i].score;
+		num = i;
+	}
 
+	if (num == -1) {
+		return pos;
 	}
 
 	return naviPoints[num].pos;

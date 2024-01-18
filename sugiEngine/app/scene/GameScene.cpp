@@ -128,7 +128,7 @@ void GameScene::Update()
 
 		if (input->TriggerKey(DIK_P)) {
 			ParticleManager::GetInstance()->Clear();
-			GameManager::GetInstance()->SetTitleScene();
+			//GameManager::GetInstance()->SetTitleScene();
 		}
 		if (input->TriggerKey(DIK_R)) {
 			Initialize();
@@ -170,7 +170,6 @@ void GameScene::Update()
 #pragma endregion
 
 #pragma region ImGui
-#ifdef _DEBUG
 	{
 		Begin("EnemyDebug");
 		if (Button("stop", SIZE_IMGUI)) {
@@ -200,7 +199,6 @@ void GameScene::Update()
 		End();
 	}
 
-#endif
 #pragma endregion
 
 
@@ -246,7 +244,7 @@ void GameScene::Draw()
 void GameScene::ObjDraw()
 {
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
-		FieldManager::GetInstance()->Draw();
+		//FieldManager::GetInstance()->Draw();
 
 		EnemyManager::GetInstance()->Draw();
 		EffectManager::GetInstance()->Draw();
@@ -269,7 +267,7 @@ void GameScene::ObjDraw2()
 void GameScene::ParticleDraw()
 {
 	ParticleManager::GetInstance()->Draw();
-	//NaviPointManager::GetInstance()->Draw();
+	NaviPointManager::GetInstance()->Draw();
 }
 
 void GameScene::SpriteDraw()

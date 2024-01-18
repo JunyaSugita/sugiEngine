@@ -2,6 +2,9 @@
 #include "ParticleManager.h"
 #include "Player.h"
 #include "ColliderManager.h"
+#include "ImGuiManager.h"
+
+using namespace ImGui;
 
 NaviPointManager* NaviPointManager::GetInstance()
 {
@@ -12,17 +15,17 @@ NaviPointManager* NaviPointManager::GetInstance()
 
 void NaviPointManager::Draw()
 {
-	//for (int i = 0; i < naviPoints_.size(); i++) {
-	//	if (naviPoints_[i].score < 150) {
-	//		ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, naviPoints_[i].pos);
-	//	}
-	//	else if (naviPoints_[i].score < 500) {
-	//		ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, naviPoints_[i].pos);
-	//	}
-	//	else if (naviPoints_[i].score != 99999) {
-	//		ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, naviPoints_[i].pos);
-	//	}
-	//}
+	for (int i = 0; i < naviPoints_.size(); i++) {
+		//if (naviPoints_[i].score < 99999) {
+		//	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, naviPoints_[i].pos);
+		//}
+		//else if (naviPoints_[i].score == 99999) {
+		//	ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, naviPoints_[i].pos);
+		//}
+		//else if (naviPoints_[i].score > 99999) {
+		//	ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, naviPoints_[i].pos);
+		//}
+	}
 }
 
 void NaviPointManager::Add(Vector3 pos)
@@ -42,6 +45,12 @@ void NaviPointManager::CalcScore()
 	FirstCalc();
 
 	SecondCalc();
+
+	Begin("NaviPoint");
+	for (int i = 0; i < naviPoints_.size(); i++) {
+		Text("%d,%f", i, naviPoints_[i].score);
+	}
+	End();
 }
 
 void NaviPointManager::ReSetCalc()
@@ -64,23 +73,19 @@ void NaviPointManager::FirstCalc()
 
 void NaviPointManager::SecondCalc()
 {
-	for (int i = 0; i < naviPoints_.size(); i++) {
-		if (naviPoints_[i].score == RESET_SCORE) {
-			for (int j = 0; j < naviPoints_.size(); j++) {
-				if (naviPoints_[j].score != RESET_SCORE) {
-					if (ColliderManager::GetInstance()->CanMoveToNaviPoint(naviPoints_[i].pos, naviPoints_[j].pos, NAVIPOINT_HITBOX)) {
-						float temp = (Player::GetInstance()->GetPos() - naviPoints_[i].pos).length();
+	for (int k = 0; k < 2; k++) {
+		for (int i = 0; i < naviPoints_.size(); i++) {
+			if (naviPoints_[i].score == RESET_SCORE) {
+				for (int j = 0; j < naviPoints_.size(); j++) {
+					if (naviPoints_[j].score != RESET_SCORE) {
+						if (ColliderManager::GetInstance()->CanMoveToNaviPoint(naviPoints_[i].pos, naviPoints_[j].pos, NAVIPOINT_HITBOX)) {
+							float temp = (Player::GetInstance()->GetPos() - naviPoints_[i].pos).length();
 
-						naviPoints_[i].score = temp + naviPoints_[j].score;
+							naviPoints_[i].score = temp + naviPoints_[j].score;
+						}
 					}
 				}
 			}
-		}
-	}
-
-	for (int i = 0; i < naviPoints_.size(); i++) {
-		if (naviPoints_[i].score == RESET_SCORE) {
-			SecondCalc();
 		}
 	}
 }
