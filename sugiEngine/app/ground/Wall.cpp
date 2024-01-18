@@ -25,11 +25,13 @@ void Wall::Initialize(Vector3 pos, Vector3 scale)
 	}
 
 	wallObj_.obj->SetTiling({ scale.y,tilY });
+	BaseCol::Update(pos,scale);
 }
 
 void Wall::Update()
 {
 	wallObj_.Update();
+	BaseCol::Update(wallObj_.pos, wallObj_.scale);
 }
 
 void Wall::Draw()

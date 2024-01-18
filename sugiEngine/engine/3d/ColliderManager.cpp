@@ -63,7 +63,9 @@ void ColliderManager::Draw()
 		for (; itA != colliders_.end(); ++itA) {
 			BaseCol* colA = *itA;
 
-			colA->Draw();
+			if (colA->GetColType() == WALL) {
+				colA->Draw();
+			}
 		}
 	}
 }

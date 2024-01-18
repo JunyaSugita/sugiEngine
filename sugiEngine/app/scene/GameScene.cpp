@@ -197,6 +197,10 @@ void GameScene::Update()
 			Player::GetInstance()->SetInvincible();
 		}
 		End();
+
+		Begin("Camera");
+		Text("pos %f,%f,%f", Camera::GetInstance()->GetEye().x, Camera::GetInstance()->GetEye().y, Camera::GetInstance()->GetEye().z);
+		End();
 	}
 
 #pragma endregion
