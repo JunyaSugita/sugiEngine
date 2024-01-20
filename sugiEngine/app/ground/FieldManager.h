@@ -6,7 +6,7 @@
 #include "Model.h"
 #include "BaseObj.h"
 #include "JsonLoader.h"
-#include "ColliderManager.h"
+#include "Wall.h"
 #include "Torch.h"
 
 class FieldManager final {
@@ -27,14 +27,7 @@ public:
 	void Update();
 	void Draw();
 
-	//当たり判定取得
-	BoxCol GetCol(int num) {
-		return cols_[num];
-	}
 	//当たり判定の大きさ取得
-	size_t GetColSize() {
-		return cols_.size();
-	}
 	//ナビポイントの番号取得
 	int32_t GetNaviPointNum() {
 		return navePointNum_;
@@ -88,8 +81,8 @@ private:
 
 	std::unique_ptr<Model> boxModel_;
 	std::vector <std::unique_ptr<BaseObj>> objs_;
-	std::vector<BoxCol> cols_;
 
+	std::vector<std::unique_ptr<Wall>> walls_; 
 	std::vector<std::unique_ptr<Torch>> torchs_;
 
 	int32_t navePointNum_;

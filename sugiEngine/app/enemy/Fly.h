@@ -19,6 +19,8 @@ private:
 	void Attack() override;
 	void Down() override;
 	void WeakBodyColor() override;
+	// シェイクで移動していた分を戻す
+	void ResetShake()override;
 
 private:
 	const float SPEED_MOVE = 0.15f;

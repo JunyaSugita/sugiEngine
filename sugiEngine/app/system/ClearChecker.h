@@ -9,7 +9,7 @@
 #include "BaseObj.h"
 #include "BaseCol.h"
 
-class ClearChecker {
+class ClearChecker : BaseCol{
 private:
 	ClearChecker() = default;
 	~ClearChecker() = default;
@@ -22,7 +22,6 @@ public:
 
 	static ClearChecker* GetInstance();
 
-
 public:
 	void Initialize();
 	void GameInitialize();
@@ -30,14 +29,14 @@ public:
 	void Draw();
 
 	//ゲッターセッター
-	void SetClear() {
+	void SetClear() override{
 		isClear_ = true;
 	}
 	bool GetIsClear() {
 		return isClear_;
 	}
-	BoxCol GetCol() {
-		return cols_.col;
+	Col GetCol() {
+		return col_;
 	}
 	void SetGoal(Vector3 pos);
 
@@ -49,7 +48,6 @@ private:
 	const float GOAL_Y = 3;
 
 	BaseObj obj_;
-	BaseCol cols_;
 
 	bool isClear_;
 	float blur_;

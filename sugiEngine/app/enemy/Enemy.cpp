@@ -6,6 +6,7 @@
 #include "NaviPointManager.h"
 #include "ModelManager.h"
 #include "Enemy.h"
+#include "ColliderManager.h"
 
 std::unique_ptr<Model> Enemy::sEyeModel_;
 
@@ -14,9 +15,8 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	eyeObj_.Initialize("eye");
 	eyeObj_.obj->SetEffectCross(true);
 	eyeObj_.worldTrans.parent_ = &obj_.worldTrans;
-	eyeObj_.pos = { 0.3f,4.1f,0 };
+	eyeObj_.pos = { 0.5f,4.1f,0 };
 	eyeObj_.scale = { 0.3f,0.3f,0.3f };
-
 
 	wingL_.Initialize("box");
 	wingL_.worldTrans.parent_ = &obj_.worldTrans;
@@ -30,11 +30,12 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	wingR_.rot = { 0,0,60 };
 	wingR_.scale = { 1,0.3f,0.3f };
 
-
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
-	height_ = HEIGHT_COL;
 
+	
+	col_.size.y = 3;
+	gap_ = HEIGHT_COL;
 	BaseEnemy::Initialize(name, pos);
 	WorldTransUpdate();
 
@@ -63,13 +64,10 @@ void Enemy::WorldTransUpdate()
 
 void Enemy::Move()
 {
-	ColliderManager* colM = ColliderManager::GetInstance();
-	NaviPointManager* navePointM = NaviPointManager::GetInstance();
-
 	if (!isStop_) {
 		Vector2 temp;
 		//プレイヤー方向に壁が無ければプレイヤー方向に移動
-		if (colM->CanMovePlayerVec(obj_.pos)) {
+		if (ColliderManager::GetInstance()->CanMoveToPlayer(col_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 
@@ -77,18 +75,15 @@ void Enemy::Move()
 			isStart_ = true;
 		}
 		else {
-			int32_t point = colM->CanMoveNaviPointVec(obj_.pos);
-			//ナビポイントが見つからなければ移動しない
-			if (point == -1) {
-				return;
-			}
-			//isStartがfalseなら止まる
-			if (!isStart_) {
-				return;
-			}
+			if (isStart_) {
+				Vector3 tempPos = ColliderManager::GetInstance()->CanMoveEnemyToNaviPoint(col_.pos);
 
-			temp.x = navePointM->GetNaviPoint(point).pos.x;
-			temp.y = navePointM->GetNaviPoint(point).pos.z;
+				temp.x = tempPos.x;
+				temp.y = tempPos.z;
+			}
+			else {
+				return;
+			}
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);

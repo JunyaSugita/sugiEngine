@@ -1,4 +1,4 @@
-﻿#include "DXCommon.h"
+#include "DXCommon.h"
 
 void DXCommon::Initialize(WinApp* winApp)
 {

@@ -17,15 +17,12 @@ struct DebuffM {
 	int32_t iceTime;
 };
 
-struct DownState {
-	float slow = 1.0f;
-	float damage = 0;
-};
 
-class BaseEnemy {
+
+class BaseEnemy : public BaseCol {
 
 public:
-	virtual void Initialize(std::string name,Vector3 pos);
+	virtual void Initialize(std::string name, Vector3 pos);
 	virtual void Update();
 	//動けない時の処理
 	virtual void DontMoveUpdate();
@@ -37,42 +34,42 @@ public:
 	virtual void WorldTransUpdate();
 
 	//死んだあとプレイヤーに当たった時の反応
-	virtual void DownHitPlayer();
+	void DownHitPlayer()override;
 
 	//死んだあと他の敵に当たった時の反応
-	virtual DownState GetDownHitEnemy();
-	virtual void SetDownHitEnemy(DownState state);
+	DownState GetDownHitEnemy() override;
+	void SetDownHitEnemy(DownState state) override;
 
 #pragma region inline群
 	//inline群
-	Vector3 GetPos() {
+	Vector3 GetPos() override{
 		return obj_.pos;
 	}
 	void SetCol(Vector3 vec) {
-		cols_.col.pos = vec;
+		col_.pos = vec;
 	}
 	void SetColX(float x) {
-		cols_.col.pos.x = x;
+		col_.pos.x = x;
 	}
 	void SetColY(float y) {
-		cols_.col.pos.y = y;
+		col_.pos.y = y;
 	}
 	void SetColZ(float z) {
-		cols_.col.pos.z = z;
+		col_.pos.z = z;
 	}
 	void AddCol(Vector3 vec) {
-		cols_.col.pos += vec;
+		col_.pos += vec;
 	}
-	void AddColX(float x) {
-		cols_.col.pos.x += x;
+	void AddColX(float x) override{
+		col_.pos.x += x;
 	}
-	void AddColZ(float z) {
-		cols_.col.pos.z += z;
+	void AddColZ(float z) override{
+		col_.pos.z += z;
 	}
 	bool GetIsDead() {
 		return isDead_;
 	}
-	bool GetIsDown() {
+	bool GetIsDown() override {
 		return isDown_;
 	}
 	void SetIsDead() {
@@ -81,13 +78,13 @@ public:
 	void ResetIsHit() {
 		isHit_ = false;
 	}
-	BoxCol GetBoxCol() {
-		return cols_.col;
+	Col GetBoxCol() {
+		return col_;
 	}
-	BoxCol GetOldBoxCol() {
-		return cols_.oldCol;
+	Col GetOldBoxCol() {
+		return oldCol_;
 	}
-	void SetIsStop() {
+	void SetIsStop() override {
 		isStop_ = true;
 	}
 	float GetLife() {
@@ -103,6 +100,7 @@ public:
 	virtual void WeakBodyColor();
 
 	//デバッグ用
+
 	// 敵の動きを止めたり動かしたり制御する
 	static void ToggleIsAllStop() {
 		sIsDebugStop_ = (sIsDebugStop_ + 1) % 2;
@@ -123,7 +121,7 @@ public:
 	/// </summary>
 	/// <param name="debuff">デバフの種類番号</param>
 	/// <param name="time">デバフを適応する時間/f</param>
-	void SetDebuff(int32_t debuff, int32_t time);
+	void SetDebuff(int32_t debuff, int32_t time) override;
 
 	/// <summary>
 	/// HPを減らし、エフェクトを出す
@@ -145,19 +143,19 @@ public:
 	bool isCanMove();
 
 	// シェイクで移動していた分を戻す
-	void ResetShake();
+	virtual void ResetShake();
 
 	// 攻撃してプレイヤーにダメージを与える
-	void SetIsAttack();
+	void SetIsAttack()override;
 
 	// 移動速度をセット
 	void SetSlow(float slow) {
 		slow_ = slow;
-	}	
+	}
 
 	//長時間のシェイク
-	void SetShakeTime(int32_t time) {
-		shakeTime_ =time;
+	void SetShakeTime(int32_t time) override{
+		shakeTime_ = time;
 	}
 
 protected:
@@ -182,16 +180,24 @@ protected:
 	/// </summary>
 	/// <param name="subLife">減らすhp量</param>
 	/// <param name="subLife">パーティクルを出すかどうか</param>
-	void SubLife(float subLife,bool isParticle = false);
+	void SubLife(int32_t subLife, bool isParticle = false) override;
 
 	// デバフの効果を更新
 	void UpdateDebuff();
-	
+
 	//自身のコリジョンを設定
 	void SetCol();
 
 	//自身をシェイクさせる
 	void SetShake();
+
+	//当たり判定適応
+	void HitChangePos()override;
+
+	/// <summary>
+	/// 死ぬ時の処理
+	/// </summary>
+	void Dead();
 
 protected:
 	const Vector2 UP = { 0,-1 };
@@ -214,13 +220,11 @@ protected:
 
 	//本体
 	BaseObj obj_;
+	//サイズ
+	Vector2 size_;
 
 	//iceモデル
 	BaseObj iceObj_;
-
-	//当たり判定
-	BaseCol cols_;
-	float height_;
 
 	//体力
 	float life_;

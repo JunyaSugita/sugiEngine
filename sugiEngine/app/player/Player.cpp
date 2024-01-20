@@ -10,6 +10,7 @@
 #include "LoadOut.h"
 #include "ClearChecker.h"
 #include "Setting.h"
+#include "ColliderManager.h"
 
 Player* Player::GetInstance()
 {
@@ -25,6 +26,8 @@ void Player::Initialize()
 	damageTex_ = Sprite::LoadTexture("damage.png");
 	damageSp_.Initialize(damageTex_);
 
+	BaseCol::Initialize(pos_,scale_,PLAYER);
+
 	GameInitialize();
 }
 
@@ -39,10 +42,10 @@ void Player::GameInitialize()
 	presetSpell_ = 1;
 	spellAngle_ = 0;
 
-	boxCol_.pos = pos_;
-	boxCol_.size = { 2.5f,2.2f,2.5f };
-	oldBoxCol_.pos = pos_;
-	oldBoxCol_.size = { 2.5f,2.2f,2.5f };
+	col_.pos = pos_;
+	col_.size = { 2.5f,2.2f,2.5f };
+	oldCol_.pos = col_.pos;
+	oldCol_.size = col_.size;
 
 	damageSp_.SetColor(1, 1, 1, 0);
 	damageAlpha_ = 0;
@@ -74,15 +77,14 @@ void Player::Update()
 	}
 
 	//1フレーム前の情報を保存
-	oldBoxCol_.pos = pos_;
+	oldCol_.pos = pos_;
 
 	Move();
 	WorldTransUpdate();
 
+	CameraMove();
 	//攻撃
 	Attack();
-
-	CameraMove();
 }
 
 void Player::Draw()
@@ -93,6 +95,15 @@ void Player::Draw()
 void Player::SpriteDraw()
 {
 	damageSp_.Draw();
+}
+
+void Player::HitChangePos()
+{
+	pos_ = col_.pos;
+	//カメラ操作
+	Camera* camera = Camera::GetInstance();
+	camera->SetEye(pos_ + CAMERA_EYE);//目線にカメラを調整
+	camera->SetTarget(pos_ + frontVec_ + CAMERA_EYE);//目線にカメラを調整
 }
 
 void Player::ChargeSpell(int32_t num)
@@ -189,11 +200,11 @@ void Player::Move()
 	slow_ = 1;
 
 	//当たり判定移動
-	boxCol_.pos = pos_;
+	col_.pos = pos_;
 
 	//navePointの重みづけ
 	if (++naveTimer_ > TIME_NAVE) {
-		ColliderManager::GetInstance()->SetNaviPointScore();
+		//ColliderManager::GetInstance()->SetNaviPointScore();
 		naveTimer_ = 0;
 	}
 

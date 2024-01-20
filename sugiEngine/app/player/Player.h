@@ -9,7 +9,7 @@
 #include "SpellManager.h"
 #include "Sprite.h"
 
-class Player final{
+class Player :public BaseCol{
 private:
 	Player() = default;
 	~Player() = default;
@@ -27,6 +27,7 @@ public:
 	void Update();
 	void Draw();
 	void SpriteDraw();
+	void HitChangePos() override;
 
 	//呪文を詠唱
 	void ChargeSpell(int32_t num);
@@ -91,12 +92,12 @@ public:
 		return presetSpell_;
 	}
 
-	BoxCol GetBoxCol() {
-		return boxCol_;
+	Col GetBoxCol() {
+		return col_;
 	}
 
-	BoxCol GetOldBoxCol() {
-		return oldBoxCol_;
+	Col GetOldBoxCol() {
+		return oldCol_;
 	}
 
 	void WorldTransUpdate();
@@ -166,10 +167,6 @@ private:
 	//装備呪文
 	int32_t presetSpell_;
 	float spellAngle_;
-
-	//当たり判定
-	BoxCol boxCol_;
-	BoxCol oldBoxCol_;
 
 	//ダメージ演出
 	int32_t damageTex_;

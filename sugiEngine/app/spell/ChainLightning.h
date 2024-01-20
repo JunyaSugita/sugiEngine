@@ -9,7 +9,7 @@
 #include "BaseObj.h"
 #include "BaseCol.h"
 
-class ChainLightning {
+class ChainLightning : public BaseCol{
 public:
 	void Initialize(Vector3 pos, Vector3 vec);
 	void Update();
@@ -27,13 +27,11 @@ public:
 	void SetIsHit() {
 		isHit_ = true;
 	}
-	BoxCol GetBoxCol() {
-		return cols_.col;
+	Col GetBoxCol() {
+		return col_;
 	}
 
 private:
-	//当たり判定セット
-	void SetCol();
 	void WorldTransUpdate();
 
 public:
@@ -49,9 +47,6 @@ private:
 	const int32_t MAX_LENGE = 50;
 
 	BaseObj obj_;
-
-	//当たり判定
-	BaseCol cols_;
 
 	//進行方向
 	Vector3 vec_;

@@ -112,12 +112,6 @@
     <Filter Include="ヘッダー ファイル\app\UI">
       <UniqueIdentifier>{74a443cd-2c12-4ca3-809f-7a6ad3664e06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\app\collider">
-      <UniqueIdentifier>{50beaaae-49fd-418c-9442-1d69dd0276c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\app\collider">
-      <UniqueIdentifier>{20c6474a-7b5d-4df7-934b-1be5131a72ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\engine\particle">
       <UniqueIdentifier>{5d56968c-5432-427c-93e8-228cf59d2e52}</UniqueIdentifier>
     </Filter>
@@ -255,9 +249,6 @@
     <ClCompile Include="sugiEngine\app\UI\SpellCharge.cpp">
       <Filter>ソース ファイル\app\UI</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\app\collider\ColliderManager.cpp">
-      <Filter>ソース ファイル\app\collider</Filter>
-    </ClCompile>
     <ClCompile Include="sugiEngine\app\spell\MagicMissile.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
     </ClCompile>
@@ -357,6 +348,15 @@
     <ClCompile Include="sugiEngine\app\enemy\Fly.cpp">
       <Filter>ソース ファイル\app\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\engine\3d\ColliderManager.cpp">
+      <Filter>ソース ファイル\engine\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\ground\Wall.cpp">
+      <Filter>ソース ファイル\app\ground</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\math\SugiMath.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -395,7 +395,7 @@
     <ClInclude Include="sugiEngine\engine\io\Input.h">
       <Filter>ヘッダー ファイル\engine\io</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\engine\scene\ISceneManager.h">
+    <ClInclude Include="sugiEngine\engine\scene\IScene.h">
       <Filter>ヘッダー ファイル\engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\light\LightGroup.h">
@@ -487,9 +487,6 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\UI\SpellCharge.h">
       <Filter>ヘッダー ファイル\app\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="sugiEngine\app\collider\ColliderManager.h">
-      <Filter>ヘッダー ファイル\app\collider</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\spell\MagicMissile.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
@@ -589,6 +586,12 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\enemy\Fly.h">
       <Filter>ヘッダー ファイル\app\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\engine\3d\ColliderManager.h">
+      <Filter>ヘッダー ファイル\engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\ground\Wall.h">
+      <Filter>ヘッダー ファイル\app\ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

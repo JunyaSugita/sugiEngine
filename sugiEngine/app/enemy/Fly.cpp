@@ -6,6 +6,7 @@
 #include "Tutorial.h"
 #include "NaviPointManager.h"
 #include "ModelManager.h"
+#include "ColliderManager.h"
 
 void Fly::Initialize(std::string name, Vector3 pos)
 {
@@ -24,7 +25,6 @@ void Fly::Initialize(std::string name, Vector3 pos)
 
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
-	height_ = HEIGHT_COL;
 
 	BaseEnemy::Initialize(name, pos);
 	WorldTransUpdate();
@@ -32,10 +32,8 @@ void Fly::Initialize(std::string name, Vector3 pos)
 	obj_.pos.y = FLY_Y;
 	obj_.scale.x = 2;
 
-	cols_.gap.y = 0.0f;
-	cols_.col.size.x = 2;
-	cols_.col.size.y = 1;
-	cols_.col.size.z = 2;
+	gap_ = 0.0f;
+	col_.size = {2,1,2};
 
 	obj_.obj->SetColor(COLOR_BODY);
 	wingL_.obj->SetColor(COLOR_BODY);
@@ -61,17 +59,14 @@ void Fly::WorldTransUpdate()
 
 void Fly::Move()
 {
-	ColliderManager* colM = ColliderManager::GetInstance();
-	NaviPointManager* navePointM = NaviPointManager::GetInstance();
-
 	if (obj_.pos.y != FLY_Y) {
-		isDead_ = true;
+		Dead();
 	}
 
 	if (!isStop_) {
-		Vector2 temp;
+		Vector2 temp = {};
 		//プレイヤー方向に壁が無ければプレイヤー方向に移動
-		if (colM->CanMovePlayerVec(obj_.pos)) {
+		if (ColliderManager::GetInstance()->CanMoveToPlayer(col_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 
@@ -79,18 +74,15 @@ void Fly::Move()
 			isStart_ = true;
 		}
 		else {
-			int32_t point = colM->CanMoveNaviPointVec(obj_.pos);
-			//ナビポイントが見つからなければ移動しない
-			if (point == -1) {
-				return;
-			}
-			//isStartがfalseなら止まる
-			if (!isStart_) {
-				return;
-			}
+			if (isStart_) {
+				Vector3 tempPos = ColliderManager::GetInstance()->CanMoveEnemyToNaviPoint(col_.pos);
 
-			temp.x = navePointM->GetNaviPoint(point).pos.x;
-			temp.y = navePointM->GetNaviPoint(point).pos.z;
+				temp.x = tempPos.x;
+				temp.y = tempPos.z;
+			}
+			else {
+				return;
+			}
 		}
 
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);
@@ -117,7 +109,7 @@ void Fly::DontMoveUpdate()
 		debuff_.iceTime = 0;
 	}
 
-	cols_.col.pos = obj_.pos;
+	BaseCol::Update(obj_.pos,obj_.scale);
 }
 
 void Fly::Attack()
@@ -129,13 +121,13 @@ void Fly::Attack()
 
 void Fly::Down()
 {
-	if (cols_.col.pos.y > 1) {
-		cols_.col.pos.y -= SPEED_DROP_DOWN;
+	if (col_.pos.y > 1) {
+		col_.pos.y -= SPEED_DROP_DOWN;
 	}
 	else {
-		cols_.col.pos.y = 1;
+		col_.pos.y = 1;
 	}
-	obj_.pos = cols_.col.pos;
+	obj_.pos = col_.pos;
 
 	//最後
 	BaseEnemy::Down();
@@ -160,4 +152,10 @@ void Fly::WeakBodyColor()
 		obj_.obj->SetColor(COLOR_BODY);
 		obj_.obj->SetIsBloom(false);
 	}
+}
+
+void Fly::ResetShake()
+{
+	obj_.pos = col_.pos;
+	obj_.pos.y = FLY_Y;
 }

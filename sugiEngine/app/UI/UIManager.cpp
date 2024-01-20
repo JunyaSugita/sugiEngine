@@ -61,10 +61,6 @@ void UIManager::Draw()
 	}
 	LoadOut::GetInstance()->Draw();
 
-	if (StageSelectManager::GetInstance()->GetSelectNum() == SET_SPELL_STAGE) {
-		gotoLoadOut_.Draw();
-	}
-
 	SceneChange::GetInstance()->Draw();
 }
 

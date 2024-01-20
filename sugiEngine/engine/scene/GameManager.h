@@ -4,9 +4,13 @@
  */
 
 #pragma once
-#include "ISceneManager.h"
+#include "IScene.h"
 #include <memory>
 #include "Camera.h"
+#include "TitleScene.h"
+#include "StageSelectScene.h"
+#include "GameScene.h"
+#include "ClearScene.h"
 
 class GameManager final
 {
@@ -32,12 +36,9 @@ public:
 	void SpriteDraw();
 	void Finalize();
 	
-	void SetTitleScene();
-	void SetStageSelectScene();
-	void SetGameScene();
-	void SetClearScene();
+	void ChangeScene(std::unique_ptr <IScene> scene);
 
 private:
-	std::unique_ptr<ISceneManager> scene_;
+	std::unique_ptr<IScene> scene_;
 };
 

@@ -16,7 +16,6 @@ void StageSelectManager::Initialize()
 	stageTex_[0].Initialize(Sprite::LoadTexture("stageSelect_Tutorial.png"));
 	stageTex_[1].Initialize(Sprite::LoadTexture("stageSelect_stage1.png"));
 	stageTex_[2].Initialize(Sprite::LoadTexture("stageSelect_stage2.png"));
-	stageTex_[3].Initialize(Sprite::LoadTexture("stageSelect_spellSetting.png"));
 	for (int i = 0; i < END_STAGE_ID; i++) {
 		stageTex_[i].SetAnchorPoint(0, 0.5f);
 		texSize_[i] = { 500,100 };

@@ -1,8 +1,4 @@
-﻿#include "GameManager.h"
-#include "TitleScene.h"
-#include "StageSelectScene.h"
-#include "GameScene.h"
-#include "ClearScene.h"
+#include "GameManager.h"
 
 GameManager::GameManager()
 {
@@ -57,30 +53,9 @@ GameManager* GameManager::GetInstance()
 	return &instance;
 }
 
-void GameManager::SetTitleScene()
+void GameManager::ChangeScene(std::unique_ptr<IScene> scene)
 {
 	scene_->Finalize();
-	scene_ = std::make_unique<TitleScene>();
-	scene_->Initialize();
-}
-
-void GameManager::SetStageSelectScene()
-{
-	scene_->Finalize();
-	scene_ = std::make_unique<StageSelectScene>();
-	scene_->Initialize();
-}
-
-void GameManager::SetGameScene()
-{
-	scene_->Finalize();
-	scene_ = std::make_unique<GameScene>();
-	scene_->Initialize();
-}
-
-void GameManager::SetClearScene()
-{
-	scene_->Finalize();
-	scene_ = std::make_unique<ClearScene>();
+	scene_ = move(scene);
 	scene_->Initialize();
 }

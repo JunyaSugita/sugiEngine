@@ -204,7 +204,6 @@ void LoadOut::Draw()
 void LoadOut::ResetWindow()
 {
 	EnemyManager::GetInstance()->GameInitialize();
-	FieldManager::GetInstance()->Initialize(SET_SPELL_STAGE);
 	Player::GetInstance()->GameInitialize();
 	SpellManager::GetInstance()->Initialize();
 	ParticleManager::GetInstance()->Clear();

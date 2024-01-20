@@ -16,7 +16,7 @@ void EnchantFire::Update()
 	SpellManager::GetInstance()->SetEnchantFire();
 
 	if (--time_ <= 0) {
-		isDead_ = true;
+		Dead();
 	}
 }
 

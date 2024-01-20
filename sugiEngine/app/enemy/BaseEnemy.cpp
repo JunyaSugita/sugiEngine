@@ -8,6 +8,7 @@
 #include "Tutorial.h"
 #include "Enemy.h"
 #include "ModelManager.h"
+#include "ColliderManager.h"
 
 #include <random>
 
@@ -18,17 +19,12 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 {
 	//モデルデータは先に派生クラスで読み込む
 	obj_.Initialize(name);
-	cols_.Initialize();
+	BaseCol::Initialize(obj_.pos,col_.size,ENEMY,gap_);
 
 	//位置
 	obj_.pos = pos;
 	obj_.rot = START_ROT;
 	obj_.obj->SetIsSimple();
-
-	//当たり判定
-	cols_.col.pos = pos;
-	cols_.col.size = { 1.0f,height_,1.0f };
-	cols_.gap = { 0,height_,0 };
 
 	//デバフの氷
 	iceObj_.Initialize("iceBlock");
@@ -48,18 +44,21 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	slow_ = 1;
 	shakeTime_ = 0;
 	isStart_ = false;
+
+	//移動適応
+	WorldTransUpdate();
+	BaseCol::SetCol(obj_.pos,col_.size);
 }
 
 void BaseEnemy::Update()
 {
 	//1フレ前の座標を保存
-	cols_.SetOldCol();
-
-	//シェイクを戻す
-	ResetShake();
+	SetOldCol();
 
 	//倒れている時の処理
 	if (isDown_) {
+		//シェイクを戻す
+		ResetShake();
 		Down();
 		//弱点の体変更
 		WeakBodyColor();
@@ -88,8 +87,7 @@ void BaseEnemy::Update()
 		//プレイヤーの方へゆっくり回転
 		SetAngleToPlayer();
 
-		//当たり判定移動
-		SetCol();
+		BaseCol::Update(obj_.pos, col_.size);
 	}
 	else
 	{
@@ -116,7 +114,6 @@ void BaseEnemy::DontMoveUpdate()
 void BaseEnemy::Draw()
 {
 	obj_.Draw();
-	cols_.Draw();
 }
 
 void BaseEnemy::DrawTransparent()
@@ -129,7 +126,6 @@ void BaseEnemy::DrawTransparent()
 void BaseEnemy::WorldTransUpdate()
 {
 	obj_.Update();
-	cols_.Update();
 	iceObj_.Update();
 }
 
@@ -221,8 +217,8 @@ bool BaseEnemy::isCanMove()
 
 void BaseEnemy::ResetShake()
 {
-	obj_.pos.x = cols_.col.pos.x;
-	obj_.pos.z = cols_.col.pos.z;
+	obj_.pos = col_.pos;
+	obj_.pos.y = 0;
 }
 
 void BaseEnemy::SetIsAttack()
@@ -315,7 +311,7 @@ void BaseEnemy::UpdateDebuff()
 			}
 		}
 		if (debuff_.isIce) {
-			iceObj_.pos = cols_.col.pos;
+			iceObj_.pos = col_.pos;
 			iceObj_.rot = iceObj_.rot;
 
 			if (!isDown_) {
@@ -354,14 +350,26 @@ void BaseEnemy::SetShake()
 	iceObj_.pos.z = obj_.pos.z;
 }
 
+void BaseEnemy::HitChangePos()
+{
+	ResetShake();
+	WorldTransUpdate();
+}
+
+void BaseEnemy::Dead()
+{
+	isDead_ = true;
+	ColliderManager::GetInstance()->DeleteCollider(this);
+}
+
 void BaseEnemy::SetCol()
 {
-	cols_.SetCol(obj_.pos);
+	SetCol(obj_.pos);
 }
 
 void BaseEnemy::PopDebuffFireParticle()
 {
-	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, cols_.col.pos);
+	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.pos);
 }
 
 void BaseEnemy::Down()
@@ -370,7 +378,7 @@ void BaseEnemy::Down()
 	UpdateDebuff();
 
 	if (debuff_.fireTime == 1) {
-		isDead_ = true;
+		Dead();
 		light_->SetPointLightActive(lightNum_, false);
 	}
 }

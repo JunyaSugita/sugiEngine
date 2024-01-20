@@ -1,4 +1,4 @@
-﻿#include "Flame.h"
+#include "Flame.h"
 #include "ParticleManager.h"
 
 void Flame::Initialize(Vector3 pos, Vector3 vec)
@@ -25,7 +25,5 @@ void Flame::Update()
 
 void Flame::Draw()
 {
-	if (ColliderManager::GetInstance()->GetIsShowHitBox()) {
-		cols_.Draw();
-	}
+
 }
