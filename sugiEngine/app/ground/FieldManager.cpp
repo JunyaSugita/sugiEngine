@@ -21,6 +21,7 @@ FieldManager* FieldManager::GetInstance()
 void FieldManager::Initialize(int num)
 {
 	lightGroup_->PointLightAllClear();
+	NaviPointManager::GetInstance()->Initialize();
 
 	// レベルデータの読み込み
 	LoadStage(num);
@@ -106,10 +107,6 @@ void FieldManager::LoadStage(int num)
 	case STAGE2:
 		levelData_ = JsonLoader::LoadJson("level");
 		stageAtten_ = ATTEN_HIGT;
-		break;
-	case SET_SPELL_STAGE:
-		levelData_ = JsonLoader::LoadJson("def");
-		stageAtten_ = ATTEN_LOW;
 		break;
 	default:
 		break;

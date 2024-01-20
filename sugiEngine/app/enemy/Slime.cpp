@@ -9,6 +9,7 @@ void Slime::Initialize(std::string name, Vector3 pos)
 {
 	life_ = MAX_HP;
 
+	gap_ = 1;
 	BaseEnemy::Initialize(name, pos);
 	obj_.obj->SetColor({ 0,0.1f,0.1f,0.7f });
 
@@ -37,7 +38,7 @@ void Slime::Move()
 	if (!isStop_) {
 		Vector2 temp;
 		//プレイヤー方向に壁が無ければプレイヤー方向に移動
-		if (ColliderManager::GetInstance()->CanMoveToPlayer(col_.pos, col_.size)) {
+		if (ColliderManager::GetInstance()->CanMoveToPlayer(col_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 
@@ -46,7 +47,7 @@ void Slime::Move()
 		}
 		else {
 			if (isStart_) {
-				Vector3 tempPos = ColliderManager::GetInstance()->CanMoveEnemyToNaviPoint(col_.pos, col_.size);
+				Vector3 tempPos = ColliderManager::GetInstance()->CanMoveEnemyToNaviPoint(col_.pos);
 
 				temp.x = tempPos.x;
 				temp.y = tempPos.z;

@@ -63,7 +63,7 @@ void ColliderManager::Draw()
 		for (; itA != colliders_.end(); ++itA) {
 			BaseCol* colA = *itA;
 
-			if (colA->GetColType() == WALL) {
+			if (colA->GetColType() != WALL) {
 				colA->Draw();
 			}
 		}
@@ -251,7 +251,7 @@ void ColliderManager::HitSpellToEnemy(BaseCol* spell, BaseCol* enemy)
 	if (!spell->GetIsHit() && enemy->GetIsDown()) {
 		return;
 	}
-	if (CheckHitCircle(spell->GetCol(), enemy->GetCol())) {
+	if (CheckHitBox(spell->GetCol(), enemy->GetCol())) {
 		if (!spell->GetIsHit()) {
 			//敵に当たった瞬間
 			ParticleManager::GetInstance()->AddFromFile(P_DAMAGE, enemy->GetPos());
@@ -283,43 +283,30 @@ void ColliderManager::HitPlayerToGoal(BaseCol* player, BaseCol* goal)
 	}
 }
 
-bool ColliderManager::CanMoveToPlayer(Vector3 pos, Vector3 col)
+bool ColliderManager::CanMoveToPlayer(Vector3 pos)
 {
-	Vector3 playerPos = Player::GetInstance()->GetPos();
-	Vector3 way = playerPos - pos;
-	way /= 50;
-	way.y = 0;
+	Vector3 playerPos = Camera::GetInstance()->GetEye();
 
 	forward_list<BaseCol*>::iterator itA = colliders_.begin();
 	for (; itA != colliders_.end(); ++itA) {
 		BaseCol* colA = *itA;
 		if (colA->GetColType() == WALL) {
-			for (int i = 1; i < 50; i++) {
-				Vector3 tempPos = pos + (way * (float)i);
-				if (CheckHitBox(colA->GetCol(), { tempPos,col })) {
-					return false;
-				}
+			if (CheckHitLineToBox(pos, playerPos, colA->GetCol())) {
+				return false;
 			}
 		}
 	}
 	return true;
 }
 
-bool ColliderManager::CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2, Vector3 col)
+bool ColliderManager::CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2)
 {
-	Vector3 way = pos2 - pos1;
-	way /= 50;
-	way.y = 0;
-
 	forward_list<BaseCol*>::iterator itA = colliders_.begin();
 	for (; itA != colliders_.end(); ++itA) {
 		BaseCol* colA = *itA;
 		if (colA->GetColType() == WALL) {
-			for (int i = 1; i < 50; i++) {
-				Vector3 tempPos = pos1 + (way * (float)i);
-				if (CheckHitBox(colA->GetCol(), { tempPos,col })) {
-					return false;
-				}
+			if (CheckHitLineToBox(pos1, pos2, colA->GetCol())) {
+				return false;
 			}
 		}
 	}
@@ -327,14 +314,14 @@ bool ColliderManager::CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2, Vector3 col
 	return true;
 }
 
-Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos, Vector3 col)
+Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos)
 {
 	vector<NaviPoint> naviPoints = NaviPointManager::GetInstance()->GetNaviPoints();
 
 	float score = 99999;
 	int32_t num = -1;
 
-	for (int i = 0; i < naviPoints.size();i++) {
+	for (int i = 0; i < naviPoints.size(); i++) {
 		if (score <= naviPoints[i].score) {
 			continue;
 		}
@@ -348,15 +335,12 @@ Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos, Vector3 col)
 		for (; itA != colliders_.end(); ++itA) {
 			BaseCol* colA = *itA;
 			if (colA->GetColType() == WALL) {
-				for (int j = 1; j < 50; j++) {
-					Vector3 tempPos = pos + (way * (float)j);
-					if (CheckHitBox(colA->GetCol(), { tempPos,col })) {
-						continue;
-					}
+				if (CheckHitLineToBox(pos, naviPoints[i].pos, colA->GetCol())) {
+					continue;
 				}
 			}
 		}
-		
+
 		score = naviPoints[i].score;
 		num = i;
 	}
@@ -414,5 +398,100 @@ bool ColliderManager::CheckHitZ(Col a, Col b)
 	if (a.pos.z + a.size.z >= b.pos.z - b.size.z && b.pos.z + b.size.z >= a.pos.z - a.size.z) {
 		return true;
 	}
+	return false;
+}
+
+bool ColliderManager::CheckHitLineToBox(Vector3 posS, Vector3 posE, Col a)
+{
+	//方向ベクトル取得
+	Vector3 way = posE - posS;
+	way.normalize();
+
+	//x軸処理
+	Vector2 hitXLength = {};
+	Vector2 AABBXPos;
+	AABBXPos.x = a.pos.x - (a.size.x + 1);
+	AABBXPos.y = a.pos.x + (a.size.x + 1);
+
+	//線分の判定取り
+	if (posS.x < AABBXPos.x && posE.x < AABBXPos.x) {
+		return false;
+	}
+	if (posS.x > AABBXPos.y && posE.x > AABBXPos.y) {
+		return false;
+	}
+
+	hitXLength.x = (AABBXPos.x - posS.x) / way.x;
+	hitXLength.y = (AABBXPos.y - posS.x) / way.x;
+
+	//xを小さくしたいのでxの方が大きい時、入れ替える。
+	if (hitXLength.x > hitXLength.y) {
+		float temp = hitXLength.x;
+		hitXLength.x = hitXLength.y;
+		hitXLength.y = temp;
+	}
+
+	//y軸処理
+	Vector2 hitYLength = {};
+	Vector2 AABBYPos;
+	AABBYPos.x = a.pos.y - (a.size.y + 1);
+	AABBYPos.y = a.pos.y + (a.size.y + 1);
+
+	//線分の判定取り
+	if (posS.y < AABBYPos.x && posE.y < AABBYPos.x) {
+		return false;
+	}
+	if (posS.y > AABBYPos.y && posE.y > AABBYPos.y) {
+		return false;
+	}
+
+	hitYLength.x = (AABBYPos.x - posS.y) / way.y;
+	hitYLength.y = (AABBYPos.y - posS.y) / way.y;
+
+	//xを小さくしたいのでxの方が大きい時、入れ替える。
+	if (hitYLength.x > hitYLength.y) {
+		float temp = hitYLength.x;
+		hitYLength.x = hitYLength.y;
+		hitYLength.y = temp;
+	}
+
+	//z軸処理
+	Vector2 hitZLength = {};
+	Vector2 AABBZPos;
+	AABBZPos.x = a.pos.z - (a.size.z + 1);
+	AABBZPos.y = a.pos.z + (a.size.z + 1);
+
+	//線分の判定取り
+	if (posS.z < AABBZPos.x && posE.z < AABBZPos.x) {
+		return false;
+	}
+	if (posS.z > AABBZPos.y && posE.z > AABBZPos.y) {
+		return false;
+	}
+
+	hitZLength.x = (AABBZPos.x - posS.z) / way.z;
+	hitZLength.y = (AABBZPos.y - posS.z) / way.z;
+
+	//xを小さくしたいのでxの方が大きい時、入れ替える。
+	if (hitZLength.x > hitZLength.y) {
+		float temp = hitZLength.x;
+		hitZLength.x = hitZLength.y;
+		hitZLength.y = temp;
+	}
+
+	//遅い入りと早い出を計算
+	Vector2 inOut;
+
+	//入り
+	inOut.x = Max(hitXLength.x, hitYLength.x, hitZLength.x);
+
+	//出
+	inOut.y = Min(hitXLength.y, hitYLength.y, hitZLength.y);
+
+	//y-xが+なら当たっている
+	if (inOut.y - inOut.x > 0) {
+		return true;
+	}
+
 	return false;
 }

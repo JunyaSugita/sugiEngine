@@ -18,7 +18,7 @@ enum ColType {
 
 struct Col {
 	Vector3 pos;
-	Vector3 size;
+	Vector3 size = {1,1,1};
 };
 
 struct DownState {

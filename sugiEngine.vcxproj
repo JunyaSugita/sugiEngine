@@ -150,6 +150,7 @@
     <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\io\NaviPointManager.cpp" />
     <ClCompile Include="sugiEngine\engine\math\Easing.cpp" />
+    <ClCompile Include="sugiEngine\engine\math\SugiMath.cpp" />
     <ClCompile Include="sugiEngine\engine\particle\ParticleEditor.cpp" />
     <ClCompile Include="sugiEngine\engine\particle\ParticleManager.cpp" />
     <ClCompile Include="sugiEngine\engine\scene\GameManager.cpp" />

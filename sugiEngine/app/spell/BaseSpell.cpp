@@ -35,7 +35,7 @@ void BaseSpell::Update()
 		Dead();
 	}
 
-	BaseCol::Update(obj_.pos,obj_.scale);
+	BaseCol::Update(obj_.pos,col_.size);
 	WorldTransUpdate();
 }
 
@@ -54,7 +54,7 @@ void BaseSpell::WorldTransUpdate()
 void BaseSpell::Fire()
 {
 	isDead_ = false;
-	BaseCol::Initialize(obj_.pos, obj_.scale, SPELL);
+	BaseCol::Initialize(obj_.pos, col_.size, SPELL);
 }
 
 void BaseSpell::Explode()

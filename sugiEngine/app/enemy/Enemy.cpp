@@ -18,7 +18,6 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	eyeObj_.pos = { 0.5f,4.1f,0 };
 	eyeObj_.scale = { 0.3f,0.3f,0.3f };
 
-
 	wingL_.Initialize("box");
 	wingL_.worldTrans.parent_ = &obj_.worldTrans;
 	wingL_.pos = { 1,3,-1 };
@@ -34,9 +33,10 @@ void Enemy::Initialize(std::string name, Vector3 pos)
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
 
-	BaseEnemy::Initialize(name, pos);
-	col_.size.y = 5;
+	
+	col_.size.y = 3;
 	gap_ = HEIGHT_COL;
+	BaseEnemy::Initialize(name, pos);
 	WorldTransUpdate();
 
 	obj_.obj->SetColor({ 0.1f,0.1f,0.1f,1 });
@@ -67,7 +67,7 @@ void Enemy::Move()
 	if (!isStop_) {
 		Vector2 temp;
 		//プレイヤー方向に壁が無ければプレイヤー方向に移動
-		if (ColliderManager::GetInstance()->CanMoveToPlayer(col_.pos, col_.size)) {
+		if (ColliderManager::GetInstance()->CanMoveToPlayer(col_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 
@@ -76,7 +76,7 @@ void Enemy::Move()
 		}
 		else {
 			if (isStart_) {
-				Vector3 tempPos = ColliderManager::GetInstance()->CanMoveEnemyToNaviPoint(col_.pos, col_.size);
+				Vector3 tempPos = ColliderManager::GetInstance()->CanMoveEnemyToNaviPoint(col_.pos);
 
 				temp.x = tempPos.x;
 				temp.y = tempPos.z;

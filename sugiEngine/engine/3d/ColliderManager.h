@@ -47,7 +47,7 @@ public:
 	/// <param name="pos">現在位置</param>
 	/// <param name="col">当たり判定</param>
 	/// <returns>進めるか</returns>
-	bool CanMoveToPlayer(Vector3 pos, Vector3 col);
+	bool CanMoveToPlayer(Vector3 pos);
 
 	/// <summary>
 	/// ナビポイント同士が繋がるか
@@ -56,7 +56,7 @@ public:
 	/// <param name="pos2">ナビポイント2</param>
 	/// <param name="col">当たり判定</param>
 	/// <returns>繋がるか</returns>
-	bool CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2, Vector3 col);
+	bool CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2);
 
 	/// <summary>
 	/// 敵とナビポイントが繋がるか
@@ -64,7 +64,7 @@ public:
 	/// <param name="pos1">敵の位置</param>
 	/// <param name="col">当たり判定</param>
 	/// <returns>繋げるナビポイント</returns>
-	Vector3 CanMoveEnemyToNaviPoint(Vector3 pos1, Vector3 col);
+	Vector3 CanMoveEnemyToNaviPoint(Vector3 pos1);
 
 	
 
@@ -176,6 +176,8 @@ private:
 	bool CheckHitX(Col a, Col b);
 	bool CheckHitY(Col a, Col b);
 	bool CheckHitZ(Col a, Col b);
+
+	bool CheckHitLineToBox(Vector3 posS,Vector3 posE,Col a);
 
 private:
 	//デバフの時間

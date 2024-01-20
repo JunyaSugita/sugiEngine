@@ -19,7 +19,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 {
 	//モデルデータは先に派生クラスで読み込む
 	obj_.Initialize(name);
-	BaseCol::Initialize(obj_.pos,obj_.scale,ENEMY);
+	BaseCol::Initialize(obj_.pos,col_.size,ENEMY,gap_);
 
 	//位置
 	obj_.pos = pos;
@@ -44,6 +44,10 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 	slow_ = 1;
 	shakeTime_ = 0;
 	isStart_ = false;
+
+	//移動適応
+	WorldTransUpdate();
+	BaseCol::SetCol(obj_.pos,col_.size);
 }
 
 void BaseEnemy::Update()

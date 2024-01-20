@@ -27,6 +27,7 @@ public:
 	static NaviPointManager* GetInstance();
 
 public:
+	void Initialize();
 	void Draw();
 
 	void Add(Vector3 pos);
@@ -42,7 +43,6 @@ public:
 	}
 
 private:
-	const Vector3 NAVIPOINT_HITBOX = {0.5f,0.1f,0.5f};
 	const float RESET_SCORE = 99999;
 
 	std::vector<NaviPoint> naviPoints_;

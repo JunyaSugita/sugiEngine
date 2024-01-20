@@ -53,7 +53,7 @@ void GameScene::Initialize()
 	//プレイヤー
 	Player::GetInstance()->Initialize();
 
-	if (stageNum_ == TUTORIAL || stageNum_ == SET_SPELL_STAGE) {
+	if (stageNum_ == TUTORIAL) {
 		BaseEnemy::SetIsAllStop(true);
 		if (stageNum_ == TUTORIAL) {
 			Tutorial::GetInstance()->SetIsTutorial(true);
@@ -170,7 +170,8 @@ void GameScene::Update()
 #pragma endregion
 
 #pragma region ImGui
-	{
+#ifdef _DEBUG
+
 		Begin("EnemyDebug");
 		if (Button("stop", SIZE_IMGUI)) {
 			Enemy::ToggleIsAllStop();
@@ -201,18 +202,14 @@ void GameScene::Update()
 		Begin("Camera");
 		Text("pos %f,%f,%f", Camera::GetInstance()->GetEye().x, Camera::GetInstance()->GetEye().y, Camera::GetInstance()->GetEye().z);
 		End();
-	}
 
+#endif // _DEBUG
 #pragma endregion
 
 
 	gameOver_.Update();
 
 	//シーン遷移処理
-	if (StageSelectManager::GetInstance()->GetSelectNum() == SET_SPELL_STAGE && (input->TriggerButton(XINPUT_GAMEPAD_DPAD_UP) || input->TriggerButton(XINPUT_GAMEPAD_DPAD_DOWN) || input->TriggerButton(XINPUT_GAMEPAD_DPAD_LEFT) || input->TriggerButton(XINPUT_GAMEPAD_DPAD_RIGHT))) {
-		loadOut->ToggleIsActive();
-	}
-
 	if (input->TriggerButton(XINPUT_GAMEPAD_START) || input->TriggerKey(DIK_ESCAPE)) {
 		MenuManager::GetInstance()->SetGameMenu();
 	}
@@ -248,7 +245,7 @@ void GameScene::Draw()
 void GameScene::ObjDraw()
 {
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
-		//FieldManager::GetInstance()->Draw();
+		FieldManager::GetInstance()->Draw();
 
 		EnemyManager::GetInstance()->Draw();
 		EffectManager::GetInstance()->Draw();
@@ -271,7 +268,7 @@ void GameScene::ObjDraw2()
 void GameScene::ParticleDraw()
 {
 	ParticleManager::GetInstance()->Draw();
-	NaviPointManager::GetInstance()->Draw();
+	//NaviPointManager::GetInstance()->Draw();
 }
 
 void GameScene::SpriteDraw()
