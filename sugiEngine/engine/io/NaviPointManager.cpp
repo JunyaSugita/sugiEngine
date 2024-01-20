@@ -51,11 +51,13 @@ void NaviPointManager::CalcScore()
 
 	SecondCalc();
 
+#ifdef _DEBUG
 	Begin("NaviPoint");
 	for (int i = 0; i < naviPoints_.size(); i++) {
 		Text("%d,%f", i, naviPoints_[i].score);
 	}
 	End();
+#endif // _DEBUG
 }
 
 void NaviPointManager::ReSetCalc()

@@ -17,8 +17,6 @@ struct DebuffM {
 	int32_t iceTime;
 };
 
-
-
 class BaseEnemy : public BaseCol {
 
 public:
@@ -90,7 +88,7 @@ public:
 	float GetLife() {
 		return life_;
 	}
-	int32_t GetSerial() {
+	int32_t GetSerial() override{
 		return serial_;
 	}
 
@@ -180,7 +178,7 @@ protected:
 	/// </summary>
 	/// <param name="subLife">減らすhp量</param>
 	/// <param name="subLife">パーティクルを出すかどうか</param>
-	void SubLife(int32_t subLife, bool isParticle = false) override;
+	void SubLife(float subLife, bool isParticle = false) override;
 
 	// デバフの効果を更新
 	void UpdateDebuff();

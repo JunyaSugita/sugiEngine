@@ -48,7 +48,7 @@ public:
 	Col GetBoxCol() {
 		return col_;
 	}
-	int32_t GetDamage() override{
+	float GetDamage() override{
 		return damage_;
 	}
 	int32_t GetDebuff() override{

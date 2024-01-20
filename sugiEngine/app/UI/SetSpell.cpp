@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "UIManager.h"
 #include "LoadOut.h"
+#include "ColliderManager.h"
 
 SetSpell* SetSpell::GetInstance()
 {
