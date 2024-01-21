@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "FbxLoader.h"
 #include "PostEffect.h"
-
 #include "Player.h"
 #include "EnemyManager.h"
 #include "EffectManager.h"
@@ -17,6 +16,7 @@
 #include "MenuManager.h"
 #include "PlayerWeapon.h"
 #include "ColliderManager.h"
+#include "ParticleManager.h"
 
 using namespace ImGui;
 using namespace std;

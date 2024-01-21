@@ -4,7 +4,7 @@
 #include "ModelManager.h"
 #include "ClearChecker.h"
 #include "StageSelectManager.h"
-#include "ParticleManager.h"
+#include "Particle.h"
 #include "ColliderManager.h"
 
 using namespace std;

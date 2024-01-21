@@ -1,5 +1,5 @@
 #include "ChainLightning.h"
-#include "ParticleManager.h"
+#include "Particle.h"
 #include "ModelManager.h"
 #include "EffectManager.h"
 #include "Player.h"

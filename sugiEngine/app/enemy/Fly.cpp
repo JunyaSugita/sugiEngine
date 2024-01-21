@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "EffectManager.h"
-#include "ParticleManager.h"
+#include "Particle.h"
 #include "Tutorial.h"
 #include "NaviPointManager.h"
 #include "ModelManager.h"
