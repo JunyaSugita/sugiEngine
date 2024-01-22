@@ -16,6 +16,9 @@ void ParticleManager::Initialize()
 	particle_[FIRE1].Initialize("effectFire1.png");
 	particle_[FIRE2].Initialize("effectFire2.png");
 	particle_[FIRE3].Initialize("effectFire3.png");
+	particle_[FIRE4].Initialize("effectFire4.png");
+	particle_[FIRE_ALPHA1].Initialize("effectFireAlpha1.png");
+	particle_[FIRE_ALPHA2].Initialize("effectFireAlpha2.png");
 
 	particleE_.release();
 	particleE_ = make_unique<ParticleEditor>();

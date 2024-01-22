@@ -151,6 +151,11 @@ void Particle::StaticInitialize(ID3D12Device* device)
 	blenddesc.SrcBlend = D3D12_BLEND_ONE;		//ソースのアルファ値
 	blenddesc.DestBlend = D3D12_BLEND_ONE;//1.0f-1ソースのアルファ値
 
+	//半透明合成
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;		//ソースのアルファ値
+	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-1ソースのアルファ値
+
 	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
 		// ブレンドステートの設定
 		pipelineDesc.BlendState.RenderTarget[i] = blenddesc;
