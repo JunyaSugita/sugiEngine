@@ -1,4 +1,4 @@
-﻿#include "MyGame.h"
+#include "MyGame.h"
 
 using namespace DirectX;
 using namespace std;
@@ -86,9 +86,9 @@ void MyGame::GameDraw()
 	Object3d::PostDraw();
 
 	//particleモデル
-	ParticleManager::PreDraw(dxCom_->GetCommandList());
+	Particle::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->ParticleDraw();
-	ParticleManager::PostDraw();
+	Particle::PostDraw();
 
 	Object3d::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->ObjDraw2();

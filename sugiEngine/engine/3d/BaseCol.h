@@ -23,7 +23,7 @@ struct Col {
 
 struct DownState {
 	float slow = 1.0f;
-	int damage = 0;
+	float damage = 0;
 };
 
 class BaseCol{
@@ -42,9 +42,9 @@ public:
 	//当たっているか取得
 	virtual bool GetIsHit();
 	//hpを減らす
-	virtual void SubLife(int32_t subLife, bool isParticle = false);
+	virtual void SubLife(float subLife, bool isParticle = false);
 	//ダメージを与える
-	virtual int32_t GetDamage();
+	virtual float GetDamage();
 	//デバフを貰う
 	virtual void SetDebuff(int32_t debuff, int32_t time);
 	//デバフを与える
@@ -69,6 +69,8 @@ public:
 	//add系のvirtual
 	virtual void AddColX(float num);
 	virtual void AddColZ(float num);
+	//敵のシリアル取得
+	virtual int32_t GetSerial();
 	
 	//ゲッター
 	int32_t GetColType() {

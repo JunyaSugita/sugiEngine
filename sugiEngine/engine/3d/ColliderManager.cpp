@@ -352,6 +352,50 @@ Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos)
 	return naviPoints[num].pos;
 }
 
+bool ColliderManager::CheckNearEnemy(int32_t num)
+{
+	int32_t tempNum = 0;
+
+	switch (num)
+	{
+	case 0:
+		tempNum = 1;
+		break;
+	case 2:
+		tempNum = 2;
+		break;
+
+	default:
+		return false;
+		break;
+	}
+
+	//プレイヤー
+	Player* player = Player::GetInstance();
+
+	///プレイヤーと敵
+	//プレイヤーが無敵かどうか
+	if (!Player::GetInstance()->GetInvincible()) {
+		forward_list<BaseCol*>::iterator itA = colliders_.begin();
+		for (; itA != colliders_.end(); ++itA) {
+			BaseCol* colA = *itA;
+			if (colA->GetColType() == ENEMY) {
+				//敵がダウンしているかどうか
+				if (!colA->GetIsDown()) {
+					//判定
+					if (CheckHitCircle(colA->GetCol(), { player->GetBoxCol().pos,{70,50,70} })) {
+						if (colA->GetSerial() == tempNum) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+}
+
+return false;
+}
+
 bool ColliderManager::CheckHitBox(Col a, Col b)
 {
 	if (CheckHitX(a, b)) {

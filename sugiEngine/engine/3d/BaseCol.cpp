@@ -56,13 +56,13 @@ bool BaseCol::GetIsHit()
 	return false;
 }
 
-void BaseCol::SubLife(int32_t subLife, bool isParticle)
+void BaseCol::SubLife(float subLife, bool isParticle)
 {
 	subLife;
 	isParticle;
 }
 
-int32_t BaseCol::GetDamage()
+float BaseCol::GetDamage()
 {
 	return 0;
 }
@@ -127,4 +127,9 @@ void BaseCol::AddColX(float num)
 void BaseCol::AddColZ(float num)
 {
 	num;
+}
+
+int32_t BaseCol::GetSerial()
+{
+	return 0;
 }

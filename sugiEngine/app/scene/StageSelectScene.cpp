@@ -21,6 +21,9 @@ void StageSelectScene::Initialize()
 
 	Camera::GetInstance()->SetEye({3,5,3});
 	Camera::GetInstance()->SetTarget({0,5,10});
+
+	//敵の動きを止める
+	Enemy::SetIsAllStop(true);
 }
 
 void StageSelectScene::Update()

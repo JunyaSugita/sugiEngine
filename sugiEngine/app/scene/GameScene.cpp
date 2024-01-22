@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "FbxLoader.h"
 #include "PostEffect.h"
-
 #include "Player.h"
 #include "EnemyManager.h"
 #include "EffectManager.h"
@@ -17,6 +16,7 @@
 #include "MenuManager.h"
 #include "PlayerWeapon.h"
 #include "ColliderManager.h"
+#include "ParticleManager.h"
 
 using namespace ImGui;
 using namespace std;
@@ -218,6 +218,7 @@ void GameScene::Update()
 	if (UIManager::GetInstance()->GetStateAlpha_() != 0 && (input->TriggerButton(XINPUT_GAMEPAD_A) || input->TriggerKey(DIK_Z))) {
 		GameInitialize();
 		if (player->GetLife() > 0) {
+			GameInitialize();
 			GameManager::GetInstance()->ChangeScene(make_unique<StageSelectScene>());
 			return;
 		}
@@ -246,8 +247,6 @@ void GameScene::ObjDraw()
 {
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		FieldManager::GetInstance()->Draw();
-
-		EnemyManager::GetInstance()->Draw();
 		EffectManager::GetInstance()->Draw();
 		SpellManager::GetInstance()->Draw();
 
@@ -259,6 +258,7 @@ void GameScene::ObjDraw2()
 {
 
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
+		EnemyManager::GetInstance()->Draw();
 		EnemyManager::GetInstance()->DrawTransparent();
 		Player::GetInstance()->Draw();
 	}

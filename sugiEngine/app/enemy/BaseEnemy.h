@@ -17,8 +17,6 @@ struct DebuffM {
 	int32_t iceTime;
 };
 
-
-
 class BaseEnemy : public BaseCol {
 
 public:
@@ -87,9 +85,17 @@ public:
 	void SetIsStop() override {
 		isStop_ = true;
 	}
-	uint32_t GetLife() {
+	float GetLife() {
 		return life_;
 	}
+	int32_t GetSerial() override{
+		return serial_;
+	}
+
+	/// <summary>
+	/// 弱点時に体の色を変える
+	/// </summary>
+	virtual void WeakBodyColor();
 
 	//デバッグ用
 
@@ -120,7 +126,7 @@ public:
 	/// </summary>
 	/// <param name="subLife">hp減少量</param>]
 	/// <param name="subLife">パーティクルを出すか</param>
-	void SetIsHit(int32_t subLife, bool isParticle = false);
+	void SetIsHit(float subLife, bool isParticle = false);
 
 	/// <summary>
 	/// デバフ状態になっているか
@@ -172,7 +178,7 @@ protected:
 	/// </summary>
 	/// <param name="subLife">減らすhp量</param>
 	/// <param name="subLife">パーティクルを出すかどうか</param>
-	void SubLife(int32_t subLife, bool isParticle = false) override;
+	void SubLife(float subLife, bool isParticle = false) override;
 
 	// デバフの効果を更新
 	void UpdateDebuff();
@@ -202,7 +208,7 @@ protected:
 	//何フレームごとにバーンダメージをくらうか
 	const int32_t TIME_FIRE_BURN = 40;
 	//一回のバーンダメージでくらうダメージ量
-	const int32_t DAMAGE_FIRE_BURN = 1;
+	const float DAMAGE_FIRE_BURN = 1;
 	const float MAX_SHAKE = 0.5f;
 	//シェイク量調整
 	const float CALC_SHAKE = 100;
@@ -219,7 +225,7 @@ protected:
 	BaseObj iceObj_;
 
 	//体力
-	int32_t life_;
+	float life_;
 
 	//死んだかどうか
 	bool isDead_;
@@ -260,4 +266,7 @@ protected:
 
 	//敵が起動しているか
 	bool isStart_;
+
+	//シリアル
+	int32_t serial_ = 0;
 };

@@ -13,7 +13,6 @@
 #include "LightGroup.h"
 #include "ImGuiManager.h"
 #include "FBX.h"
-#include "ParticleManager.h"
 #include "ParticleEditor.h"
 #include "GameOver.h"
 #include "BaseObj.h"

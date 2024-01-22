@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "EffectManager.h"
-#include "ParticleManager.h"
+#include "Particle.h"
 #include "Tutorial.h"
 #include "NaviPointManager.h"
 #include "ModelManager.h"
@@ -38,6 +38,8 @@ void Fly::Initialize(std::string name, Vector3 pos)
 	obj_.obj->SetColor(COLOR_BODY);
 	wingL_.obj->SetColor(COLOR_BODY);
 	wingR_.obj->SetColor(COLOR_BODY);
+
+	serial_ = 2;
 }
 
 void Fly::Draw()
@@ -129,6 +131,27 @@ void Fly::Down()
 
 	//最後
 	BaseEnemy::Down();
+}
+
+void Fly::WeakBodyColor()
+{
+	if (Player::GetInstance()->GetPresetSpell() == MAGIC::ICE_BOLT) {
+		obj_.obj->SetColor(COLOR_WEAK_BODY);
+		wingL_.obj->SetColor(COLOR_WEAK_BODY);
+		wingR_.obj->SetColor(COLOR_WEAK_BODY);
+		obj_.obj->SetIsBloom();
+	}
+	else {
+		obj_.obj->SetColor(COLOR_BODY);
+		wingL_.obj->SetColor(COLOR_BODY);
+		wingR_.obj->SetColor(COLOR_BODY);
+		obj_.obj->SetIsBloom(false);
+	}
+
+	if (isDown_) {
+		obj_.obj->SetColor(COLOR_BODY);
+		obj_.obj->SetIsBloom(false);
+	}
 }
 
 void Fly::ResetShake()

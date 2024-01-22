@@ -101,7 +101,9 @@ public:
 private:
 	char text_[16];
 	bool isEdit_[particleNum];
+	bool isTextureRand_[particleNum];
 	int32_t texNum_[particleNum];
+	int32_t texNumRand_[particleNum];
 	int32_t num_[particleNum];
 	int32_t life_[particleNum];
 	int32_t lifeRand_[particleNum];

@@ -33,7 +33,7 @@
 #include "Fbx.h"
 #include "PostEffect.h"
 #include "PostEffectSecond.h"
-#include "ParticleManager.h"
+#include "Particle.h"
 
 class SugiFramework {
 public:

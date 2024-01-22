@@ -48,7 +48,7 @@ public:
 	Col GetBoxCol() {
 		return col_;
 	}
-	int32_t GetDamage() override{
+	float GetDamage() override{
 		return damage_;
 	}
 	int32_t GetDebuff() override{
@@ -78,7 +78,7 @@ protected:
 	int32_t spellType_;
 
 	//ダメージ(回復)
-	int32_t damage_ = 0;
+	float damage_ = 0;
 	//デバフ
 	int32_t debuffType_ = D_NONE;
 };

@@ -97,8 +97,8 @@ public:
 	void SetEffectCross(bool is) {
 		effectCloss_ = is;
 	}
-	void SetIsBloom() {
-		isBloom_ = true;
+	void SetIsBloom(bool is = true) {
+		isBloom_ = is;
 	}
 private:
 	//デバイス

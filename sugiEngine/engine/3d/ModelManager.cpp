@@ -23,6 +23,7 @@ void ModelManager::Initialize()
 	Load("goal",true);
 	Load("posion", true);
 	Load("torch");
+	Load("iceBlock");
 }
 
 Model* ModelManager::Get(string filename)

@@ -25,7 +25,7 @@ public:
 	void Update();
 	void Draw();
 	void DrawTransparent();
-
+	
 	//人型の敵を出す
 	void PopEnemy(Vector3 pos);
 	//スライムを出す

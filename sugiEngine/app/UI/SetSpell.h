@@ -6,6 +6,15 @@
 #pragma once
 #include "Sprite.h"
 
+enum BUTTON {
+	Y_BUTTON,
+	B_BUTTON,
+	A_BUTTON,
+	X_BUTTON,
+
+	END_BUTTON
+};
+
 class SetSpell final{
 private:
 	SetSpell() = default;
@@ -45,6 +54,7 @@ private:
 	Sprite spellSprite_[MAX_SPELL_SET];
 	Sprite buttonSprite_[MAX_SPELL_SET];
 	Sprite backSprite_;
+	Sprite weakSprite_[MAX_SPELL_SET];
 
 	bool isFirst_ = false;
 };

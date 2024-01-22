@@ -21,7 +21,7 @@ public:
 public:
 	const float SPEED_MOVE = 1.0f;	//魔法のスピード
 	const int32_t TIME_ALIVE = 10 * 60;
-	const int32_t DAMAGE = 5;
+	const float DAMAGE = 12;
 
 	static LightGroup* lightGroup_;
 	int32_t useLightNum_;

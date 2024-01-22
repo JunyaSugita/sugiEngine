@@ -11,7 +11,9 @@ void Slime::Initialize(std::string name, Vector3 pos)
 
 	gap_ = 1;
 	BaseEnemy::Initialize(name, pos);
-	obj_.obj->SetColor({ 0,0.1f,0.1f,0.7f });
+	obj_.obj->SetColor(COLOR_BODY);
+	WorldTransUpdate();
+	serial_ = 1;
 
 	col_.size = { obj_.scale.x,obj_.scale.y ,obj_.scale.x };
 	WorldTransUpdate();
@@ -25,6 +27,7 @@ void Slime::DrawTransparent()
 {
 	//半透明描画
 	BaseEnemy::Draw();
+	BaseEnemy::DrawTransparent();
 }
 
 void Slime::WorldTransUpdate()
@@ -143,5 +146,22 @@ void Slime::PopDebuffFireParticle()
 	}
 	else {
 		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.pos);
+	}
+}
+
+void Slime::WeakBodyColor()
+{
+	if (Player::GetInstance()->GetPresetSpell() == MAGIC::FIRE_BALL) {
+		obj_.obj->SetColor(COLOR_WEAK_BODY);
+		obj_.obj->SetIsBloom();
+	}
+	else {
+		obj_.obj->SetColor(COLOR_BODY);
+		obj_.obj->SetIsBloom(false);
+	}
+
+	if (isDown_) {
+		obj_.obj->SetColor(COLOR_BODY);
+		obj_.obj->SetIsBloom(false);
 	}
 }
