@@ -12,8 +12,8 @@ ParticleManager* ParticleManager::GetInstance()
 
 void ParticleManager::Initialize()
 {
-	circleParticle_.Initialize("effectCircle.png");
-	iceParticle_.Initialize("effectIce.png");
+	particle_[CIRCLE].Initialize("effectCircle.png");
+	particle_[ICE].Initialize("effectIce.png");
 
 	particleE_.release();
 	particleE_ = make_unique<ParticleEditor>();
@@ -22,45 +22,43 @@ void ParticleManager::Initialize()
 
 void ParticleManager::Update()
 {
-	circleParticle_.Update();
-	iceParticle_.Update();
+	for (int i = 0; i < PARTICLE_TEXTURE_END; i++) {
+		particle_[i].Update();
+	}
 
 	particleE_->Update();
 }
 
 void ParticleManager::Draw()
 {
-	circleParticle_.Draw();
-	iceParticle_.Draw();
+	for (int i = 0; i < PARTICLE_TEXTURE_END; i++) {
+		particle_[i].Draw();
+	}
 }
 
 void ParticleManager::AddCircle(int texture, int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector3 sColor, Vector3 eColor, int32_t postEffect)
 {
-	if (texture == 0) {
-		circleParticle_.AddCircle(life, pos, isRevers, velo, speed, accel, gravity, start_scale, end_scale, sColor, eColor, postEffect);
-	}
-	else if (texture == 1) {
-		iceParticle_.AddCircle(life, pos, isRevers, velo, speed, accel, gravity, start_scale, end_scale, sColor, eColor, postEffect);
-	}
+	particle_[texture].AddCircle(life, pos, isRevers, velo, speed, accel, gravity, start_scale, end_scale, sColor, eColor, postEffect);
 }
 
 void ParticleManager::AddFromFile(uint8_t num, Vector3 pos, bool isEdit)
 {
 	if (isEdit || !GetIsEdit()) {
-		circleParticle_.Add(pos, particleData_[num]);
+		particle_[CIRCLE].Add(pos, particleData_[num]);
 	}
 }
 
 void ParticleManager::Clear()
 {
-	circleParticle_.Clear();
-	iceParticle_.Clear();
+	for (int i = 0; i < PARTICLE_TEXTURE_END; i++) {
+		particle_[i].Clear();
+	}
 }
 
 void ParticleManager::AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector3 color, bool isEdit)
 {
 	if (isEdit || !GetIsEdit()) {
-		circleParticle_.AddEditScaleAndColor(pos, particleData_[num], scale, color);
+		particle_[CIRCLE].AddEditScaleAndColor(pos, particleData_[num], scale, color);
 	}
 }
 

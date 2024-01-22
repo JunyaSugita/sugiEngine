@@ -1,5 +1,6 @@
 #pragma once
 #include "Particle.h"
+#include <array>
 
 enum ParticleName {
 	P_FIRE_BALL,
@@ -20,6 +21,13 @@ enum ParticleName {
 	P_DEBUFF_ICE,
 
 	P_END
+};
+
+enum PARTICLE_TEXTURE {
+	CIRCLE,
+	ICE,
+
+	PARTICLE_TEXTURE_END
 };
 
 class ParticleManager
@@ -59,8 +67,7 @@ public:
 private:
 	EditFile particleData_[100];
 
-	Particle circleParticle_;
-	Particle iceParticle_;
+	std::array<Particle, PARTICLE_TEXTURE_END> particle_;
 
 	std::unique_ptr<ParticleEditor> particleE_ = nullptr;
 };

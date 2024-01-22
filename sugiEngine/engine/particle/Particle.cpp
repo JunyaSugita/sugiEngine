@@ -364,6 +364,7 @@ uint32_t Particle::LoadTexture(string file) {
 	//ハンドルの指す位置にシェーダーリソースビュー作成
 	sDevice->CreateShaderResourceView(sTextureBuffers[sTextureIndex].Get(), &srvDesc, srvHandle);
 
+	textureNum_ = sTextureIndex;
 	sTextureIndex++;
 
 	return sTextureIndex - 1;
@@ -373,7 +374,6 @@ void Particle::Initialize(string textureName)
 {
 	HRESULT result;
 	LoadTexture(textureName);
-	textureNum_ = 0;
 	AdjustTextureSize();
 
 	size_ = textureSize_;
@@ -539,7 +539,8 @@ void Particle::Draw()
 	sCmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	//SRVヒープの先頭ハンドルを取得(SRVを指すはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = sSrvHeap->GetGPUDescriptorHandleForHeapStart();
-
+	//描画するテクスチャの指定
+	srvGpuHandle.ptr += sIncrementSize * textureNum_;
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	sCmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 	//定数バッファビュー(CBV)の設定コマンド

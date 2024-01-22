@@ -56,7 +56,7 @@ public:
 
 	static void PostDraw();
 
-	static uint32_t LoadTexture(std::string file);
+	uint32_t LoadTexture(std::string file);
 
 private:
 	//デバイス
