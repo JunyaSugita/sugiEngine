@@ -13,7 +13,9 @@ ParticleManager* ParticleManager::GetInstance()
 void ParticleManager::Initialize()
 {
 	particle_[CIRCLE].Initialize("effectCircle.png");
-	particle_[ICE].Initialize("effectIce.png");
+	particle_[FIRE1].Initialize("effectFire1.png");
+	particle_[FIRE2].Initialize("effectFire2.png");
+	particle_[FIRE3].Initialize("effectFire3.png");
 
 	particleE_.release();
 	particleE_ = make_unique<ParticleEditor>();

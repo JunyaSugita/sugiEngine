@@ -597,7 +597,7 @@
       <Filter>ヘッダー ファイル\app\ground</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\particle\ParticleManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\engine\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

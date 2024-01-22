@@ -25,7 +25,9 @@ enum ParticleName {
 
 enum PARTICLE_TEXTURE {
 	CIRCLE,
-	ICE,
+	FIRE1,
+	FIRE2,
+	FIRE3,
 
 	PARTICLE_TEXTURE_END
 };

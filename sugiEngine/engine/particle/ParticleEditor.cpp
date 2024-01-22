@@ -11,7 +11,9 @@ void ParticleEditor::Initialize()
 {
 	for (int i = 0; i < particleNum; i++) {
 		isEdit_[i] = false;
+		isTextureRand_[i] = false;
 		texNum_[i] = 0;
+		texNumRand_[i] = 0;
 		num_[i] = 1;
 		life_[i] = 60;
 		lifeRand_[i] = 0;
@@ -68,7 +70,14 @@ void ParticleEditor::Update()
 		if (Button("Delete", { 100,30 })) {
 			Delete();
 		}
+		Checkbox("randTex", &isTextureRand_[0]);
 		InputInt("texNum", &texNum_[0]);
+		if (isTextureRand_[0]) {
+			InputInt("texNumRand", &texNumRand_[0]);
+		}
+		else {
+			texNumRand_[0] = texNum_[0];
+		}
 		InputInt("num", &num_[0]);
 		InputInt("life", &life_[0]);
 		InputInt("lifeRand", &lifeRand_[0]);
@@ -229,7 +238,9 @@ void ParticleEditor::PopParticle(uint8_t num)
 
 		std::uniform_real_distribution<float> l(-float(lifeRand_[num] + 0.99f), float(lifeRand_[num] + 0.99f));
 
-		ParticleManager::GetInstance()->AddCircle(texNum_[num], int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, isRevers_[num], { move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine) }, speed_[num], { acceleration_[num][0],acceleration_[num][1],acceleration_[num][2] }, { gravity_[num][0],gravity_[num][1],gravity_[num][2] }, scale_[num][0], scale_[num][1], { sColor_[num][0],sColor_[num][1],sColor_[num][2] }, { eColor_[num][0],eColor_[num][1],eColor_[num][2] }, postEffect_[num]);
+		std::uniform_real_distribution<float> tex((float)texNum_[num], (float)texNumRand_[num] + 0.99f);
+
+		ParticleManager::GetInstance()->AddCircle((int)tex(engine), int(life_[num] + int32_t(l(engine))), { pos_[num][0] + xp(engine),pos_[num][1] + 5 + yp(engine),pos_[num][2] + zp(engine) }, isRevers_[num], { move_[num][0] + xm(engine),move_[num][1] + ym(engine),move_[num][2] + zm(engine) }, speed_[num], { acceleration_[num][0],acceleration_[num][1],acceleration_[num][2] }, { gravity_[num][0],gravity_[num][1],gravity_[num][2] }, scale_[num][0], scale_[num][1], { sColor_[num][0],sColor_[num][1],sColor_[num][2] }, { eColor_[num][0],eColor_[num][1],eColor_[num][2] }, postEffect_[num]);
 	}
 }
 
