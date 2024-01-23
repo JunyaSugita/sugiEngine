@@ -517,26 +517,26 @@ void Particle::Update()
 		it->scale = (it->e_scale - it->s_scale) * f;
 		it->scale += it->s_scale;
 
-		if (it->num_frame < it->check1) {
-			f = (float)it->frame / it->check1;
+		if (f < it->check1) {
+			f = (float)it->frame / (it->num_frame * it->check1);
 
 			//カラーの線形補間
-			it->color = (it->e_color - it->s_color) * f;
+			it->color = (it->check1Color - it->s_color) * f;
 			it->color += it->s_color;
 		}
-		else if (it->num_frame < it->check2) {
-			f = (float)it->frame / (it->check2 - it->check1);
+		else if (f < it->check2) {
+			f = ((float)it->frame - (it->num_frame * it->check1)) / (it->num_frame * (it->check2 - it->check1));
 
 			//カラーの線形補間
-			it->color = (it->e_color - it->s_color) * f;
-			it->color += it->s_color;
+			it->color = (it->check2Color - it->check1Color) * f;
+			it->color += it->check1Color;
 		}
 		else {
-			f = (float)it->frame / (it->num_frame - it->check2);
+			f = ((float)it->frame - (it->num_frame * it->check2)) / (it->num_frame * it->check2);
 
 			//カラーの線形補間
-			it->color = (it->e_color - it->s_color) * f;
-			it->color += it->s_color;
+			it->color = (it->e_color - it->check2Color) * f;
+			it->color += it->check2Color;
 		}
 
 		it->velocity = it->velocity + it->gravity;
@@ -557,7 +557,7 @@ void Particle::Update()
 		vertMap->color.x = it->color.x;
 		vertMap->color.y = it->color.y;
 		vertMap->color.z = it->color.z;
-		vertMap->color.w = 1;
+		vertMap->color.w = it->color.w;
 		vertMap++;
 	}
 
@@ -767,15 +767,9 @@ void Particle::SetUpVertex() {
 		bottom *= -1;
 	}
 
-	//ID3D12Resource* textureBuffer = textureBuffers_[textureIndex].Get();
 	if (sTextureBuffers[textureNum_]) {
 
 		D3D12_RESOURCE_DESC resDesc = sTextureBuffers[textureNum_]->GetDesc();
-
-		//float tex_left = textureLeftTop_.x / resDesc.Width;
-		//float tex_right = (textureLeftTop_.x + textureSize_.x) / resDesc.Width;
-		//float tex_top = textureLeftTop_.y / resDesc.Height;
-		//float tex_bottom = (textureLeftTop_.y + textureSize_.y) / resDesc.Height;
 	}
 
 	//ワールド変換行列

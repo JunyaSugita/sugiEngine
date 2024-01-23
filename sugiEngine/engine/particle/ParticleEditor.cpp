@@ -4,12 +4,14 @@
 #include "ParticleManager.h"
 #include <random>
 #include "Camera.h"
+#include "stdio.h"
 
 using namespace ImGui;
 
 void ParticleEditor::Initialize()
 {
 	isEdit_ = false;
+	version_ = 0;
 	isTextureRand_ = false;
 	texNum_ = 0;
 	texNumRand_ = 0;
@@ -27,8 +29,12 @@ void ParticleEditor::Initialize()
 	angleSpeed_ = 0;
 	angleSpeedRand_ = 0;
 	gravity_[0] = gravity_[1] = gravity_[2] = 0;
-	sColor_[0] = sColor_[1] = sColor_[2] = 1.0f;
-	eColor_[0] = eColor_[1] = eColor_[2] = 1.0f;
+	sColor_[0] = sColor_[1] = sColor_[2] = sColor_[3] = 1.0f;
+	check1_ = 0.3f;
+	check1Color_[0] = check1Color_[1] = check1Color_[2] = check1Color_[3] = 1.0f;
+	check2_ = 0.6f;
+	check2Color_[0] = check2Color_[1] = check2Color_[2] = check2Color_[3] = 1.0f;
+	eColor_[0] = eColor_[1] = eColor_[2] = eColor_[3] = 1.0f;
 	postEffect_ = 0;
 	Write();
 
@@ -41,12 +47,17 @@ void ParticleEditor::Initialize()
 	fclose(saveFile_);
 
 	SetParticleData();
+
+	for (int i = 0; i < 100; i++) {
+		isPop_[i] = false;
+	}
+	isP_ = true;
 }
 
 void ParticleEditor::Update()
 {
 #ifdef _DEBUG
-	if (GetIsEdit()) {
+	if (GetIsEdit() && isP_) {
 		PopParticle();
 	}
 
@@ -62,6 +73,8 @@ void ParticleEditor::Update()
 		if (Button("Delete", { 100,30 })) {
 			Delete();
 		}
+		Text("version = %d", version_);
+		Checkbox("pop", &isP_);
 		Checkbox("randTex", &isTextureRand_);
 		InputInt("texNum", &texNum_);
 		if (isTextureRand_) {
@@ -108,7 +121,6 @@ void ParticleEditor::Update()
 		}
 
 		Begin("ParticleList");
-
 		for (int i = 0; i < 100; i++) {
 			std::string tampStr = GetParticleName(i);
 
@@ -127,6 +139,12 @@ void ParticleEditor::Update()
 				}
 				Load();
 			}
+			char str[16];
+			sprintf_s(str, "pop:%d", i);
+			Checkbox(str, &isPop_[i]);
+			if (isPop_[i]) {
+				ParticleManager::GetInstance()->AddFromFile(i, { 0,5,0 }, true);
+			}
 		}
 		End();
 	}
@@ -141,19 +159,30 @@ void ParticleEditor::PopParticle()
 	//ランダム
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
-	std::uniform_real_distribution<float> xp(-posRand_[0], posRand_[0]);
-	std::uniform_real_distribution<float> yp(-posRand_[1], posRand_[1]);
-	std::uniform_real_distribution<float> zp(-posRand_[2], posRand_[2]);
 
-	std::uniform_real_distribution<float> xm(-moveRand_[0], moveRand_[0]);
-	std::uniform_real_distribution<float> ym(-moveRand_[1], moveRand_[1]);
-	std::uniform_real_distribution<float> zm(-moveRand_[2], moveRand_[2]);
+	for (int i = 0;i < num_;i++) {
+		std::uniform_real_distribution<float> xp(-posRand_[0], posRand_[0]);
+		std::uniform_real_distribution<float> yp(-posRand_[1], posRand_[1]);
+		std::uniform_real_distribution<float> zp(-posRand_[2], posRand_[2]);
 
-	std::uniform_real_distribution<float> l(-float(lifeRand_ + 0.99f), float(lifeRand_ + 0.99f));
+		std::uniform_real_distribution<float> xm(-moveRand_[0], moveRand_[0]);
+		std::uniform_real_distribution<float> ym(-moveRand_[1], moveRand_[1]);
+		std::uniform_real_distribution<float> zm(-moveRand_[2], moveRand_[2]);
 
-	std::uniform_real_distribution<float> tex((float)texNum_, (float)texNumRand_ + 0.99f);
+		std::uniform_real_distribution<float> l(-float(lifeRand_ + 0.99f), float(lifeRand_ + 0.99f));
 
-	ParticleManager::GetInstance()->AddCircle((int)tex(engine), int(life_ + int32_t(l(engine))), { pos_[0] + xp(engine),pos_[1] + 5 + yp(engine),pos_[2] + zp(engine) }, isRevers_, { move_[0] + xm(engine),move_[1] + ym(engine),move_[2] + zm(engine) }, speed_, { acceleration_[0],acceleration_[1],acceleration_[2] }, { gravity_[0],gravity_[1],gravity_[2] }, scale_[0], scale_[1], { sColor_[0],sColor_[1],sColor_[2],sColor_[3] }, check1_, { check1Color_[0],check1Color_[1],check1Color_[2],check1Color_[3] }, check2_, { check2Color_[0],check2Color_[1], check2Color_[2], check2Color_[3] }, { eColor_[0],eColor_[1],eColor_[2],eColor_[3] }, postEffect_);
+		if (texNum_ >= PARTICLE_TEXTURE_END) {
+			texNum_ = PARTICLE_TEXTURE_END - 1;
+		}
+		if (texNumRand_ >= PARTICLE_TEXTURE_END) {
+			texNumRand_ = PARTICLE_TEXTURE_END - 1;
+		}
+		float min = Min((float)texNum_, (float)texNumRand_);
+		float max = Max((float)texNum_, (float)texNumRand_);
+		std::uniform_real_distribution<float> tex(min, max + 0.99f);
+
+		ParticleManager::GetInstance()->AddCircle((int)tex(engine), int(life_ + int32_t(l(engine))), { pos_[0] + xp(engine),pos_[1] + 5 + yp(engine),pos_[2] + zp(engine) }, isRevers_, { move_[0] + xm(engine),move_[1] + ym(engine),move_[2] + zm(engine) }, speed_, { acceleration_[0],acceleration_[1],acceleration_[2] }, { gravity_[0],gravity_[1],gravity_[2] }, scale_[0], scale_[1], { sColor_[0],sColor_[1],sColor_[2],sColor_[3] }, check1_, { check1Color_[0],check1Color_[1],check1Color_[2],check1Color_[3] }, check2_, { check2Color_[0],check2Color_[1], check2Color_[2], check2Color_[3] }, { eColor_[0],eColor_[1],eColor_[2],eColor_[3] }, postEffect_);
+	}
 }
 
 void ParticleEditor::Save()
@@ -207,7 +236,12 @@ void ParticleEditor::Load()
 
 void ParticleEditor::Write()
 {
+	//現在のバージョンを書く
+	editData_.version = 0;
+
+	editData_.isRandTex = isTextureRand_;
 	editData_.texNum = texNum_;
+	editData_.randTexNum = texNumRand_;
 	editData_.num = num_;
 	editData_.life = life_;
 	editData_.lifeRand = lifeRand_;
@@ -224,62 +258,120 @@ void ParticleEditor::Write()
 	editData_.gravity = { gravity_[0],gravity_[1],gravity_[2] };
 	editData_.sColor = { sColor_[0],sColor_[1],sColor_[2],sColor_[3] };
 	editData_.check1 = check1_;
-	editData_.check1Color = { sColor_[0],sColor_[1],sColor_[2],sColor_[3] };
+	editData_.check1Color = { check1Color_[0],check1Color_[1],check1Color_[2],check1Color_[3] };
 	editData_.check2 = check2_;
-	editData_.check2Color = { sColor_[0],sColor_[1],sColor_[2],sColor_[3] };
+	editData_.check2Color = { check2Color_[0],check2Color_[1],check2Color_[2],check2Color_[3] };
 	editData_.eColor = { eColor_[0],eColor_[1],eColor_[2],eColor_[3] };
 	editData_.postEffect = postEffect_;
 }
 
 void ParticleEditor::Read()
 {
-	texNum_ = editData_.texNum;
-	num_ = editData_.num;
-	life_ = editData_.life;
-	lifeRand_ = editData_.lifeRand;
-	pos_[0] = editData_.pos.x;
-	pos_[1] = editData_.pos.y;
-	pos_[2] = editData_.pos.z;
-	posRand_[0] = editData_.posRand.x;
-	posRand_[1] = editData_.posRand.y;
-	posRand_[2] = editData_.posRand.z;
-	isRevers_ = editData_.isRevers;
-	move_[0] = editData_.move.x;
-	move_[1] = editData_.move.y;
-	move_[2] = editData_.move.z;
-	moveRand_[0] = editData_.moveRand.x;
-	moveRand_[1] = editData_.moveRand.y;
-	moveRand_[2] = editData_.moveRand.z;
-	speed_ = editData_.speed;
-	acceleration_[0] = editData_.acceleration.x;
-	acceleration_[1] = editData_.acceleration.y;
-	acceleration_[2] = editData_.acceleration.z;
-	scale_[0] = editData_.scale.x;
-	scale_[1] = editData_.scale.y;
-	angleSpeed_ = editData_.angleSpeed;
-	angleSpeedRand_ = editData_.angleSpeedRand;
-	gravity_[0] = editData_.gravity.x;
-	gravity_[1] = editData_.gravity.y;
-	gravity_[2] = editData_.gravity.z;
-	sColor_[0] = editData_.sColor.x;
-	sColor_[1] = editData_.sColor.y;
-	sColor_[2] = editData_.sColor.z;
-	sColor_[3] = editData_.sColor.w;
-	check1_ = editData_.check1;
-	check1Color_[0] = editData_.eColor.x;
-	check1Color_[1] = editData_.eColor.y;
-	check1Color_[2] = editData_.eColor.z;
-	check1Color_[3] = editData_.eColor.w;
-	check2_ = editData_.check2;
-	check2Color_[0] = editData_.eColor.x;
-	check2Color_[1] = editData_.eColor.y;
-	check2Color_[2] = editData_.eColor.z;
-	check2Color_[3] = editData_.eColor.w;
-	eColor_[0] = editData_.eColor.x;
-	eColor_[1] = editData_.eColor.y;
-	eColor_[2] = editData_.eColor.z;
-	eColor_[3] = editData_.eColor.w;
-	postEffect_ = editData_.postEffect;
+	//各バージョンごとの読み取り
+	if (editData_.version == 0) {
+		isTextureRand_ = editData_.isRandTex;
+		texNum_ = editData_.texNum;
+		texNumRand_ = editData_.randTexNum;
+		num_ = editData_.num;
+		life_ = editData_.life;
+		lifeRand_ = editData_.lifeRand;
+		pos_[0] = editData_.pos.x;
+		pos_[1] = editData_.pos.y;
+		pos_[2] = editData_.pos.z;
+		posRand_[0] = editData_.posRand.x;
+		posRand_[1] = editData_.posRand.y;
+		posRand_[2] = editData_.posRand.z;
+		isRevers_ = editData_.isRevers;
+		move_[0] = editData_.move.x;
+		move_[1] = editData_.move.y;
+		move_[2] = editData_.move.z;
+		moveRand_[0] = editData_.moveRand.x;
+		moveRand_[1] = editData_.moveRand.y;
+		moveRand_[2] = editData_.moveRand.z;
+		speed_ = editData_.speed;
+		acceleration_[0] = editData_.acceleration.x;
+		acceleration_[1] = editData_.acceleration.y;
+		acceleration_[2] = editData_.acceleration.z;
+		scale_[0] = editData_.scale.x;
+		scale_[1] = editData_.scale.y;
+		angleSpeed_ = editData_.angleSpeed;
+		angleSpeedRand_ = editData_.angleSpeedRand;
+		gravity_[0] = editData_.gravity.x;
+		gravity_[1] = editData_.gravity.y;
+		gravity_[2] = editData_.gravity.z;
+		sColor_[0] = editData_.sColor.x;
+		sColor_[1] = editData_.sColor.y;
+		sColor_[2] = editData_.sColor.z;
+		sColor_[3] = editData_.sColor.w;
+		check1_ = editData_.check1;
+		check1Color_[0] = editData_.check1Color.x;
+		check1Color_[1] = editData_.check1Color.y;
+		check1Color_[2] = editData_.check1Color.z;
+		check1Color_[3] = editData_.check1Color.w;
+		check2_ = editData_.check2;
+		check2Color_[0] = editData_.check2Color.x;
+		check2Color_[1] = editData_.check2Color.y;
+		check2Color_[2] = editData_.check2Color.z;
+		check2Color_[3] = editData_.check2Color.w;
+		eColor_[0] = editData_.eColor.x;
+		eColor_[1] = editData_.eColor.y;
+		eColor_[2] = editData_.eColor.z;
+		eColor_[3] = editData_.eColor.w;
+		postEffect_ = editData_.postEffect;
+	}
+	//最新版はここに書く
+	else {
+		version_ = editData_.version;
+		isTextureRand_ = editData_.isRandTex;
+		texNum_ = 0;
+		texNumRand_ = 8;
+		num_ = editData_.num;
+		life_ = editData_.life;
+		lifeRand_ = editData_.lifeRand;
+		pos_[0] = editData_.pos.x;
+		pos_[1] = editData_.pos.y;
+		pos_[2] = editData_.pos.z;
+		posRand_[0] = editData_.posRand.x;
+		posRand_[1] = editData_.posRand.y;
+		posRand_[2] = editData_.posRand.z;
+		isRevers_ = editData_.isRevers;
+		move_[0] = editData_.move.x;
+		move_[1] = editData_.move.y;
+		move_[2] = editData_.move.z;
+		moveRand_[0] = editData_.moveRand.x;
+		moveRand_[1] = editData_.moveRand.y;
+		moveRand_[2] = editData_.moveRand.z;
+		speed_ = editData_.speed;
+		acceleration_[0] = editData_.acceleration.x;
+		acceleration_[1] = editData_.acceleration.y;
+		acceleration_[2] = editData_.acceleration.z;
+		scale_[0] = editData_.scale.x;
+		scale_[1] = editData_.scale.y;
+		angleSpeed_ = editData_.angleSpeed;
+		angleSpeedRand_ = editData_.angleSpeedRand;
+		gravity_[0] = editData_.gravity.x;
+		gravity_[1] = editData_.gravity.y;
+		gravity_[2] = editData_.gravity.z;
+		sColor_[0] = editData_.sColor.x;
+		sColor_[1] = editData_.sColor.y;
+		sColor_[2] = editData_.sColor.z;
+		sColor_[3] = editData_.sColor.w;
+		check1_ = editData_.check1;
+		check1Color_[0] = editData_.check1Color.x;
+		check1Color_[1] = editData_.check1Color.y;
+		check1Color_[2] = editData_.check1Color.z;
+		check1Color_[3] = editData_.check1Color.w;
+		check2_ = editData_.check2;
+		check2Color_[0] = editData_.check2Color.x;
+		check2Color_[1] = editData_.check2Color.y;
+		check2Color_[2] = editData_.check2Color.z;
+		check2Color_[3] = editData_.check2Color.w;
+		eColor_[0] = editData_.eColor.x;
+		eColor_[1] = editData_.eColor.y;
+		eColor_[2] = editData_.eColor.z;
+		eColor_[3] = editData_.eColor.w;
+		postEffect_ = editData_.postEffect;
+	}
 }
 
 void ParticleEditor::Delete()

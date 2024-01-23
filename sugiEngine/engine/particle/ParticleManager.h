@@ -19,6 +19,7 @@ enum ParticleName {
 	P_BACKGROUND,
 	P_ICE_BREAK,
 	P_DEBUFF_ICE,
+	P_FIRE2,
 
 	P_END
 };
@@ -31,6 +32,8 @@ enum PARTICLE_TEXTURE {
 	FIRE4,
 	FIRE_ALPHA1,
 	FIRE_ALPHA2,
+	FIRE_ALPHA3,
+	FIRE_ALPHA4,
 
 	PARTICLE_TEXTURE_END
 };
@@ -56,7 +59,7 @@ public:
 	void Finalize();
 
 	void AddCircle(int texture, int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect);
-	void AddFromFile(uint8_t num, Vector3 pos, bool isEdit = false);
+	void AddFromFile(int32_t num, Vector3 pos, bool isEdit = false);
 	void Clear();
 
 	void SetParticleData(int num, EditFile file) {
