@@ -12,7 +12,7 @@ using namespace std;
 using namespace DirectX;
 
 ComPtr<ID3D12Device> Particle::sDevice = nullptr;
-ComPtr<ID3D12PipelineState> Particle::sPipelineState = nullptr;
+ComPtr<ID3D12PipelineState> Particle::sPipelineState[BLEND_TYPE_END];
 ComPtr<ID3D12RootSignature> Particle::sRootSignature;
 ComPtr<ID3D12GraphicsCommandList> Particle::sCmdList;
 std::array<ComPtr<ID3D12Resource>, Particle::MAX_SRV_COUNT> Particle::sTextureBuffers;
@@ -133,112 +133,123 @@ void Particle::StaticInitialize(ID3D12Device* device)
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 	// ブレンドステート
-	//pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask
-	//	= D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
+	//pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
 
-	//レンダーターゲットのブレンド設定
-	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
-	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	//RGBA全てのチャンネルを描画
+	for (int j = 0; j < BLEND_TYPE_END;j++) {
+		//レンダーターゲットのブレンド設定
+		D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
+		blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	//RGBA全てのチャンネルを描画
 
-	//共通設定(アルファ値)
-	blenddesc.BlendEnable = true;					//ブレンドを有効にする
-	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;	//加算
-	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;		//ソースの値を100%使う
-	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;	//デストの値を0%使う
+		//共通設定(アルファ値)
+		blenddesc.BlendEnable = true;					//ブレンドを有効にする
+		blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;	//加算
+		blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;		//ソースの値を100%使う
+		blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;	//デストの値を0%使う
 
-	//加算合成
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
-	blenddesc.SrcBlend = D3D12_BLEND_ONE;		//ソースのアルファ値
-	blenddesc.DestBlend = D3D12_BLEND_ONE;//1.0f-1ソースのアルファ値
+		if (j == ALPHA) {
+			//半透明合成
+			blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+			blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+			blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
 
-	//半透明合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;		//ソースのアルファ値
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-1ソースのアルファ値
+		}
+		else if (j == ADD) {
+			//加算合成
+			blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+			blenddesc.SrcBlend = D3D12_BLEND_ONE;
+			blenddesc.DestBlend = D3D12_BLEND_ONE;
+		}
+		else {
+			//加算合成
+			blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//減算
+			blenddesc.SrcBlend = D3D12_BLEND_ONE;
+			blenddesc.DestBlend = D3D12_BLEND_ONE;
+		}
 
-	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
-		// ブレンドステートの設定
-		pipelineDesc.BlendState.RenderTarget[i] = blenddesc;
+		for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+			// ブレンドステートの設定
+			pipelineDesc.BlendState.RenderTarget[i] = blenddesc;
+		}
+
+		// 頂点レイアウトの設定
+		pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
+		pipelineDesc.InputLayout.NumElements = _countof(inputLayout);
+		// 図形の形状設定
+		pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
+
+		// その他の設定
+		pipelineDesc.NumRenderTargets = MULTI_RENDAR_TARGET_NUM; // 描画対象は8つ
+		for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+			pipelineDesc.RTVFormats[i] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0~255指定のRGBA
+		}
+		pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
+
+		//デスクリプタレンジの設定
+		D3D12_DESCRIPTOR_RANGE descriptorRange{};
+		descriptorRange.NumDescriptors = 1;
+		descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+		descriptorRange.BaseShaderRegister = 0;//t0
+		descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+		//ルートパラメータ
+		D3D12_ROOT_PARAMETER rootParams[3] = {};
+		//定数バッファ0番
+		rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
+		rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
+		rootParams[0].Descriptor.RegisterSpace = 0;						//デフォルト値
+		rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから
+		//テクスチャレジスタ
+		rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+		rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ
+		rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+		rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;				//全てのシェーダーから
+		//定数バッファ1番
+		rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
+		rootParams[2].Descriptor.ShaderRegister = 1;					//定数バッファ番号
+		rootParams[2].Descriptor.RegisterSpace = 0;						//デフォルト値
+		rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+		//テクスチャサンプラーの設定
+		D3D12_STATIC_SAMPLER_DESC samplerDesc{};
+		samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//横繰り返し(タイリング)
+		samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//縦繰り返し(タイリング)
+		samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//奥行繰り返し(タイリング)
+		samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;	//ボーダーの時は黒
+		samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;					//全てリニア補間
+		samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;									//ミップマップ最大値
+		samplerDesc.MinLOD = 0.0f;												//ミップマップ最小値
+		samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+		samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;			//ピクセルシェーダからのみ使用可能
+
+		// ルートシグネチャの設定
+		D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
+		rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+		rootSignatureDesc.pParameters = rootParams;	//ルートパラメータの先頭アドレス
+		rootSignatureDesc.NumParameters = _countof(rootParams);		//ルートパラメータ数
+		rootSignatureDesc.pStaticSamplers = &samplerDesc;
+		rootSignatureDesc.NumStaticSamplers = 1;
+
+		// ルートシグネチャのシリアライズ
+		ID3DBlob* rootSigBlob = nullptr;
+		result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
+			&rootSigBlob, &errorBlob);
+		assert(SUCCEEDED(result));
+		result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+			IID_PPV_ARGS(&sRootSignature));
+		assert(SUCCEEDED(result));
+		// パイプラインにルートシグネチャをセット
+		pipelineDesc.pRootSignature = sRootSignature.Get();
+
+		//デプスステンシルステートの設定
+		pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
+		pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み許可
+		pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;	//小さければ合格
+		pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
+
+		// パイプランステートの生成
+		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&sPipelineState[j]));
+		assert(SUCCEEDED(result));
 	}
-
-	// 頂点レイアウトの設定
-	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
-	pipelineDesc.InputLayout.NumElements = _countof(inputLayout);
-	// 図形の形状設定
-	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
-
-	// その他の設定
-	pipelineDesc.NumRenderTargets = MULTI_RENDAR_TARGET_NUM; // 描画対象は8つ
-	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
-		pipelineDesc.RTVFormats[i] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0~255指定のRGBA
-	}
-	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
-
-	//デスクリプタレンジの設定
-	D3D12_DESCRIPTOR_RANGE descriptorRange{};
-	descriptorRange.NumDescriptors = 1;
-	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRange.BaseShaderRegister = 0;//t0
-	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-	//ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParams[3] = {};
-	//定数バッファ0番
-	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
-	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
-	rootParams[0].Descriptor.RegisterSpace = 0;						//デフォルト値
-	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから
-	//テクスチャレジスタ
-	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
-	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ
-	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
-	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;				//全てのシェーダーから
-	//定数バッファ1番
-	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
-	rootParams[2].Descriptor.ShaderRegister = 1;					//定数バッファ番号
-	rootParams[2].Descriptor.RegisterSpace = 0;						//デフォルト値
-	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-
-	//テクスチャサンプラーの設定
-	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
-	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//横繰り返し(タイリング)
-	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//縦繰り返し(タイリング)
-	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//奥行繰り返し(タイリング)
-	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;	//ボーダーの時は黒
-	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;					//全てリニア補間
-	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;									//ミップマップ最大値
-	samplerDesc.MinLOD = 0.0f;												//ミップマップ最小値
-	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;			//ピクセルシェーダからのみ使用可能
-
-	// ルートシグネチャの設定
-	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
-	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	rootSignatureDesc.pParameters = rootParams;	//ルートパラメータの先頭アドレス
-	rootSignatureDesc.NumParameters = _countof(rootParams);		//ルートパラメータ数
-	rootSignatureDesc.pStaticSamplers = &samplerDesc;
-	rootSignatureDesc.NumStaticSamplers = 1;
-
-	// ルートシグネチャのシリアライズ
-	ID3DBlob* rootSigBlob = nullptr;
-	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
-		&rootSigBlob, &errorBlob);
-	assert(SUCCEEDED(result));
-	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
-		IID_PPV_ARGS(&sRootSignature));
-	assert(SUCCEEDED(result));
-	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = sRootSignature.Get();
-
-	//デプスステンシルステートの設定
-	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
-	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み許可
-	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;	//小さければ合格
-	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
-
-	// パイプランステートの生成
-	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&sPipelineState));
-	assert(SUCCEEDED(result));
 
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
@@ -268,7 +279,6 @@ void Particle::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
 	Particle::sCmdList = cmdList;
 	// パイプラインステートとルートシグネチャの設定コマンド
-	cmdList->SetPipelineState(sPipelineState.Get());
 	cmdList->SetGraphicsRootSignature(sRootSignature.Get());
 
 	// プリミティブ形状の設定コマンド
@@ -377,11 +387,13 @@ uint32_t Particle::LoadTexture(string file) {
 	return sTextureIndex - 1;
 }
 
-void Particle::Initialize(string textureName)
+void Particle::Initialize(string textureName, int32_t blendType)
 {
 	HRESULT result;
 	LoadTexture(textureName);
 	AdjustTextureSize();
+
+	blendType_ = blendType;
 
 	size_ = textureSize_;
 
@@ -505,9 +517,27 @@ void Particle::Update()
 		it->scale = (it->e_scale - it->s_scale) * f;
 		it->scale += it->s_scale;
 
-		//カラーの線形補間
-		it->color = (it->e_color - it->s_color) * f;
-		it->color += it->s_color;
+		if (it->num_frame < it->check1) {
+			f = (float)it->frame / it->check1;
+
+			//カラーの線形補間
+			it->color = (it->e_color - it->s_color) * f;
+			it->color += it->s_color;
+		}
+		else if (it->num_frame < it->check2) {
+			f = (float)it->frame / (it->check2 - it->check1);
+
+			//カラーの線形補間
+			it->color = (it->e_color - it->s_color) * f;
+			it->color += it->s_color;
+		}
+		else {
+			f = (float)it->frame / (it->num_frame - it->check2);
+
+			//カラーの線形補間
+			it->color = (it->e_color - it->s_color) * f;
+			it->color += it->s_color;
+		}
 
 		it->velocity = it->velocity + it->gravity;
 		it->speed *= it->accel.x;
@@ -531,14 +561,12 @@ void Particle::Update()
 		vertMap++;
 	}
 
-	// 繋がりを解除
-	//vertBuff_->Unmap(0, nullptr);
-
 	SetUpVertex();
 }
 
 void Particle::Draw()
 {
+	sCmdList->SetPipelineState(sPipelineState[blendType_].Get());
 	// 頂点バッファビューの設定コマンド
 	sCmdList->IASetVertexBuffers(0, 1, &vbView_);
 	//デスクリプタヒープの配列をセットするコマンド
@@ -613,7 +641,7 @@ void Particle::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector3 sColor, Vector3 eColor, int32_t postEffect)
+void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect)
 {
 	circleParticles_.emplace_front();
 	ParticleState& p = circleParticles_.front();
@@ -635,6 +663,10 @@ void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, flo
 	p.num_frame = life;
 	p.color = sColor;
 	p.s_color = sColor;
+	p.check1 = check1;
+	p.check1Color = check1Color;
+	p.check2 = check2;
+	p.check2Color = check2Color;
 	p.e_color = eColor;
 	p.postEffect = postEffect;
 }
@@ -667,69 +699,17 @@ void Particle::Add(Vector3 pos, EditFile data)
 			data.scale.x,
 			data.scale.y,
 			data.sColor,
+			data.check1,
+			data.check1Color,
+			data.check2,
+			data.check2Color,
 			data.eColor,
 			data.postEffect
 		);
 	}
-	if (data.add1) {
-		for (int i = 0; i < data.num1; i++) {
-			std::uniform_real_distribution<float> xp(-data.posRand1.x, data.posRand1.x);
-			std::uniform_real_distribution<float> yp(-data.posRand1.y, data.posRand1.y);
-			std::uniform_real_distribution<float> zp(-data.posRand1.z, data.posRand1.z);
-
-			std::uniform_real_distribution<float> xv(-data.moveRand1.x, data.moveRand1.x);
-			std::uniform_real_distribution<float> yv(-data.moveRand1.y, data.moveRand1.y);
-			std::uniform_real_distribution<float> zv(-data.moveRand1.z, data.moveRand1.z);
-
-			std::uniform_real_distribution<float> l(-float(data.lifeRand1 + 0.99f), float(data.lifeRand1 + 0.99f));
-
-			AddCircle(
-				data.life1 + (int32_t)l(engine),
-				{ pos.x + data.pos1.x + xp(engine),pos.y + data.pos1.y + yp(engine),pos.z + data.pos1.z + zp(engine) },
-				data.isRevers1,
-				{ data.move1.x + xv(engine),data.move.y + yv(engine), data.move1.z + zv(engine) },
-				data.speed1,
-				data.acceleration1,
-				data.gravity1,
-				data.scale1.x,
-				data.scale1.y,
-				data.sColor1,
-				data.eColor1,
-				data.postEffect1
-			);
-		}
-		if (data.add2) {
-			for (int i = 0; i < data.num2; i++) {
-				std::uniform_real_distribution<float> xp(-data.posRand2.x, data.posRand2.x);
-				std::uniform_real_distribution<float> yp(-data.posRand2.y, data.posRand2.y);
-				std::uniform_real_distribution<float> zp(-data.posRand2.z, data.posRand2.z);
-
-				std::uniform_real_distribution<float> xv(-data.moveRand2.x, data.moveRand2.x);
-				std::uniform_real_distribution<float> yv(-data.moveRand2.y, data.moveRand2.y);
-				std::uniform_real_distribution<float> zv(-data.moveRand2.z, data.moveRand2.z);
-
-				std::uniform_real_distribution<float> l(-float(data.lifeRand2 + 0.99f), float(data.lifeRand2 + 0.99f));
-
-				AddCircle(
-					data.life2 + (int32_t)l(engine),
-					{ pos.x + data.pos2.x + xp(engine),pos.y + data.pos2.y + yp(engine),pos.z + data.pos2.z + zp(engine) },
-					data.isRevers2,
-					{ data.move2.x + xv(engine),data.move2.y + yv(engine), data.move2.z + zv(engine) },
-					data.speed2,
-					data.acceleration2,
-					data.gravity2,
-					data.scale2.x,
-					data.scale2.y,
-					data.sColor2,
-					data.eColor2,
-					data.postEffect2
-				);
-			}
-		}
-	}
 }
 
-void Particle::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector3 color)
+void Particle::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector4 color)
 {
 	//ランダム
 	std::random_device seed_gen;
@@ -757,65 +737,13 @@ void Particle::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vec
 			data.scale.x * scale,
 			data.scale.y * scale,
 			color,
+			0,
+			color,
+			0,
+			color,
 			color,
 			data.postEffect
 		);
-	}
-	if (data.add1) {
-		for (int i = 0; i < data.num1; i++) {
-			std::uniform_real_distribution<float> xp(-data.posRand1.x, data.posRand1.x);
-			std::uniform_real_distribution<float> yp(-data.posRand1.y, data.posRand1.y);
-			std::uniform_real_distribution<float> zp(-data.posRand1.z, data.posRand1.z);
-
-			std::uniform_real_distribution<float> xv(-data.moveRand1.x, data.moveRand1.x);
-			std::uniform_real_distribution<float> yv(-data.moveRand1.y, data.moveRand1.y);
-			std::uniform_real_distribution<float> zv(-data.moveRand1.z, data.moveRand1.z);
-
-			std::uniform_real_distribution<float> l(-float(data.lifeRand1 + 0.99f), float(data.lifeRand1 + 0.99f));
-
-			AddCircle(
-				data.life1 + (int32_t)l(engine),
-				{ pos.x + data.pos1.x + xp(engine),pos.y + data.pos1.y + yp(engine),pos.z + data.pos1.z + zp(engine) },
-				data.isRevers1,
-				{ data.move1.x + xv(engine),data.move.y + yv(engine), data.move1.z + zv(engine) },
-				data.speed1,
-				data.acceleration1,
-				data.gravity1,
-				data.scale1.x * scale,
-				data.scale1.y * scale,
-				data.sColor1,
-				data.eColor1,
-				data.postEffect1
-			);
-		}
-		if (data.add2) {
-			for (int i = 0; i < data.num2; i++) {
-				std::uniform_real_distribution<float> xp(-data.posRand2.x, data.posRand2.x);
-				std::uniform_real_distribution<float> yp(-data.posRand2.y, data.posRand2.y);
-				std::uniform_real_distribution<float> zp(-data.posRand2.z, data.posRand2.z);
-
-				std::uniform_real_distribution<float> xv(-data.moveRand2.x, data.moveRand2.x);
-				std::uniform_real_distribution<float> yv(-data.moveRand2.y, data.moveRand2.y);
-				std::uniform_real_distribution<float> zv(-data.moveRand2.z, data.moveRand2.z);
-
-				std::uniform_real_distribution<float> l(-float(data.lifeRand2 + 0.99f), float(data.lifeRand2 + 0.99f));
-
-				AddCircle(
-					data.life2 + (int32_t)l(engine),
-					{ pos.x + data.pos2.x + xp(engine),pos.y + data.pos2.y + yp(engine),pos.z + data.pos2.z + zp(engine) },
-					data.isRevers2,
-					{ data.move2.x + xv(engine),data.move2.y + yv(engine), data.move2.z + zv(engine) },
-					data.speed2,
-					data.acceleration2,
-					data.gravity2,
-					data.scale2.x * scale,
-					data.scale2.y * scale,
-					data.sColor2,
-					data.eColor2,
-					data.postEffect2
-				);
-			}
-		}
 	}
 }
 

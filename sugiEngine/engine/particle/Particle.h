@@ -26,10 +26,22 @@ struct ParticleState {
 	float s_scale = 1.0f;
 	float e_scale = 1.0f;
 	Vector3 gravity = {};
-	Vector3 color = { 1,1,1 };
-	Vector3 s_color = { 1,1,1 };
-	Vector3 e_color = { 1,1,1 };
+	Vector4 color = { 1,1,1,1 };
+	Vector4 s_color = { 1,1,1,1 };
+	float check1 = 0;
+	Vector4 check1Color = { 1,1,1,1 };
+	float check2 = 0;
+	Vector4 check2Color = { 1,1,1,1 };
+	Vector4 e_color = { 1,1,1,1 };
 	int32_t postEffect = 0;
+};
+
+enum BLEND_TYPE {
+	ALPHA,
+	ADD,
+	SUB,
+
+	BLEND_TYPE_END
 };
 
 class Particle final
@@ -61,7 +73,7 @@ public:
 private:
 	//デバイス
 	static ComPtr<ID3D12Device> sDevice;
-	static ComPtr<ID3D12PipelineState> sPipelineState;
+	static ComPtr<ID3D12PipelineState> sPipelineState[BLEND_TYPE_END];
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> sRootSignature;
 	// 頂点バッファビューの作成
@@ -82,7 +94,7 @@ private:
 	void AdjustTextureSize();
 
 public:
-	void Initialize(std::string textureName);
+	void Initialize(std::string textureName, int32_t blendType = ADD);
 	void Update();
 	void Draw();
 
@@ -108,12 +120,15 @@ public:
 	Vector2 GetTextureSize() {
 		return textureSize_;
 	}
+	int32_t GetBlendType() {
+		return blendType_;
+	}
 
 	void SetTextureSize(float x, float y);
 
-	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo,float speed, Vector3 accel, Vector3 gravity,float start_scale,float end_scale,Vector3 sColor, Vector3 eColor, int32_t postEffect);
+	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect);
 	void Add(Vector3 pos, EditFile data);
-	void AddEditScaleAndColor(Vector3 pos, EditFile data,float scale,Vector3 color);
+	void AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector4 color);
 
 	void Clear();
 protected:
@@ -137,6 +152,8 @@ protected:
 
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	Vector2 textureSize_ = { 100.0f,100.0f };
+
+	int32_t blendType_ = ALPHA;
 
 	std::forward_list<ParticleState> circleParticles_;
 };

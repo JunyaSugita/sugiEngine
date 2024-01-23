@@ -55,7 +55,7 @@ public:
 	void Draw();
 	void Finalize();
 
-	void AddCircle(int texture, int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector3 sColor, Vector3 eColor, int32_t postEffect);
+	void AddCircle(int texture, int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect);
 	void AddFromFile(uint8_t num, Vector3 pos, bool isEdit = false);
 	void Clear();
 
@@ -63,10 +63,10 @@ public:
 		particleData_[num] = file;
 	}
 
-	void AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector3 color, bool isEdit = false);
+	void AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector4 color, bool isEdit = false);
 
 	bool GetIsEdit() {
-		return particleE_->GetIsEdit(0);
+		return particleE_->GetIsEdit();
 	}
 
 private:

@@ -358,7 +358,7 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\particle\ParticleManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\engine\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

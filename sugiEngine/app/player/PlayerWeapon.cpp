@@ -236,7 +236,7 @@ void PlayerWeapon::WorldTransUpdate()
 	orbObj_.Update();
 }
 
-void PlayerWeapon::ChargeParticle(Vector3 color)
+void PlayerWeapon::ChargeParticle(Vector4 color)
 {
 	if (SpellManager::GetInstance()->ChargePercent() != 1.0f) {
 		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), SpellManager::GetInstance()->ChargePercent(), color);
