@@ -249,16 +249,14 @@ void GameScene::ObjDraw()
 		FieldManager::GetInstance()->Draw();
 		EffectManager::GetInstance()->Draw();
 		SpellManager::GetInstance()->Draw();
-
+		EnemyManager::GetInstance()->Draw();
 		ColliderManager::GetInstance()->Draw();
 	}
 }
 
 void GameScene::ObjDraw2()
 {
-
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
-		EnemyManager::GetInstance()->Draw();
 		EnemyManager::GetInstance()->DrawTransparent();
 		Player::GetInstance()->Draw();
 	}

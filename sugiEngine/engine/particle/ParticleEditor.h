@@ -99,4 +99,5 @@ private:
 	char particleName_[100][16];
 	bool isPop_[100];
 	bool isP_;
+	bool isOnePop_;
 };

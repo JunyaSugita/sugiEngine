@@ -52,13 +52,15 @@ void ParticleEditor::Initialize()
 		isPop_[i] = false;
 	}
 	isP_ = true;
+	isOnePop_ = false;
 }
 
 void ParticleEditor::Update()
 {
 #ifdef _DEBUG
-	if (GetIsEdit() && isP_) {
+	if ((GetIsEdit() && isP_) || isOnePop_) {
 		PopParticle();
+		isOnePop_ = false;
 	}
 
 	Begin("ParticleEditor");
@@ -75,6 +77,11 @@ void ParticleEditor::Update()
 		}
 		Text("version = %d", version_);
 		Checkbox("pop", &isP_);
+		if (!isP_) {
+			if (Button("oneTimePop", { 100,30 })) {
+				isOnePop_ = true;
+			}
+		}
 		Checkbox("randTex", &isTextureRand_);
 		InputInt("texNum", &texNum_);
 		if (isTextureRand_) {
@@ -98,12 +105,20 @@ void ParticleEditor::Update()
 		SliderFloat("angleSpeedRand", &angleSpeedRand_, -10, 10, "%.1f");
 		InputFloat3("gravity", gravity_);
 		ColorEdit4("s_color", sColor_);
-		InputFloat("check1", &check1_);
+		SliderFloat("check1", &check1_,0.0f,1.0f);
 		ColorEdit4("check1Color", check1Color_);
-		InputFloat("check2", &check2_);
+		SliderFloat("check2", &check2_, 0.0f, 1.0f);
 		ColorEdit4("check2Color", check2Color_);
 		ColorEdit4("e_color", eColor_);
 		if (Button("UseSameColor", { 100,30 })) {
+			check1Color_[0] = sColor_[0];
+			check1Color_[1] = sColor_[1];
+			check1Color_[2] = sColor_[2];
+			check1Color_[3] = sColor_[3];
+			check2Color_[0] = sColor_[0];
+			check2Color_[1] = sColor_[1];
+			check2Color_[2] = sColor_[2];
+			check2Color_[3] = sColor_[3];
 			eColor_[0] = sColor_[0];
 			eColor_[1] = sColor_[1];
 			eColor_[2] = sColor_[2];
@@ -160,7 +175,7 @@ void ParticleEditor::PopParticle()
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 
-	for (int i = 0;i < num_;i++) {
+	for (int i = 0; i < num_; i++) {
 		std::uniform_real_distribution<float> xp(-posRand_[0], posRand_[0]);
 		std::uniform_real_distribution<float> yp(-posRand_[1], posRand_[1]);
 		std::uniform_real_distribution<float> zp(-posRand_[2], posRand_[2]);

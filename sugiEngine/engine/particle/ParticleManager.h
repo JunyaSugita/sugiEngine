@@ -4,6 +4,8 @@
 
 enum ParticleName {
 	P_FIRE_BALL,
+	P_FIRE2,
+
 	P_FIRE_BALL_EXPLODE,
 	P_ICE,
 	P_MAGIC_MISSILE,
@@ -19,7 +21,7 @@ enum ParticleName {
 	P_BACKGROUND,
 	P_ICE_BREAK,
 	P_DEBUFF_ICE,
-	P_FIRE2,
+
 
 	P_END
 };
@@ -34,6 +36,7 @@ enum PARTICLE_TEXTURE {
 	FIRE_ALPHA2,
 	FIRE_ALPHA3,
 	FIRE_ALPHA4,
+	EXPLODE,
 
 	PARTICLE_TEXTURE_END
 };

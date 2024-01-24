@@ -22,6 +22,7 @@ void ParticleManager::Initialize()
 	particle_[FIRE_ALPHA2].Initialize("effectFireAlpha2.png", ALPHA);
 	particle_[FIRE_ALPHA3].Initialize("effectFireAlpha3.png", ALPHA);
 	particle_[FIRE_ALPHA4].Initialize("effectFireAlpha4.png", ALPHA);
+	particle_[EXPLODE].Initialize("effectExplode.png");
 
 	particleE_.release();
 	particleE_ = make_unique<ParticleEditor>();
@@ -59,6 +60,7 @@ void ParticleManager::AddFromFile(int32_t num, Vector3 pos, bool isEdit)
 		//ランダム
 		std::random_device seed_gen;
 		std::mt19937_64 engine(seed_gen());
+
 
 		std::uniform_real_distribution<float> tex((float)particleData_[num].texNum, (float)particleData_[num].randTexNum + 0.999f);
 

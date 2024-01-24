@@ -28,6 +28,7 @@ void FireBall::Update()
 {
 	if (!isHit_) {
 		ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, obj_.pos);
+		ParticleManager::GetInstance()->AddFromFile(P_FIRE2, obj_.pos);
 	}
 	else {
 		float temp = (Player::GetInstance()->GetPos() - obj_.pos).length();

@@ -295,7 +295,7 @@ uint32_t Particle::LoadTexture(string file) {
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
-	string fileName = "Resources/" + file;
+	string fileName = "Resources/particleTex/" + file;
 	//ユニコード文字列に変換する
 	wchar_t wfilepath[128];
 	MultiByteToWideChar(CP_ACP, 0, fileName.c_str(), -1, wfilepath, _countof(wfilepath));
