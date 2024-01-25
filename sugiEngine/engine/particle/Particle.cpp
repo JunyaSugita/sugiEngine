@@ -135,7 +135,7 @@ void Particle::StaticInitialize(ID3D12Device* device)
 	// ブレンドステート
 	//pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
 
-	for (int j = 0; j < BLEND_TYPE_END;j++) {
+	for (int j = 0; j < BLEND_TYPE_END; j++) {
 		//レンダーターゲットのブレンド設定
 		D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
 		blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	//RGBA全てのチャンネルを描画
@@ -508,33 +508,55 @@ void Particle::Update()
 {
 	HRESULT result;
 
-	circleParticles_.remove_if([](ParticleState& x) {return x.frame >= x.num_frame; });
+	particles_.remove_if([](ParticleState& x) {return x.frame >= x.num_frame; });
 
-	for (std::forward_list<ParticleState>::iterator it = circleParticles_.begin(); it != circleParticles_.end(); it++) {
+	for (std::forward_list<ParticleState>::iterator it = particles_.begin(); it != particles_.end(); it++) {
 		it->frame++;
 		float f = (float)it->frame / it->num_frame;
-		//スケールの線形補間
-		it->scale = (it->e_scale - it->s_scale) * f;
-		it->scale += it->s_scale;
 
+		//スケールの線形補間
+		if (f < it->checkS.x) {
+			//0~1
+			f = (float)it->frame / (it->num_frame * it->checkS.x);
+
+			it->scale = (it->scales.y - it->scales.x) * f;
+			it->scale += it->scales.x;
+		}
+		else if (f < it->checkS.y) {
+			//1~2
+			f = ((float)it->frame - (it->num_frame * it->checkS.x)) / (it->num_frame * (it->checkS.y - it->checkS.x));
+
+			it->scale = (it->scales.z - it->scales.y) * f;
+			it->scale += it->scales.y;
+		}
+		else {
+			//2~3
+			f = ((float)it->frame - (it->num_frame * it->checkS.y)) / (it->num_frame * (1 - it->checkS.y));
+
+			it->scale = (it->scales.w - it->scales.z) * f;
+			it->scale += it->scales.z;
+		}
+
+		f = (float)it->frame / it->num_frame;
+		//カラーの線形補間
 		if (f < it->check1) {
+			//0~1
 			f = (float)it->frame / (it->num_frame * it->check1);
 
-			//カラーの線形補間
 			it->color = (it->check1Color - it->s_color) * f;
 			it->color += it->s_color;
 		}
 		else if (f < it->check2) {
+			//1~2
 			f = ((float)it->frame - (it->num_frame * it->check1)) / (it->num_frame * (it->check2 - it->check1));
 
-			//カラーの線形補間
 			it->color = (it->check2Color - it->check1Color) * f;
 			it->color += it->check1Color;
 		}
 		else {
-			f = ((float)it->frame - (it->num_frame * it->check2)) / (it->num_frame * it->check2);
+			//2~3
+			f = ((float)it->frame - (it->num_frame * it->check2)) / (it->num_frame * (1 - it->check2));
 
-			//カラーの線形補間
 			it->color = (it->e_color - it->check2Color) * f;
 			it->color += it->check2Color;
 		}
@@ -549,7 +571,7 @@ void Particle::Update()
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (std::forward_list<ParticleState>::iterator it = circleParticles_.begin(); it != circleParticles_.end(); it++) {
+	for (std::forward_list<ParticleState>::iterator it = particles_.begin(); it != particles_.end(); it++) {
 		vertMap->pos.x = it->position.x;
 		vertMap->pos.y = it->position.y;
 		vertMap->pos.z = it->position.z;
@@ -583,7 +605,7 @@ void Particle::Draw()
 
 	if (isView_ == true) {
 		// 描画コマンド
-		sCmdList->DrawInstanced((UINT)std::distance(circleParticles_.begin(), circleParticles_.end()), 1, 0, 0); // 全ての頂点を使って描画
+		sCmdList->DrawInstanced((UINT)std::distance(particles_.begin(), particles_.end()), 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -641,14 +663,14 @@ void Particle::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect)
+void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect)
 {
-	circleParticles_.emplace_front();
-	ParticleState& p = circleParticles_.front();
+	particles_.emplace_front();
+	ParticleState& p = particles_.front();
 	p.originPos = pos;
-	p.scale = start_scale;
-	p.s_scale = start_scale;
-	p.e_scale = end_scale;
+	p.scale = scale.x;
+	p.checkS = checkS;
+	p.scales = scale;
 	p.velocity = velo.normalize();
 	p.speed = speed / 1000;
 	if (isRevers) {
@@ -696,8 +718,8 @@ void Particle::Add(Vector3 pos, EditFile data)
 			data.speed,
 			data.acceleration,
 			data.gravity,
-			data.scale.x,
-			data.scale.y,
+			data.checkS,
+			data.scale,
 			data.sColor,
 			data.check1,
 			data.check1Color,
@@ -734,8 +756,8 @@ void Particle::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vec
 			data.speed,
 			data.acceleration,
 			data.gravity,
-			data.scale.x * scale,
-			data.scale.y * scale,
+			data.checkS,
+			data.scale * scale,
 			color,
 			0,
 			color,
@@ -749,7 +771,7 @@ void Particle::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vec
 
 void Particle::Clear()
 {
-	circleParticles_.clear();
+	particles_.clear();
 }
 
 void Particle::SetUpVertex() {

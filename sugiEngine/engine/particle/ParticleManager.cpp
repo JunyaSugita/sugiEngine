@@ -49,9 +49,9 @@ void ParticleManager::Draw()
 	}
 }
 
-void ParticleManager::AddCircle(int texture, int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect)
+void ParticleManager::AddCircle(int texture, int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS,Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect)
 {
-	particle_[texture].AddCircle(life, pos, isRevers, velo, speed, accel, gravity, start_scale, end_scale, sColor, check1, check1Color, check2, check2Color, eColor, postEffect);
+	particle_[texture].AddCircle(life, pos, isRevers, velo, speed, accel, gravity,checkS ,scale, sColor, check1, check1Color, check2, check2Color, eColor, postEffect);
 }
 
 void ParticleManager::AddFromFile(int32_t num, Vector3 pos, bool isEdit)

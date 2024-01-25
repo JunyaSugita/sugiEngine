@@ -22,7 +22,8 @@ struct EditFile {
 	Vector3 moveRand;
 	float speed;
 	Vector3 acceleration;
-	Vector2 scale;
+	Vector2 checkS;
+	Vector4 scale;
 	float angleSpeed;
 	float angleSpeedRand;
 	Vector3 gravity;
@@ -81,7 +82,8 @@ private:
 	float moveRand_[3];
 	float speed_;
 	float acceleration_[3];
-	float scale_[2];
+	float checkS_[2];
+	float scale_[4];
 	float angleSpeed_;
 	float angleSpeedRand_;
 	float gravity_[3];

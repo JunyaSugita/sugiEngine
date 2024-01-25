@@ -23,8 +23,8 @@ struct ParticleState {
 	float speed = 1.0f;
 	Vector3 accel = { 1,1,1 };
 	float scale = 1.0f;
-	float s_scale = 1.0f;
-	float e_scale = 1.0f;
+	Vector2 checkS = { 0,0 };
+	Vector4 scales = { 1,1,1,1 };
 	Vector3 gravity = {};
 	Vector4 color = { 1,1,1,1 };
 	Vector4 s_color = { 1,1,1,1 };
@@ -126,7 +126,7 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, float start_scale, float end_scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect);
+	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect);
 	void Add(Vector3 pos, EditFile data);
 	void AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector4 color);
 
@@ -155,7 +155,7 @@ protected:
 
 	int32_t blendType_ = ALPHA;
 
-	std::forward_list<ParticleState> circleParticles_;
+	std::forward_list<ParticleState> particles_;
 };
 
 
