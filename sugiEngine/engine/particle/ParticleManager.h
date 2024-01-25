@@ -10,19 +10,19 @@ enum ParticleName {
 	P_TORCH2,
 	P_ICE,
 	P_ICE2,
-
 	P_MAGIC_MISSILE,
-	P_LIGHTNING,
+	P_MAGIC_MISSILE2,
 	P_WEAPON,
-	P_WEAPON_FIRE,
-	P_DEBUFF_FIRE,
 	P_GOAL,
+	P_DEBUFF_FIRE,
+	P_DEBUFF_FIRE2,
 	P_DAMAGE,
+	P_DEBUFF_ICE,
+	P_DEBUFF_ICE2,
+	P_ICE_BREAK,
+	P_ICE_BREAK2,
 	P_CHARGE_FIRE,
 	P_CHARGE_MAX_FIRE,
-	P_ICE_BREAK,
-	P_DEBUFF_ICE,
-
 
 	P_END
 };
@@ -72,6 +72,7 @@ public:
 	}
 
 	void AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector4 color, bool isEdit = false);
+	void AddFromFileEditColor(uint8_t num, Vector3 pos, Vector4 color, bool isEdit = false);
 
 	bool GetIsEdit() {
 		return particleE_->GetIsEdit();

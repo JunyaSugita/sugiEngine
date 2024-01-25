@@ -73,6 +73,15 @@ const Vector4 operator*(float s, const Vector4& v) {
 	return v * s;
 }
 
+const Vector4 operator*(const Vector4& s, const Vector4& v) {
+	Vector4 temp(v);
+	temp.x *= s.x;
+	temp.y *= s.y;
+	temp.z *= s.z;
+	temp.w *= s.w;
+	return temp;
+}
+
 const Vector4 operator/(const Vector4& v, float s) {
 	Vector4 temp(v);
 	temp.x /= s;

@@ -129,6 +129,7 @@ public:
 	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect);
 	void Add(Vector3 pos, EditFile data);
 	void AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector4 color);
+	void AddEditColor(Vector3 pos, EditFile data, Vector4 color);
 
 	void Clear();
 protected:

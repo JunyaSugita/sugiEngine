@@ -302,7 +302,11 @@ void Player::Attack()
 		attackTime_ = TIME_ATTACK_NORMAL;
 	}
 	//呪文詠唱
-	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->GetLTrigger() || input->ReleaseLTrigger()) && !spellM->GetIsUseSpell() || (SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1)) {
+	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->GetLTrigger() || input->ReleaseLTrigger()) && !spellM->GetIsUseSpell()) {
+		ChargeSpell(LoadOut::GetInstance()->GetSpell(presetSpell_));
+		isSpell_ = true;
+	}
+	else if (SpellManager::GetInstance()->ChargePercent() > 0.8f && SpellManager::GetInstance()->ChargePercent() < 1) {
 		ChargeSpell(LoadOut::GetInstance()->GetSpell(presetSpell_));
 		isSpell_ = true;
 	}

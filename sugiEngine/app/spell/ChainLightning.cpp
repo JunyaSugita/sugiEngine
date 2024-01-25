@@ -13,9 +13,6 @@ void ChainLightning::Initialize(Vector3 pos, Vector3 vec)
 
 	vec_ = vec.normalize();
 
-	col_.pos = pos;
-	col_.size = { 1,1,1 };
-
 	WorldTransUpdate();
 
 	isDead_ = true;
@@ -36,7 +33,6 @@ void ChainLightning::Update()
 	if (!isDead_) {
 		for (int i = 0; i < MAX_LENGE; i++) {
 			obj_.pos += vec_ * SPEED_MOVE;
-			BaseCol::Update(obj_.pos,obj_.scale);
 			WorldTransUpdate();
 
 			if (obj_.pos.y <= 0) {

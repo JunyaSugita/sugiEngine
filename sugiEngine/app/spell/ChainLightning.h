@@ -9,7 +9,7 @@
 #include "BaseObj.h"
 #include "BaseCol.h"
 
-class ChainLightning : public BaseCol{
+class ChainLightning{
 public:
 	void Initialize(Vector3 pos, Vector3 vec);
 	void Update();
@@ -26,9 +26,6 @@ public:
 	};
 	void SetIsHit() {
 		isHit_ = true;
-	}
-	Col GetBoxCol() {
-		return col_;
 	}
 
 private:

@@ -33,4 +33,5 @@ const Vector4 operator+(const Vector4& v1, const Vector4& v2);
 const Vector4 operator-(const Vector4& v1, const Vector4& v2);
 const Vector4 operator*(const Vector4& v, float s);
 const Vector4 operator*(float s, const Vector4& v);
+const Vector4 operator*(const Vector4& s, const Vector4& v);
 const Vector4 operator/(const Vector4& v, float s);

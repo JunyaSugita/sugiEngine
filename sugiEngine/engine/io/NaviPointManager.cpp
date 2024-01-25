@@ -27,9 +27,6 @@ void NaviPointManager::Draw()
 		else if (naviPoints_[i].score == 99999) {
 			ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, naviPoints_[i].pos);
 		}
-		else if (naviPoints_[i].score > 99999) {
-			ParticleManager::GetInstance()->AddFromFile(P_LIGHTNING, naviPoints_[i].pos);
-		}
 	}
 }
 

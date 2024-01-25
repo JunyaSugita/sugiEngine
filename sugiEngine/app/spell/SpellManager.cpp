@@ -201,7 +201,7 @@ void SpellManager::ChargeIceBolt()
 			isUseIceBolt_ = true;
 			useTime_ = TIME_FIRE_ICEBOLT;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COOLTIME_MAGIC_MISSILE && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseIceBolt_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseIceBolt_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -241,7 +241,7 @@ void SpellManager::ChargeChainLightning()
 			isUseChainLightning_ = true;
 			useTime_ = TIME_FIRE_CHAINLIGHTNING;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COOLTIME_MAGIC_MISSILE && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseChainLightning_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseChainLightning_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -252,7 +252,7 @@ void SpellManager::FireChainLightning()
 {
 	Camera* camera = Camera::GetInstance();
 
-	maxCharge_ = maxCharge_;
+	maxCharge_ = TIME_FIRE_CHAINLIGHTNING;
 
 	if (int(useTime_) == 1) {
 		unique_ptr<ChainLightning> newSpell = make_unique<ChainLightning>();
@@ -282,7 +282,7 @@ void SpellManager::ChargeEnchantFire()
 			isUseEnchantFire_ = true;
 			useTime_ = TIME_FIRE_ENCHANTFIRE;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COOLTIME_MAGIC_MISSILE && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseEnchantFire_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseEnchantFire_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -321,7 +321,7 @@ void SpellManager::ChargeFlame()
 			isUseFlame_ = true;
 			useTime_ = TIME_FIRE_FLAME;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COOLTIME_MAGIC_MISSILE && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFlame_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFlame_ || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -354,7 +354,7 @@ float SpellManager::ChargePercent()
 		return 0.0f;
 	}
 	float temp = chargeTime_ / maxCharge_;
-	if (temp > 1.0f) {
+	if (temp >= 1.0f) {
 		return 1.0f;
 	}
 	return temp;

@@ -132,7 +132,7 @@ public:
 	const float TIME_FIRE_FLAME = 3.0f * 60;
 
 	//呪文詠唱のコヨーテ
-	const float COYOTE_SPELL = 0.9f;
+	const float COYOTE_SPELL = 0.8f;
 
 private:
 	//マジックミサイルの間隔

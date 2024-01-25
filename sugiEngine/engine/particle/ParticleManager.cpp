@@ -79,7 +79,14 @@ void ParticleManager::Clear()
 void ParticleManager::AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector4 color, bool isEdit)
 {
 	if (isEdit || !GetIsEdit()) {
-		particle_[CIRCLE].AddEditScaleAndColor(pos, particleData_[num], scale, color);
+		particle_[particleData_[num].texNum].AddEditScaleAndColor(pos, particleData_[num], scale, color);
+	}
+}
+
+void ParticleManager::AddFromFileEditColor(uint8_t num, Vector3 pos, Vector4 color, bool isEdit)
+{
+	if (isEdit || !GetIsEdit()) {
+		particle_[particleData_[num].texNum].AddEditColor(pos, particleData_[num], color);
 	}
 }
 

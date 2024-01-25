@@ -768,6 +768,43 @@ void Particle::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vec
 		);
 	}
 }
+void Particle::AddEditColor(Vector3 pos, EditFile data, Vector4 color)
+{
+	//ランダム
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+
+	for (int i = 0; i < data.num; i++) {
+		std::uniform_real_distribution<float> xp(-data.posRand.x, data.posRand.x);
+		std::uniform_real_distribution<float> yp(-data.posRand.y, data.posRand.y);
+		std::uniform_real_distribution<float> zp(-data.posRand.z, data.posRand.z);
+
+		std::uniform_real_distribution<float> xv(-data.moveRand.x, data.moveRand.x);
+		std::uniform_real_distribution<float> yv(-data.moveRand.y, data.moveRand.y);
+		std::uniform_real_distribution<float> zv(-data.moveRand.z, data.moveRand.z);
+
+		std::uniform_real_distribution<float> l(-float(data.lifeRand + 0.99f), float(data.lifeRand + 0.99f));
+
+		AddCircle(
+			data.life + (int32_t)l(engine),
+			{ pos.x + data.pos.x + xp(engine),pos.y + data.pos.y + yp(engine),pos.z + data.pos.z + zp(engine) },
+			data.isRevers,
+			{ data.move.x + xv(engine),data.move.y + yv(engine), data.move.z + zv(engine) },
+			data.speed,
+			data.acceleration,
+			data.gravity,
+			data.checkS,
+			data.scale,
+			data.sColor * color,
+			data.check1,
+			data.check1Color * color,
+			data.check2,
+			data.check2Color * color,
+			data.eColor * color,
+			data.postEffect
+		);
+	}
+}
 
 void Particle::Clear()
 {
