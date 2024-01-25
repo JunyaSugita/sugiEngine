@@ -23,6 +23,7 @@ void ParticleManager::Initialize()
 	particle_[FIRE_ALPHA3].Initialize("effectFireAlpha3.png", ALPHA);
 	particle_[FIRE_ALPHA4].Initialize("effectFireAlpha4.png", ALPHA);
 	particle_[EXPLODE].Initialize("effectExplode.png");
+	particle_[ICE].Initialize("effectIce.png");
 
 	particleE_.release();
 	particleE_ = make_unique<ParticleEditor>();

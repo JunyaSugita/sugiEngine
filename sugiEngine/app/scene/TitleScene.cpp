@@ -61,7 +61,7 @@ void TitleScene::Update()
 	Camera* camera = Camera::GetInstance();
 
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
-		ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, POS_FIRE);
+		ParticleManager::GetInstance()->AddFromFile(P_FIRE, POS_FIRE);
 		ParticleManager::GetInstance()->AddFromFile(P_FIRE2, POS_FIRE);
 	}
 	else {

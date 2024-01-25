@@ -33,6 +33,7 @@ void Torch::Update()
 	lightGroup_->SetPointLightAtten(useLightNum_, { atten(engine),atten(engine),atten(engine) });
 
 	ParticleManager::GetInstance()->AddFromFile(P_TORCH, torchObj_.pos);
+	ParticleManager::GetInstance()->AddFromFile(P_TORCH2, torchObj_.pos);
 
 	torchObj_.Update();
 }

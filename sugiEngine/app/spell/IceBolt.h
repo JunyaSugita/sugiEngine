@@ -10,6 +10,7 @@ class IceBolt : public BaseSpell{
 public:
 	void Initialize(Vector3 pos, Vector3 vec)override;
 	void Update()override;
+	void Draw()override;
 
 public:
 	const float SPEED_MOVE = 0.5f;	//魔法のスピード

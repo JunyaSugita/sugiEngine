@@ -22,7 +22,7 @@ void NaviPointManager::Draw()
 {
 	for (int i = 0; i < naviPoints_.size(); i++) {
 		if (naviPoints_[i].score < 99999) {
-			ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, naviPoints_[i].pos);
+			ParticleManager::GetInstance()->AddFromFile(P_FIRE, naviPoints_[i].pos);
 		}
 		else if (naviPoints_[i].score == 99999) {
 			ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, naviPoints_[i].pos);

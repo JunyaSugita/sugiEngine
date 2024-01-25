@@ -30,7 +30,12 @@ void IceBolt::Update()
 {
 	if (!isHit_) {
 		ParticleManager::GetInstance()->AddFromFile(P_ICE, obj_.pos);
+		ParticleManager::GetInstance()->AddFromFile(P_ICE2, obj_.pos);
 	}
 
 	BaseSpell::Update();
+}
+
+void IceBolt::Draw()
+{
 }

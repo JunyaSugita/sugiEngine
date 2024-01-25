@@ -27,7 +27,7 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 void FireBall::Update()
 {
 	if (!isHit_) {
-		ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, obj_.pos);
+		ParticleManager::GetInstance()->AddFromFile(P_FIRE, obj_.pos);
 		ParticleManager::GetInstance()->AddFromFile(P_FIRE2, obj_.pos);
 	}
 	else {
