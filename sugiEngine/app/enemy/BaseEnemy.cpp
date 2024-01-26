@@ -19,7 +19,7 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 {
 	//モデルデータは先に派生クラスで読み込む
 	obj_.Initialize(name);
-	BaseCol::Initialize(obj_.pos,col_.size,ENEMY,gap_);
+	BaseCol::Initialize(obj_.pos, col_.size, ENEMY, gap_);
 
 	//位置
 	obj_.pos = pos;
@@ -47,18 +47,18 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 
 	//移動適応
 	WorldTransUpdate();
-	BaseCol::SetCol(obj_.pos,col_.size);
+	BaseCol::SetCol(obj_.pos, col_.size);
 }
 
 void BaseEnemy::Update()
 {
+	//シェイクを戻す
+	ResetShake();
 	//1フレ前の座標を保存
 	SetOldCol();
 
 	//倒れている時の処理
 	if (isDown_) {
-		//シェイクを戻す
-		ResetShake();
 		Down();
 		//弱点の体変更
 		WeakBodyColor();
@@ -316,10 +316,12 @@ void BaseEnemy::UpdateDebuff()
 
 			if (!isDown_) {
 				ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_ICE, obj_.pos);
+				ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_ICE2, obj_.pos);
 			}
 			if (--debuff_.iceTime < 0) {
 				if (!isDown_) {
 					ParticleManager::GetInstance()->AddFromFile(P_ICE_BREAK, obj_.pos);
+					ParticleManager::GetInstance()->AddFromFile(P_ICE_BREAK2, obj_.pos);
 				}
 				debuff_.isIce = false;
 			}
@@ -370,6 +372,7 @@ void BaseEnemy::SetCol()
 void BaseEnemy::PopDebuffFireParticle()
 {
 	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.pos);
+	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE2, col_.pos);
 }
 
 void BaseEnemy::Down()

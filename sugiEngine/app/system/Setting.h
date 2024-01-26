@@ -76,7 +76,7 @@ private:
 	Slider slider_[MENU_NUM];
 	float BGMVol_ = 0.8f;
 	float SEVol_ = 0.8f;
-	float XSensi_ = 1.0f;
-	float YSensi_ = 1.0f;
+	float XSensi_ = 0.3f;
+	float YSensi_ = 0.3f;
 };
 

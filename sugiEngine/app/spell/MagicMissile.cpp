@@ -32,6 +32,7 @@ void MagicMissile::Update()
 {
 	if (!isHit_) {
 		ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, obj_.pos);
+		ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE2, obj_.pos);
 	}
 	else {
 		lightGroup_->SetPointLightActive(useLightNum_, false);
@@ -40,4 +41,9 @@ void MagicMissile::Update()
 	BaseSpell::Update();
 
 	lightGroup_->SetPointLightPos(useLightNum_, { obj_.pos.x, obj_.pos.y ,obj_.pos.z });
+}
+
+void MagicMissile::Draw()
+{
+	BaseSpell::Draw();
 }

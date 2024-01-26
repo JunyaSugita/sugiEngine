@@ -19,9 +19,9 @@ public:
 
 private:
 	//最大数
-	static const int NUM = 50;
+	static const int NUM = 100;
 	//サイズ
-	const float SIZE = 0.05f;
+	const float SIZE = 0.1f;
 	//生存時間
 	const float TIME = 30;
 

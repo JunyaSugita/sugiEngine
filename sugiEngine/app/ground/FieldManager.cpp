@@ -4,7 +4,7 @@
 #include "ModelManager.h"
 #include "ClearChecker.h"
 #include "StageSelectManager.h"
-#include "ParticleManager.h"
+#include "Particle.h"
 #include "ColliderManager.h"
 
 using namespace std;
@@ -137,7 +137,7 @@ void FieldManager::SetFloor(Vector3 pos, Vector3 scale)
 	tempObj->rot = { 0,0,0 };
 	tempObj->scale = scale;
 	tempObj->obj->SetColor({ 1,1,1,1 });
-	tempObj->obj->SetTiling({ 50,50 });
+	tempObj->obj->SetTiling({ 100,100 });
 
 	objs_.push_back(std::move(tempObj));
 

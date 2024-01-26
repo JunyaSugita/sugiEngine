@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "FbxLoader.h"
 #include "PostEffect.h"
-
 #include "Player.h"
 #include "EnemyManager.h"
 #include "EffectManager.h"
@@ -17,6 +16,7 @@
 #include "MenuManager.h"
 #include "PlayerWeapon.h"
 #include "ColliderManager.h"
+#include "ParticleManager.h"
 
 using namespace ImGui;
 using namespace std;
@@ -249,16 +249,14 @@ void GameScene::ObjDraw()
 		FieldManager::GetInstance()->Draw();
 		EffectManager::GetInstance()->Draw();
 		SpellManager::GetInstance()->Draw();
-
+		EnemyManager::GetInstance()->Draw();
 		ColliderManager::GetInstance()->Draw();
 	}
 }
 
 void GameScene::ObjDraw2()
 {
-
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
-		EnemyManager::GetInstance()->Draw();
 		EnemyManager::GetInstance()->DrawTransparent();
 		Player::GetInstance()->Draw();
 	}

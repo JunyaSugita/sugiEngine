@@ -32,7 +32,9 @@ void Slime::DrawTransparent()
 
 void Slime::WorldTransUpdate()
 {
-	BaseCol::Update(obj_.pos,obj_.scale);
+	if (!debuff_.isIce) {
+		BaseCol::Update(obj_.pos, obj_.scale);
+	}
 	BaseEnemy::WorldTransUpdate();
 }
 
@@ -143,9 +145,11 @@ void Slime::PopDebuffFireParticle()
 		std::uniform_real_distribution<float> z(-RENGE_DOWN_FIELD, RENGE_DOWN_FIELD);
 
 		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, { col_.pos.x + x(engine), col_.pos.y ,col_.pos.z + z(engine) });
+		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE2, { col_.pos.x + x(engine), col_.pos.y ,col_.pos.z + z(engine) });
 	}
 	else {
 		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.pos);
+		ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE2, col_.pos);
 	}
 }
 

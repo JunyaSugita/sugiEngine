@@ -241,12 +241,18 @@ void Player::CameraMove()
 	float stickX = float(input->GetRStickX()) / 32768.0f;
 	float stickY = float(input->GetRStickY()) / 32768.0f;
 
+	Vector3 vec = camera->GetTarget() - camera->GetEye();
+	float assist = 1;
+	if (ColliderManager::GetInstance()->CheckHitEnemyToRay(Camera::GetInstance()->GetEye(), vec.normalize()) && (input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->GetLTrigger())) {
+		assist = 0.3f;
+	}
+
 	if (input->GetRStickX()) {
-		cameraAngle_.x += SPEED_CAMERA * stickX;
+		cameraAngle_.x += SPEED_CAMERA * stickX * assist;
 	}
 
 	if (input->GetRStickY()) {
-		cameraAngle_.y += SPEED_CAMERA * stickY;
+		cameraAngle_.y += SPEED_CAMERA * stickY * assist;
 
 		//最大値設定
 		if (cameraAngle_.y > RAD / 2) {
@@ -302,7 +308,11 @@ void Player::Attack()
 		attackTime_ = TIME_ATTACK_NORMAL;
 	}
 	//呪文詠唱
-	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->GetLTrigger() || input->ReleaseLTrigger()) && !spellM->GetIsUseSpell() || (SpellManager::GetInstance()->ChargePercent() > 0.90f && SpellManager::GetInstance()->ChargePercent() < 1)) {
+	if ((input->PushKey(DIK_E) || input->ReleaseKey(DIK_E) || input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->ReleaseButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->GetLTrigger() || input->ReleaseLTrigger()) && !spellM->GetIsUseSpell()) {
+		ChargeSpell(LoadOut::GetInstance()->GetSpell(presetSpell_));
+		isSpell_ = true;
+	}
+	else if (SpellManager::GetInstance()->ChargePercent() > 0.8f && SpellManager::GetInstance()->ChargePercent() < 1) {
 		ChargeSpell(LoadOut::GetInstance()->GetSpell(presetSpell_));
 		isSpell_ = true;
 	}

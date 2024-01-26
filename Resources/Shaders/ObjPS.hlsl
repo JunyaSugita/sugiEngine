@@ -107,8 +107,6 @@ PSOutput main(VSOutput input)
             }
         }
     }
-    
-
 
     if (isSimple)
     {

@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "EffectManager.h"
-#include "ParticleManager.h"
+#include "Particle.h"
 #include "Tutorial.h"
 #include "NaviPointManager.h"
 #include "ModelManager.h"
@@ -33,13 +33,70 @@ void Fly::Initialize(std::string name, Vector3 pos)
 	obj_.scale.x = 2;
 
 	gap_ = 0.0f;
-	col_.size = {2,1,2};
+	col_.size = { 2,1,2 };
 
 	obj_.obj->SetColor(COLOR_BODY);
 	wingL_.obj->SetColor(COLOR_BODY);
 	wingR_.obj->SetColor(COLOR_BODY);
 
 	serial_ = 2;
+}
+
+void Fly::Update()
+{
+	if (!debuff_.isIce) {
+		ResetShake();
+	}
+	//1フレ前の座標を保存
+	SetOldCol();
+
+	//倒れている時の処理
+	if (isDown_) {
+		Down();
+		//弱点の体変更
+		WeakBodyColor();
+		//移動を適応
+		WorldTransUpdate();
+
+		return;
+	}
+
+	//デバフの適応
+	UpdateDebuff();
+
+	//弱点の体変更
+	WeakBodyColor();
+
+	//動けるかどうか
+	if (isCanMove()) {
+		if (!isAttack_ && !sIsDebugStop_) {
+			//移動
+			Move();
+		}
+
+		//攻撃
+		Attack();
+
+		//プレイヤーの方へゆっくり回転
+		SetAngleToPlayer();
+
+		BaseCol::Update(obj_.pos, col_.size);
+	}
+	else
+	{
+		DontMoveUpdate();
+		if (debuff_.isThunder || debuff_.isIce) {
+			SetShake();
+		}
+	}
+
+	if (shakeTime_ > 0) {
+		SetShake();
+		shakeTime_--;
+	}
+
+	//移動を適応
+	WorldTransUpdate();
 }
 
 void Fly::Draw()
@@ -109,7 +166,7 @@ void Fly::DontMoveUpdate()
 		debuff_.iceTime = 0;
 	}
 
-	BaseCol::Update(obj_.pos,obj_.scale);
+	BaseCol::Update(obj_.pos, obj_.scale);
 }
 
 void Fly::Attack()

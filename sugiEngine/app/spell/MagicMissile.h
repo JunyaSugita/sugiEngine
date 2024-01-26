@@ -12,6 +12,7 @@ class MagicMissile : public BaseSpell{
 public:
 	void Initialize(Vector3 pos, Vector3 vec) override;
 	void Update()override;
+	void Draw()override;
 
 	//ライトグループセット
 	static void SetLight(LightGroup* lightGroup) {
@@ -20,7 +21,7 @@ public:
 
 public:
 	const float SPEED_MOVE = 1.0f;	//魔法のスピード
-	const int32_t TIME_ALIVE = 10 * 60;
+	const int32_t TIME_ALIVE = 5 * 60;
 	const float DAMAGE = 12;
 
 	static LightGroup* lightGroup_;

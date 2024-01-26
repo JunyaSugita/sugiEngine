@@ -66,7 +66,7 @@ private:
 	void WorldTransUpdate();
 
 	//使用中の呪文によって出すパーティクルの色を変える
-	void ChargeParticle(Vector3 color);
+	void ChargeParticle(Vector4 color);
 
 public:
 	const float SPEED_MOVE = 0.5f;
@@ -79,11 +79,11 @@ private:
 	const Vector3 COLOR_ORB = {0,1,1};
 	const float ALPHA_ORB = 0.5f;
 	//呪文の色
-	const Vector3 COLOR_FIRE = { 0.2f,0.04f,0 };
-	const Vector3 COLOR_THUNDER = { 0.2f,0,0.2f };
-	const Vector3 COLOR_ICE = { 0,0.04f,0.1f };
-	const Vector3 COLOR_DARK = { 0.2f,0,0.2f };
-	const Vector3 COLOR_DEF = { 0.2f,0.2f,0.2f };
+	const Vector4 COLOR_FIRE = { 0.2f,0.04f,0,1 };
+	const Vector4 COLOR_THUNDER = { 0.2f,0,0.2f,1 };
+	const Vector4 COLOR_ICE = { 0,0.04f,0.1f,1 };
+	const Vector4 COLOR_DARK = { 0.2f,0,0.2f,1 };
+	const Vector4 COLOR_DEF = { 0.2f,0.2f,0.2f,1 };
 	//クリア時の透明になるスピード
 	const float SPEED_ALPHA = 0.02f;
 	//武器の高さ

@@ -90,7 +90,6 @@ void PlayerWeapon::Update(bool isAttack, bool isAttackOn)
 			lightGroup_->SetPointLightColor(useLightNum_, COLOR_FIRE_LIGHT);
 			lightGroup_->SetPointLightAtten(useLightNum_, ATTEN_FIRE);
 		}
-		ParticleManager::GetInstance()->AddFromFile(P_WEAPON_FIRE, orbObj_.worldTrans.GetMatPos());
 		lightGroup_->SetPointLightPos(useLightNum_, { orbObj_.worldTrans.GetMatPos().x, orbObj_.worldTrans.GetMatPos().y ,orbObj_.worldTrans.GetMatPos().z });
 	}
 	else if (useLightNum_ != -1) {
@@ -236,12 +235,12 @@ void PlayerWeapon::WorldTransUpdate()
 	orbObj_.Update();
 }
 
-void PlayerWeapon::ChargeParticle(Vector3 color)
+void PlayerWeapon::ChargeParticle(Vector4 color)
 {
 	if (SpellManager::GetInstance()->ChargePercent() != 1.0f) {
 		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), SpellManager::GetInstance()->ChargePercent(), color);
 		if (SpellManager::GetInstance()->ChargePercent() >= MAGIC_COYOTE) {
-			ParticleManager::GetInstance()->AddFromFile(P_CHARGE_MAX_FIRE, orbObj_.worldTrans.GetMatPos());
+			ParticleManager::GetInstance()->AddFromFileEditColor(P_CHARGE_MAX_FIRE, orbObj_.worldTrans.GetMatPos(), color);
 		}
 	}
 	else {

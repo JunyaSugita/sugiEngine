@@ -161,7 +161,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
 	// その他の設定
-	pipelineDesc.NumRenderTargets = MULTI_RENDAR_TARGET_NUM; // 描画対象は2つ
+	pipelineDesc.NumRenderTargets = MULTI_RENDAR_TARGET_NUM; // 描画対象は8つ
 	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
 		pipelineDesc.RTVFormats[i] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0~255指定のRGBA
 	}

@@ -27,7 +27,8 @@ void FireBall::Initialize(Vector3 pos, Vector3 vec)
 void FireBall::Update()
 {
 	if (!isHit_) {
-		ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, obj_.pos);
+		ParticleManager::GetInstance()->AddFromFile(P_FIRE, obj_.pos);
+		ParticleManager::GetInstance()->AddFromFile(P_FIRE2, obj_.pos);
 	}
 	else {
 		float temp = (Player::GetInstance()->GetPos() - obj_.pos).length();
@@ -48,6 +49,7 @@ void FireBall::Draw()
 void FireBall::Explode()
 {
 	obj_.scale *= SPEED_SIZE_UP_EXPLODE;
+	SetCol(obj_.pos, obj_.scale);
 	alpha_ -= SPEED_ALPHA_EXPLODE;
 	obj_.obj->SetColor({ 1,0,0,alpha_ });
 	ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL_EXPLODE, obj_.pos);

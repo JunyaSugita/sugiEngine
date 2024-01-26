@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "ParticleManager.h"
 #include "NaviPointManager.h"
+#include "ChainLightning.h"
+#include "EffectManager.h"
 
 using namespace std;
 
@@ -326,11 +328,6 @@ Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos)
 			continue;
 		}
 
-		Vector3 naviPos = pos;
-		Vector3 way = naviPoints[i].pos - pos;
-		way /= 50;
-		way.y = 0;
-
 		forward_list<BaseCol*>::iterator itA = colliders_.begin();
 		for (; itA != colliders_.end(); ++itA) {
 			BaseCol* colA = *itA;
@@ -350,6 +347,65 @@ Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos)
 	}
 
 	return naviPoints[num].pos;
+}
+
+bool ColliderManager::CheckHitEnemyToRay(Vector3 pos, Vector3 ray)
+{
+	Vector3 endPos = pos + ray * 100;
+
+	int32_t type = -1;
+	float len = 99999;
+
+	forward_list<BaseCol*>::iterator itA = colliders_.begin();
+	for (; itA != colliders_.end(); ++itA) {
+		BaseCol* colA = *itA;
+		if (colA->GetColType() == ENEMY || colA->GetColType() == WALL) {
+			if (CheckHitLineToBox(pos, endPos, colA->GetCol())) {
+				Vector3 tempPos = CheckHitPosLineToBox(pos, endPos, colA->GetCol());
+				float tempLen = (tempPos - pos).length();
+				if (len > tempLen) {
+					type = colA->GetColType();
+					len = tempLen;
+				}
+			}
+		}
+	}
+
+	if (type != ENEMY) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+Vector3 ColliderManager::CheckHitPosEnemyToRay(Vector3 pos, Vector3 ray)
+{
+	Vector3 endPos = pos + ray * 100;
+
+	int32_t type = -1;
+	float len = 99999;
+	Vector3 ansPos;
+
+	forward_list<BaseCol*>::iterator itA = colliders_.begin();
+	for (; itA != colliders_.end(); ++itA) {
+		BaseCol* colA = *itA;
+		if (colA->GetColType() == ENEMY) {
+			if (CheckHitLineToBox(pos, endPos, colA->GetCol())) {
+				Vector3 tempPos = CheckHitPosLineToBox(pos, endPos, colA->GetCol());
+				float tempLen = (tempPos - pos).length();
+				if (len > tempLen) {
+					type = colA->GetColType();
+					len = tempLen;
+					ansPos = colA->GetCol().pos;
+					colA->SubLife(ChainLightning::DAMAGE);
+					colA->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
+				}
+			}
+		}
+	}
+
+	return ansPos;
 }
 
 bool ColliderManager::CheckNearEnemy(int32_t num)
@@ -391,9 +447,25 @@ bool ColliderManager::CheckNearEnemy(int32_t num)
 				}
 			}
 		}
+	}
+
+	return false;
 }
 
-return false;
+void ColliderManager::LightningEnemyToEnemy(Vector3 pos)
+{
+	forward_list<BaseCol*>::iterator itA = colliders_.begin();
+	for (; itA != colliders_.end(); ++itA) {
+		BaseCol* colA = *itA;
+		if (colA->GetColType() == ENEMY) {
+			if (CheckHitLineToBox(pos, colA->GetPos(), colA->GetCol()) && CheckHitCircle({ pos,{10,10,10} }, colA->GetCol())) {
+				Vector3 tempPos = CheckHitPosLineToBox(pos, colA->GetPos(), colA->GetCol());
+				colA->SubLife(ChainLightning::DAMAGE);
+				colA->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
+				EffectManager::GetInstance()->BoltGenerate(pos, colA->GetCol().pos, { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 }, { 0.5f,0.5f,1,0.5f });
+			}
+		}
+	}
 }
 
 bool ColliderManager::CheckHitBox(Col a, Col b)
@@ -538,4 +610,70 @@ bool ColliderManager::CheckHitLineToBox(Vector3 posS, Vector3 posE, Col a)
 	}
 
 	return false;
+}
+
+Vector3 ColliderManager::CheckHitPosLineToBox(Vector3 posS, Vector3 posE, Col a)
+{
+	//方向ベクトル取得
+	Vector3 way = posE - posS;
+	way.normalize();
+
+	//x軸処理
+	Vector2 hitXLength = {};
+	Vector2 AABBXPos;
+	AABBXPos.x = a.pos.x - (a.size.x + 1);
+	AABBXPos.y = a.pos.x + (a.size.x + 1);
+
+	hitXLength.x = (AABBXPos.x - posS.x) / way.x;
+	hitXLength.y = (AABBXPos.y - posS.x) / way.x;
+
+	//xを小さくしたいのでxの方が大きい時、入れ替える。
+	if (hitXLength.x > hitXLength.y) {
+		float temp = hitXLength.x;
+		hitXLength.x = hitXLength.y;
+		hitXLength.y = temp;
+	}
+
+	//y軸処理
+	Vector2 hitYLength = {};
+	Vector2 AABBYPos;
+	AABBYPos.x = a.pos.y - (a.size.y + 1);
+	AABBYPos.y = a.pos.y + (a.size.y + 1);
+
+	hitYLength.x = (AABBYPos.x - posS.y) / way.y;
+	hitYLength.y = (AABBYPos.y - posS.y) / way.y;
+
+	//xを小さくしたいのでxの方が大きい時、入れ替える。
+	if (hitYLength.x > hitYLength.y) {
+		float temp = hitYLength.x;
+		hitYLength.x = hitYLength.y;
+		hitYLength.y = temp;
+	}
+
+	//z軸処理
+	Vector2 hitZLength = {};
+	Vector2 AABBZPos;
+	AABBZPos.x = a.pos.z - (a.size.z + 1);
+	AABBZPos.y = a.pos.z + (a.size.z + 1);
+
+	hitZLength.x = (AABBZPos.x - posS.z) / way.z;
+	hitZLength.y = (AABBZPos.y - posS.z) / way.z;
+
+	//xを小さくしたいのでxの方が大きい時、入れ替える。
+	if (hitZLength.x > hitZLength.y) {
+		float temp = hitZLength.x;
+		hitZLength.x = hitZLength.y;
+		hitZLength.y = temp;
+	}
+
+	//遅い入りと早い出を計算
+	Vector2 inOut;
+
+	//入り
+	inOut.x = Max(hitXLength.x, hitYLength.x, hitZLength.x);
+
+	//出
+	inOut.y = Min(hitXLength.y, hitYLength.y, hitZLength.y);
+
+	return posS + way * inOut.x;
 }

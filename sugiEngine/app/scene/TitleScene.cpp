@@ -47,6 +47,12 @@ void TitleScene::Initialize()
 	orbObj_.worldTrans.parent_ = &obj_.worldTrans;
 	//更新
 	orbObj_.Update();
+
+	ground_.Initialize("ground");
+	ground_.pos = {0,0,0};
+	ground_.scale = { 100.0f,0.1f,100.0f };
+	ground_.obj->SetTiling({100,100});
+	ground_.Update();
 }
 
 void TitleScene::Update()
@@ -55,7 +61,8 @@ void TitleScene::Update()
 	Camera* camera = Camera::GetInstance();
 
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
-		ParticleManager::GetInstance()->AddFromFile(P_FIRE_BALL, POS_FIRE);
+		ParticleManager::GetInstance()->AddFromFile(P_FIRE, POS_FIRE);
+		ParticleManager::GetInstance()->AddFromFile(P_FIRE2, POS_FIRE);
 	}
 	else {
 		//パーティクルエディタ使用中
@@ -66,6 +73,13 @@ void TitleScene::Update()
 			angle_ += SPEED_EDIT_CAMERA_X;
 		}
 
+		if (input->PushKey(DIK_R)) {
+			EDIT_CAMERA_Y += SPEED_EDIT_CAMERA_Y;
+		}
+		if (input->PushKey(DIK_F)) {
+			EDIT_CAMERA_Y -= SPEED_EDIT_CAMERA_Y;
+		}
+
 		if (input->PushKey(DIK_W)) {
 			length_ -= SPEED_EDIT_CAMERA_Z;
 		}
@@ -73,9 +87,11 @@ void TitleScene::Update()
 			length_ += SPEED_EDIT_CAMERA_Z;
 		}
 
-		camera->SetTarget({ 0,EDIT_CAMERA_Y,0 });
+		camera->SetTarget({ 0,5,0 });
 		camera->SetEye({sinf(angle_) * length_,EDIT_CAMERA_Y,cosf(angle_) * length_ });
 		camera->Update();
+
+		ground_.Update();
 	}
 	ParticleManager::GetInstance()->Update();
 	//ライト
@@ -111,6 +127,9 @@ void TitleScene::ObjDraw()
 {
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		obj_.Draw();
+	}
+	else {
+		ground_.Draw();
 	}
 }
 
