@@ -244,7 +244,7 @@ void Player::CameraMove()
 	Vector3 vec = camera->GetTarget() - camera->GetEye();
 	float assist = 1;
 	if (ColliderManager::GetInstance()->CheckHitEnemyToRay(Camera::GetInstance()->GetEye(), vec.normalize()) && (input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->GetLTrigger())) {
-		assist = 0.3f;
+		assist = 0.6f;
 	}
 
 	if (input->GetRStickX()) {
