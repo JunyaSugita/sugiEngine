@@ -65,12 +65,34 @@ public:
 	/// <param name="col">当たり判定</param>
 	/// <returns>繋げるナビポイント</returns>
 	Vector3 CanMoveEnemyToNaviPoint(Vector3 pos1);
+	
+	/// <summary>
+	/// 向いている方向に敵がいるか(壁を考慮)
+	/// </summary>
+	/// <param name="pos">レイの視点</param>
+	/// <param name="ray">レイの方向ベクトル</param>
+	/// <returns>敵がいるか</returns>
+	bool CheckHitEnemyToRay(Vector3 pos,Vector3 ray);
+
+	/// <summary>
+	/// 向いている方向の敵の位置
+	/// </summary>
+	/// <param name="pos">レイの視点</param>
+	/// <param name="ray">レイの方向ベクトル</param>
+	/// <returns>敵の位置</returns>
+	Vector3 CheckHitPosEnemyToRay(Vector3 pos, Vector3 ray);
 
 	/// <summary>
 	/// 特定の敵が近くにいるか
 	/// </summary>
 	/// <param name="num">調べたい特定の敵の番号</param>
 	bool CheckNearEnemy(int32_t num);
+
+	/// <summary>
+	/// ライトニングに当たった敵のまわりに伝播
+	/// </summary>
+	/// <param name="pos"></param>
+	void LightningEnemyToEnemy(Vector3 pos);
 
 private:
 	/// <summary>
@@ -171,8 +193,6 @@ private:
 	/// <param name="b">obj2</param>
 	void HitPlayerToGoal(BaseCol* a, BaseCol* b);
 	
-
-
 private:
 	bool CheckHitBox(Col a, Col b);
 	bool CheckHitCircle(Col a, Col b);
@@ -182,6 +202,7 @@ private:
 	bool CheckHitZ(Col a, Col b);
 
 	bool CheckHitLineToBox(Vector3 posS,Vector3 posE,Col a);
+	Vector3 CheckHitPosLineToBox(Vector3 posS, Vector3 posE, Col a);
 
 private:
 	//デバフの時間

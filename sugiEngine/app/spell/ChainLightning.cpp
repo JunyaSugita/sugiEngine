@@ -3,6 +3,7 @@
 #include "ModelManager.h"
 #include "EffectManager.h"
 #include "Player.h"
+#include "ColliderManager.h"
 
 void ChainLightning::Initialize(Vector3 pos, Vector3 vec)
 {
@@ -31,21 +32,29 @@ void ChainLightning::Update()
 	Vector3 posS = obj_.pos;
 
 	if (!isDead_) {
-		for (int i = 0; i < MAX_LENGE; i++) {
-			obj_.pos += vec_ * SPEED_MOVE;
-			WorldTransUpdate();
+		if (ColliderManager::GetInstance()->CheckHitEnemyToRay(Camera::GetInstance()->GetEye(), vec_)) {
+			Vector3 HitPos = ColliderManager::GetInstance()->CheckHitPosEnemyToRay(Camera::GetInstance()->GetEye(), vec_);
+			EffectManager::GetInstance()->BoltGenerate(posS, HitPos, { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 }, COLOR);
 
-			if (obj_.pos.y <= 0) {
-				break;
-			}
+			ColliderManager::GetInstance()->LightningEnemyToEnemy(HitPos);
 		}
-		EffectManager::GetInstance()->BoltGenerate(posS, obj_.pos, { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 }, COLOR);
+		else {
+			for (int i = 0; i < MAX_LENGE; i++) {
+				obj_.pos += vec_ * SPEED_MOVE;
+				WorldTransUpdate();
+
+				if (obj_.pos.y <= 0) {
+					break;
+				}
+			}
+			EffectManager::GetInstance()->BoltGenerate(posS, obj_.pos, { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 }, COLOR);
+		}
 	}
 }
 
 void ChainLightning::Draw()
 {
-	obj_.Draw();
+	//obj_.Draw();
 }
 
 void ChainLightning::Fire()

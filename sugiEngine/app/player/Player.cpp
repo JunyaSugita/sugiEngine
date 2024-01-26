@@ -241,12 +241,18 @@ void Player::CameraMove()
 	float stickX = float(input->GetRStickX()) / 32768.0f;
 	float stickY = float(input->GetRStickY()) / 32768.0f;
 
+	Vector3 vec = camera->GetTarget() - camera->GetEye();
+	float assist = 1;
+	if (ColliderManager::GetInstance()->CheckHitEnemyToRay(Camera::GetInstance()->GetEye(), vec.normalize()) && (input->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) || input->GetLTrigger())) {
+		assist = 0.3f;
+	}
+
 	if (input->GetRStickX()) {
-		cameraAngle_.x += SPEED_CAMERA * stickX;
+		cameraAngle_.x += SPEED_CAMERA * stickX * assist;
 	}
 
 	if (input->GetRStickY()) {
-		cameraAngle_.y += SPEED_CAMERA * stickY;
+		cameraAngle_.y += SPEED_CAMERA * stickY * assist;
 
 		//最大値設定
 		if (cameraAngle_.y > RAD / 2) {
