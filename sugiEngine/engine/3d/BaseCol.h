@@ -35,6 +35,8 @@ public:
 	void SetCol(Vector3 pos, Vector3 scale);
 	void SetOldCol();
 
+	//当たった時の処理
+	virtual void OnCollision(BaseCol* col);
 	//当たり判定の押し出しを反映
 	virtual void HitChangePos();
 	//当たったフラグを立てる

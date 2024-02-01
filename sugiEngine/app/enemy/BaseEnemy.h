@@ -22,6 +22,7 @@ class BaseEnemy : public BaseCol {
 public:
 	virtual void Initialize(std::string name, Vector3 pos);
 	virtual void Update();
+
 	//動けない時の処理
 	virtual void DontMoveUpdate();
 	//一度目の描画
@@ -30,6 +31,8 @@ public:
 	virtual void DrawTransparent();
 	//オブジェクトの移動
 	virtual void WorldTransUpdate();
+	//当たった時の処理
+	void OnCollision(BaseCol* a)override;
 
 	//死んだあとプレイヤーに当たった時の反応
 	void DownHitPlayer()override;
@@ -215,6 +218,11 @@ protected:
 	//火のチカチカの最大値と最小値
 	const float MAX_ATTEN_FIRE = 0.006f;
 	const float MIN_ATTEN_FIRE = 0.004f;
+	//敵同士の押し出し処理
+	const float PUSH_LEN = 0.01f;
+	//呪文に当たった時のデバフの時間
+	const int32_t DEBUFF_TIME = 3;
+	const int32_t TIME_SHAKE = 10;
 
 	//本体
 	BaseObj obj_;

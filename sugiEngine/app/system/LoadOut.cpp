@@ -102,9 +102,9 @@ void LoadOut::Update()
 		//選択中のスペルを使用する
 		if (++preWindowTimer_ <= SpellManager::GetInstance()->GetMaxCharge() || SpellManager::GetInstance()->GetMaxCharge() == 0) {
 			Player::GetInstance()->ChargeSpell(selectSpell_);
-			PlayerWeapon::GetInstance()->PopChargeParticle(SpellManager::GetInstance()->GetSpellType(selectSpell_));
+			Player::GetInstance()->GetWeapon()->PopChargeParticle(SpellManager::GetInstance()->GetSpellType(selectSpell_));
 		}
-		PlayerWeapon::GetInstance()->Update(false, false);
+		Player::GetInstance()->GetWeapon()->Update(false, false);
 
 		//modeごとの異なる処理
 		if (selectMode_ == SELECT_SPELL) {

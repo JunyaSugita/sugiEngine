@@ -4,6 +4,7 @@
 #include "PostEffectSecond.h"
 #include "UIManager.h"
 #include "ParticleManager.h"
+#include "ColliderManager.h"
 
 ClearChecker* ClearChecker::GetInstance()
 {
@@ -53,6 +54,15 @@ void ClearChecker::Update()
 void ClearChecker::Draw()
 {
 	obj_.Draw();
+}
+
+void ClearChecker::OnCollision(BaseCol* a)
+{
+	if (a->GetColType() == PLAYER) {
+		if (ColliderManager::GetInstance()->CheckHitBox(a->GetCol(), GetCol())) {
+			SetClear();
+		}
+	}
 }
 
 void ClearChecker::SetGoal(Vector3 pos)

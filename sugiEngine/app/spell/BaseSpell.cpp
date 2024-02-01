@@ -62,6 +62,24 @@ void BaseSpell::Explode()
 	Dead();
 }
 
+void BaseSpell::OnCollision(BaseCol* a)
+{
+	if (a->GetColType() == WALL) {
+		if (ColliderManager::GetInstance()->CheckHitBox(GetCol(), a->GetCol())) {
+			SetIsHit();
+		}
+	}
+	else if (a->GetColType() == ENEMY) {
+		//まだ当たってない呪文と倒れている敵は判定しない
+		if (!GetIsHit() && a->GetIsDown()) {
+			return;
+		}
+		if (ColliderManager::GetInstance()->CheckHitBox(GetCol(), a->GetCol())) {
+			SetIsHit();
+		}
+	}
+}
+
 bool BaseSpell::GetIsCalcCol()
 {
 	//当たり判定を行わない

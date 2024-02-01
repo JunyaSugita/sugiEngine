@@ -28,6 +28,8 @@ public:
 	void Update();
 	void Draw();
 
+	void OnCollision(BaseCol* a)override;
+
 	//ゲッターセッター
 	void SetClear() override{
 		isClear_ = true;

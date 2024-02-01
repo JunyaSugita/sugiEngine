@@ -13,13 +13,6 @@ LightGroup* PlayerWeapon::lightGroup_ = nullptr;
 
 using namespace ImGui;
 
-PlayerWeapon* PlayerWeapon::GetInstance()
-{
-	static PlayerWeapon instance;
-
-	return &instance;
-}
-
 void PlayerWeapon::Initialize()
 {
 	obj_.Initialize("weapon");

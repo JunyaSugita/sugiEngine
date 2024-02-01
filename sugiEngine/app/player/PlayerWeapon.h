@@ -10,18 +10,6 @@
 #include "LightGroup.h"
 
 class PlayerWeapon final {
-private:
-	PlayerWeapon() = default;
-	~PlayerWeapon() = default;
-
-public:
-	//コピーコンストラクタ無効
-	PlayerWeapon(const PlayerWeapon& obj) = delete;
-	//代入演算子を無効
-	PlayerWeapon& operator=(const PlayerWeapon& obj) = delete;
-
-	static PlayerWeapon* GetInstance();
-
 public:
 	void Initialize();
 	void Update(bool isAttack, bool isAttackOn);

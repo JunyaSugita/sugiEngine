@@ -32,6 +32,8 @@ public:
 	//着弾時効果
 	virtual void Explode();
 
+	void OnCollision(BaseCol* a)override;
+
 public:
 	bool GetIsDead() {
 		return isDead_;

@@ -2,7 +2,6 @@
 #include "Camera.h"
 #include "Input.h"
 #include "EnemyManager.h"
-#include "PlayerWeapon.h"
 #include "SpellManager.h"
 #include "UIManager.h"
 #include "GameManager.h"
@@ -11,6 +10,8 @@
 #include "ClearChecker.h"
 #include "Setting.h"
 #include "ColliderManager.h"
+
+using namespace std;
 
 Player* Player::GetInstance()
 {
@@ -21,7 +22,8 @@ Player* Player::GetInstance()
 
 void Player::Initialize()
 {
-	PlayerWeapon::GetInstance()->Initialize();
+	weapon_ = make_unique<PlayerWeapon>();
+	weapon_->Initialize();
 
 	damageTex_ = Sprite::LoadTexture("damage.png");
 	damageSp_.Initialize(damageTex_);
@@ -66,7 +68,7 @@ void Player::Update()
 
 	//ゲーム終了orゲームオーバーで動けなくする
 	if (ClearChecker::GetInstance()->GetIsClear() || life_ <= 0) {
-		PlayerWeapon::GetInstance()->Update(false, false);
+		weapon_->Update(false, false);
 		isInvincible_ = true;
 		return;
 	}
@@ -89,7 +91,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	PlayerWeapon::GetInstance()->Draw();
+	weapon_->Draw();
 }
 
 void Player::SpriteDraw()
@@ -104,6 +106,37 @@ void Player::HitChangePos()
 	Camera* camera = Camera::GetInstance();
 	camera->SetEye(pos_ + CAMERA_EYE);//目線にカメラを調整
 	camera->SetTarget(pos_ + frontVec_ + CAMERA_EYE);//目線にカメラを調整
+}
+
+void Player::OnCollision(BaseCol* a)
+{
+	ColliderManager* collider = ColliderManager::GetInstance();
+
+	if (a->GetColType() == WALL) {
+		if (collider->CheckHitBox(GetCol(), a->GetCol())) {
+			//X押し戻し
+			if (collider->CheckHitX(GetCol(), a->GetCol())) {
+				if (!collider->CheckHitX(GetOldCol(), a->GetOldCol())) {
+					SetColX(GetOldCol().pos.x);
+					HitChangePos();
+				}
+			}
+			//Y押し戻し
+			if (collider->CheckHitY(GetCol(), a->GetCol())) {
+				if (!collider->CheckHitY(GetOldCol(), a->GetOldCol())) {
+					SetColY(GetOldCol().pos.y);
+					HitChangePos();
+				}
+			}
+			//Z押し戻し
+			if (collider->CheckHitZ(GetCol(), a->GetCol())) {
+				if (!collider->CheckHitZ(GetOldCol(), a->GetOldCol())) {
+					SetColZ(GetOldCol().pos.z);
+					HitChangePos();
+				}
+			}
+		}
+	}
 }
 
 void Player::ChargeSpell(int32_t num)
@@ -297,7 +330,6 @@ void Player::Attack()
 {
 	//インスタンス取得
 	Input* input = Input::GetInstance();
-	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
 	SpellManager* spellM = SpellManager::GetInstance();
 
 	bool isAttackOn = false;
@@ -336,7 +368,7 @@ void Player::Attack()
 		attackTime_--;
 	}
 
-	weapon->Update(isAttack_, isAttackOn);
+	weapon_->Update(isAttack_, isAttackOn);
 }
 
 void Player::HealLife()

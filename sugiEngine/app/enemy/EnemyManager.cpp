@@ -1,6 +1,6 @@
 //全ての敵のマネージャークラス
 #include "EnemyManager.h"
-#include "PlayerWeapon.h"
+#include "Player.h"
 #include <random>
 #include "ImGuiManager.h"
 #include "SpellManager.h"
@@ -29,8 +29,8 @@ void EnemyManager::GameInitialize()
 
 void EnemyManager::Update()
 {
-	PlayerWeapon* weapon = PlayerWeapon::GetInstance();
-	
+	Player* player = Player::GetInstance();
+
 	for (int i = 0; i < enemysList_.size(); i++) {
 		if (enemysList_[i]->GetIsDead()) {
 			enemysList_.erase(enemysList_.begin() + i);
@@ -40,10 +40,13 @@ void EnemyManager::Update()
 	for (int i = 0; i < enemysList_.size(); i++) {
 		enemysList_[i]->Update();
 
+		if (player->GetWeapon() == nullptr) {
+			break;
+		}
 		//プレイヤーが攻撃中なら
-		if (weapon->GetIsAt()) {
+		if (player->GetWeapon()->GetIsAt()) {
 			//当たり判定検索
-			if ((enemysList_[i]->GetPos() - weapon->GetHitPos()).length() < weapon->ATTACK_RADIUS) {
+			if ((enemysList_[i]->GetPos() - player->GetWeapon()->GetHitPos()).length() < player->GetWeapon()->ATTACK_RADIUS) {
 				//当たった判定を敵に与える
 				if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
 					enemysList_[i]->SetIsHit(EnchantFire::DAMAGE);

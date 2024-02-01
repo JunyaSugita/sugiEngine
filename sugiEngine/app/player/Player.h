@@ -8,6 +8,8 @@
 #include "WorldTransform.h"
 #include "SpellManager.h"
 #include "Sprite.h"
+#include "PlayerWeapon.h"
+#include <memory>
 
 class Player :public BaseCol{
 private:
@@ -28,6 +30,7 @@ public:
 	void Draw();
 	void SpriteDraw();
 	void HitChangePos() override;
+	void OnCollision(BaseCol* a) override;
 
 	//呪文を詠唱
 	void ChargeSpell(int32_t num);
@@ -123,6 +126,10 @@ public:
 		slow_ = num;
 	}
 
+	PlayerWeapon* GetWeapon() {
+		return weapon_.get();
+	}
+
 private:
 	void Move();
 	void CameraMove();
@@ -148,6 +155,7 @@ public:
 	const float PATCH_STICK = 32768.0f;
 
 private:
+	std::unique_ptr <PlayerWeapon> weapon_;
 	WorldTransform worldTrans_;
 	Vector3 pos_;
 	Vector3 rot_;

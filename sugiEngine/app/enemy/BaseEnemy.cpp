@@ -129,6 +129,86 @@ void BaseEnemy::WorldTransUpdate()
 	iceObj_.Update();
 }
 
+void BaseEnemy::OnCollision(BaseCol* a)
+{
+	if (a->GetColType() == PLAYER) {
+		if (ColliderManager::GetInstance()->CheckHitCircle(GetCol(), a->GetCol())) {
+			if (!GetIsDown()) {
+				SetIsStop();
+				SetIsAttack();
+			}
+			else {
+				DownHitPlayer();
+			}
+		}
+	}
+	else if (a->GetColType() == SPELL) {
+		//まだ当たってない呪文と倒れている敵は判定しない
+		if (!a->GetIsHit() && GetIsDown()) {
+			return;
+		}
+		if (ColliderManager::GetInstance()->CheckHitBox(a->GetCol(), GetCol())) {
+			if (!a->GetIsHit()) {
+				//敵に当たった瞬間
+				ParticleManager::GetInstance()->AddFromFile(P_DAMAGE, a->GetPos());
+				SetShakeTime(TIME_SHAKE);
+			}
+			SubLife(a->GetDamage());
+			SetDebuff(a->GetDebuff(), DEBUFF_TIME);
+		}
+	}
+	else if (a->GetColType() == WALL) {
+		if (ColliderManager::GetInstance()->CheckHitBox(GetCol(), a->GetCol())) {
+			//X押し戻し
+			if (ColliderManager::GetInstance()->CheckHitX(GetCol(), a->GetCol())) {
+				if (!ColliderManager::GetInstance()->CheckHitX(GetOldCol(), a->GetOldCol())) {
+					SetColX(GetOldCol().pos.x);
+					HitChangePos();
+				}
+			}
+			//Y押し戻し
+			if (ColliderManager::GetInstance()->CheckHitY(GetCol(), a->GetCol())) {
+				if (!ColliderManager::GetInstance()->CheckHitY(GetOldCol(), a->GetOldCol())) {
+					SetColY(GetOldCol().pos.y);
+					HitChangePos();
+				}
+			}
+			//Z押し戻し
+			if (ColliderManager::GetInstance()->CheckHitZ(GetCol(), a->GetCol())) {
+				if (!ColliderManager::GetInstance()->CheckHitZ(GetOldCol(), a->GetOldCol())) {
+					SetColZ(GetOldCol().pos.z);
+					HitChangePos();
+				}
+			}
+		}
+	}
+	else if (a->GetColType() == ENEMY) {
+		if (!GetIsDown() && !a->GetIsDown()) {
+			if (ColliderManager::GetInstance()->CheckHitCircle(GetCol(), a->GetCol())) {
+				if (GetCol().pos.x <= a->GetCol().pos.x) {
+					AddColX(-PUSH_LEN);
+				}
+				else if (GetCol().pos.x > a->GetCol().pos.x) {
+					AddColX(PUSH_LEN);
+				}
+
+				if (GetCol().pos.z <= a->GetCol().pos.z) {
+					AddColZ(-PUSH_LEN);
+				}
+				else if (GetCol().pos.z > a->GetCol().pos.z) {
+					AddColZ(PUSH_LEN);
+				}
+			}
+		}
+		//相手のみが倒れてる
+		else if (!GetIsDown() && a->GetIsDown()) {
+			if (ColliderManager::GetInstance()->CheckHitCircle(GetCol(), a->GetCol())) {
+				SetDownHitEnemy(a->GetDownHitEnemy());
+			}
+		}
+	}
+}
+
 void BaseEnemy::DownHitPlayer()
 {
 
