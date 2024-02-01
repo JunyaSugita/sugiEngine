@@ -190,5 +190,3 @@ private:
 	//移動速度低下処理
 	float slow_;
 };
-
-float Radian(float r);

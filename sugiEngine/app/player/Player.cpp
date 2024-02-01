@@ -387,7 +387,3 @@ void Player::WorldTransUpdate()
 	worldTrans_.SetRot(rot_);
 	worldTrans_.SetScale(scale_);
 }
-
-float Radian(float r) {
-	return r * (PI / RAD);
-}

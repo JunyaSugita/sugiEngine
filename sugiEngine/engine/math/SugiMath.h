@@ -13,6 +13,9 @@
 const float PI = 3.14159265f;
 const float RAD = 180.0f;
 
+//弧度法変換
+float Radian(float r);
+
 //最小を求める
 float Min(float a,float b);
 float Min(float a,float b ,float c);
@@ -22,3 +25,5 @@ float Min(float a, float b, float c, float d);
 float Max(float a, float b);
 float Max(float a, float b, float c);
 float Max(float a, float b, float c, float d);
+
+

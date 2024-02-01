@@ -1,5 +1,10 @@
 #include "SugiMath.h"
 
+float Radian(float r)
+{
+    return r * (PI / RAD);
+}
+
 float Min(float a, float b)
 {
     if (a < b) {
