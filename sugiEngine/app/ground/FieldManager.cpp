@@ -22,6 +22,7 @@ void FieldManager::Initialize(int num)
 {
 	lightGroup_->PointLightAllClear();
 	NaviPointManager::GetInstance()->Initialize();
+	ClearChecker::GetInstance()->ResetHp();
 
 	// レベルデータの読み込み
 	LoadStage(num);

@@ -6,6 +6,7 @@
 #include "SpellManager.h"
 #include "Slime.h"
 #include "Fly.h"
+#include "ClearChecker.h"
 
 using namespace std;
 using namespace ImGui;
@@ -30,6 +31,8 @@ void EnemyManager::GameInitialize()
 void EnemyManager::Update()
 {
 	Player* player = Player::GetInstance();
+	
+	ClearChecker::GetInstance()->ResetNowHp();
 
 	for (int i = 0; i < enemysList_.size(); i++) {
 		if (enemysList_[i]->GetIsDead()) {

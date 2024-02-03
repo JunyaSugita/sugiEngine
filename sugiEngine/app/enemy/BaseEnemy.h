@@ -277,4 +277,7 @@ protected:
 
 	//シリアル
 	int32_t serial_ = 0;
+
+	//最初のフレームか
+	bool isFirstFrame_ = false;
 };

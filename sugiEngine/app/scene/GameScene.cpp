@@ -278,7 +278,7 @@ void GameScene::SpriteDraw()
 			gameOver_.Draw();
 		}
 		UIManager::GetInstance()->Draw();
-
+		ClearChecker::GetInstance()->SpriteDraw();
 		MenuManager::GetInstance()->Draw();
 	}
 }

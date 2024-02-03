@@ -27,6 +27,11 @@ public:
 	void GameInitialize();
 	void Update();
 	void Draw();
+	void SpriteDraw();
+	void ResetHp();
+	void ResetNowHp(){
+		nowHp_ = 0;
+	};
 
 	void OnCollision(BaseCol* a)override;
 
@@ -42,6 +47,13 @@ public:
 	}
 	void SetGoal(Vector3 pos);
 
+	void AddMaxHp(float hp) {
+		maxHp_ += hp;
+	}
+	void AddNowHp(float hp) {
+		nowHp_ += hp;
+	}
+
 private:
 	//ブラー
 	const float MAX_BLUR = 5;
@@ -53,4 +65,10 @@ private:
 
 	bool isClear_;
 	float blur_;
+
+	//敵の全滅の情報
+	float maxHp_ = 0;
+	float nowHp_ = 0;
+
+	Gauge enemyGauge_;
 };

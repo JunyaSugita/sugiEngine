@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "ModelManager.h"
 #include "ColliderManager.h"
+#include "ClearChecker.h"
 
 #include <random>
 
@@ -52,6 +53,12 @@ void BaseEnemy::Initialize(std::string name, Vector3 pos)
 
 void BaseEnemy::Update()
 {
+	//最初の1フレーム目で敵の体力を記録
+	if (!isFirstFrame_) {
+		ClearChecker::GetInstance()->AddMaxHp(life_);
+		isFirstFrame_ = true;
+	}
+
 	//シェイクを戻す
 	ResetShake();
 	//1フレ前の座標を保存
@@ -101,6 +108,7 @@ void BaseEnemy::Update()
 		SetShake();
 		shakeTime_--;
 	}
+	ClearChecker::GetInstance()->AddNowHp(life_);
 
 	//移動を適応
 	WorldTransUpdate();

@@ -43,6 +43,7 @@ void BaseCol::SetOldCol()
 
 void BaseCol::OnCollision(BaseCol* a)
 {
+	a;
 }
 
 void BaseCol::HitChangePos()

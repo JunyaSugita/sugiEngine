@@ -644,8 +644,6 @@ void Sprite::SetUpVertex() {
 	for (int32_t i = 0; i < 4; i++) {
 		vertMap[i] = vertices_[i]; // 座標をコピー
 	}
-	// 繋がりを解除
-	//vertBuff_->Unmap(0, nullptr);
 
 	//ワールド変換行列
 	WorldTransform matTransform;
