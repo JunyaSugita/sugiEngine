@@ -2,7 +2,7 @@
 
 void Box::Initialize(Vector2 pos, Vector2 size,Vector4 color)
 {
-	box_.Initialize(Sprite::LoadTexture("white1x1.png"));
+	box_.Initialize(Sprite::LoadTexture("white1x1","png"));
 	box_.SetAnchorPoint(0.5f,0.5f);
 
 	pos_ = pos;

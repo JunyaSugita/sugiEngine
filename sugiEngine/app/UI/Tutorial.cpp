@@ -14,17 +14,17 @@ Tutorial* Tutorial::GetInstance()
 
 void Tutorial::Initialize()
 {
-	tex_[TUTORIAL0][ANIME0] = Sprite::LoadTexture("tutorial1_1.png");
-	tex_[TUTORIAL0][ANIME1] = Sprite::LoadTexture("tutorial1_2.png");
-	tex_[TUTORIAL1][ANIME0] = Sprite::LoadTexture("tutorial2_1.png");
-	tex_[TUTORIAL1][ANIME1] = Sprite::LoadTexture("tutorial2_2.png");
-	tex_[TUTORIAL2][ANIME0] = Sprite::LoadTexture("tutorial3_1.png");
-	tex_[TUTORIAL2][ANIME1] = Sprite::LoadTexture("tutorial3_2.png");
-	tex_[TUTORIAL3][ANIME0] = Sprite::LoadTexture("tutorial4_1.png");
-	tex_[TUTORIAL3][ANIME1] = Sprite::LoadTexture("tutorial4_2.png");
-	tex_[TUTORIAL4][ANIME0] = Sprite::LoadTexture("tutorial5.png");
-	tex_[TUTORIAL4][ANIME1] = Sprite::LoadTexture("tutorial5.png");
-	texStart_ = Sprite::LoadTexture("start.png");
+	tex_[TUTORIAL0][ANIME0] = Sprite::LoadTexture("tutorial1_1", "png");
+	tex_[TUTORIAL0][ANIME1] = Sprite::LoadTexture("tutorial1_2", "png");
+	tex_[TUTORIAL1][ANIME0] = Sprite::LoadTexture("tutorial2_1", "png");
+	tex_[TUTORIAL1][ANIME1] = Sprite::LoadTexture("tutorial2_2", "png");
+	tex_[TUTORIAL2][ANIME0] = Sprite::LoadTexture("tutorial3_1", "png");
+	tex_[TUTORIAL2][ANIME1] = Sprite::LoadTexture("tutorial3_2", "png");
+	tex_[TUTORIAL3][ANIME0] = Sprite::LoadTexture("tutorial4_1", "png");
+	tex_[TUTORIAL3][ANIME1] = Sprite::LoadTexture("tutorial4_2", "png");
+	tex_[TUTORIAL4][ANIME0] = Sprite::LoadTexture("tutorial5", "png");
+	tex_[TUTORIAL4][ANIME1] = Sprite::LoadTexture("tutorial5", "png");
+	texStart_ = Sprite::LoadTexture("start", "png");
 
 	sprite_.Initialize(tex_[TUTORIAL0][ANIME0]);
 	sprite_.SetPos(0,0);

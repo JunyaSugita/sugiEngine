@@ -10,8 +10,8 @@ SpellCharge* SpellCharge::GetInstance()
 
 void SpellCharge::Initialize()
 {
-	spellTex_ = Sprite::LoadTexture("ChargeGauge.png");
-	chargeTex_ = Sprite::LoadTexture("white1x1.png");
+	spellTex_ = Sprite::LoadTexture("ChargeGauge","png");
+	chargeTex_ = Sprite::LoadTexture("white1x1","png");
 
 	spellSprite_.Initialize(spellTex_);
 	spellSprite_.SetAnchorPoint(0.5f, 0.5f);

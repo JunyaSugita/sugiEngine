@@ -26,7 +26,7 @@ void TitleScene::Initialize()
 		sound_.SetVolume("BGM", 0.3f);
 	}
 
-	titleTex_ = Sprite::LoadTexture("title.png");
+	titleTex_ = Sprite::LoadTexture("title", "dds");
 	titleSp_.Initialize(titleTex_);
 
 	//武器の設定

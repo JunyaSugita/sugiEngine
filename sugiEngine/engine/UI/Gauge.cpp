@@ -1,9 +1,9 @@
-﻿#include "Gauge.h"
+#include "Gauge.h"
 
 void Gauge::Set(Vector2 pos, Vector2 size, Vector3 color)
 {
-	maxTex_ = Sprite::LoadTexture("ChargeGauge.png");
-	nowTex_ = Sprite::LoadTexture("white1x1.png");
+	maxTex_ = Sprite::LoadTexture("ChargeGauge","png");
+	nowTex_ = Sprite::LoadTexture("white1x1","png");
 
 	maxSp_.Initialize(maxTex_);
 	easingSp_.Initialize(nowTex_);

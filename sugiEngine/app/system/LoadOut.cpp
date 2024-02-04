@@ -32,14 +32,14 @@ void LoadOut::Initialize()
 	selectNum_ = 0;
 	selectMode_ = SELECT_SPELL;
 
-	spellTexNum_[FIRE_BALL] = Sprite::LoadTexture("fireBallIcon.png");
-	spellTexNum_[MAGIC_MISSILE] = Sprite::LoadTexture("magicMissileIcon.png");
-	spellTexNum_[ICE_BOLT] = Sprite::LoadTexture("iceBolt.png");
-	spellTexNum_[CHAIN_LIGHTNING] = Sprite::LoadTexture("chainLightning.png");
-	spellTexNum_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantFireIcon.png");
-	spellTexNum_[FLAME] = Sprite::LoadTexture("flame.png");
+	spellTexNum_[FIRE_BALL] = Sprite::LoadTexture("fireBallIcon", "png");
+	spellTexNum_[MAGIC_MISSILE] = Sprite::LoadTexture("magicMissileIcon", "png");
+	spellTexNum_[ICE_BOLT] = Sprite::LoadTexture("iceBolt", "png");
+	spellTexNum_[CHAIN_LIGHTNING] = Sprite::LoadTexture("chainLightning", "png");
+	spellTexNum_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantFireIcon", "png");
+	spellTexNum_[FLAME] = Sprite::LoadTexture("flame", "png");
 	for (int i = MAGIC_END; i < SPELL_ALL; i++) {
-		spellTexNum_[i] = Sprite::LoadTexture("comingSoonIcon.png");
+		spellTexNum_[i] = Sprite::LoadTexture("comingSoonIcon", "png");
 	}
 
 	for (int i = 0; i < SPELL_ALL; i++) {
@@ -52,22 +52,22 @@ void LoadOut::Initialize()
 		}
 	}
 
-	hiLight_.Initialize(Sprite::LoadTexture("white1x1.png"));
+	hiLight_.Initialize(Sprite::LoadTexture("white1x1", "png"));
 	hiLight_.SetSize(120,120);
 	hiLight_.SetPos(preview_[selectSpell_].GetPos());
 	
-	back_.Initialize(Sprite::LoadTexture("LoadOut.png"));
+	back_.Initialize(Sprite::LoadTexture("LoadOut", "png"));
 
-	int a = Sprite::LoadTexture("Explan.png");
+	int a = Sprite::LoadTexture("Explan", "png");
 	for (int i = 0; i < SPELL_ALL; i++) {
 		spellExplanTex_[i] = a;
 	}
-	spellExplanTex_[FIRE_BALL] = Sprite::LoadTexture("fireBallExplan.png");
-	spellExplanTex_[MAGIC_MISSILE] = Sprite::LoadTexture("magicMissileExplan.png");
-	spellExplanTex_[ICE_BOLT] = Sprite::LoadTexture("iceBoltExplan.png");
-	spellExplanTex_[CHAIN_LIGHTNING] = Sprite::LoadTexture("lightningExplan.png");
-	spellExplanTex_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantExplan.png");
-	spellExplanTex_[FLAME] = Sprite::LoadTexture("flameExplan.png");
+	spellExplanTex_[FIRE_BALL] = Sprite::LoadTexture("fireBallExplan", "png");
+	spellExplanTex_[MAGIC_MISSILE] = Sprite::LoadTexture("magicMissileExplan", "png");
+	spellExplanTex_[ICE_BOLT] = Sprite::LoadTexture("iceBoltExplan", "png");
+	spellExplanTex_[CHAIN_LIGHTNING] = Sprite::LoadTexture("lightningExplan", "png");
+	spellExplanTex_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantExplan", "png");
+	spellExplanTex_[FLAME] = Sprite::LoadTexture("flameExplan", "png");
 
 	SpellExplanation_.Initialize(spellExplanTex_[0]);
 	SpellExplanation_.SetPos({740,300});
