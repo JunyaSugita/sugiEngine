@@ -31,7 +31,7 @@ public:
 
 	static void PostDraw();
 
-	static uint32_t LoadTexture(const std::string& textureName);
+	static uint32_t LoadTexture(const std::string& textureName,const std::string& fileExt);
 
 protected:
 	//デバイス

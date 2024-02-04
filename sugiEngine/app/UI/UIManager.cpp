@@ -22,10 +22,10 @@ void UIManager::Initialize()
 	Tutorial::GetInstance()->Initialize();
 	SceneChange::GetInstance()->Initialize();
 
-	clearTex_ = Sprite::LoadTexture("gameClear.png");
-	gameOverTex_ = Sprite::LoadTexture("gameOver.png");
+	clearTex_ = Sprite::LoadTexture("gameClear", "png");
+	gameOverTex_ = Sprite::LoadTexture("gameOver", "png");
 
-	gotoLoadOut_.Initialize(Sprite::LoadTexture("goToLoadOut.png"));
+	gotoLoadOut_.Initialize(Sprite::LoadTexture("goToLoadOut", "png"));
 
 	stateSp_.Initialize(clearTex_);
 	stateSp_.SetAnchorPoint(0.5f,0.5f);

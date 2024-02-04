@@ -15,19 +15,19 @@ SetSpell* SetSpell::GetInstance()
 void SetSpell::Initialize()
 {
 	if (!isFirst_) {
-		fireBallTex_ = Sprite::LoadTexture("fireBallIcon.png");
-		magicMissileTex_ = Sprite::LoadTexture("magicMissileIcon.png");
-		iceBoltTex_ = Sprite::LoadTexture("iceBolt.png");
-		chainLightningTex_ = Sprite::LoadTexture("chainLightning.png");
-		enchantFireTex_ = Sprite::LoadTexture("enchantFireIcon.png");
-		flameTex_ = Sprite::LoadTexture("flame.png");
-		buttonTex_[0] = Sprite::LoadTexture("Button_Y.png");
-		buttonTex_[1] = Sprite::LoadTexture("Button_B.png");
-		buttonTex_[2] = Sprite::LoadTexture("Button_A.png");
-		buttonTex_[3] = Sprite::LoadTexture("Button_X.png");
+		fireBallTex_ = Sprite::LoadTexture("fireBallIcon", "png");
+		magicMissileTex_ = Sprite::LoadTexture("magicMissileIcon", "png");
+		iceBoltTex_ = Sprite::LoadTexture("iceBolt", "png");
+		chainLightningTex_ = Sprite::LoadTexture("chainLightning", "png");
+		enchantFireTex_ = Sprite::LoadTexture("enchantFireIcon", "png");
+		flameTex_ = Sprite::LoadTexture("flame", "png");
+		buttonTex_[0] = Sprite::LoadTexture("Button_Y", "png");
+		buttonTex_[1] = Sprite::LoadTexture("Button_B", "png");
+		buttonTex_[2] = Sprite::LoadTexture("Button_A", "png");
+		buttonTex_[3] = Sprite::LoadTexture("Button_X", "png");
 
-		comingSoonTex_ = Sprite::LoadTexture("comingSoonIcon.png");
-		selectHiLightTex_ = Sprite::LoadTexture("white1x1.png");
+		comingSoonTex_ = Sprite::LoadTexture("comingSoonIcon", "png");
+		selectHiLightTex_ = Sprite::LoadTexture("white1x1", "png");
 
 		spellSprite_[Y_BUTTON].Initialize(fireBallTex_);
 		spellSprite_[Y_BUTTON].SetAnchorPoint(0.5f, 0.5f);

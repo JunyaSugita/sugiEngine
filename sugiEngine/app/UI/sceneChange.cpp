@@ -1,4 +1,4 @@
-﻿#include "SceneChange.h"
+#include "SceneChange.h"
 #include "GlobalSetting.h"
 #include "SugiMath.h"
 
@@ -11,7 +11,7 @@ SceneChange* SceneChange::GetInstance()
 
 void SceneChange::Initialize()
 {
-	sceneTex_ = Sprite::LoadTexture("white1x1.png");
+	sceneTex_ = Sprite::LoadTexture("white1x1", "png");
 
 	sceneSp_.Initialize(sceneTex_);
 	sceneSp_.SetSize(WIN_WIDTH,WIN_HEIGHT);

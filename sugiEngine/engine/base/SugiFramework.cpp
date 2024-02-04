@@ -42,7 +42,7 @@ void SugiFramework::Initialize()
 #pragma endregion
 
 	//PostEffect
-	Sprite::LoadTexture("white1x1.png");
+	Sprite::LoadTexture("white1x1", "png");
 
 	postEffect = make_unique <PostEffect>();
 	postEffect->Initialize(dxCom_->GetDevice());

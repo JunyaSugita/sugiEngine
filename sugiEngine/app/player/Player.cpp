@@ -25,7 +25,7 @@ void Player::Initialize()
 	weapon_ = make_unique<PlayerWeapon>();
 	weapon_->Initialize();
 
-	damageTex_ = Sprite::LoadTexture("damage.png");
+	damageTex_ = Sprite::LoadTexture("damage", "png");
 	damageSp_.Initialize(damageTex_);
 
 	BaseCol::Initialize(pos_,scale_,PLAYER);

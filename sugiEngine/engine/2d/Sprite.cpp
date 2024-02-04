@@ -233,38 +233,40 @@ void Sprite::PostDraw()
 	Sprite::sCmdList = nullptr;
 }
 
-uint32_t Sprite::LoadTexture(const string& textureName) {
+uint32_t Sprite::LoadTexture(const string& textureName, const std::string& fileExt) {
 	HRESULT result;
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
-	string fileName = "Resources/" + textureName;
+	string fileName = "Resources/" + textureName + "." + fileExt;
 	//ユニコード文字列に変換する
 	wchar_t wfilepath[128];
 	MultiByteToWideChar(CP_ACP, 0, fileName.c_str(), -1, wfilepath, _countof(wfilepath));
 
-	//WICテクスチャのロード
-	result = LoadFromWICFile(
-		wfilepath,
-		WIC_FLAGS_NONE,
-		&metadata,
-		scratchImg
-	);
-
-	ScratchImage mipChain{};
-	//ミップマップ生成
-	result = GenerateMipMaps(
-		scratchImg.GetImages(),
-		scratchImg.GetImageCount(),
-		scratchImg.GetMetadata(),
-		TEX_FILTER_DEFAULT,
-		0,
-		mipChain
-	);
-	if (SUCCEEDED(result)) {
-		scratchImg = std::move(mipChain);
-		metadata = scratchImg.GetMetadata();
+	if (fileExt == "dds") {
+		//DDSテクスチャのロード
+		result = LoadFromDDSFile(wfilepath, DDS_FLAGS_NONE, &metadata, scratchImg);
 	}
+	else {
+		//WICテクスチャのロード
+		result = LoadFromWICFile(wfilepath, WIC_FLAGS_NONE, &metadata, scratchImg);
+
+		ScratchImage mipChain{};
+		//ミップマップ生成
+		result = GenerateMipMaps(
+			scratchImg.GetImages(),
+			scratchImg.GetImageCount(),
+			scratchImg.GetMetadata(),
+			TEX_FILTER_DEFAULT,
+			0,
+			mipChain
+		);
+		if (SUCCEEDED(result)) {
+			scratchImg = std::move(mipChain);
+			metadata = scratchImg.GetMetadata();
+		}
+	}
+
 	//読み込んだディフューズテクスチャをSRGBとして扱う
 	metadata.format = MakeSRGB(metadata.format);
 
@@ -413,12 +415,12 @@ void Sprite::Initialize(uint32_t texNum)
 	assert(SUCCEEDED(result));
 
 	//2Dの行列
-	
+
 	worldTransform_.SetMatWorld(
-		Matrix4(1,0,0,0,
-				0,1,0,0,
-				0,0,1,0,
-				0,0,0,1)
+		Matrix4(1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1)
 	);
 	worldTransform_.SetMatWorld(0, 0, 2.0f / WIN_WIDTH);
 	worldTransform_.SetMatWorld(1, 1, -2.0f / WIN_HEIGHT);

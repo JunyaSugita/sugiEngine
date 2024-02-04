@@ -14,13 +14,13 @@ void Setting::Initialize()
 	menuNum_ = 0;
 	timer_ = 0;
 
-	sprite_[BGM].Initialize(Sprite::LoadTexture("BGMVol.png"));
+	sprite_[BGM].Initialize(Sprite::LoadTexture("BGMVol", "png"));
 	sprite_[BGM].SetPos({300,100});
-	sprite_[SE].Initialize(Sprite::LoadTexture("SEVol.png"));
+	sprite_[SE].Initialize(Sprite::LoadTexture("SEVol", "png"));
 	sprite_[SE].SetPos({ 300,200 });
-	sprite_[XSensi].Initialize(Sprite::LoadTexture("XSensi.png"));
+	sprite_[XSensi].Initialize(Sprite::LoadTexture("XSensi", "png"));
 	sprite_[XSensi].SetPos({ 300,450 });
-	sprite_[YSensi].Initialize(Sprite::LoadTexture("YSensi.png"));
+	sprite_[YSensi].Initialize(Sprite::LoadTexture("YSensi", "png"));
 	sprite_[YSensi].SetPos({ 300,550 });
 	slider_[BGM].Initialize({ 800.0f,100.0f }, 0.0f, 1.0f, 500.0f);
 	slider_[SE].Initialize({ 800.0f,200.0f }, 0.0f, 1.0f, 500.0f);

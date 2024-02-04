@@ -10,7 +10,7 @@ Closshair* Closshair::GetInstance()
 
 void Closshair::Initialize()
 {
-	clossTex_ = Sprite::LoadTexture("closshair.png");
+	clossTex_ = Sprite::LoadTexture("closshair", "png");
 	clossSprite_.Initialize(clossTex_);
 	clossSprite_.SetAnchorPoint(0.5f,0.5f);
 	clossSprite_.SetPos(WIN_WIDTH / 2, WIN_HEIGHT / 2);
