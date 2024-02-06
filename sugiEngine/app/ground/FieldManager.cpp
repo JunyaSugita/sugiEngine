@@ -120,14 +120,14 @@ void FieldManager::SetLight(LightGroup* lightGroup)
 	Torch::SetLight(lightGroup);
 }
 
-void FieldManager::SetWall(Vector3 pos, Vector3 scale)
+void FieldManager::SetWall(const Vector3& pos, const Vector3& scale)
 {
 	std::unique_ptr<Wall> wall = std::make_unique<Wall>();
 	wall->Initialize(pos, scale);
 	walls_.push_back(std::move(wall));
 }
 
-void FieldManager::SetFloor(Vector3 pos, Vector3 scale)
+void FieldManager::SetFloor(const Vector3& pos, const Vector3& scale)
 {
 	//モデルを指定して3Dオブジェクトを生成
 	std::unique_ptr <BaseObj> tempObj = std::make_unique<BaseObj>();
@@ -147,7 +147,7 @@ void FieldManager::SetFloor(Vector3 pos, Vector3 scale)
 	temp.size = scale;
 }
 
-void FieldManager::SetGoal(Vector3 pos)
+void FieldManager::SetGoal(const Vector3& pos)
 {
 	ClearChecker::GetInstance()->SetGoal(pos);
 	useLightNum_ = lightGroup_->SetPointLightGetNum();
@@ -156,7 +156,7 @@ void FieldManager::SetGoal(Vector3 pos)
 	lightGroup_->SetPointLightPos(useLightNum_, { pos.x, pos.y + GOAL_Y,pos.z });
 }
 
-void FieldManager::SetTorch(Vector3 pos, Vector3 rot, Vector3 scale)
+void FieldManager::SetTorch(const Vector3& pos, const Vector3& rot, const Vector3& scale)
 {
 	std::unique_ptr<Torch> torch = std::make_unique<Torch>();
 	torch->Initialize(pos, rot, scale, stageAtten_);

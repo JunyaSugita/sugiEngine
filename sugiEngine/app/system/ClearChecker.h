@@ -45,7 +45,7 @@ public:
 	Col GetCol() {
 		return col_;
 	}
-	void SetGoal(Vector3 pos);
+	void SetGoal(const Vector3& pos);
 
 	void AddMaxHp(float hp) {
 		maxHp_ += hp;

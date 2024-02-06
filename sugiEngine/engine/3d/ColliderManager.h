@@ -47,7 +47,7 @@ public:
 	/// <param name="pos">現在位置</param>
 	/// <param name="col">当たり判定</param>
 	/// <returns>進めるか</returns>
-	bool CanMoveToPlayer(Vector3 pos);
+	bool CanMoveToPlayer(const Vector3& pos);
 
 	/// <summary>
 	/// ナビポイント同士が繋がるか
@@ -56,7 +56,7 @@ public:
 	/// <param name="pos2">ナビポイント2</param>
 	/// <param name="col">当たり判定</param>
 	/// <returns>繋がるか</returns>
-	bool CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2);
+	bool CanMoveToNaviPoint(const Vector3& pos1, const Vector3& pos2);
 
 	/// <summary>
 	/// 敵とナビポイントが繋がるか
@@ -64,7 +64,7 @@ public:
 	/// <param name="pos1">敵の位置</param>
 	/// <param name="col">当たり判定</param>
 	/// <returns>繋げるナビポイント</returns>
-	Vector3 CanMoveEnemyToNaviPoint(Vector3 pos1);
+	Vector3 CanMoveEnemyToNaviPoint(const Vector3& pos1);
 	
 	/// <summary>
 	/// 向いている方向に敵がいるか(壁を考慮)
@@ -72,7 +72,7 @@ public:
 	/// <param name="pos">レイの視点</param>
 	/// <param name="ray">レイの方向ベクトル</param>
 	/// <returns>敵がいるか</returns>
-	bool CheckHitEnemyToRay(Vector3 pos,Vector3 ray);
+	bool CheckHitEnemyToRay(const Vector3& pos, const Vector3& ray);
 
 	/// <summary>
 	/// 向いている方向の敵の位置
@@ -80,7 +80,7 @@ public:
 	/// <param name="pos">レイの視点</param>
 	/// <param name="ray">レイの方向ベクトル</param>
 	/// <returns>敵の位置</returns>
-	Vector3 CheckHitPosEnemyToRay(Vector3 pos, Vector3 ray);
+	Vector3 CheckHitPosEnemyToRay(const Vector3& pos, const Vector3& ray);
 
 	/// <summary>
 	/// 特定の敵が近くにいるか
@@ -92,7 +92,7 @@ public:
 	/// ライトニングに当たった敵のまわりに伝播
 	/// </summary>
 	/// <param name="pos"></param>
-	void LightningEnemyToEnemy(Vector3 pos);
+	void LightningEnemyToEnemy(const Vector3& pos);
 	
 public:
 	bool CheckHitBox(Col a, Col b);
@@ -102,8 +102,8 @@ public:
 	bool CheckHitY(Col a, Col b);
 	bool CheckHitZ(Col a, Col b);
 
-	bool CheckHitLineToBox(Vector3 posS,Vector3 posE,Col a);
-	Vector3 CheckHitPosLineToBox(Vector3 posS, Vector3 posE, Col a);
+	bool CheckHitLineToBox(const Vector3& posS, const Vector3& posE,Col a);
+	Vector3 CheckHitPosLineToBox(const Vector3& posS, const Vector3& posE, Col a);
 
 private:
 	//仮敵の判定

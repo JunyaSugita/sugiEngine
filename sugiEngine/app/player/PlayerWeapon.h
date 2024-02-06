@@ -54,7 +54,7 @@ private:
 	void WorldTransUpdate();
 
 	//使用中の呪文によって出すパーティクルの色を変える
-	void ChargeParticle(Vector4 color);
+	void ChargeParticle(const Vector4& color);
 
 public:
 	const float SPEED_MOVE = 0.5f;

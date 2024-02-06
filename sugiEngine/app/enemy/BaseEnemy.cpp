@@ -16,7 +16,7 @@
 bool BaseEnemy::sIsDebugStop_ = true;
 LightGroup* BaseEnemy::light_ = nullptr;
 
-void BaseEnemy::Initialize(std::string name, Vector3 pos)
+void BaseEnemy::Initialize(const std::string& name, const Vector3& pos)
 {
 	//モデルデータは先に派生クラスで読み込む
 	obj_.Initialize(name);
@@ -228,7 +228,7 @@ DownState BaseEnemy::GetDownHitEnemy()
 	return DownState();
 }
 
-void BaseEnemy::SetDownHitEnemy(DownState state)
+void BaseEnemy::SetDownHitEnemy(const DownState& state)
 {
 	//死んでいるやつから貰う影響
 	SetSlow(state.slow);

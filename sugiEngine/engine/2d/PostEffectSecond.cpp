@@ -797,7 +797,7 @@ void PostEffectSecond::SetUp()
 	constMapEffect_->moveCloss = sIsMoveCloss;
 }
 
-void PostEffectSecond::SetPos(Vector2 pos)
+void PostEffectSecond::SetPos(const Vector2& pos)
 {
 	if (sPos.x != pos.x || sPos.y != pos.y) {
 		sIsDirty = true;
@@ -805,7 +805,7 @@ void PostEffectSecond::SetPos(Vector2 pos)
 	sPos = pos;
 }
 
-void PostEffectSecond::SetSize(Vector2 size)
+void PostEffectSecond::SetSize(const Vector2& size)
 {
 	if (sSize.x != size.x || sSize.y != size.y) {
 		sIsDirty = true;

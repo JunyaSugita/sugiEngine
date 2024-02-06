@@ -64,7 +64,7 @@ void ColliderManager::DeleteCollider(BaseCol* baseCol)
 	colliders_.remove(baseCol);
 }
 
-bool ColliderManager::CanMoveToPlayer(Vector3 pos)
+bool ColliderManager::CanMoveToPlayer(const Vector3& pos)
 {
 	Vector3 playerPos = Camera::GetInstance()->GetEye();
 
@@ -80,7 +80,7 @@ bool ColliderManager::CanMoveToPlayer(Vector3 pos)
 	return true;
 }
 
-bool ColliderManager::CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2)
+bool ColliderManager::CanMoveToNaviPoint(const Vector3& pos1, const Vector3& pos2)
 {
 	forward_list<BaseCol*>::iterator itA = colliders_.begin();
 	for (; itA != colliders_.end(); ++itA) {
@@ -95,7 +95,7 @@ bool ColliderManager::CanMoveToNaviPoint(Vector3 pos1, Vector3 pos2)
 	return true;
 }
 
-Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos)
+Vector3 ColliderManager::CanMoveEnemyToNaviPoint(const Vector3& pos)
 {
 	vector<NaviPoint> naviPoints = NaviPointManager::GetInstance()->GetNaviPoints();
 
@@ -128,7 +128,7 @@ Vector3 ColliderManager::CanMoveEnemyToNaviPoint(Vector3 pos)
 	return naviPoints[num].pos;
 }
 
-bool ColliderManager::CheckHitEnemyToRay(Vector3 pos, Vector3 ray)
+bool ColliderManager::CheckHitEnemyToRay(const Vector3& pos, const Vector3& ray)
 {
 	Vector3 endPos = pos + ray * 100;
 
@@ -158,7 +158,7 @@ bool ColliderManager::CheckHitEnemyToRay(Vector3 pos, Vector3 ray)
 	}
 }
 
-Vector3 ColliderManager::CheckHitPosEnemyToRay(Vector3 pos, Vector3 ray)
+Vector3 ColliderManager::CheckHitPosEnemyToRay(const Vector3& pos, const Vector3& ray)
 {
 	Vector3 endPos = pos + ray * 100;
 
@@ -231,7 +231,7 @@ bool ColliderManager::CheckNearEnemy(int32_t num)
 	return false;
 }
 
-void ColliderManager::LightningEnemyToEnemy(Vector3 pos)
+void ColliderManager::LightningEnemyToEnemy(const Vector3& pos)
 {
 	forward_list<BaseCol*>::iterator itA = colliders_.begin();
 	for (; itA != colliders_.end(); ++itA) {
@@ -296,7 +296,7 @@ bool ColliderManager::CheckHitZ(Col a, Col b)
 	return false;
 }
 
-bool ColliderManager::CheckHitLineToBox(Vector3 posS, Vector3 posE, Col a)
+bool ColliderManager::CheckHitLineToBox(const Vector3& posS, const Vector3& posE, Col a)
 {
 	//方向ベクトル取得
 	Vector3 way = posE - posS;
@@ -391,7 +391,7 @@ bool ColliderManager::CheckHitLineToBox(Vector3 posS, Vector3 posE, Col a)
 	return false;
 }
 
-Vector3 ColliderManager::CheckHitPosLineToBox(Vector3 posS, Vector3 posE, Col a)
+Vector3 ColliderManager::CheckHitPosLineToBox(const Vector3& posS, const Vector3& posE, Col a)
 {
 	//方向ベクトル取得
 	Vector3 way = posE - posS;

@@ -27,11 +27,11 @@ public:
 	void DrawTransparent();
 	
 	//人型の敵を出す
-	void PopEnemy(Vector3 pos);
+	void PopEnemy(const Vector3& pos);
 	//スライムを出す
-	void PopSlime(Vector3 pos);
+	void PopSlime(const Vector3& pos);
 	//虫を出す
-	void PopFly(Vector3 pos);
+	void PopFly(const Vector3& pos);
 	//当たった判定のリセット
 	void ResetIsHit();
 	//フィールドにいる敵のリスト

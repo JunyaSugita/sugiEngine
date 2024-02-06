@@ -28,11 +28,11 @@ struct DownState {
 
 class BaseCol{
 public:
-	void Initialize(Vector3 pos,Vector3 scale,int32_t colType,float gap = 0);
-	void Update(Vector3 pos,Vector3 scale);
+	void Initialize(const Vector3& pos, const Vector3& scale,int32_t colType,float gap = 0);
+	void Update(const Vector3& pos, const Vector3& scale);
 	void Draw();
 
-	void SetCol(Vector3 pos, Vector3 scale);
+	void SetCol(const Vector3& pos, const Vector3& scale);
 	void SetOldCol();
 
 	//当たった時の処理
@@ -61,7 +61,7 @@ public:
 	virtual void DownHitPlayer();
 	//ダウンしている時に敵に与える影響
 	virtual DownState GetDownHitEnemy();
-	virtual void SetDownHitEnemy(DownState state);
+	virtual void SetDownHitEnemy(const DownState& state);
 	//位置取得
 	virtual Vector3 GetPos();
 	//シェイクをセット

@@ -22,7 +22,7 @@ enum DebuffType {
 
 class BaseSpell :public BaseCol{
 public:
-	virtual void Initialize(Vector3 pos, Vector3 vec = Vector3());
+	virtual void Initialize(const Vector3& pos, const Vector3& vec = Vector3());
 	virtual void Update();
 	virtual void Draw();
 	virtual void WorldTransUpdate();

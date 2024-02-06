@@ -1,7 +1,7 @@
 #include "Wall.h"
 #include "ColliderManager.h"
 
-void Wall::Initialize(Vector3 pos, Vector3 scale)
+void Wall::Initialize(const Vector3& pos, const Vector3& scale)
 {
 	//モデルを指定して3Dオブジェクトを生成
 	wallObj_.Initialize("ground");

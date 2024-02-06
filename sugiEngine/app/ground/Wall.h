@@ -12,7 +12,7 @@
 class Wall : public BaseCol
 {
 public:
-	void Initialize(Vector3 pos, Vector3 scale);
+	void Initialize(const Vector3& pos, const Vector3& scale);
 	void Update();
 	void Draw();
 

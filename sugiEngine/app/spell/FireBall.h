@@ -11,7 +11,7 @@
 
 class FireBall : public BaseSpell{
 public:
-	void Initialize(Vector3 pos, Vector3 vec) override;
+	void Initialize(const Vector3& pos, const Vector3& vec) override;
 	void Update()override;
 	void Draw()override;
 

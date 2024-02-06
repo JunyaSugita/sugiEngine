@@ -11,7 +11,7 @@
 
 class BaseObj {
 public:
-	virtual void Initialize(std::string str);
+	virtual void Initialize(const std::string& str);
 	virtual void Update();
 	virtual void Draw();
 

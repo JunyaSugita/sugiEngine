@@ -5,7 +5,7 @@
 #include <random>
 #include "ColliderManager.h"
 
-void Slime::Initialize(std::string name, Vector3 pos)
+void Slime::Initialize(const std::string& name, const Vector3& pos)
 {
 	life_ = MAX_HP;
 

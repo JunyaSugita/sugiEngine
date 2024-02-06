@@ -99,8 +99,8 @@ public:
 		sIsMoveCloss = true;
 	}
 
-	static void SetPos(Vector2 pos);
-	static void SetSize(Vector2 size);
+	static void SetPos(const Vector2& pos);
+	static void SetSize(const Vector2& size);
 
 public:
 	static const float CLEAR_COLOR[4];

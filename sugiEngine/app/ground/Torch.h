@@ -11,7 +11,7 @@
 class Torch
 {
 public:
-	void Initialize(Vector3 pos, Vector3 rot, Vector3 scale, float atten);
+	void Initialize(const Vector3& pos, const Vector3& rot, const Vector3& scale, float atten);
 	void Update();
 	void Draw();
 

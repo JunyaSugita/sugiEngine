@@ -1,7 +1,7 @@
 #include "EnchantFire.h"
 #include "SpellManager.h"
 
-void EnchantFire::Initialize(Vector3 pos, Vector3 vec)
+void EnchantFire::Initialize(const Vector3& pos, const Vector3& vec)
 {
 	pos;
 	vec;

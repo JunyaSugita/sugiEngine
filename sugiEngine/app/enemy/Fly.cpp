@@ -8,7 +8,7 @@
 #include "ModelManager.h"
 #include "ColliderManager.h"
 
-void Fly::Initialize(std::string name, Vector3 pos)
+void Fly::Initialize(const std::string& name, const Vector3& pos)
 {
 	wingL_.Initialize("box");
 	wingL_.worldTrans.parent_ = &obj_.worldTrans;

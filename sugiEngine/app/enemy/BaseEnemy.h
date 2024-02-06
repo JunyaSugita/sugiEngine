@@ -20,7 +20,7 @@ struct DebuffM {
 class BaseEnemy : public BaseCol {
 
 public:
-	virtual void Initialize(std::string name, Vector3 pos);
+	virtual void Initialize(const std::string& name, const Vector3& pos);
 	virtual void Update();
 
 	//動けない時の処理
@@ -39,7 +39,7 @@ public:
 
 	//死んだあと他の敵に当たった時の反応
 	DownState GetDownHitEnemy() override;
-	void SetDownHitEnemy(DownState state) override;
+	void SetDownHitEnemy(const DownState& state) override;
 
 #pragma region inline群
 	//inline群

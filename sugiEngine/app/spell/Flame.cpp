@@ -1,7 +1,7 @@
 #include "Flame.h"
 #include "ParticleManager.h"
 
-void Flame::Initialize(Vector3 pos, Vector3 vec)
+void Flame::Initialize(const Vector3& pos, const Vector3& vec)
 {
 	BaseSpell::Initialize(pos, vec);
 

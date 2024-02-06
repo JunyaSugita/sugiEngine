@@ -4,7 +4,7 @@
 
 LightGroup* Torch::lightGroup_ = nullptr;
 
-void Torch::Initialize(Vector3 pos, Vector3 rot,Vector3 scale, float atten)
+void Torch::Initialize(const Vector3& pos, const Vector3& rot, const Vector3& scale, float atten)
 {
 	//モデルを指定して3Dオブジェクトを生成
 	torchObj_.Initialize("torch");

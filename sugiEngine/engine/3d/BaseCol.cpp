@@ -1,7 +1,7 @@
 #include "BaseCol.h"
 #include "ColliderManager.h"
 
-void BaseCol::Initialize(Vector3 pos, Vector3 scale, int32_t colType, float gap)
+void BaseCol::Initialize(const Vector3& pos, const Vector3& scale, int32_t colType, float gap)
 {
 	colObj_.Initialize("box");
 
@@ -16,7 +16,7 @@ void BaseCol::Initialize(Vector3 pos, Vector3 scale, int32_t colType, float gap)
 	ColliderManager::GetInstance()->AddCollider(this);
 }
 
-void BaseCol::Update(Vector3 pos, Vector3 scale)
+void BaseCol::Update(const Vector3& pos, const Vector3& scale)
 {
 	SetCol(pos,scale);
 	colObj_.Update();
@@ -27,7 +27,7 @@ void BaseCol::Draw()
 	colObj_.Draw();
 }
 
-void BaseCol::SetCol(Vector3 pos, Vector3 scale)
+void BaseCol::SetCol(const Vector3& pos, const Vector3& scale)
 {
 	col_.pos = {pos.x,pos.y + gap_,pos.z};
 	col_.size = scale;
@@ -105,7 +105,7 @@ DownState BaseCol::GetDownHitEnemy()
 	return DownState();
 }
 
-void BaseCol::SetDownHitEnemy(DownState state)
+void BaseCol::SetDownHitEnemy(const DownState& state)
 {
 	state;
 }

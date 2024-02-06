@@ -67,14 +67,14 @@ public:
 	void SetRotate(float r);
 
 	void SetColor(float x, float y, float z, float w);
-	void SetColor(Vector4 color);
+	void SetColor(const Vector4& color);
 	void SetColor(float x, float y, float z);
-	void SetColor(Vector3 color);
+	void SetColor(const Vector3& color);
 
 	void SetAlpha(float alpha);
 
 	void SetSize(float x, float y);
-	void SetSize(Vector2 vec);
+	void SetSize(const Vector2& vec);
 	void SetSizeX(float x);
 	void SetSizeY(float y);
 

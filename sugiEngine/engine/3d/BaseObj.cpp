@@ -1,9 +1,9 @@
-﻿#include "BaseObj.h"
+#include "BaseObj.h"
 #include "ModelManager.h"
 
 using namespace std;
 
-void BaseObj::Initialize(string str)
+void BaseObj::Initialize(const string& str)
 {
 	obj = move(Object3d::Create());
 	obj->SetModel(ModelManager::GetInstance()->Get(str));

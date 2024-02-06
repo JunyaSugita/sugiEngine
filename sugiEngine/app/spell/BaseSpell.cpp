@@ -3,11 +3,12 @@
 #include "ModelManager.h"
 #include "ColliderManager.h"
 
-void BaseSpell::Initialize(Vector3 pos, Vector3 vec)
+void BaseSpell::Initialize(const Vector3& pos, const Vector3& vec)
 {
 	obj_.Initialize("sphere");
 
-	vec_ = vec.normalize();
+	Vector3 tempVec = vec;
+	vec_ = tempVec.normalize();
 
 	//プレイヤーの少し前に出す
 	obj_.pos = pos + vec_ * SPELL_LENGE;

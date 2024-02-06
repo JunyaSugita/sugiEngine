@@ -10,7 +10,7 @@
 
 std::unique_ptr<Model> Enemy::sEyeModel_;
 
-void Enemy::Initialize(std::string name, Vector3 pos)
+void Enemy::Initialize(const std::string& name, const Vector3& pos)
 {
 	eyeObj_.Initialize("eye");
 	eyeObj_.obj->SetEffectCross(true);

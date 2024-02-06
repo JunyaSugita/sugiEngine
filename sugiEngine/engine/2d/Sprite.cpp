@@ -513,7 +513,7 @@ void Sprite::SetColor(float x, float y, float z, float w) {
 	SetUpVertex();
 }
 
-void Sprite::SetColor(Vector4 color) {
+void Sprite::SetColor(const Vector4& color) {
 	color_.x = color.x;
 	color_.y = color.y;
 	color_.z = color.z;
@@ -531,7 +531,7 @@ void Sprite::SetColor(float x, float y, float z)
 	SetUpVertex();
 }
 
-void Sprite::SetColor(Vector3 color)
+void Sprite::SetColor(const Vector3& color)
 {
 	color_.x = color.x;
 	color_.y = color.y;
@@ -552,7 +552,7 @@ void Sprite::SetSize(float x, float y) {
 	SetUpVertex();
 }
 
-void Sprite::SetSize(Vector2 vec) {
+void Sprite::SetSize(const Vector2& vec) {
 	size_.x = vec.x;
 	size_.y = vec.y;
 

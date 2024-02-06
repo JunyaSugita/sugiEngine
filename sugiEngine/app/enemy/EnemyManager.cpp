@@ -77,21 +77,21 @@ void EnemyManager::DrawTransparent()
 	}
 }
 
-void EnemyManager::PopEnemy(Vector3 pos)
+void EnemyManager::PopEnemy(const Vector3& pos)
 {
 	BaseEnemy* newEnemy = new Enemy;
 	newEnemy->Initialize("player",pos);
 	enemysList_.push_back(newEnemy);
 }
 
-void EnemyManager::PopSlime(Vector3 pos)
+void EnemyManager::PopSlime(const Vector3& pos)
 {
 	BaseEnemy* newEnemy = new Slime;
 	newEnemy->Initialize("slime", pos);
 	enemysList_.push_back(newEnemy);
 }
 
-void EnemyManager::PopFly(Vector3 pos)
+void EnemyManager::PopFly(const Vector3& pos)
 {
 	BaseEnemy* newEnemy = new Fly;
 	newEnemy->Initialize("box", pos);

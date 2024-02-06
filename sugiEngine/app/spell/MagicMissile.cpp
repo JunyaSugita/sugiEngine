@@ -4,7 +4,7 @@
 
 LightGroup* MagicMissile::lightGroup_ = nullptr;
 
-void MagicMissile::Initialize(Vector3 pos, Vector3 vec)
+void MagicMissile::Initialize(const Vector3& pos, const Vector3& vec)
 {
 	BaseSpell::Initialize(pos,vec);
 

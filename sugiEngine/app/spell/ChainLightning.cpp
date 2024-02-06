@@ -5,14 +5,15 @@
 #include "Player.h"
 #include "ColliderManager.h"
 
-void ChainLightning::Initialize(Vector3 pos, Vector3 vec)
+void ChainLightning::Initialize(const Vector3& pos, const Vector3& vec)
 {
 	obj_.Initialize("sphere");
 	obj_.obj->SetColor({ 1,0,0,1 });
 
 	obj_.pos = pos;
 
-	vec_ = vec.normalize();
+	Vector3 tempVec = vec;
+	vec_ = tempVec.normalize();
 
 	WorldTransUpdate();
 

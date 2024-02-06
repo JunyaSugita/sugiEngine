@@ -44,20 +44,20 @@ private:
 	/// </summary>
 	/// <param name="pos">壁の位置</param>
 	/// <param name="scale">壁の大きさ</param>
-	void SetWall(Vector3 pos,Vector3 scale);
+	void SetWall(const Vector3& pos, const Vector3& scale);
 
 	/// <summary>
 	/// 床を設置
 	/// </summary>
 	/// <param name="pos">床の位置</param>
 	/// <param name="scale">床の大きさ</param>
-	void SetFloor(Vector3 pos, Vector3 scale);
+	void SetFloor(const Vector3& pos, const Vector3& scale);
 
 	/// <summary>
 	/// ゴールを設置
 	/// </summary>
 	/// <param name="pos">ゴールの場所</param>
-	void SetGoal(Vector3 pos);
+	void SetGoal(const Vector3& pos);
 
 	/// <summary>
 	/// たいまつの設置
@@ -65,7 +65,7 @@ private:
 	/// <param name="pos">たいまつの場所</param>
 	/// <param name="rot">たいまつの角度</param>
 	/// <param name="scale"></param>
-	void SetTorch(Vector3 pos,Vector3 rot,Vector3 scale);
+	void SetTorch(const Vector3& pos, const Vector3& rot, const Vector3& scale);
 
 private:
 	//ライトの明るさ

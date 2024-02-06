@@ -5,7 +5,7 @@
 
 LightGroup* FireBall::lightGroup_ = nullptr;
 
-void FireBall::Initialize(Vector3 pos, Vector3 vec)
+void FireBall::Initialize(const Vector3& pos, const Vector3& vec)
 {
 	BaseSpell::Initialize(pos,vec);
 

@@ -9,7 +9,7 @@
 
 class Fly : public BaseEnemy {
 public:
-	void Initialize(std::string name, Vector3 pos) override;
+	void Initialize(const std::string& name, const Vector3& pos) override;
 	void Update()override;
 	void Draw() override;
 	void WorldTransUpdate() override;

@@ -84,7 +84,7 @@ void ClearChecker::OnCollision(BaseCol* a)
 	}
 }
 
-void ClearChecker::SetGoal(Vector3 pos)
+void ClearChecker::SetGoal(const Vector3& pos)
 {
 	obj_.pos = pos;
 	isClear_ = false;
