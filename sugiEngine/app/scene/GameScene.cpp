@@ -254,7 +254,7 @@ void GameScene::ObjDraw()
 	}
 }
 
-void GameScene::ObjDraw2()
+void GameScene::DrawTransparent()
 {
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		EnemyManager::GetInstance()->DrawTransparent();

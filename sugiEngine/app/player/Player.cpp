@@ -141,31 +141,7 @@ void Player::OnCollision(BaseCol* a)
 
 void Player::ChargeSpell(int32_t num)
 {
-	SpellManager* spellM = SpellManager::GetInstance();
-
-	switch (num)
-	{
-	case FIRE_BALL:
-		spellM->ChargeFireBall();
-		break;
-	case MAGIC_MISSILE:
-		spellM->ChargeMagicMissile();
-		break;
-	case ICE_BOLT:
-		spellM->ChargeIceBolt();
-		break;
-	case CHAIN_LIGHTNING:
-		spellM->ChargeChainLightning();
-		break;
-	case ENCHANT_FIRE:
-		spellM->ChargeEnchantFire();
-		break;
-	case FLAME:
-		spellM->ChargeFlame();
-		break;
-	default:
-		break;
-	}
+	SpellManager::GetInstance()->ChargeSpell(num);
 }
 
 void Player::SubLife(int32_t num)

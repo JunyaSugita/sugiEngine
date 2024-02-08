@@ -133,7 +133,7 @@ void TitleScene::ObjDraw()
 	}
 }
 
-void TitleScene::ObjDraw2()
+void TitleScene::DrawTransparent()
 {
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
 		orbObj_.Draw();

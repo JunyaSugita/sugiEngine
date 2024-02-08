@@ -61,7 +61,7 @@ void StageSelectScene::ObjDraw()
 	EnemyManager::GetInstance()->Draw();
 }
 
-void StageSelectScene::ObjDraw2()
+void StageSelectScene::DrawTransparent()
 {
 
 }

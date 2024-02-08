@@ -20,7 +20,7 @@ public:
 	void BackSpriteDraw() override;
 	void Draw() override;
 	void ObjDraw() override;
-	void ObjDraw2() override;
+	void DrawTransparent() override;
 	void ParticleDraw() override;
 	void SpriteDraw() override;
 	void Finalize() override;

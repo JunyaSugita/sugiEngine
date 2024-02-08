@@ -26,9 +26,9 @@ void GameManager::ObjDraw()
 	scene_->ObjDraw();
 }
 
-void GameManager::ObjDraw2()
+void GameManager::DrawTransparent()
 {
-	scene_->ObjDraw2();
+	scene_->DrawTransparent();
 }
 
 void GameManager::ParticleDraw()

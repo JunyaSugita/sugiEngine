@@ -91,7 +91,7 @@ void MyGame::GameDraw()
 	Particle::PostDraw();
 
 	Object3d::PreDraw(dxCom_->GetCommandList());
-	GameManager::GetInstance()->ObjDraw2();
+	GameManager::GetInstance()->DrawTransparent();
 	Object3d::PostDraw();
 
 	//スプライト

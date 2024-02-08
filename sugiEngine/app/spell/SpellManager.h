@@ -50,23 +50,20 @@ public:
 	void Update();
 	void Draw();
 
-	//ファイアーボールのチャージと発射
-	void ChargeFireBall();
+	//呪文のチャージと発射
+	void ChargeSpell(int32_t spell);
+
+	//ファイアーボールの発射
 	void FireFireBall();
-	//マジックミサイルのチャージと発射
-	void ChargeMagicMissile();
+	//マジックミサイルの発射
 	void FireMagicMissile();
-	//アイスボルトのチャージと発射
-	void ChargeIceBolt();
+	//アイスボルトの発射
 	void FireIceBolt();
-	//チェインライトニングのチャージと発射
-	void ChargeChainLightning();
+	//チェインライトニングの発射
 	void FireChainLightning();
-	//エンチャントファイアのチャージと発射
-	void ChargeEnchantFire();
+	//エンチャントファイアの発射
 	void FireEnchantFire();
-	//火炎放射のチャージと発射
-	void ChargeFlame();
+	//火炎放射の発射
 	void FireFlame();
 
 	//ボタンを離した時などにチャージタイムを初期化
@@ -143,13 +140,6 @@ private:
 	float chargeTime_;
 	float useTime_;
 
-	bool isUseFireBall_;
-	bool isUseMagicMissile_;
-	bool isUseIceBolt_;
-	bool isUseChainLightning_;
-	bool isUseEnchantFire_;
-	bool isUseFlame_;
-
 	std::list<std::unique_ptr<BaseSpell>> spells_;
 	std::vector<BaseSpell*> spellsList_;
 
@@ -157,4 +147,8 @@ private:
 	std::vector<ChainLightning*> chainLightningsList_;
 
 	bool isModeEnchantFire_;
+
+	float timeChargeSpell_[MAGIC_END];
+	float timeFireSpell_[MAGIC_END];
+	bool isUseSpell_[MAGIC_END];
 };

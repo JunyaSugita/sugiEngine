@@ -27,12 +27,27 @@ void SpellManager::Initialize()
 	maxCharge_ = 0;
 	chargeTime_ = 0;
 	useTime_ = 0;
-	isUseFireBall_ = false;
-	isUseMagicMissile_ = false;
-	isUseIceBolt_ = false;
-	isUseChainLightning_ = false;
-	isUseEnchantFire_ = false;
-	isUseFlame_ = false;
+	for (int i = 0; i < MAGIC_END;i++) {
+		isUseSpell_[i] = false;
+	}
+
+	timeChargeSpell_[FIRE_BALL] = TIME_CHARGE_FIREBALL;
+	timeFireSpell_[FIRE_BALL] = TIME_FIRE_FIREBALL;
+
+	timeChargeSpell_[MAGIC_MISSILE] = TIME_CHARGE_MAGICMISSILE;
+	timeFireSpell_[MAGIC_MISSILE] = TIME_FIRE_MAGICMISSILE;
+
+	timeChargeSpell_[ICE_BOLT] = TIME_CHARGE_ICEBOLT;
+	timeFireSpell_[ICE_BOLT] = TIME_FIRE_ICEBOLT;
+
+	timeChargeSpell_[CHAIN_LIGHTNING] = TIME_CHARGE_CHAINLIGHTNING;
+	timeFireSpell_[CHAIN_LIGHTNING] = TIME_FIRE_CHAINLIGHTNING;
+
+	timeChargeSpell_[ENCHANT_FIRE] = TIME_CHARGE_ENCHANTFIRE;
+	timeFireSpell_[ENCHANT_FIRE] = TIME_FIRE_ENCHANTFIRE;
+
+	timeChargeSpell_[FLAME] = TIME_CHARGE_FLAME;
+	timeFireSpell_[FLAME] = TIME_FIRE_FLAME;
 }
 
 void SpellManager::Update()
@@ -45,22 +60,22 @@ void SpellManager::Update()
 
 #pragma region 魔法のアップデート
 	//各魔法の発射
-	if (isUseFireBall_) {
+	if (isUseSpell_[FIRE_BALL]) {
 		FireFireBall();
 	}
-	if (isUseMagicMissile_) {
+	if (isUseSpell_[MAGIC_MISSILE]) {
 		FireMagicMissile();
 	}
-	if (isUseIceBolt_) {
+	if (isUseSpell_[ICE_BOLT]) {
 		FireIceBolt();
 	}
-	if (isUseChainLightning_) {
+	if (isUseSpell_[CHAIN_LIGHTNING]) {
 		FireChainLightning();
 	}
-	if (isUseEnchantFire_) {
+	if (isUseSpell_[ENCHANT_FIRE]) {
 		FireEnchantFire();
 	}
-	if (isUseFlame_) {
+	if (isUseSpell_[FLAME]) {
 		FireFlame();
 	}
 
@@ -107,9 +122,9 @@ void SpellManager::Draw()
 	}
 }
 
-void SpellManager::ChargeFireBall()
+void SpellManager::ChargeSpell(int32_t spell)
 {
-	maxCharge_ = TIME_CHARGE_FIREBALL;
+	maxCharge_ = timeChargeSpell_[spell];
 
 	if (chargeTime_ < maxCharge_) {
 		chargeTime_++;
@@ -117,10 +132,10 @@ void SpellManager::ChargeFireBall()
 
 	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
-			isUseFireBall_ = true;
+			isUseSpell_[spell] = true;
 			useTime_ = TIME_FIRE_FIREBALL;
 		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFireBall_ || !LoadOut::GetInstance()->GetIsActive())) {
+		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseSpell_[spell] || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;
 		}
 	}
@@ -141,30 +156,10 @@ void SpellManager::FireFireBall()
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;
-		isUseFireBall_ = false;
+		isUseSpell_[FIRE_BALL] = false;
 		Player::GetInstance()->SetIsSpell(false);
 	}
 
-}
-
-void SpellManager::ChargeMagicMissile()
-{
-	maxCharge_ = TIME_CHARGE_MAGICMISSILE;
-
-	if (chargeTime_ < maxCharge_) {
-		chargeTime_++;
-	}
-
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
-		if (int(chargeTime_ / maxCharge_)) {
-			isUseMagicMissile_ = true;
-			useTime_ = TIME_FIRE_MAGICMISSILE;
-		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseMagicMissile_ || !LoadOut::GetInstance()->GetIsActive())) {
-			chargeTime_ = 0;
-		}
-	}
-	Player::GetInstance()->SetIsSpell(false);
 }
 
 void SpellManager::FireMagicMissile()
@@ -182,30 +177,10 @@ void SpellManager::FireMagicMissile()
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;
-		isUseMagicMissile_ = false;
+		isUseSpell_[MAGIC_MISSILE] = false;
 		Player::GetInstance()->SetIsSpell(false);
 	}
 
-}
-
-void SpellManager::ChargeIceBolt()
-{
-	maxCharge_ = TIME_CHARGE_ICEBOLT;
-
-	if (chargeTime_ < maxCharge_) {
-		chargeTime_++;
-	}
-
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
-		if (int(chargeTime_ / maxCharge_)) {
-			isUseIceBolt_ = true;
-			useTime_ = TIME_FIRE_ICEBOLT;
-		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseIceBolt_ || !LoadOut::GetInstance()->GetIsActive())) {
-			chargeTime_ = 0;
-		}
-	}
-	Player::GetInstance()->SetIsSpell(false);
 }
 
 void SpellManager::FireIceBolt()
@@ -223,29 +198,9 @@ void SpellManager::FireIceBolt()
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;
-		isUseIceBolt_ = false;
+		isUseSpell_[ICE_BOLT] = false;
 		Player::GetInstance()->SetIsSpell(false);
 	}
-}
-
-void SpellManager::ChargeChainLightning()
-{
-	maxCharge_ = TIME_CHARGE_CHAINLIGHTNING;
-
-	if (chargeTime_ < maxCharge_) {
-		chargeTime_++;
-	}
-
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
-		if (int(chargeTime_ / maxCharge_)) {
-			isUseChainLightning_ = true;
-			useTime_ = TIME_FIRE_CHAINLIGHTNING;
-		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseChainLightning_ || !LoadOut::GetInstance()->GetIsActive())) {
-			chargeTime_ = 0;
-		}
-	}
-	Player::GetInstance()->SetIsSpell(false);
 }
 
 void SpellManager::FireChainLightning()
@@ -263,30 +218,10 @@ void SpellManager::FireChainLightning()
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;
-		isUseChainLightning_ = false;
+		isUseSpell_[CHAIN_LIGHTNING] = false;
 		Player::GetInstance()->SetIsSpell(false);
 	}
 
-}
-
-void SpellManager::ChargeEnchantFire()
-{
-	maxCharge_ = TIME_CHARGE_ENCHANTFIRE;
-
-	if (chargeTime_ < maxCharge_) {
-		chargeTime_++;
-	}
-
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
-		if (int(chargeTime_ / maxCharge_)) {
-			isUseEnchantFire_ = true;
-			useTime_ = TIME_FIRE_ENCHANTFIRE;
-		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseEnchantFire_ || !LoadOut::GetInstance()->GetIsActive())) {
-			chargeTime_ = 0;
-		}
-	}
-	Player::GetInstance()->SetIsSpell(false);
 }
 
 void SpellManager::FireEnchantFire()
@@ -302,30 +237,10 @@ void SpellManager::FireEnchantFire()
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;
-		isUseEnchantFire_ = false;
+		isUseSpell_[ENCHANT_FIRE] = false;
 		Player::GetInstance()->SetIsSpell(false);
 	}
 
-}
-
-void SpellManager::ChargeFlame()
-{
-	maxCharge_ = TIME_CHARGE_FLAME;
-
-	if (chargeTime_ < maxCharge_) {
-		chargeTime_++;
-	}
-
-	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
-		if (int(chargeTime_ / maxCharge_)) {
-			isUseFlame_ = true;
-			useTime_ = TIME_FIRE_FLAME;
-		}
-		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseFlame_ || !LoadOut::GetInstance()->GetIsActive())) {
-			chargeTime_ = 0;
-		}
-	}
-	Player::GetInstance()->SetIsSpell(false);
 }
 
 void SpellManager::FireFlame()
@@ -343,7 +258,7 @@ void SpellManager::FireFlame()
 	}
 	if (--useTime_ <= 0) {
 		useTime_ = 0;
-		isUseFlame_ = false;
+		isUseSpell_[FLAME] = false;
 		Player::GetInstance()->SetIsSpell(false);
 	}
 }
@@ -362,8 +277,10 @@ float SpellManager::ChargePercent()
 
 bool SpellManager::GetIsUseSpell()
 {
-	if (isUseFireBall_ || isUseMagicMissile_ || isUseIceBolt_ || isUseChainLightning_ || isUseEnchantFire_ || isUseFlame_) {
-		return true;
+	for (int i = 0; i < MAGIC_END;i++) {
+		if (isUseSpell_[i]) {
+			return true;
+		}
 	}
 	return false;
 }
