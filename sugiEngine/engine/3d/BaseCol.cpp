@@ -87,6 +87,11 @@ void BaseCol::SetIsStop()
 {
 }
 
+void BaseCol::SetKnockBack(Vector3 vec)
+{
+	vec;
+}
+
 void BaseCol::SetIsAttack()
 {
 }

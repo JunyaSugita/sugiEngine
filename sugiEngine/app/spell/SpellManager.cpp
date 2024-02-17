@@ -133,7 +133,7 @@ void SpellManager::ChargeSpell(int32_t spell)
 	if ((!Input::GetInstance()->PushKey(DIK_E) && !Input::GetInstance()->PushButton(XINPUT_GAMEPAD_LEFT_SHOULDER) && !Input::GetInstance()->GetLTrigger()) || (LoadOut::GetInstance()->GetIsActive() && chargeTime_ >= maxCharge_)) {
 		if (int(chargeTime_ / maxCharge_)) {
 			isUseSpell_[spell] = true;
-			useTime_ = TIME_FIRE_FIREBALL;
+			useTime_ = timeFireSpell_[spell];
 		}
 		if (!(SpellManager::GetInstance()->ChargePercent() > COYOTE_SPELL && SpellManager::GetInstance()->ChargePercent() < 1) && (isUseSpell_[spell] || !LoadOut::GetInstance()->GetIsActive())) {
 			chargeTime_ = 0;

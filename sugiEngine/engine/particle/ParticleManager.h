@@ -23,6 +23,7 @@ enum ParticleName {
 	P_ICE_BREAK2,
 	P_CHARGE_FIRE,
 	P_CHARGE_MAX_FIRE,
+	P_DOWN,
 
 	P_END
 };

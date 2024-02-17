@@ -45,6 +45,8 @@ void BaseEnemy::Initialize(const std::string& name, const Vector3& pos)
 	slow_ = 1;
 	shakeTime_ = 0;
 	isStart_ = false;
+	isKnockBack_ = false;
+	knockBackVec_ = {0,0,0};
 
 	//移動適応
 	WorldTransUpdate();
@@ -82,7 +84,10 @@ void BaseEnemy::Update()
 	WeakBodyColor();
 
 	//動けるかどうか
-	if (isCanMove()) {
+	if (isKnockBack_) {
+		KnockBack();
+	}
+	else if (isCanMove()) {
 		if (!isAttack_ && !sIsDebugStop_) {
 			//移動
 			Move();
@@ -161,6 +166,13 @@ void BaseEnemy::OnCollision(BaseCol* a)
 				ParticleManager::GetInstance()->AddFromFile(P_DAMAGE, a->GetPos());
 				SetShakeTime(TIME_SHAKE);
 			}
+			//ノックバック量の計算
+			Vector3 tempVec = GetCol().pos - a->GetCol().pos;
+			tempVec.normalize();
+			tempVec.y = 0;
+			tempVec *= 0.5f;
+			SetKnockBack(tempVec);
+
 			SubLife(a->GetDamage());
 			SetDebuff(a->GetDebuff(), DEBUFF_TIME);
 		}
@@ -366,6 +378,9 @@ void BaseEnemy::SubLife(float subLife, bool isParticle)
 		ParticleManager::GetInstance()->AddFromFile(P_DAMAGE, { obj_.pos.x,obj_.pos.y,obj_.pos.z });
 	}
 	if (life_ <= 0) {
+		if (!isDown_) {
+			ParticleManager::GetInstance()->AddFromFile(P_DOWN, { obj_.pos.x,obj_.pos.y,obj_.pos.z });
+		}
 		isDown_ = true;
 	}
 }
@@ -457,6 +472,13 @@ void BaseEnemy::SetCol()
 	SetCol(obj_.pos);
 }
 
+void BaseEnemy::SetKnockBack(Vector3 vec)
+{
+	isKnockBack_ = true;
+	knockBackTimer_ = TIME_KNOCKBACK;
+	knockBackVec_ = vec;
+}
+
 void BaseEnemy::PopDebuffFireParticle()
 {
 	ParticleManager::GetInstance()->AddFromFile(P_DEBUFF_FIRE, col_.pos);
@@ -471,5 +493,16 @@ void BaseEnemy::Down()
 	if (debuff_.fireTime == 1) {
 		Dead();
 		light_->SetPointLightActive(lightNum_, false);
+	}
+}
+
+void BaseEnemy::KnockBack()
+{
+	if (--knockBackTimer_ > 0) {
+		col_.pos += knockBackVec_;
+		knockBackVec_ *= 0.7f;
+	}
+	else {
+		isKnockBack_ = false;
 	}
 }

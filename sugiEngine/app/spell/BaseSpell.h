@@ -45,7 +45,7 @@ public:
 		return isHit_;
 	}
 	void SetIsHit() override {
-		isHit_ = true;
+		tempIsHit_ = true;
 	}
 	Col GetBoxCol() {
 		return col_;
@@ -72,6 +72,7 @@ protected:
 	int32_t time_;
 	//当たったフラグ
 	bool isHit_;
+	bool tempIsHit_;
 	//進行方向
 	Vector3 vec_ = {0,0,0};
 	//移動スピード

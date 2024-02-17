@@ -15,10 +15,15 @@ void BaseSpell::Initialize(const Vector3& pos, const Vector3& vec)
 
 	isDead_ = true;
 	isHit_ = false;
+	tempIsHit_ = false;
 }
 
 void BaseSpell::Update()
 {
+	if (tempIsHit_) {
+		isHit_ = true;
+	}
+
 	//攻撃の種類によって動きを変える
 	if (spellType_ == SHOT) {
 		if (!isHit_) {

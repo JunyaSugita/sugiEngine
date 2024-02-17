@@ -53,6 +53,8 @@ public:
 	virtual int32_t GetDebuff();
 	//動きを止める
 	virtual void SetIsStop();
+	//ノックバック
+	virtual void SetKnockBack(Vector3 vec);
 	//攻撃した判定にする
 	virtual void SetIsAttack();
 	//ダウンしているか取得

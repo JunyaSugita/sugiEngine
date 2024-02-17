@@ -159,6 +159,9 @@ public:
 		shakeTime_ = time;
 	}
 
+	//ノックバックのセット
+	void SetKnockBack(Vector3 vec) override;
+
 protected:
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
@@ -166,6 +169,8 @@ protected:
 	virtual void PopDebuffFireParticle();
 	//死んだ時の反応
 	virtual void Down();
+	//ノックバック
+	virtual void KnockBack();
 
 	// プレイヤーの方向を向く
 	void SetAngleToPlayer();
@@ -223,6 +228,8 @@ protected:
 	//呪文に当たった時のデバフの時間
 	const int32_t DEBUFF_TIME = 3;
 	const int32_t TIME_SHAKE = 10;
+	//ノックバックの硬直時間
+	const int32_t TIME_KNOCKBACK = 30;
 
 	//本体
 	BaseObj obj_;
@@ -245,6 +252,11 @@ protected:
 
 	//多段ヒットの回避フラグ
 	bool isHit_;
+
+	//ノックバック
+	bool isKnockBack_;
+	Vector3 knockBackVec_;
+	int32_t knockBackTimer_;
 
 	//デバフ
 	DebuffM debuff_;

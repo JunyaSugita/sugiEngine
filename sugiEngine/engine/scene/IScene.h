@@ -1,6 +1,6 @@
 /**
  * @file IScene.h
- * @brief シーンのベースクラス
+ * @brief シーンの基底クラス
  */
 
 #pragma once
