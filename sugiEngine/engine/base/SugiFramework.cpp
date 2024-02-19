@@ -25,8 +25,6 @@ void SugiFramework::Initialize()
 	dxCom_->Initialize(winApp_.get());
 	//キーボード入力の初期化
 	Input::GetInstance()->Initialize(winApp_.get());
-	//FbxLoder初期化
-	FbxLoader::GetInstance()->Initialize(dxCom_->GetDevice());
 
 #pragma endregion
 
@@ -34,8 +32,6 @@ void SugiFramework::Initialize()
 	Camera::GetInstance()->Initialize();
 	Object3d::StaticInitialize(dxCom_->GetDevice());
 	Particle::StaticInitialize(dxCom_->GetDevice());
-	Fbx::SetDevice(dxCom_->GetDevice());
-	Fbx::CreateGraphicsPipeline();
 	Sprite::StaticInitialize(dxCom_->GetDevice());
 	LightGroup::StaticInitialize(dxCom_->GetDevice());
 	ModelManager::GetInstance()->Initialize();
@@ -53,9 +49,6 @@ void SugiFramework::Initialize()
 
 void SugiFramework::Finalize()
 {
-	//解放処理
-	FbxLoader::GetInstance()->Finalize();
-
 #pragma region WindowsAPI後始末
 	//最後にする
 	winApp_->DeleteWindow();

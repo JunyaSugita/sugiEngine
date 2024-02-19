@@ -207,16 +207,7 @@
     <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp">
       <Filter>ソース ファイル\engine\io</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\engine\io\FbxLoader.cpp">
-      <Filter>ソース ファイル\engine\io</Filter>
-    </ClCompile>
-    <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp">
-      <Filter>ソース ファイル\engine\3d</Filter>
-    </ClCompile>
     <ClCompile Include="sugiEngine\engine\3d\Camera.cpp">
-      <Filter>ソース ファイル\engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp">
       <Filter>ソース ファイル\engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\2d\PostEffect.cpp">
@@ -443,16 +434,7 @@
     <ClInclude Include="sugiEngine\engine\math\SugiMath.h">
       <Filter>ヘッダー ファイル\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="sugiEngine\engine\io\FbxLoader.h">
-      <Filter>ヘッダー ファイル\engine\io</Filter>
-    </ClInclude>
-    <ClInclude Include="sugiEngine\engine\3d\FbxModel.h">
-      <Filter>ヘッダー ファイル\engine\3d</Filter>
-    </ClInclude>
     <ClInclude Include="sugiEngine\engine\3d\Camera.h">
-      <Filter>ヘッダー ファイル\engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="sugiEngine\engine\3d\Fbx.h">
       <Filter>ヘッダー ファイル\engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="sugiEngine\app\scene\ClearScene.h">

@@ -1,6 +1,5 @@
 #include "GameScene.h"
 #include "Input.h"
-#include "FbxLoader.h"
 #include "PostEffect.h"
 #include "Player.h"
 #include "EnemyManager.h"
@@ -27,7 +26,6 @@ void GameScene::Initialize()
 	lightGroup_ = LightGroup::Create();
 	//ライトの取得
 	Object3d::SetLight(lightGroup_.get());
-	Fbx::SetLight(lightGroup_.get());
 	FieldManager::SetLight(lightGroup_.get());
 	FireBall::SetLight(lightGroup_.get());
 	MagicMissile::SetLight(lightGroup_.get());

@@ -44,12 +44,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)lib\DirectXTex\inc;$(SolutionDir)imgui;$(SolutionDir)json;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)lib\fbx_sdk\include</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)lib\DirectXTex\inc;$(SolutionDir)imgui;$(SolutionDir)json</IncludePath>
+    <LibraryPath>$(ProjectDir)lib\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)lib\DirectXTex\inc;$(SolutionDir)imgui;$(ProjectDir)lib\fbx_sdk\include;$(SolutionDir)json</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)lib\DirectXTex\inc;$(SolutionDir)imgui;$(SolutionDir)json</IncludePath>
+    <LibraryPath>$(ProjectDir)lib\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -66,7 +66,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libfbxsdk-md.lib;libxml2-md.lib;zlib-md.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
@@ -95,7 +95,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libfbxsdk-mt.lib;libxml2-mt.lib;zlib-mt.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
@@ -138,15 +138,12 @@
     <ClCompile Include="sugiEngine\engine\3d\BaseObj.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\Camera.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\ColliderManager.cpp" />
-    <ClCompile Include="sugiEngine\engine\3d\Fbx.cpp" />
-    <ClCompile Include="sugiEngine\engine\3d\FbxModel.cpp" />
     <ClCompile Include="sugiEngine\engine\3d\ModelManager.cpp" />
     <ClCompile Include="sugiEngine\engine\effect\Bolt.cpp" />
     <ClCompile Include="sugiEngine\engine\effect\Burst.cpp" />
     <ClCompile Include="sugiEngine\app\scene\ClearScene.cpp" />
     <ClCompile Include="sugiEngine\engine\base\DXCommon.cpp" />
     <ClCompile Include="sugiEngine\engine\effect\EffectManager.cpp" />
-    <ClCompile Include="sugiEngine\engine\io\FbxLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\io\JsonLoader.cpp" />
     <ClCompile Include="sugiEngine\engine\io\NaviPointManager.cpp" />
     <ClCompile Include="sugiEngine\engine\math\Easing.cpp" />
@@ -215,12 +212,9 @@
     <ClInclude Include="sugiEngine\engine\3d\BaseObj.h" />
     <ClInclude Include="sugiEngine\engine\3d\Camera.h" />
     <ClInclude Include="sugiEngine\engine\3d\ColliderManager.h" />
-    <ClInclude Include="sugiEngine\engine\3d\Fbx.h" />
-    <ClInclude Include="sugiEngine\engine\3d\FbxModel.h" />
     <ClInclude Include="sugiEngine\engine\3d\ModelManager.h" />
     <ClInclude Include="sugiEngine\engine\effect\Bolt.h" />
     <ClInclude Include="sugiEngine\engine\effect\Burst.h" />
-    <ClInclude Include="sugiEngine\engine\io\FbxLoader.h" />
     <ClInclude Include="sugiEngine\engine\io\JsonLoader.h" />
     <ClInclude Include="sugiEngine\engine\io\NaviPointManager.h" />
     <ClInclude Include="sugiEngine\engine\light\CircleShadow.h" />

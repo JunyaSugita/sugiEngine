@@ -29,8 +29,6 @@
 #include "GameManager.h"
 #include "LightGroup.h"
 #include "ImGuiManager.h"
-#include "FbxLoader.h"
-#include "Fbx.h"
 #include "PostEffect.h"
 #include "PostEffectSecond.h"
 #include "Particle.h"
