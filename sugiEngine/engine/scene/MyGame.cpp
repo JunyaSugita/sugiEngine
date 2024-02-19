@@ -37,7 +37,6 @@ void MyGame::Update()
 
 void MyGame::Draw()
 {
-
 	postEffect->PreDrawScene(dxCom_->GetCommandList());
 	GameDraw();
 	postEffect->PostDrawScene(dxCom_->GetCommandList());
@@ -61,25 +60,10 @@ void MyGame::Draw()
 
 	ImGuiManager::GetInstance()->Draw();
 	SugiFramework::dxCom_->PostDraw();
-
-	//SugiFramework::dxCom_->PreDraw();
-	//GameDraw();
-	//ImGuiManager::GetInstance()->Draw();
-	//SugiFramework::dxCom_->PostDraw();
 }
 
 void MyGame::GameDraw()
 {
-	//背景スプライト
-	//Sprite::PreDraw(dxCom_->GetCommandList());
-	//GameManager::GetInstance()->BackSpriteDraw();
-	//Sprite::PostDraw();
-
-	//Fbxモデル
-	Fbx::PreDraw(dxCom_->GetCommandList());
-	GameManager::GetInstance()->Draw();
-	Fbx::PostDraw();
-
 	//objモデル
 	Object3d::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->ObjDraw();
@@ -93,9 +77,4 @@ void MyGame::GameDraw()
 	Object3d::PreDraw(dxCom_->GetCommandList());
 	GameManager::GetInstance()->DrawTransparent();
 	Object3d::PostDraw();
-
-	//スプライト
-	//Sprite::PreDraw(dxCom_->GetCommandList());
-	//GameManager::GetInstance()->SpriteDraw();
-	//Sprite::PostDraw();
 }
