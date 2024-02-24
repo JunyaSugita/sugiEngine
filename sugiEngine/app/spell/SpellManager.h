@@ -140,10 +140,10 @@ private:
 	float chargeTime_;
 	float useTime_;
 
-	std::list<std::unique_ptr<BaseSpell>> spells_;
+	std::vector<std::unique_ptr<BaseSpell>> spells_;
 	std::vector<BaseSpell*> spellsList_;
 
-	std::list<std::unique_ptr<ChainLightning>> chainLightnings_;
+	std::vector<std::unique_ptr<ChainLightning>> chainLightnings_;
 	std::vector<ChainLightning*> chainLightningsList_;
 
 	bool isModeEnchantFire_;

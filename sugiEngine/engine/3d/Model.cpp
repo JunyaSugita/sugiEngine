@@ -1,4 +1,4 @@
-﻿#include "Model.h"
+#include "Model.h"
 #include "DirectXTex.h"
 
 using namespace std;

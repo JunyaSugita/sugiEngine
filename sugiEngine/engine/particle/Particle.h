@@ -9,7 +9,6 @@
 #include "GlobalSetting.h"
 #include "WorldTransform.h"
 #include "SugiMath.h"
-#include <forward_list>
 #include "ParticleEditor.h"
 #include <DirectXMath.h>
 
@@ -156,7 +155,7 @@ protected:
 
 	int32_t blendType_ = ALPHA;
 
-	std::forward_list<ParticleState> particles_;
+	std::vector<ParticleState> particles_;
 };
 
 

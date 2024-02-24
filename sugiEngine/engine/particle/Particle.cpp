@@ -508,9 +508,21 @@ void Particle::Update()
 {
 	HRESULT result;
 
-	particles_.remove_if([](ParticleState& x) {return x.frame >= x.num_frame; });
+	for (int i = 0;i < particles_.size();) {
+		if (particles_[i].frame >= particles_[i].num_frame) {
+			particles_.erase(particles_.begin() + i);
+		}
+		else {
+			i++;
+		}
+	}
 
-	for (std::forward_list<ParticleState>::iterator it = particles_.begin(); it != particles_.end(); it++) {
+	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	VertexSp* vertMap = nullptr;
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result));
+
+	for(vector<ParticleState>::iterator it = particles_.begin(); it != particles_.end(); it++){
 		it->frame++;
 		float f = (float)it->frame / it->num_frame;
 
@@ -564,14 +576,7 @@ void Particle::Update()
 		it->velocity = it->velocity + it->gravity;
 		it->speed *= it->accel.x;
 		it->position = it->position + it->velocity * it->speed;
-	}
 
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	VertexSp* vertMap = nullptr;
-	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (std::forward_list<ParticleState>::iterator it = particles_.begin(); it != particles_.end(); it++) {
 		vertMap->pos.x = it->position.x;
 		vertMap->pos.y = it->position.y;
 		vertMap->pos.z = it->position.z;
@@ -665,8 +670,7 @@ void Particle::SetTextureSize(float x, float y) {
 
 void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect)
 {
-	particles_.emplace_front();
-	ParticleState& p = particles_.front();
+	ParticleState p;
 	p.originPos = pos;
 	p.scale = scale.x;
 	p.checkS = checkS;
@@ -691,6 +695,8 @@ void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, flo
 	p.check2Color = check2Color;
 	p.e_color = eColor;
 	p.postEffect = postEffect;
+
+	particles_.push_back(p);
 }
 
 void Particle::Add(Vector3 pos, EditFile data)

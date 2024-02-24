@@ -27,7 +27,7 @@ void SpellManager::Initialize()
 	maxCharge_ = 0;
 	chargeTime_ = 0;
 	useTime_ = 0;
-	for (int i = 0; i < MAGIC_END;i++) {
+	for (int i = 0; i < MAGIC_END; i++) {
 		isUseSpell_[i] = false;
 	}
 
@@ -91,12 +91,23 @@ void SpellManager::Update()
 
 #pragma region 魔法の削除
 	//消すフラグの立った魔法の削除
-	spells_.remove_if([](unique_ptr<BaseSpell>& fireBall) {
-		return fireBall->GetIsDead();
-		});
-	chainLightnings_.remove_if([](unique_ptr<ChainLightning>& chainLightning) {
-		return chainLightning->GetIsDead();
-		});
+	for (int i = 0;i < spells_.size();) {
+		if(spells_[i]->GetIsDead()) {
+			spells_.erase(spells_.begin() + i);
+		}
+		else {
+			i++;
+		}
+	}
+	for (int i = 0; i < chainLightnings_.size();) {
+		if (chainLightnings_[i]->GetIsDead()) {
+			chainLightnings_.erase(chainLightnings_.begin() + i);
+		}
+		else {
+			i++;
+		}
+	}
+
 #pragma endregion
 
 #pragma region ImGui
@@ -277,7 +288,7 @@ float SpellManager::ChargePercent()
 
 bool SpellManager::GetIsUseSpell()
 {
-	for (int i = 0; i < MAGIC_END;i++) {
+	for (int i = 0; i < MAGIC_END; i++) {
 		if (isUseSpell_[i]) {
 			return true;
 		}

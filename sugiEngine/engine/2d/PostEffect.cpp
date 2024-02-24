@@ -1,4 +1,4 @@
-﻿#include "PostEffect.h"
+#include "PostEffect.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <d3dx12.h>
@@ -293,9 +293,7 @@ void PostEffect::Initialize(ID3D12Device* device)
 
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
-	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	textureHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
 	//リソース設定
 	D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -320,15 +318,6 @@ void PostEffect::Initialize(ID3D12Device* device)
 	for (size_t i = 0; i < metadata.mipLevels; i++) {
 		//ミップマップレベルを指定してイメージを取得
 		const Image* img = scratchImg.GetImage(i, 0, 0);
-		// テクスチャバッファにデータ転送
-		result = textureBuffer_->WriteToSubresource(
-			(uint32_t)i,
-			nullptr,
-			img->pixels,
-			(uint32_t)img->rowPitch,
-			(uint32_t)img->slicePitch
-		);
-		assert(SUCCEEDED(result));
 	}
 
 	//シェーダーリソースビュー設定
@@ -471,12 +460,8 @@ void PostEffect::Initialize(ID3D12Device* device)
 	SetUp();
 
 	//ヒープ設定
-	//D3D12_HEAP_PROPERTIES textureHeapProp{};
-	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	textureHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
 	//リソース設定
-	//D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	textureResourceDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	textureResourceDesc.Width = WIN_WIDTH;
