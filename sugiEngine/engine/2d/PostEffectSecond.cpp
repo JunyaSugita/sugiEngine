@@ -317,12 +317,6 @@ void PostEffectSecond::Initialize(ID3D12Device* device)
 		IID_PPV_ARGS(&textureBuffer_)
 	);
 
-	//全ミップマップについて
-	for (size_t i = 0; i < metadata.mipLevels; i++) {
-		//ミップマップレベルを指定してイメージを取得
-		const Image* img = scratchImg.GetImage(i, 0, 0);
-	}
-
 	//シェーダーリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
 	srvDesc.Format = textureResourceDesc.Format;

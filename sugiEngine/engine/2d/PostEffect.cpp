@@ -314,12 +314,6 @@ void PostEffect::Initialize(ID3D12Device* device)
 		IID_PPV_ARGS(&textureBuffer_)
 	);
 
-	//全ミップマップについて
-	for (size_t i = 0; i < metadata.mipLevels; i++) {
-		//ミップマップレベルを指定してイメージを取得
-		const Image* img = scratchImg.GetImage(i, 0, 0);
-	}
-
 	//シェーダーリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
 	srvDesc.Format = textureResourceDesc.Format;
@@ -479,19 +473,6 @@ void PostEffect::Initialize(ID3D12Device* device)
 	clearValue.Color[2] = CLEAR_COLOR[2];
 	clearValue.Color[3] = CLEAR_COLOR[3];
 
-	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
-		//テクスチャバッファの生成
-		result = device->CreateCommittedResource(
-			&textureHeapProp,
-			D3D12_HEAP_FLAG_NONE,
-			&textureResourceDesc,
-			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-			&clearValue,
-			IID_PPV_ARGS(&texBuff_[i])
-		);
-		assert(SUCCEEDED(result));
-	}
-
 	//SRVデスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
 	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -510,6 +491,17 @@ void PostEffect::Initialize(ID3D12Device* device)
 
 	//デスクリプタヒープにSRV作成
 	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+		//テクスチャバッファの生成
+		result = device->CreateCommittedResource(
+			&textureHeapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&textureResourceDesc,
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+			&clearValue,
+			IID_PPV_ARGS(&texBuff_[i])
+		);
+		assert(SUCCEEDED(result));
+
 		device->CreateShaderResourceView(texBuff_[i].Get(),
 			&srvDesc,
 			CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetCPUDescriptorHandleForHeapStart(), i, device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
