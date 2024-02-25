@@ -652,9 +652,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 	cmdList->RSSetScissorRects(MULTI_RENDAR_TARGET_NUM, rects);
 
 	//全画面クリア
-	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
-		cmdList->ClearRenderTargetView(rtvHs[i], CLEAR_COLOR, 0, nullptr);
-	}
+	cmdList->ClearRenderTargetView(rtvHs[0], CLEAR_COLOR, 0, nullptr);
 	//深度バッファのクリア
 	cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
