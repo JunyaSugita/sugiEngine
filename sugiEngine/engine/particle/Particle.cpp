@@ -6,6 +6,7 @@
 #include "ParticleEditor.h"
 #include "SpellManager.h"
 #include <random>
+#include <d3dx12.h>
 
 using namespace Microsoft::WRL;
 using namespace std;
@@ -20,11 +21,13 @@ const size_t Particle::MAX_SRV_COUNT;
 ComPtr<ID3D12DescriptorHeap> Particle::sSrvHeap;
 uint32_t Particle::sIncrementSize;
 uint32_t Particle::sTextureIndex = 0;
+vector<ID3D12Resource*> Particle::sIntermediateResource;
 
-void Particle::StaticInitialize(ID3D12Device* device)
+void Particle::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList)
 {
 	HRESULT result;
 	sDevice = device;
+	sCmdList = cmdList;
 
 	ComPtr<ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> gsBlob = nullptr;
@@ -287,7 +290,7 @@ void Particle::PreDraw(ID3D12GraphicsCommandList* cmdList)
 
 void Particle::PostDraw()
 {
-	Particle::sCmdList = nullptr;
+	//Particle::sCmdList = nullptr;
 }
 
 uint32_t Particle::LoadTexture(string file) {
@@ -327,9 +330,7 @@ uint32_t Particle::LoadTexture(string file) {
 
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
-	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	textureHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
 	//リソース設定
 	D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -345,25 +346,27 @@ uint32_t Particle::LoadTexture(string file) {
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
+		D3D12_RESOURCE_STATE_COPY_DEST,
 		nullptr,
 		IID_PPV_ARGS(&sTextureBuffers[sTextureIndex])
 	);
 
-	//全ミップマップについて
-	for (size_t i = 0; i < metadata.mipLevels; i++) {
-		//ミップマップレベルを指定してイメージを取得
-		const Image* img = scratchImg.GetImage(i, 0, 0);
-		// テクスチャバッファにデータ転送
-		result = sTextureBuffers[sTextureIndex]->WriteToSubresource(
-			(uint32_t)i,
-			nullptr,
-			img->pixels,
-			(uint32_t)img->rowPitch,
-			(uint32_t)img->slicePitch
-		);
-		assert(SUCCEEDED(result));
-	}
+	vector<D3D12_SUBRESOURCE_DATA> subResources;
+	DirectX::PrepareUpload(sDevice.Get(), scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(), subResources);
+	uint64_t intermediateSize = GetRequiredIntermediateSize(sTextureBuffers[sTextureIndex].Get(), 0, UINT(subResources.size()));
+	ID3D12Resource* intermediateResource = CreateBufferResource(intermediateSize);
+	UpdateSubresources(sCmdList.Get(), sTextureBuffers[sTextureIndex].Get(), intermediateResource, 0, 0, UINT(subResources.size()), subResources.data());
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = sTextureBuffers[sTextureIndex].Get();
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
+	sCmdList->ResourceBarrier(1, &barrier);
+
+	sIntermediateResource.push_back(intermediateResource);
 
 	//シェーダーリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
@@ -875,4 +878,36 @@ void Particle::AdjustTextureSize()
 
 	textureSize_.x = static_cast<float>(resDesc.Width);
 	textureSize_.y = static_cast<float>(resDesc.Height);
+}
+
+ID3D12Resource* Particle::CreateBufferResource(uint64_t size)
+{
+	HRESULT result;
+
+	D3D12_HEAP_PROPERTIES heapProperties{};
+	heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	D3D12_RESOURCE_DESC bufferResourceDesc{};
+	bufferResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	bufferResourceDesc.Width = size;
+	//↓バッファの時は確定
+	bufferResourceDesc.Height = 1;
+	bufferResourceDesc.DepthOrArraySize = 1;
+	bufferResourceDesc.MipLevels = 1;
+	bufferResourceDesc.SampleDesc.Count = 1;
+	bufferResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//実際に作成
+	ID3D12Resource* bufferResource = nullptr;
+	result = sDevice->CreateCommittedResource(
+		&heapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&bufferResourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&bufferResource)
+	);
+	assert(SUCCEEDED(result));
+
+	return bufferResource;
 }

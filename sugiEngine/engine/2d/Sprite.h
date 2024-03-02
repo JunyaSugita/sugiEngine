@@ -25,7 +25,7 @@ public:
 
 	
 public:
-	static void StaticInitialize(ID3D12Device* device);
+	static void StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList);
 
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 
@@ -50,9 +50,11 @@ protected:
 	static ComPtr<ID3D12DescriptorHeap> sSrvHeap;
 	static uint32_t sIncrementSize;
 	static uint32_t sTextureIndex;
+	static std::vector<ID3D12Resource*> sIntermediateResource;
 
 private:
 	void AdjustTextureSize();
+	static ID3D12Resource* CreateBufferResource(uint64_t size);
 
 public:
 	void Initialize(uint32_t texNum);
