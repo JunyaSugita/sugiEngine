@@ -60,10 +60,14 @@ public:
 	static void SetDevice(ID3D12Device* device) {
 		sDevice = device;
 	}
+	static void SetCommandList(ID3D12GraphicsCommandList* cmdList) {
+		sCmdList = cmdList;
+	}
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1_;
+	static std::vector<ID3D12Resource*> sIntermediateResource;
 private:
 	void LoatFromObjInternal(const std::string& modelname, bool smoothing = false);
-
+	static ID3D12Resource* CreateBufferResource(uint64_t size);
 public:
 	/// <summary>
 	/// マテリアル読み込み
@@ -90,7 +94,7 @@ public:
 
 private:
 	static ID3D12Device* sDevice;
-
+	static ID3D12GraphicsCommandList* sCmdList;
 private:
 	std::vector<Vertex> vertices_;
 	std::vector<unsigned short> indices_;

@@ -24,12 +24,12 @@ uint16_t Object3d::sCountIndex;
 
 LightGroup* Object3d::lightGroup_ = nullptr;
 
-void Object3d::StaticInitialize(ID3D12Device* device)
+void Object3d::StaticInitialize(ID3D12Device* device,ID3D12GraphicsCommandList* cmdList)
 {
 	HRESULT result;
 	sDevice = device;
 	Model::SetDevice(device);
-	
+	Model::SetCommandList(cmdList);
 
 #pragma region パイプライン初期化
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト

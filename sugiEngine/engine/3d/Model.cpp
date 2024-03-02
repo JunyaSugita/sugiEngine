@@ -1,10 +1,13 @@
 #include "Model.h"
 #include "DirectXTex.h"
+#include <d3dx12.h>
 
 using namespace std;
 using namespace DirectX;
 
 ID3D12Device* Model::sDevice = nullptr;
+ID3D12GraphicsCommandList* Model::sCmdList = nullptr;
+vector<ID3D12Resource*> Model::sIntermediateResource;
 
 Model* Model::LoadFromObj(const string& modelname, bool smoothing)
 {
@@ -115,9 +118,7 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
-	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	textureHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
 	//リソース設定
 	D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -133,25 +134,27 @@ bool Model::LoadTexture(const string& directoryPath, const string& filename)
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
+		D3D12_RESOURCE_STATE_COPY_DEST,
 		nullptr,
 		IID_PPV_ARGS(&texBuff_)
 	);
 
-	//全ミップマップについて
-	for (size_t i = 0; i < metadata.mipLevels; i++) {
-		//ミップマップレベルを指定してイメージを取得
-		const Image* img = scratchImg.GetImage(i, 0, 0);
-		// テクスチャバッファにデータ転送
-		result = texBuff_->WriteToSubresource(
-			(uint32_t)i,
-			nullptr,
-			img->pixels,
-			(uint32_t)img->rowPitch,
-			(uint32_t)img->slicePitch
-		);
-		assert(SUCCEEDED(result));
-	}
+	vector<D3D12_SUBRESOURCE_DATA> subResources;
+	DirectX::PrepareUpload(sDevice, scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(), subResources);
+	uint64_t intermediateSize = GetRequiredIntermediateSize(texBuff_.Get(), 0, UINT(subResources.size()));
+	ID3D12Resource* intermediateResource = CreateBufferResource(intermediateSize);
+	UpdateSubresources(sCmdList, texBuff_.Get(), intermediateResource, 0, 0, UINT(subResources.size()), subResources.data());
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = texBuff_.Get();
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
+	sCmdList->ResourceBarrier(1, &barrier);
+
+	sIntermediateResource.push_back(intermediateResource);
 
 	//SRVヒープの先頭ハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap_->GetCPUDescriptorHandleForHeapStart();
@@ -434,4 +437,36 @@ void Model::LoatFromObjInternal(const std::string& modelname, bool smoothing) {
 	if (smoothing) {
 		CalculateSmoothedVertexNormals();
 	}
+}
+
+ID3D12Resource* Model::CreateBufferResource(uint64_t size)
+{
+	HRESULT result;
+
+	D3D12_HEAP_PROPERTIES heapProperties{};
+	heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	D3D12_RESOURCE_DESC bufferResourceDesc{};
+	bufferResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	bufferResourceDesc.Width = size;
+	//↓バッファの時は確定
+	bufferResourceDesc.Height = 1;
+	bufferResourceDesc.DepthOrArraySize = 1;
+	bufferResourceDesc.MipLevels = 1;
+	bufferResourceDesc.SampleDesc.Count = 1;
+	bufferResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//実際に作成
+	ID3D12Resource* bufferResource = nullptr;
+	result = sDevice->CreateCommittedResource(
+		&heapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&bufferResourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&bufferResource)
+	);
+	assert(SUCCEEDED(result));
+
+	return bufferResource;
 }
