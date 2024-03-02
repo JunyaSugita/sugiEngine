@@ -31,8 +31,8 @@ void SugiFramework::Initialize()
 #pragma region 描画初期化処理
 	Camera::GetInstance()->Initialize();
 	Object3d::StaticInitialize(dxCom_->GetDevice());
-	Particle::StaticInitialize(dxCom_->GetDevice());
-	Sprite::StaticInitialize(dxCom_->GetDevice());
+	Particle::StaticInitialize(dxCom_->GetDevice(), dxCom_->GetCommandList());
+	Sprite::StaticInitialize(dxCom_->GetDevice(),dxCom_->GetCommandList());
 	LightGroup::StaticInitialize(dxCom_->GetDevice());
 	ModelManager::GetInstance()->Initialize();
 #pragma endregion

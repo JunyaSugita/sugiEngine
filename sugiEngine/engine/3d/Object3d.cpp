@@ -29,6 +29,7 @@ void Object3d::StaticInitialize(ID3D12Device* device)
 	HRESULT result;
 	sDevice = device;
 	Model::SetDevice(device);
+	
 
 #pragma region パイプライン初期化
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト

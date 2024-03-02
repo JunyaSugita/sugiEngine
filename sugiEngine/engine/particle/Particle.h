@@ -61,7 +61,7 @@ public:
 	};
 
 public:
-	static void StaticInitialize(ID3D12Device* device);
+	static void StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList);
 
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 
@@ -88,10 +88,10 @@ private:
 	static uint32_t sTextureIndex;
 
 	static const uint32_t vertexCount = 2048 * 128;
-
+	static std::vector<ID3D12Resource*> sIntermediateResource;
 private:
 	void AdjustTextureSize();
-
+	static ID3D12Resource* CreateBufferResource(uint64_t size);
 public:
 	void Initialize(std::string textureName, int32_t blendType = ADD);
 	void Update();
