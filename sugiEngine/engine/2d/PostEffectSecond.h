@@ -99,6 +99,10 @@ public:
 		sIsMoveCloss = true;
 	}
 
+	static void SetMultiRenderTargetNum(int32_t num) {
+		preUseMultiRenderTargetNum_ = num;
+	}
+
 	static void SetPos(const Vector2& pos);
 	static void SetSize(const Vector2& size);
 
@@ -155,4 +159,7 @@ private:
 
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	Vector2 textureSize_ = { WIN_WIDTH,WIN_HEIGHT };
+
+	int32_t useMultiRenderTargetNum_;
+	static int32_t preUseMultiRenderTargetNum_;
 };

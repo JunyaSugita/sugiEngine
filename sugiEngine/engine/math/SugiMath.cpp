@@ -55,3 +55,12 @@ float Max(float a, float b, float c, float d)
     return Max(temp, d);
 }
 
+int32_t Max(int32_t a, int32_t b)
+{
+    if (a >= b) {
+        return a;
+    }
+
+    return b;
+}
+

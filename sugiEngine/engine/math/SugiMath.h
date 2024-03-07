@@ -26,4 +26,6 @@ float Max(float a, float b);
 float Max(float a, float b, float c);
 float Max(float a, float b, float c, float d);
 
+int32_t Max(int32_t a, int32_t b);
+
 

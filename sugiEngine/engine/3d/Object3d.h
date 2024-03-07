@@ -17,6 +17,7 @@
 #include "Vector3.h"
 #include "LightGroup.h"
 #include "Camera.h"
+#include "PostEffect.h"
 
 //定数バッファ用データ構造体B0
 struct ConstBufferDataB0 {
@@ -96,9 +97,11 @@ public:
 	}
 	void SetEffectCross(bool is) {
 		effectCloss_ = is;
+		PostEffect::SetMultiRenderTargetNum(2);
 	}
 	void SetIsBloom(bool is = true) {
 		isBloom_ = is;
+		PostEffect::SetMultiRenderTargetNum(3);
 	}
 private:
 	//デバイス

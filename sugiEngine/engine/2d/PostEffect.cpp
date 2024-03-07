@@ -21,6 +21,8 @@ bool PostEffect::sIsMoveCloss = false;
 
 bool PostEffect::sIsDirty = false;
 
+int32_t PostEffect::preUseMultiRenderTargetNum_;
+
 void PostEffect::Initialize(ID3D12Device* device)
 {
 	HRESULT result;
@@ -567,6 +569,8 @@ void PostEffect::Initialize(ID3D12Device* device)
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	device->CreateDepthStencilView(depthBuff_.Get(), &dsvDesc, descHeapDSV_->GetCPUDescriptorHandleForHeapStart());
+
+	preUseMultiRenderTargetNum_ = 1;
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
@@ -609,8 +613,10 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 
 void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
+	useMultiRenderTargetNum_ = preUseMultiRenderTargetNum_;
+
 	D3D12_RESOURCE_BARRIER resourceBarrier{};
-	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+	for (int i = 0; i < useMultiRenderTargetNum_; i++) {
 		resourceBarrier.Transition.pResource = texBuff_[i].Get();
 		resourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 		resourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
@@ -620,17 +626,17 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 	//レンダーターゲット取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[MULTI_RENDAR_TARGET_NUM];
 
-	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+	for (int i = 0; i < useMultiRenderTargetNum_; i++) {
 		rtvHs[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapRTV_->GetCPUDescriptorHandleForHeapStart(), i, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	}
 	//深度ステンシルビュー取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH = descHeapDSV_->GetCPUDescriptorHandleForHeapStart();
 	//set
-	cmdList->OMSetRenderTargets(MULTI_RENDAR_TARGET_NUM, rtvHs, false, &dsvH);
+	cmdList->OMSetRenderTargets(useMultiRenderTargetNum_, rtvHs, false, &dsvH);
 
 	//ビューポート設定
 	D3D12_VIEWPORT viewports[MULTI_RENDAR_TARGET_NUM];
-	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+	for (int i = 0; i < useMultiRenderTargetNum_; i++) {
 		viewports[i].TopLeftX = 0.0f;
 		viewports[i].TopLeftY = 0.0f;
 		viewports[i].Width = WIN_WIDTH;
@@ -638,18 +644,18 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 		viewports[i].MinDepth = 0.0f;
 		viewports[i].MaxDepth = 1.0f;
 	}
-	cmdList->RSSetViewports(MULTI_RENDAR_TARGET_NUM, viewports);
+	cmdList->RSSetViewports(useMultiRenderTargetNum_, viewports);
 
 	//シザリング矩形の設定
 	D3D12_RECT rects[MULTI_RENDAR_TARGET_NUM];
-	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+	for (int i = 0; i < useMultiRenderTargetNum_; i++) {
 		rects[i].top = 0;
 		rects[i].bottom = WIN_HEIGHT;
 		rects[i].left = 0;
 		rects[i].right = WIN_WIDTH;
 	}
 
-	cmdList->RSSetScissorRects(MULTI_RENDAR_TARGET_NUM, rects);
+	cmdList->RSSetScissorRects(useMultiRenderTargetNum_, rects);
 
 	//全画面クリア
 	cmdList->ClearRenderTargetView(rtvHs[0], CLEAR_COLOR, 0, nullptr);
@@ -660,7 +666,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
 	D3D12_RESOURCE_BARRIER resourceBarrier{};
-	for (int i = 0; i < MULTI_RENDAR_TARGET_NUM; i++) {
+	for (int i = 0; i < useMultiRenderTargetNum_; i++) {
 		resourceBarrier.Transition.pResource = texBuff_[i].Get();
 		resourceBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 		resourceBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;

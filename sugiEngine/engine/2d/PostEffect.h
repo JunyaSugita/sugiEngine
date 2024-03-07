@@ -95,6 +95,10 @@ public:
 		sIsMoveCloss = true;
 	}
 
+	static void SetMultiRenderTargetNum(int32_t num) {
+		preUseMultiRenderTargetNum_ = Max(num, preUseMultiRenderTargetNum_);
+	}
+
 public:
 	static const float CLEAR_COLOR[4];
 	static const size_t MAX_SRV_COUNT = 2056;
@@ -147,5 +151,8 @@ private:
 
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	Vector2 textureSize_ = { WIN_WIDTH,WIN_HEIGHT };
+
+	int32_t useMultiRenderTargetNum_;
+	static int32_t preUseMultiRenderTargetNum_;
 };
 
