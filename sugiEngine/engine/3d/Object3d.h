@@ -18,6 +18,7 @@
 #include "LightGroup.h"
 #include "Camera.h"
 #include "PostEffect.h"
+#include "PostEffectSecond.h"
 
 //定数バッファ用データ構造体B0
 struct ConstBufferDataB0 {
