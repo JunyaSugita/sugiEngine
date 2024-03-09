@@ -148,7 +148,7 @@ void TitleScene::ParticleDraw()
 void TitleScene::SpriteDraw()
 {
 	if (!ParticleManager::GetInstance()->GetIsEdit()) {
-		titleSp_.Draw();
+		//titleSp_.Draw();
 	}
 
 	//絶対最後

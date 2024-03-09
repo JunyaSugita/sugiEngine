@@ -498,7 +498,6 @@ void Particle::Initialize(string textureName, int32_t blendType)
 	matTransform.SetPos(Vector3(pos_.x, pos_.y, pos_.z));
 	matTransform.SetWorldMat();
 
-	//constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
 	Camera* camera = Camera::GetInstance();
 	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection() * matTransform.GetMatWorld());
 
