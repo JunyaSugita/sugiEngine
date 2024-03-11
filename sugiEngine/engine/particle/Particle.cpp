@@ -511,83 +511,87 @@ void Particle::Update()
 {
 	HRESULT result;
 
-	for (int i = 0;i < particles_.size();) {
-		if (particles_[i].frame >= particles_[i].num_frame) {
-			particles_.erase(particles_.begin() + i);
-		}
-		else {
-			i++;
-		}
-	}
+	aliveParticles_.clear();
+	deadParticles_.clear();
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
 	VertexSp* vertMap = nullptr;
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
+	for (int i = 0; i < allParticles_.size(); i++) {
+		allParticles_[i].frame++;
+		float f = (float)allParticles_[i].frame / allParticles_[i].num_frame;
 
-	for(vector<ParticleState>::iterator it = particles_.begin(); it != particles_.end(); it++){
-		it->frame++;
-		float f = (float)it->frame / it->num_frame;
+		//死んでいるものと生きているものの選別
+		if (f > 1) {
+			deadParticles_.push_back(i);
+			continue;
+		}
+		else {
+			aliveParticles_.push_back(allParticles_[i]);
+		}
 
 		//スケールの線形補間
-		if (f < it->checkS.x) {
+		if (f < allParticles_[i].checkS.x) {
 			//0~1
-			f = (float)it->frame / (it->num_frame * it->checkS.x);
+			f = (float)allParticles_[i].frame / (allParticles_[i].num_frame * allParticles_[i].checkS.x);
 
-			it->scale = (it->scales.y - it->scales.x) * f;
-			it->scale += it->scales.x;
+			allParticles_[i].scale = (allParticles_[i].scales.y - allParticles_[i].scales.x) * f;
+			allParticles_[i].scale += allParticles_[i].scales.x;
 		}
-		else if (f < it->checkS.y) {
+		else if (f < allParticles_[i].checkS.y) {
 			//1~2
-			f = ((float)it->frame - (it->num_frame * it->checkS.x)) / (it->num_frame * (it->checkS.y - it->checkS.x));
+			f = ((float)allParticles_[i].frame - (allParticles_[i].num_frame * allParticles_[i].checkS.x)) / (allParticles_[i].num_frame * (allParticles_[i].checkS.y - allParticles_[i].checkS.x));
 
-			it->scale = (it->scales.z - it->scales.y) * f;
-			it->scale += it->scales.y;
+			allParticles_[i].scale = (allParticles_[i].scales.z - allParticles_[i].scales.y) * f;
+			allParticles_[i].scale += allParticles_[i].scales.y;
 		}
 		else {
 			//2~3
-			f = ((float)it->frame - (it->num_frame * it->checkS.y)) / (it->num_frame * (1 - it->checkS.y));
+			f = ((float)allParticles_[i].frame - (allParticles_[i].num_frame * allParticles_[i].checkS.y)) / (allParticles_[i].num_frame * (1 - allParticles_[i].checkS.y));
 
-			it->scale = (it->scales.w - it->scales.z) * f;
-			it->scale += it->scales.z;
+			allParticles_[i].scale = (allParticles_[i].scales.w - allParticles_[i].scales.z) * f;
+			allParticles_[i].scale += allParticles_[i].scales.z;
 		}
 
-		f = (float)it->frame / it->num_frame;
+		f = (float)allParticles_[i].frame / allParticles_[i].num_frame;
 		//カラーの線形補間
-		if (f < it->check1) {
+		if (f < allParticles_[i].check1) {
 			//0~1
-			f = (float)it->frame / (it->num_frame * it->check1);
+			f = (float)allParticles_[i].frame / (allParticles_[i].num_frame * allParticles_[i].check1);
 
-			it->color = (it->check1Color - it->s_color) * f;
-			it->color += it->s_color;
+			allParticles_[i].color = (allParticles_[i].check1Color - allParticles_[i].s_color) * f;
+			allParticles_[i].color += allParticles_[i].s_color;
 		}
-		else if (f < it->check2) {
+		else if (f < allParticles_[i].check2) {
 			//1~2
-			f = ((float)it->frame - (it->num_frame * it->check1)) / (it->num_frame * (it->check2 - it->check1));
+			f = ((float)allParticles_[i].frame - (allParticles_[i].num_frame * allParticles_[i].check1)) / (allParticles_[i].num_frame * (allParticles_[i].check2 - allParticles_[i].check1));
 
-			it->color = (it->check2Color - it->check1Color) * f;
-			it->color += it->check1Color;
+			allParticles_[i].color = (allParticles_[i].check2Color - allParticles_[i].check1Color) * f;
+			allParticles_[i].color += allParticles_[i].check1Color;
 		}
 		else {
 			//2~3
-			f = ((float)it->frame - (it->num_frame * it->check2)) / (it->num_frame * (1 - it->check2));
+			f = ((float)allParticles_[i].frame - (allParticles_[i].num_frame * allParticles_[i].check2)) / (allParticles_[i].num_frame * (1 - allParticles_[i].check2));
 
-			it->color = (it->e_color - it->check2Color) * f;
-			it->color += it->check2Color;
+			allParticles_[i].color = (allParticles_[i].e_color - allParticles_[i].check2Color) * f;
+			allParticles_[i].color += allParticles_[i].check2Color;
 		}
 
-		it->velocity = it->velocity + it->gravity;
-		it->speed *= it->accel.x;
-		it->position = it->position + it->velocity * it->speed;
+		allParticles_[i].velocity = allParticles_[i].velocity + allParticles_[i].gravity;
+		allParticles_[i].speed *= allParticles_[i].accel.x;
+		allParticles_[i].position = allParticles_[i].position + allParticles_[i].velocity * allParticles_[i].speed;
+	}
 
-		vertMap->pos.x = it->position.x;
-		vertMap->pos.y = it->position.y;
-		vertMap->pos.z = it->position.z;
-		vertMap->scale = it->scale;
-		vertMap->color.x = it->color.x;
-		vertMap->color.y = it->color.y;
-		vertMap->color.z = it->color.z;
-		vertMap->color.w = it->color.w;
+	for (int i = 0; i < aliveParticles_.size();i++) {
+		vertMap->pos.x = aliveParticles_[i].position.x;
+		vertMap->pos.y = aliveParticles_[i].position.y;
+		vertMap->pos.z = aliveParticles_[i].position.z;
+		vertMap->scale = aliveParticles_[i].scale;
+		vertMap->color.x = aliveParticles_[i].color.x;
+		vertMap->color.y = aliveParticles_[i].color.y;
+		vertMap->color.z = aliveParticles_[i].color.z;
+		vertMap->color.w = aliveParticles_[i].color.w;
 		vertMap++;
 	}
 
@@ -613,7 +617,7 @@ void Particle::Draw()
 
 	if (isView_ == true) {
 		// 描画コマンド
-		sCmdList->DrawInstanced((UINT)std::distance(particles_.begin(), particles_.end()), 1, 0, 0); // 全ての頂点を使って描画
+		sCmdList->DrawInstanced((UINT)std::distance(aliveParticles_.begin(), aliveParticles_.end()), 1, 0, 0); // 全ての頂点を使って描画
 	}
 }
 
@@ -699,7 +703,14 @@ void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, flo
 	p.e_color = eColor;
 	p.postEffect = postEffect;
 
-	particles_.push_back(p);
+	if (deadParticles_.size() == 0) {
+		allParticles_.push_back(p);
+	}
+	else {
+		//死んだパーティクルを再利用
+		allParticles_[deadParticles_[deadParticles_.size() - 1]] = p;
+		deadParticles_.pop_back();
+	}
 }
 
 void Particle::Add(Vector3 pos, EditFile data)
@@ -817,7 +828,7 @@ void Particle::AddEditColor(Vector3 pos, EditFile data, Vector4 color)
 
 void Particle::Clear()
 {
-	particles_.clear();
+	allParticles_.clear();
 }
 
 void Particle::SetUpVertex() {

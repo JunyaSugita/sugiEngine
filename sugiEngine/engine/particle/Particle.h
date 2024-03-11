@@ -155,7 +155,12 @@ protected:
 
 	int32_t blendType_ = ALPHA;
 
-	std::vector<ParticleState> particles_;
+	//全てのパーティクル
+	std::vector<ParticleState> allParticles_;
+	//生きているパーティクル
+	std::vector<ParticleState> aliveParticles_;
+	//死んだパーティクルのallParticles_でのindex
+	std::vector<int32_t> deadParticles_;
 };
 
 
