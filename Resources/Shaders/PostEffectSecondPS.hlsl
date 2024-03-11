@@ -14,11 +14,11 @@ float4 main(VSOutput input) : SV_TARGET
 {
 	if (blur) {
 		float totalWeight = 0;
-		float sigma = 0.002f * Isigma;
-		float stepWidth = 0.004f;
+		float sigma = 0.004f * Isigma;
+		float stepWidth = 0.008f;
 		float4 col = float4(0, 0, 0, 0);
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
-			for (float j = -(sigma * 2); j < sigma * 2; j += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
+			for (float j = -sigma; j < sigma; j += stepWidth) {
 				float d = distance(input.uv, input.uv + float2(j,i));
 				float weight = exp(-(d * d) / (2 * sigma * sigma));
 				col += tex0.Sample(smp, input.uv + float2 (j, i)) * weight;
@@ -47,11 +47,11 @@ float4 main(VSOutput input) : SV_TARGET
 	}
 	else if (bloom) {
 		float totalWeight = 0;
-		float sigma = 0.005f;
-		float stepWidth = 0.001f;
+		float sigma = 0.01f;
+		float stepWidth = 0.002f;
 		float4 col = float4(0, 0, 0, 1);
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
-			for (float j = -(sigma * 2); j < sigma * 2; j += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
+			for (float j = -sigma; j < sigma; j += stepWidth) {
 				float d = distance(input.uv, input.uv + float2(j, i));
 				float weight = exp(-(d * d) / (2 * sigma * sigma));
 				col += tex2.Sample(smp, input.uv + float2 (j, i)) * weight;
@@ -66,19 +66,19 @@ float4 main(VSOutput input) : SV_TARGET
 		return col;
 	}
 	else if (closs4) {
-		float sigma = 0.06f;
-		float stepWidth = 0.005f;
+		float sigma = 0.12f;
+		float stepWidth = 0.01f;
 		float4 col1 = float4(0, 0, 0, 1);
 		float totalWeight1 = 0;
 		float4 col2 = float4(0, 0, 0, 1);
 		float totalWeight2 = 0;
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
 			float d = distance(input.uv, input.uv + float2(i, i));
 			float weight = exp(-(d * d) / (2 * sigma * sigma));
 			col1 += tex2.Sample(smp, input.uv + float2 (i, i)) * weight;
 			totalWeight1 += weight;
 		}
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
 			float d = distance(input.uv, input.uv + float2(i, -i));
 			float weight = exp(-(d * d) / (2 * sigma * sigma));
 			col2 += tex2.Sample(smp, input.uv + float2 (i,-i)) * weight;
@@ -94,27 +94,27 @@ float4 main(VSOutput input) : SV_TARGET
 		return col1;
 	}
 	else if (closs6) {
-		float sigma = 0.06f;
-		float stepWidth = 0.005f;
+		float sigma = 0.12f;
+		float stepWidth = 0.01f;
 		float4 col1 = float4(0, 0, 0, 1);
 		float totalWeight1 = 0;
 		float4 col2 = float4(0, 0, 0, 1);
 		float totalWeight2 = 0;
 		float4 col3 = float4(0, 0, 0, 1);
 		float totalWeight3 = 0;
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
 			float d = distance(input.uv, input.uv + float2(i, i));
 			float weight = exp(-(d * d) / (2 * sigma * sigma));
 			col1 += tex2.Sample(smp, input.uv + float2 (i, i)) * weight;
 			totalWeight1 += weight;
 		}
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
 			float d = distance(input.uv, input.uv + float2(i, -i));
 			float weight = exp(-(d * d) / (2 * sigma * sigma));
 			col2 += tex2.Sample(smp, input.uv + float2 (i, -i)) * weight;
 			totalWeight2 += weight;
 		}
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
 			float d = distance(input.uv, input.uv + float2(i, 0));
 			float weight = exp(-(d * d) / (2 * sigma * sigma));
 			col3 += tex2.Sample(smp, input.uv + float2 (i, 0)) * weight;
@@ -132,8 +132,8 @@ float4 main(VSOutput input) : SV_TARGET
 		return col1;
 	}
 	else if (closs8) {
-		float sigma = 0.06f;
-		float stepWidth = 0.005f;
+		float sigma = 0.12f;
+		float stepWidth = 0.01f;
 		float4 col1 = float4(0, 0, 0, 1);
 		float totalWeight1 = 0;
 		float4 col2 = float4(0, 0, 0, 1);
@@ -142,25 +142,25 @@ float4 main(VSOutput input) : SV_TARGET
 		float totalWeight3 = 0;
 		float4 col4 = float4(0, 0, 0, 1);
 		float totalWeight4 = 0;
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
 			float d = distance(input.uv, input.uv + float2(i, i));
 			float weight = exp(-(d * d) / (2 * sigma * sigma));
 			col1 += tex2.Sample(smp, input.uv + float2 (i, i)) * weight;
 			totalWeight1 += weight;
 		}
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
 			float d = distance(input.uv, input.uv + float2(i, -i));
 			float weight = exp(-(d * d) / (2 * sigma * sigma));
 			col2 += tex2.Sample(smp, input.uv + float2 (i, -i)) * weight;
 			totalWeight2 += weight;
 		}
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
 			float d = distance(input.uv, input.uv + float2(i, 0));
 			float weight = exp(-(d * d) / (2 * sigma * sigma));
 			col3 += tex2.Sample(smp, input.uv + float2 (i, 0)) * weight;
 			totalWeight3 += weight;
 		}
-		for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth) {
+		for (float i = -sigma; i < sigma; i += stepWidth) {
 			float d = distance(input.uv, input.uv + float2(0, i));
 			float weight = exp(-(d * d) / (2 * sigma * sigma));
 			col4 += tex2.Sample(smp, input.uv + float2 (0, i)) * weight;

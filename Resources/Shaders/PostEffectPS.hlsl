@@ -15,19 +15,19 @@ float4 main(VSOutput input) : SV_TARGET
     float4 col1 = float4(0, 0, 0, 1);
 	//クロスフィルタ
 	{
-        float sigma = 0.01f;
-        float stepWidth = 0.002f;
+        float sigma = 0.02f;
+        float stepWidth = 0.004f;
         float totalWeight1 = 0;
         float4 col2 = float4(0, 0, 0, 1);
         float totalWeight2 = 0;
-        for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth)
+        for (float i = -sigma; i < sigma; i += stepWidth)
         {
             float d = distance(input.uv, input.uv + float2(i, i));
             float weight = exp(-(d * d) / (2 * sigma * sigma));
             col1 += tex1.Sample(smp, input.uv + float2(i, i)) * weight;
             totalWeight1 += weight;
         }
-        for (i = -(sigma * 2); i < sigma * 2; i += stepWidth)
+        for (i = -sigma; i < sigma; i += stepWidth)
         {
             float d = distance(input.uv, input.uv + float2(i, -i));
             float weight = exp(-(d * d) / (2 * sigma * sigma));
@@ -39,12 +39,12 @@ float4 main(VSOutput input) : SV_TARGET
 	//ブルーム
 	{
         float totalWeight = 0;
-        float sigma = 0.01f;
-        float stepWidth = 0.002f;
+        float sigma = 0.02f;
+        float stepWidth = 0.004f;
         float4 col = float4(0, 0, 0, 1);
-        for (float i = -(sigma * 2); i < sigma * 2; i += stepWidth)
+        for (float i = -sigma; i < sigma; i += stepWidth)
         {
-            for (float j = -(sigma * 2); j < sigma * 2; j += stepWidth)
+            for (float j = -sigma; j < sigma; j += stepWidth)
             {
                 float d = distance(input.uv, input.uv + float2(j, i));
                 float weight = exp(-(d * d) / (2 * sigma * sigma));

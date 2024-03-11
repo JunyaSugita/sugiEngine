@@ -528,7 +528,9 @@ void Particle::Update()
 			continue;
 		}
 		else {
-			aliveParticles_.push_back(allParticles_[i]);
+			if (allParticles_[i].frame != 1) {
+				aliveParticles_.push_back(allParticles_[i]);
+			}
 		}
 
 		//スケールの線形補間
