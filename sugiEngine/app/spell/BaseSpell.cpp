@@ -37,7 +37,7 @@ void BaseSpell::Update()
 		}
 	}
 
-	if (--spellData_.time <= 0) {
+	if (--spellData_.timeAlive <= 0) {
 		Dead();
 	}
 

@@ -7,6 +7,7 @@
 #include "NaviPointManager.h"
 #include "ModelManager.h"
 #include "ColliderManager.h"
+#include "ClearChecker.h"
 
 void Fly::Initialize(const std::string& name, const Vector3& pos)
 {
@@ -21,7 +22,6 @@ void Fly::Initialize(const std::string& name, const Vector3& pos)
 	wingR_.pos = { 0,0,1 };
 	wingR_.rot = { 0,0,0 };
 	wingR_.scale = { 0.8f,0.3f,1 };
-
 
 	life_ = MAX_HP;
 	angleSpeed_ = SPEED_ANGLE;
@@ -44,6 +44,12 @@ void Fly::Initialize(const std::string& name, const Vector3& pos)
 
 void Fly::Update()
 {
+	//最初の1フレーム目で敵の体力を記録
+	if (!isFirstFrame_) {
+		ClearChecker::GetInstance()->AddMaxHp(life_);
+		isFirstFrame_ = true;
+	}
+
 	if (!debuff_.isIce) {
 		ResetShake();
 	}

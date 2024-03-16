@@ -213,7 +213,6 @@ void Player::Move()
 
 	//navePointの重みづけ
 	if (++naveTimer_ > TIME_NAVE) {
-		//ColliderManager::GetInstance()->SetNaviPointScore();
 		naveTimer_ = 0;
 	}
 

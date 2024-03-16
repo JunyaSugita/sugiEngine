@@ -25,7 +25,9 @@ struct SpellData {
 	float damage;
 	int32_t debuffType;
 	float speed;
-	int32_t time;
+	int32_t timeAlive;
+	float timeCharge;
+	float timeShot;
 };
 
 class BaseSpell :public BaseCol{

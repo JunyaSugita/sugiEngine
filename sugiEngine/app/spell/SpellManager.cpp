@@ -4,6 +4,7 @@
 #include "PlayerWeapon.h"
 #include "LoadOut.h"
 #include "ImGuiManager.h"
+#include "Status.h"
 
 using namespace std;
 using namespace ImGui;
@@ -31,8 +32,10 @@ void SpellManager::Initialize()
 		isUseSpell_[i] = false;
 	}
 
-	timeChargeSpell_[FIRE_BALL] = TIME_CHARGE_FIREBALL;
-	timeFireSpell_[FIRE_BALL] = TIME_FIRE_FIREBALL;
+	Status* status = Status::GetInstance();
+
+	timeChargeSpell_[FIRE_BALL] = status->GetSpellData().timeCharge;
+	timeFireSpell_[FIRE_BALL] = status->GetSpellData().timeShot;
 
 	timeChargeSpell_[MAGIC_MISSILE] = TIME_CHARGE_MAGICMISSILE;
 	timeFireSpell_[MAGIC_MISSILE] = TIME_FIRE_MAGICMISSILE;
@@ -156,7 +159,7 @@ void SpellManager::FireFireBall()
 {
 	Camera* camera = Camera::GetInstance();
 
-	maxCharge_ = TIME_FIRE_FIREBALL;
+	maxCharge_ = timeFireSpell_[FIRE_BALL];
 
 	if (int(useTime_) == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<FireBall>();
@@ -177,7 +180,7 @@ void SpellManager::FireMagicMissile()
 {
 	Camera* camera = Camera::GetInstance();
 
-	maxCharge_ = TIME_FIRE_MAGICMISSILE;
+	maxCharge_ = timeFireSpell_[MAGIC_MISSILE];
 
 	if (int(useTime_) % COOLTIME_MAGIC_MISSILE == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<MagicMissile>();
@@ -198,7 +201,7 @@ void SpellManager::FireIceBolt()
 {
 	Camera* camera = Camera::GetInstance();
 
-	maxCharge_ = TIME_FIRE_ICEBOLT;
+	maxCharge_ = timeFireSpell_[ICE_BOLT];
 
 	if (int(useTime_) == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<IceBolt>();
@@ -218,7 +221,7 @@ void SpellManager::FireChainLightning()
 {
 	Camera* camera = Camera::GetInstance();
 
-	maxCharge_ = TIME_FIRE_CHAINLIGHTNING;
+	maxCharge_ = timeFireSpell_[CHAIN_LIGHTNING];
 
 	if (int(useTime_) == 1) {
 		unique_ptr<ChainLightning> newSpell = make_unique<ChainLightning>();
@@ -237,7 +240,7 @@ void SpellManager::FireChainLightning()
 
 void SpellManager::FireEnchantFire()
 {
-	maxCharge_ = TIME_FIRE_ENCHANTFIRE;
+	maxCharge_ = timeFireSpell_[ENCHANT_FIRE];
 
 	if (int(useTime_) == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<EnchantFire>();
@@ -258,7 +261,7 @@ void SpellManager::FireFlame()
 {
 	Camera* camera = Camera::GetInstance();
 
-	maxCharge_ = TIME_FIRE_FLAME;
+	maxCharge_ = timeFireSpell_[FLAME];
 
 	if (int(useTime_) % COOLTIME_FLAME == 1) {
 		unique_ptr<BaseSpell> newSpell = make_unique<Flame>();

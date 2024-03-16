@@ -232,11 +232,14 @@ void PlayerWeapon::ChargeParticle(const Vector4& color)
 {
 	if (SpellManager::GetInstance()->ChargePercent() != 1.0f) {
 		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), SpellManager::GetInstance()->ChargePercent(), color);
+		ParticleManager::GetInstance()->AddFromFileEditColor(P_WEAPON, orbObj_.worldTrans.GetMatPos(), color);
 		if (SpellManager::GetInstance()->ChargePercent() >= MAGIC_COYOTE) {
 			ParticleManager::GetInstance()->AddFromFileEditColor(P_CHARGE_MAX_FIRE, orbObj_.worldTrans.GetMatPos(), color);
+			ParticleManager::GetInstance()->AddFromFileEditColor(P_WEAPON, orbObj_.worldTrans.GetMatPos(), color);
 		}
 	}
 	else {
 		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), 0.8f, color);
+		ParticleManager::GetInstance()->AddFromFileEditColor(P_WEAPON, orbObj_.worldTrans.GetMatPos(), color);
 	}
 }

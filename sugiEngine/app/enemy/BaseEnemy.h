@@ -205,6 +205,9 @@ protected:
 	/// </summary>
 	void Dead();
 
+	//重力
+	void Gravity();
+
 protected:
 	const Vector2 UP = { 0,-1 };
 	const float RADIAN = 180;
@@ -230,6 +233,10 @@ protected:
 	const int32_t TIME_SHAKE = 10;
 	//ノックバックの硬直時間
 	const int32_t TIME_KNOCKBACK = 30;
+	//重力
+	const float GRAVITY = 0.7f;
+	//呪文によるY軸ノックバック
+	float spellKnockY_ = 0;
 
 	//本体
 	BaseObj obj_;

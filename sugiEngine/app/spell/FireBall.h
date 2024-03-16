@@ -17,6 +17,9 @@ public:
 
 	void Explode()override;
 
+	float GetKnockBackXZ()override;
+	float GetKnockBackY()override;
+
 	//ライトグループセット
 	static void SetLight(LightGroup* lightGroup) {
 		lightGroup_ = lightGroup;

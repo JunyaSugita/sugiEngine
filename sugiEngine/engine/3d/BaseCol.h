@@ -55,6 +55,9 @@ public:
 	virtual void SetIsStop();
 	//ノックバック
 	virtual void SetKnockBack(Vector3 vec);
+	//ノックバック倍率
+	virtual float GetKnockBackXZ();
+	virtual float GetKnockBackY();
 	//攻撃した判定にする
 	virtual void SetIsAttack();
 	//ダウンしているか取得

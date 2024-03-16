@@ -86,6 +86,8 @@ void BaseEnemy::Update()
 	//動けるかどうか
 	if (isKnockBack_) {
 		KnockBack();
+		Gravity();
+		BaseCol::Update(obj_.pos, col_.size);
 	}
 	else if (isCanMove()) {
 		if (!isAttack_ && !sIsDebugStop_) {
@@ -99,6 +101,7 @@ void BaseEnemy::Update()
 		//プレイヤーの方へゆっくり回転
 		SetAngleToPlayer();
 
+		Gravity();
 		BaseCol::Update(obj_.pos, col_.size);
 	}
 	else
@@ -168,9 +171,11 @@ void BaseEnemy::OnCollision(BaseCol* a)
 			}
 			//ノックバック量の計算
 			Vector3 tempVec = GetCol().pos - a->GetCol().pos;
+			tempVec.y += 1;
 			tempVec.normalize();
-			tempVec.y = 0;
-			tempVec *= 0.5f;
+			tempVec.x *= a->GetKnockBackXZ();
+			tempVec.y *= a->GetKnockBackY();
+			tempVec.z *= a->GetKnockBackXZ();
 			SetKnockBack(tempVec);
 
 			SubLife(a->GetDamage());
@@ -318,7 +323,7 @@ bool BaseEnemy::isCanMove()
 void BaseEnemy::ResetShake()
 {
 	obj_.pos = col_.pos;
-	obj_.pos.y = 0;
+	obj_.pos.y -= gap_;
 }
 
 void BaseEnemy::SetIsAttack()
@@ -467,6 +472,14 @@ void BaseEnemy::Dead()
 	ColliderManager::GetInstance()->DeleteCollider(this);
 }
 
+void BaseEnemy::Gravity()
+{
+	obj_.pos.y -= GRAVITY;
+	if (obj_.pos.y <= 0) {
+		obj_.pos.y = 0;
+	}
+}
+
 void BaseEnemy::SetCol()
 {
 	SetCol(obj_.pos);
@@ -490,6 +503,9 @@ void BaseEnemy::Down()
 	//デバフの適応
 	UpdateDebuff();
 
+	Gravity();
+	BaseCol::Update(obj_.pos, col_.size);
+
 	if (debuff_.fireTime == 1) {
 		Dead();
 		light_->SetPointLightActive(lightNum_, false);
@@ -499,8 +515,8 @@ void BaseEnemy::Down()
 void BaseEnemy::KnockBack()
 {
 	if (--knockBackTimer_ > 0) {
-		col_.pos += knockBackVec_;
-		knockBackVec_ *= 0.7f;
+		obj_.pos += knockBackVec_;
+		knockBackVec_ *= 0.9f;
 	}
 	else {
 		isKnockBack_ = false;

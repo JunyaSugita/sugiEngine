@@ -120,7 +120,11 @@ SpellData JsonLoader::LoadSpellData(const std::string& filename)
 	//速度を取得
 	spellData.speed = sDeserialized["speed"];
 	//時間を取得
-	spellData.time = sDeserialized["time"];
+	spellData.timeAlive = sDeserialized["timeAlive"];
+	//チャージ時間
+	spellData.timeCharge = sDeserialized["timeCharge"];
+	//発射時間
+	spellData.timeShot = sDeserialized["timeShot"];
 
 	return spellData;
 }

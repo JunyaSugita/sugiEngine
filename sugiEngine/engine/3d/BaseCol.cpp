@@ -92,6 +92,16 @@ void BaseCol::SetKnockBack(Vector3 vec)
 	vec;
 }
 
+float BaseCol::GetKnockBackXZ()
+{
+	return 0.5f;
+}
+
+float BaseCol::GetKnockBackY()
+{
+	return 0.0f;
+}
+
 void BaseCol::SetIsAttack()
 {
 }

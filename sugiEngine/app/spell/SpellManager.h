@@ -109,9 +109,6 @@ public:
 	int32_t GetSpellType(int32_t spell);
 
 public:
-	//ファイアーボール
-	const float TIME_CHARGE_FIREBALL = 1.0f * 60;
-	const float TIME_FIRE_FIREBALL = 0.3f * 60;
 	//マジックミサイル
 	const float TIME_CHARGE_MAGICMISSILE = 1.0f * 60;
 	const float TIME_FIRE_MAGICMISSILE = 2.0f * 60;

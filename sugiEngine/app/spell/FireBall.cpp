@@ -55,3 +55,13 @@ void FireBall::Explode()
 		lightGroup_->SetPointLightActive(useLightNum_,false);
 	}
 }
+
+float FireBall::GetKnockBackXZ()
+{
+	return 1.0f;
+}
+
+float FireBall::GetKnockBackY()
+{
+	return 3.0f;
+}
