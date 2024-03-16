@@ -20,6 +20,14 @@ enum DebuffType {
 	D_STAN,
 };
 
+struct SpellData {
+	int32_t spellType;
+	float damage;
+	int32_t debuffType;
+	float speed;
+	int32_t time;
+};
+
 class BaseSpell :public BaseCol{
 public:
 	virtual void Initialize(const Vector3& pos, const Vector3& vec = Vector3());
@@ -51,10 +59,10 @@ public:
 		return col_;
 	}
 	float GetDamage() override{
-		return damage_;
+		return spellData_.damage;
 	}
 	int32_t GetDebuff() override{
-		return debuffType_;
+		return spellData_.debuffType;
 	}
 	bool GetIsCalcCol();
 
@@ -68,20 +76,12 @@ protected:
 	BaseObj obj_;
 	//表示フラグ
 	bool isDead_;
-	//消えるまでの時間管理
-	int32_t time_;
 	//当たったフラグ
 	bool isHit_;
 	bool tempIsHit_;
 	//進行方向
 	Vector3 vec_ = {0,0,0};
-	//移動スピード
-	float moveSpeed_ = 0;
-	//呪文のタイプ
-	int32_t spellType_;
 
-	//ダメージ(回復)
-	float damage_ = 0;
-	//デバフ
-	int32_t debuffType_ = D_NONE;
+	//呪文のステータス
+	SpellData spellData_;
 };

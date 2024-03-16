@@ -133,6 +133,12 @@
     <Filter Include="ソース ファイル\engine\light">
       <UniqueIdentifier>{66de793a-24d9-4d64-9990-d2f9271824bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\app\setting">
+      <UniqueIdentifier>{ee418002-dcf7-4852-9169-f4f0371b90dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\setting">
+      <UniqueIdentifier>{1fdea5c6-6ec8-4b97-ae5b-0595572b8c88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sugiEngine\main.cpp">
@@ -194,9 +200,6 @@
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\audio\Sound.cpp">
       <Filter>ソース ファイル\engine\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="sugiEngine\engine\base\WinApp.cpp">
-      <Filter>ソース ファイル\engine\base</Filter>
     </ClCompile>
     <ClCompile Include="sugiEngine\engine\base\SugiFramework.cpp">
       <Filter>ソース ファイル\engine\base</Filter>
@@ -345,11 +348,17 @@
     <ClCompile Include="sugiEngine\app\ground\Wall.cpp">
       <Filter>ソース ファイル\app\ground</Filter>
     </ClCompile>
-    <ClCompile Include="sugiEngine\engine\math\SugiMath.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="sugiEngine\engine\particle\ParticleManager.cpp">
       <Filter>ソース ファイル\engine\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\base\WinApp.cpp">
+      <Filter>ソース ファイル\engine\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\setting\Status.cpp">
+      <Filter>ソース ファイル\app\setting</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\engine\math\SugiMath.cpp">
+      <Filter>ソース ファイル\engine\math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -580,6 +589,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\engine\particle\ParticleManager.h">
       <Filter>ヘッダー ファイル\engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\setting\Status.h">
+      <Filter>ヘッダー ファイル\app\setting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

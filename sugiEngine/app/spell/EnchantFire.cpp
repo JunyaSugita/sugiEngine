@@ -5,29 +5,29 @@ void EnchantFire::Initialize(const Vector3& pos, const Vector3& vec)
 {
 	pos;
 	vec;
-	time_ = TIME_ALIVE;
-	spellType_ = BUFF;
-	damage_ = 0;
-	debuffType_ = D_NONE;
+	spellData_.time = TIME_ALIVE;
+	spellData_.spellType = BUFF;
+	spellData_.damage = 0;
+	spellData_.debuffType = D_NONE;
 }
 
 void EnchantFire::Update()
 {
 	SpellManager::GetInstance()->SetEnchantFire();
 
-	if (--time_ <= 0) {
+	if (--spellData_.time <= 0) {
 		Dead();
 	}
 }
 
 void EnchantFire::Fire()
 {
-	time_ = TIME_ALIVE;
+	spellData_.time = TIME_ALIVE;
 }
 
 bool EnchantFire::GetActive()
 {
-	if (time_) {
+	if (spellData_.time) {
 		return true;
 	}
 	return false;

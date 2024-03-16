@@ -22,10 +22,6 @@ public:
 		lightGroup_ = lightGroup;
 	}
 
-public:
-	const float SPEED_MOVE = 1.0f;	//魔法のスピード
-	const int32_t TIME_ALIVE = 10 * 60;	//魔法が消えるまでの時間
-
 private:
 	//爆発時
 	const float SPEED_SIZE_UP_EXPLODE = 1.2f;

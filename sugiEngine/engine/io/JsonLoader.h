@@ -8,6 +8,7 @@
 #include <vector>
 #include "json.hpp"
 #include "SugiMath.h"
+#include "BaseSpell.h"
 
 struct LevelData {
 	struct OBJData {
@@ -24,10 +25,16 @@ struct LevelData {
 class JsonLoader
 {
 public:
-	static LevelData* LoadJson(const std::string& filename);
+	//レベルデータ
+	static LevelData* LoadLevelJson(const std::string& filename);
 	static void LoadRecursive();
+
+	//呪文データ
+	static SpellData LoadSpellData(const std::string& filename);
+
 private:
 	static nlohmann::json sDeserialized;
+	//レベルデータ
 	static LevelData* sLevelData;
 };
 

@@ -58,7 +58,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;$(ProjectDir)sugiEngine\app\setting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -85,7 +85,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;$(ProjectDir)sugiEngine\app\setting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -112,6 +112,7 @@
     <ClCompile Include="sugiEngine\app\player\Player.cpp" />
     <ClCompile Include="sugiEngine\app\player\PlayerWeapon.cpp" />
     <ClCompile Include="sugiEngine\app\scene\StageSelectScene.cpp" />
+    <ClCompile Include="sugiEngine\app\setting\Status.cpp" />
     <ClCompile Include="sugiEngine\app\spell\BaseSpell.cpp" />
     <ClCompile Include="sugiEngine\app\spell\ChainLightning.cpp" />
     <ClCompile Include="sugiEngine\app\spell\EnchantFire.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="sugiEngine\app\player\Player.h" />
     <ClInclude Include="sugiEngine\app\player\PlayerWeapon.h" />
     <ClInclude Include="sugiEngine\app\scene\StageSelectScene.h" />
+    <ClInclude Include="sugiEngine\app\setting\Status.h" />
     <ClInclude Include="sugiEngine\app\spell\BaseSpell.h" />
     <ClInclude Include="sugiEngine\app\spell\ChainLightning.h" />
     <ClInclude Include="sugiEngine\app\spell\EnchantFire.h" />

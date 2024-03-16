@@ -20,11 +20,11 @@ void IceBolt::Initialize(const Vector3& pos, const Vector3& vec)
 
 	WorldTransUpdate();
 
-	moveSpeed_ = SPEED_MOVE;
-	time_ = TIME_ALIVE;
-	spellType_ = SHOT;
-	damage_ = DAMAGE;
-	debuffType_ = D_SLOW;
+	spellData_.speed = SPEED_MOVE;
+	spellData_.time = TIME_ALIVE;
+	spellData_.spellType = SHOT;
+	spellData_.damage = DAMAGE;
+	spellData_.debuffType = D_SLOW;
 }
 
 void IceBolt::Update()

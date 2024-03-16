@@ -1,4 +1,5 @@
 #include "MyGame.h"
+#include "Status.h"
 
 using namespace DirectX;
 using namespace std;
@@ -10,6 +11,7 @@ void MyGame::Initialize()
 	
 	//ゲーム固有の初期化
 	ImGuiManager::GetInstance()->Initialize(winApp_.get(), dxCom_.get());
+	Status::GetInstance()->LoadJson();
 }
 
 void MyGame::Finalize()

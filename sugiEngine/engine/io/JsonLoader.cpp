@@ -1,4 +1,4 @@
-﻿#include "JsonLoader.h"
+#include "JsonLoader.h"
 #include <fstream>
 
 using namespace std;
@@ -6,7 +6,7 @@ using namespace std;
 nlohmann::json JsonLoader::sDeserialized;
 LevelData* JsonLoader::sLevelData;
 
-LevelData* JsonLoader::LoadJson(const std::string& filename)
+LevelData* JsonLoader::LoadLevelJson(const std::string& filename)
 {
 	//連結してフルパスを得る
 	const string fullpath = "Resources/level/" + filename + ".Json";
@@ -37,6 +37,7 @@ LevelData* JsonLoader::LoadJson(const std::string& filename)
 	//レベルデータ格納用インスタンスを生成
 	sLevelData = new LevelData();
 
+	//再帰関数
 	LoadRecursive();
 
 	return sLevelData;
@@ -84,4 +85,42 @@ void JsonLoader::LoadRecursive()
 			LoadRecursive();
 		}
 	}
+}
+
+SpellData JsonLoader::LoadSpellData(const std::string& filename)
+{
+	//連結してフルパスを得る
+	const string fullpath = "Resources/status/" + filename + ".Json";
+
+	//ファイルストリーム
+	ifstream file;
+
+	//ファイルを開く
+	file.open(fullpath);
+	//ファイルオープン失敗をチェック
+	if (file.fail()) {
+		assert(0);
+	}
+
+	//解凍
+	file >> sDeserialized;
+
+	//正しいファイルかチェック
+	assert(sDeserialized.is_object());
+
+	//レベルデータ格納
+	SpellData spellData;
+
+	//呪文タイプを取得
+	spellData.spellType = sDeserialized["spellType"];
+	//ダメージを取得
+	spellData.damage = sDeserialized["damage"];
+	//デバフを取得
+	spellData.debuffType = sDeserialized["debuffType"];
+	//速度を取得
+	spellData.speed = sDeserialized["speed"];
+	//時間を取得
+	spellData.time = sDeserialized["time"];
+
+	return spellData;
 }

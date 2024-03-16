@@ -5,7 +5,7 @@ using namespace std;
 void ClearScene::Initialize()
 {
 	// レベルデータの読み込み
-	levelData_ = JsonLoader::LoadJson("level");
+	levelData_ = JsonLoader::LoadLevelJson("level");
 
 	models_.insert(std::make_pair("sphere", sphereModel_.get()));
 	models_.insert(std::make_pair("player", playerModel_.get()));

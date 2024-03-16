@@ -7,11 +7,11 @@ void Flame::Initialize(const Vector3& pos, const Vector3& vec)
 
 	obj_.obj->SetColor({ 1,0,0,1 });
 
-	moveSpeed_ = SPEED_MOVE;
-	time_ = TIME_ALIVE;
-	spellType_ = SHOT;
-	damage_ = 1;
-	debuffType_ = D_FIRE;
+	spellData_.speed = SPEED_MOVE;
+	spellData_.time = TIME_ALIVE;
+	spellData_.spellType = SHOT;
+	spellData_.damage = 1;
+	spellData_.debuffType = D_FIRE;
 }
 
 void Flame::Update()

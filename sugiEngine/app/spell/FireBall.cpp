@@ -2,6 +2,7 @@
 #include "ParticleManager.h"
 #include "Player.h"
 #include "ModelManager.h"
+#include "Status.h"
 
 LightGroup* FireBall::lightGroup_ = nullptr;
 
@@ -13,11 +14,7 @@ void FireBall::Initialize(const Vector3& pos, const Vector3& vec)
 
 	alpha_ = 1.0f;
 
-	moveSpeed_ = SPEED_MOVE;
-	time_ = TIME_ALIVE;
-	spellType_ = SHOT;
-	damage_ = 1;
-	debuffType_ = D_FIRE;
+	spellData_ = Status::GetInstance()->GetSpellData();
 	useLightNum_ = lightGroup_->SetPointLightGetNum();
 	lightGroup_->SetPointLightColor(useLightNum_, { 1,0.2f,0 });
 	lightGroup_->SetPointLightAtten(useLightNum_, { 0.01f,0.01f,0.01f });

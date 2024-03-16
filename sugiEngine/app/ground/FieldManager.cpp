@@ -98,15 +98,15 @@ void FieldManager::LoadStage(int num)
 	switch (num)
 	{
 	case TUTORIAL:
-		levelData_ = JsonLoader::LoadJson("levelTutorial");
+		levelData_ = JsonLoader::LoadLevelJson("levelTutorial");
 		stageAtten_ = ATTEN_LOW;
 		break;
 	case STAGE1:
-		levelData_ = JsonLoader::LoadJson("level2");
+		levelData_ = JsonLoader::LoadLevelJson("level2");
 		stageAtten_ = ATTEN_LOW;
 		break;
 	case STAGE2:
-		levelData_ = JsonLoader::LoadJson("level");
+		levelData_ = JsonLoader::LoadLevelJson("level");
 		stageAtten_ = ATTEN_HIGT;
 		break;
 	default:

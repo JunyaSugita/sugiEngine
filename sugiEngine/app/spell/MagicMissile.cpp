@@ -16,11 +16,11 @@ void MagicMissile::Initialize(const Vector3& pos, const Vector3& vec)
 	col_.pos = pos;
 	col_.size = { 0.5f,0.5f,0.5f };
 
-	time_ = TIME_ALIVE;
-	moveSpeed_ = SPEED_MOVE;
-	spellType_ = SHOT;
-	damage_ = DAMAGE;
-	debuffType_ = D_NONE;
+	spellData_.time = TIME_ALIVE;
+	spellData_.speed = SPEED_MOVE;
+	spellData_.spellType = SHOT;
+	spellData_.damage = DAMAGE;
+	spellData_.debuffType = D_NONE;
 
 	useLightNum_ = lightGroup_->SetPointLightGetNum();
 	lightGroup_->SetPointLightColor(useLightNum_, { 1,0,1 });

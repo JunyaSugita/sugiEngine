@@ -25,9 +25,9 @@ void BaseSpell::Update()
 	}
 
 	//攻撃の種類によって動きを変える
-	if (spellType_ == SHOT) {
+	if (spellData_.spellType == SHOT) {
 		if (!isHit_) {
-			obj_.pos += vec_ * moveSpeed_;
+			obj_.pos += vec_ * spellData_.speed;
 			if (obj_.pos.y <= 0) {
 				isHit_ = true;
 			}
@@ -37,7 +37,7 @@ void BaseSpell::Update()
 		}
 	}
 
-	if (--time_ <= 0) {
+	if (--spellData_.time <= 0) {
 		Dead();
 	}
 
@@ -47,7 +47,7 @@ void BaseSpell::Update()
 
 void BaseSpell::Draw()
 {
-	if (spellType_ == SHOT) {
+	if (spellData_.spellType == SHOT) {
 		obj_.Draw();
 	}
 }
@@ -89,7 +89,7 @@ void BaseSpell::OnCollision(BaseCol* a)
 bool BaseSpell::GetIsCalcCol()
 {
 	//当たり判定を行わない
-	if (spellType_ == BUFF) {
+	if (spellData_.spellType == BUFF) {
 		return false;
 	}
 	return true;
