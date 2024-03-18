@@ -239,7 +239,7 @@ void PlayerWeapon::ChargeParticle(const Vector4& color)
 		}
 	}
 	else {
-		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), 0.8f, color);
-		ParticleManager::GetInstance()->AddFromFileEditColor(P_WEAPON, orbObj_.worldTrans.GetMatPos(), color);
+		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), 0.8f, color,&orbObj_.worldTrans);
+		ParticleManager::GetInstance()->AddFromFileEditColor(P_WEAPON, orbObj_.worldTrans.GetMatPos(), color, &orbObj_.worldTrans);
 	}
 }

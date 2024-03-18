@@ -72,8 +72,8 @@ public:
 		particleData_[num] = file;
 	}
 
-	void AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector4 color, bool isEdit = false);
-	void AddFromFileEditColor(uint8_t num, Vector3 pos, Vector4 color, bool isEdit = false);
+	void AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector4 color, WorldTransform* w = nullptr, bool isEdit = false);
+	void AddFromFileEditColor(uint8_t num, Vector3 pos, Vector4 color,WorldTransform* w = nullptr, bool isEdit = false);
 
 	bool GetIsEdit() {
 		return particleE_->GetIsEdit();

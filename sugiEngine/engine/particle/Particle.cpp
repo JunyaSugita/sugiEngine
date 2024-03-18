@@ -498,7 +498,6 @@ void Particle::Initialize(string textureName, int32_t blendType)
 	matTransform.SetPos(Vector3(pos_.x, pos_.y, pos_.z));
 	matTransform.SetWorldMat();
 
-	//constMapTransform_->mat = matTransform.GetMatWorld() * worldTransform_.GetMatWorld();
 	Camera* camera = Camera::GetInstance();
 	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection() * matTransform.GetMatWorld());
 
@@ -526,11 +525,6 @@ void Particle::Update()
 		if (f > 1) {
 			deadParticles_.push_back(i);
 			continue;
-		}
-		else {
-			if (allParticles_[i].frame != 1) {
-				aliveParticles_.push_back(allParticles_[i]);
-			}
 		}
 
 		//スケールの線形補間
@@ -583,6 +577,17 @@ void Particle::Update()
 		allParticles_[i].velocity = allParticles_[i].velocity + allParticles_[i].gravity;
 		allParticles_[i].speed *= allParticles_[i].accel.x;
 		allParticles_[i].position = allParticles_[i].position + allParticles_[i].velocity * allParticles_[i].speed;
+
+		if (allParticles_[i].frame != 1) {
+			if (allParticles_[i].parent != nullptr) {
+				WorldTransform w;
+				w.SetPos(allParticles_[i].position);
+
+				w.matWorld_ *= allParticles_[i].parent->matWorld_;
+				allParticles_[i].position = w.GetPos();
+			}
+			aliveParticles_.push_back(allParticles_[i]);
+		}
 	}
 
 	for (int i = 0; i < aliveParticles_.size();i++) {
@@ -677,7 +682,7 @@ void Particle::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect)
+void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect,WorldTransform* w)
 {
 	ParticleState p;
 	p.originPos = pos;
@@ -704,6 +709,9 @@ void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, flo
 	p.check2Color = check2Color;
 	p.e_color = eColor;
 	p.postEffect = postEffect;
+	if (w != nullptr) {
+		p.parent = w;
+	}
 
 	if (deadParticles_.size() == 0) {
 		allParticles_.push_back(p);
@@ -715,7 +723,7 @@ void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, flo
 	}
 }
 
-void Particle::Add(Vector3 pos, EditFile data)
+void Particle::Add(Vector3 pos, EditFile data, WorldTransform* w)
 {
 	//ランダム
 	std::random_device seed_gen;
@@ -748,12 +756,13 @@ void Particle::Add(Vector3 pos, EditFile data)
 			data.check2,
 			data.check2Color,
 			data.eColor,
-			data.postEffect
+			data.postEffect,
+			w
 		);
 	}
 }
 
-void Particle::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector4 color)
+void Particle::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector4 color, WorldTransform* w)
 {
 	//ランダム
 	std::random_device seed_gen;
@@ -786,11 +795,12 @@ void Particle::AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vec
 			0,
 			color,
 			color,
-			data.postEffect
+			data.postEffect,
+			w
 		);
 	}
 }
-void Particle::AddEditColor(Vector3 pos, EditFile data, Vector4 color)
+void Particle::AddEditColor(Vector3 pos, EditFile data, Vector4 color, WorldTransform* w)
 {
 	//ランダム
 	std::random_device seed_gen;
@@ -823,7 +833,8 @@ void Particle::AddEditColor(Vector3 pos, EditFile data, Vector4 color)
 			data.check2,
 			data.check2Color * color,
 			data.eColor * color,
-			data.postEffect
+			data.postEffect,
+			w
 		);
 	}
 }
@@ -880,7 +891,6 @@ void Particle::SetUpVertex() {
 	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
 
 	//ビルボード
-
 	constMapTransform_->mat = ConvertToXMMATRIX(camera->GetMatView() * camera->GetMatProjection());
 	constMapTransform_->billboard = matBillboard;
 }

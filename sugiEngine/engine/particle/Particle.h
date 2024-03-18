@@ -11,6 +11,7 @@
 #include "SugiMath.h"
 #include "ParticleEditor.h"
 #include <DirectXMath.h>
+#include "WorldTransform.h"
 
 struct ParticleState {
 	int32_t frame = 0;
@@ -33,6 +34,8 @@ struct ParticleState {
 	Vector4 check2Color = { 1,1,1,1 };
 	Vector4 e_color = { 1,1,1,1 };
 	int32_t postEffect = 0;
+
+	WorldTransform* parent = nullptr;
 };
 
 enum BLEND_TYPE {
@@ -125,10 +128,10 @@ public:
 
 	void SetTextureSize(float x, float y);
 
-	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect);
-	void Add(Vector3 pos, EditFile data);
-	void AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector4 color);
-	void AddEditColor(Vector3 pos, EditFile data, Vector4 color);
+	void AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect,WorldTransform* w = nullptr);
+	void Add(Vector3 pos, EditFile data,WorldTransform* w = nullptr);
+	void AddEditScaleAndColor(Vector3 pos, EditFile data, float scale, Vector4 color, WorldTransform* w = nullptr);
+	void AddEditColor(Vector3 pos, EditFile data, Vector4 color, WorldTransform* w = nullptr);
 
 	void Clear();
 protected:

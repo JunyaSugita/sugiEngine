@@ -76,17 +76,17 @@ void ParticleManager::Clear()
 	}
 }
 
-void ParticleManager::AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector4 color, bool isEdit)
+void ParticleManager::AddFromFileEditScaleAndColor(uint8_t num, Vector3 pos, float scale, Vector4 color, WorldTransform* w, bool isEdit)
 {
 	if (isEdit || !GetIsEdit()) {
-		particle_[particleData_[num].texNum].AddEditScaleAndColor(pos, particleData_[num], scale, color);
+		particle_[particleData_[num].texNum].AddEditScaleAndColor(pos, particleData_[num], scale, color,w);
 	}
 }
 
-void ParticleManager::AddFromFileEditColor(uint8_t num, Vector3 pos, Vector4 color, bool isEdit)
+void ParticleManager::AddFromFileEditColor(uint8_t num, Vector3 pos, Vector4 color,WorldTransform* w, bool isEdit)
 {
 	if (isEdit || !GetIsEdit()) {
-		particle_[particleData_[num].texNum].AddEditColor(pos, particleData_[num], color);
+		particle_[particleData_[num].texNum].AddEditColor(pos, particleData_[num], color,w);
 	}
 }
 
