@@ -32,7 +32,7 @@ void ClearChecker::GameInitialize()
 	isClear_ = false;
 	blur_ = 0;
 	nowHp_ = maxHp_;
-	enemyGauge_.Set({100,100},{100,100},{1,0,0});
+	enemyGauge_.Set({ 100,100 }, { 100,100 }, { 1,0,0 });
 }
 
 void ClearChecker::Update()
@@ -51,18 +51,18 @@ void ClearChecker::Update()
 
 	obj_.Update();
 	BaseCol::Update(obj_.pos, obj_.scale);
-	enemyGauge_.Update(maxHp_,nowHp_);
+	enemyGauge_.Update(maxHp_, nowHp_);
 
-	if (nowHp_ <= 0) {
-		ParticleManager::GetInstance()->AddFromFile(P_GOAL, { obj_.pos.x, obj_.pos.y + GOAL_Y ,obj_.pos.z });
-	}
+	//if (nowHp_ <= 0) {
+	ParticleManager::GetInstance()->AddFromFile(P_GOAL, { obj_.pos.x, obj_.pos.y + GOAL_Y ,obj_.pos.z });
+	//}
 }
 
 void ClearChecker::Draw()
 {
-	if (nowHp_ <= 0) {
-		obj_.Draw();
-	}
+	//if (nowHp_ <= 0) {
+	obj_.Draw();
+	//}
 }
 
 void ClearChecker::SpriteDraw()

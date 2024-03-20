@@ -19,6 +19,7 @@ void PlayerWeapon::Initialize()
 	obj_.pos = { 0,3.5f,-50 };
 	obj_.rot = { 30,0,0 };
 	obj_.scale = { 1,1,1 };
+	obj_.worldTrans.parent_;
 
 	orbObj_.Initialize("orb");
 	orbObj_.obj->SetColor({ 0,1,1,0.5f });
@@ -47,13 +48,13 @@ void PlayerWeapon::Update(bool isAttack, bool isAttackOn)
 {
 	if (ClearChecker::GetInstance()->GetIsClear()) {
 		alpha_ -= SPEED_ALPHA;
-		obj_.obj->SetColor(COLOR_WEAPON ,alpha_ );
-		orbObj_.obj->SetColor( COLOR_ORB,alpha_ * ALPHA_ORB);
+		obj_.obj->SetColor(COLOR_WEAPON, alpha_);
+		orbObj_.obj->SetColor(COLOR_ORB, alpha_ * ALPHA_ORB);
 		WorldTransUpdate();
 		return;
 	}
 	else {
-		obj_.obj->SetColor(COLOR_WEAPON,1);
+		obj_.obj->SetColor(COLOR_WEAPON, 1);
 		orbObj_.obj->SetColor(COLOR_ORB, ALPHA_ORB);
 	}
 
@@ -239,7 +240,8 @@ void PlayerWeapon::ChargeParticle(const Vector4& color)
 		}
 	}
 	else {
-		ParticleManager::GetInstance()->AddFromFileEditScaleAndColor(P_CHARGE_FIRE, orbObj_.worldTrans.GetMatPos(), 0.8f, color,&orbObj_.worldTrans);
-		ParticleManager::GetInstance()->AddFromFileEditColor(P_WEAPON, orbObj_.worldTrans.GetMatPos(), color, &orbObj_.worldTrans);
+		ParticleManager::GetInstance()->AddFromFileEditColor(P_TEST, { 0,0,0 }, color, &orbObj_.worldTrans);
+		ParticleManager::GetInstance()->AddFromFileEditColor(P_TEST, { 0,0,0 }, { color.x - 0.1f,color.y - 0.1f,color.z - 0.1f,1 }, &orbObj_.worldTrans);
+		ParticleManager::GetInstance()->AddFromFileEditColor(P_TEST, { 0,0,0 }, { color.x + 0.05f,color.y + 0.05f,color.z + 0.05f,1 }, &orbObj_.worldTrans);
 	}
 }

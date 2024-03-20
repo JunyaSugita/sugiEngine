@@ -46,7 +46,7 @@ void BaseEnemy::Initialize(const std::string& name, const Vector3& pos)
 	shakeTime_ = 0;
 	isStart_ = false;
 	isKnockBack_ = false;
-	knockBackVec_ = {0,0,0};
+	knockBackVec_ = { 0,0,0 };
 
 	//移動適応
 	WorldTransUpdate();
@@ -148,13 +148,15 @@ void BaseEnemy::WorldTransUpdate()
 void BaseEnemy::OnCollision(BaseCol* a)
 {
 	if (a->GetColType() == PLAYER) {
-		if (ColliderManager::GetInstance()->CheckHitCircle(GetCol(), a->GetCol())) {
-			if (!GetIsDown()) {
-				SetIsStop();
-				SetIsAttack();
-			}
-			else {
-				DownHitPlayer();
+		if (!ClearChecker::GetInstance()->GetIsClear()) {
+			if (ColliderManager::GetInstance()->CheckHitCircle(GetCol(), a->GetCol())) {
+				if (!GetIsDown()) {
+					SetIsStop();
+					SetIsAttack();
+				}
+				else {
+					DownHitPlayer();
+				}
 			}
 		}
 	}

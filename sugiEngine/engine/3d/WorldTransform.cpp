@@ -1,4 +1,4 @@
-﻿#include "WorldTransform.h"
+#include "WorldTransform.h"
 
 using namespace DirectX;
 
@@ -108,18 +108,6 @@ void WorldTransform::SetWorldMat() {
 	SetMatRot(matRotY, rot_, 'y');
 
 	Matrix4 matRot = matRotZ * matRotX * matRotY;
-
-	//単位行列を代入
-	for (int32_t i = 0; i < 4; i++) {
-		for (int32_t j = 0; j < 4; j++) {
-			if (i == j) {
-				matWorld_.m[i][j] = 1;
-			}
-			else {
-				matWorld_.m[i][j] = 0;
-			}
-		}
-	}
 
 	matWorld_ *= matScale * matRot * matTrans;
 

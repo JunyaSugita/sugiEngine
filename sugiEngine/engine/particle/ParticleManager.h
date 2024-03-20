@@ -24,6 +24,7 @@ enum ParticleName {
 	P_CHARGE_FIRE,
 	P_CHARGE_MAX_FIRE,
 	P_DOWN,
+	P_TEST,
 
 	P_END
 };

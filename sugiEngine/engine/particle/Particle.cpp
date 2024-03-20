@@ -576,21 +576,27 @@ void Particle::Update()
 
 		allParticles_[i].velocity = allParticles_[i].velocity + allParticles_[i].gravity;
 		allParticles_[i].speed *= allParticles_[i].accel.x;
-		allParticles_[i].position = allParticles_[i].position + allParticles_[i].velocity * allParticles_[i].speed;
+		if (allParticles_[i].parent == nullptr) {
+			allParticles_[i].position = allParticles_[i].position + allParticles_[i].velocity * allParticles_[i].speed;
+		}
+		else {
+			allParticles_[i].position = allParticles_[i].originPos + allParticles_[i].velocity * allParticles_[i].speed * (float)allParticles_[i].frame;
+		}
 
 		if (allParticles_[i].frame != 1) {
 			if (allParticles_[i].parent != nullptr) {
 				WorldTransform w;
 				w.SetPos(allParticles_[i].position);
+				w.parent_ = allParticles_[i].parent;
+				w.SetWorldMat();
 
-				w.matWorld_ *= allParticles_[i].parent->matWorld_;
-				allParticles_[i].position = w.GetPos();
+				allParticles_[i].position = w.GetMatPos();
 			}
 			aliveParticles_.push_back(allParticles_[i]);
 		}
 	}
 
-	for (int i = 0; i < aliveParticles_.size();i++) {
+	for (int i = 0; i < aliveParticles_.size(); i++) {
 		vertMap->pos.x = aliveParticles_[i].position.x;
 		vertMap->pos.y = aliveParticles_[i].position.y;
 		vertMap->pos.z = aliveParticles_[i].position.z;
@@ -682,7 +688,7 @@ void Particle::SetTextureSize(float x, float y) {
 	SetUpVertex();
 }
 
-void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect,WorldTransform* w)
+void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect, WorldTransform* w)
 {
 	ParticleState p;
 	p.originPos = pos;
@@ -693,6 +699,7 @@ void Particle::AddCircle(int life, Vector3 pos, bool isRevers, Vector3 velo, flo
 	p.speed = speed / 1000;
 	if (isRevers) {
 		p.position = pos + p.velocity * p.speed * (float)life;
+		p.originPos = p.position;
 		p.velocity *= -1;
 	}
 	else {
