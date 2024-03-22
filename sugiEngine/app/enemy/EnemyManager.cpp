@@ -7,6 +7,7 @@
 #include "Slime.h"
 #include "Fly.h"
 #include "ClearChecker.h"
+#include "Status.h"
 
 using namespace std;
 using namespace ImGui;
@@ -52,7 +53,7 @@ void EnemyManager::Update()
 			if ((enemysList_[i]->GetPos() - player->GetWeapon()->GetHitPos()).length() < player->GetWeapon()->ATTACK_RADIUS) {
 				//当たった判定を敵に与える
 				if (SpellManager::GetInstance()->GetActiveEnchantFire()) {
-					enemysList_[i]->SetIsHit(EnchantFire::DAMAGE);
+					enemysList_[i]->SetIsHit(Status::GetInstance()->GetSpellData(ENCHANT_FIRE).damage);
 					enemysList_[i]->SetDebuff(D_FIRE, EnchantFire::TIME_DEBUFF);
 				}
 				else {

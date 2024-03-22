@@ -18,8 +18,8 @@ public:
 public:
 	void LoadJson();
 
-	SpellData GetSpellData() {
-		return spellData_[0];
+	SpellData GetSpellData(int32_t spellNum) {
+		return spellData_[spellNum];
 	}
 
 private:

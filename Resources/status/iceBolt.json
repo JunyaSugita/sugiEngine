@@ -1,0 +1,9 @@
+{
+  "spellType": 0,
+  "damage": 15,
+  "debuffType": 2,
+  "speed": 0.5,
+  "timeAlive": 300,
+  "timeCharge": 72,
+  "timeShot": 20
+}

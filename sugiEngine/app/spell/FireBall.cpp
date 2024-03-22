@@ -14,7 +14,7 @@ void FireBall::Initialize(const Vector3& pos, const Vector3& vec)
 
 	alpha_ = 1.0f;
 
-	spellData_ = Status::GetInstance()->GetSpellData();
+	spellData_ = Status::GetInstance()->GetSpellData(FIRE_BALL);
 	useLightNum_ = lightGroup_->SetPointLightGetNum();
 	lightGroup_->SetPointLightColor(useLightNum_, { 1,0.2f,0 });
 	lightGroup_->SetPointLightAtten(useLightNum_, { 0.01f,0.01f,0.01f });

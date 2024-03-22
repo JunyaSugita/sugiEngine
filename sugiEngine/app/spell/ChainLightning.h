@@ -8,6 +8,7 @@
 #include "WorldTransform.h"
 #include "BaseObj.h"
 #include "BaseCol.h"
+#include "BaseSpell.h"
 
 class ChainLightning{
 public:
@@ -32,9 +33,6 @@ private:
 	void WorldTransUpdate();
 
 public:
-	const float SPEED_MOVE = 1.0f;	//魔法のスピード
-	const int32_t TIME_ALIVE = 2;	//魔法が消えるまでの時間
-	static const int32_t DAMAGE = 20;
 	static const int32_t TIME_STAN = 2;
 
 private:
@@ -57,4 +55,6 @@ private:
 
 	//当たったフラグ
 	bool isHit_;
+
+	SpellData spellData_;
 };

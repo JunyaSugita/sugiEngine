@@ -1,6 +1,8 @@
 #include "MagicMissile.h"
 #include "ParticleManager.h"
 #include "ModelManager.h"
+#include "Status.h"
+#include "SpellManager.h"
 
 LightGroup* MagicMissile::lightGroup_ = nullptr;
 
@@ -16,11 +18,7 @@ void MagicMissile::Initialize(const Vector3& pos, const Vector3& vec)
 	col_.pos = pos;
 	col_.size = { 0.5f,0.5f,0.5f };
 
-	spellData_.timeAlive = TIME_ALIVE;
-	spellData_.speed = SPEED_MOVE;
-	spellData_.spellType = SHOT;
-	spellData_.damage = DAMAGE;
-	spellData_.debuffType = D_NONE;
+	spellData_ = Status::GetInstance()->GetSpellData(MAGIC_MISSILE);
 
 	useLightNum_ = lightGroup_->SetPointLightGetNum();
 	lightGroup_->SetPointLightColor(useLightNum_, { 1,0,1 });

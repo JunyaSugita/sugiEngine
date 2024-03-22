@@ -4,6 +4,7 @@
 #include "NaviPointManager.h"
 #include "ChainLightning.h"
 #include "EffectManager.h"
+#include "Status.h"
 
 using namespace std;
 
@@ -177,7 +178,7 @@ Vector3 ColliderManager::CheckHitPosEnemyToRay(const Vector3& pos, const Vector3
 					type = colA->GetColType();
 					len = tempLen;
 					ansPos = colA->GetCol().pos;
-					colA->SubLife(ChainLightning::DAMAGE);
+					colA->SubLife(Status::GetInstance()->GetSpellData(CHAIN_LIGHTNING).damage);
 					colA->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
 				}
 			}
@@ -239,7 +240,7 @@ void ColliderManager::LightningEnemyToEnemy(const Vector3& pos)
 		if (colA->GetColType() == ENEMY) {
 			if (CheckHitLineToBox(pos, colA->GetPos(), colA->GetCol()) && CheckHitCircle({ pos,{10,10,10} }, colA->GetCol())) {
 				Vector3 tempPos = CheckHitPosLineToBox(pos, colA->GetPos(), colA->GetCol());
-				colA->SubLife(ChainLightning::DAMAGE);
+				colA->SubLife(Status::GetInstance()->GetSpellData(CHAIN_LIGHTNING).damage);
 				colA->SetDebuff(D_STAN, ChainLightning::TIME_STAN);
 				EffectManager::GetInstance()->BoltGenerate(pos, colA->GetCol().pos, { (Player::GetInstance()->GetCameraAngle().y) * -1,Player::GetInstance()->GetCameraAngle().x,0 }, { 0.5f,0.5f,1,0.5f });
 			}

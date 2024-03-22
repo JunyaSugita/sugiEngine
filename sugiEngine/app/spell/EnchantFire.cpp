@@ -1,14 +1,13 @@
 #include "EnchantFire.h"
 #include "SpellManager.h"
+#include "Status.h"
 
 void EnchantFire::Initialize(const Vector3& pos, const Vector3& vec)
 {
 	pos;
 	vec;
-	spellData_.timeAlive = TIME_ALIVE;
-	spellData_.spellType = BUFF;
-	spellData_.damage = 0;
-	spellData_.debuffType = D_NONE;
+
+	spellData_ = Status::GetInstance()->GetSpellData(ENCHANT_FIRE);
 }
 
 void EnchantFire::Update()
@@ -22,7 +21,7 @@ void EnchantFire::Update()
 
 void EnchantFire::Fire()
 {
-	spellData_.timeAlive = TIME_ALIVE;
+	spellData_.timeAlive = spellData_.timeAlive;
 }
 
 bool EnchantFire::GetActive()

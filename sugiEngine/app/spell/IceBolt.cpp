@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "ParticleManager.h"
 #include "ModelManager.h"
+#include "Status.h"
 
 void IceBolt::Initialize(const Vector3& pos, const Vector3& vec)
 {
@@ -20,11 +21,7 @@ void IceBolt::Initialize(const Vector3& pos, const Vector3& vec)
 
 	WorldTransUpdate();
 
-	spellData_.speed = SPEED_MOVE;
-	spellData_.timeAlive = TIME_ALIVE;
-	spellData_.spellType = SHOT;
-	spellData_.damage = DAMAGE;
-	spellData_.debuffType = D_SLOW;
+	spellData_ = Status::GetInstance()->GetSpellData(ICE_BOLT);
 }
 
 void IceBolt::Update()

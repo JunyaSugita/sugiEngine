@@ -4,6 +4,7 @@
 #include "EffectManager.h"
 #include "Player.h"
 #include "ColliderManager.h"
+#include "Status.h"
 
 void ChainLightning::Initialize(const Vector3& pos, const Vector3& vec)
 {
@@ -18,7 +19,7 @@ void ChainLightning::Initialize(const Vector3& pos, const Vector3& vec)
 	WorldTransUpdate();
 
 	isDead_ = true;
-	time_ = TIME_ALIVE;
+	spellData_ = Status::GetInstance()->GetSpellData(CHAIN_LIGHTNING);
 	isHit_ = false;
 
 	alpha_ = 1.0f;
@@ -41,7 +42,7 @@ void ChainLightning::Update()
 		}
 		else {
 			for (int i = 0; i < MAX_LENGE; i++) {
-				obj_.pos += vec_ * SPEED_MOVE;
+				obj_.pos += vec_ * spellData_.speed;
 				WorldTransUpdate();
 
 				if (obj_.pos.y <= 0) {

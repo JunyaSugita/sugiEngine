@@ -109,22 +109,6 @@ public:
 	int32_t GetSpellType(int32_t spell);
 
 public:
-	//マジックミサイル
-	const float TIME_CHARGE_MAGICMISSILE = 1.0f * 60;
-	const float TIME_FIRE_MAGICMISSILE = 2.0f * 60;
-	//アイスボルト
-	const float TIME_CHARGE_ICEBOLT = 1.2f * 60;
-	const float TIME_FIRE_ICEBOLT = 0.3f * 60;
-	//チェインライトニング
-	const float TIME_CHARGE_CHAINLIGHTNING = 1.8f * 60;
-	const float TIME_FIRE_CHAINLIGHTNING = 0.3f * 60;
-	//エンチャントファイア
-	const float TIME_CHARGE_ENCHANTFIRE = 3.0f * 60;
-	const float TIME_FIRE_ENCHANTFIRE = 0.5f * 60;
-	//火炎放射
-	const float TIME_CHARGE_FLAME = 2.0f * 60;
-	const float TIME_FIRE_FLAME = 3.0f * 60;
-
 	//呪文詠唱のコヨーテ
 	const float COYOTE_SPELL = 0.8f;
 

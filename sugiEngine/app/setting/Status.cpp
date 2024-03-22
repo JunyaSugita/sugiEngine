@@ -13,4 +13,9 @@ Status* Status::GetInstance()
 void Status::LoadJson()
 {
 	spellData_.push_back(JsonLoader::LoadSpellData("fireBall"));
+	spellData_.push_back(JsonLoader::LoadSpellData("magicMissile"));
+	spellData_.push_back(JsonLoader::LoadSpellData("iceBolt"));
+	spellData_.push_back(JsonLoader::LoadSpellData("chainLightning"));
+	spellData_.push_back(JsonLoader::LoadSpellData("enchantFire"));
+	spellData_.push_back(JsonLoader::LoadSpellData("flame"));
 }

@@ -34,23 +34,10 @@ void SpellManager::Initialize()
 
 	Status* status = Status::GetInstance();
 
-	timeChargeSpell_[FIRE_BALL] = status->GetSpellData().timeCharge;
-	timeFireSpell_[FIRE_BALL] = status->GetSpellData().timeShot;
-
-	timeChargeSpell_[MAGIC_MISSILE] = TIME_CHARGE_MAGICMISSILE;
-	timeFireSpell_[MAGIC_MISSILE] = TIME_FIRE_MAGICMISSILE;
-
-	timeChargeSpell_[ICE_BOLT] = TIME_CHARGE_ICEBOLT;
-	timeFireSpell_[ICE_BOLT] = TIME_FIRE_ICEBOLT;
-
-	timeChargeSpell_[CHAIN_LIGHTNING] = TIME_CHARGE_CHAINLIGHTNING;
-	timeFireSpell_[CHAIN_LIGHTNING] = TIME_FIRE_CHAINLIGHTNING;
-
-	timeChargeSpell_[ENCHANT_FIRE] = TIME_CHARGE_ENCHANTFIRE;
-	timeFireSpell_[ENCHANT_FIRE] = TIME_FIRE_ENCHANTFIRE;
-
-	timeChargeSpell_[FLAME] = TIME_CHARGE_FLAME;
-	timeFireSpell_[FLAME] = TIME_FIRE_FLAME;
+	for (int i = 0; i < MAGIC_END; i++) {
+		timeChargeSpell_[i] = status->GetSpellData(i).timeCharge;
+		timeFireSpell_[i] = status->GetSpellData(i).timeShot;
+	}
 }
 
 void SpellManager::Update()
@@ -94,8 +81,8 @@ void SpellManager::Update()
 
 #pragma region 魔法の削除
 	//消すフラグの立った魔法の削除
-	for (int i = 0;i < spells_.size();) {
-		if(spells_[i]->GetIsDead()) {
+	for (int i = 0; i < spells_.size();) {
+		if (spells_[i]->GetIsDead()) {
 			spells_.erase(spells_.begin() + i);
 		}
 		else {
