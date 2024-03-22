@@ -86,4 +86,6 @@ protected:
 
 	//呪文のステータス
 	SpellData spellData_;
+	//貫通判定
+	bool isPiercing_ = false;
 };

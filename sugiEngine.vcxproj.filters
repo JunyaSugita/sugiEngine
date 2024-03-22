@@ -360,6 +360,9 @@
     <ClCompile Include="sugiEngine\engine\math\SugiMath.cpp">
       <Filter>ソース ファイル\engine\math</Filter>
     </ClCompile>
+    <ClCompile Include="sugiEngine\app\spell\Wind.cpp">
+      <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sugiEngine\engine\math\Vector2.h">
@@ -592,6 +595,9 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\setting\Status.h">
       <Filter>ヘッダー ファイル\app\setting</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\spell\Wind.h">
+      <Filter>ヘッダー ファイル\app\spell</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -41,7 +41,7 @@ void BaseSpell::Update()
 		Dead();
 	}
 
-	BaseCol::Update(obj_.pos,col_.size);
+	BaseCol::Update(obj_.pos, col_.size);
 	WorldTransUpdate();
 }
 
@@ -76,12 +76,15 @@ void BaseSpell::OnCollision(BaseCol* a)
 		}
 	}
 	else if (a->GetColType() == ENEMY) {
-		//まだ当たってない呪文と倒れている敵は判定しない
-		if (!GetIsHit() && a->GetIsDown()) {
-			return;
-		}
-		if (ColliderManager::GetInstance()->CheckHitBox(GetCol(), a->GetCol())) {
-			SetIsHit();
+		//敵が貫通するか
+		if (!isPiercing_) {
+			//まだ当たってない呪文と倒れている敵は判定しない
+			if (!GetIsHit() && a->GetIsDown()) {
+				return;
+			}
+			if (ColliderManager::GetInstance()->CheckHitBox(GetCol(), a->GetCol())) {
+				SetIsHit();
+			}
 		}
 	}
 }

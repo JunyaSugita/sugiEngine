@@ -16,6 +16,9 @@
 #include "PlayerWeapon.h"
 #include "ColliderManager.h"
 #include "ParticleManager.h"
+#include "FireBall.h"
+#include "MagicMissile.h"
+#include "Wind.h"
 
 using namespace ImGui;
 using namespace std;
@@ -29,6 +32,7 @@ void GameScene::Initialize()
 	FieldManager::SetLight(lightGroup_.get());
 	FireBall::SetLight(lightGroup_.get());
 	MagicMissile::SetLight(lightGroup_.get());
+	Wind::SetLight(lightGroup_.get());
 	PlayerWeapon::SetLight(lightGroup_.get());
 	BaseEnemy::SetLight(lightGroup_.get());
 

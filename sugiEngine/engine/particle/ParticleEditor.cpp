@@ -160,7 +160,7 @@ void ParticleEditor::Update()
 			sprintf_s(str, "pop:%d", i);
 			Checkbox(str, &isPop_[i]);
 			if (isPop_[i]) {
-				ParticleManager::GetInstance()->AddFromFile(i, { 0,5,0 }, true);
+				ParticleManager::GetInstance()->AddFromFile(i, { 0,5,0 },nullptr, true);
 			}
 		}
 		End();

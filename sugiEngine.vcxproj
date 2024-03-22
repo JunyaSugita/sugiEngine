@@ -121,6 +121,7 @@
     <ClCompile Include="sugiEngine\app\spell\IceBolt.cpp" />
     <ClCompile Include="sugiEngine\app\spell\MagicMissile.cpp" />
     <ClCompile Include="sugiEngine\app\spell\SpellManager.cpp" />
+    <ClCompile Include="sugiEngine\app\spell\Wind.cpp" />
     <ClCompile Include="sugiEngine\app\system\ClearChecker.cpp" />
     <ClCompile Include="sugiEngine\app\system\GameOver.cpp" />
     <ClCompile Include="sugiEngine\app\system\LoadOut.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="sugiEngine\app\spell\IceBolt.h" />
     <ClInclude Include="sugiEngine\app\spell\MagicMissile.h" />
     <ClInclude Include="sugiEngine\app\spell\SpellManager.h" />
+    <ClInclude Include="sugiEngine\app\spell\Wind.h" />
     <ClInclude Include="sugiEngine\app\system\ClearChecker.h" />
     <ClInclude Include="sugiEngine\app\system\GameOver.h" />
     <ClInclude Include="sugiEngine\app\system\LoadOut.h" />

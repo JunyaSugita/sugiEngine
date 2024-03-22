@@ -5,12 +5,7 @@
 
 #pragma once
 #include "BaseSpell.h"
-#include "FireBall.h"
-#include "MagicMissile.h"
-#include "IceBolt.h"
 #include "ChainLightning.h"
-#include "EnchantFire.h"
-#include "Flame.h"
 
 enum MAGIC {
 	FIRE_BALL,
@@ -19,6 +14,7 @@ enum MAGIC {
 	CHAIN_LIGHTNING,
 	ENCHANT_FIRE,
 	FLAME,
+	WIND,
 
 	MAGIC_END
 };
@@ -65,6 +61,8 @@ public:
 	void FireEnchantFire();
 	//火炎放射の発射
 	void FireFlame();
+	//竜巻の発射
+	void FireWind();
 
 	//ボタンを離した時などにチャージタイムを初期化
 	void ResetChargeTime() {

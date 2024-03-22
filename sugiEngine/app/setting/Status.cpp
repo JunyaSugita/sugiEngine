@@ -18,4 +18,5 @@ void Status::LoadJson()
 	spellData_.push_back(JsonLoader::LoadSpellData("chainLightning"));
 	spellData_.push_back(JsonLoader::LoadSpellData("enchantFire"));
 	spellData_.push_back(JsonLoader::LoadSpellData("flame"));
+	spellData_.push_back(JsonLoader::LoadSpellData("wind"));
 }

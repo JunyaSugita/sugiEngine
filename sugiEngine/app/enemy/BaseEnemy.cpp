@@ -168,7 +168,7 @@ void BaseEnemy::OnCollision(BaseCol* a)
 		if (ColliderManager::GetInstance()->CheckHitBox(a->GetCol(), GetCol())) {
 			if (!a->GetIsHit()) {
 				//敵に当たった瞬間
-				ParticleManager::GetInstance()->AddFromFile(P_DAMAGE, a->GetPos());
+				ParticleManager::GetInstance()->AddFromFile(P_DAMAGE, GetCol().pos);
 				SetShakeTime(TIME_SHAKE);
 			}
 			//ノックバック量の計算

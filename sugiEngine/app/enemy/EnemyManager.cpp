@@ -8,6 +8,7 @@
 #include "Fly.h"
 #include "ClearChecker.h"
 #include "Status.h"
+#include "EnchantFire.h"
 
 using namespace std;
 using namespace ImGui;

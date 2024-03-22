@@ -25,6 +25,8 @@ enum ParticleName {
 	P_CHARGE_MAX_FIRE,
 	P_DOWN,
 	P_TEST,
+	P_WIND,
+	P_WIND_SUB,
 
 	P_END
 };
@@ -66,7 +68,7 @@ public:
 	void Finalize();
 
 	void AddCircle(int texture, int life, Vector3 pos, bool isRevers, Vector3 velo, float speed, Vector3 accel, Vector3 gravity, Vector2 checkS, Vector4 scale, Vector4 sColor, float check1, Vector4 check1Color, float check2, Vector4 check2Color, Vector4 eColor, int32_t postEffect);
-	void AddFromFile(int32_t num, Vector3 pos, bool isEdit = false);
+	void AddFromFile(int32_t num, Vector3 pos, WorldTransform* w = nullptr, bool isEdit = false);
 	void Clear();
 
 	void SetParticleData(int num, EditFile file) {

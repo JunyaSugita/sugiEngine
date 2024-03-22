@@ -55,7 +55,7 @@ void ParticleManager::AddCircle(int texture, int life, Vector3 pos, bool isRever
 	particle_[texture].AddCircle(life, pos, isRevers, velo, speed, accel, gravity,checkS ,scale, sColor, check1, check1Color, check2, check2Color, eColor, postEffect);
 }
 
-void ParticleManager::AddFromFile(int32_t num, Vector3 pos, bool isEdit)
+void ParticleManager::AddFromFile(int32_t num, Vector3 pos, WorldTransform* w, bool isEdit)
 {
 	if (isEdit || !GetIsEdit()) {
 		//ランダム
@@ -65,7 +65,7 @@ void ParticleManager::AddFromFile(int32_t num, Vector3 pos, bool isEdit)
 
 		std::uniform_real_distribution<float> tex((float)particleData_[num].texNum, (float)particleData_[num].randTexNum + 0.999f);
 
-		particle_[(int32_t)tex(engine)].Add(pos, particleData_[num]);
+		particle_[(int32_t)tex(engine)].Add(pos, particleData_[num],w);
 	}
 }
 

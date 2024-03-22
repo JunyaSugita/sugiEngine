@@ -5,6 +5,12 @@
 #include "LoadOut.h"
 #include "ImGuiManager.h"
 #include "Status.h"
+#include "FireBall.h"
+#include "MagicMissile.h"
+#include "IceBolt.h"
+#include "EnchantFire.h"
+#include "Flame.h"
+#include "Wind.h"
 
 using namespace std;
 using namespace ImGui;
@@ -68,10 +74,13 @@ void SpellManager::Update()
 	if (isUseSpell_[FLAME]) {
 		FireFlame();
 	}
+	if (isUseSpell_[WIND]) {
+		FireWind();
+	}
 
 	//各魔法のUpdate
-	for (unique_ptr<BaseSpell>& fireBall : spells_) {
-		fireBall->Update();
+	for (unique_ptr<BaseSpell>& spell : spells_) {
+		spell->Update();
 	}
 	for (unique_ptr<ChainLightning>& chainLightning : chainLightnings_) {
 		chainLightning->Update();
@@ -262,6 +271,27 @@ void SpellManager::FireFlame()
 		isUseSpell_[FLAME] = false;
 		Player::GetInstance()->SetIsSpell(false);
 	}
+}
+
+void SpellManager::FireWind()
+{
+	Camera* camera = Camera::GetInstance();
+
+	maxCharge_ = timeFireSpell_[WIND];
+
+	if (int(useTime_) == 1) {
+		unique_ptr<BaseSpell> newSpell = make_unique<Wind>();
+		newSpell->Initialize(Player::GetInstance()->GetWeapon()->GetOrbPos(), camera->GetTarget() - camera->GetEye());
+		newSpell->Fire();
+
+		spells_.push_back(move(newSpell));
+	}
+	if (--useTime_ <= 0) {
+		useTime_ = 0;
+		isUseSpell_[WIND] = false;
+		Player::GetInstance()->SetIsSpell(false);
+	}
+
 }
 
 float SpellManager::ChargePercent()

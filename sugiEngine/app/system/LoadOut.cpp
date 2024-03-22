@@ -24,7 +24,7 @@ void LoadOut::Initialize()
 		setSpell_[0] = FIRE_BALL;
 		setSpell_[1] = MAGIC_MISSILE;
 		setSpell_[2] = ICE_BOLT;
-		setSpell_[3] = CHAIN_LIGHTNING;
+		setSpell_[3] = WIND;
 	}
 	isFirst_ = true;
 
@@ -38,6 +38,7 @@ void LoadOut::Initialize()
 	spellTexNum_[CHAIN_LIGHTNING] = Sprite::LoadTexture("chainLightning", "png");
 	spellTexNum_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantFireIcon", "png");
 	spellTexNum_[FLAME] = Sprite::LoadTexture("flame", "png");
+	spellTexNum_[WIND] = Sprite::LoadTexture("chainLightning", "png");
 	for (int i = MAGIC_END; i < SPELL_ALL; i++) {
 		spellTexNum_[i] = Sprite::LoadTexture("comingSoonIcon", "png");
 	}
@@ -68,6 +69,7 @@ void LoadOut::Initialize()
 	spellExplanTex_[CHAIN_LIGHTNING] = Sprite::LoadTexture("lightningExplan", "png");
 	spellExplanTex_[ENCHANT_FIRE] = Sprite::LoadTexture("enchantExplan", "png");
 	spellExplanTex_[FLAME] = Sprite::LoadTexture("flameExplan", "png");
+	spellExplanTex_[WIND] = Sprite::LoadTexture("lightningExplan", "png");
 
 	SpellExplanation_.Initialize(spellExplanTex_[0]);
 	SpellExplanation_.SetPos({740,300});
