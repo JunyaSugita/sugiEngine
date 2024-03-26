@@ -16,7 +16,7 @@ float4 main(VSOutput input) : SV_TARGET
 	//クロスフィルタ
 	{
         float sigma = 0.02f;
-        float stepWidth = 0.004f;
+        float stepWidth = 0.01f;
         float totalWeight1 = 0;
         float4 col2 = float4(0, 0, 0, 1);
         float totalWeight2 = 0;

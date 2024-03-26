@@ -3,6 +3,7 @@
 #include "SceneChange.h"
 #include "FieldManager.h"
 #include "EnemyManager.h"
+#include "Player.h"
 
 StageSelectManager* StageSelectManager::GetInstance()
 {
@@ -33,6 +34,8 @@ void StageSelectManager::Initialize()
 void StageSelectManager::GameInitialize()
 {
 	moveTimer_ = TIME_MOVE;
+	Player::GetInstance()->Initialize();
+	EnemyManager::GetInstance()->Update();
 }
 
 void StageSelectManager::Update()

@@ -102,11 +102,11 @@ void FieldManager::LoadStage(int num)
 		stageAtten_ = ATTEN_LOW;
 		break;
 	case STAGE1:
-		levelData_ = JsonLoader::LoadLevelJson("level2");
+		levelData_ = JsonLoader::LoadLevelJson("level0");
 		stageAtten_ = ATTEN_LOW;
 		break;
 	case STAGE2:
-		levelData_ = JsonLoader::LoadLevelJson("level");
+		levelData_ = JsonLoader::LoadLevelJson("level1");
 		stageAtten_ = ATTEN_HIGT;
 		break;
 	default:
