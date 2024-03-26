@@ -241,7 +241,8 @@ void PlayerWeapon::ChargeParticle(const Vector4& color)
 	}
 	else {
 		ParticleManager::GetInstance()->AddFromFileEditColor(P_TEST, { 0,0,0 }, color, &orbObj_.worldTrans);
-		ParticleManager::GetInstance()->AddFromFileEditColor(P_TEST, { 0,0,0 }, { color.x - 0.1f,color.y - 0.1f,color.z - 0.1f,1 }, &orbObj_.worldTrans);
-		ParticleManager::GetInstance()->AddFromFileEditColor(P_TEST, { 0,0,0 }, { color.x + 0.05f,color.y + 0.05f,color.z + 0.05f,1 }, &orbObj_.worldTrans);
+		ParticleManager::GetInstance()->AddFromFileEditColor(P_TEST2, { 0,0,0 }, color, &orbObj_.worldTrans);
+		ParticleManager::GetInstance()->AddFromFileEditColor(P_TEST3, { 0,0,0 }, color, &orbObj_.worldTrans);
+		ParticleManager::GetInstance()->AddFromFileEditColor(P_TEST4, { 0,0,0 }, color, &orbObj_.worldTrans);	
 	}
 }

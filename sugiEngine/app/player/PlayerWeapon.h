@@ -71,7 +71,7 @@ private:
 	const Vector4 COLOR_THUNDER = { 0.2f,0,0.2f,1 };
 	const Vector4 COLOR_ICE = { 0,0.04f,0.1f,1 };
 	const Vector4 COLOR_DARK = { 0.2f,0,0.2f,1 };
-	const Vector4 COLOR_DEF = { 0.2f,0.2f,0.2f,1 };
+	const Vector4 COLOR_DEF = { 0.05f,0.1f,0.05f,1 };
 	//クリア時の透明になるスピード
 	const float SPEED_ALPHA = 0.02f;
 	//武器の高さ

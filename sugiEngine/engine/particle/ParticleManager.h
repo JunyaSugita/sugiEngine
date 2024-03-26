@@ -27,6 +27,9 @@ enum ParticleName {
 	P_TEST,
 	P_WIND,
 	P_WIND_SUB,
+	P_TEST2,
+	P_TEST3,
+	P_TEST4,
 
 	P_END
 };

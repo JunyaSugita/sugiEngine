@@ -26,7 +26,7 @@ void Wind::Initialize(const Vector3& pos, const Vector3& vec)
 	useLightNum_ = lightGroup_->SetPointLightGetNum();
 	lightGroup_->SetPointLightColor(useLightNum_, { 0,3,0 });
 	lightGroup_->SetPointLightAtten(useLightNum_, { 0.01f,0.01f,0.01f });
-	lightGroup_->SetPointLightPos(useLightNum_, { pos.x, pos.y ,pos.z });
+	lightGroup_->SetPointLightPos(useLightNum_, { pos.x, 1 ,pos.z });
 
 	//ランダム
 	std::random_device seed_gen;
@@ -77,7 +77,6 @@ void Wind::Update()
 			}
 		}
 	}
-
 
 	if (isHit_) {
 		lightGroup_->SetPointLightActive(useLightNum_, false);
