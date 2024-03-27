@@ -35,7 +35,7 @@ void Wind::Initialize(const Vector3& pos, const Vector3& vec)
 	for (int i = 0; i < NUM_EFFECT; i++) {
 		std::uniform_real_distribution<float> angle(0, PI * 2);
 		angle_[i] = angle(engine);
-		w_[i].parent_ = &obj_.worldTrans;
+		worldTransform_[i].parent_ = &obj_.worldTrans;
 	}
 	isPiercing_ = true;
 }
@@ -64,16 +64,16 @@ void Wind::Update()
 		else if (i % 5 == 3) {
 			angle_[i] += 0.4f;
 		}
-		w_[i].SetPos({ sin(angle_[i]) * 3,0,cos(angle_[i]) * 3 });
-		w_[i].AddRotY(-angle_[i] * PI / 2);
-		w_[i].SetWorldMat();
+		worldTransform_[i].SetPos({ sin(angle_[i]) * 3,0,cos(angle_[i]) * 3 });
+		worldTransform_[i].AddRotY(-angle_[i] * PI / 2);
+		worldTransform_[i].SetWorldMat();
 		if (!isHit_) {
 			std::uniform_real_distribution<float> rand(0, 30);
 			if (rand(engine) < 1.0f) {
-				ParticleManager::GetInstance()->AddFromFile(P_WIND, { 0,0,0 }, &w_[i]);
+				ParticleManager::GetInstance()->AddFromFile(P_WIND, { 0,0,0 }, &worldTransform_[i]);
 			}
 			else if (rand(engine) < 1.3f) {
-				ParticleManager::GetInstance()->AddFromFile(P_WIND_SUB, { 0,0,0 }, &w_[i]);
+				ParticleManager::GetInstance()->AddFromFile(P_WIND_SUB, { 0,0,0 }, &worldTransform_[i]);
 			}
 		}
 	}

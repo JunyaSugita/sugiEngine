@@ -28,7 +28,7 @@ public:
 
 	static const int32_t NUM_EFFECT = 50;
 
-	WorldTransform w_[NUM_EFFECT];
+	WorldTransform worldTransform_[NUM_EFFECT];
 	float angle_[NUM_EFFECT];
 };
 
