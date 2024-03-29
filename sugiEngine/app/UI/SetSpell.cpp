@@ -104,8 +104,8 @@ void SetSpell::Initialize()
 		backSprite_.Initialize(selectHiLightTex_);
 		backSprite_.SetAnchorPoint(0.5f,0.5f);
 		backSprite_.SetPos(spellSprite_[0].GetPos());
-		backSprite_.SetColor(0.5f, 0.5f, 0.5f, 0.5f);
-		backSprite_.SetSize(90, 90);
+		backSprite_.SetColor(0.1f, 0.1f, 0.1f, 0.5f);
+		backSprite_.SetSize(80, 80);
 	}
 	isFirst_ = true;
 }
