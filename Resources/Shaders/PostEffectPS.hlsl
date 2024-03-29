@@ -16,25 +16,27 @@ float4 main(VSOutput input) : SV_TARGET
 	//クロスフィルタ
 	{
         float sigma = 0.02f;
-        float stepWidth = 0.01f;
-        float totalWeight1 = 0;
-        float4 col2 = float4(0, 0, 0, 1);
-        float totalWeight2 = 0;
+        float stepWidth = 0.0005f;
+        float totalWeight = 0;
+        float4 col2 = float4(0, 0, 0, 0);
         for (float i = -sigma; i < sigma; i += stepWidth)
         {
             float d = distance(input.uv, input.uv + float2(i, i));
-            float weight = exp(-(d * d) / (2 * sigma * sigma));
-            col1 += tex1.Sample(smp, input.uv + float2(i, i)) * weight;
-            totalWeight1 += weight;
+            float weight = exp((d * d) / (2 * sigma * sigma));
+            col2 += tex1.Sample(smp, input.uv + float2(i, i)) * weight;
+            totalWeight += weight / 2;
         }
+        col1 += col2 / totalWeight;
+        totalWeight = 0;
+        col2 = float4(0, 0, 0, 0);
         for (i = -sigma; i < sigma; i += stepWidth)
         {
             float d = distance(input.uv, input.uv + float2(i, -i));
-            float weight = exp(-(d * d) / (2 * sigma * sigma));
+            float weight = exp((d * d) / (2 * sigma * sigma));
             col2 += tex1.Sample(smp, input.uv + float2(i, -i)) * weight;
-            totalWeight2 += weight;
+            totalWeight += weight / 2;
         }
-        col1 += col2;
+        col1 += col2 / totalWeight;
     }
 	//ブルーム
 	{
