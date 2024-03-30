@@ -59,6 +59,9 @@ void EnemyManager::Update()
 				}
 				else {
 					enemysList_[i]->SetIsHit(5,true);
+
+					Vector3 vec = enemysList_[i]->GetPos() - player->GetPos();
+					enemysList_[i]->SetKnockBack(vec.normalize());
 				}
 			}
 		}
