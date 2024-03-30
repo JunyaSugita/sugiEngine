@@ -139,6 +139,12 @@
     <Filter Include="ソース ファイル\app\setting">
       <UniqueIdentifier>{1fdea5c6-6ec8-4b97-ae5b-0595572b8c88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\bullet">
+      <UniqueIdentifier>{540ebe80-6213-4dde-9c66-9dbe9a25425d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\app\bullet">
+      <UniqueIdentifier>{ab9760f4-47b1-49ba-ab3f-6ad1437d202a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sugiEngine\main.cpp">
@@ -362,6 +368,12 @@
     </ClCompile>
     <ClCompile Include="sugiEngine\app\spell\Wind.cpp">
       <Filter>ソース ファイル\app\spell</Filter>
+    </ClCompile>
+    <ClCompile Include="sugiEngine\app\bullet\BulletManager.cpp">
+      <Filter>ソース ファイル\app\bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>ソース ファイル\app\bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -598,6 +610,12 @@
     </ClInclude>
     <ClInclude Include="sugiEngine\app\spell\Wind.h">
       <Filter>ヘッダー ファイル\app\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiEngine\app\bullet\BulletManager.h">
+      <Filter>ヘッダー ファイル\app\bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>ヘッダー ファイル\app\bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
