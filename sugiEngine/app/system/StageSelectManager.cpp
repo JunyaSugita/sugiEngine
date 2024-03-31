@@ -35,6 +35,7 @@ void StageSelectManager::GameInitialize()
 {
 	moveTimer_ = TIME_MOVE;
 	Player::GetInstance()->Initialize();
+	EnemyManager::GetInstance()->GameInitialize();
 	EnemyManager::GetInstance()->Update();
 }
 

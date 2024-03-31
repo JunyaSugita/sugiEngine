@@ -61,7 +61,7 @@ public:
 	}
 
 	//ダメージを適応
-	void SubLife(int32_t num = 1000);
+	void SubLife(int32_t num = 500);
 
 	//worldTrans
 	WorldTransform& GetWorldTrans() {

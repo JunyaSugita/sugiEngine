@@ -1,6 +1,7 @@
 #include "Bullet.h"
 #include "Player.h"
 #include "ColliderManager.h"
+#include "ParticleManager.h"
 
 void Bullet::Initialize(Vector3 pos)
 {
@@ -22,6 +23,9 @@ void Bullet::Update()
 
 	SetCol(obj_.pos, col_.size);
 	colObj_.Update();
+
+	ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE, obj_.pos);
+	ParticleManager::GetInstance()->AddFromFile(P_MAGIC_MISSILE2, obj_.pos);
 }
 
 void Bullet::Draw()
