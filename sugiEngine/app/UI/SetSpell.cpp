@@ -121,12 +121,12 @@ void SetSpell::Update()
 			//使用中の呪文アイコンは大きくする
 			spellSprite_[i].SetSize(SIZE_ACTIVE_ICON);
 			backSprite_.SetPos(spellSprite_[i].GetPos());
-			weakSprite_[i].SetSize(90,90);
+			weakSprite_[i].SetSize(85,85);
 		}
 		else {
 			//使用中ではない呪文アイコンは小さくする
 			spellSprite_[i].SetSize(SIZE_ICON);
-			weakSprite_[i].SetSize(70, 70);
+			weakSprite_[i].SetSize(55, 55);
 		}
 	}
 
