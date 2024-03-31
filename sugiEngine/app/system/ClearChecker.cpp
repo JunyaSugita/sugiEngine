@@ -24,7 +24,7 @@ void ClearChecker::Initialize()
 	isClear_ = false;
 	blur_ = 0;
 	nowHp_ = maxHp_;
-	enemyGauge_.Set({ WIN_WIDTH / 2,100 }, { 500,50 }, { 1,0,0 });
+	enemyGauge_.Set({ WIN_WIDTH / 2,70 }, { 500,50 }, { 1,0,0 });
 }
 
 void ClearChecker::GameInitialize()

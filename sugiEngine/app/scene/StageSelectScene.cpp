@@ -12,15 +12,15 @@ void StageSelectScene::Initialize()
 	//ライト
 	lightGroup_ = LightGroup::Create();
 	Object3d::SetLight(lightGroup_.get());
-	FieldManager::SetLight(lightGroup_.get()); 
+	FieldManager::SetLight(lightGroup_.get());
 	BaseEnemy::SetLight(lightGroup_.get());
 	//敵
 	EnemyManager::GetInstance()->Initialize();
 	FieldManager::GetInstance()->Initialize(0);
 	ParticleManager::GetInstance()->Initialize();
 
-	Camera::GetInstance()->SetEye({3,5,3});
-	Camera::GetInstance()->SetTarget({0,5,10});
+	Camera::GetInstance()->SetEye({ 3,5,3 });
+	Camera::GetInstance()->SetTarget({ 0,5,10 });
 
 	//敵の動きを止める
 	Enemy::SetIsAllStop(true);
@@ -28,10 +28,10 @@ void StageSelectScene::Initialize()
 
 void StageSelectScene::Update()
 {
+	//ステージ選択
+	StageSelectManager::GetInstance()->Update();
 	//シーンチェンジ
 	SceneChange::GetInstance()->Update();
-
-	StageSelectManager::GetInstance()->Update();
 
 	//Update呼び出し
 	lightGroup_->Update();
@@ -79,5 +79,5 @@ void StageSelectScene::SpriteDraw()
 
 void StageSelectScene::Finalize()
 {
-	
+
 }

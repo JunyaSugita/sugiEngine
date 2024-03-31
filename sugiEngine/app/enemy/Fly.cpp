@@ -128,10 +128,20 @@ void Fly::Move()
 
 	if (!isStop_) {
 		Vector2 temp = {};
+		float isRev = 1;
 		//プレイヤー方向に壁が無ければプレイヤー方向に移動
 		if (ColliderManager::GetInstance()->CanMoveToPlayer(col_.pos)) {
 			temp.x = Player::GetInstance()->GetBoxCol().pos.x;
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
+
+			float len = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z).length();
+			
+			if (len < 29) {
+				isRev = -2;
+			}
+			else if (len < 30) {
+				return;
+			}
 
 			//起動してなければ起動
 			isStart_ = true;
@@ -151,8 +161,8 @@ void Fly::Move()
 		toPlayer = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z);
 		toPlayer.normalize();
 
-		obj_.pos.x += toPlayer.x * SPEED_MOVE * slow_;
-		obj_.pos.z += toPlayer.y * SPEED_MOVE * slow_;
+		obj_.pos.x += toPlayer.x * SPEED_MOVE * slow_ * isRev;
+		obj_.pos.z += toPlayer.y * SPEED_MOVE * slow_ * isRev;
 	}
 	else {
 		isStop_ = false;
