@@ -100,7 +100,7 @@ void Fly::Update()
 		SetShake();
 		shakeTime_--;
 	}
-
+	ClearChecker::GetInstance()->AddNowHp(life_);
 	//移動を適応
 	WorldTransUpdate();
 }
