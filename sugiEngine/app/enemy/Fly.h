@@ -40,12 +40,12 @@ private:
 	const float LEN_WING = 50;
 	//羽の速度
 	const float SPEED_WING = 0.25f;
-	//墜落速度
-	const float SPEED_DROP_DOWN = 0.2f;
 
 	//腕
 	BaseObj wingL_;
 	BaseObj wingR_;
+
+	float atTimer_;
 
 	static std::unique_ptr<Model> sEyeModel_;
 };

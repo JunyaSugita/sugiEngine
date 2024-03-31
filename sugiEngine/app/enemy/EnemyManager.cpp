@@ -9,6 +9,7 @@
 #include "ClearChecker.h"
 #include "Status.h"
 #include "EnchantFire.h"
+#include "BulletManager.h"
 
 using namespace std;
 using namespace ImGui;
@@ -23,11 +24,13 @@ EnemyManager* EnemyManager::GetInstance()
 void EnemyManager::Initialize()
 {
 	enemysList_.clear();
+	BulletManager::GetInstance()->Initialize();
 }
 
 void EnemyManager::GameInitialize()
 {
 	enemysList_.clear();
+	BulletManager::GetInstance()->Initialize();
 }
 
 void EnemyManager::Update()
@@ -66,6 +69,7 @@ void EnemyManager::Update()
 			}
 		}
 	}
+	BulletManager::GetInstance()->Update();
 }
 
 void EnemyManager::Draw()
@@ -73,6 +77,7 @@ void EnemyManager::Draw()
 	for (int i = 0; i < enemysList_.size(); i++) {
 		enemysList_[i]->Draw();
 	}
+	BulletManager::GetInstance()->Draw();
 }
 
 void EnemyManager::DrawTransparent()

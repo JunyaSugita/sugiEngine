@@ -58,7 +58,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;$(ProjectDir)sugiEngine\app\setting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;$(ProjectDir)sugiEngine\app\setting;$(ProjectDir)sugiEngine\app\bullet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -85,7 +85,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;$(ProjectDir)sugiEngine\app\setting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)sugiEngine\engine\base;$(ProjectDir)sugiEngine\engine\2d;$(ProjectDir)sugiEngine\engine\audio;$(ProjectDir)sugiEngine\engine\effect;$(ProjectDir)sugiEngine\engine\light;$(ProjectDir)sugiEngine\engine\math;$(ProjectDir)sugiEngine\engine\scene;$(ProjectDir)sugiEngine\app\scene;$(ProjectDir)sugiEngine\engine\3d;$(ProjectDir)sugiEngine\engine\io;$(ProjectDir)sugiEngine\app\enemy;$(ProjectDir)sugiEngine\app\ground;$(ProjectDir)sugiEngine\app\player;$(ProjectDir)sugiEngine\app\spell;$(ProjectDir)sugiEngine\app\UI;$(ProjectDir)sugiEngine\app\collider;$(ProjectDir)sugiEngine\engine\particle;$(ProjectDir)sugiEngine\engine\UI;$(ProjectDir)sugiEngine\app\system;$(ProjectDir)sugiEngine\app\setting;$(ProjectDir)sugiEngine\app\bullet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -101,7 +101,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="sugiEngine\app\bullet\Bullet.cpp" />
     <ClCompile Include="sugiEngine\app\bullet\BulletManager.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\BaseEnemy.cpp" />
     <ClCompile Include="sugiEngine\app\enemy\Enemy.cpp" />
@@ -179,7 +179,7 @@
     <ClCompile Include="sugiEngine\engine\3d\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="sugiEngine\app\bullet\Bullet.h" />
     <ClInclude Include="sugiEngine\app\bullet\BulletManager.h" />
     <ClInclude Include="sugiEngine\app\enemy\BaseEnemy.h" />
     <ClInclude Include="sugiEngine\app\enemy\Enemy.h" />

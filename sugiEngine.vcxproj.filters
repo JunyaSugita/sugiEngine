@@ -372,7 +372,7 @@
     <ClCompile Include="sugiEngine\app\bullet\BulletManager.cpp">
       <Filter>ソース ファイル\app\bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="sugiEngine\app\bullet\Bullet.cpp">
       <Filter>ソース ファイル\app\bullet</Filter>
     </ClCompile>
   </ItemGroup>
@@ -614,7 +614,7 @@
     <ClInclude Include="sugiEngine\app\bullet\BulletManager.h">
       <Filter>ヘッダー ファイル\app\bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="sugiEngine\app\bullet\Bullet.h">
       <Filter>ヘッダー ファイル\app\bullet</Filter>
     </ClInclude>
   </ItemGroup>

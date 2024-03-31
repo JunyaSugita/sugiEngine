@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+#include "Bullet.h"
+
 class BulletManager
 {
 private:
@@ -17,5 +20,10 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+
+	void PopBullet(Vector3 pos);
+
+private:
+	std::vector<Bullet*> bullets_;
 };
 

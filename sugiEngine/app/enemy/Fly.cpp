@@ -8,6 +8,7 @@
 #include "ModelManager.h"
 #include "ColliderManager.h"
 #include "ClearChecker.h"
+#include "BulletManager.h"
 
 void Fly::Initialize(const std::string& name, const Vector3& pos)
 {
@@ -40,6 +41,7 @@ void Fly::Initialize(const std::string& name, const Vector3& pos)
 	wingR_.obj->SetColor(COLOR_BODY);
 
 	serial_ = 2;
+	atTimer_ = 100;
 }
 
 void Fly::Update()
@@ -135,7 +137,7 @@ void Fly::Move()
 			temp.y = Player::GetInstance()->GetBoxCol().pos.z;
 
 			float len = Vector2(temp.x - obj_.pos.x, temp.y - obj_.pos.z).length();
-			
+
 			if (len < 29) {
 				isRev = -2;
 			}
@@ -145,6 +147,12 @@ void Fly::Move()
 
 			//起動してなければ起動
 			isStart_ = true;
+
+			//弾発射
+			if (--atTimer_ < 0) {
+				BulletManager::GetInstance()->PopBullet(obj_.pos);
+				atTimer_ = 100;
+			}
 		}
 		else {
 			if (isStart_) {
@@ -194,12 +202,6 @@ void Fly::Attack()
 
 void Fly::Down()
 {
-	if (col_.pos.y > 1) {
-		col_.pos.y -= SPEED_DROP_DOWN;
-	}
-	else {
-		col_.pos.y = 1;
-	}
 	obj_.pos = col_.pos;
 
 	//最後

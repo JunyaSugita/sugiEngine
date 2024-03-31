@@ -28,7 +28,7 @@ void Player::Initialize()
 	damageTex_ = Sprite::LoadTexture("damage", "png");
 	damageSp_.Initialize(damageTex_);
 
-	BaseCol::Initialize(pos_,scale_,PLAYER);
+	BaseCol::Initialize(pos_, scale_, PLAYER);
 
 	GameInitialize();
 }
@@ -137,6 +137,14 @@ void Player::OnCollision(BaseCol* a)
 			}
 		}
 	}
+	if (a->GetColType() == BULLET) {
+		if (collider->CheckHitBox(GetCol(), a->GetCol())) {
+			if (!a->GetIsHit()) {
+				SubLife(200);
+				a->SetIsHit();
+			}
+		}
+	}
 }
 
 void Player::ChargeSpell(int32_t num)
@@ -151,7 +159,7 @@ void Player::SubLife(int32_t num)
 			life_ -= num;
 		}
 		damageAlpha_ = 1.0f;
-		if(Camera::GetInstance()->GetShake() <= 0){
+		if (Camera::GetInstance()->GetShake() <= 0) {
 			Camera::GetInstance()->SetShake(SHAKE_SIZE);
 		}
 	}

@@ -12,6 +12,7 @@ enum ColType {
 	WALL,
 	SPELL,
 	GOAL,
+	BULLET,
 
 	COL_TYPE_END
 };
