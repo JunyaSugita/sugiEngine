@@ -21,9 +21,14 @@ public:
 	void Update();
 	void Draw();
 
+	/// <summary>
+	/// 弾の発射
+	/// </summary>
+	/// <param name="pos">発射位置</param>
 	void PopBullet(Vector3 pos);
 
 private:
+	//弾のコンテナ
 	std::vector<Bullet*> bullets_;
 };
 
