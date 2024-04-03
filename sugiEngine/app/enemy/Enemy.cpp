@@ -139,7 +139,9 @@ void Enemy::Down()
 {
 	//体が倒れ切っていなければ倒れる
 	if (obj_.rot.z < RAD / 2) {
+		//体を倒す
 		obj_.rot.z += SPEED_DOWN;
+		//目の光を消す
 		eyeObj_.obj->SetEffectCross(false);
 	}
 
