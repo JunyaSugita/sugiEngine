@@ -199,7 +199,7 @@ void SpellManager::FireIceBolt()
 
 	maxCharge_ = timeFireSpell_[ICE_BOLT];
 
-	if (int(useTime_) == 1) {
+	if (int(useTime_) % COOLTIME_ICE_BOLT == 1 && useTime_ < 40) {
 		unique_ptr<BaseSpell> newSpell = make_unique<IceBolt>();
 		newSpell->Initialize(Player::GetInstance()->GetWeapon()->GetOrbPos(), camera->GetTarget() - camera->GetEye());
 		newSpell->Fire();

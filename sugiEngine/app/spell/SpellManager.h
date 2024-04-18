@@ -113,6 +113,7 @@ public:
 private:
 	//マジックミサイルの間隔
 	const int32_t COOLTIME_MAGIC_MISSILE = 20;
+	const int32_t COOLTIME_ICE_BOLT = 15;
 	const int32_t COOLTIME_FLAME = 5;
 
 	float maxCharge_;
