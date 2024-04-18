@@ -5,6 +5,7 @@
 #include "UIManager.h"
 #include "ParticleManager.h"
 #include "ColliderManager.h"
+#include "Tutorial.h"
 
 ClearChecker* ClearChecker::GetInstance()
 {
@@ -50,14 +51,14 @@ void ClearChecker::Update()
 	BaseCol::Update(obj_.pos, obj_.scale);
 	enemyGauge_.Update(maxHp_, nowHp_);
 
-	if (nowHp_ <= 0) {
+	if (nowHp_ <= 0 || Tutorial::GetInstance()->GetIsTutorial()) {
 		ParticleManager::GetInstance()->AddFromFile(P_GOAL, { obj_.pos.x, obj_.pos.y + GOAL_Y ,obj_.pos.z });
 	}
 }
 
 void ClearChecker::Draw()
 {
-	if (nowHp_ <= 0) {
+	if (nowHp_ <= 0 || Tutorial::GetInstance()->GetIsTutorial()) {
 		obj_.Draw();
 	}
 }
@@ -76,7 +77,7 @@ void ClearChecker::OnCollision(BaseCol* a)
 {
 	if (a->GetColType() == PLAYER) {
 		if (ColliderManager::GetInstance()->CheckHitBox(a->GetCol(), GetCol())) {
-			if (nowHp_ <= 0) {
+			if (nowHp_ <= 0 || Tutorial::GetInstance()->GetIsTutorial()) {
 				SetClear();
 			}
 			else {

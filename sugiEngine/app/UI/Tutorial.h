@@ -69,6 +69,8 @@ private:
 
 	Sprite sprite_;
 	Sprite sprite2_;
+	Sprite sprite3_;
+	uint32_t tex2_;
 
 	Sprite gotoLoadOut_;
 
@@ -77,4 +79,5 @@ private:
 
 	bool isTutorial_ = true;
 	bool isReturn_ = false;
+	bool isShowSprite3_;
 };

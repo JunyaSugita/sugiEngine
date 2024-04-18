@@ -25,6 +25,7 @@ void Tutorial::Initialize()
 	tex_[TUTORIAL4][ANIME0] = Sprite::LoadTexture("tutorial5", "png");
 	tex_[TUTORIAL4][ANIME1] = Sprite::LoadTexture("tutorial5", "png");
 	texStart_ = Sprite::LoadTexture("start", "png");
+	tex2_ = Sprite::LoadTexture("tutorialWeek", "png");
 
 	sprite_.Initialize(tex_[TUTORIAL0][ANIME0]);
 	sprite_.SetPos(0,0);
@@ -34,12 +35,18 @@ void Tutorial::Initialize()
 	sprite2_.SetPos(0, 200);
 	sprite2_.SetSize(360, 72);
 	sprite2_.SetColor(1, 1, 1, 0.3f);
+	sprite3_.Initialize(tex2_);
+	sprite3_.SetPos(WIN_WIDTH - 300, 300);
+	sprite3_.SetSize(240, 96);
+	sprite3_.SetColor(1, 1, 1, 0.3f);
 
 	number_ = 0;
 	isNext_ = false;
 
 	animeNum_ = 0;
 	animeTimer_ = ANIME_TIME;
+
+	isShowSprite3_ = false;
 }
 
 void Tutorial::Update()
@@ -67,6 +74,7 @@ void Tutorial::Update()
 			isNext_ = true;
 			animeNum_ = ANIME0;
 			animeTimer_ = ANIME_TIME;
+			isShowSprite3_ = true;
 		}
 
 		break;
@@ -75,6 +83,7 @@ void Tutorial::Update()
 			isNext_ = true;
 			animeNum_ = ANIME0;
 			animeTimer_ = ANIME_TIME;
+			isShowSprite3_ = false;
 		}
 
 		break;
@@ -98,5 +107,9 @@ void Tutorial::Draw()
 	if (isTutorial_) {
 		sprite_.Draw();
 		sprite2_.Draw();
+
+		if (isShowSprite3_) {
+			sprite3_.Draw();
+		}
 	}
 }
